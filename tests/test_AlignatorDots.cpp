@@ -88,7 +88,7 @@ void test() {
 	Alignata *map_source2dest = makeAlignataVector();
 
 	for (int i = 0; i < 1000; i++) {
-	  alignator->Align( seq1, seq2, map_source2dest);
+	  alignator->align( seq1, seq2, map_source2dest);
 	}
 	
 	// cout << *map_source2dest << endl;

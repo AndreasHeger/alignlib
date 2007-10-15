@@ -36,7 +36,9 @@
 #include <fstream>
 #include <vector>
 
+
 #include <time.h> 
+#include <assert.h>
 
 #include "alignlib.h"
 

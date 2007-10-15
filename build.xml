@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="alignlib" default="make">
+    <description>
+        ANT adaptor for GNU's configure/make process.
+    </description>
+
+    <target name="autoreconf" description="autoreconf">
+        <exec executable="sh">
+            <arg value="autoreconf"/>
+            <arg value="--install"/>
+        </exec>
+    </target>
+		
+    <target name="configure" description="configure">
+        <exec executable="sh">
+            <arg value="configure"/>
+            <arg value="--verbose"/>
+        </exec>
+    </target>
+
+    <target name="make" description="build">
+        <exec executable="make"/>
+    </target>
+
+	<target name="check" description="check"
+		depends="make">
+	 	<exec executable="make">
+	  	<arg value="check"/>
+	   	</exec>
+	</target>
+	
+    <target name="install" description="install"
+        depends="make">
+        <exec executable="make">
+            <arg value="install"/>
+        </exec>
+    </target>
+
+    <target name="clean" description="clean">
+        <exec executable="make">
+            <arg value="clean"/>
+        </exec>
+    </target>
+
+</project>

@@ -67,7 +67,7 @@ int main ()
 
   std::cout << *a << std::endl;
   
-  a->Clear();
+  a->clear();
 
   fillAlignataCompressed( a, from2, ali2, from1, ali1);
   rescoreAlignment( a, seq2, seq1 );

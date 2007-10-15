@@ -90,7 +90,7 @@ bool TestPairwiseAlignment(int test_id,
   
   alignlib::Alignata * result = makeAlignataVector();
 
-  a->Align( benchmark_row, benchmark_col, result);
+  a->align( benchmark_row, benchmark_col, result);
   
   std::string b_row;
   std::string b_col;
@@ -139,7 +139,7 @@ bool TestWrappedAlignment(int test_id,
   
   alignlib::Alignata * result = makeAlignataMatrixDiagonal();
 
-  a->Align( benchmark_row, benchmark_col, result);
+  a->align( benchmark_row, benchmark_col, result);
   
   std::string b_ali;
   std::string r_row(r_ali);

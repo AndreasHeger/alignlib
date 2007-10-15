@@ -58,31 +58,31 @@ int main () {
   {
     // create a multiple alignment 
     alignlib::MultipleAlignment * m1 = alignlib::makeMultipleAlignment();
-    m1->Add(alignlib::makeAlignatumFromString("-AAAAA-CCAAA-"));
-    m1->Add(alignlib::makeAlignatumFromString("AAAAAA-CCAAAA"));
-    m1->Add(alignlib::makeAlignatumFromString("-A-AAA-CCA-A-"));
-    m1->Add(alignlib::makeAlignatumFromString("AAAAAAA--AAAA"));
+    m1->add(alignlib::makeAlignatumFromString("-AAAAA-CCAAA-"));
+    m1->add(alignlib::makeAlignatumFromString("AAAAAA-CCAAAA"));
+    m1->add(alignlib::makeAlignatumFromString("-A-AAA-CCA-A-"));
+    m1->add(alignlib::makeAlignatumFromString("AAAAAAA--AAAA"));
     
     cout << *m1 << endl;
     
     // write segments of the alignment and check numbering
-    m1->Write( cout, 0, 13 ); cout << endl;
-    m1->Write( cout, 1, 12 ); cout << endl;
-    m1->Write( cout, 2, 11 ); cout << endl;
-    m1->Write( cout, 3, 10 ); cout << endl;
+    m1->write( cout, 0, 13 ); cout << endl;
+    m1->write( cout, 1, 12 ); cout << endl;
+    m1->write( cout, 2, 11 ); cout << endl;
+    m1->write( cout, 3, 10 ); cout << endl;
     
     {
       std::cout << "using sstream" << std::endl;
       std::ostringstream temp;
       std::ostream * p = &temp;
-      m1->Write( *p ); *p << ends; std::cout << temp.str() <<endl;
+      m1->write( *p ); *p << ends; std::cout << temp.str() <<endl;
     }
     
     // add two multiple alignments
     alignlib::MultipleAlignment * m2 = alignlib::makeMultipleAlignment();
     
-    m2->Add( m1 );
-    m2->Add( m1 );
+    m2->add( m1 );
+    m2->add( m1 );
     
     cout << *m2 << endl;
     
@@ -92,9 +92,9 @@ int main () {
     // add two multiple alignments using an alignment between them:
     
     m1 = alignlib::makeMultipleAlignment();
-    m1->Add(alignlib::makeAlignatumFromString("123456789"));
-    m1->Add(alignlib::makeAlignatumFromString("123456789"));
-    m1->Add(alignlib::makeAlignatumFromString("123456789"));
+    m1->add(alignlib::makeAlignatumFromString("123456789"));
+    m1->add(alignlib::makeAlignatumFromString("123456789"));
+    m1->add(alignlib::makeAlignatumFromString("123456789"));
     
     alignlib::Alignata * ali = alignlib::makeAlignataSet();
     
@@ -108,13 +108,13 @@ int main () {
     cout << *ali << endl;
     
     m2 = alignlib::makeMultipleAlignment();
-    m2 -> Add( m1 );
+    m2 -> add( m1 );
     cout << *m2 << endl;
     
-    m2->Add( m1, ali, true );
+    m2->add( m1, ali, true );
     cout << *m2 << endl;
     
-    m2->Add( m1, ali, false);
+    m2->add( m1, ali, false);
     cout << *m2 << endl;
     
     delete m1;
@@ -122,14 +122,14 @@ int main () {
     //-------------------------add new objects using an aligment */
     
     m1 = alignlib::makeMultipleAlignment();
-    m1->Add(alignlib::makeAlignatumFromString("123456789"));
-    m1->Add(alignlib::makeAlignatumFromString("123456789"));
-    m1->Add(alignlib::makeAlignatumFromString("123456789"));
+    m1->add(alignlib::makeAlignatumFromString("123456789"));
+    m1->add(alignlib::makeAlignatumFromString("123456789"));
+    m1->add(alignlib::makeAlignatumFromString("123456789"));
     
-    m1->Add(alignlib::makeAlignatumFromString("123456789"), ali, true );
+    m1->add(alignlib::makeAlignatumFromString("123456789"), ali, true );
     cout << *m1 << endl;
     
-    m1->Add(alignlib::makeAlignatumFromString("123456789"), ali, false );
+    m1->add(alignlib::makeAlignatumFromString("123456789"), ali, false );
     cout << *m1 << endl;
     
     delete ali;
@@ -157,13 +157,13 @@ int main () {
     alignlib::fillAlignataIdentity( a3, 7, 7, 0 );
     alignlib::fillAlignataIdentity( a3, 8, 8, +1 );
     
-    m1->Add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
-    m1->Add(alignlib::makeAlignatumFromString(".ABCDEFGH"), a2);
-    m1->Add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
+    m1->add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
+    m1->add(alignlib::makeAlignatumFromString(".ABCDEFGH"), a2);
+    m1->add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
 
-    m2->Add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
-    m2->Add(alignlib::makeAlignatumFromString(".ABCDEFGH"), a2);
-    m2->Add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
+    m2->add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
+    m2->add(alignlib::makeAlignatumFromString(".ABCDEFGH"), a2);
+    m2->add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
     
     cout << *m1 << endl;
     cout << *m2 << endl;    
@@ -171,7 +171,7 @@ int main () {
     alignlib::Alignata * aa1 = alignlib::makeAlignataVector();
     alignlib::fillAlignataIdentity( aa1, 2, 9, 0 );    
 
-    m1->Add( m2, aa1 );
+    m1->add( m2, aa1 );
 
     cout << *m1 << endl;        
     delete a1;
@@ -190,11 +190,11 @@ int main () {
     alignlib::Alignata * a1 = alignlib::makeAlignataVector();
     alignlib::fillAlignataIdentity( a1, 1, 8, 0 );
 
-    m1->Add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);
-    m1->Add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);
+    m1->add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);
+    m1->add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);
 
-    m2->Add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);
-    m2->Add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);    
+    m2->add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);
+    m2->add(alignlib::makeAlignatumFromString("ABCDGHIJL"), a1);    
 
 
     cout << *m1 << endl;
@@ -204,7 +204,7 @@ int main () {
     alignlib::fillAlignataIdentity( aa1, 2, 5 );
     alignlib::fillAlignataIdentity( aa1, 7, 7, 1 );        
 
-    m1->Add( m2, aa1 );
+    m1->add( m2, aa1 );
 
     cout << *m1 << endl;
 
@@ -231,9 +231,9 @@ int main () {
     alignlib::fillAlignataIdentity( a3, 7, 7, 0 );
     alignlib::fillAlignataIdentity( a3, 8, 8, +1 );
     
-    m1->Add(alignlib::makeAlignatumFromString("ABCDGHJL") );
-    m1->Add(alignlib::makeAlignatumFromString("YABCDEFGH"), a2);
-    m1->Add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
+    m1->add(alignlib::makeAlignatumFromString("ABCDGHJL") );
+    m1->add(alignlib::makeAlignatumFromString("YABCDEFGH"), a2);
+    m1->add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
 
     std::cout << *m1 << endl;
     
@@ -262,9 +262,9 @@ int main () {
     alignlib::fillAlignataIdentity( a3, 7, 7, 0 );
     alignlib::fillAlignataIdentity( a3, 8, 8, +1 );
     
-    m1->Add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
-    m1->Add(alignlib::makeAlignatumFromString("YABCDEFGH"), a2);
-    m1->Add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
+    m1->add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
+    m1->add(alignlib::makeAlignatumFromString("YABCDEFGH"), a2);
+    m1->add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
 
     std::cout << *m1 << endl;
     
@@ -294,9 +294,9 @@ int main () {
     alignlib::fillAlignataIdentity( a3, 7, 7, 0 );
     alignlib::fillAlignataIdentity( a3, 8, 8, +1 );
     
-    m1->Add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
-    m1->Add(alignlib::makeAlignatumFromString(".ABCDEFGH"), a2);
-    m1->Add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
+    m1->add(alignlib::makeAlignatumFromString("ABCDGHJL"), a1);
+    m1->add(alignlib::makeAlignatumFromString(".ABCDEFGH"), a2);
+    m1->add(alignlib::makeAlignatumFromString("BCDEFIJKLM"), a3);
 
     cout << *m1 << endl;
     

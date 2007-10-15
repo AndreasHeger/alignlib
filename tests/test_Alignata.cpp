@@ -255,7 +255,7 @@ void TestAlignata(Alignata * a) {
   
   { 
     cout << "testing...Clear()...";
-    a->Clear();
+    a->clear();
     if (a->getScore() == 0 && a->getLength() == 0 && a->getNumGaps() ==0) 
       cout << "passed" << endl;
     else

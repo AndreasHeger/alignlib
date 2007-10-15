@@ -82,7 +82,7 @@ int main () {
   
   Alignata * t_ali = makeAlignataSet();
   
-  FragmentVector * fragments = f->Fragment( s1, s2, t_ali);
+  FragmentVector * fragments = f->fragment( s1, s2, t_ali);
 
   for (unsigned int i = 0; i < fragments->size(); i++) {
     cout << "fragment " << i << endl << *((*fragments)[i]);
