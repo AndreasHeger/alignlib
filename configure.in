@@ -1,0 +1,119 @@
+# Copyright (C) 2000 Andreas Heger <heger@ebi.ac.uk>
+#  
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without 
+# modifications, as long as this notice is preserved.
+# 
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+# used configure.in from mysql++ as a template
+
+AC_INIT(reconf)
+
+# get host information
+AC_CANONICAL_TARGET
+
+#
+# Making releases:
+#   ALIGNLIB_MICRO_VERSION += 1;
+#   ALIGNLIB_INTERFACE_AGE += 1;
+#   ALIGNLIB_BINARY_AGE += 1;
+# if any functions have been added, set ALIGNLIB_INTERFACE_AGE to 0.
+# if backwards compatibility has been broken,
+# set ALIGNLIB_BINARY_AGE _and_ ALIGNLIB_INTERFACE_AGE to 0.
+#
+ 
+ALIGNLIB_MAJOR_VERSION=0
+ALIGNLIB_MINOR_VERSION=2
+ALIGNLIB_MICRO_VERSION=0
+ALIGNLIB_INTERFACE_AGE=0
+ALIGNLIB_BINARY_AGE=0            
+
+ALIGNLIB_VERSION=$ALIGNLIB_MAJOR_VERSION.$ALIGNLIB_MINOR_VERSION.$ALIGNLIB_MICRO_VERSION 
+
+VERSION=$ALIGNLIB_VERSION
+ 
+AC_SUBST(ALIGNLIB_MAJOR_VERSION)
+AC_SUBST(ALIGNLIB_MINOR_VERSION)
+AC_SUBST(ALIGNLIB_MICRO_VERSION)
+AC_SUBST(ALIGNLIB_INTERFACE_AGE)
+AC_SUBST(ALIGNLIB_BINARY_AGE)
+AC_SUBST(ALIGNLIB_VERSION) 
+
+AM_INIT_AUTOMAKE([alignlib],$VERSION)
+
+AM_CONFIG_HEADER(config.h)
+
+# check for tools
+AC_PROG_CC
+AC_PROG_CXX
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_LIBTOOL
+
+# AC_CONFIG_AUX_DIR(.)  # use the 'install-sh', `config.sub', `config.guess' I provide
+
+for top_builddir in . .. ../.. $ac_auxdir $ac_auxdir/..; do
+             test -f $top_builddir/configure && break
+done  
+
+# enable libtool. AM_PROG_LIBTOOL is deprecated,
+# AC_PROG_LIBTOOL does not work with automake1.4 yet.
+AC_PROG_LIBTOOL  
+
+adl_ENABLE_HTML_DOC()
+
+# check for doxygen, needed for building html documentation of c++ code
+# AC_PATH_PROG(DOXYGEN, doxygen )
+# AC_PATH_PROG(HAPPYDOC, happydoc )     
+
+# adl_WITH_DMALLOC()    
+# adl_WITH_PYTHON()
+adl_ENABLE_DEBUG()
+
+AC_CONFIG_FILES([Makefile
+		 doc/Makefile
+		 m4/Makefile 
+		 src/Makefile 
+		 tests/Makefile 
+		 bench/Makefile])
+
+AC_OUTPUT
+     
+dnl bindir and libdir twice for evaluation
+eval bindir="$bindir"
+eval bindir="$bindir"
+eval libdir="$libdir"
+eval libdir="$libdir"
+eval datadir="$datadir"
+eval mandir="$mandir"
+eval infodir="$infodir"
+eval htmldir="$htmldir"
+
+echo "
+$PACKAGE configuration
+--------------------
+target			 : $target
+ 
+binary install path      : $bindir
+library install path	 : $libdir
+data install path	 : $datadir
+manual page install path : $mandir
+info manual install path : $infodir
+html doc install path    : $htmldir
+ 
+compiler                 : $CC
+general options
+  CFLAGS                 : $CFLAGS $MORE_WARNINGS_CFLAGS
+  LIBS                   : $LDFLAGS $LIBS
+ 
+"
+
+
+
+
+

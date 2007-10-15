@@ -1,0 +1,24 @@
+Welcome to alignlib.
+
+alignlib is free software. Please see the file COPYING for details.
+For documentation, please see the files in the doc subdirectory.
+For building and installation instructions please see the INSTALL file.
+
+
+TODO:
+
+1. use templates for ImplAlignataSet/ImplAlignataHash.
+2. implement a generic scoring system (Scoror) (for example for
+   ImplFragmentorDiagonals()
+3. for Dots -> check renormalisation of row/col, if not starting
+  from 1
+4. create makeAlignataRandom()
+5. add Alignator->calculateMaxScore(); = alignment without backtracing
+6. Rendering: make generic palettes
+
+7. nicer way of dealing with masked residues and gaps in profile-sequence
+comparison.
+8. Alignata: add specialized implementations for removeRow/ColRegion()
+
+9. make sure, that Alignata-iterators are not leading to segmentation faults
+  for empty alignments (e.g. try AligantaVector.Clear and then try to get iterators)
