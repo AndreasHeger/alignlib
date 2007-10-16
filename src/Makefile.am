@@ -16,6 +16,7 @@ include_HEADERS = alignlib.h
 pkginclude_HEADERS = 	alignlib.h \
 			AlignException.h \
 			AlignlibDebug.h \
+			AlignlibMethods.h \
 			Matrix.h \
 			$(HEADERS_ALIGNATOR) \
 			$(HEADERS_ITERATOR) \
