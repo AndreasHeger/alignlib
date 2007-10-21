@@ -30,7 +30,6 @@
 
 #include <iosfwd>
 #include <string>
-#include <vector>
 #include "alignlib.h"
 
 namespace alignlib {
@@ -49,8 +48,6 @@ namespace alignlib {
     class Alignandum;
     class SubstitutionMatrix;
 
-    typedef std::vector<Alignata*> FragmentVector;
-    
  /* -------------------------------------------------------------------------------------------------------------------- */
  /* 1. factory functions */
     /** return a pointer to an Alignata-object */

@@ -29,15 +29,12 @@
 #define FRAGMENTOR_H 1
 
 #include "alignlib.h"
-#include <vector>
 
 namespace alignlib 
 {
 
 class Alignata;
 class Alignandum;
-
-typedef std::vector<Alignata*> FragmentVector;
 
 /**
    @short Base class for generating a list of fragments from two objects.

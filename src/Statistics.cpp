@@ -49,6 +49,10 @@ NormalDistributionParameters * makeNormalDistributionParameters() {
   return new NormalDistributionParameters; 
 }
 
+EVDParameters * makeEVDParameters() {
+  return new EVDParameters;
+}
+
 //---------------------------------------------------------------
 Score * fillScoresVector( Score * dest,
 			     const Alignandum * row, 

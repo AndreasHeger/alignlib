@@ -40,6 +40,10 @@
 namespace alignlib
 {
 
+  // forward declarations
+  class Alignata; 
+
+
 #define MAX_NDOTS    1000000        /* maximum number of dots */
 #define MAX_SEQLEN   30000	     /* maximum sequence length */
 #define MAX_INSERTLENGTH 30	     /* maximum length of insert before truncating in output */
@@ -106,6 +110,9 @@ namespace alignlib
    {
      ALIGNMENT_LOCAL, ALIGNMENT_WRAP, ALIGNMENT_GLOBAL
    };
+
+ /** A vector of aligned fragmens */
+ typedef std::vector<Alignata*> FragmentVector;
 
 } 
 
