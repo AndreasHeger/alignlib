@@ -58,7 +58,7 @@ class ImplWeightor : public Weightor {
     
  protected:
     /** rescale the weights to the desired value. If value is 0, the weights are scaled to the number of sequences */
-    virtual void rescaleWeights( SequenceWeight * weights, int nsequences, SequenceWeight value = 0) const;
+    virtual void rescaleWeights( SequenceWeights * weights, int nsequences, SequenceWeight value = 0) const;
 
     /** pointer to the translator object to use */
     const Translator * mTranslator;

@@ -104,7 +104,7 @@ namespace alignlib
  typedef Frequency FrequencyColumn[PROFILEWIDTH];		// frequencies have to be double  
  typedef std::vector<Frequency>Frequencies;
  typedef std::vector<Frequencies>ProfileFrequencies;
-
+ typedef std::vector<SequenceWeight>SequenceWeights;
  /** alignment types */
  enum AlignmentType
    {

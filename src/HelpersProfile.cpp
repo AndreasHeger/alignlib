@@ -158,11 +158,11 @@ Alignandum * fillProfile( Alignandum * dest,
   if (weightor == NULL) 
       weightor = getDefaultWeightor();
 
-  SequenceWeight * weights = weightor->calculateWeights( *src );
+  SequenceWeights * weights = weightor->calculateWeights( *src );
 #ifdef DEBUG
   cout << "-------------->Weights start-----------" << endl;
   for (int i = 0; i < src->getWidth(); i++) 
-    cout << i << " " << weights[i] << endl;
+    cout << i << " " << weights->[i] << endl;
   cout << "-------------->Weights end-------------" << endl;
 #endif
 
@@ -185,10 +185,10 @@ Alignandum * fillProfile( Alignandum * dest,
       const std::string & seq = (*src)[nsequence];
       for (int column = 0; column < length; column++)                        // string: starts at 0, profile at 1
 	  if ( (code = getDefaultTranslator()->encode( seq[column] ) ) < PROFILEWIDTH)
-	      counts[column+1][code] += weights[nsequence];
+	      counts[column+1][code] += (*weights)[nsequence];
   }
   
-  delete [] weights;
+  delete weights;
 
   profile->setPrepared( false );  
 

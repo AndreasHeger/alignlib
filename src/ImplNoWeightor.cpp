@@ -54,17 +54,17 @@ ImplNoWeightor::ImplNoWeightor (const ImplNoWeightor & src ) : ImplWeightor( src
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-SequenceWeight * ImplNoWeightor::calculateWeights( const MultipleAlignment & src ) const 
+SequenceWeights * ImplNoWeightor::calculateWeights( const MultipleAlignment & src ) const 
 {
   debug_func_cerr(5);
 
 
   int nsequences = src.getWidth();
 
-  SequenceWeight * weights = new SequenceWeight[nsequences];
+  SequenceWeights * weights = new SequenceWeights(nsequences);
   
   for (int i = 0; i < nsequences; i++) 
-    weights[i] = 1;
+    (*weights)[i] = 1;
 
   return weights;
 }

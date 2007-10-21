@@ -50,7 +50,7 @@ ImplWeightor::~ImplWeightor ()
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplWeightor::rescaleWeights( SequenceWeight * weights, int nsequences, SequenceWeight value) const 
+void ImplWeightor::rescaleWeights( SequenceWeights * weights, int nsequences, SequenceWeight value) const 
 {
   debug_func_cerr(5);
 
@@ -61,16 +61,17 @@ void ImplWeightor::rescaleWeights( SequenceWeight * weights, int nsequences, Seq
     //--------------> rescale weights
     double total = 0;
     int i;
- 
+    SequenceWeights & w = *weights;
+    
     for ( i = 0; i < nsequences; i++) {
-	if (weights[i] < MIN_WEIGHT) 
-	    weights[i] = MIN_WEIGHT;               //!! to do: some warnings, exception handling, ...
-	total += weights[i];
+	if (w[i] < MIN_WEIGHT) 
+	    w[i] = MIN_WEIGHT;               //!! to do: some warnings, exception handling, ...
+	total += w[i];
     }
     
     SequenceWeight factor = value / total;
  
-    for ( i = 0; i < nsequences; i++) weights[i] *= factor;
+    for ( i = 0; i < nsequences; i++) w[i] *= factor;
 }
 
 

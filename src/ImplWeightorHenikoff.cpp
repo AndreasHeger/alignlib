@@ -52,7 +52,7 @@ ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) :
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-SequenceWeight * ImplWeightorHenikoff::calculateWeights( const MultipleAlignment & src ) const 
+SequenceWeights * ImplWeightorHenikoff::calculateWeights( const MultipleAlignment & src ) const 
 {
   debug_func_cerr(5);
 
@@ -94,14 +94,14 @@ SequenceWeight * ImplWeightorHenikoff::calculateWeights( const MultipleAlignment
 	ntypes[column]++;
   }
   //---------------> calculate sequence weights <------------------------------------------
-  SequenceWeight * weights = new SequenceWeight[nsequences];
-
+  SequenceWeights * weights = new SequenceWeights(nsequences);
+  SequenceWeights & w = *weights;
   for (i = 0; i < nsequences; i++) {
-    weights[i] = 0;
+    w[i] = 0;
     for (column = 0; column < length; column++) {
         const std::string & sequence = src[i];			// sum up, but skip gaps and masked characters
 	if ( (residue = mTranslator->encode(sequence[column])) < PROFILEWIDTH) 
-	    weights[i] += (SequenceWeight)(1.0 / ((double)counts[column][residue] * (double)ntypes[column]));
+	    w[i] += (SequenceWeight)(1.0 / ((double)counts[column][residue] * (double)ntypes[column]));
     }
   }
    

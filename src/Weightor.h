@@ -68,7 +68,7 @@ class Weightor {
     
     /** return a vector of weights for a multiple alignment. The ordering in the result will be the same 
 	as in the multiple alignment. Note, that the caller has to delete the weights. */
-    virtual SequenceWeight * calculateWeights( const MultipleAlignment & src ) const = 0;
+    virtual SequenceWeights * calculateWeights( const MultipleAlignment & src ) const = 0;
 
 };
 
