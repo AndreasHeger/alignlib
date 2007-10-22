@@ -296,7 +296,7 @@ Alignata * copyAlignataRemoveRegion( Alignata * dest,
 Alignata * copyAlignata( Alignata * dest, 
 			 const Alignata * src,
 			 const Alignata * filter, 
-			 const COMBINATION_MODE mode ) 
+			 const CombinationMode mode ) 
 {
   debug_func_cerr(5);
 
@@ -355,7 +355,7 @@ Alignata * addAlignata2Alignata( Alignata * dest,
     Alignata * addMappedAlignata2Alignata( Alignata * dest, 
 					   const Alignata * src, 
 					   const Alignata * map_src2new,
-					   const COMBINATION_MODE mode ) 
+					   const CombinationMode mode ) 
 {
   debug_func_cerr(5);
 
@@ -421,7 +421,7 @@ Alignata * addAlignata2Alignata( Alignata * dest,
 Alignata * combineAlignata( Alignata * dest, 
 			    const Alignata * src1, 
 			    const Alignata * src2, 
-			    const COMBINATION_MODE mode ) 
+			    const CombinationMode mode ) 
 {
   debug_func_cerr(5);
 
@@ -979,7 +979,7 @@ Alignata * fillAlignataCompressedDiagonal( Alignata * dest,
 	where the row is also present as a row-residue in filter.
  
 */
-Alignata * filterAlignataRemovePairs( Alignata * dest, const Alignata * filter, const COMBINATION_MODE mode ) 
+Alignata * filterAlignataRemovePairs( Alignata * dest, const Alignata * filter, const CombinationMode mode ) 
 {
   debug_func_cerr(5);
 
@@ -1023,9 +1023,9 @@ Alignata * filterAlignataRemovePairs( Alignata * dest, const Alignata * filter, 
 
 //-------------------------------------------------------------------------------------------------
 // this works only for pairswise alignments, where both alignments are sorted by row.
-Alignata * filterPairAlignataRemovePairsPairWiseSorted( Alignata * dest, 
+Alignata * filterAlignataRemovePairwiseSorted( Alignata * dest, 
 							const Alignata * filter, 
-							const COMBINATION_MODE mode ) 
+							const CombinationMode mode ) 
 {
   debug_func_cerr(5);
 
@@ -1681,7 +1681,7 @@ FragmentVector * splitAlignata( const Alignata * src,
  */ 
 FragmentVector * splitAlignata( const Alignata * src1, 
 				const Alignata * src2, 
-				const COMBINATION_MODE mode ) {
+				const CombinationMode mode ) {
 
   AlignataConstIterator it1(src1->begin());
   AlignataConstIterator it1_end(src1->end());

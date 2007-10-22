@@ -136,17 +136,18 @@ namespace alignlib {
  /** write an alignment in rsdb-format */
  void writeAlignataRSDB( std::ostream & output, const Alignata * src );
 
+ /** enum describing the ways that two alignments can be combined
+  * R: row
+  * C: col
+  */
+ typedef enum { RR, RC, CR, CC } CombinationMode;
+
  /** return a pointer to an Alignata-object, that has been created by combining two others */
- typedef enum { RR, RC, CR, CC } COMBINATION_MODE;
-
- Alignata * combineAlignata( Alignata * dest, const Alignata *src1, const Alignata * src2, const COMBINATION_MODE mode);
-
- /** map row/column of an alignment to the combination of another alignment */
- Alignata * combineAlignataMali( Alignata * map_ali2mali, 
-				 const Alignata * map_ali2row, 
-				 const Alignata * map_row2col, 
-				 const COMBINATION_MODE mode);
- 
+ Alignata * combineAlignata( Alignata * dest, 
+		 const Alignata *src1, 
+		 const Alignata * src2, 
+		 const CombinationMode mode);
+  
  /** copy one alignment into another. I can not do this using a copy constructor, since virtual functions are not
      resolved by then. I also do not want a clone, for example if I want to change the underlying implementation
 
@@ -191,7 +192,7 @@ namespace alignlib {
   Alignata * copyAlignata( Alignata * dest, 
 			   const Alignata * src, 
 			   const Alignata * filter, 
-			   const COMBINATION_MODE mode);
+			   const CombinationMode mode);
 
  /** add one alignment to another
   */
@@ -202,7 +203,7 @@ namespace alignlib {
  Alignata * addMappedAlignata2Alignata( Alignata * dest, 
 					const Alignata * src, 
 					const Alignata * map_src2new,
-					const COMBINATION_MODE mode );
+					const CombinationMode mode );
 
  /** add one alignment to another. Map both row and column.
   */
@@ -242,17 +243,9 @@ namespace alignlib {
      @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
      where the row is also present as a row-residue in filter.
  */
- Alignata * filterAlignataRemovePairsCopy( Alignata * dest, 
-					   const Alignata * filter, 
-					   const COMBINATION_MODE mode );
-
- /** remove residues from an alignment, that are part of another alignment
-     @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
-     where the row is also present as a row-residue in filter.
- */
  Alignata * filterAlignataRemovePairs( Alignata * dest, 
 				       const Alignata * filter, 
-				       const COMBINATION_MODE mode );
+				       const CombinationMode mode );
 
  /** remove residues from an alignment, that are part of another alignment
      @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
@@ -260,7 +253,7 @@ namespace alignlib {
  */
  Alignata * filterAlignataRemovePairwiseSorted( Alignata * dest, 
 						const Alignata * filter, 
-						const COMBINATION_MODE mode );
+						const CombinationMode mode );
  
  /** fill a alignment given an explicit alignment 
      for example	row_ali = "AAA---CCCKKKAAA"
@@ -404,7 +397,7 @@ FragmentVector * splitAlignata( const Alignata * src,
  */ 
 FragmentVector * splitAlignata( const Alignata * src1, 
 				const Alignata * src2, 
-				const COMBINATION_MODE mode );
+				const CombinationMode mode );
 
 /** starting from the ends of an alignment, remove 
     residues which do not contribute to a positive score.

@@ -85,7 +85,8 @@ namespace alignlib
       T mValue;
     };
 
-  
+  /** Iterator over a 2D matrix.
+   */
   class Iterator2D
     {
       

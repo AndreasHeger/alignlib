@@ -211,19 +211,24 @@ void ImplAlignata::calculateLength() const
 /** switch row and column in the alignment. Use more efficient implementations in derived classes. */
 void ImplAlignata::switchRowCol() {
 
-
-  AlignataIterator it     = begin();
-  AlignataIterator it_end = end();
+  Alignata * copy = getClone();
   
-  for (;it != it_end; ++it) {
-    ResiduePAIR & p = (*it);
-    Position temp = p.mCol;
-    p.mCol = p.mRow;
-    p.mRow = temp;
-  }
+  AlignataIterator it     = copy->begin();
+  AlignataIterator it_end = copy->end();
+  
+  clear();
+  for (;it != it_end; ++it) 
+  	{
+	  // copy over residue pairs from copy reversing row and column
+	  addPair( new ResiduePAIR( it->mCol, it->mRow, it->mScore ) );
+  	}	
+  
+  delete copy;
 
+  setChangedLength();
+  return;
 }
-
+  
 //----------------------------------------------------------------------------------------------------------
 // this is very time inefficient
 //-----------------------------------------------------------------------------------------------------------   

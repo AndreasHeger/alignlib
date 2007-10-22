@@ -32,6 +32,10 @@
 #include "Iterator2D.h"
 namespace alignlib 
 {
+  /** Iterator class for a 2D matrix.
+   * 
+   * This iterator iterates over the full matrix.
+   */
 
   class ImplIterator2DFull: Iterator2D
 	{
