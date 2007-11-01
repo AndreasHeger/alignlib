@@ -13,16 +13,17 @@ use-project boost
 project
   : requirements 
     <library>/boost/python//boost_python 
-    <library>/homes/andreas/devel/lib/libalignlib.so ;
+    <library>../src/.libs/libalignlib.so ;
 
 # Declare a Python extension called hello.
 python-extension alignlib 
   : # source 
 	alignlib.cpp
   : # requirements 
-  <library-file>/homes/andreas/devel/lib/libalignlib.so 
-  <include>/homes/andreas/devel/include 
-  <include>/homes/andreas/devel/include/alignlib 
+  <library-file>../src/.libs/libalignlib.so 
+  <include>../src/include
+  <include>../src 
+  <include>../src/alignlib 
   ;
 
 

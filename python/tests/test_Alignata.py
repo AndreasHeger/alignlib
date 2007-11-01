@@ -183,14 +183,3 @@ def suite():
 
 if __name__ == "__main__":
     unittest.main()
-
-
-print "a", alignment_a.write()
-
-alignment_b = makeAlignataVector()
-alignment_c = makeAlignataVector()
-
-fillAlignataSummation( alignment_b, alignment_c, alignment_a)
-
-print "b", alignment_b.write()
-print "c", alignment_c.write()

@@ -8,7 +8,7 @@ from pyplusplus.decl_wrappers import \
 from pygccxml import declarations
 
 ## installation directory of alignlib
-src_dir="/home/andreas/devel"
+src_dir=os.path.abspath( "../src" )
 
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t( [r"includes.h"]
@@ -16,7 +16,7 @@ mb = module_builder.module_builder_t( [r"includes.h"]
                                       , cache="cache"
                                       , start_with_declarations=("alignlib","py_details")
                                       , working_directory=r"."
-                                      , include_paths=['%s/include' % src_dir, '%s/include/alignlib' % src_dir]
+                                      , include_paths=['%s' % src_dir, ]
                                       , define_symbols=[]
                                       , )
 

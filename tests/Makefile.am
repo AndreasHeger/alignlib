@@ -12,7 +12,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/src
 
 check_PROGRAMS = test_Fragmentor test_AlignatorDots test_Alignata  test_Alignator \
 		test_MultipleAlignment test_Alignandum test_HelpersAlignata test_Statistics \
-		test_SubstitutionMatrix test_Iterator 
+		test_SubstitutionMatrix test_Iterator test_IterativeAlignment
 
 TESTS = $(check_PROGRAMS)
 
@@ -28,5 +28,5 @@ test_Statistics_SOURCES = test_Statistics.cpp
 test_HelpersAlignata_SOURCES = test_HelpersAlignata.cpp
 test_SubstitutionMatrix_SOURCES = test_SubstitutionMatrix.cpp
 test_Iterator_SOURCES = test_Iterator.cpp
-
+test_IterativeAlignment_SOURCES = test_IterativeAlignment.cpp
 

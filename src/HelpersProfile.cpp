@@ -162,7 +162,7 @@ Alignandum * fillProfile( Alignandum * dest,
 #ifdef DEBUG
   cout << "-------------->Weights start-----------" << endl;
   for (int i = 0; i < src->getWidth(); i++) 
-    cout << i << " " << weights->[i] << endl;
+    cout << i << " " << (*weights)[i] << endl;
   cout << "-------------->Weights end-------------" << endl;
 #endif
 
