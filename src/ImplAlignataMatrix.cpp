@@ -58,7 +58,7 @@ namespace alignlib {
 //------------------------------------< constructors and destructors >-----
 ImplAlignataMatrix::ImplAlignataMatrix( long ndots ) : ImplAlignata(), 
   mIndex(NULL),
-  mRowFrom(0), mRowTo(0), mColFrom(0), mColTo(0), 
+  mRowFrom(NO_POS), mRowTo(NO_POS), mColFrom(NO_POS), mColTo(NO_POS), 
   mAllocatedIndexSize(0) 
 {
   debug_func_cerr(5);
@@ -140,12 +140,12 @@ Position ImplAlignataMatrix::getColTo()   const { if (mChangedLength) calculateL
 
 ResiduePAIR ImplAlignataMatrix::getFirstPair() const { 
     if (mChangedLength) calculateLength(); 
-    return (mPairs.size() > 0) ? (*mPairs.front()) : ResiduePAIR(0,0,0); 
+    return (mPairs.size() > 0) ? (*mPairs.front()) : ResiduePAIR(NO_POS,NO_POS,0); 
 }
 
 ResiduePAIR ImplAlignataMatrix::getLastPair()  const { 
   if (mChangedLength) calculateLength(); 
-  return (mPairs.size() > 0) ? (*mPairs.back()) : ResiduePAIR(0,0,0); 
+  return (mPairs.size() > 0) ? (*mPairs.back()) : ResiduePAIR(NO_POS,NO_POS,0); 
 }
 
 //-------------------------------------------------------------------------------------------------------------
@@ -183,10 +183,10 @@ void ImplAlignataMatrix::clear()
 
   ImplAlignata::clear();
 
-  mRowFrom = 0;
-  mRowTo = 0;
-  mColFrom = 0;
-  mRowTo = 0;
+  mRowFrom = NO_POS;
+  mRowTo = NO_POS;
+  mColFrom = NO_POS;
+  mRowTo = NO_POS;
   delete [] mIndex; 
   mIndex = NULL;
 
@@ -306,13 +306,14 @@ void ImplAlignataMatrix::sortDotsByCol(Position from, Position to) const {
 
 //-------------------------------------------------------------------------------------------------------------------- 
 void ImplAlignataMatrix::eliminateDuplicates() const {
-    mRowFrom = 999999;
-    mColFrom = 999999;
-    mRowTo = 0;
-    mColTo = 0;
+    
+	mRowFrom = std::numeric_limits<Position>::max();
+    mColFrom = std::numeric_limits<Position>::max();
+    mRowTo = std::numeric_limits<Position>::min();
+    mColTo = std::numeric_limits<Position>::min();
 
-    Position last_row = 0;
-    Position last_col = 0;
+    Position last_row = NO_POS;
+    Position last_col = NO_POS;
     
     std::vector<ResiduePAIR *> temp = mPairs;
     mPairs.clear();
@@ -360,7 +361,7 @@ void ImplAlignataMatrix::calculateLength() const
 
 
   mChangedLength = false;
-  mRowFrom = mRowTo = mColFrom = mColTo = 0;
+  mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
   delete mIndex;
   mAllocatedIndexSize = 0;
   mIndex = NULL;

@@ -135,7 +135,7 @@ void ImplAlignataSetCol::addPair( ResiduePAIR * new_pair )
 /** retrieves a pair of residues from the alignment */
 ResiduePAIR ImplAlignataSetCol::getPair( Position row ) const {
 
-  ResiduePAIR p(row, 0, 0);
+  ResiduePAIR p(row, NO_POS, 0);
   PairIterator it(mPairs.find( &p ));
   return **it;
 } 
@@ -156,8 +156,8 @@ void ImplAlignataSetCol::removePair( const ResiduePAIR & old_pair )
  */
 void ImplAlignataSetCol::removeColRegion( Position from, Position to) {
 
-  for (Position pos = from; pos <= to; pos++) {
-      ResiduePAIR p(0, pos, 0);
+  for (Position pos = from; pos < to; pos++) {
+      ResiduePAIR p(NO_POS, pos, 0);
       PairIterator it(mPairs.find( &p ));
 
       if (it != mPairs.end()) {
@@ -176,7 +176,7 @@ void ImplAlignataSetCol::removeRowRegion( Position from, Position to) {
   PairIterator it(mPairs.begin()), it_end(mPairs.end());
 
   for (; it != it_end; ++it) {
-    if ( (*it)->mRow >= from && (*it)->mRow <= to) {
+    if ( (*it)->mRow >= from && (*it)->mRow < to) {
       delete *it;
       mPairs.erase(it);
     }

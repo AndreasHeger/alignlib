@@ -67,7 +67,7 @@ void ImplRegularizorDirichletFade::fillFrequencies( FrequencyColumn * frequencie
     // helper variables for the conversion of log to floating point
     TYPE_BETA_DIFFERENCES beta_differences;
  
-    for (column = 1; column <= length; column++) {
+    for (column = 0; column < length; column++) {
 
 	const Count* n = counts[column];
 	

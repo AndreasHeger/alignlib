@@ -143,23 +143,24 @@ namespace alignlib
     // setup Traceback-matrix
     // - matrix can have variable length per row
     // - there is a 0 element in each col (col_front - 1).
-
+    debug_cerr( 5, "allocating start positions for " << mIterator->row_size() << " rows." );
     mTraceRowStarts = new TraceIndex[mIterator->row_size() + 1];
     mTraceRowStarts[0] = 0;
     Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
     mRowFrom = *rit;
     TraceIndex matrix_size = 0;
-    for (unsigned x = 1; rit != rend; ++rit, ++x)
+    for (unsigned row = 1; rit != rend; ++rit, ++row)
       {
-	matrix_size += 1 + mIterator->col_size( *rit );
-	mTraceRowStarts[x] = matrix_size;
-	debug_cerr( 5, "x=" << x << " matrix_size=" << matrix_size << " col_size=" << mIterator->col_size(*rit));
+    	matrix_size += 1 + mIterator->col_size( *rit );
+    	mTraceRowStarts[row] = matrix_size;
+    	debug_cerr( 6, "trace matrix row=" << row << " matrix_size=" << matrix_size << " col_size=" << mIterator->col_size(*rit));
       }
-    
+
+    debug_cerr( 5, "allocating trace matrix for " << matrix_size << " elements." );
     mTraceMatrix = new TraceEntry[matrix_size];
     for (TraceIndex i = 0; i < matrix_size; i++)
       mTraceMatrix[i] = TB_STOP;
-    
+
   }
   
   //--------------------------------------------------------------------------------------------------------------
@@ -175,85 +176,87 @@ namespace alignlib
 
   // wrapping around for col but not for row, because otherwise there could be an infinite loop.
 #define PREVCOL { if (--col < 1) col = mColLength; }  
+  
   void ImplAlignatorDPFull::traceBack( const Alignandum * prow, const Alignandum * pcol, Alignata * result) 
-{
-  debug_func_cerr(5);
+  {	
+	  debug_func_cerr(5);
 
- 
-    int t;
+	  int t;
 
 #ifdef DEBUG
-    {
-      std::cout << "Trace matrix" << endl;
-      
-      {
-	std::cout << setw(6) << " ";
-	for (Position c = 0; c <= mIterator->col_size(); ++c) cout << setw(4) << c;
-	std::cout << endl;
-      }
+	  {
+		  std::cout << "Trace matrix" << endl;
 
-      Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
-      for (; rit != rend; ++rit)
-	{
-	  Position row = *rit;
-	  cout << setw(6) << row;	  
-	  Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
-	  for (Position col = 0; col <= mIterator->col_size(); ++col)
-	    {
-	      cout << setw(4);
-	      switch (mTraceMatrix[getTraceIndex(row,col)])
-		{
-		case TB_STOP:      cout << "o" ; break;
-		case TB_DELETION:  cout << "<" ; break;
-		case TB_INSERTION: cout << "^" ; break;
-		case TB_MATCH:     cout << "=" ; break;
-		case TB_WRAP:	   cout << "@" ; break;
-		default: cout << "#"; break;
-		}
-	    }
-	  std::cout << endl;
-	}
-      std::cout << "traceback starts in cell ("<< mRowLast << "," << mColLast << ") with score " << mScore << std::endl;
-    }
-    
+		  {
+			  std::cout << setw(6) << " ";
+			  for (Position c = 0; c <= mIterator->col_size(); ++c) cout << setw(4) << c;
+			  std::cout << endl;
+		  }
+
+		  Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
+		  for (; rit != rend; ++rit)
+		  {
+			  Position row = *rit;
+			  cout << setw(6) << row;	  
+			  Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
+			  for (Position col = 0; col <= mIterator->col_size(); ++col)
+			  {
+				  cout << setw(4);
+				  switch (mTraceMatrix[getTraceIndex(row,col)])
+				  {
+				  case TB_STOP:      cout << "o" ; break;
+				  case TB_DELETION:  cout << "<" ; break;
+				  case TB_INSERTION: cout << "^" ; break;
+				  case TB_MATCH:     cout << "=" ; break;
+				  case TB_WRAP:	   cout << "@" ; break;
+				  default: cout << "#"; break;
+				  }
+			  }
+			  std::cout << endl;
+		  }
+		  std::cout << "traceback starts in cell ("<< mRowLast << "," << mColLast << ") with score " << mScore << std::endl;
+	  }
+
 #endif
- 
-    Position col = mColLast;
-    Position row = mRowLast;
-    int ngaps = 0;
 
-    t = mTraceMatrix[getTraceIndex(row,col)];
+	  Position col = mColLast;
+	  Position row = mRowLast;
+	  int ngaps = 0;
 
-    while ( t != TB_STOP && row > 0) 
-{
-  debug_func_cerr(5);
+	  t = mTraceMatrix[getTraceIndex(row,col)];
 
-      switch (t) {
-      case TB_DELETION :
-	col--;
-	ngaps++;
-	if (col < 1) 
-	  row--;
-	break;
-      case TB_INSERTION :
-	ngaps++;
-	row--;
-	break;
-      case TB_MATCH :
-	result->addPair( new ResiduePAIR( row, col, mScorer->getScore( row, col)));
-	row--;
-	col--;
-	break;
-      case TB_WRAP :
-	col = mIterator->col_back( row );
-	break;
-      default:
-	throw AlignException("Unknown matrix command in TraceBack");
-	break;
-      }
-      t = mTraceMatrix[getTraceIndex(row,col)];
-    }
-    result->setScore ( mScore );
+	  while ( t != TB_STOP && row > 0) 
+	  {
+		  debug_func_cerr(5);
+
+		  switch (t) {
+		  case TB_DELETION :
+			  col--;
+			  ngaps++;
+			  if (col < 1) 
+				  row--;
+			  break;
+		  case TB_INSERTION :
+			  ngaps++;
+			  row--;
+			  break;
+		  case TB_MATCH :
+			  result->addPair( new ResiduePAIR( row, col, mScorer->getScore( row, col)));
+			  row--;
+			  col--;
+			  break;
+		  case TB_WRAP :
+			  col = mIterator->col_back( row );
+			  break;
+		  default:
+			  throw AlignException("Unknown matrix command in TraceBack");
+			  break;
+		  }
+		  if (row == 0 || col == 0)
+			  break;
+		  t = mTraceMatrix[getTraceIndex(row,col)];
+	  }
+	  result->setScore ( mScore );
   }  
 
   //---------------------------------< the actual alignment algorithm >-------------------------------------------

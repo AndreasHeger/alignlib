@@ -65,7 +65,7 @@ class ImplAlignataMatrixRow : public ImplAlignataMatrix {
     //------------------------------------------------------------------------------------------------------------
     /** maps a residue from row to column. returns 0, if not found. This is quick, since there is 
 	only one lookup in the array needed.*/
-    virtual Position mapRowToCol( Position pos ) const;
+    virtual Position mapRowToCol( Position pos, SearchType search = NO_SEARCH ) const;
 
  protected:
     /** build index */

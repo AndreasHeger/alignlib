@@ -179,7 +179,7 @@ void ImplAlignata::calculateLength() const
   // this is a patch, there is something wrong with empty alignments,
   // for vectors (and sets)
   
-  if (row_last == 0 || col_last == 0)
+  if (row_last == NO_POS || col_last == NO_POS)
       return;
 
   AlignataConstIterator it(begin());
@@ -229,15 +229,17 @@ void ImplAlignata::switchRowCol() {
   return;
 }
   
-//----------------------------------------------------------------------------------------------------------
-// this is very time inefficient
 //-----------------------------------------------------------------------------------------------------------   
 //--------------> mapping functions <----------------------------------------------------------------------------
-  /* this is horribly time-inefficient, if you want to map the whole thing. */
-Position ImplAlignata::mapRowToCol( Position pos ) const {
+/** default implementation for mapping
+ * 
+ * This function iterates through the alignment and is
+ * very time inefficient and ignores the search option.
+ */
+Position ImplAlignata::mapRowToCol( Position pos, SearchType search ) const {
   
   if (getLength() == 0)
-    return 0;
+    return NO_POS;
 
   AlignataConstIterator it = begin();
   AlignataConstIterator it_end = end();
@@ -248,15 +250,19 @@ Position ImplAlignata::mapRowToCol( Position pos ) const {
     ++it;
   }
   
-  return 0;
+  return NO_POS;
 }
 
 //-----------------------------------------------------------------------------------------------------------   
-/* this is horribly time-inefficient, if you want to map the whole thing. Better use array */
-Position ImplAlignata::mapColToRow( Position pos ) const {
+/** default implementation for mapping
+ * 
+ * This function iterates through the alignment and is
+ * very time inefficient and ignores the search option.
+ */
+Position ImplAlignata::mapColToRow( Position pos, SearchType search ) const {
 
   if (getLength() == 0)
-    return 0;
+    return NO_POS;
 
   AlignataConstIterator it = begin();
   AlignataConstIterator it_end = end();
@@ -285,7 +291,7 @@ void ImplAlignata::removeRowRegion( Position from, Position to) {
   mScore = copy->getScore();
 
   for (; it != it_end; ++it) {
-    if ( (*it).mRow < from || (*it).mRow > to)
+    if ( (*it).mRow < from || (*it).mRow >= to)
       addPair( new ResiduePAIR(*it) );
   }
   
@@ -311,7 +317,7 @@ void ImplAlignata::removeColRegion( Position from, Position to) {
   
   for (; it != it_end; ++it) {
     const ResiduePAIR & p = (*it);
-    if (p.mCol < from || p.mCol > to)
+    if (p.mCol < from || p.mCol >= to)
       addPair( new ResiduePAIR(p) );
   }
   

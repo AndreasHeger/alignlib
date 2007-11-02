@@ -138,7 +138,7 @@ void ImplAlignataHashDiagonal::addPair( ResiduePAIR * new_pair )
 /** retrieves a pair of residues from the alignment */
 ResiduePAIR ImplAlignataHashDiagonal::getPair( Position row ) const {
 
-  ResiduePAIR p(row, 0, 0);
+  ResiduePAIR p(row, NO_POS, 0);
   PairIterator it(mPairs.find( &p ));
   return **it;
 } 
@@ -157,9 +157,9 @@ void ImplAlignataHashDiagonal::calculateLength() const {
 
   mChangedLength = false;
 
-  mRowFrom = 9999999;
+  mRowFrom = std::numeric_limits<Position>::max();
   mRowTo = 0;
-  mColFrom = 9999999;
+  mColFrom = std::numeric_limits<Position>::max();
   mColTo = 0;
 
   PairConstIterator it(mPairs.begin()), it_end(mPairs.end());

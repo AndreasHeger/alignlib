@@ -150,9 +150,8 @@ Alignandum * makeMutatedSequence( Alignandum * src, const MutationMatrix * matri
   unsigned int x;
   Position i;
 
-  for (i = 1, x = 0; i <= src->getLength(); i++, x++) {
+  for (i = 0, x = 0; i < src->getLength(); i++, x++) {
     Residue residue = src->asResidue(i);
-
     Residue new_residue = SampleFromDistribution( (*matrix)[residue] );
     buffer[x] = translator->decode(new_residue);
 

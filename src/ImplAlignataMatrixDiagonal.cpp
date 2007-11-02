@@ -79,12 +79,12 @@ ImplAlignataMatrixDiagonal * ImplAlignataMatrixDiagonal::getClone() const {
 }
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignataMatrixDiagonal::mapRowToCol( Position pos ) const {
+Position ImplAlignataMatrixDiagonal::mapRowToCol( Position pos, SearchType search ) const {
 
     if (mChangedLength) calculateLength();
 
-    if (pos > mRowTo || pos < mRowFrom) 
-	return 0;
+    if (pos >= mRowTo || pos < mRowFrom) 
+    	return NO_POS;
 
     // find the row with the smallest diagonal
     Dot dot, next_dot;
@@ -113,7 +113,7 @@ Position ImplAlignataMatrixDiagonal::mapRowToCol( Position pos ) const {
 	}
     }
 
-    return 0;
+    return NO_POS;
 }
 
 //-------------------------------------------------------------------------------------------------------------------- 
@@ -156,7 +156,6 @@ void ImplAlignataMatrixDiagonal::buildIndex() const {
   //  allocate and initialize memory memory 
   allocateIndex( mNumDiagonals );
   for (i = 0; i < mNumDiagonals; i++) { mIndex[i] = NODOT; }   
-  
   
   Dot first_dot = 0;
   Diagonal diagonal = calculateNormalizedDiagonal( *mPairs[0], mRowFrom, mColFrom);

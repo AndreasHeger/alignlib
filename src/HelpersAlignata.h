@@ -102,8 +102,8 @@ namespace alignlib {
     void writeAlignataCompressed( const Alignata * src, 
 				  std::string & out_row , 
 				  std::string & out_col,
-				  Position col_from = 0,
-				  Position col_to = 0
+				  Position col_from = NO_POS,
+				  Position col_to = NO_POS
 				  );
 
  /** write compressed alignment into streams. The alignment can be restricted to
@@ -125,10 +125,10 @@ namespace alignlib {
  void writeAlignataCompressedDiagonal( const Alignata * src, 
 				       std::string & out_row, 
 				       bool reverse = false,
-				       Position row_from = 0,
-				       Position row_to = 0,
-				       Position col_from = 0,
-				       Position col_to = 0,
+				       Position row_from = NO_POS,
+				       Position row_to = NO_POS,
+				       Position col_from = NO_POS,
+				       Position col_to = NO_POS,
 				       Diagonal diagonal_from = MAX_DIAGONAL,
 				       Diagonal diagonal_to = -MAX_DIAGONAL
 				       );
@@ -160,10 +160,10 @@ namespace alignlib {
  */
  Alignata * copyAlignata( Alignata * dest, 
 			  const Alignata * src, 
-			  Position row_from = 0,
-			  Position row_to = 0,
-			  Position col_from = 0,
-			  Position col_to = 0,
+			  Position row_from = NO_POS,
+			  Position row_to = NO_POS,
+			  Position col_from = NO_POS,
+			  Position col_to = NO_POS,
 			  Diagonal diagonal_from = -MAX_DIAGONAL,
 			  Diagonal diagonal_to = MAX_DIAGONAL
 			  );
@@ -179,10 +179,10 @@ namespace alignlib {
  */
  Alignata * copyAlignataRemoveRegion( Alignata * dest, 
 				      const Alignata * src, 
-				      Position row_from = 0,
-				      Position row_to = 0,
-				      Position col_from = 0,
-				      Position col_to = 0,
+				      Position row_from = NO_POS,
+				      Position row_to = NO_POS,
+				      Position col_from = NO_POS,
+				      Position col_to = NO_POS,
 				      Diagonal diagonal_from = 1,
 				      Diagonal diagonal_to = 0
 				      );
@@ -300,9 +300,9 @@ namespace alignlib {
  Alignata * fillAlignataCompressedDiagonal( Alignata * dest, 
 					    const std::string & ali,
 					    Position row_from,
-					    Position row_to = 0,
-					    Position col_from = 0,
-					    Position col_to = 0,
+					    Position row_to = NO_POS,
+					    Position col_from = NO_POS,
+					    Position col_to = NO_POS,
 					    Diagonal diagonal_from = -MAX_DIAGONAL,
 					    Diagonal diagonal_to = MAX_DIAGONAL
 					    );
@@ -340,7 +340,7 @@ namespace alignlib {
  /** fill an alignment with a repeat unit from a wrap-around alignment */
  Alignata * fillAlignataRepeatUnit( Alignata * dest, 
 				    const Alignata * source,
-				    Position first_row_residue = 0,
+				    Position first_row_residue = NO_POS,
 				    bool skip_negative_ends = false);
 
 
@@ -368,8 +368,8 @@ void fillAlignataSummation( Alignata * dest1,
 			    bool insert_gaps_col = true, 
 			    bool use_end_row = false,
 			    bool use_end_col = false, 
-			    Position row_length = 0,
-			    Position col_length = 0);
+			    Position row_length = NO_POS,
+			    Position col_length = NO_POS);
 
 
  /** complement a pairwise alignment. If there is a gap of the same length in both row and
@@ -424,7 +424,7 @@ double calculatePercentIdentity (const Alignata * src,
 void removeFragments( Alignata * dest,
 		      unsigned int window_length,
 		      unsigned int min_gap_length,
-		      Position row_length = 0);
+		      Position row_length = NO_POS);
 
 }
 

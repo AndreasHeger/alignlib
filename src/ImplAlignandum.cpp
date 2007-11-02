@@ -39,7 +39,7 @@ namespace alignlib {
 
 //--------------------------------------------------------------------------------------
 ImplAlignandum::ImplAlignandum() : 
-  mFrom(0), mTo(0), mLength(0), mIsPrepared(false) {
+  mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false) {
 }    
 
 //--------------------------------------------------------------------------------------
@@ -65,27 +65,25 @@ ImplAlignandum::ImplAlignandum(const ImplAlignandum & src)
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::mask( Position from, Position to) {
   Position j;
-  for (j = from; j <= to; j++) 
+  for (j = from; j < to; j++) 
     mask( j );
 }
 
 //--------------------------------------------------------------------------------------
 Position ImplAlignandum::getLength() const {
-  return (mTo - mFrom + 1);
+  return (mTo - mFrom);
 }
 
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::useFullLength() {
-  mFrom = 1;
+  mFrom = 0;
   mTo   = mLength;
 }
 
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::useSegment(Position from, Position to) {
   mFrom = from;
-  mTo   = to;
-  if (mTo > mLength)
-    mTo = mLength;
+  mTo   = std::min( to, mLength );
 }
 
 //--------------------------------------------------------------------------------------
@@ -100,7 +98,7 @@ Position ImplAlignandum::getTo() const {
 
 //--------------------------------------------------------------------------------------
 Position ImplAlignandum::getOffset( Position pos) const {
-  return (pos + mFrom - 1);
+  return (pos + mFrom);
 }
 
 //--------------------------------------------------------------------------------------
@@ -134,7 +132,7 @@ char ImplAlignandum::asChar( Position pos ) const {
 std::string ImplAlignandum::asString() const {
   std::string ret_val("");
 
-  for (Position i = 1; i <= getLength(); i++) 
+  for (Position i = 0; i < getLength(); i++) 
     ret_val += getDefaultTranslator()->decode( asResidue(i) );
   
   return ret_val;

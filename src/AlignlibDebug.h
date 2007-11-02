@@ -83,6 +83,7 @@ namespace alignlib
 #define debug_show(ii)
 #define debug_cout(ii, text)
 #define debug_cerr(ii, text)
+
 #endif
   
 }

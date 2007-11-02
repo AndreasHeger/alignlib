@@ -108,13 +108,13 @@ Alignata * performIterativeAlignmentStep( Alignata * dest,
       Position to_2_result   = result->getColTo();
       
       // align in region before current alignment
-      copy_1->useSegment( from_1, from_1_result - 1);
-      copy_2->useSegment( from_2, from_2_result - 1);
+      copy_1->useSegment( from_1, from_1_result);
+      copy_2->useSegment( from_2, from_2_result);
       performIterativeAlignmentStep( dest, copy_1, copy_2, alignator, min_score);
       
       // align in region after current alignment
-      copy_1->useSegment( to_1_result + 1, to_1);
-      copy_2->useSegment( to_2_result + 1, to_2);
+      copy_1->useSegment( to_1_result, to_1);
+      copy_2->useSegment( to_2_result, to_2);
       performIterativeAlignmentStep( dest, copy_1, copy_2, alignator, min_score);
 
   }

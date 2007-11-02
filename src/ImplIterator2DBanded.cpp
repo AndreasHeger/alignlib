@@ -96,13 +96,13 @@ namespace alignlib
   void ImplIterator2DBanded::resetRanges( const Alignandum * row, const Alignandum * col )
   {
     debug_func_cerr(5);
-    
-    mRowFrom = std::max( (Position)(row->getFrom()),                  (Position)(col->getFrom() + mUpperDiagonal) );
-    mRowTo   = std::min( (Position)(row->getTo()),                    (Position)(col->getTo()   - mUpperDiagonal)  );    
+    mRowFrom = std::max( (Position)(row->getFrom()),                  (Position)(col->getFrom() - mUpperDiagonal) );
+    mRowTo   = std::min( (Position)(row->getTo()),                    (Position)(col->getTo()   - mLowerDiagonal)  );    
     mColFrom = std::max( (Position)(row->getFrom() + mLowerDiagonal), (Position)(col->getFrom()) );
-    mColTo   = std::min( (Position)(row->getTo()   - mLowerDiagonal), (Position)(col->getTo()) );
+    mColTo   = std::min( (Position)(row->getTo()   + mUpperDiagonal), (Position)(col->getTo()) );
 
-    debug_cerr( 5, "mRowFrom=" << mRowFrom << " mRowTo=" << mRowTo << " mColFrom=" << mColFrom << " mColTo=" << mColTo );
+    debug_cerr( 5, "mRowFrom=" << mRowFrom << " mRowTo=" << mRowTo << " mColFrom=" << mColFrom << " mColTo=" << mColTo 
+    		<< " row=" << row->getFrom() << "-" << row->getTo() << " col=" << col->getFrom() << "-" << col->getTo() );
   }
   
   //--------------------------------------------------------------------------------------  
@@ -128,7 +128,7 @@ namespace alignlib
   }
   Iterator2D::const_iterator ImplIterator2DBanded::row_end   ( Position col ) const
   {
-    return const_iterator( row_back(col) + 1 ) ;
+    return const_iterator( row_back(col) ) ;
   }
   
   Iterator2D::const_iterator ImplIterator2DBanded::col_begin ( Position row ) const
@@ -138,39 +138,39 @@ namespace alignlib
     
   Iterator2D::const_iterator ImplIterator2DBanded::col_end   ( Position row ) const
   {
-    return const_iterator( col_back(row) + 1);
+    return const_iterator( col_back(row) );
   }
 
   Position ImplIterator2DBanded::row_front ( Position col ) const
   {
-    if (col == 0)
+    if (col == NO_POS )
       return mRowFrom;
     else
-      return ((Position)(col + mLowerDiagonal) >= mRowFrom ) ? (Position)(col + mLowerDiagonal) : 0;
+      return std::max((Position)(col - mUpperDiagonal), mRowFrom );
   }
 
   Position ImplIterator2DBanded::row_back  ( Position col ) const
   {
-    if (col == 0)
+    if (col == NO_POS )
       return mRowTo;
     else
-      return (col + mUpperDiagonal <= mRowTo ) ? (col + mUpperDiagonal) : 0;
+  	  return std::min((Position)(col - mLowerDiagonal + 1), mRowTo );	   
   }
 
   Position ImplIterator2DBanded::col_front ( Position row ) const
   {
-    if (row == 0)
+    if (row == NO_POS)
       return mColFrom;
     else
-      return ( row + mLowerDiagonal >= mColFrom ) ? (row + mLowerDiagonal) : 0;
+      return std::max((Position)(row + mLowerDiagonal), mColFrom );
   }
 
   Position ImplIterator2DBanded::col_back  ( Position row ) const
   {
-    if (row == 0)
+    if (row == NO_POS)
       return mColTo;
-    else
-      return (row + mUpperDiagonal <= mColTo ) ? (row + mUpperDiagonal) : 0;
+   else
+	  return std::min((Position)(row + mUpperDiagonal + 1), mColTo );	   
   }
   
 } // namespace alignlib

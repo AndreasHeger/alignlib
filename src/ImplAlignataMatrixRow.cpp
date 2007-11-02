@@ -94,14 +94,14 @@ ImplAlignataMatrixRow * ImplAlignataMatrixRow::getClone() const {
 
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignataMatrixRow::mapRowToCol( Position pos ) const {
-    if (mChangedLength) calculateLength();
+Position ImplAlignataMatrixRow::mapRowToCol( Position pos, SearchType search ) const {
+	if (mChangedLength) calculateLength();
     Position index;
-    if (pos <= mRowTo && pos >= mRowFrom)
-	if ( (index = mIndex[pos]) >= 0 )
-	    return mPairs[index]->mCol;
+    if (pos >= mRowFrom && pos < mRowTo)
+    	if ( (index = mIndex[pos]) != NO_POS )
+    		return mPairs[index]->mCol;
 
-    return 0;
+    return NO_POS;
 }
 
 //-------------------------------------------------------------------------------------------------------------------- 

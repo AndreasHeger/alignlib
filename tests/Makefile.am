@@ -10,9 +10,14 @@
 
 AM_CPPFLAGS = -I$(top_srcdir)/src
 
-check_PROGRAMS = test_Fragmentor test_AlignatorDots test_Alignata  test_Alignator \
+programs=test_Fragmentor test_AlignatorDots test_Alignata  test_Alignator \
 		test_MultipleAlignment test_Alignandum test_HelpersAlignata test_Statistics \
-		test_SubstitutionMatrix test_Iterator test_IterativeAlignment
+		test_SubstitutionMatrix test_Iterator test_IterativeAlignment test_Alignatum
+
+check_PROGRAMS = ${programs}
+
+## test programs get automatically built but not installed
+noinst_PROGRAMS = ${programs}
 
 TESTS = $(check_PROGRAMS)
 
@@ -21,6 +26,7 @@ LDADD = $(top_srcdir)/src/.libs/libalignlib.a -lm
 test_Fragmentor_SOURCES = test_Fragmentor.cpp 
 test_AlignatorDots_SOURCES = test_AlignatorDots.cpp 
 test_Alignata_SOURCES = test_Alignata.cpp 
+test_Alignatum_SOURCES = test_Alignatum.cpp
 test_Alignator_SOURCES = test_Alignator.cpp 
 test_MultipleAlignment_SOURCES = test_MultipleAlignment.cpp 
 test_Alignandum_SOURCES = test_Alignandum.cpp 

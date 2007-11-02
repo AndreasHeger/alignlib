@@ -63,7 +63,7 @@ void ImplLogOddor::fillProfile( ProfileColumn * profile ,
   Position column;
   Frequency f;
 
-  for (column = 1; column <= length; column++) 
+  for (column = 0; column < length; column++) 
       for (int i = 0; i < PROFILEWIDTH; i++) 
 	if ((f = frequencies[column][i]) > 0)
 	  profile[column][i] = log(f / mBackgroundFrequencies[i]) / mScaleFactor;

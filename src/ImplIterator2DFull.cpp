@@ -96,7 +96,7 @@ namespace alignlib
   }
   Iterator2D::const_iterator ImplIterator2DFull::row_end   ( Position col ) const
   {
-    return const_iterator( mRowTo + 1 );
+    return const_iterator( mRowTo );
   }
   
   Iterator2D::const_iterator ImplIterator2DFull::col_begin ( Position row ) const
@@ -106,7 +106,7 @@ namespace alignlib
     
   Iterator2D::const_iterator ImplIterator2DFull::col_end   ( Position row ) const
   {
-    return const_iterator( mColTo + 1 );
+    return const_iterator( mColTo );
   }
 
   Position ImplIterator2DFull::row_front ( Position col ) const
@@ -130,12 +130,12 @@ namespace alignlib
   }
   Position ImplIterator2DFull::row_size ( Position col ) const
   {
-    return mRowTo - mRowFrom + 1;
+    return mRowTo - mRowFrom;
   }
 
   Position ImplIterator2DFull::col_size ( Position row ) const
   {
-    return mColTo - mColFrom + 1;
+    return mColTo - mColFrom;
   }
   
 } // namespace alignlib

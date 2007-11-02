@@ -59,18 +59,18 @@ class ImplAlignatum : public Alignatum {
     virtual ~ImplAlignatum ();
 
     ImplAlignatum (const std::string & representation, 
-		   Position from = 1, 
-		   Position to = 0);
+    		Position from = NO_POS, 
+    		Position to = NO_POS);
 
     /*-----> accessors <----------------------------------------------------- */
-    /** write object into stream nicely formatted. Segments are addresed by [from,to)
+    /** write object into stream nicely formatted. Segments are addressed by [from,to)
 	@param output stream for result
 	@param segment_start beginning of segment 
 	@param segment_end end of segment 
     */
     virtual void writeRow( std::ostream & output, 
-			   Position segment_start = 0, 
-			   Position segment_end = 0,
+			   Position segment_start = NO_POS, 
+			   Position segment_end = NO_POS,
 			   const Renderer * = NULL)  const;
 
     /** readline */
@@ -137,11 +137,11 @@ class ImplAlignatum : public Alignatum {
 
     /** calculate residue number of residue in position pos, or, if this is a gap, the residue number
 	of the next non-gap character. */
-    virtual Position getResidueNumbernext( Position pos ) const;
+    virtual Position getResidueNumberNext( Position pos ) const;
 
     /** calculate residue number of residue in pos, or, if this is a gap, the residue number
 	of the previous non-gap character. */
-    virtual Position getResidueNumberprevious( Position pos ) const;
+    virtual Position getResidueNumberPrevious( Position pos ) const;
 
     /** accessor functions */
     
@@ -150,8 +150,8 @@ class ImplAlignatum : public Alignatum {
 
     /** set representation */
     void setRepresentation( std::string & representation,
-			    Position first_res = 0,
-			    Position last_res = 0);
+			    Position first_res = NO_POS,
+			    Position last_res = NO_POS);
 
     inline char getFieldSeparator() const { return mSeparator; }
 

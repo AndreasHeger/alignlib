@@ -47,12 +47,12 @@ namespace alignlib {
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
     Alignatum * makeAlignatumFromString( const std::string & src, 
-					 Position from = 1, 
-					 Position to = 0);
+					 Position from = NO_POS, 
+					 Position to = NO_POS);
     
     Alignatum * makeAlignatumFromString( const char * src, 
-					 Position from = 1, 
-					 Position to = 0);
+					 Position from = NO_POS, 
+					 Position to = NO_POS);
 
     Alignatum * makeAlignatum(const Alignandum * src, 
 			      const Alignata * map_this2new = NULL,
@@ -60,8 +60,8 @@ namespace alignlib {
 
     Alignatum * makeAlignatumFasta(const std::string & description,
 				   const std::string & src,
-				   Position from = 1, 
-				   Position to = 0);
+				   Position from = 0, 
+				   Position to = NO_POS);
     
     /** return an empty Alignatum object, that 
 	can store a description */

@@ -96,10 +96,10 @@ void ImplAlignataMatrixUnsorted::sortDots() const {
 
 void ImplAlignataMatrixUnsorted::eliminateDuplicates() const {
 
-  mRowFrom = 999999;
-  mColFrom = 999999;
-  mRowTo = 0;
-  mColTo = 0;
+  mRowFrom = std::numeric_limits<Position>::max();
+  mColFrom = std::numeric_limits<Position>::max();
+  mRowTo = std::numeric_limits<Position>::min();
+  mColTo = std::numeric_limits<Position>::min();
   
   PairConstIterator it(mPairs.begin()), it_end(mPairs.end());
   

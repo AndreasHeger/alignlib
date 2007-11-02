@@ -72,12 +72,12 @@ class ImplAlignata : public Alignata {
     /** maps a residue from row to column. returns 0, if not found. This default, but working implementation is
 	very time-inefficient, especially, if you want to map the whole thing. Other implementations in derived
 	classes can be much faster */
-    virtual Position mapRowToCol( Position pos ) const;
+    virtual Position mapRowToCol( Position pos, SearchType search = NO_SEARCH ) const;
 
     /** maps a residue from column to row. returns 0, if not found. This default, but working implementation is
 	very time-inefficient, especially, if you want to map the whole thing. Other implementations in derived
 	classes can be much faster*/
-    virtual Position mapColToRow( Position pos ) const;
+    virtual Position mapColToRow( Position pos, SearchType search = NO_SEARCH ) const;
 
     virtual void removeRowRegion( Position from, Position to );
 

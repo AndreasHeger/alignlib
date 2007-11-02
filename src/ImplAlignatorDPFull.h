@@ -29,6 +29,7 @@
 
 #include "alignlib.h"
 #include "ImplAlignatorDP.h"
+#include <cassert>
 
 namespace alignlib {
 
@@ -117,7 +118,9 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
     /** return index for given row and length */
     inline int getTraceIndex( Position row, Position col )
       {
-	return (mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1);
+    	assert( row >= mRowFrom);
+    	assert( col + 1 >= mIterator->col_front(row) );
+    	return (mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1);
       }; 
 
     /** perform the alignment */

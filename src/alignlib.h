@@ -57,7 +57,7 @@ namespace alignlib
   /* out of bound position for alignments */
 #define LOWER_BOUNDS_POSITION   0
 #define UPPER_BOUNDS_POSITION	10000000
-
+  
   /* type for the internal representation of residues */  
   typedef unsigned char Residue;
   
@@ -75,9 +75,13 @@ namespace alignlib
   /* type of a fragment index, has to be signed, since NOFRAGMENT is -1 */
   typedef long Fragment;	
   
-  /* type of a position in a sequence (ALIGNANDUM) */
+  /* type of a position in a sequence, negative positions are invalid positions*/
   typedef int Position;	
-
+  
+  /* invalid position */
+#define NO_POS -1
+  
+  
   /* type of sequence weights */
   typedef double SequenceWeight;
   
@@ -111,6 +115,17 @@ namespace alignlib
      ALIGNMENT_LOCAL, ALIGNMENT_WRAP, ALIGNMENT_GLOBAL
    };
 
+ /** how to map residues
+  * STRICT: do not find adjacent residues
+  * LEFT: map to left (smaller residue numbers) until a match is found
+  * RIGHT: map to right (larger residue numbers) until a match is found
+  */
+ enum SearchType
+ {
+	 NO_SEARCH, LEFT, RIGHT
+ };
+ 
+   
  /** A vector of aligned fragmens */
  typedef std::vector<Alignata*> FragmentVector;
 

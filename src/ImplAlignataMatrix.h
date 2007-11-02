@@ -50,7 +50,7 @@ inline Diagonal calculateDiagonal( const ResiduePAIR & p) {
 inline Diagonal calculateNormalizedDiagonal( const ResiduePAIR & p, 
 						  Position row_from, 
 						  Position col_from) { 
-  return ( (p.mCol - col_from +1 ) - (p.mRow - row_from + 1)); 
+  return ( (p.mCol - col_from + 1 ) - (p.mRow - row_from + 1)); 
 }
 
 /** @short base class for dotplots.

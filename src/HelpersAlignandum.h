@@ -53,9 +53,9 @@ namespace alignlib {
     /* ----------------------------------------------------------------------------------------*/
     /* 3. convenience functions */
     
-    /** get a random position in a sequence ranging from 1 to max */
+    /** get a random position in a sequence ranging from 0 to max */
     inline Position GetRandomPosition ( Position max ) {
-      return (1+(Position)((double)max*rand()/(RAND_MAX+1.0)));
+      return (Position)((double)max*rand()/(RAND_MAX+1.0));
     }
 
     

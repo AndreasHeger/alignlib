@@ -64,16 +64,16 @@ namespace alignlib {
       virtual Iterator2D * getNew( const Alignandum * row, const Alignandum * col ) const;
 
       /** return iterators for rows/columns */
-      virtual const_iterator row_begin ( Position col = 0 ) const;
-      virtual const_iterator row_end   ( Position col = 0 ) const;      
-      virtual const_iterator col_begin ( Position row = 0 ) const;
-      virtual const_iterator col_end   ( Position row = 0 ) const;
+      virtual const_iterator row_begin ( Position col = NO_POS ) const;
+      virtual const_iterator row_end   ( Position col = NO_POS ) const;      
+      virtual const_iterator col_begin ( Position row = NO_POS ) const;
+      virtual const_iterator col_end   ( Position row = NO_POS ) const;
 
       /** return first/last residues in rows/columns */
-      virtual Position row_front ( Position col = 0) const;
-      virtual Position row_back  ( Position col = 0) const;
-      virtual Position col_front ( Position row = 0) const;
-      virtual Position col_back  ( Position row = 0) const;      
+      virtual Position row_front ( Position col = NO_POS) const;
+      virtual Position row_back  ( Position col = NO_POS) const;
+      virtual Position col_front ( Position row = NO_POS) const;
+      virtual Position col_back  ( Position row = NO_POS) const;      
       
     private:
       Diagonal mLowerDiagonal;

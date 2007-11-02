@@ -217,10 +217,10 @@ class Alignata {
     virtual void moveAlignment( Position row_offset, Position col_offset) = 0;
 
     /** maps a residue from row to column. returns 0, if not found */
-    virtual Position mapRowToCol( Position pos ) const = 0;
+    virtual Position mapRowToCol( Position pos, SearchType search = NO_SEARCH ) const = 0;
 
     /** maps a residue from row to column. returns 0, if not found */
-    virtual Position mapColToRow( Position pos ) const = 0;
+    virtual Position mapColToRow( Position pos, SearchType search = NO_SEARCH ) const = 0;
 
     /** removes a row-region in an alignment */
     virtual void removeRowRegion( Position from, Position to ) = 0;

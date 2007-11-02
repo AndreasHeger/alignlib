@@ -161,8 +161,8 @@ void ImplAlignataSet::removePair( const ResiduePAIR & old_pair )
  */
 void ImplAlignataSet::removeRowRegion( Position from, Position to) {
 
-  for (Position pos = from; pos <= to; pos++) {
-      ResiduePAIR p(pos, 0, 0);
+  for (Position pos = from; pos < to; pos++) {
+      ResiduePAIR p(pos, NO_POS, 0);
       PairIterator it(mPairs.find( &p ));
 
       if (it != mPairs.end()) {

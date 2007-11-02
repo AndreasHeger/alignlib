@@ -107,7 +107,7 @@ MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, const char *
 	    delete a;
     }
     
-    delete buffer;
+    delete [] buffer;
     
     return ali;
 
