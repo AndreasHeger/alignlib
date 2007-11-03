@@ -277,16 +277,24 @@ void ImplAlignataVector::resetBoundaries() {
 
 	// ignore empty alignments
 	if (mRowFrom == NO_POS || max_size == 0)
-		return;
+	  return;
 	
 	// find new mRowFrom and mRowTo, if they have changed	
-	while (mRowFrom < max_size && mPairs[mRowFrom] == NULL) mRowFrom++;
-	while (mRowTo   >= 0       && mPairs[mRowTo] == NULL) mRowTo--;
-
-	// test >= because max_size might be zero, if all has been 
-	// deleted.
-	if (mRowFrom >= max_size) 
-		mRowFrom = NO_POS;
+	while (mRowFrom < max_size && mPairs[mRowFrom] == NULL) ++mRowFrom;
+	
+        // test >= because max_size might be zero, if all has been 
+        // deleted.
+        if (mRowFrom >= max_size)
+          {
+            mRowFrom = NO_POS;
+            mRowTo == NO_POS;
+            return;
+          }
+	
+	Position x = mRowTo - 1;
+	while (x >= 0 && mPairs[x] == NULL) --x;
+	mRowTo = x + 1;
+	
 }
 //-----------------------------------------------------------------------------------------------------------   
 void ImplAlignataVector::removeRowRegion( Position from, Position to) {

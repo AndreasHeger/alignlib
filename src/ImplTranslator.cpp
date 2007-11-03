@@ -63,8 +63,8 @@ char * ImplTranslator::decode( const Residue * src, int length ) const
     char * result = new char[length + 1];
     
     int i;
-    for (i = 1; i <= length; i++) 
-      result[i-1] = (src[i] == CODE_GAP) ? CODE_GAP : mDecodingTable[src[i]]; 
+    for (i = 0; i < length; i++) 
+      result[i] = (src[i] == CODE_GAP) ? CODE_GAP : mDecodingTable[src[i]]; 
   
     result[length] = '\0'; 
     return result;
@@ -80,11 +80,11 @@ Residue ImplTranslator::encode( const char residue) const
 Residue * ImplTranslator::encode( const char* src, int length ) const 
 {
 
-    Residue * result = new Residue[length + 1];
+    Residue * result = new Residue[length];
     
     int i;
-    for (i = 1; i <= length; i++)
-      result[i] = mEncodingTable[src[i-1]];
+    for (i = 0; i < length; i++)
+      result[i] = mEncodingTable[src[i]];
  
     return result;
 }

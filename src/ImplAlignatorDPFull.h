@@ -115,11 +115,25 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
     /** traces back through trace matrix and put in the alignment in Alignata-object */
     virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignata * result);				
 
-    /** return index for given row and length */
+    /** return index for given row and length.
+     * */
     inline int getTraceIndex( Position row, Position col )
       {
     	assert( row >= mRowFrom);
-    	assert( col + 1 >= mIterator->col_front(row) );
+    	assert( row < mRowTo );
+        // std::cout << "row=" << row << "col=" << col << " it->cf" << mIterator->col_front(row) << " it->cb=" << mIterator->col_back(row) << std::endl;
+    	// col can be before element 0 in wrap-around alignments
+    	assert( col >= mIterator->col_front(row) - 1);
+    	assert( col < mIterator->col_back(row) );
+    	// the first element in each column is the carry over value from the previous
+    	// column, thus the +1 modifier.
+    	int index = mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1;  
+    	assert( index >= 0);
+    	if (index > mMatrixSize ) 
+    	  { 
+    	    std::cout << "index=" << index << " row=" << row << " col=" << col << " mRowFrom=" << mRowFrom << " mTraceRowStarts" << mTraceRowStarts[row-mRowFrom] << " it-col=" << mIterator->col_front(row) << std::endl;
+    	  }
+    	assert( index < mMatrixSize );
     	return (mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1);
       }; 
 
@@ -134,12 +148,18 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
     the trace entries for a row to be continuous in memory.
     */
     TraceEntry * mTraceMatrix;
-
+    
+    /** size of a matrix */
+    size_t mMatrixSize;
+    
     /** list of start position of trace for a given row */
     TraceIndex * mTraceRowStarts;
 
     /** first row */
     Position mRowFrom;
+
+    /** last row + 1*/
+    Position mRowTo;
     
     /** row, where trace ended */
     Position mRowLast;

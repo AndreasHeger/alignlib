@@ -25,6 +25,7 @@
 #include <fstream>
 #include <iomanip>
 #include <stdlib.h>
+#include <cassert>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
@@ -65,6 +66,10 @@ const ImplSubstitutionMatrixData & ImplSubstitutionMatrix::getData() const { ret
 
 //--------------------------------------------------------------------------------------------------------------------------------
 Score ImplSubstitutionMatrix::getScore( Residue row, Residue col) const {
+  assert( row > 0 );
+  assert( col > 0 );
+  assert( row < mNumRows );
+  assert( col < mNumCols );
   return mMatrix[row * mNumCols + col];
 }
 

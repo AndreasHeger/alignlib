@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <cassert>
 #include "AlignException.h"
 #include "Alignandum.h"
 #include "ImplScorerSequenceSequence.h"
@@ -97,6 +98,8 @@ namespace alignlib
    */
   Score ImplScorerSequenceSequence::getScore( Position row, Position col ) const
   {
+    assert( row >= 0);
+    assert( col >= 0);
     return mSubstitutionMatrix->getScore(mRowSequence[row],mColSequence[col]);
   }
   

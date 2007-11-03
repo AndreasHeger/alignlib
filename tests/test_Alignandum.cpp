@@ -40,7 +40,7 @@
 
 #include "HelpersSequence.h"
 #include "HelpersProfile.h"
-
+#include <cassert>
 
 using namespace std;
 
@@ -50,19 +50,32 @@ using namespace std;
 
 using namespace alignlib;
 
+void testSequence( const std::string & sample )
+  {
+    cout << "testing...makeSequence()...";    
+
+    Alignandum * a = makeSequence( sample );
+    assert( sample.size() == a->getLength() );
+    for ( int x = 0; x < sample.size(); ++x)
+      {
+        assert( a->asChar(x) == sample[x]);
+      }
+    // the following assert does not work, although the printout looks identical
+    // assert( strcmp( a->asString().c_str(), sample.c_str() ) );
+    delete a;
+    cout << "passed" << endl;    
+  }
+
 
 int main () {
 
-  Alignandum * a;
-
   {
-    cout << "testing...makeSequence()...";
-    a = makeSequence( "AAAAACCCCCCCCCCAAAAAAAAAAAAAA" );
-    delete a;
-    cout << "passed" << endl;
+    testSequence( "ACA" );
+    testSequence( "AAAAACCCCCCCCCCAAAAAAAAAAAAAA" );    
   }
 
   {
+    Alignandum * a;
     cout << "testing...makeProfile()...";
     a = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3 );
     delete a;
