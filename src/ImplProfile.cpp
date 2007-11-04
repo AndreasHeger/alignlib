@@ -237,7 +237,7 @@ void ImplProfile::mask( Position column) {
 Residue ImplProfile::asResidue( const Position column ) const {
 
 	if (mCounts) 
-		return getMaximumCounts( getOffset(column) );
+		return getMaximumCounts( column );
 
 	return getDefaultTranslator()->getGapCode();
 }
@@ -337,14 +337,14 @@ void ImplProfile::shuffle( unsigned int num_iterations,
 void ImplProfile::write( std::ostream & output ) const {
 
 	Position i;
-	Position length = getOffset(getLength());
+	Position length = getLength();
 	int j;
 
 	output.setf( ios::fixed );
 
 	if (mCounts) {
 		output << "----------->counts<----------------------------------------" << endl;
-		for (i = getOffset(0); i < length; i++) {
+		for (i = 0; i < length; i++) {
 			output << setw(2) << i << "\t";
 			for (j = 0; j < PROFILEWIDTH; j++) 
 				output << setw(6) << setprecision(2) << mCounts[i][j];
@@ -357,7 +357,7 @@ void ImplProfile::write( std::ostream & output ) const {
 
 	if (mFrequencies) {
 		output << "----------->frequencies<-----------------------------------" << endl;
-		for (i = getOffset(0); i < length; i++) {
+		for (i = 0; i < length; i++) {
 			output << setw(2) << i << "\t";
 			for (j = 0; j < PROFILEWIDTH; j++) 
 				output << setw(6) << setprecision(2) << mFrequencies[i][j];
@@ -369,7 +369,7 @@ void ImplProfile::write( std::ostream & output ) const {
 
 	if (mProfile) {
 		output << "----------->profile<---------------------------------------" << endl;
-		for (i = getOffset(0); i < length; i++) {
+		for (i = 0; i < length; i++) {
 			output << setw(2) << i << "\t";
 			for (j = 0; j < PROFILEWIDTH; j++) 
 				output << setw(6) << setprecision(2) << mProfile[i][j];

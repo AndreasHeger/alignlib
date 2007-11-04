@@ -61,12 +61,14 @@ namespace alignlib {
   }
 
   //--------------------------------------------------------------------------------------
-  ImplSequence::ImplSequence( const char * src ) : ImplAlignandum(), mSequence(NULL) {
+  ImplSequence::ImplSequence( const char * src ) : 
+    ImplAlignandum(), mSequence(NULL) 
+  {
     Position length = strlen( src );
 
     //!! check for correct translation?
     setTrueLength( length );
-    useFullLength();
+    useSegment();
     mSequence = getDefaultTranslator()->encode( src, length );
     setPrepared(true );
   }
@@ -75,7 +77,6 @@ namespace alignlib {
   ImplSequence::ImplSequence( const ImplSequence & src ) : ImplAlignandum( src ), mSequence(NULL) 
   {
     debug_func_cerr(5);
-
 
     if (mSequence != NULL) delete [] mSequence;
     //!! make exception safe
@@ -100,13 +101,13 @@ namespace alignlib {
 
 
   //--------------------------------------------------------------------------------------
-  Residue	ImplSequence::asResidue(Position n) const { 
-    return mSequence[getOffset(n)]; 
+  Residue ImplSequence::asResidue(Position n) const { 
+    return mSequence[n]; 
   }
 
   //--------------------------------------------------------------------------------------
   const AlignandumDataSequence & ImplSequence::getData() const {
-    mData.mSequencePointer = &mSequence[getFrom()];
+    mData.mSequencePointer = mSequence;
     return mData;
   }
 

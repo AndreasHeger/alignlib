@@ -179,6 +179,7 @@ namespace alignlib {
     ++mCC;
     ++mDD;
     mScore = -std::numeric_limits<Score>::max();
+
 #ifdef DEBUG
     // cout << "Substitution-Matrix used" << endl << *mSubstitutionMatrix;
 #endif

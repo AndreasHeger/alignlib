@@ -92,7 +92,7 @@ Alignandum * makeProfile( Position length,
 
 	ImplProfile * profile = new ImplProfile( regularizor, logoddor );
 	profile->setTrueLength( length );
-	profile->useFullLength();
+	profile->useSegment();
 	profile->allocateCounts();
 	return profile;
 }
@@ -172,7 +172,7 @@ Alignandum * fillProfile( Alignandum * dest,
 	Position length = src->getLength();
 
 	profile->setTrueLength( length );
-	profile->useFullLength();
+	profile->useSegment();
 	profile->allocateCounts();
 
 	CountColumn * counts = profile->getData().mCountsPointer;
@@ -208,7 +208,7 @@ void writeProfileBinaryCounts( std::ostream & output, const Alignandum * src) {
 
 	const CountColumn * counts = p->getData().mCountsPointer;
 
-	output.write( (char*)&(counts[1]), p->getLength() * PROFILEWIDTH * sizeof( Count));
+	output.write( (char*)&(counts), p->getLength() * PROFILEWIDTH * sizeof( Count));
 
 }
 
@@ -237,7 +237,7 @@ void writeProfileBinaryCountsAsInt( std::ostream & output, const Alignandum * sr
 		for (j = 0; j < PROFILEWIDTH; j++) 
 			int_counts[i][j] = (int)(counts[i][j] * scale_factor);
 
-	output.write( (char*)&(int_counts[1]), length * PROFILEWIDTH * sizeof( int ));
+	output.write( (char*)&(int_counts), length * PROFILEWIDTH * sizeof( int ));
 
 	delete [] int_counts;
 
@@ -258,15 +258,15 @@ Alignandum * extractProfileBinaryCountsAsInt( std::istream & input,
 	if (!logoddor)
 		logoddor = getDefaultLogOddor();
 
-	TYPE_INT_COUNTS_COLUMN * int_counts = new TYPE_INT_COUNTS_COLUMN[max_length + 1];
+	TYPE_INT_COUNTS_COLUMN * int_counts = new TYPE_INT_COUNTS_COLUMN[max_length];
 
 	int i,j;
 	for (i= 0; i < PROFILEWIDTH; i++) 
 		int_counts[0][i] = 0;
 
-	int col = 1;
+	int col = 0;
 
-	while (col <= max_length) {
+	while (col < max_length) {
 		if (input.eof() || input.peek() == EOF)
 			break;
 
@@ -278,11 +278,11 @@ Alignandum * extractProfileBinaryCountsAsInt( std::istream & input,
 	ImplProfile * p = new ImplProfile( regularizor, logoddor );
 
 	p->setTrueLength(col);
-	p->useFullLength();
+	p->useSegment();
 	p->allocateCounts();
 	CountColumn * counts = p->mCounts;
 
-	for (i = 1; i <= col; i++) 
+	for (i = 0; i < col; i++) 
 		for (j = 0; j < PROFILEWIDTH; j++) 
 			counts[i][j] = (Count)(int_counts[i][j] / scale_factor);
 
@@ -311,9 +311,9 @@ Alignandum * extractProfileBinaryCounts( std::istream & input,
 	for (int i= 0; i < PROFILEWIDTH; i++) 
 		counts[0][i] = 0;
 
-	int col = 1;
+	int col = 0;
 
-	while (col <= max_length) {
+	while (col < max_length) {
 		if (input.eof() || input.peek() == EOF)
 			break;
 
@@ -323,8 +323,8 @@ Alignandum * extractProfileBinaryCounts( std::istream & input,
 
 	ImplProfile * p = new ImplProfile( regularizor, logoddor );
 
-	p->setTrueLength(col - 1);
-	p->useFullLength();
+	p->setTrueLength(col);
+	p->useSegment();
 	p->allocateCounts();
 
 	memcpy( p->mCounts, counts, sizeof( CountColumn) * (col) );
@@ -349,7 +349,7 @@ Alignandum * rescaleProfileCounts( Alignandum * dest,
 	int i;
 	length = p_source->getTrueLength();
 
-	for ( col = 1; col <= length; col++) 
+	for ( col = 0; col < length; col++) 
 		for (i = 0; i < PROFILEWIDTH; i++) 
 			p_source->mCounts[col][i] *= scale_factor;
 
@@ -370,7 +370,7 @@ Alignandum * normalizeProfileCounts( Alignandum * dest,
 
 	length = p_source->getTrueLength();
 
-	for ( col = 1; col <= length; col++) {
+	for ( col = 0; col < length; col++) {
 
 		Count ntotal = 0;
 		for (i = 0; i < PROFILEWIDTH; i++) 
@@ -482,7 +482,7 @@ Alignandum * resetProfile( Alignandum * dest, Position new_length ) {
 
 	profile->release();
 	profile->setTrueLength( new_length );
-	profile->useFullLength();
+	profile->useSegment();
 	profile->allocateCounts();
 
 	return dest;
@@ -498,7 +498,7 @@ ProfileFrequencies * exportProfileFrequencies( Alignandum * dest ) {
 
 	Position from = dest->getFrom();
 	Position to = dest->getTo();
-	Position length = to - from + 1;
+	Position length = to - from;
 
 	bool was_prepared = false;
 
@@ -507,12 +507,12 @@ ProfileFrequencies * exportProfileFrequencies( Alignandum * dest ) {
 		was_prepared = false;
 	}
 
-	ProfileFrequencies * result = new ProfileFrequencies(length + 1);
-	unsigned int i = 1;
+	ProfileFrequencies * result = new ProfileFrequencies(length);
+	unsigned int i = 0;
 
 	(*result)[0].resize( PROFILEWIDTH, 0);
 
-	for (Position col = from; col <= to; ++i, ++col) {
+	for (Position col = from; col < to; ++i, ++col) {
 		(*result)[i].resize( PROFILEWIDTH, 0);
 		for (unsigned int row = 0; row < PROFILEWIDTH; ++row) 
 			(*result)[i][row] = profile->mFrequencies[col][row];

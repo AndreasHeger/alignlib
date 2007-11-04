@@ -38,9 +38,10 @@ namespace alignlib
 {
 
   //--------------------------------------------------------------------------------------
-  ImplIterator2D::ImplIterator2D( const Alignandum * row, const Alignandum * col ) : Iterator2D(),
-										     mRowFrom(0), mRowTo(0),
-										     mColFrom(0), mColTo(0) 
+  ImplIterator2D::ImplIterator2D( const Alignandum * row, const Alignandum * col ) : 
+    Iterator2D(),
+    mRowFrom(NO_POS), mRowTo(NO_POS),
+    mColFrom(NO_POS), mColTo(NO_POS) 
   
 {
   debug_func_cerr(5);

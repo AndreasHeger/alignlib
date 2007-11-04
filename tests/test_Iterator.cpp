@@ -57,7 +57,14 @@ using namespace alignlib;
 
 void Print( Iterator2D * iterator )
 {
-	Iterator2D::const_iterator ir( iterator->row_begin()), ir_end( iterator->row_end() );
+    {
+      Iterator2D::const_iterator ir( iterator->row_begin()), ir_end( iterator->row_end() );
+      Iterator2D::const_iterator ic( iterator->col_begin()), ic_end( iterator->col_end() );
+      std::cout << "iterator range: row=" << *ir << " " << *ir_end << " col=" << *ic << " " << *ic_end << std::endl;
+    }
+
+        
+    Iterator2D::const_iterator ir( iterator->row_begin()), ir_end( iterator->row_end() );
 	for (; ir != ir_end; ++ir)
 	{
 		std::cout << *ir << " : ";
@@ -103,18 +110,31 @@ int main () {
 		std::cout << "--------------------- testing Iterator2DFull with useSegment ----------------------------------" << std::endl;
 		seq1->useSegment( 3, 6);
 		Iterator2D * iterator = makeIterator2DFull( seq1, seq2);
-		assert( iterator->row_size() == 3 ); 
+		assert( iterator->row_size() == 3 );
+                assert( iterator->row_front() == 3 );
+                assert( iterator->row_back() == 6 );                
 		assert( iterator->col_size() == seq2->getLength() );
 		Print( iterator );        
 		delete iterator;
-		seq1->useFullLength();
+		seq1->useSegment();
 		seq2->useSegment( 3, 6);
 		iterator = makeIterator2DFull( seq1, seq2);
 		assert( iterator->row_size() == seq1->getLength() ); 
 		assert( iterator->col_size() == 3);
+                assert( iterator->col_front() == 3 );
+                assert( iterator->col_back() == 6 );                		
 		Print( iterator );        
+		
+		  {
+		    std::auto_ptr<Iterator2D> iterator2(iterator->getNew( seq1, seq2));
+	            assert( iterator2->row_size() == seq1->getLength() ); 
+	                assert( iterator2->col_size() == 3);
+	                assert( iterator2->col_front() == 3 );
+	                assert( iterator2->col_back() == 6 );
+		  }
+		
 		delete iterator;
-		seq2->useFullLength();    
+                seq2->useSegment();
 	}
 
 

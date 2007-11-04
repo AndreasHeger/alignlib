@@ -54,15 +54,27 @@ void testSequence( const std::string & sample )
   {
     cout << "testing...makeSequence()...";    
 
-    Alignandum * a = makeSequence( sample );
+    std::auto_ptr<Alignandum>a(makeSequence( sample ));
+    
+    assert( a->getFrom() == 0);
+    assert( a->getTo() == sample.size() ); 
     assert( sample.size() == a->getLength() );
-    for ( int x = 0; x < sample.size(); ++x)
-      {
+     for ( int x = 0; x < sample.size(); ++x)
         assert( a->asChar(x) == sample[x]);
-      }
-    // the following assert does not work, although the printout looks identical
-    // assert( strcmp( a->asString().c_str(), sample.c_str() ) );
-    delete a;
+   
+    assert( a->asString() == sample );
+    // check that useSegment does not interfere with output
+    Position from = 1;
+    Position to = sample.size() -1;
+    a->useSegment( from, to);
+    assert( a->getFrom() == from);
+    assert( a->getTo() == to );
+    for ( int x = 0; x < sample.size(); ++x)
+       assert( a->asChar(x) == sample[x]);
+
+    std::cout << a->asString() << std::endl;
+    assert( a->asString() == sample );
+
     cout << "passed" << endl;    
   }
 

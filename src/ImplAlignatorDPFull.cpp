@@ -134,8 +134,6 @@ namespace alignlib
     {
       debug_func_cerr(5);
 
-
-
       ImplAlignatorDP::startUp(row, col, ali);  
 
       mRowLast = NO_POS;
@@ -170,7 +168,6 @@ namespace alignlib
       mTraceMatrix = new TraceEntry[matrix_size];
       for (TraceIndex i = 0; i < matrix_size; i++)
         mTraceMatrix[i] = TB_STOP;
-
 
     }
 
@@ -239,10 +236,12 @@ namespace alignlib
         Position col = mColLast;
         Position row = mRowLast;
         int ngaps = 0;
-
+        
+        Position row_from = mIterator->row_front();
+        
         t = mTraceMatrix[getTraceIndex(row,col)];
 
-        while ( t != TB_STOP && row >= 0) 
+        while ( t != TB_STOP ) 
           {
             debug_func_cerr(5);
 
@@ -271,7 +270,7 @@ namespace alignlib
             }
 //            if (row < 0 || col < 0)
 //              break;
-            if (row < 0) break;
+            if (row < row_from) break;
             t = mTraceMatrix[getTraceIndex(row,col)];
           }
         result->setScore ( mScore );
@@ -283,6 +282,8 @@ namespace alignlib
   void ImplAlignatorDPFull::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali)
     {
 
+      debug_func_cerr(5);
+      
       Score row_gop = getRowGop();
       Score row_gep = getRowGep();
       Score col_gop = getColGop();
@@ -368,12 +369,11 @@ namespace alignlib
         //----------------------------> iterate over rowumns <--------------------------------------------
         Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
 
-#ifdef DEBUG
-        std::cout << "maximum size= "
-        << mIterator->row_front() << "-" <<  mIterator->row_back() << ":" << mIterator->row_size() << " " 
-        << mIterator->col_front() << "-" <<  mIterator->col_back() << ":" << mIterator->col_size() << std::endl;
-        std::cout << "penalties=" << mPenalizeRowLeft << " " << mPenalizeRowRight << " " << mPenalizeColLeft << " " << mPenalizeColRight << std::endl;
-#endif
+        debug_cerr( 5, "aligning within the following coordinates: row= "
+            << mIterator->row_front() << "-" <<  mIterator->row_back() << ":" << mIterator->row_size() << " col=" 
+            << mIterator->col_front() << "-" <<  mIterator->col_back() << ":" << mIterator->col_size() );
+        debug_cerr( 5, "penalties=" << mPenalizeRowLeft << " " << mPenalizeRowRight 
+            << " " << mPenalizeColLeft << " " << mPenalizeColRight )
 
         for (; rit != rend; ++rit)
           {

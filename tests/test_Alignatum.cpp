@@ -38,6 +38,8 @@
 #include "HelpersAlignatum.h"
 #include "Alignata.h"
 #include "HelpersAlignata.h"
+#include "Alignandum.h"
+#include "HelpersSequence.h"
 
 using namespace std;
 
@@ -68,12 +70,12 @@ void testAlignatum( Alignatum * a, std::string sample )
 	assert( a->getAlignedLength() == sample.size() + 4);	
 	
 	// wrap on alignment - add one gaps into the middle
-	Alignata * ali = makeAlignataVector();
+	std::auto_ptr<Alignata> ali(makeAlignataVector());
 	Position pos = a->getAlignedLength() / 2;
-	fillAlignataIdentity( ali, 0, pos);
-	fillAlignataIdentity( ali, pos, a->getAlignedLength(), 1);
+	fillAlignataIdentity( &*ali, 0, pos);
+	fillAlignataIdentity( &*ali, pos, a->getAlignedLength(), 1);
 	
-	a->mapOnAlignment( ali );
+	a->mapOnAlignment( &*ali );
 		
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
@@ -82,7 +84,6 @@ void testAlignatum( Alignatum * a, std::string sample )
 	assert( a->getStringReference()[pos] == '-' );
 	
 	cout << "passed" << endl;	
-	delete ali;	
 }
 
 int main () {
@@ -101,6 +102,24 @@ int main () {
 	  testAlignatum( a, "ACDEF");	
 	  delete a;
   }
+  
+     {
+      std::cout << "testing create from Alignandum" << std::endl;
+      std::auto_ptr<Alignandum>s(makeSequence( "ACDEFGHIKL" ));
+      a = makeAlignatum( &*s );
+      testAlignatum( a, "ACDEFGHIKL");
+      delete a;
+    }
+ 
+       {
+         std::cout << "testing create from Alignandum" << std::endl;
+         std::auto_ptr<Alignandum>s(makeSequence( "ACDEFGHIKL" ));
+         s->useSegment( 4,6 );
+         a = makeAlignatum( &*s );
+         testAlignatum( a, "ACDEFGHIKL");
+         delete a;
+       }
+
   
   return EXIT_SUCCESS;
 

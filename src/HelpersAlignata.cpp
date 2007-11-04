@@ -1149,8 +1149,8 @@ namespace alignlib {
         delete temp_map_row2col;
         delete copy;
 
-        row->useFullLength();
-        col->useFullLength();
+        row->useSegment();
+        col->useSegment();
 
         return dest;
       }

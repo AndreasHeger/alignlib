@@ -82,16 +82,12 @@ class Alignandum {
     /** get length of window */
     virtual Position	getLength() const = 0;
 
-    /** use full length of sequence for exporting. Basically extends the region to the
-	true begining and end of object */
-    virtual void useFullLength() = 0;
-    
     /** use a segment for exporting and set segment to from and to 
-	@param from	where segment starts
-	@param to		where segment ends
+        @param from     where segment starts
+        @param to       where segment ends
     */
-    virtual void useSegment( Position from, Position to) = 0;
-
+    virtual void useSegment( Position from = NO_POS, Position to = NO_POS) = 0;
+    
     /** return first residue number in segment */
     virtual Position getFrom() const = 0;
 

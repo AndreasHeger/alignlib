@@ -65,17 +65,13 @@ class ImplAlignandum : public Alignandum {
 
     /** accessors ------------------------------------------------------------------------- */
     /** get length of window */
-    virtual Position	getLength() const;
-    
-    /** use full length of sequence for exporting. Basically extends the region to the
-	true begining and end of object */
-    virtual void useFullLength();
+    virtual Position getLength() const;
     
     /** use a segment for exporting and set segment to from and to 
 	@param from	where segment starts
-	@param to		where segment ends
+	@param to	where segment ends
     */
-    virtual void useSegment( Position from, Position to);
+    virtual void useSegment( Position from = NO_POS, Position to = NO_POS);
 
     /** return true if object is prepared for alignment (for cacheable types ) */
     virtual bool isPrepared() const;	
@@ -101,10 +97,6 @@ class ImplAlignandum : public Alignandum {
  protected:
     /** the member functions below are protected, because they have to be only accessible for
 	derived classes. They should know, what they are doing. */
-
-
-    /** given a position x in a segment, return the offset from the true beginning of the sequence */
-    virtual Position getOffset( Position x ) const;
     
     /** set true length*/
     virtual void setTrueLength(Position length) const;

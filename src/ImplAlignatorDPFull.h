@@ -121,7 +121,6 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
       {
     	assert( row >= mRowFrom);
     	assert( row < mRowTo );
-        // std::cout << "row=" << row << "col=" << col << " it->cf" << mIterator->col_front(row) << " it->cb=" << mIterator->col_back(row) << std::endl;
     	// col can be before element 0 in wrap-around alignments
     	assert( col >= mIterator->col_front(row) - 1);
     	assert( col < mIterator->col_back(row) );
@@ -129,12 +128,8 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
     	// column, thus the +1 modifier.
     	int index = mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1;  
     	assert( index >= 0);
-    	if (index > mMatrixSize ) 
-    	  { 
-    	    std::cout << "index=" << index << " row=" << row << " col=" << col << " mRowFrom=" << mRowFrom << " mTraceRowStarts" << mTraceRowStarts[row-mRowFrom] << " it-col=" << mIterator->col_front(row) << std::endl;
-    	  }
     	assert( index < mMatrixSize );
-    	return (mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1);
+    	return index;
       }; 
 
     /** perform the alignment */
