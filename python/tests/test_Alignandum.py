@@ -41,7 +41,7 @@ class AlignandumTestCase( unittest.TestCase ):
     def testAsChar( self ):
 
         for x in range(len(self.mReferenceSequence)):
-            self.assertEqual( self.mReferenceSequence[x], self.mAlignandum.asChar(x+1) )
+            self.assertEqual( self.mReferenceSequence[x], self.mAlignandum.asChar(x) )
 
     def testGetLength( self ):
         self.assertEqual( self.mAlignandum.getLength(), 10 )
@@ -57,16 +57,16 @@ class AlignandumTestCase( unittest.TestCase ):
 
         for start, end in ( (0,len(self.mReferenceSequence)),
                             (4,len(self.mReferenceSequence)) ):
-            self.mAlignandum.useSegment( start+1, end)
-            self.assertEqual( self.mReferenceSequence[start:end],
+            self.mAlignandum.useSegment( start, end)
+            self.assertEqual( self.mReferenceSequence,
                               self.mAlignandum.asString() )
 
-        self.mAlignandum.useFullLength()
+        self.mAlignandum.useSegment()
         self.assertEqual( self.mReferenceSequence,
                           self.mAlignandum.asString() )
         
     def testMask( self ):
-        self.mAlignandum.mask( 4, 7 )
+        self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAAXXXXAAA", self.renderSeq() )
 
 class ProfileTestCase( AlignandumTestCase ):
@@ -75,10 +75,10 @@ class ProfileTestCase( AlignandumTestCase ):
         n = len(self.mReferenceSequence)
 
         s = []
-        for i in range (1, n + 1) :
+        for i in range (1, n+1) :
             s.append( self.mReferenceSequence[0:i] + "-" * (n - i) )
         self.mAlignandum = makeProfile( "".join(s), n )
-
+        
     def renderSeq( self ):
         return self.mAlignandum.asString()
 
@@ -90,7 +90,7 @@ class ProfileTestCase( AlignandumTestCase ):
 
     def testMask( self ):
         ## TODO: make this test and the code conforming to use X as mask char
-        self.mAlignandum.mask( 4, 7 )
+        self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAA----AAA", self.renderSeq() )
 
 def suite():

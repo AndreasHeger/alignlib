@@ -104,11 +104,10 @@ namespace alignlib
       mRowLength = row->getLength();
 
       mIterator = mIteratorTemplate->getNew( row, col );
-
       
       debug_cerr( 5, "setting iterator to ranges: row=" 
-          << mIterator->row_front() << "-" <<  mIterator->row_back() << ":" << mIterator->row_size() << " col=" 
-          << mIterator->col_front() << "-" <<  mIterator->col_back() << ":" << mIterator->col_size() );
+          << *mIterator->row_begin() << "-" <<  *mIterator->row_end() << ":" << mIterator->row_size() << " col=" 
+          << *mIterator->col_begin() << "-" <<  *mIterator->col_end() << ":" << mIterator->col_size() );
       
       
       if (mScorer == NULL)

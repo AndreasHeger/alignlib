@@ -75,14 +75,22 @@ namespace alignlib
 #define debug_prefix AlignlibDebug::getPrefix()
 #define debug_show(ii) AlignlibDebug::showDebug(ii)
 #define debug_cout(ii, text) {if (debug_show(ii)){std::cout << debug_prefix << text << std::endl;}}
+#define debug_cout_start(ii, text) {if (debug_show(ii)){std::cout << debug_prefix << text;}}
+#define debug_cout_add(ii, text) {if (debug_show(ii)){std::cout << text;}}  
 #define debug_cerr(ii, text) {if (debug_show(ii)){std::cerr << debug_prefix << text << std::endl;}}
+#define debug_cerr_start(ii, text) {if (debug_show(ii)){std::cerr << debug_prefix << text;}}
+#define debug_cerr_add(ii, text) {if (debug_show(ii)){std::cerr << text;}}
 #else
 #define debug_func_cerr(ii)
 #define debug_func_cout(ii)
 #define debug_prefix
 #define debug_show(ii)
 #define debug_cout(ii, text)
+#define debug_cerr_start(ii, text)
+#define debug_cout_add(ii, text)
 #define debug_cerr(ii, text)
+#define debug_cerr_start(ii, text)
+#define debug_cerr_add(ii, text)
 
 #endif
   

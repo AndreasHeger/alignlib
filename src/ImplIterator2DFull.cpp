@@ -116,7 +116,7 @@ namespace alignlib
 
   Position ImplIterator2DFull::row_back  ( Position col ) const
   {
-    return mRowTo;
+    return mRowTo - 1;
   }
 
   Position ImplIterator2DFull::col_front ( Position row ) const
@@ -126,7 +126,7 @@ namespace alignlib
 
   Position ImplIterator2DFull::col_back  ( Position row ) const
   {
-    return mColTo;
+    return mColTo - 1;
   }
   Position ImplIterator2DFull::row_size ( Position col ) const
   {

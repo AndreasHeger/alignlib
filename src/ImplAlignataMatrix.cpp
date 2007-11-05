@@ -84,13 +84,15 @@ namespace alignlib {
 
       // create a deep copy of src.mPairs
       PairConstIterator it(src.mPairs.begin()), it_end(src.mPairs.end());
-      for (; it != it_end; ++it) {
+      for (; it != it_end; ++it) 
+      {
         ResiduePAIR * p = *it;
         mPairs.push_back( new ResiduePAIR( *p ) );
       }
 
       // create a copy of the index (if existing)
-      if (src.mIndex) {
+      if (src.mIndex) 
+      {
         mIndex = new Dot[mAllocatedIndexSize];
         memcpy( mIndex, src.mIndex, sizeof(Dot) * (mAllocatedIndexSize));
       }
@@ -114,23 +116,23 @@ namespace alignlib {
 
   AlignataConstIterator ImplAlignataMatrix::begin() const { 
     if (mChangedLength) calculateLength();
-    return AlignataConstIterator( new ImplAlignataMatrix_ConstIterator( mPairs,0, mPairs.size() )); 
+    return AlignataConstIterator( new ImplAlignataMatrix_ConstIterator( mPairs, 0, mPairs.size() )); 
   }
 
   AlignataConstIterator ImplAlignataMatrix::end() const { 
     if (mChangedLength) calculateLength();
-    return AlignataConstIterator( new ImplAlignataMatrix_ConstIterator(mPairs,mPairs.size(),mPairs.size() )); 
+    return AlignataConstIterator( new ImplAlignataMatrix_ConstIterator(mPairs, mPairs.size(), mPairs.size() )); 
   }
   //-----------------------------------------------------------------------------------------------------------   
 
   AlignataIterator ImplAlignataMatrix::begin() { 
     if (mChangedLength) calculateLength();
-    return AlignataIterator( new ImplAlignataMatrix_Iterator( mPairs,0,mPairs.size() )); 
+    return AlignataIterator( new ImplAlignataMatrix_Iterator( mPairs, 0, mPairs.size() )); 
   }
 
   AlignataIterator ImplAlignataMatrix::end() { 
     if (mChangedLength) calculateLength();
-    return AlignataIterator( new ImplAlignataMatrix_Iterator(mPairs,mPairs.size(),mPairs.size() )); 
+    return AlignataIterator( new ImplAlignataMatrix_Iterator(mPairs, mPairs.size(), mPairs.size() )); 
   }
 
   //----------------> accessors <------------------------------------------------------------------------------
@@ -140,24 +142,28 @@ namespace alignlib {
   Position ImplAlignataMatrix::getRowTo()   const { if (mChangedLength) calculateLength(); return mRowTo; }
   Position ImplAlignataMatrix::getColTo()   const { if (mChangedLength) calculateLength(); return mColTo; }
 
-  ResiduePAIR ImplAlignataMatrix::getFirstPair() const { 
+  ResiduePAIR ImplAlignataMatrix::getFirstPair() const 
+  { 
     if (mChangedLength) calculateLength(); 
     return (mPairs.size() > 0) ? (*mPairs.front()) : ResiduePAIR(NO_POS,NO_POS,0); 
   }
 
-  ResiduePAIR ImplAlignataMatrix::getLastPair()  const { 
+  ResiduePAIR ImplAlignataMatrix::getLastPair()  const 
+  { 
     if (mChangedLength) calculateLength(); 
     return (mPairs.size() > 0) ? (*mPairs.back()) : ResiduePAIR(NO_POS,NO_POS,0); 
   }
 
   //-------------------------------------------------------------------------------------------------------------
-  void ImplAlignataMatrix::addPair( ResiduePAIR * new_pair ) { 
+  void ImplAlignataMatrix::addPair( ResiduePAIR * new_pair ) 
+  { 
 
     mPairs.push_back( new_pair );
     setChangedLength();		// has to be resorted
   } 
   //-------------------------------------------------------------------------------------------------------------
-  void ImplAlignataMatrix::addPair( Position row, Position col, Score score ) { 
+  void ImplAlignataMatrix::addPair( Position row, Position col, Score score ) 
+  { 
 
     mPairs.push_back( new ResiduePAIR(row,col,score) );
     setChangedLength();		// has to be resorted
@@ -165,16 +171,18 @@ namespace alignlib {
 
   //-------------------------------------------------------------------------------------------------------------
   /** retrieves a pair of residues from the alignment */
-  ResiduePAIR ImplAlignataMatrix::getPair( Position row ) const {
-    //!! to be implemented
+  ResiduePAIR ImplAlignataMatrix::getPair( Position row ) const 
+  {
+    // TODO!! to be implemented
     return *mPairs[row];
   } 
 
   //----------------------------------------------------------------------------------------------------------------------
-  void ImplAlignataMatrix::removePair( const ResiduePAIR & old_pair ) { 
+  void ImplAlignataMatrix::removePair( const ResiduePAIR & old_pair ) 
+  { 
 
     setChangedLength();
-    //!! to be implemented.  move and split highly inefficient
+    // TODO !! to be implemented.  move and split highly inefficient
 
   } 
 
@@ -203,7 +211,6 @@ namespace alignlib {
     {
       debug_func_cerr(5);
 
-
       ImplAlignata::moveAlignment( row_offset, col_offset);
 
       // reset coordinates of alignment
@@ -216,19 +223,21 @@ namespace alignlib {
   //------------------------------------> sorting subroutines <-----------------------------------------------
 
   //----------------------------------------------------------------------------------------------------------
-  void ImplAlignataMatrix::sortDotsByDiagonal(Position from, Position to) const {
+  void ImplAlignataMatrix::sortDotsByDiagonal(Position from, Position to) const 
+  {
     Position lastsmall, c1, i;
     Diagonal m; /* value of median */
     ResiduePAIR * t;
 
-    if (from < to ) {
+    if (from < to - 1) 
+    {
       c1 = (from + to) / 2;
 
       t = mPairs[from]; mPairs[from] = mPairs[c1]; mPairs[c1] = t;
 
       m = calculateDiagonal( *mPairs[from] );					// choose median-value to compare to
       lastsmall = from;
-      for (i = from + 1; i <= to; i++) {
+      for (i = from + 1; i < to; i++) {
         if ( calculateDiagonal(*mPairs[i]) < m) {						// swap lastsmall and i
           lastsmall++;
           t = mPairs[lastsmall]; mPairs[lastsmall] = mPairs[i]; mPairs[i] = t;
@@ -238,17 +247,19 @@ namespace alignlib {
       t = mPairs[from]; mPairs[from] = mPairs[lastsmall]; mPairs[lastsmall] = t;
 
       sortDotsByDiagonal( from, lastsmall);
-      sortDotsByDiagonal( lastsmall+1, to);
+      sortDotsByDiagonal( lastsmall, to);
     }
   }
 
   //----------------------------------------------------------------------------------------------------------------------
-  void ImplAlignataMatrix::sortDotsByRow(Position from, Position to) const {
+  void ImplAlignataMatrix::sortDotsByRow(Position from, Position to) const 
+  {
     Position lastsmall, c1, i;
     Position m; /* value of median */
     ResiduePAIR * t;
 
-    if (from < to ) {
+    if (from < to -1 ) 
+    {
       c1 = (from + to) / 2;
 
       t = mPairs[from]; 
@@ -257,7 +268,7 @@ namespace alignlib {
 
       m = mPairs[from]->mRow;                                 // choose median-value to compare to
       lastsmall = from;
-      for (i = from + 1; i <= to; i++) {
+      for (i = from + 1; i < to; i++) {
         if ( mPairs[i]->mRow < m) {                         // swap lastsmall and i
           lastsmall++;
           t = mPairs[lastsmall]; 
@@ -270,17 +281,19 @@ namespace alignlib {
 
       m = lastsmall;
       sortDotsByRow( from, m);
-      sortDotsByRow( m+1, to);
+      sortDotsByRow( m, to);
     }
   }
 
   //----------------------------------------------------------------------------------------------------------------------
-  void ImplAlignataMatrix::sortDotsByCol(Position from, Position to) const {
+  void ImplAlignataMatrix::sortDotsByCol(Position from, Position to) const 
+  {
     Position lastsmall, c1, i;
     Position m; /* value of median */
     ResiduePAIR * t;
 
-    if (from < to ) {
+    if (from < to - 1 ) 
+    {
       c1 = (from + to) / 2;
 
       t = mPairs[from]; 
@@ -289,7 +302,7 @@ namespace alignlib {
 
       m = mPairs[from]->mCol;                                 // choose median-value to compare to
       lastsmall = from;
-      for (i = from + 1; i <= to; i++) {
+      for (i = from + 1; i < to; i++) {
         if ( mPairs[i]->mCol < m) {                         // swap lastsmall and i
           lastsmall++;
           t = mPairs[lastsmall]; 
@@ -302,7 +315,7 @@ namespace alignlib {
 
       m = lastsmall;
       sortDotsByCol( from, m);
-      sortDotsByCol( m+1, to);
+      sortDotsByCol( m, to);
     }
   }
 
@@ -366,7 +379,6 @@ namespace alignlib {
   void ImplAlignataMatrix::calculateLength() const 
   {
     debug_func_cerr(5);
-
 
     mChangedLength = false;
     mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;

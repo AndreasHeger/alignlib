@@ -159,11 +159,12 @@ Alignandum * fillProfile( Alignandum * dest,
 		weightor = getDefaultWeightor();
 
 	SequenceWeights * weights = weightor->calculateWeights( *src );
+	
+	debug_cerr_start( 5, "computed the following weights:");
 #ifdef DEBUG
-	cout << "-------------->Weights start-----------" << endl;
 	for (int i = 0; i < src->getWidth(); i++) 
-		cout << i << " " << (*weights)[i] << endl;
-	cout << "-------------->Weights end-------------" << endl;
+		debug_cerr_add ( 5, " " << i << "=" << (*weights)[i] )
+	debug_cerr_add( 5, std::endl );	
 #endif
 
 	// ask profile to allocate new memory for the counts.

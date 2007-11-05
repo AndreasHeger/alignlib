@@ -128,7 +128,7 @@ namespace alignlib
   }
   Iterator2D::const_iterator ImplIterator2DBanded::row_end   ( Position col ) const
   {
-    return const_iterator( row_back(col) ) ;
+    return const_iterator( row_back(col) + 1) ;
   }
   
   Iterator2D::const_iterator ImplIterator2DBanded::col_begin ( Position row ) const
@@ -138,7 +138,7 @@ namespace alignlib
     
   Iterator2D::const_iterator ImplIterator2DBanded::col_end   ( Position row ) const
   {
-    return const_iterator( col_back(row) );
+    return const_iterator( col_back(row) + 1 );
   }
 
   Position ImplIterator2DBanded::row_front ( Position col ) const
@@ -152,9 +152,9 @@ namespace alignlib
   Position ImplIterator2DBanded::row_back  ( Position col ) const
   {
     if (col == NO_POS )
-      return mRowTo;
+      return mRowTo - 1;
     else
-  	  return std::min((Position)(col - mLowerDiagonal + 1), mRowTo );	   
+  	  return std::min((Position)(col - mLowerDiagonal + 1), mRowTo ) - 1;	   
   }
 
   Position ImplIterator2DBanded::col_front ( Position row ) const
@@ -168,9 +168,9 @@ namespace alignlib
   Position ImplIterator2DBanded::col_back  ( Position row ) const
   {
     if (row == NO_POS)
-      return mColTo;
+      return mColTo - 1;
    else
-	  return std::min((Position)(row + mUpperDiagonal + 1), mColTo );	   
+	  return std::min((Position)(row + mUpperDiagonal + 1), mColTo ) - 1;	   
   }
   
 } // namespace alignlib

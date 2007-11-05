@@ -273,7 +273,7 @@ Position ImplAlignata::mapColToRow( Position pos, SearchType search ) const {
     ++it;
   }
   
-  return 0;
+  return NO_POS;
 }
 
 //-----------------------------------------------------------------------------------------------------------   

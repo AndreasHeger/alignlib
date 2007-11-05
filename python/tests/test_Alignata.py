@@ -51,7 +51,7 @@ class AlignataTestCase( unittest.TestCase ):
 
     def testGetRowTo( self ):
         self.testAddPair()
-        self.assertEqual( self.mAlignata.getRowTo(), 12) 
+        self.assertEqual( self.mAlignata.getRowTo(), 13) 
 
     def testGetColFrom( self ):
         self.testAddPair()
@@ -59,20 +59,19 @@ class AlignataTestCase( unittest.TestCase ):
 
     def testGetColTo( self ):
         self.testAddPair()
-        self.assertEqual( self.mAlignata.getColTo(), 12) 
+        self.assertEqual( self.mAlignata.getColTo(), 13) 
 
     def testRemoveRowRegion( self ):
         self.testAddPair()
 
         f = self.mAlignata.removeRowRegion
         f( 3, 5)
-        self.assertEqual( self.mAlignata.getRowFrom(), 6)
-        self.assertEqual( self.mAlignata.getColFrom(), 7)        
-        f( 3, 5 )
-        f( 10, 12 )
-        self.assertEqual( self.mAlignata.getRowTo(), 9)
-        self.assertEqual( self.mAlignata.getColTo(), 10)        
-        f( 1, 20 )
+        self.assertEqual( self.mAlignata.getRowFrom(), 5)
+        self.assertEqual( self.mAlignata.getColFrom(), 6)        
+        f( 10, 13 )
+        self.assertEqual( self.mAlignata.getRowTo(), 10)
+        self.assertEqual( self.mAlignata.getColTo(), 11)        
+        f( 0, 20 )
         self.assertEqual( self.mAlignata.getLength(), 0 )
         self.assertEqual( self.mAlignata.isEmpty(), True)
 
@@ -92,11 +91,10 @@ class AlignataTestCase( unittest.TestCase ):
         f( 3, 5)
         self.assertEqual( self.mAlignata.getRowFrom(), 5)
         self.assertEqual( self.mAlignata.getColFrom(), 6)        
-        f( 3, 5 )
-        f( 10, 12 )
-        self.assertEqual( self.mAlignata.getRowTo(), 8)
-        self.assertEqual( self.mAlignata.getColTo(), 8)        
-        f( 1, 20 )
+        f( 10, 13 )
+        self.assertEqual( self.mAlignata.getRowTo(), 9)
+        self.assertEqual( self.mAlignata.getColTo(), 9)        
+        f( 0, 20 )
         self.assertEqual( self.mAlignata.getLength(), 0 )
         self.assertEqual( self.mAlignata.isEmpty(), True)
 
@@ -116,13 +114,14 @@ class AlignataTestCase( unittest.TestCase ):
         ali = self.mAlignata.getClone()
         ali.switchRowCol()
 
-        for x in range(self.mAlignata.getRowFrom(), self.mAlignata.getRowTo() + 1):
+        for x in range(self.mAlignata.getRowFrom(), self.mAlignata.getRowTo()):
             y = self.mAlignata.mapRowToCol( x )
-            if y:
+            if y >= 0:
                 z = ali.mapRowToCol( y )
                 self.assertEqual( x, z )
-            y = self.mAlignata.mapColToRow( x )
-            if y:
+                
+            y = self.mAlignata.mapColToRow( x )            
+            if y >= 0:
                 z = ali.mapColToRow( y )
                 self.assertEqual( x, z )
 
@@ -134,7 +133,7 @@ class AlignataVectorTestCase( AlignataTestCase ):
 
     def setUp( self ):
         self.mAlignata = makeAlignataVector()
-        
+
 class AlignataSetTestCase( AlignataTestCase ):
 
     def setUp( self ):
@@ -154,25 +153,25 @@ class AlignataHashTestCase( AlignataTestCase ):
 class AlignataHashDiagonalTestCase( AlignataTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        # self.mAlignata = makeAlignataHashDiagonal()
+        self.mAlignata = makeAlignataHashDiagonal()
         self.mAlignata = makeAlignataVector()
 
 class AlignataMatrixRowTestCase( AlignataTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        # self.mAlignata = makeAlignataMatrixRowDiagonal()
+        self.mAlignata = makeAlignataMatrixRowDiagonal()
         self.mAlignata = makeAlignataVector()
 
 class AlignataMatrixUnsortedTestCase( AlignataTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        # self.mAlignata = makeAlignataMatrixUnsorted()
+        self.mAlignata = makeAlignataMatrixUnsorted()
         self.mAlignata = makeAlignataVector()
 
 class AlignataMatrixDiagonalTestCase( AlignataTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        # self.mAlignata = makeAlignataMatrixDiagonal()
+        self.mAlignata = makeAlignataMatrixDiagonal()
         self.mAlignata = makeAlignataVector()
 
 def suite():

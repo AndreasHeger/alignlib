@@ -82,9 +82,7 @@ Alignata * performIterativeAlignmentStep( Alignata * dest,
   Position to_1 = copy_1->getTo();
   Position to_2 = copy_2->getTo();
 
-#ifdef DEBUG
-  cout << "Aligning in regions (" << from_1 << "-" << to_1 <<") -> (" << from_2 << "-" << to_2 << ")" << endl;
-#endif
+  debug_cerr(5, "aligning in regions (" << from_1 << "-" << to_1 <<") -> (" << from_2 << "-" << to_2 << ")" );
 
   if (from_1 > to_1 || from_2 > to_2)
     return dest;
@@ -97,11 +95,11 @@ Alignata * performIterativeAlignmentStep( Alignata * dest,
 
       addAlignata2Alignata( dest, result );
 
-#ifdef DEBUG
-      cout << "New alignment\n" << *result;
-      cout << result->getRowFrom() << " " << result->getColFrom() << " " << result->getRowTo() << " " << result->getColTo() << endl;
-      cout << "Current alignment\n" << *dest;
-#endif
+      debug_cerr( 5, "new alignment\n" << *result )
+      debug_cerr( 5, "new alignment coordinates: row=" << result->getRowFrom() << " " << result->getRowTo()  
+    		  	<< " col=" << result->getColFrom() << " " << result->getColTo() );      
+      debug_cerr( 5, "current alignment\n" << *result )      
+
       Position from_1_result = result->getRowFrom();
       Position from_2_result = result->getColFrom();
       Position to_1_result   = result->getRowTo();

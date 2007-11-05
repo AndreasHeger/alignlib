@@ -92,7 +92,7 @@ namespace alignlib
   }
   Iterator2D::const_iterator ImplIterator2D::row_end   ( Position col ) const
   {
-    return const_iterator( row_back(col) ) ;
+    return const_iterator( row_back(col) + 1 ) ;
   }
   
   Iterator2D::const_iterator ImplIterator2D::col_begin ( Position row ) const
@@ -102,17 +102,17 @@ namespace alignlib
     
   Iterator2D::const_iterator ImplIterator2D::col_end   ( Position row ) const
   {
-    return const_iterator( col_back(row) );
+    return const_iterator( col_back(row) + 1);
   }
 
   Position ImplIterator2D::row_size ( Position col ) const
   {
-    return row_back(col) - row_front(col);
+    return row_back(col) - row_front(col) + 1;
   }
 
   Position ImplIterator2D::col_size ( Position row ) const
   {
-    return col_back(row) - col_front(row);
+    return col_back(row) - col_front(row) + 1;
   }
   
 } // namespace alignlib

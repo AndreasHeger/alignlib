@@ -119,14 +119,18 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
      * */
     inline int getTraceIndex( Position row, Position col )
       {
-    	assert( row >= mRowFrom);
+    	assert( row >= mRowFrom - 1);
     	assert( row < mRowTo );
     	// col can be before element 0 in wrap-around alignments
     	assert( col >= mIterator->col_front(row) - 1);
-    	assert( col < mIterator->col_back(row) );
+    	assert( col <= mIterator->col_back(row) );
     	// the first element in each column is the carry over value from the previous
     	// column, thus the +1 modifier.
-    	int index = mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1;  
+    	int index = mTraceRowStarts[row-mRowFrom] + col - mIterator->col_front(row) + 1; 
+#ifdef DEBUG
+    	if (index < 0 || index >= mMatrixSize )
+    		std::cout << "mRowFrom=" << mRowFrom << " row=" << row << " col=" << col << std::endl;
+#endif
     	assert( index >= 0);
     	assert( index < mMatrixSize );
     	return index;

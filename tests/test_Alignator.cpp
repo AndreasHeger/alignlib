@@ -311,7 +311,9 @@ int main () {
   Alignandum * seq4 = makeSequence( "AAAAACCACCAAAAA");
   Alignandum * seq5 = makeSequence( "KKKACACACKKK");
   Alignandum * seq6 = makeSequence( "AC");  
-
+  Alignandum * seq7 = makeSequence( "AAAAAAACCCCAAAAAAA" );
+  Alignandum * seq8 = makeProfile( "AAAAAAACCCCAAAAAAA", 1);
+  
   Score gop = -12;
   Score gep = -2;
 
@@ -370,6 +372,12 @@ int main () {
             seq1->useSegment(5,8);
             testPairwiseAlignment( 23, &*a, seq1, seq2, 5, 8, "+3", 0, 3, "+3", 14 );
             seq1->useSegment(); 
+          }
+          
+          { 
+            std::cout << "--- testing sequence/profile alignment ---" << std::endl;
+            std::auto_ptr<Alignator>a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
+            testPairwiseAlignment( 24, &*a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 42 );
           }
           
           
@@ -451,7 +459,11 @@ int main () {
           delete seq2;
           delete seq3;
           delete seq4;
-
+          delete seq5;
+          delete seq6;
+          delete seq7;
+          delete seq8;
+          
           delete matrix;
 
 }

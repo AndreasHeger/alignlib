@@ -67,6 +67,7 @@ void test()
 {
   {
 	  cout << "---------------------Testing Alignator----------------------------------" << endl;
+	  
 	  // build alignment
 
 	  Alignandum * row = makeSequence( "AAACCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA" );
@@ -79,7 +80,8 @@ void test()
 
       performIterativeAlignment( result, row, col,
     		  alignator, 1.0);
-
+      
+      writePairAlignment( std::cout, row, col, result );
   }
 }
 

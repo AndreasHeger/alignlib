@@ -1,3 +1,4 @@
+
 # Copyright David Abrahams 2006. Distributed under the Boost
 # Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,12 +19,9 @@ project
 # Declare a Python extension called hello.
 python-extension alignlib 
   : # source 
-	alignlib.cpp
+    alignlib.cpp
   : # requirements 
-  <library-file>../src/.libs/libalignlib.so 
-  <include>../src/include
+  <library-file>../src/.libs/libalignlib.so
   <include>../src 
-  <include>../src/alignlib 
   ;
-
-
+  

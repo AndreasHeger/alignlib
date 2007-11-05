@@ -112,7 +112,7 @@ int main () {
 		Iterator2D * iterator = makeIterator2DFull( seq1, seq2);
 		assert( iterator->row_size() == 3 );
                 assert( iterator->row_front() == 3 );
-                assert( iterator->row_back() == 6 );                
+                assert( iterator->row_back() == 5 );                
 		assert( iterator->col_size() == seq2->getLength() );
 		Print( iterator );        
 		delete iterator;
@@ -122,7 +122,7 @@ int main () {
 		assert( iterator->row_size() == seq1->getLength() ); 
 		assert( iterator->col_size() == 3);
                 assert( iterator->col_front() == 3 );
-                assert( iterator->col_back() == 6 );                		
+                assert( iterator->col_back() == 5 );                		
 		Print( iterator );        
 		
 		  {
@@ -130,7 +130,7 @@ int main () {
 	            assert( iterator2->row_size() == seq1->getLength() ); 
 	                assert( iterator2->col_size() == 3);
 	                assert( iterator2->col_front() == 3 );
-	                assert( iterator2->col_back() == 6 );
+	                assert( iterator2->col_back() == 5 );
 		  }
 		
 		delete iterator;
@@ -141,6 +141,9 @@ int main () {
 	{
 		std::cout << "--------------------- testing Iterator2DBanded with diagonals -2, 1 -----" << std::endl;    
 		Iterator2D * iterator = makeIterator2DBanded( seq1, seq2, -2, 1);
+		std::cout << "lengths" << std::endl;
+		std::cout << iterator->row_size() << iterator->row_front() << " " << iterator->row_back() << std::endl;
+		std::cout << seq1->getLength() << std::endl;
 		assert( iterator->row_size() == seq1->getLength() ); 
 		assert( iterator->col_size() == seq2->getLength() -1);
 		Print( iterator );

@@ -196,39 +196,40 @@ namespace alignlib
 
 #ifdef DEBUG
         {
-          std::cout << "Trace matrix" << endl;
+          debug_cerr(5, "Trace matrix" );
 
             {
-              std::cout << setw(6) << " ";
-              for (Position c = -1; c < mIterator->col_size(); ++c) cout << setw(4) << c;
-              std::cout << endl;
+            	debug_cerr_start( 5, setw(6) << " " );
+            	for (Position c = -1; c < mIterator->col_size(); ++c) 
+            		debug_cerr_add( 5, setw(4) << c );
+            	debug_cerr_add( 5, std::endl );
             }
 
             Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
             for (; rit != rend; ++rit)
               {
                 Position row = *rit;
-                cout << setw(6) << row;
+                debug_cerr_start( 5, setw(6) << row );
                 for (Position col = 0; col < mIterator->col_front(row) - 1; ++col)
-                  cout << setw(4) << "-";
-                for (Position col = mIterator->col_front(row) - 1; col !=mIterator->col_back(row); ++col)
+                	debug_cerr_add( 5, setw(4) << "-" );
+                for (Position col = mIterator->col_front(row) - 1; col <= mIterator->col_back(row); ++col)
                   {
-                    cout << setw(4);
+                	debug_cerr_add( 5, setw(4) );
                     switch (mTraceMatrix[getTraceIndex(row,col)])
                     {
-                    case TB_STOP:       cout << "o" ; break;
-                    case TB_DELETION:   cout << "<" ; break;
-                    case TB_INSERTION:  cout << "^" ; break;
-                    case TB_MATCH:      cout << "=" ; break;
-                    case TB_WRAP:       cout << "@" ; break;
-                    default: cout << "#"; break;
+                    case TB_STOP:       debug_cerr_add( 5, "o" ); break;
+                    case TB_DELETION:   debug_cerr_add( 5, "<" ); break;
+                    case TB_INSERTION:  debug_cerr_add( 5, "^" ); break;
+                    case TB_MATCH:      debug_cerr_add( 5, "=" ); break;
+                    case TB_WRAP:       debug_cerr_add( 5, "@" ); break;
+                    default: debug_cerr_add( 5, "#" ); break;
                     }
                   }
-                for (Position col = mIterator->col_back(row); col < mIterator->col_size(); ++col)
-                  cout << setw(4) << "-";                  
-                std::cout << endl;
+                for (Position col = mIterator->col_back(row) + 1; col < mIterator->col_size(); ++col)
+                  debug_cerr_add( 5, setw(4) << "-" );                  
+                debug_cerr_add( 5, std::endl );
               }
-            std::cout << "traceback starts in cell ("<< mRowLast << "," << mColLast << ") with score " << mScore << std::endl;
+            debug_cerr( 5, "traceback starts in cell ("<< mRowLast << "," << mColLast << ") with score " << mScore );
         }
 
 #endif
@@ -243,7 +244,6 @@ namespace alignlib
 
         while ( t != TB_STOP ) 
           {
-            debug_func_cerr(5);
 
             switch (t) {
             case TB_DELETION :
@@ -262,14 +262,12 @@ namespace alignlib
               col--;
               break;
             case TB_WRAP :
-              col = mIterator->col_back( row ) - 1;
+              col = mIterator->col_back( row );
               break;
             default:
               throw AlignException("Unknown matrix command in TraceBack");
               break;
             }
-//            if (row < 0 || col < 0)
-//              break;
             if (row < row_from) break;
             t = mTraceMatrix[getTraceIndex(row,col)];
           }
@@ -320,7 +318,8 @@ namespace alignlib
 
           Position row = mIterator->row_front();
           Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
-          mCC[-1] = 0;
+          assert( (*cit) -1 >= -1);
+          mCC[(*cit)-1] = 0;
 
           switch (mAlignmentType)
           {
@@ -331,7 +330,7 @@ namespace alignlib
                 mCC[col]   = 0;
                 mDD[col]   = row_gop;                               // score for horizontal gap opening
               }
-            mCC[mIterator->col_back() - 1] = col_gop;
+            mCC[mIterator->col_back()] = col_gop;
             break;
           case ALIGNMENT_WRAP:      
             for (; cit != cend; ++cit)
@@ -340,7 +339,7 @@ namespace alignlib
                 mCC[col]   = 0;
                 mDD[col]   = row_gop;                               // score for horizontal gap opening
               }
-            mCC[mIterator->col_back() - 1] = col_gop;
+            mCC[mIterator->col_back()] = col_gop;
             break;
           case ALIGNMENT_GLOBAL:
             /* set initial values for upper border */      
@@ -370,10 +369,10 @@ namespace alignlib
         Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
 
         debug_cerr( 5, "aligning within the following coordinates: row= "
-            << mIterator->row_front() << "-" <<  mIterator->row_back() << ":" << mIterator->row_size() << " col=" 
-            << mIterator->col_front() << "-" <<  mIterator->col_back() << ":" << mIterator->col_size() );
+            << *mIterator->row_begin() << "-" <<  *mIterator->row_end() << ":" << mIterator->row_size() << " col=" 
+            << *mIterator->col_begin() << "-" <<  *mIterator->col_end() << ":" << mIterator->col_size() );
         debug_cerr( 5, "penalties=" << mPenalizeRowLeft << " " << mPenalizeRowRight 
-            << " " << mPenalizeColLeft << " " << mPenalizeColRight )
+            << " " << mPenalizeColLeft << " " << mPenalizeColRight );
 
         for (; rit != rend; ++rit)
           {
@@ -483,18 +482,10 @@ namespace alignlib
                       mTraceMatrix[getTraceIndex(row,col)] = TB_MATCH;
                   }
 
-#ifdef DEBUG
-                std::cout << " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
-                << " mCC=" << mCC[col] << " mDD=" << mDD[col]
-                << " index=" << getTraceIndex(row,col) <<  " mScore=" << mScore << " : ";
-
-                if ( c == d )                   // horizontal gap
-                  std::cout << "insertion" << std::endl;
-                else if ( c == e )              // vertical gap
-                  std::cout << "deletion" << std::endl;
-                else                           // match
-                  std::cout << "match" << std::endl;	      
-#endif
+                debug_cerr( 5, " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
+                        << " mCC=" << mCC[col] << " mDD=" << mDD[col]
+                        << " index=" << getTraceIndex(row,col) <<  " mScore=" << mScore << " : "                               
+                        << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );      
 
                 s = mCC[col];
                 mCC[col] = c;                                              // save new score for next i
@@ -514,7 +505,7 @@ namespace alignlib
                 if (mScore < c)
                   {
                     // save maximum
-                    std::cout << " updating score " << std::endl;
+                	debug_cerr( 5, " updating score from cell " << row << "," << col << " with " << c );
                     mScore   = c;
                     mRowLast = row;
                     mColLast = col;

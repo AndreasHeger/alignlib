@@ -125,14 +125,9 @@ class AlignatorDPWrapTestCase( AlignatorTestCase ):
 
         AlignatorTestCase.checkAlignment( self, row, col )
 
-        print self.mSeqs[row]
-        print self.mSeqs[col]
-        print self.mAlignataA2B
-
         if row == col or (row,col) in self.mSames:
             self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() )            
         else:
-            
             self.assertEqual( self.mAlignataA2B.getLength(), 14 )
             
 def suite():
