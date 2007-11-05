@@ -150,7 +150,7 @@ void ImplAlignataMatrixDiagonal::sortDots() const {
 void ImplAlignataMatrixDiagonal::buildIndex() const {
   Position i;
 
-  mNumDiagonals = (mColTo - mColFrom + 1) + (mRowTo - mRowFrom + 1) + 1;
+  mNumDiagonals = (mColTo - mColFrom) + (mRowTo - mRowFrom) + 1;
   Dot ndots = mPairs.size(); 
 
   //  allocate and initialize memory memory 
@@ -159,7 +159,7 @@ void ImplAlignataMatrixDiagonal::buildIndex() const {
   
   Dot first_dot = 0;
   Diagonal diagonal = calculateNormalizedDiagonal( *mPairs[0], mRowFrom, mColFrom);
-  Diagonal min_diagonal = -(mRowTo - mRowFrom + 1);
+  Diagonal min_diagonal = -(mRowTo - mRowFrom);
 
   // update mIndex
   for (i = 0; i < ndots; i++) {

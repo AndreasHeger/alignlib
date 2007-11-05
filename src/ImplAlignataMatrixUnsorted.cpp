@@ -78,11 +78,13 @@ ImplAlignataMatrixUnsorted::~ImplAlignataMatrixUnsorted( )
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getNew() const {
+ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getNew() const 
+{
     return new ImplAlignataMatrixUnsorted();
 }
     
-ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getClone() const {
+ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getClone() const 
+{
     return new ImplAlignataMatrixUnsorted( *this );
 }
 
@@ -91,10 +93,12 @@ ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getClone() const {
    faster to only sort the indices (as I did in the old version) and then copy it into a new memory location
 */
 
-void ImplAlignataMatrixUnsorted::sortDots() const {
+void ImplAlignataMatrixUnsorted::sortDots() const 
+{
 }    
 
-void ImplAlignataMatrixUnsorted::eliminateDuplicates() const {
+void ImplAlignataMatrixUnsorted::eliminateDuplicates() const 
+{
 
   mRowFrom = std::numeric_limits<Position>::max();
   mColFrom = std::numeric_limits<Position>::max();
@@ -114,11 +118,15 @@ void ImplAlignataMatrixUnsorted::eliminateDuplicates() const {
     if (row > mRowTo)   mRowTo = row;
     if (col > mColTo)   mColTo = col;
   }
+  
+  ++mRowTo;
+  ++mColTo;
 }    
 
 //--------------------------------------------------------------------------------------------------------------
 // build the index
-void ImplAlignataMatrixUnsorted::buildIndex() const {
+void ImplAlignataMatrixUnsorted::buildIndex() const 
+{
 }
   
 

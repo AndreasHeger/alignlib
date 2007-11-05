@@ -128,8 +128,8 @@ void ImplAlignataMatrixRow::buildIndex() const {
   }
 
   //  allocate memory 
-  allocateIndex( mRowTo + 1);
-  for (Position i = 0; i <= mRowTo; i++) { mIndex[i] = NODOT; }   
+  allocateIndex( mRowTo );
+  for (Position i = 0; i < mRowTo; i++) { mIndex[i] = NODOT; }   
   
   Position last_row = getRowFrom();
   Dot first_dot = 0;

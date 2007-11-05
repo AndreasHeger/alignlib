@@ -47,7 +47,8 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 #define NODOT -1
 
@@ -66,7 +67,8 @@ ImplAlignatorDotsSquared::ImplAlignatorDotsSquared(
 				      Score row_gop, Score row_gep, 
 				      Score col_gop, Score col_gep,
 				      Alignator * dots) :
-    ImplAlignatorDots( row_gop - row_gep, row_gep, col_gop - col_gep, col_gep, dots) {
+    ImplAlignatorDots( row_gop - row_gep, row_gep, col_gop - col_gep, col_gep, dots) 
+    {
 }
 
 //------------------------------------------------------------------------------------------
@@ -74,14 +76,12 @@ ImplAlignatorDotsSquared::ImplAlignatorDotsSquared( const ImplAlignatorDotsSquar
   ImplAlignatorDots( src ) 
 {
   debug_func_cerr(5);
-
 }
 
 //------------------------------------------------------------------------------------------
 ImplAlignatorDotsSquared::~ImplAlignatorDotsSquared() 
 {
   debug_func_cerr(5);
-
 }
 //------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------
@@ -105,7 +105,8 @@ Score ImplAlignatorDotsSquared::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali) {
+void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali) 
+  {
 
   /**
      Overview over the algorithm
@@ -124,14 +125,12 @@ void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const 
      ------------x
 
      note: you do not have to consider dots in the same row or column, as it is
-     not possible to match the same row to two different columns and vice versa.
-     
-     
+     not possible to match the same row to two different columns and vice versa.          
 
   */
-  // #define DEBUG
-  // #define DEBUG2
 
+    debug_func_cerr(5);
+    
   Dot global_best_dot = NODOT;
   Score global_best_score = 0;
 
@@ -150,7 +149,8 @@ void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const 
   unsigned int num_row_dots = 0;
   Position last_row = 0;
   //----------------------------------> main alignment loop <----------------------------------------------------
-  for ( Dot current_dot = 0; current_dot < mNDots; current_dot++ ) {	   
+  for ( Dot current_dot = 0; current_dot < mNDots; ++current_dot) 
+    {	   
 
     Position current_row = (*mPairs)[current_dot]->mRow;                         
     Position current_col = (*mPairs)[current_dot]->mCol;                         
@@ -170,29 +170,31 @@ void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const 
     Dot search_best_dot   = NODOT;
     Score search_best_score = 0;
 
-
-#ifdef DEBUG2
-    cout << "SEARCH_AREA" << endl;
+#ifdef DEBUG
+    debug_cerr( 6, "SEARCH_AREA" );
+    
     for (MyDotSet::iterator it = search_region.begin(); it != search_region.end(); ++it)
-      cout << "  [" << (*it).first << ", " << (*it).second << "]" << endl;
+      debug_cerr( 6, "  [" << (*it).first << ", " << (*it).second << "]" );
 #endif
     
     MyDotSet::const_iterator it(search_region.begin()), it_end(search_region.end());
-    while (it != it_end && ((*it).first < current_col)) {
+    while (it != it_end && ((*it).first < current_col)) 
+      {
       
-      Dot const search_dot = (*it).second;
-      Score search_score = scores[search_dot];
+        Dot const search_dot = (*it).second;
+        Score search_score = scores[search_dot];
       
-      if (search_score > 0) {
-	search_score += getGapCost( search_dot, current_dot);
-	if (search_score >= search_best_score) {
-	  search_best_score = search_score;
-	  search_best_dot   = search_dot;
-	}
-      }
-
+        if (search_score > 0) 
+          {
+            search_score += getGapCost( search_dot, current_dot);
+            if (search_score >= search_best_score) 
+                {
+                  search_best_score = search_score;
+                  search_best_dot   = search_dot;
+                }
+          }
       ++it;
-    }
+      }
 
     /* no positive trace found, new trace starts at current dot */
     if (search_best_dot == NODOT)
@@ -200,10 +202,12 @@ void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const 
     else
       search_best_score += (*mPairs)[current_dot]->mScore;
 
+    debug_cerr( 5, "current_dot=" << current_dot << " current_row=" << current_row << " current_col=" << current_col );
+    debug_cerr( 5, "search_best_dot=" << search_best_dot << " search_best_score=" << search_best_score );
+    
 #ifdef DEBUG
-    cout << "current_dot=" << current_dot << " current_row=" << current_row << " current_col=" << current_col << endl;
-    cout << "search_best_dot=" << search_best_dot << " search_best_score=" << search_best_score << endl;
-    if (search_best_dot != NODOT) cout << "gap_cost=" << getGapCost(search_best_dot, current_dot) << endl;
+    if (search_best_dot != NODOT) 
+      debug_cerr( 5, "gap_cost=" << getGapCost(search_best_dot, current_dot) );
 #endif
     
     /* do local alignment, traces with score <= 0 are skipped */
@@ -216,7 +220,8 @@ void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const 
     dot_stack[num_row_dots++] = current_dot;    
 
     /* remember end point of best trace */
-    if (search_best_score > global_best_score) {
+    if (search_best_score > global_best_score) 
+      {
       global_best_score = search_best_score;
       global_best_dot   = current_dot;
     }
@@ -226,12 +231,10 @@ void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const 
   mLastDot= global_best_dot;
   mScore  = global_best_score;
 
-#ifdef DEBUG
-  cout << "global_best_dot=" << global_best_dot << " global_best_score=" << global_best_score << endl;
-#endif
+  debug_cerr( 5, "global_best_dot=" << global_best_dot << " global_best_score=" << global_best_score )
 
   //--------------> cleaning up <---------------------------------------------------------------
-  //--------------------------------------------------------------------------------------------------
+
 }
 
 } // namespace alignlib

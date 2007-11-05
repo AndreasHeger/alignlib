@@ -81,7 +81,6 @@ namespace alignlib {
     {
       debug_func_cerr(5);
 
-
       // create a deep copy of src.mPairs
       PairConstIterator it(src.mPairs.begin()), it_end(src.mPairs.end());
       for (; it != it_end; ++it) 
@@ -229,7 +228,7 @@ namespace alignlib {
     Diagonal m; /* value of median */
     ResiduePAIR * t;
 
-    if (from < to - 1) 
+    if (from < to) 
     {
       c1 = (from + to) / 2;
 
@@ -237,17 +236,19 @@ namespace alignlib {
 
       m = calculateDiagonal( *mPairs[from] );					// choose median-value to compare to
       lastsmall = from;
-      for (i = from + 1; i < to; i++) {
-        if ( calculateDiagonal(*mPairs[i]) < m) {						// swap lastsmall and i
-          lastsmall++;
-          t = mPairs[lastsmall]; mPairs[lastsmall] = mPairs[i]; mPairs[i] = t;
+      for (i = from + 1; i <= to; i++) 
+        {
+          if ( calculateDiagonal(*mPairs[i]) < m) 
+            {						// swap lastsmall and i
+              lastsmall++;
+              t = mPairs[lastsmall]; mPairs[lastsmall] = mPairs[i]; mPairs[i] = t;
+            }
         }
-      }
 
       t = mPairs[from]; mPairs[from] = mPairs[lastsmall]; mPairs[lastsmall] = t;
 
       sortDotsByDiagonal( from, lastsmall);
-      sortDotsByDiagonal( lastsmall, to);
+      sortDotsByDiagonal( lastsmall + 1, to);
     }
   }
 
@@ -258,7 +259,7 @@ namespace alignlib {
     Position m; /* value of median */
     ResiduePAIR * t;
 
-    if (from < to -1 ) 
+    if (from < to) 
     {
       c1 = (from + to) / 2;
 
@@ -268,20 +269,22 @@ namespace alignlib {
 
       m = mPairs[from]->mRow;                                 // choose median-value to compare to
       lastsmall = from;
-      for (i = from + 1; i < to; i++) {
-        if ( mPairs[i]->mRow < m) {                         // swap lastsmall and i
-          lastsmall++;
-          t = mPairs[lastsmall]; 
-          mPairs[lastsmall] = mPairs[i]; 
-          mPairs[i] = t;
+      for (i = from + 1; i <= to; i++) 
+        {
+          if ( mPairs[i]->mRow < m) 
+            {                         // swap lastsmall and i
+              lastsmall++;
+              t = mPairs[lastsmall]; 
+              mPairs[lastsmall] = mPairs[i]; 
+              mPairs[i] = t;
+            }
         }
-      }
 
       t = mPairs[from]; mPairs[from] = mPairs[lastsmall]; mPairs[lastsmall] = t;
 
       m = lastsmall;
       sortDotsByRow( from, m);
-      sortDotsByRow( m, to);
+      sortDotsByRow( m+1, to);
     }
   }
 
@@ -292,7 +295,7 @@ namespace alignlib {
     Position m; /* value of median */
     ResiduePAIR * t;
 
-    if (from < to - 1 ) 
+    if (from < to ) 
     {
       c1 = (from + to) / 2;
 
@@ -302,7 +305,7 @@ namespace alignlib {
 
       m = mPairs[from]->mCol;                                 // choose median-value to compare to
       lastsmall = from;
-      for (i = from + 1; i < to; i++) {
+      for (i = from + 1; i <= to; i++) {
         if ( mPairs[i]->mCol < m) {                         // swap lastsmall and i
           lastsmall++;
           t = mPairs[lastsmall]; 
@@ -315,7 +318,7 @@ namespace alignlib {
 
       m = lastsmall;
       sortDotsByCol( from, m);
-      sortDotsByCol( m, to);
+      sortDotsByCol( m+1, to);
     }
   }
 
@@ -401,10 +404,6 @@ namespace alignlib {
 
     // 3. build index for quick access (row, col, diagonal, etc.)
     buildIndex();
-
-#ifdef DEBUG
-    cout << "Finishing calculateLength()" << endl;
-#endif
 
   }  
 
