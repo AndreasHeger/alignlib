@@ -48,11 +48,13 @@ namespace alignlib {
 
 /** factory functions */
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplMultipleAlignment::ImplMultipleAlignment () : mLength(0), mRenderer( NULL ){
+ImplMultipleAlignment::ImplMultipleAlignment () : mLength(0), mRenderer( NULL )
+{
 }
 
 //--------------------------------------------------------------------------------------------------------------
-ImplMultipleAlignment::~ImplMultipleAlignment () {
+ImplMultipleAlignment::~ImplMultipleAlignment () 
+{
 	freeMemory();
 }
 
@@ -73,7 +75,6 @@ ImplMultipleAlignment::ImplMultipleAlignment (const ImplMultipleAlignment & src 
 void ImplMultipleAlignment::freeMemory() 
 {
 	debug_func_cerr(5);
-
 
 	unsigned int nrows = mRows.size();
 
@@ -282,10 +283,10 @@ void ImplMultipleAlignment::add( const MultipleAlignment * src,
 					use_end_mali,
 					copy->getLength(),
 					getLength());
-			
+
 		debug_cerr( 5, "map_alignatum2new=" << *map_alignatum2new );
 		debug_cerr( 5, "map_this2new" << *map_this2new );
-		
+
 		mLength = std::max( map_this2new->getColTo(), map_alignatum2new->getColTo());
 
 		// proceed row-wise and remap each alignatum-object in the current alignment
@@ -316,15 +317,13 @@ std::string ImplMultipleAlignment::getConsensusString() const
 {
 	debug_func_cerr(5);
 
-
 	std::string result("");
 
-	Alignandum * profile = makeProfile( this );
+	std::auto_ptr<Alignandum>profile(makeProfile( this ));
 
 	for( int column = 0; column < mLength; column++)
 		result += profile->asChar( column );
 
-	delete profile;
 	return (result);
 }
 
@@ -370,8 +369,9 @@ void ImplMultipleAlignment::write( std::ostream & output,
 		}
 
 //-----------------------------------------------------------------------------------
-void ImplMultipleAlignment::read( std::istream & input) {
-	//!! to be implemented
+void ImplMultipleAlignment::read( std::istream & input) 
+{
+	// TODO 
 }
 
 } // namespace alignlib

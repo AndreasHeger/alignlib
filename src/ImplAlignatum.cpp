@@ -136,7 +136,6 @@ namespace alignlib {
   ImplAlignatum::~ImplAlignatum () 
     {
       debug_func_cerr(5);
-
     }
 
   //--------------------------------------------------------------------------------------------
@@ -151,9 +150,9 @@ namespace alignlib {
       // bail out on empty alignments
       if ( map_old2new->getLength() == 0)
     	  throw AlignException( "attempting to map an Alignatum object with an empty alignment ");
-      
-      assert( map_old2new->getRowFrom() > 0);
+
       // check if alignment is out-of-bounds
+      assert( map_old2new->getRowFrom() >= 0);
       assert( mLength >= map_old2new->getRowTo() );
       
       Position length = std::max( new_length, map_old2new->getColTo());

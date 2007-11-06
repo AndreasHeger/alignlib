@@ -19,7 +19,6 @@
 #include "HelpersPhyloMatrix.h"
 #include "Distor.h"
 #include "AlignlibDebug.h"
-#include "PhyloException.h"
 
 using namespace std;
 
@@ -31,10 +30,12 @@ ImplTreetorDistance::ImplTreetorDistance ( const Distor * distor ) :
   mDistor( distor ) {
 }
 
-ImplTreetorDistance::~ImplTreetorDistance () {
+ImplTreetorDistance::~ImplTreetorDistance () 
+  {
 }
 
-ImplTreetorDistance::ImplTreetorDistance (const ImplTreetorDistance & src ) : ImplTreetor( src ) {
+ImplTreetorDistance::ImplTreetorDistance (const ImplTreetorDistance & src ) : ImplTreetor( src ) 
+{
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -58,7 +59,8 @@ void ImplTreetorDistance::startUp( Tree * tree, const alignlib::MultipleAlignmen
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-void ImplTreetorDistance::cleanUp() const {
+void ImplTreetorDistance::cleanUp() const 
+{
 
   /* I have to perform this check, as otherwise I got an error
      under gcc on freeing an empty pointer */
@@ -67,7 +69,8 @@ void ImplTreetorDistance::cleanUp() const {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-void ImplTreetorDistance::swapHelpers( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2) const {
+void ImplTreetorDistance::swapHelpers( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2) const 
+{
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

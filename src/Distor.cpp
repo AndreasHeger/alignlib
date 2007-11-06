@@ -12,7 +12,6 @@
 #include <iostream>
 #include <iomanip>
 #include "Distor.h"
-#include "PhyloException.h"
 
 using namespace std;
 
