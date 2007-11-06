@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <cassert>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 
@@ -34,6 +35,7 @@
 #include "Alignandum.h"
 #include "Renderer.h"
 #include "HelpersTranslator.h"
+#include "AlignException.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -146,6 +148,14 @@ namespace alignlib {
 
       std::string new_representation = "";
 
+      // bail out on empty alignments
+      if ( map_old2new->getLength() == 0)
+    	  throw AlignException( "attempting to map an Alignatum object with an empty alignment ");
+      
+      assert( map_old2new->getRowFrom() > 0);
+      // check if alignment is out-of-bounds
+      assert( mLength >= map_old2new->getRowTo() );
+      
       Position length = std::max( new_length, map_old2new->getColTo());
 
       new_representation.append( length, mGapChar );

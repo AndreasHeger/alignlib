@@ -31,7 +31,8 @@
 #include "ImplAlignator.h"
 #include "ImplAlignataMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 #define STACKEMPTY     0
 
 class Alignandum;
@@ -43,7 +44,8 @@ class SubstitutionMatrix;
     @author Andreas Heger
     @version $Id: ImplAlignatorDots.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignatorDots : public ImplAlignator {
+class ImplAlignatorDots : public ImplAlignator 
+{
  public:
 
     /* constructors and destructors */

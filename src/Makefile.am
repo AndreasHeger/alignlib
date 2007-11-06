@@ -27,7 +27,20 @@ pkginclude_HEADERS = 	alignlib.h \
 			$(HEADERS_ALIGNANDUM) \
 			$(HEADERS_MALI) \
 			$(HEADERS_TRANSLATOR) \
-			$(HEADERS_SUBSTMATRIX)
+			$(HEADERS_SUBSTMATRIX) \
+		    $(HEADERS_PHYLOLIB)
+
+HEADERS_PHYLOLIB=Tree.h HelpersTree.h \
+                        ImplTree.h \
+                        PhyloMatrix.h HelpersPhyloMatrix.h \
+                        ImplPhyloMatrix.h ImplPhyloMatrixSymmetric.h \
+                        Distor.h HelpersDistor.h \
+                        ImplDistor.h ImplDistorKimura.h ImplDistorClustal.h ImplDistorDummy.h \
+                        Treetor.h HelpersTreetor.h \
+                        ImplTreetor.h ImplTreetorDistance.h ImplTreetorDistanceLinkage.h \
+                        ImplTreetorDistanceNJ.h
+                        
+
 
 HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersProfile.h \
 			Weightor.h HelpersWeightor.h \
@@ -100,7 +113,18 @@ PARTS =               AlignException.cpp \
 			$(PARTS_ALIGNANDUM) \
 			$(PARTS_MALI) \
 			$(PARTS_TRANSLATOR) \
-			$(PARTS_SUBSTMATRIX)
+			$(PARTS_SUBSTMATRIX) \
+			$(PARTS_PHYLOLIB)
+
+PARTS_PHYLOLIB= Tree.cpp HelpersTree.cpp \
+                        ImplTree.cpp \
+                        PhyloMatrix.cpp HelpersPhyloMatrix.cpp \
+                        ImplPhyloMatrix.cpp ImplPhyloMatrixSymmetric.cpp \
+                        Distor.cpp HelpersDistor.cpp \
+                        ImplDistor.cpp ImplDistorKimura.cpp ImplDistorClustal.cpp ImplDistorDummy.cpp \
+                        Treetor.cpp HelpersTreetor.cpp \
+                        ImplTreetor.cpp ImplTreetorDistance.cpp ImplTreetorDistanceLinkage.cpp \
+                        ImplTreetorDistanceNJ.cpp
 
 PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp HelpersSequence.cpp \
 			Weightor.cpp HelpersWeightor.cpp \

@@ -30,6 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 #include "Alignandum.h"
 #include "HelpersSequence.h"
@@ -42,83 +43,124 @@
 #include "HelpersAlignata.h"
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
+#include "AlignlibDebug.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
 #endif
 
 using namespace std;
+using namespace alignlib;
 
 const char FILE_SEQ[] = "data/test.seq";
 const char FILE_FASTA[] = "data/test.fasta";
 
 
-int main () {
+int main () 
+{
 
+	alignlib::MultipleAlignment * m1;
+	alignlib::MultipleAlignment * m2;
+
+	alignlib::Alignata * ali = alignlib::makeAlignataSet();
+
+	{
+		ali->addPair( new alignlib::ResiduePAIR( 2,2, 1));
+		ali->addPair( new alignlib::ResiduePAIR( 3,3, 1));
+		ali->addPair( new alignlib::ResiduePAIR( 5,4, 1));
+		ali->addPair( new alignlib::ResiduePAIR( 6,5, 1));
+		ali->addPair( new alignlib::ResiduePAIR( 7,7, 1));
+		ali->addPair( new alignlib::ResiduePAIR( 8,8, 1));
+	}	
+	cout << *ali << endl;
+
+	
+	
   {
     // create a multiple alignment 
-    alignlib::MultipleAlignment * m1 = alignlib::makeMultipleAlignment();
+    m1 = alignlib::makeMultipleAlignment();
+    
     m1->add(alignlib::makeAlignatumFromString("-AAAAA-CCAAA-"));
     m1->add(alignlib::makeAlignatumFromString("AAAAAA-CCAAAA"));
     m1->add(alignlib::makeAlignatumFromString("-A-AAA-CCA-A-"));
     m1->add(alignlib::makeAlignatumFromString("AAAAAAA--AAAA"));
+
+    assert( m1->getLength() == 13);
+    assert( m1->getWidth() == 4);
+
+    {
+    	std::cout << "testing ouptut" << std::endl;
+    	cout << *m1 << endl;
     
-    cout << *m1 << endl;
-    
-    // write segments of the alignment and check numbering
-    m1->write( cout, 0, 13 ); cout << endl;
-    m1->write( cout, 1, 12 ); cout << endl;
-    m1->write( cout, 2, 11 ); cout << endl;
-    m1->write( cout, 3, 10 ); cout << endl;
+    	// write segments of the alignment and check numbering
+    	// no change
+    	m1->write( cout, 0, 13 ); cout << endl;
+    	// truncated
+    	m1->write( cout, 1, 12 ); cout << endl;
+    	// truncated
+    	m1->write( cout, 2, 11 ); cout << endl;
+    	//truncated
+    	m1->write( cout, 3, 10 ); cout << endl;
+    }
     
     {
-      std::cout << "using sstream" << std::endl;
+      std::cout << "testing using sstream" << std::endl;
       std::ostringstream temp;
       std::ostream * p = &temp;
       m1->write( *p ); *p << ends; std::cout << temp.str() <<endl;
     }
     
-    // add two multiple alignments
-    alignlib::MultipleAlignment * m2 = alignlib::makeMultipleAlignment();
+    {
+    	std::cout << "testing directly adding a multiple alignment" << std::endl;
     
-    m2->add( m1 );
-    m2->add( m1 );
+    	m2 = alignlib::makeMultipleAlignment();
     
-    cout << *m2 << endl;
+    	m2->add( m1 );
+    	m2->add( m1 );
     
+    	cout << *m2 << endl;
+    
+    	delete m2;
+    }
+   
     delete m1;
-    delete m2;
     
-    // add two multiple alignments using an alignment between them:
+    {
+    	std::cout << "testing adding alignments with alignment between them" << std::endl;
+
+    	m1 = alignlib::makeMultipleAlignment();
+    	m1->add(alignlib::makeAlignatumFromString("0123456789"));
+    	m1->add(alignlib::makeAlignatumFromString("0123456789"));
+    	m1->add(alignlib::makeAlignatumFromString("0123456789"));
+
+    	{
+    		m2 = alignlib::makeMultipleAlignment();
+    		m2 -> add( m1 );
+
+    		// this will create an multiple alignment of 8 residues
+    		// width
+    		m2->add( m1, ali, true );
+    		assert( m2->getLength() == 8);
+    		assert( m2->getWidth() == 2 * m1->getWidth() );
+    		
+    		debug_cerr(5, "mali is in row" << *m2 );
+    		delete m2;
+    	}
+    	
+    	{
+    		m2 = alignlib::makeMultipleAlignment();
+    		m2->add( m1, ali, false);
+    		
+    		assert( m2->getLength() == 8);
+    		assert( m2->getWidth() == 2 * m1->getWidth() );
+
+    		debug_cerr(5, "mali is in col" << *m2 );
+    		delete m2;
+    	}
+    	
+    	delete m1;
+    }
     
-    m1 = alignlib::makeMultipleAlignment();
-    m1->add(alignlib::makeAlignatumFromString("123456789"));
-    m1->add(alignlib::makeAlignatumFromString("123456789"));
-    m1->add(alignlib::makeAlignatumFromString("123456789"));
-    
-    alignlib::Alignata * ali = alignlib::makeAlignataSet();
-    
-    ali->addPair( new alignlib::ResiduePAIR( 2,2, 1));
-    ali->addPair( new alignlib::ResiduePAIR( 3,3, 1));
-    ali->addPair( new alignlib::ResiduePAIR( 5,4, 1));
-    ali->addPair( new alignlib::ResiduePAIR( 6,5, 1));
-    ali->addPair( new alignlib::ResiduePAIR( 7,7, 1));
-    ali->addPair( new alignlib::ResiduePAIR( 8,8, 1));
-    
-    cout << *ali << endl;
-    
-    m2 = alignlib::makeMultipleAlignment();
-    m2 -> add( m1 );
-    cout << *m2 << endl;
-    
-    m2->add( m1, ali, true );
-    cout << *m2 << endl;
-    
-    m2->add( m1, ali, false);
-    cout << *m2 << endl;
-    
-    delete m1;
-    delete m2;
     //-------------------------add new objects using an aligment */
     
     m1 = alignlib::makeMultipleAlignment();
@@ -140,7 +182,7 @@ int main () {
   // check mali dots
   std::cout << "## checking MultipleAlignmentDots" << std::endl;
   {
-
+	  
     // create a multiple alignment 
     alignlib::MultipleAlignment * m1 = alignlib::makeMultipleAlignmentDots( false );
     alignlib::MultipleAlignment * m2 = alignlib::makeMultipleAlignmentDots( false );    

@@ -1559,7 +1559,8 @@ namespace alignlib {
       Position last_col = current_col;
 
       // iteration over alignmnet
-      for ( ; it != it_end; ++it ) {
+      for ( ; it != it_end; ++it ) 
+      {
         Score current_score = it->mScore;
         current_row = it->mRow;
         current_col = it->mCol;
