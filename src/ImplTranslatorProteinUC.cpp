@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplTranslatorTCO.cpp,v 1.2 2004/01/07 14:35:36 aheger Exp $
+  $Id: ImplTranslatorProteinUC.cpp,v 1.2 2004/01/07 14:35:36 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -20,9 +20,13 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// Actually this is a bit misleading, there is no new class here, just the data
-// and the implementation of a factory function.
+/* 
+   Translate only upper case characters. Do not use lower case characters. They are treated
+   as masked residues.
 
+*/
+
+#include "HelpersTranslator.h"
 #include "ImplTranslator.h"
 
 //--------------------------------------< translation table for blosum matrices >--------------------------------------
@@ -30,31 +34,28 @@
 namespace alignlib {
 
     // this string has to be null-terminated, since I use strlen to determine its length
-    static char * decoding_table     = ";<=>";
+    static char * decoding_table = "ACDEFGHIKLMNPQRSTVWYX";	
 
+    // translate upper and lower-case characters
     static Residue encoding_table[131] = { 
-            CODE_MASK,													  /* 0 */
+            CODE_MASK,													/* 0 */
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 10 */
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 20 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 30 */
+            CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 30 */
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 40 */
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 50 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK,         0,         1, /* 60 */
-	            2,         3, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 70 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 80 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 90 */
+	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 60 */
+	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK,         0, CODE_MASK,         1,         2,         3,         4, /* 70 */
+	            5,         6,         7, CODE_MASK,         8,         9,        10,        11, CODE_MASK,        12, /* 80 */
+	           13,        14,        15,        16, CODE_MASK,        17,        18, CODE_MASK,        19, CODE_MASK, /* 90 */
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 100 */
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 110 */
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 120 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK  /* 130 */
-	    };
+	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 130 */
+		};
 
-    // export a default translator object for TCO-sequences
-    extern const ImplTranslator DEFAULT_TRANSLATOR_TCO( encoding_table, decoding_table ); 
-
-Translator * makeTranslatorTCO() {
-    return new ImplTranslator( encoding_table, decoding_table );
-}
-
+    
+    Translator * makeTranslatorProteinUC() { return new ImplTranslator( encoding_table, decoding_table ); }
+    
 } // namespace alignlib
 

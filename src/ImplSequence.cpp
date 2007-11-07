@@ -42,133 +42,157 @@ using namespace std;
 
 namespace alignlib {
 
-  //---------------------------------< implementation of factory functions >--------------
+//---------------------------------< implementation of factory functions >--------------
 
-  //----------------------------------------------------------------------------------
-  /** create a sequence from a NULL-terminated string */
-  Alignandum * makeSequence( const char * sequence ) {
-    return new ImplSequence( sequence );
-  }
+//----------------------------------------------------------------------------------
+/** create a sequence from a NULL-terminated string */
+Alignandum * makeSequence( const char * sequence ) {
+	return new ImplSequence( sequence );
+}
 
-  //----------------------------------------------------------------------------------
-  /** create a sequence from a string */
-  Alignandum * makeSequence( const std::string & sequence ) {
-    return new ImplSequence( sequence.c_str() );
-  }
+//----------------------------------------------------------------------------------
+/** create a sequence from a string */
+Alignandum * makeSequence( const std::string & sequence ) {
+	return new ImplSequence( sequence.c_str() );
+}
 
-  //--------------------------------------------------------------------------------------
-  ImplSequence::ImplSequence() : mSequence(NULL) {
-  }
+//--------------------------------------------------------------------------------------
+ImplSequence::ImplSequence() : mSequence(NULL) {
+}
 
-  //--------------------------------------------------------------------------------------
-  ImplSequence::ImplSequence( const char * src ) : 
-    ImplAlignandum(), mSequence(NULL) 
-  {
-    Position length = strlen( src );
+//--------------------------------------------------------------------------------------
+ImplSequence::ImplSequence( const char * src ) : 
+	ImplAlignandum(), mSequence(NULL) 
+	{
+	Position length = strlen( src );
 
-    //!! check for correct translation?
-    setTrueLength( length );
-    useSegment();
-    mSequence = getDefaultTranslator()->encode( src, length );
-    setPrepared(true );
-  }
+	//!! check for correct translation?
+	setTrueLength( length );
+	useSegment();
+	mSequence = getDefaultTranslator()->encode( src, length );
+	setPrepared(true );
+	}
 
-  //--------------------------------------------------------------------------------------
-  ImplSequence::ImplSequence( const ImplSequence & src ) : ImplAlignandum( src ), mSequence(NULL) 
-  {
-    debug_func_cerr(5);
+//--------------------------------------------------------------------------------------
+ImplSequence::ImplSequence( const ImplSequence & src ) : ImplAlignandum( src ), mSequence(NULL) 
+{
+	debug_func_cerr(5);
 
-    if (mSequence != NULL) delete [] mSequence;
-    //!! make exception safe
-    mSequence = new Residue[src.getTrueLength()];
-    memcpy( mSequence, src.mSequence, src.getTrueLength());
-  }
-
-
-  //--------------------------------------------------------------------------------------
-  ImplSequence::~ImplSequence() 
-    {
-      debug_func_cerr(5);
-
-      if (mSequence != NULL) 
-        delete [] mSequence;
-    }
-
-  //--------------------------------------------------------------------------------------
-  Alignandum * ImplSequence::getClone() const {
-    return new ImplSequence( *this );
-  }
+	if (mSequence != NULL) delete [] mSequence;
+	//!! make exception safe
+	mSequence = new Residue[src.getTrueLength()];
+	memcpy( mSequence, src.mSequence, src.getTrueLength());
+}
 
 
-  //--------------------------------------------------------------------------------------
-  Residue ImplSequence::asResidue(Position n) const { 
-    return mSequence[n]; 
-  }
+//--------------------------------------------------------------------------------------
+ImplSequence::~ImplSequence() 
+{
+	debug_func_cerr(5);
 
-  //--------------------------------------------------------------------------------------
-  const AlignandumDataSequence & ImplSequence::getData() const {
-    mData.mSequencePointer = mSequence;
-    return mData;
-  }
+	if (mSequence != NULL) 
+		delete [] mSequence;
+}
 
-  //--------------------------------------------------------------------------------------
-  void ImplSequence::prepare() const {
-  }
-
-  //--------------------------------------------------------------------------------------
-  void ImplSequence::release() const {
-  }
-
-  //--------------------------------------------------------------------------------------
-  void ImplSequence::mask( Position x) {
-    mSequence[ x ] = getDefaultTranslator()->getMaskCode();
-  }
+//--------------------------------------------------------------------------------------
+Alignandum * ImplSequence::getClone() const {
+	return new ImplSequence( *this );
+}
 
 
-  //--------------------------------------------------------------------------------------
-  void ImplSequence::shuffle( unsigned int num_iterations, Position window_size ) {
+//--------------------------------------------------------------------------------------
+Residue ImplSequence::asResidue(Position n) const { 
+	return mSequence[n]; 
+}
 
-    if (window_size == 0)
-      window_size = getLength();
+//--------------------------------------------------------------------------------------
+const AlignandumDataSequence & ImplSequence::getData() const {
+	mData.mSequencePointer = mSequence;
+	return mData;
+}
 
-    Position first_from = getFrom();
+//--------------------------------------------------------------------------------------
+void ImplSequence::prepare() const {
+}
 
-    for (unsigned x = 0; x < num_iterations; x++) { 
+//--------------------------------------------------------------------------------------
+void ImplSequence::release() const {
+}
 
-      Position i,j;
-      Position to = getTo();
-
-      while (to > first_from ) {
-        Position from = to - window_size;
-
-        if (from < 1) {
-          from = 1;
-          window_size = to;
-        }
-
-        for (i = to; i > from; i--) {
-          j = to - GetRandomPosition(window_size) - 1;
-          Residue x = mSequence[j];
-          mSequence[j] = mSequence[i];
-          mSequence[i] = x;
-        }
-
-        to -= window_size;
-      }
-    }
-  }
+//--------------------------------------------------------------------------------------
+void ImplSequence::mask( Position x) {
+	mSequence[ x ] = getDefaultTranslator()->getMaskCode();
+}
 
 
-  //--------------------------------------------------------------------------------------
-  void ImplSequence::write( std::ostream & output ) const {
-    const char * result = getDefaultTranslator()->decode( mSequence, getTrueLength() );
-    output << result;
-    delete [] result;
-  }
+//--------------------------------------------------------------------------------------
+void ImplSequence::shuffle( unsigned int num_iterations, Position window_size ) {
 
-  //--------------------------------------------------------------------------------------
-  void ImplSequence::read( std::istream & input ) {
-  }
+	if (window_size == 0)
+		window_size = getLength();
+
+	Position first_from = getFrom();
+
+	for (unsigned x = 0; x < num_iterations; x++) { 
+
+		Position i,j;
+		Position to = getTo();
+
+		while (to > first_from ) {
+			Position from = to - window_size;
+
+			if (from < 1) {
+				from = 1;
+				window_size = to;
+			}
+
+			for (i = to; i > from; i--) {
+				j = to - getRandomPosition(window_size) - 1;
+				Residue x = mSequence[j];
+				mSequence[j] = mSequence[i];
+				mSequence[i] = x;
+			}
+
+			to -= window_size;
+		}
+	}
+}
+
+
+//--------------------------------------------------------------------------------------
+void ImplSequence::write( std::ostream & output ) const 
+{
+	const char * result = getDefaultTranslator()->decode( mSequence, getTrueLength() );
+	output << result;
+	delete [] result;
+}
+
+//--------------------------------------------------------------------------------------
+void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const 
+{
+	if (type == MNNoType )
+	{
+		type = MNImplSequence;
+		output.write( (char*)&type, sizeof(MagicNumberType ) );
+	}
+
+	ImplAlignandum::__save( output, type );
+	
+	output.write( (char*)mSequence, sizeof(Residue) * getTrueLength() );
+}
+
+//--------------------------------------------------------------------------------------
+void ImplSequence::load( std::istream & input)  
+{
+	ImplAlignandum::load( input );
+
+	if (mSequence != NULL) 
+		delete [] mSequence;
+	
+	mSequence = new Residue[ getTrueLength() ] ;
+	input.read( (char*)mSequence, sizeof(Residue) * getTrueLength() );
+	
+}
 
 
 

@@ -1,3 +1,13 @@
+
+USAGE = """python setup.py [options] command [command [...]]
+
+The following commands are available:
+
+* build: build and compile python extension to alignlib
+* test: run some tests
+* install: install the extension
+"""
+
 import re, sys, os, optparse, subprocess
 
 from pyplusplus import module_builder, messages
@@ -25,9 +35,13 @@ def checkRequisites( options ):
         
     return nerrors
 
-def buildModule( include_paths, dest) :
+def buildModule( include_paths, dest, options) :
     """build module using py++."""
     
+    if options.force:
+        if os.path.exists( "cache" ):
+            os.remove( "cache" )
+            
     #Creating an instance of class that will help you to expose your declarations
     mb = module_builder.module_builder_t( [r"includes.h"]
                                           , gccxml_path=r""
@@ -83,17 +97,23 @@ def buildModule( include_paths, dest) :
                                return_value_policy( manage_new_object )
     
         # other functions that return new objects, including the factory functions
-        for prefix in ("extract", "read", "make", "exportProfileFrequencies", "splitAlignata" ):
-            mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
-                               return_value_policy( manage_new_object )
-            
+        for prefix in ("extract", "read", "make", "load", "exportProfileFrequencies", "splitAlignata" ): 
+            try:
+                mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
+                                   return_value_policy( manage_new_object )
+            except RuntimeError:
+                print "could not find any function with prefix %s" % prefix
+                
         #######################################################################################
         #######################################################################################
         #######################################################################################
         ## patches to exclude problematic functions
         for prefix in ("getMapResidue", "makeSubstitutionMatrixAA", "makeRendererColumn", "makeAlignatorDotsWrap", "getDefaultPalette" ):
-            mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).exclude()
-    
+            try:
+                mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).exclude()
+            except RuntimeError:
+                print "could not find declaration for %s" % prefix
+                
         ## can't export makeProfile(const std::string &, int)
         ## couldn't figure out what to mach const std::string & with
         ## tried: const std::string &, std::string const &, and more
@@ -125,6 +145,10 @@ def buildModule( include_paths, dest) :
                                   'AlignandumData',
                                   'SubstitutionMatrixData',
                                   'NormalDistributionParameters',
+                                  'Distor',
+                                  'Treetor',
+                                  'Tree',
+                                  'PhyloMatrix',                                  
                                   ])
     
         ## include all classes
@@ -162,6 +186,13 @@ def buildModule( include_paths, dest) :
                              return_value_policy( manage_new_object )
         mb.member_functions( "calculateWeights" ).call_policies = \
                              return_value_policy( manage_new_object )
+        mb.member_functions( "calculateMatrix" ).call_policies = \
+                             return_value_policy( manage_new_object )                             
+        mb.member_functions( "calculateTree" ).call_policies = \
+                             return_value_policy( manage_new_object )                             
+        mb.member_functions( lambda mem_fun: mem_fun.name.startswith( "getNodes" ) ).call_policies = \
+                             return_value_policy( manage_new_object )
+                             
     
         ## exclude the following because of unhandled arguments/return types
         mb.member_functions( "fillProfile").exclude()
@@ -226,7 +257,7 @@ def buildModule( include_paths, dest) :
     
     ######################################################################
     #Well, don't you want to see what is going on?
-    mb.print_declarations()
+    # mb.print_declarations()
     
     enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType' ] )
     
@@ -293,7 +324,7 @@ python-extension alignlib
 
 if __name__ == "__main__":
     
-    parser = optparse.OptionParser( version = "%prog version: $Id$" )
+    parser = optparse.OptionParser( version = "%prog version: $Id$", usage = USAGE )
 
     parser.add_option( "-f", "--force", dest="force", action="store_true",
                       help="force complete rebuilt..")
@@ -309,20 +340,40 @@ if __name__ == "__main__":
     
     (options, args) = parser.parse_args()
 
-    nerrors = checkRequisites( options )
+    if len(args) < 1:
+        print USAGE
+        raise "please supply a command"
     
-    if nerrors:
-        print "found %i errors - aborting build." % (nerrors)
+    commands = map( lambda x: x.lower(), args)
     
-    ## installation directory of alignlib
-    src_dir=os.path.abspath( options.src_dir )
+    for command in commands:
+        if command not in ("build", "test", "install"):
+            print USAGE
+            raise "unknown command %s" % command
+        
+    for command in commands:
+        if command == "build":
     
-    module_name = "%s.cpp" % options.extension_name
-    
-    if options.force or not os.path.exists( module_name):
-        print "building module %s" % module_name        
-        buildModule( include_paths = [src_dir,], dest = module_name )
-
-    print "compiling extension %s" % options.extension_name
-
-    compileModule( module_name = module_name, options = options )
+            nerrors = checkRequisites( options )
+            
+            if nerrors:
+                print "found %i errors - aborting build." % (nerrors)
+            
+            ## installation directory of alignlib
+            src_dir=os.path.abspath( options.src_dir )
+            
+            module_name = "%s.cpp" % options.extension_name
+            
+            if options.force or not os.path.exists( module_name):
+                print "building module %s" % module_name        
+                buildModule( include_paths = [src_dir,], dest = module_name, options = options )
+        
+            print "compiling extension %s" % options.extension_name
+        
+            compileModule( module_name = module_name, options = options )
+            
+        elif command == "install":
+            pass
+        
+        elif command == "test":
+            pass

@@ -45,15 +45,10 @@ Alignandum::~Alignandum () {
 Alignandum::Alignandum(const Alignandum & src) {
 }
    
-std::ostream & operator<<( std::ostream & output, const Alignandum & src) {
+std::ostream & operator<<( std::ostream & output, const Alignandum & src) 
+{
   src.write( output );
   return output;
 }
-
-std::istream & operator>>( std::istream & input, Alignandum & target) {
-  target.read( input );
-  return input;
-}
-
 
 } // namespace alignlib

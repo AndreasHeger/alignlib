@@ -30,7 +30,8 @@
 
 #include "alignlib.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignata:
 	
@@ -44,8 +45,9 @@ namespace alignlib {
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
-    Translator * makeTranslatorSequence();
-    Translator * makeTranslatorSequenceUC();
+    Translator * makeTranslatorProtein();
+    Translator * makeTranslatorProteinUC();
+    Translator * makeTranslatorDNA();
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */

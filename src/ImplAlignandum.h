@@ -46,7 +46,8 @@ namespace alignlib {
     @short protocol class of alignable objects
 */
 
-class ImplAlignandum : public Alignandum {
+class ImplAlignandum : public Alignandum 
+{
     /* friends ---------------------------------------------------------------------------- */
     friend  std::ostream & operator<<( std::ostream &, const ImplAlignandum &);
     friend  std::istream & operator>>( std::istream &, ImplAlignandum &);             
@@ -93,6 +94,15 @@ class ImplAlignandum : public Alignandum {
 
     /** return last residue number in segment */
     virtual Position getTo() const;
+    
+    /** save state of object into stream
+     */
+    virtual void save( std::ostream & output ) const;
+
+    /** save state of object into stream
+     */
+    virtual void load( std::istream & input ) ;
+    
 
  protected:
     /** the member functions below are protected, because they have to be only accessible for
@@ -107,6 +117,10 @@ class ImplAlignandum : public Alignandum {
     /** set prepared flag */
     virtual void setPrepared( bool flag ) const;
 
+    /** save state of object into stream
+     */
+    virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
+    
  private:
     /** first residue of segment used for aligning */
     Position  mFrom;
@@ -119,7 +133,7 @@ class ImplAlignandum : public Alignandum {
 
     /** flag, whether object is ready for alignment */
     mutable bool mIsPrepared;                          
-
+    
 };
 
 

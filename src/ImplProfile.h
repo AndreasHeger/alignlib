@@ -56,7 +56,8 @@ class LogOddor;
 class MultipleAlignment;
 class Alignata;
 
-class ImplProfile : public ImplAlignandum {
+class ImplProfile : public ImplAlignandum 
+{
     
     friend Alignandum *  extractProfileBinaryCounts( std::istream & input, 
 						     const Position length,
@@ -102,8 +103,8 @@ class ImplProfile : public ImplAlignandum {
     /* constructors and desctructors------------------------------------------------------- */
 
     /** empty constructor */
-    ImplProfile( const Regularizor * regularizor, 
-		 const LogOddor * logoddor );	
+    ImplProfile( const Regularizor * regularizor = NULL, 
+    		const LogOddor * logoddor = NULL );	
     
     /** copy constructor */
     ImplProfile( const ImplProfile &);
@@ -143,13 +144,13 @@ class ImplProfile : public ImplAlignandum {
      */
     virtual void write( std::ostream & output ) const;
 
-    /** read member data that has been output with the Write subroutine.
-     */
-    virtual void read( std::istream & input );
-
     /** shuffle object */
     virtual void shuffle( unsigned int num_iterations = 1,
 			  Position window_size = 0);
+    
+    /** save state of object into stream
+     */
+    virtual void load( std::istream & input ) ;    
     
  protected:
     /** get residue with most counts in column */
@@ -169,6 +170,10 @@ class ImplProfile : public ImplAlignandum {
     
     /** allocate memory for the profile */
     virtual void allocateProfile() const;
+
+    /** save state of object into stream
+     */
+    virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
     
     /*
       virtual void PrintProfile()     const;

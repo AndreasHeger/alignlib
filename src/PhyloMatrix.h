@@ -12,8 +12,8 @@
 #include <config.h>
 #endif
 
-#ifndef MATRIX_H
-#define MATRIX_H 1
+#ifndef PHYLOMATRIX_H
+#define PHYLOMATRIX_H 1
 
 #include <iostream>
 #include "alignlib.h"
@@ -99,5 +99,5 @@ class PhyloMatrix
 
 }
 
-#endif /* _ALIGNATUMSEQUENCE_H */
+#endif /* _PHYLOMATRIX_H */
 

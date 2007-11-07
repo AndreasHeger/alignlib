@@ -38,108 +38,139 @@ using namespace std;
 
 namespace alignlib {
 
-  //--------------------------------------------------------------------------------------
-  ImplAlignandum::ImplAlignandum() : 
-    mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false) {
-  }    
+//--------------------------------------------------------------------------------------
+ImplAlignandum::ImplAlignandum() : 
+	mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false) {
+}    
 
-  //--------------------------------------------------------------------------------------
-  ImplAlignandum::~ImplAlignandum () 
-    {
-      debug_func_cerr(5);
-    }
+//--------------------------------------------------------------------------------------
+ImplAlignandum::~ImplAlignandum () 
+{
+	debug_func_cerr(5);
+}
 
-  //--------------------------------------------------------------------------------------
-  ImplAlignandum::ImplAlignandum(const ImplAlignandum & src) 
-    {
-      debug_func_cerr(5);
+//--------------------------------------------------------------------------------------
+ImplAlignandum::ImplAlignandum(const ImplAlignandum & src) 
+{
+	debug_func_cerr(5);
 
-      mFrom   = src.mFrom;
-      mTo     = src.mTo;
-      mLength = src.mLength;
-      mIsPrepared = src.mIsPrepared;
-    }
+	mFrom   = src.mFrom;
+	mTo     = src.mTo;
+	mLength = src.mLength;
+	mIsPrepared = src.mIsPrepared;
+}
 
-  //--------------------------------------------------------------------------------------
-  void ImplAlignandum::mask( Position from, Position to) 
-    {
-    Position j;
-    for (j = from; j < to; j++) 
-      mask( j );
-  }
+//--------------------------------------------------------------------------------------
+void ImplAlignandum::mask( Position from, Position to) 
+{
+	Position j;
+	for (j = from; j < to; j++) 
+		mask( j );
+}
 
-  //--------------------------------------------------------------------------------------
-  Position ImplAlignandum::getLength() const 
-  {
-    return (mTo - mFrom);
-  }
+//--------------------------------------------------------------------------------------
+Position ImplAlignandum::getLength() const 
+{
+	return (mTo - mFrom);
+}
 
-  //--------------------------------------------------------------------------------------
-  void ImplAlignandum::useSegment(Position from, Position to) 
-    {
-      assert( from <= to );
+//--------------------------------------------------------------------------------------
+void ImplAlignandum::useSegment(Position from, Position to) 
+{
+	assert( from <= to );
 
-      if (from == NO_POS)
-        mFrom = 0;
-      else
-        mFrom = from;
+	if (from == NO_POS)
+		mFrom = 0;
+	else
+		mFrom = from;
 
-      if (to == NO_POS)
-        mTo = mLength;
-      else
-        mTo = std::min( to, mLength );
-    }
+	if (to == NO_POS)
+		mTo = mLength;
+	else
+		mTo = std::min( to, mLength );
+}
 
-  //--------------------------------------------------------------------------------------
-  Position ImplAlignandum::getFrom() const 
-  {
-    return mFrom;
-  }
+//--------------------------------------------------------------------------------------
+Position ImplAlignandum::getFrom() const 
+{
+	return mFrom;
+}
 
-  //--------------------------------------------------------------------------------------
-  Position ImplAlignandum::getTo() const 
-  {
-    return mTo;
-  }
+//--------------------------------------------------------------------------------------
+Position ImplAlignandum::getTo() const 
+{
+	return mTo;
+}
 
-  //--------------------------------------------------------------------------------------
-  void ImplAlignandum::setTrueLength( Position length) const 
-  {
-    mLength = length;
-  }
+//--------------------------------------------------------------------------------------
+void ImplAlignandum::setTrueLength( Position length) const 
+{
+	mLength = length;
+}
 
-  //--------------------------------------------------------------------------------------
-  Position ImplAlignandum::getTrueLength() const {
-    return mLength;
-  }
+//--------------------------------------------------------------------------------------
+Position ImplAlignandum::getTrueLength() const {
+	return mLength;
+}
 
-  //--------------------------------------------------------------------------------------
-  bool ImplAlignandum::isPrepared() const {
-    return mIsPrepared;
-  }
+//--------------------------------------------------------------------------------------
+bool ImplAlignandum::isPrepared() const {
+	return mIsPrepared;
+}
 
-  //--------------------------------------------------------------------------------------
-  void ImplAlignandum::setPrepared( bool flag ) const {
-    mIsPrepared = flag;
-  } 
+//--------------------------------------------------------------------------------------
+void ImplAlignandum::setPrepared( bool flag ) const {
+	mIsPrepared = flag;
+} 
 
-  //--------------------------------------------------------------------------------------
-  char ImplAlignandum::asChar( Position pos ) const {
-    return getDefaultTranslator()->decode( asResidue( pos ));
-  }
+//--------------------------------------------------------------------------------------
+char ImplAlignandum::asChar( Position pos ) const {
+	return getDefaultTranslator()->decode( asResidue( pos ));
+}
 
 
-  //--------------------------------------------------------------------------------------
-  // use faster implementations in subclasses, if you prefer
-  std::string ImplAlignandum::asString() const 
-  {
-    std::string ret_val("");
+//--------------------------------------------------------------------------------------
+// use faster implementations in subclasses, if you prefer
+std::string ImplAlignandum::asString() const 
+{
+	std::string ret_val("");
 
-    for (Position i = 0; i < mLength; i++) 
-      ret_val += getDefaultTranslator()->decode( asResidue(i) );
+	for (Position i = 0; i < mLength; i++) 
+		ret_val += getDefaultTranslator()->decode( asResidue(i) );
 
-    return ret_val;
-  }
+	return ret_val;
+}
+
+void ImplAlignandum::save( std::ostream & output ) const
+{
+	__save( output, MNNoType );
+}
+
+//--------------------------------------------------------------------------------------
+void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const 
+{
+	if (type == MNNoType )
+	{
+		type = MNImplAlignandum;
+		output.write( (char*)&type, sizeof(MagicNumberType) );
+	}
+
+	output.write( (char*)&mIsPrepared, sizeof(bool) );
+	output.write( (char*)&mFrom, sizeof(Position) );
+	output.write( (char*)&mTo, sizeof(Position) );
+	output.write( (char*)&mLength, sizeof(Position) );
+}
+
+//--------------------------------------------------------------------------------------
+void ImplAlignandum::load( std::istream & input)  
+{
+
+	input.read( (char*)&mIsPrepared, sizeof(bool) );
+	input.read( (char*)&mFrom, sizeof(Position) );
+	input.read( (char*)&mTo, sizeof(Position) );
+	input.read( (char*)&mLength, sizeof(Position) );
+
+}
 
 
 } // namespace alignlib

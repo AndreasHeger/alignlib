@@ -93,19 +93,20 @@ class ImplSequence : public ImplAlignandum {
     /** discard cache, if cacheable type */
     virtual void release() const;					       
 
-    /** write important member data in a minimally formated way to a stream. Important
-	in this sense means data that the user is interested, not internal state variables,
-	that would be needed to accurately reconstitute the object.
-	Use different "factory" functions to format the output in a way, that you would 
-	like to have it (see writeSequenceFasta(...) for an example)
+    /** write human readable output to stream.
      */
     virtual void write( std::ostream & output ) const;
-
-    /** read member data that has been output with the Write subroutine.
+    
+    /** save state of object into stream
      */
-    virtual void read( std::istream & input );
+    virtual void load( std::istream & input ) ;
+    
     
  protected:
+
+	 /** save state of object into stream
+	  */
+	 virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
 
  private:
 

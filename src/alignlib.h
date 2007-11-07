@@ -136,6 +136,15 @@ enum LinkageType
 	WPGMC                     // = weighted pair group method centroid (UPGMC), as above
 };
 
+// List of objects that allow saving state information
+enum MagicNumberType
+{
+	MNNoType,
+	MNImplAlignandum,
+	MNImplSequence,
+	MNImplProfile,
+};
+
 /* type of a height of a node in the tree */
 typedef double TreeHeight;
 

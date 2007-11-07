@@ -37,6 +37,8 @@
 #include "Alignata.h"
 #include "AlignataIterator.h"
 #include "HelpersAlignandum.h"
+#include "HelpersLogOddor.h"
+#include "HelpersRegularizor.h"
 
 /** default objects */
 
@@ -53,8 +55,16 @@ ImplProfile::ImplProfile( const Regularizor * regularizor,
 		const LogOddor * logoddor ) : 
 			mRegularizor( regularizor ),
 			mLogOddor( logoddor ),
-			mCounts(NULL), mFrequencies(NULL), mProfile(NULL) {
-}
+			mCounts(NULL), mFrequencies(NULL), mProfile(NULL) 
+			{
+
+	if (regularizor == NULL) 
+		mRegularizor = getDefaultRegularizor();
+
+	if (logoddor == NULL)
+		mLogOddor = getDefaultLogOddor();
+
+			}
 
 const AlignandumDataProfile & ImplProfile::getData() const {
 	mData.mCountsPointer		= &mCounts[getFrom()];
@@ -98,11 +108,11 @@ ImplProfile::~ImplProfile()
 	debug_func_cerr(5);
 
 	if (mCounts != NULL)
-		{ delete [] mCounts; mCounts = NULL; }
+	{ delete [] mCounts; mCounts = NULL; }
 	if (mFrequencies != NULL)
-		{ delete [] mFrequencies; mFrequencies = NULL; }
+	{ delete [] mFrequencies; mFrequencies = NULL; }
 	if (mProfile != NULL)
-		{ delete [] mProfile; mProfile = NULL; }
+	{ delete [] mProfile; mProfile = NULL; }
 }
 
 //--------------------------------------------------------------------------------------
@@ -168,7 +178,8 @@ void ImplProfile::allocateFrequencies() const
 }
 
 //---------------------------------------------------------------------------------------------------------------
-Residue ImplProfile::getMaximumCounts( const Position column ) const {
+Residue ImplProfile::getMaximumCounts( const Position column ) const 
+{
 	int i;
 
 	Count max   = 0;
@@ -200,7 +211,8 @@ Residue ImplProfile::getMaximumFrequencies( const Position column ) const {
 }
 
 //---------------------------------------------------------------------------------------------------------------
-Residue ImplProfile::getMaximumProfile( const Position column ) const {
+Residue ImplProfile::getMaximumProfile( const Position column ) const 
+{
 	int i;
 
 	ProfileScore max   = 0;
@@ -234,7 +246,8 @@ void ImplProfile::mask( Position column) {
 }
 
 //---------------------------------------------------------------------------------------------------------------
-Residue ImplProfile::asResidue( const Position column ) const {
+Residue ImplProfile::asResidue( const Position column ) const 
+{
 
 	if (mCounts) 
 		return getMaximumCounts( column );
@@ -263,7 +276,8 @@ void ImplProfile::prepare() const
 
 
 //--------------------------------------------------------------------------------------
-void ImplProfile::release() const {
+void ImplProfile::release() const 
+{
 	if (mFrequencies != NULL)
 	{
 		delete [] mFrequencies;
@@ -301,7 +315,7 @@ void ImplProfile::shuffle( unsigned int num_iterations,
 			}
 
 			for (i = to; i >= from; i--) {
-				j = to - GetRandomPosition(window_size) - 1;
+				j = to - getRandomPosition(window_size) - 1;
 				memcpy(buffer, mCounts[i], PROFILEWIDTH * sizeof(mCounts));
 				memcpy(mCounts[i], mCounts[j], PROFILEWIDTH * sizeof(mCounts));
 				memcpy(mCounts[j], buffer, PROFILEWIDTH * sizeof(mCounts));
@@ -378,12 +392,45 @@ void ImplProfile::write( std::ostream & output ) const {
 	} else {
 		output << "----------->no profile available<--------------------------" << endl;
 	}
+}
+//--------------------------------------------------------------------------------------
+void ImplProfile::__save( std::ostream & output, MagicNumberType type ) const 
+{
+	if (type == MNNoType )
+	{
+		type = MNImplProfile;
+		output.write( (char*)&type, sizeof(MagicNumberType ) );
+	}		
+	ImplAlignandum::__save( output, type );
 
+	output.write( (char*)mCounts, sizeof( CountColumn) * getTrueLength() );
+	if (isPrepared() )
+	{
+		output.write( (char*)mFrequencies, sizeof( FrequencyColumn) * getTrueLength() );
+		output.write( (char*)mProfile, sizeof( ProfileColumn) * getTrueLength() );	
+	}		
+}
+
+//--------------------------------------------------------------------------------------
+void ImplProfile::load( std::istream & input)  
+{
+	ImplAlignandum::load( input );
+
+	allocateCounts();	
+	input.read( (char*)mCounts, sizeof( CountColumn) * getTrueLength() );
+	
+	if (isPrepared() )
+	{
+		allocateFrequencies();
+		input.read( (char*)mFrequencies, sizeof( FrequencyColumn) * getTrueLength() );
+		allocateProfile();
+		input.read( (char*)mProfile, sizeof( ProfileColumn) * getTrueLength() );	
+	}		
+	
 }
 
 //--------------------------------------> I/O <------------------------------------------------------------
-void ImplProfile::read( std::istream & input ) {
-	//!! to implement
-}
+
+
 
 } // namespace alignlib

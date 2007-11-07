@@ -28,13 +28,44 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-
+#include "Alignandum.h"
+#include "ImplSequence.h"
+#include "ImplProfile.h"
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
 #endif
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
+	Alignandum * loadAlignandum( std::istream & input) 
+	{
+		MagicNumberType magic_number;
+		
+		input.read( (char*)&magic_number, sizeof(MagicNumberType) );
+		
+		Alignandum * result;
+		switch (magic_number)
+		{
+			case MNImplProfile : 
+			{
+				ImplProfile * r = new ImplProfile();
+				r->load(input);
+				result = r;
+				break;
+			}
+			case MNImplSequence :
+			{
+				ImplSequence * r = new ImplSequence();
+				r->load( input );
+				result = r;
+				break;
+			}
+		}	
+
+		return result;
+	}	
+	
 } // namespace alignlib

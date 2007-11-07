@@ -178,9 +178,9 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 PARTS_STATISTICS =    Statistics.cpp
 
 PARTS_TRANSLATOR=	HelpersTranslator.cpp \
-			ImplTranslator.cpp ImplTranslatorSequence.cpp \
-			ImplTranslatorTCO.cpp ImplTranslatorSequenceUC.cpp
-
+			ImplTranslator.cpp ImplTranslatorProtein.cpp ImplTranslatorProteinUC.cpp \
+			ImplTranslatorDNA.cpp 
+			
 PARTS_SUBSTMATRIX=   	SubstitutionMatrix.cpp HelpersSubstitutionMatrix.cpp \
 			ImplSubstitutionMatrix.cpp ImplSubstitutionMatrixAA.cpp
 

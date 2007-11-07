@@ -128,19 +128,14 @@ class Alignandum {
     /** discard cache, if cacheable type */
     virtual void release() const = 0;					       
 
-    /** write important member data in a minimally formated way to a stream. Important
-	in this sense means data that the user is interested, not internal state variables,
-	that would be needed to accurately reconstitute the object.
-	Use different "factory" functions to format the output in a way, that you would 
-	like to have it (see writeSequenceFasta(...) for an example)
+    /** write human readable output to stream.
      */
     virtual void write( std::ostream & output ) const = 0;
 
-    /** read member data that has been output with the Write subroutine.
+    /** save state of object into stream
      */
-    virtual void read( std::istream & input ) = 0;
-
-
+    virtual void save( std::ostream & input ) const = 0;
+        
 };
 
 }

@@ -82,11 +82,12 @@ Alignandum * makeProfile( const Regularizor * regularizor,
 /** create empty profile with given length */
 Alignandum * makeProfile( Position length,
 		const Regularizor * regularizor,
-		const LogOddor * logoddor ) {
-	if (!regularizor) 
+		const LogOddor * logoddor ) 
+		{
+	if (regularizor == NULL) 
 		regularizor = getDefaultRegularizor();
 
-	if (!logoddor)
+	if (logoddor == NULL)
 		logoddor = getDefaultLogOddor();
 
 
@@ -104,14 +105,16 @@ Alignandum * makeProfile( Position length,
 Alignandum * makeProfile( const char * src, int nsequences,
 		const Weightor * weightor, 
 		const Regularizor * regularizor,
-		const LogOddor * logoddor ) {
-	if (!weightor)
+		const LogOddor * logoddor ) 
+		{
+	
+	if (weightor == NULL)
 		weightor = getDefaultWeightor();
-
-	if (!regularizor) 
+	
+	if (regularizor == NULL) 
 		regularizor = getDefaultRegularizor();
 
-	if (!logoddor)
+	if (logoddor == NULL)
 		logoddor = getDefaultLogOddor();
 
 	MultipleAlignment * m = fillMultipleAlignment( makeMultipleAlignment(), src, nsequences );
@@ -129,13 +132,13 @@ Alignandum * makeProfile( const MultipleAlignment * mali,
 		const Regularizor * regularizor,
 		const LogOddor * logoddor ) {
 
-	if (!weightor)
+	if (weightor == NULL)
 		weightor = getDefaultWeightor();
 
-	if (!regularizor) 
+	if (regularizor == NULL) 
 		regularizor = getDefaultRegularizor();
 
-	if (!logoddor)
+	if (logoddor == NULL)
 		logoddor = getDefaultLogOddor();
 
 	Alignandum * profile = new ImplProfile( regularizor, logoddor );
@@ -182,7 +185,8 @@ Alignandum * fillProfile( Alignandum * dest,
 	int width = src->getWidth();
 
 	Residue code;
-	for (int nsequence = 0; nsequence < width; nsequence++) {
+	for (int nsequence = 0; nsequence < width; nsequence++) 
+	{
 		const std::string & seq = (*src)[nsequence];
 		for (int column = 0; column < length; column++) 
 			if ( (code = getDefaultTranslator()->encode( seq[column] ) ) < PROFILEWIDTH)

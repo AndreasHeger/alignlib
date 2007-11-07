@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplTranslatorSequenceUC.cpp,v 1.2 2004/01/07 14:35:36 aheger Exp $
+  $Id: ImplTranslatorProtein.cpp,v 1.2 2004/01/07 14:35:36 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -20,13 +20,10 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-/* 
-   Translate only upper case characters. Do not use lower case characters. They are treated
-   as masked residues.
+// Actually this is a bit misleading, there is no new class here, just the data
+// and the implementation of a factory function. Note: do not include this file several
+// times, or you will risk allocating a lot of unnecessary static memory.
 
-*/
-
-#include "HelpersTranslator.h"
 #include "ImplTranslator.h"
 
 //--------------------------------------< translation table for blosum matrices >--------------------------------------
@@ -48,14 +45,14 @@ namespace alignlib {
 	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK,         0, CODE_MASK,         1,         2,         3,         4, /* 70 */
 	            5,         6,         7, CODE_MASK,         8,         9,        10,        11, CODE_MASK,        12, /* 80 */
 	           13,        14,        15,        16, CODE_MASK,        17,        18, CODE_MASK,        19, CODE_MASK, /* 90 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 100 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 110 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 120 */
-	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, /* 130 */
+	    CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK,         0, CODE_MASK,         1,         2, /* 100 */
+	            3,         4,         5,         6,         7, CODE_MASK,         8,         9,        10,        11, /* 110 */
+	    CODE_MASK,        12,        13,        14,        15,        16, CODE_MASK,        17,        18, CODE_MASK, /* 120 */
+	           19, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK, CODE_MASK  /* 130 */
 		};
 
     
-    Translator * makeTranslatorSequenceUC() { return new ImplTranslator( encoding_table, decoding_table ); }
+    Translator * makeTranslatorProtein() { return new ImplTranslator( encoding_table, decoding_table ); }
     
 } // namespace alignlib
 

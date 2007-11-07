@@ -4,21 +4,21 @@
   $Id: HelpersAlignandum.h,v 1.2 2004/01/07 14:35:32 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
 
 #if HAVE_CONFIG_H
@@ -31,34 +31,39 @@
 #include "alignlib.h"
 #include <math.h>
 
-namespace alignlib {
-    
-    /** Helper functions for class Alignandum:
-	
+namespace alignlib 
+{
+
+class Alignandum;
+/** Helper functions for class Alignandum:
+
 	1. factory functions
-	
+
 	2. accessor functions for default objects
-	
+
 	3. convenience functions
-    */
+ */
 
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 1. factory functions */
+/* -------------------------------------------------------------------------------------------------------------------- */
+/* 1. factory functions */
+/** load an Alignandum object from stream 
+ */	
+Alignandum * loadAlignandum( std::istream & stream );
+
+/* -------------------------------------------------------------------------------------------------------------------- */
+/* 2. accessor functions for default objects */
 
 
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 2. accessor functions for default objects */
-  
+/* ----------------------------------------------------------------------------------------*/
+/* 3. convenience functions */
 
-    /* ----------------------------------------------------------------------------------------*/
-    /* 3. convenience functions */
-    
-    /** get a random position in a sequence ranging from 0 to max */
-    inline Position GetRandomPosition ( Position max ) {
-      return (Position)((double)max*rand()/(RAND_MAX+1.0));
-    }
+/** get a random position in a sequence ranging from 0 to max */
+inline Position getRandomPosition ( Position max ) 
+{
+	return (Position)((double)max*rand()/(RAND_MAX+1.0));
+}
 
-    
+
 
 }
 
