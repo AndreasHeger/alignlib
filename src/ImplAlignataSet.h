@@ -167,10 +167,10 @@ class ImplAlignataSet : public ImplAlignata {
 
     /** returns the first aligned pair. Have to create a copy not a reference, because not all alignments will have
 	a list of pairs ready */
-    virtual ResiduePAIR getFirstPair() const;
+    virtual ResiduePAIR front() const;
     
     /** returns the last aligned pair */
-    virtual ResiduePAIR getLastPair() const;
+    virtual ResiduePAIR back() const;
 
     /** adds a pair of residue to the alignment */
     virtual void addPair( ResiduePAIR * new_pair ); 

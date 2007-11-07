@@ -40,7 +40,11 @@ class AlignataConstIterator;
 /**
    @short A residuepair containing row, column, and a score.
 */
-struct ResiduePAIR {
+struct ResiduePAIR 
+{
+	/** Base class for residue aligned residues.
+	 */
+	
     friend std::ostream & operator<< (std::ostream &, const ResiduePAIR &);
 
   ResiduePAIR() : mRow(0), mCol(0), mScore(0) {}
@@ -58,22 +62,30 @@ bool operator!=( const ResiduePAIR & x, const ResiduePAIR & y);
 /**     
     @short Protocol class for pairwise alignments.
 	
-    An alignment is a mapping.
+    Tthe purpose of this class to provide a mapping between
+    two objects. In true dynamic programming spirit, the
+    two objects are called "row" and "col".
     
-    Each alignment should provide iterators. However,
+    Different implementations of this interface store residues
+    in different order and implement different efficiences in
+    mapping residues.
+    
+    Each alignment provides iterators. However,
     since the implementation differs between the different
     container types, I went for passive iterators, unlike
     the STL iterators, which are active. A passive iterator
     relies on the collection to manage its advancement and 
     therefore has to cooperate closely with its container.
     
-    This class is a protocol class and as such defines only the
-    general interface.
+    This class is a protocol class and as such defines only 
+    the general interface.
+    
+    
 */
  
-class Alignata {
+class Alignata 
+{
     friend std::ostream & operator<<(std::ostream &output, const Alignata &);
-    friend std::istream & operator>>(std::istream &input, Alignata &);
 
  public:
 
@@ -103,7 +115,8 @@ class Alignata {
        This iterator iterates over residues in the @ref Alignata
        objects.
      */
-    class ConstIterator {
+    class ConstIterator 
+    {
     public:
         ConstIterator() {};
  
@@ -130,7 +143,8 @@ class Alignata {
     /**
        @short Non-const iterator over an alignment.
      */
-    class Iterator {
+    class Iterator 
+    {
     public:
         Iterator() {};
  
@@ -153,16 +167,20 @@ class Alignata {
 	virtual void previous() = 0;
     };
 
-    /** return const iterator */
+    /** returns a const_iterator pointing to the first element in the container
+     */
     virtual AlignataConstIterator begin() const = 0; 
     
-    /** return const iterator */
+    /** returns a const_iterator pointing one past the last element in the container.
+     */
     virtual AlignataConstIterator end() const = 0; 
 
-    /** return iterator */
+    /** returns an iterator pointing to the first element in the container
+     */
     virtual AlignataIterator begin() = 0; 
     
-    /** return iterator */
+    /** returns an iterator pointing one past the last element in the container.
+     */
     virtual AlignataIterator end() = 0; 
 
     //----------------> accessors <------------------------------------------------------------------------------
@@ -170,38 +188,54 @@ class Alignata {
     /** get the score of an alignment */
     virtual Score getScore() const = 0;
 
-    /** get the length of an alignment */
-    virtual Position	getLength() const = 0 ;
+    /** get the length of an alignment 
+     
+     The length of an alignment is the number of aligned residue pairs plus
+     the number gaps.
+     */
+    virtual Position getLength() const = 0 ;
 
-    /** get the number of gaps in the alignment */
+    /** get the number of gaps in the alignment 
+     * 
+     * Gaps are counted in either sequence.
+     * */
     virtual Position getNumGaps() const = 0;
 
-    /** set the score of an alignment */
+    /** set the alignment score. 
+     * */
     virtual void setScore( Score score ) = 0;
 
     /** returns true, if alignment is empty */
     virtual bool isEmpty() const = 0;
 
-    /** returns the first residue aligned in row */
+    /** returns the first residue aligned in row 
+     * */
     virtual Position getRowFrom() const = 0;
 
-    /** returns the last residue aligned in row */
-    virtual Position	getRowTo() const = 0;
+    /** returns one past the last residue aligned in row 
+     * */
+    virtual Position getRowTo() const = 0;
 
-    /** returns the first residue aligned in col */
-    virtual Position	getColFrom() const = 0;
+    /** returns the first residue aligned in col 
+     * */
+    virtual Position getColFrom() const = 0;
 
-    /** returns the last residue aligned in col */
-    virtual Position	getColTo()   const = 0;
+    /** returns one past the last residue aligned in col 
+     * */
+    virtual Position getColTo() const = 0;
 
-    /** returns the first aligned pair. Have to create a copy not a reference, because not all alignments will have
-	a list of pairs ready */
-    virtual ResiduePAIR getFirstPair() const = 0;
+    /** returns a copy of the first aligned pair. 
+     * */
+    virtual ResiduePAIR front() const = 0;
     
-    /** returns the last aligned pair */
-    virtual ResiduePAIR getLastPair() const = 0;
+    /** returns a copy of the last aligned pair 
+     * */
+    virtual ResiduePAIR back() const = 0;
 
-    /** adds a pair of residues to the alignment */
+    /** adds a pair of residues to the alignment 
+     * 
+     * The alignata object takes ownership of the residue pair.
+     * */
     virtual void addPair( ResiduePAIR * new_pair ) = 0; 
 
     /** adds a pair of residues to the alignment */
@@ -210,7 +244,11 @@ class Alignata {
     /** removes a pair of residues from the alignment */
     virtual void removePair( const ResiduePAIR & old_pair ) = 0;
 
-    /** retrieves a pair of residues from the alignment */
+    /** retrieves a copy of a residue pair in row from the 
+     * alignment
+     *  
+     * @param row row of residue pair
+     * */
     virtual ResiduePAIR getPair( Position row ) const = 0;
 
     /** move alignment */
@@ -235,12 +273,10 @@ class Alignata {
     virtual void clear() = 0;
 
     /*-----------------> I/O <------------------------------------------------------------------------------ */
-      /** Write data members to stream */
+    /** write human readable representation of alignment to stream
+     */
     virtual void write(std::ostream & output ) const = 0;	       
 
-    /** Read data members from stream */
-    virtual void read( std::istream & input) = 0;
-    
 };
 
 }

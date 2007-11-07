@@ -126,8 +126,8 @@ namespace alignlib {
   Position ImplAlignataHashDiagonal::getRowTo()   const { if (mChangedLength) calculateLength(); return mRowTo; }
   Position ImplAlignataHashDiagonal::getColTo()   const { if (mChangedLength) calculateLength(); return mColTo; }
 
-  ResiduePAIR ImplAlignataHashDiagonal::getFirstPair() const { return **(mPairs.begin()); }
-  ResiduePAIR ImplAlignataHashDiagonal::getLastPair()  const { return **(mPairs.rbegin()); }
+  ResiduePAIR ImplAlignataHashDiagonal::front() const { return **(mPairs.begin()); }
+  ResiduePAIR ImplAlignataHashDiagonal::back()  const { return **(mPairs.rbegin()); }
 
   void ImplAlignataHashDiagonal::addPair( ResiduePAIR * new_pair ) 
     {

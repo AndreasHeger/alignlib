@@ -31,23 +31,27 @@
 #include "alignlib.h"
 #include "Alignata.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
-    /** This class takes any of the iterators
-	of aligned pairs of alignata-objects
-	and converts it into an iterator, that
-	is STL-compatible in its syntax (i.e. 
-	no overloading, etc.). The penalty for
-	this universality in syntax is paid in
-	performance. There are two additional
-	indirections.
+    /** Iterator interface for constant iterators over Alignata objects. 
+     * 
+     * The AlignataConstIterator and AlignataIterator classes take any of the 
+     * iterators of aligned pairs of alignata-objects
+	and converts it into an iterator that is STL-compatible in its syntax (i.e. 
+	no overloading, etc.). 
+	
+	The penalty for this universality in syntax is paid in performance. There are 
+	two additional indirections.
 
 	@author Andreas Heger
 	@version $Id: AlignataIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
-	@short protocol class for aligned objects
+	@short protocol class for iterators over Alignata objects
+	@ref Alignata
     */
 
-class AlignataConstIterator {
+class AlignataConstIterator 
+{
  public:
 
     AlignataConstIterator() : mIterator(NULL) {};
@@ -102,7 +106,23 @@ class AlignataConstIterator {
     Alignata::ConstIterator * mIterator;
 };
 
-class AlignataIterator {
+/** Iterator interface for constant iterators over Alignata objects. 
+ * 
+ * The AlignataConstIterator and AlignataIterator classes take any of the 
+ * iterators of aligned pairs of alignata-objects
+and converts it into an iterator that is STL-compatible in its syntax (i.e. 
+no overloading, etc.). 
+
+The penalty for this universality in syntax is paid in performance. There are 
+two additional indirections.
+
+@author Andreas Heger
+@version $Id: AlignataIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
+@short protocol class for iterators over Alignata objects
+@ref Alignata
+*/
+class AlignataIterator 
+{
  public:
     AlignataIterator() : mIterator(NULL) {};
 

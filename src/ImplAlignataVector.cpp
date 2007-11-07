@@ -132,8 +132,8 @@ Position ImplAlignataVector::getColTo()   const {
 }
 
 
-ResiduePAIR ImplAlignataVector::getFirstPair() const { return *mPairs[mRowFrom]; }
-ResiduePAIR ImplAlignataVector::getLastPair()  const { return *mPairs[mRowTo-1]; }
+ResiduePAIR ImplAlignataVector::front() const { return *mPairs[mRowFrom]; }
+ResiduePAIR ImplAlignataVector::back()  const { return *mPairs[mRowTo-1]; }
 
 //----------------------------------------------------------------------------------------------------------------------
 void ImplAlignataVector::addPair( ResiduePAIR * new_pair ) { 

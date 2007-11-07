@@ -41,21 +41,30 @@ namespace alignlib
   /**  
        @short protocol class for Alignator objects.
        
-       Alignator objects align two objects. The default call to use is
+       Alignator objects align two objects. The default way to use it
        
        Alignator * a;
        Alignata * r;
        
        a->align( row, col, &r );
 
-       The two objects to be aligned to each other are called row and col. This comes from
-       the dynamic programming matrix where you have one sequence along the rows and the other 
-       along the columns.
+       The two objects to be aligned to each other are called row and col. This 
+       is inspired by the dynamic programming matrix where you have one sequence 
+       along the rows and the other along the columns.
 
+	   The range of the sequences to be aligned can be restricted by Iterator2D
+	   objects and using the useSegment() method in the Alignandum objects.
+	   
+	   The scorer class takes care of computing alignment scores between proposed
+	   residue pairs.
+	  
        This class is a protocol class and as such defines only the interface.
-   
+      
        @author Andreas Heger
        @version $Id: Alignator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
+       @see Iterator2D
+       @see Alignandum
+       @see Alignata
   */ 
   class Alignator
     {
@@ -72,15 +81,18 @@ namespace alignlib
       /** copy constructor */
       Alignator( const Alignator & src);
       
-      /** method for aligning two arbitrary objects */
+      /** method for aligning two Alignandum objects 
+       * */
       virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *) = 0;		
 
       /** accessors */
 
-      /** set range object */
+      /** set iterator object 
+       * */
       virtual void setIterator2D( const Iterator2D * iterator = NULL) = 0;    
 
-      /** set scoring object */
+      /** set scoring object 
+       * */
       virtual void setScorer( const Scorer * scorer ) = 0;    
       
     };

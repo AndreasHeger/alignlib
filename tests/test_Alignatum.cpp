@@ -54,7 +54,7 @@ void testAlignatum( Alignatum * a, std::string sample )
 	cout << "testing... with " << *a << "..." ;
 	
 	Position first_pos = (sample.size() > 0) ? 0 : NO_POS;
-	Position last_pos = (sample.size() > 0) ? sample.size() : NO_POS;	
+	Position last_pos = (sample.size() > 0) ? (int)sample.size() : NO_POS;	
 	
 	assert( a->getString() == sample );
 	assert( a->getFrom() == first_pos);

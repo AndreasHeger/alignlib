@@ -141,13 +141,13 @@ namespace alignlib {
   Position ImplAlignataMatrix::getRowTo()   const { if (mChangedLength) calculateLength(); return mRowTo; }
   Position ImplAlignataMatrix::getColTo()   const { if (mChangedLength) calculateLength(); return mColTo; }
 
-  ResiduePAIR ImplAlignataMatrix::getFirstPair() const 
+  ResiduePAIR ImplAlignataMatrix::front() const 
   { 
     if (mChangedLength) calculateLength(); 
     return (mPairs.size() > 0) ? (*mPairs.front()) : ResiduePAIR(NO_POS,NO_POS,0); 
   }
 
-  ResiduePAIR ImplAlignataMatrix::getLastPair()  const 
+  ResiduePAIR ImplAlignataMatrix::back()  const 
   { 
     if (mChangedLength) calculateLength(); 
     return (mPairs.size() > 0) ? (*mPairs.back()) : ResiduePAIR(NO_POS,NO_POS,0); 

@@ -50,11 +50,6 @@ std::ostream & operator<<( std::ostream & output, const Alignata & src) {
   return output;
 }
 
-std::istream & operator>>( std::istream & input, Alignata & target) {
-  target.read( input );
-  return input;
-}
-
 bool operator==( const ResiduePAIR & x, const ResiduePAIR & y) { return (x.mRow == y.mRow) && (x.mCol == y.mCol);}
 bool operator!=( const ResiduePAIR & x, const ResiduePAIR & y) { return (x.mRow != y.mRow) || (x.mCol != y.mCol);}
 

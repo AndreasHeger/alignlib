@@ -116,8 +116,8 @@ namespace alignlib {
   Position ImplAlignataSetCol::getRowTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mRow : NO_POS; }
   Position ImplAlignataSetCol::getColTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mCol : NO_POS; }
 
-  ResiduePAIR ImplAlignataSetCol::getFirstPair() const { return **(mPairs.begin()); }
-  ResiduePAIR ImplAlignataSetCol::getLastPair()  const { return **(mPairs.rbegin()); }
+  ResiduePAIR ImplAlignataSetCol::front() const { return **(mPairs.begin()); }
+  ResiduePAIR ImplAlignataSetCol::back()  const { return **(mPairs.rbegin()); }
 
   void ImplAlignataSetCol::addPair( ResiduePAIR * new_pair ) 
     {

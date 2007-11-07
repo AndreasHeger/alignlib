@@ -42,25 +42,27 @@ namespace alignlib {
 struct AlignandumData{};
 
 /** 
-    Base class for objects that are to be aligned. Since all those objects are a sequence of 
-    some sort, they have a length and fragments can be specified by two integer values. On request,
-    they export const pointers to their member data for aligning.
-    
-    This class is responsible for mapping exporting only a segment of the sequence, if such is desired. 
-    The alignment-algorithms always assume that an Alignandum object reaches from 1 to length. 
+    Base class for objects that are to be aligned, typically sequences or profiles.
+        
+    The class can restrict access to a sequence to a sequene range. Ranges are given
+    in open/closed notation starting from 0. Thus, the segment 0..5 includes residues
+    0,1,2,3,4.
     
     This class is a protocol class and as such defines only the general interface
 
+    On request, they export const pointers to their member data for aligning. This
+    is taken care of behind the scences.
+    
     @author Andreas Heger
     @version $Id: Alignandum.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
     @short protocol class of alignable objects
 */
 
 
-class Alignandum {
+class Alignandum 
+{
     /* friends ---------------------------------------------------------------------------- */
     friend  std::ostream & operator<<( std::ostream &, const Alignandum &);
-    friend  std::istream & operator>>( std::istream &, Alignandum &);             
     
  public:
     /* constructors and desctructors------------------------------------------------------- */
@@ -79,10 +81,12 @@ class Alignandum {
     /** return an identical copy of this object */
     virtual Alignandum * getClone() const = 0;
 
-    /** get length of window */
+    /** get length of sequence */
     virtual Position	getLength() const = 0;
 
-    /** use a segment for exporting and set segment to from and to 
+    /** restrict the use of the sequence to a segment. If no coordinates are given,
+     * the full sequence is used.
+     *  
         @param from     where segment starts
         @param to       where segment ends
     */
@@ -94,30 +98,36 @@ class Alignandum {
     /** return last residue number in segment */
     virtual Position getTo() const = 0;
 
-    /** return true if object is prepared for alignment (for cacheable types ) */
+    /** return true if object is prepared for alignment (for cacheable types ) 
+     * This function permits lazy evaluation of of some alignable types like 
+     * profiles. */
     virtual bool isPrepared() const = 0;	
 
-    /** returns something, that can be used to access the member data. Fortunately it is now
-	part of the standard, to change the return type of an inherited member function.
+    /** returns a structure that can be used to access internal data.
     */
     virtual const AlignandumData & getData() const = 0;
     
-    /** get internal representation of residue in position pos */
+    /** get internal representation of residue in position pos 
+     */
     virtual Residue asResidue( Position pos ) const = 0;
 
-    /** get internal representation of residue in position pos */
+    /** get character representation of residue in position pos
+     * using the default translator. 
+     */
     virtual char asChar( Position pos ) const = 0;
 
-    /** returns a string representation of the object */
+    /** returns a string representation of the object 
+     */
     virtual std::string asString() const = 0;
     
-    /** mask column at position x or in a segment y,
-       if y is 0 
+    /** mask column at position x or, if y is not omitted,
+     * in a range.
        */
-    virtual void mask( Position from, Position to = 0) = 0;
+    virtual void mask( Position from, Position to = NO_POS) = 0;
 
-    /** shuffle object */
-    virtual void shuffle( unsigned int num_iteratinos = 1,
+    /** shuffle object 
+     * */
+    virtual void shuffle( unsigned int num_iterations = 1,
 			  Position window_size = 0 ) = 0;
 
     /* Mutators ------------------------------------------------------------------------------ */
