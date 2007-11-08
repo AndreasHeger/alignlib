@@ -78,11 +78,14 @@ def buildModule( include_paths, dest, options) :
                        "filter",
                        "readAlignataPairs",
                        "calculateAffineScore",
-                       "extractMultipleAlignment",
+#                       "extractMultipleAlignment",                       
                        "rescaleProfileCounts",
                        "normalizeProfileCounts",
                        ):
-            mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = return_self()
+            try:
+                mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = return_self()
+            except RuntimeError:
+                sys.stderr.write("# could not find free function starting with %s\n" % prefix )
     
         # set call policies for functions that return get a default object
         # in this case the caller is not a new object.
@@ -145,7 +148,7 @@ def buildModule( include_paths, dest, options) :
                                   'AlignandumData',
                                   'SubstitutionMatrixData',
                                   'NormalDistributionParameters',
-                                  'Distor',
+#                                  'Distor',
                                   'Treetor',
                                   'Tree',
                                   'PhyloMatrix',                                  
@@ -259,7 +262,7 @@ def buildModule( include_paths, dest, options) :
     #Well, don't you want to see what is going on?
     # mb.print_declarations()
     
-    enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType' ] )
+    enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 'LinkageType' ] )
     
     mb.enumerations( lambda x: x.name in enumerations_to_export ).include()
     

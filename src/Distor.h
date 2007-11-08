@@ -47,7 +47,6 @@ class Distor
 {
 	// class member functions
 	friend std::ostream & operator<<( std::ostream &, const Distor &);
-	friend std::istream & operator>>( std::istream &, Distor &);
 	
 public:
 	// constructors and desctructors

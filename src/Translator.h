@@ -29,7 +29,8 @@
 
 #include "alignlib.h"
 
-namespace alignlib {
+namespace alignlib 
+{
   
 /** @short Interface definition for translators, that translate sequence to internal representation.
     
@@ -40,7 +41,8 @@ namespace alignlib {
    @author Andreas Heger
    @version $Id: Translator.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class Translator {
+class Translator 
+{
     // class member functions
  public:
     // constructors and destructors

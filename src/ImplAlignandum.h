@@ -50,7 +50,6 @@ class ImplAlignandum : public Alignandum
 {
     /* friends ---------------------------------------------------------------------------- */
     friend  std::ostream & operator<<( std::ostream &, const ImplAlignandum &);
-    friend  std::istream & operator>>( std::istream &, ImplAlignandum &);             
     
  public:
     /* constructors and desctructors------------------------------------------------------- */

@@ -39,7 +39,7 @@ class PhyloMatrix
 {
   /* friends---------------------------------------------------------------------------- */
   friend std::ostream & operator<<( std::ostream &, const PhyloMatrix &);
-  friend std::istream & operator>>( std::istream &, PhyloMatrix &);
+  
   /* class member functions-------------------------------------------------------------- */
  public:
   

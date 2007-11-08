@@ -65,9 +65,10 @@ namespace alignlib {
     /* 3. convenience functions */
 
     /** fill multiple alignment ali from contents of a file */
+    /*
     MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
 					       const char * filename);
-
+	*/
     /** fill multiple alignment ali from memory, sequences contains the concatenated rows without separator,
 	however there has to be a \0 at the end of sequences
 	
@@ -78,22 +79,24 @@ namespace alignlib {
     MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
 					       const char * sequences,
 					       int nsequences);
-
+    
     /** fill multiple alignment ali from contents of a file, use an Alignatum-object for parsing
      */
-    MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
+    /* MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
 					       const char * filename, 
 					       const Alignatum * alignatum_template);
-
+					       */
     /** fill multiple alignment ali from contents of a file, use an Alignatum-object for parsing */
+    /*
     MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
 					       const char * filename, 
 					       const Alignatum * alignatum_template);
-
+*/
     /** extract a multiple Alignment object from a stream in FASTA format */
+    /*
     MultipleAlignment * extractMultipleAlignmentFasta( MultipleAlignment * ali, 
 						       std::istream & input );
-    
+    */
     /** get Convservation-string for multiple alignment. This returns a string, where 
 	each residue is marked, which is conserved at least > cutoff % */
     std::string calculateConservation( const MultipleAlignment * mali, Frequency min_frequency);

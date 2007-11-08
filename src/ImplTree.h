@@ -25,7 +25,8 @@
 // this has to go into the main namespace:
 // enum vertex_predecessor_t	{ vertex_predecessor  = 300 };  
 
-namespace alignlib {
+namespace alignlib 
+{
 /** 
     Base class for trees.
 
@@ -45,7 +46,8 @@ namespace alignlib {
 
 #define NO_NODE 999999
 
-struct NODE_INFO {
+struct NODE_INFO 
+{
   NODE_INFO() : 
     mLeftChild(NO_NODE), mRightChild(NO_NODE), mParent(NO_NODE),
     mNumChildren(0), mWeight(0), mHeight(0) {};
@@ -57,11 +59,11 @@ struct NODE_INFO {
   TreeHeight mHeight;
 };
 
-class ImplTree : public Tree {
+class ImplTree : public Tree 
+{
   
   /* friends---------------------------------------------------------------------------- */
   friend std::ostream & operator<<( std::ostream &, const ImplTree &);
-  friend std::istream & operator>>( std::istream &, ImplTree &);
 
   /* class member functions-------------------------------------------------------------- */
  public:

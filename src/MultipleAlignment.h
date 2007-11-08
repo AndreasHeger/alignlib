@@ -33,7 +33,8 @@
 
 #include "alignlib.h" 
 
-namespace alignlib {
+namespace alignlib 
+{
 
 
 class Alignandum;
@@ -82,10 +83,10 @@ class Renderer;
     @author Andreas Heger
     @version $Id: MultipleAlignment.h,v 1.6 2004/09/16 16:02:38 aheger Exp $
 */
-class MultipleAlignment {
+class MultipleAlignment 
+{
 
     friend std::ostream & operator<<( std::ostream &, const MultipleAlignment &);
-    friend std::istream & operator>>( std::istream &, MultipleAlignment &);
 
     // class member functions
  public:

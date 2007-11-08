@@ -50,7 +50,8 @@ struct ResiduePAIR;
     @short protocol class for functions that calculate dots (aligned residue pairs)
     
 */
-class Dottor {
+class Dottor 
+{
  public:
     // constructors and desctructors
 

@@ -32,7 +32,8 @@ namespace alignlib {
 
 class Tree;
 
-class ImplTreetor : public Treetor {
+class ImplTreetor : public Treetor 
+{
 
   /* class member functions-------------------------------------------------------------- */
  public:

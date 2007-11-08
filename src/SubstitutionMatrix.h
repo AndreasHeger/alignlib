@@ -57,9 +57,9 @@ struct SubstitutionMatrixData {};
    @version $Id: SubstitutionMatrix.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
 
-class SubstitutionMatrix {
+class SubstitutionMatrix 
+{
     friend std::ostream & operator<<( std::ostream &, const SubstitutionMatrix &);
-    friend std::istream & operator>>( std::istream &, SubstitutionMatrix &);
     // class member functions
  public:
     /* constructors and desctructors ----------------------------------------------- */

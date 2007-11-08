@@ -49,10 +49,11 @@ class Renderer;
     @author Andreas Heger
     @version $Id: Alignatum.h,v 1.5 2004/03/19 18:23:39 aheger Exp $
 */
-class Alignatum {
+class Alignatum 
+{
     // class member functions
     friend std::ostream & operator<<( std::ostream &, const Alignatum &);
-    friend std::istream & operator>>( std::istream &, Alignatum &);
+    
  public:
     // constructors and desctructors
     /** when building a new Alignatum sequence by cloning and an alignment, this specifies,

@@ -70,7 +70,8 @@
     @short protocol class for phylogenetic trees.
 */
  
-namespace alignlib {
+namespace alignlib 
+{
 
 class TreeIterator;
 typedef std::vector<Node> NodeVector;
@@ -79,7 +80,6 @@ class Tree {
   
   /* friends---------------------------------------------------------------------------- */
   friend std::ostream & operator<<( std::ostream &, const Tree &);
-  friend std::istream & operator>>( std::istream &, Tree &);
 
   /* class member functions-------------------------------------------------------------- */
  public:
