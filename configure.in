@@ -10,7 +10,7 @@
 
 # used configure.in from mysql++ as a template
 
-AC_INIT(reconf)
+AC_INIT
 
 # get host information
 AC_CANONICAL_TARGET
@@ -26,7 +26,7 @@ AC_CANONICAL_TARGET
 #
  
 ALIGNLIB_MAJOR_VERSION=0
-ALIGNLIB_MINOR_VERSION=2
+ALIGNLIB_MINOR_VERSION=3
 ALIGNLIB_MICRO_VERSION=0
 ALIGNLIB_INTERFACE_AGE=0
 ALIGNLIB_BINARY_AGE=0            
@@ -80,7 +80,8 @@ AC_CONFIG_FILES([Makefile
 		 m4/Makefile 
 		 src/Makefile 
 		 tests/Makefile 
-		 bench/Makefile])
+		 bench/Makefile 
+		 python/Makefile])
 
 AC_OUTPUT
      

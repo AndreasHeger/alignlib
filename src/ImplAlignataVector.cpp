@@ -241,8 +241,15 @@ void ImplAlignataVector::clear() {
 //--------------> mapping functions <----------------------------------------------------------------------------
 Position ImplAlignataVector::mapRowToCol( Position pos, SearchType search ) const 
 {
+  if (mRowFrom == NO_POS) return NO_POS;
+  
+  if ( search == LEFT && pos >= mRowTo)
+    return mPairs[mRowTo - 1]->mCol;
 
-	if (pos < mRowFrom || pos >= mRowTo) return NO_POS;
+  if ( search == RIGHT && pos < mRowFrom )
+    return mPairs[mRowFrom]->mCol;
+
+  if (pos < mRowFrom || pos >= mRowTo) return NO_POS;
 
 	if (mPairs[pos] != NULL) 
 		return mPairs[pos]->mCol;

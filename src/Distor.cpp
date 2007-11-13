@@ -29,4 +29,13 @@ Distor::Distor (const Distor & src ) {
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
+std::ostream & operator<< (std::ostream & output, const Distor & src) {
+    return output;
+}
+
+std::istream & operator>> (std::istream & input, Distor & src) {
+    return input;
+}
+
+
 } // namespace alignlib

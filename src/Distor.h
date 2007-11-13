@@ -16,10 +16,10 @@
 #ifndef DISTOR_H
 #define DISTOR_H 1
 
-#include "alignlib.h"
-
 #include <iosfwd>
 #include <string>
+
+#include "alignlib.h"
 
 /**
    base class for methods calculating distance matrices from

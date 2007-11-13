@@ -148,7 +148,7 @@ def buildModule( include_paths, dest, options) :
                                   'AlignandumData',
                                   'SubstitutionMatrixData',
                                   'NormalDistributionParameters',
-#                                  'Distor',
+                                  'Distor',
                                   'Treetor',
                                   'Tree',
                                   'PhyloMatrix',                                  

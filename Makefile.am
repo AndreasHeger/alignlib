@@ -10,7 +10,7 @@
 
 
 EXTRA_DIST = configure
-SUBDIRS = m4 doc src tests bench
+SUBDIRS = m4 doc src tests bench python
 
 cvs-dist:
 	pkg=`echo "@PACKAGE@" | tr a-z A-Z`; \

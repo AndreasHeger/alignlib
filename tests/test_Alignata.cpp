@@ -71,7 +71,8 @@ bool isIdentical( const Alignata * a, const Alignata * b, bool inverse = false) 
 }
 
 // tests for both empty and full alignments
-void TestAlignata(Alignata * a) {
+void TestAlignata(Alignata * a)
+{
 
     { 
       cout << "testing...writing alignment...";
@@ -159,7 +160,7 @@ void TestAlignata(Alignata * a) {
                     }
 
                     // this function assumes an ordering by row
-                    // which is not given for some containers.
+                    // which is not true for some containers.
                       { 
                         cout << "testing...mapRowToCol()..."; 
                         
@@ -178,7 +179,7 @@ void TestAlignata(Alignata * a) {
                                 }
                               }
                             
-                            if (it!= it_end) 
+                            if (it != it_end) 
                               {
                                 if (a->mapRowToCol( pos) != it->mCol) passed = false;
                                 ++it;
