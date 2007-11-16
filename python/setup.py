@@ -10,13 +10,27 @@ The following commands are available:
 
 import re, sys, os, optparse, subprocess
 
-from pyplusplus import module_builder, messages
+from pyplusplus import module_builder, messages, function_transformers
 from pyplusplus.module_builder import call_policies
 from pyplusplus.decl_wrappers import \
      return_value_policy, manage_new_object, copy_const_reference, reference_existing_object, \
      return_self, return_arg
 
 from pygccxml import declarations
+
+def findBoost( options ):
+    """find location of boost."""
+    if not options.boost_dir:
+        if "BOOST_ROOT" in os.environ:
+            options.boost_dir = os.environ['BOOST_ROOT']
+            return 
+
+        for x in ("/usr/local/boost", "/opt/boost" ):
+            if os.path.exists( x ):
+               options.boost_dir = x 
+               return
+
+        raise "could not find BOOST. Please specify location of BOOST as option or set BOOST_ROOT environment variable."
 
 def checkRequisites( options ):
     """check if boost is present."""
@@ -204,7 +218,7 @@ def buildModule( include_paths, dest, options) :
     
         ## get an error for this. For Dottor, now obsolete.
         ## mb.member_functions( lambda x: x.name in ("getRowIndices",) ).exclude()
-    
+
         ## do not include the increment/decrement and dereference operators, because there is no equivalent in python
         ## exlude functions while testing. Need to map return types later.
         mb.member_operators( lambda x: x.name in ("operator++", "operator--", "operator*", "operator->", "operator()") ).exclude()
@@ -231,7 +245,28 @@ def buildModule( include_paths, dest, options) :
             ## do not wrap constructors, because compilation will fail for
             ## abstract classes.
             cls.constructors().exclude()
-    
+
+        ## deal with methods that transfer ownership of the first argument
+        ## supplied to the method.
+        ## The list contains 
+        ## 1: the class with the member functino
+        ## 2: the function prefix that needs to wrapped
+        ## 3: the class of the pointee
+        classes_with_ownership_transfer = [ ("MultipleAlignment", "add", "Alignatum") , ] 
+                                             #("Alignata", "addPair", "ResiduePAIR" ) ]
+        
+        for ccontainer, fname, cpointee in classes_with_ownership_transfer:
+            cls_pointee = mb.class_( cpointee )
+            cls_pointee.held_type = 'std::auto_ptr< %s >' % cls_pointee.decl_string
+                        
+            cls_container= mb.class_( ccontainer )
+            mem_funs = cls_container.member_functions( fname ) 
+            for f in mem_funs:
+                # set alias to original function name, otherwise ugly names will be created
+                # a call for rename() had no effect.
+                f.add_transformation( function_transformers.transfer_ownership( 0 ), 
+                                      alias = fname )
+                                
         ## Deal with templated matrix class
         template_translations = { 'Matrix<double>' : 'MatrixDouble',
                                   'Matrix<unsigned>' : 'MatrixUInt',  
@@ -335,7 +370,7 @@ if __name__ == "__main__":
     parser.set_defaults( extension_name = "alignlib",
                          force = False, 
                          src_dir = "../src",
-                         boost_dir = "/usr/local/boost",
+                         boost_dir = None,
                          alignlib_lib_dir = "../src/.libs",
                          alignlib_include_dirs = ["../src", ],
                          build_dir = ".",                         
@@ -346,7 +381,10 @@ if __name__ == "__main__":
     if len(args) < 1:
         print USAGE
         raise "please supply a command"
-    
+
+    ## find boost
+    findBoost( options )
+
     commands = map( lambda x: x.lower(), args)
     
     for command in commands:
