@@ -139,8 +139,9 @@ class MultipleAlignment
     /*------------------- functions for adding new members to the multiple alignment---------*/
     
 
-    /** add an aligned object to the multiple alignment. Ownership of this object is transferred to
-	the multiple alignment. 
+    /** add an aligned object to the multiple alignment. 
+     * Ownership of the object is transferred to the multiple alignment.
+     * 
 	@param src	       pointer to the aligned object to be added.
 	@param alignment pointer to the alignment used for combining these two objects. If it is
 		       not supplied, then it is assumed, that it is the identity alignment. In
@@ -164,7 +165,8 @@ class MultipleAlignment
 		      bool use_end_mali = false,
 		      bool use_end_alignatum = false) = 0;
 
-    /** add the contents of a multiple alignment to the multiple alignment by mapping it through an alignment
+    /** add the contents of a multiple alignment to the multiple alignment by mapping it 
+     * through an alignment
      */
     virtual void add( const MultipleAlignment * src,
 		      const Alignata * alignment = NULL,

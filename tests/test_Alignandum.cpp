@@ -76,16 +76,24 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 	{
 		ofstream file("test_Alignandum.tmp", ios::binary);
 		a->save( file );
+		a->save( file );		
 		file.close();
 	}
 
 	{
 		ifstream file("test_Alignandum.tmp", ios::binary) ;
-		Alignandum * b = loadAlignandum( file );
-		assert( a->getFrom() == b->getFrom() );
-		assert( a->getLength() == b->getLength() );
-		assert( a->getTo() == a->getTo() );
-		assert( a->asString() == b->asString() );
+		
+		Alignandum * b = NULL;
+		int n = 0;
+		while ( b = loadAlignandum( file ) ) 
+		{
+			assert( a->getFrom() == b->getFrom() );
+			assert( a->getLength() == b->getLength() );
+			assert( a->getTo() == a->getTo() );
+			assert( a->asString() == b->asString() );
+			++n; 
+		}
+		assert( n == 2 );
 	}
 }
 

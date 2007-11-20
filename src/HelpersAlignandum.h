@@ -46,7 +46,9 @@ class Alignandum;
 
 /* -------------------------------------------------------------------------------------------------------------------- */
 /* 1. factory functions */
-/** load an Alignandum object from stream 
+/** load an Alignandum object from stream. 
+ * 
+ * Returns NULL on EOF.
  */	
 Alignandum * loadAlignandum( std::istream & stream );
 

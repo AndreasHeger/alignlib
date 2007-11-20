@@ -419,6 +419,9 @@ void ImplProfile::load( std::istream & input)
 	allocateCounts();	
 	input.read( (char*)mCounts, sizeof( CountColumn) * getTrueLength() );
 	
+	if (input.fail() ) 
+		throw AlignException( "incomplete profile in stream.");
+	
 	if (isPrepared() )
 	{
 		allocateFrequencies();

@@ -192,6 +192,9 @@ void ImplSequence::load( std::istream & input)
 	mSequence = new Residue[ getTrueLength() ] ;
 	input.read( (char*)mSequence, sizeof(Residue) * getTrueLength() );
 	
+	if (input.fail()) 
+		throw AlignException( "incomplete sequence in stream.");
+	
 }
 
 

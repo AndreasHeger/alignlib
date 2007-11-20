@@ -26,6 +26,7 @@
 #include <cassert>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
+#include "AlignException.h"
 #include "ImplAlignandum.h"
 #include "Translator.h"
 #include "HelpersTranslator.h"
@@ -170,6 +171,9 @@ void ImplAlignandum::load( std::istream & input)
 	input.read( (char*)&mTo, sizeof(Position) );
 	input.read( (char*)&mLength, sizeof(Position) );
 
+	if (input.fail()) 
+		throw AlignException( "incomplete Alignandum object in stream.");
+	
 }
 
 

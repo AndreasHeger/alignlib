@@ -44,9 +44,14 @@ namespace alignlib
 	{
 		MagicNumberType magic_number;
 		
+		if (input.eof()) return NULL;
+
 		input.read( (char*)&magic_number, sizeof(MagicNumberType) );
 		
-		Alignandum * result;
+		if (input.eof()) return NULL;
+		
+		Alignandum * result = NULL;
+		
 		switch (magic_number)
 		{
 			case MNImplProfile : 
@@ -63,8 +68,9 @@ namespace alignlib
 				result = r;
 				break;
 			}
+			default:
+				throw AlignException( "unknown object found in stream" );
 		}	
-
 		return result;
 	}	
 	
