@@ -49,6 +49,97 @@ def checkRequisites( options ):
         
     return nerrors
 
+def exportSave( mb, options):
+    """export save method in classes Alignandum."""
+    
+    declaration_code = \
+"""
+    class std_obuf: public std::streambuf 
+        {
+      public:
+        std_obuf(std::FILE* file): m_file(file) {}
+      protected:
+        std::streambuf::int_type overflow(std::streambuf::int_type c) 
+        {
+          return std::fputc(c, m_file) ==EOF? std::streambuf::traits_type::eof(): c;
+        }
+      private:
+        FILE* m_file;
+      };
+
+      template<class T>
+      void wrapper_for_save(const T & a, PyObject* fp) 
+      {
+        if (!PyFile_Check(fp)) 
+        {
+          throw boost::python::error_already_set();
+        }
+        std::FILE* f = PyFile_AsFile(fp);
+        std_obuf buf(f);
+        std::ostream os(&buf);
+        a.save( os );
+      }
+    """
+    
+    cls = mb.class_("Alignandum")
+    cls.include_files.append( "streambuf" )
+    registration_code = 'def( "save", wrapper_for_save<alignlib::%s> )' % cls.name
+    cls.member_function( "save" ).exclude()
+    cls.add_declaration_code( declaration_code )
+    cls.add_registration_code( registration_code )
+
+def exportLoad( mb, options ):
+    
+    declaration_code = \
+    """        
+    #include <iostream>
+    #include <cstdio>
+    class std_ibuf: public std::streambuf 
+        {
+      public:
+          std_ibuf(std::FILE* file): m_file(file) {}
+      protected:
+          std::streambuf::int_type underflow() { 
+           int c = std::getc(m_file);
+           if (c != EOF) 
+               std::ungetc(c, m_file);
+            return c;
+           }
+
+          std::streambuf::int_type uflow() {
+           return std::getc(m_file);
+          }
+
+          std::streambuf::int_type pbackfail(int c = EOF) {
+            return c != EOF ? std::ungetc(c, m_file) : EOF;
+          }
+    private:
+          FILE* m_file;      
+          
+      };
+            
+      alignlib::Alignandum * wrapper_for_load( PyObject * fp )
+      {
+          if (!PyFile_Check(fp))
+          {
+              throw boost::python::error_already_set();
+          }
+         std::FILE * f = PyFile_AsFile(fp);   
+         std_ibuf buf(f);
+         std::istream is(&buf);
+         alignlib::Alignandum * a = alignlib::loadAlignandum( is );
+         return a;
+      }       
+"""
+    registration_code = 'def( "loadAlignandum", wrapper_for_load, bp::return_value_policy< bp::manage_new_object >() );'     
+    
+    fun = mb.free_function( "loadAlignandum")
+    fun.include_files.append( "streambuf" )
+    fun.exclude()
+    mb.add_declaration_code( declaration_code )
+    mb.add_registration_code( registration_code )
+
+
 def buildModule( include_paths, dest, options) :
     """build module using py++."""
     
@@ -60,7 +151,7 @@ def buildModule( include_paths, dest, options) :
     mb = module_builder.module_builder_t( [r"includes.h"]
                                           , gccxml_path=r""
                                           , cache="cache"
-                                          , start_with_declarations=("alignlib","py_details")
+                                          , start_with_declarations=( "alignlib","py_details")
                                           , working_directory=r"."
                                           , include_paths=include_paths
                                           , define_symbols=[]
@@ -209,7 +300,7 @@ def buildModule( include_paths, dest, options) :
                              return_value_policy( manage_new_object )                             
         mb.member_functions( lambda mem_fun: mem_fun.name.startswith( "getNodes" ) ).call_policies = \
                              return_value_policy( manage_new_object )
-                             
+
     
         ## exclude the following because of unhandled arguments/return types
         mb.member_functions( "fillProfile").exclude()
@@ -252,7 +343,8 @@ def buildModule( include_paths, dest, options) :
         ## 1: the class with the member functino
         ## 2: the function prefix that needs to wrapped
         ## 3: the class of the pointee
-        classes_with_ownership_transfer = [ ("MultipleAlignment", "add", "Alignatum") , ] 
+        classes_with_ownership_transfer = [ ("MultipleAlignment", "add", "Alignatum") , ]
+        ## TODO: add others, in particular addPair, but check for argument types 
                                              #("Alignata", "addPair", "ResiduePAIR" ) ]
         
         for ccontainer, fname, cpointee in classes_with_ownership_transfer:
@@ -266,7 +358,12 @@ def buildModule( include_paths, dest, options) :
                 # a call for rename() had no effect.
                 f.add_transformation( function_transformers.transfer_ownership( 0 ), 
                                       alias = fname )
-                                
+                           
+           
+        ## export load/save functionality        
+        exportSave( mb, options )        
+        exportLoad( mb, options )
+                
         ## Deal with templated matrix class
         template_translations = { 'Matrix<double>' : 'MatrixDouble',
                                   'Matrix<unsigned>' : 'MatrixUInt',  
@@ -276,6 +373,7 @@ def buildModule( include_paths, dest, options) :
         for old, new in template_translations.items():
             cls = mb.class_( old )
             cls.rename( new )
+            cls.alias = new
             ## no warning for warning W1036: Py++ can not expose pointer to Python immutable member
             cls.vars(lambda x: x.name == "mMatrix" ).disable_warnings( messages.W1036 )
     
@@ -295,7 +393,8 @@ def buildModule( include_paths, dest, options) :
     
     ######################################################################
     #Well, don't you want to see what is going on?
-    # mb.print_declarations()
+    if options.verbose:
+        mb.print_declarations()
     
     enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 'LinkageType' ] )
     
@@ -373,7 +472,8 @@ if __name__ == "__main__":
                          boost_dir = None,
                          alignlib_lib_dir = "../src/.libs",
                          alignlib_include_dirs = ["../src", ],
-                         build_dir = ".",                         
+                         build_dir = ".",
+                         verbose = False,
                          )
     
     (options, args) = parser.parse_args()
@@ -388,12 +488,13 @@ if __name__ == "__main__":
     commands = map( lambda x: x.lower(), args)
     
     for command in commands:
-        if command not in ("build", "test", "install"):
+        if command not in ("build", "test", "install", "generate-interface", "compile-interface" ):
             print USAGE
             raise "unknown command %s" % command
         
     for command in commands:
-        if command == "build":
+
+        if command in ("build", "generate-interface", "compile-interface" ):
     
             nerrors = checkRequisites( options )
             
@@ -408,11 +509,13 @@ if __name__ == "__main__":
             if options.force or not os.path.exists( module_name):
                 print "building module %s" % module_name        
                 buildModule( include_paths = [src_dir,], dest = module_name, options = options )
+                
+            if command == "generate-interface": break                
         
             print "compiling extension %s" % options.extension_name
         
             compileModule( module_name = module_name, options = options )
-            
+
         elif command == "install":
             pass
         

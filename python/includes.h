@@ -67,6 +67,7 @@
 #include "Tree.h"
 #include "HelpersTree.h"
 
+#include <iostream>
 
 namespace py_details
 {

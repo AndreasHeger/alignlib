@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
-import unittest
+import unittest, sys
 from alignlib import *
 
 class AlignandumTestCase( unittest.TestCase ):
@@ -92,6 +92,22 @@ class ProfileTestCase( AlignandumTestCase ):
         ## TODO: make this test and the code conforming to use X as mask char
         self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAA----AAA", self.renderSeq() )
+
+    def testSave(self):
+        
+        outfile = open("test.out", "wb" )
+        self.mAlignandum.save(outfile)
+        self.mAlignandum.save(outfile)
+        outfile.close()
+    
+        infile = open("test.out", "rb" )
+        alignanda = []
+        while 1:
+            a = loadAlignandum( infile )
+            if not a: break
+            alignanda.append( a )
+            
+        assert( len(alignanda) == 2)
 
 def suite():
     suite = unittest.TestSuite()
