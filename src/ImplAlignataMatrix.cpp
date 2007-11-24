@@ -173,6 +173,7 @@ namespace alignlib {
   ResiduePAIR ImplAlignataMatrix::getPair( Position row ) const 
   {
     // TODO!! to be implemented
+	assert( false );
     return *mPairs[row];
   } 
 
@@ -181,6 +182,7 @@ namespace alignlib {
   { 
 
     setChangedLength();
+    assert( false );
     // TODO !! to be implemented.  move and split highly inefficient
 
   } 

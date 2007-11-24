@@ -50,9 +50,4 @@ std::ostream & operator<<( std::ostream & output, const MultipleAlignment & src)
   return output;
 }
 
-std::istream & operator>>( std::istream & input, MultipleAlignment & target) {
-  target.read( input );
-  return input;
-}
-
 } // namespace alignlib

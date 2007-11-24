@@ -120,8 +120,10 @@ void ImplMultipleAlignment::clear() {
 }
 
 //-----------------------------------------------------------------------------------------------------------
-void ImplMultipleAlignment::eraseRow( int row_from) {
+void ImplMultipleAlignment::eraseRow( int row_from) 
+{
 	// TODO: make sure that this does not introduce inconsistencies
+	assert( false );
 }
 
 //------------------------------------------------------------------------------------
@@ -367,12 +369,6 @@ void ImplMultipleAlignment::write( std::ostream & output,
 	}
 
 		}
-
-//-----------------------------------------------------------------------------------
-void ImplMultipleAlignment::read( std::istream & input) 
-{
-	// TODO 
-}
 
 } // namespace alignlib
 

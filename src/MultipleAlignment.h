@@ -207,11 +207,6 @@ class MultipleAlignment
 			Position segment_from = 0, 
 			Position segment_to = 0) const = 0;
 
-    /** Read a multiple alignment form a stream. I am not quite sure
-	how this will work, because there might be different @ref Alignata
-	objects in there.
-     */
-    virtual void read( std::istream & ) =0;
 };
 
 }

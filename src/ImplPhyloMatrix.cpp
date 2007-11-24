@@ -63,7 +63,8 @@ ImplPhyloMatrix::~ImplPhyloMatrix ()
 }
 
 
-ImplPhyloMatrix::ImplPhyloMatrix (const ImplPhyloMatrix & src ) : mWidth( src.mWidth ), mSize( src.mSize )
+ImplPhyloMatrix::ImplPhyloMatrix (const ImplPhyloMatrix & src ) : 
+	mWidth( src.mWidth ), mSize( src.mSize )
 {
 
   debug_func_cerr( 5 );
@@ -191,8 +192,10 @@ void ImplPhyloMatrix::freeMemory()
 }
 
 //-------------------------------------------------------------
-void ImplPhyloMatrix::Shrink() {
-  //!! to be implemented
+void ImplPhyloMatrix::Shrink() 
+{
+	// TODO: to be implemented
+	assert( false );
 }
 
 //-------------------------------------------------------------
@@ -219,26 +222,31 @@ PhyloMatrixValue ImplPhyloMatrix::operator()( PhyloMatrixSize row, PhyloMatrixSi
 }    
 
 //-------------------------------------------------------------
-PhyloMatrixValue ImplPhyloMatrix::getElement( PhyloMatrixSize row, PhyloMatrixSize col) const {
+PhyloMatrixValue ImplPhyloMatrix::getElement( PhyloMatrixSize row, PhyloMatrixSize col) const 
+{
     return mMatrix[getIndex( row, col)];
 }    
 
 //-------------------------------------------------------------
-PhyloMatrixValue & ImplPhyloMatrix::operator()( PhyloMatrixSize row, PhyloMatrixSize col) {
+PhyloMatrixValue & ImplPhyloMatrix::operator()( PhyloMatrixSize row, PhyloMatrixSize col) 
+{
   return mMatrix[getIndex(row,col)];
 }    
 //-------------------------------------------------------------
-void ImplPhyloMatrix::setElement( PhyloMatrixSize row, PhyloMatrixSize col, PhyloMatrixValue value) {
+void ImplPhyloMatrix::setElement( PhyloMatrixSize row, PhyloMatrixSize col, PhyloMatrixValue value) 
+{
   mMatrix[getIndex(row,col)] = value;
 }    
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrix::getIndex( PhyloMatrixSize row, PhyloMatrixSize col) const {
+PhyloMatrixSize ImplPhyloMatrix::getIndex( PhyloMatrixSize row, PhyloMatrixSize col) const 
+{
     return (row * mWidth + col);
 }
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrix::getRow( PhyloMatrixSize index ) const {
+PhyloMatrixSize ImplPhyloMatrix::getRow( PhyloMatrixSize index ) const 
+{
     return ( (PhyloMatrixSize)(index / mWidth)  ); 
 }
   

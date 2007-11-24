@@ -147,7 +147,8 @@ void ImplMultipleAlignmentDots::clear()
 //-----------------------------------------------------------------------------------------------------------
 void ImplMultipleAlignmentDots::eraseRow( int row ) 
 {
-	// TODO
+	assert( false );
+	// TODO: implement
 }
 
 //------------------------------------------------------------------------------------
@@ -291,12 +292,6 @@ void ImplMultipleAlignmentDots::write( std::ostream & output,
 	}
 
 		}	
-
-//-----------------------------------------------------------------------------------
-void ImplMultipleAlignmentDots::read( std::istream & input) 
-{
-	// TODO 
-}
 
 //---------------------------------------------------------------------------------------
 void ImplMultipleAlignmentDots::updateRows() const 

@@ -32,7 +32,8 @@ Treetor * makeTreetorDistanceNJ( const Distor * distor )
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplTreetorDistanceNJ::ImplTreetorDistanceNJ ( const Distor * distor) : ImplTreetorDistance( distor), mR (NULL) 
+ImplTreetorDistanceNJ::ImplTreetorDistanceNJ ( const Distor * distor) : 
+	ImplTreetorDistance( distor), mR (NULL) 
 {
 }
 
@@ -40,9 +41,11 @@ ImplTreetorDistanceNJ::~ImplTreetorDistanceNJ ()
 {
 }
 
-ImplTreetorDistanceNJ::ImplTreetorDistanceNJ (const ImplTreetorDistanceNJ & src ) : ImplTreetorDistance(src), mR( NULL) 
+ImplTreetorDistanceNJ::ImplTreetorDistanceNJ (const ImplTreetorDistanceNJ & src ) : 
+	ImplTreetorDistance(src), mR( NULL) 
 {
-	// TODO
+	// should not be able to copy while object is performing action.
+	assert( src.mR == NULL );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

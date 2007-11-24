@@ -50,10 +50,19 @@ ImplTree::~ImplTree ()
 }
 
 ImplTree::ImplTree (const ImplTree & src ) : 
-  mNumLeaves ( src.mNumLeaves ), mCurrentNode( src.mCurrentNode ) {
+  mNumLeaves ( src.mNumLeaves ), mCurrentNode( src.mCurrentNode ) 
+  {
 	debug_func_cerr(5);
 
-  // TODO!! to be implemented
+	if (mTree != NULL) delete [] mTree;
+	
+	if (src.mTree != NULL)
+	{
+		size_t n = mNumLeaves * 2 - 1;
+		mTree = new NODE_INFO[ n ];
+		memcpy( mTree, src.mTree, sizeof(NODE_INFO) * n );
+	}
+		
 }
 
 //-------------------------------------------------------< accessors >----------------------------------------
