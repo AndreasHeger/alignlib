@@ -24,6 +24,7 @@
 #include <iostream> 
 #include <algorithm>
 #include <set>
+#include <cassert>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "ImplAlignataMatrix.h"

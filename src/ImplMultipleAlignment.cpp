@@ -25,6 +25,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include <cassert>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 

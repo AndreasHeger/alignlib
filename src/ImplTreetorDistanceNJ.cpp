@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <cassert>
 #include "ImplTreetorDistanceNJ.h"
 #include "Tree.h"
 #include "PhyloMatrix.h"

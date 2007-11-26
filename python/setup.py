@@ -198,12 +198,14 @@ def buildModule( include_paths, dest, options) :
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
                                return_value_policy( reference_existing_object )
     
-        # set call policies for functions that return set a default object
+        # set call policies for functions that set a default object
         # in this case the caller takes ownership of the old object
+        # and relinquishes control of the default object to the library
         for prefix in ("setDefault", ):
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
                                return_value_policy( manage_new_object )
-    
+
+
         # other functions that return new objects, including the factory functions
         for prefix in ("extract", "read", "make", "load", "exportProfileFrequencies", "splitAlignata" ): 
             try:

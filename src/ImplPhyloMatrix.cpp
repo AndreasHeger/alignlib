@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <stdlib.h>
 #include <cstring> // for memcpy
+#include <cassert>
 #include "alignlib.h"
 #include "ImplPhyloMatrix.h"
 #include "AlignlibDebug.h"
