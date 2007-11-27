@@ -94,6 +94,15 @@ namespace alignlib {
 					      Score gep, 
 					      Fragmentor * fragmentor );
 
+    /** alignator object for iterative alignment
+     * 
+     * Aligns two Alignandum objects iteratively using a template
+     * alignator object until the alignment score drops below @min_score. 
+     * The template alignator object is copied.
+     */
+    Alignator * makeAlignatorIterative( const Alignator * alignator, 
+    									Score min_score);
+    
     // compatibility functions
     inline Alignator * makeFullDP( Score gop, Score gep, 
 				   bool penalize_left = false, 
@@ -108,27 +117,7 @@ namespace alignlib {
     
 
     /* 3. convenience functions */
-    
-    /** This function takes const arguments, which is consistend with the Align-
-	method of alignator-objects. However, the alignandum-objects
-	have to be first copied into non-const objects before aligning. This costs
-	time.
-     */
-    Alignata * performIterativeAlignment( Alignata * dest, 
-					  const Alignandum * src_1, 
-					  const Alignandum * src_2, 
-					  Alignator * a, 
-					  Score min_score); 
-    
-    /** This function takes non-const arguments. No copying is necessary and 
-	it should work fine.
-    */ 
-    Alignata * performIterativeAlignment( Alignata * dest, 
-					  Alignandum * src_1, 
-					  Alignandum * src_2, 
-					  Alignator * a, 
-					  Score min_score); 
-    
+        
 }
 
 #endif	/* HELPERS_ALIGNATOR_H */

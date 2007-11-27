@@ -102,7 +102,12 @@ ImplAlignatorDP::ImplAlignatorDP( AlignmentType alignment_type,
 //----------------------------------------------------------------------------------------------------------------------------------------
 ImplAlignatorDP::ImplAlignatorDP( const ImplAlignatorDP & src ) :
 	ImplAlignator( src ),
-	mRowGop( src.mRowGop), mRowGep( src.mRowGep), mColGop( src.mColGop), mColGep( src.mColGep)
+	mRowGop( src.mRowGop), mRowGep( src.mRowGep), mColGop( src.mColGop), mColGep( src.mColGep),
+	mAlignmentType( src.mAlignmentType ),
+	mPenalizeRowLeft( src.mPenalizeRowLeft),
+	mPenalizeRowRight( src.mPenalizeRowRight),
+	mPenalizeColLeft( src.mPenalizeColLeft),
+	mPenalizeColRight( src.mPenalizeColRight)
 	{
 	debug_func_cerr(5);
 
@@ -119,6 +124,7 @@ ImplAlignatorDP::~ImplAlignatorDP()
 
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------------
 void ImplAlignatorDP::setRowGop( Score gop ) { mRowGop = gop;} 
 void ImplAlignatorDP::setRowGep( Score gep ) { mRowGep = gep;}
 void ImplAlignatorDP::setColGop( Score gop ) { mColGop = gop;}

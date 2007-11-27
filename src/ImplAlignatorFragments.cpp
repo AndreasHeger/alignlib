@@ -82,7 +82,8 @@ namespace alignlib {
   debug_func_cerr(5);
 
   }
-  //--------------------------------------------------------------------------------------------------------
+
+  //----------------------------------------------------------------------------------------------------------
 
   void ImplAlignatorFragments::setRowGop( Score gop ) { mRowGop = gop;} 
   void ImplAlignatorFragments::setRowGep( Score gep ) { mRowGep = gep;}

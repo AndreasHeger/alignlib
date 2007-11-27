@@ -49,7 +49,8 @@ namespace alignlib {
     @author Andreas Heger
     @version $Id: ImplAlignatorFragments.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplAlignatorFragments : public ImplAlignator {
+class ImplAlignatorFragments : public ImplAlignator 
+{
  public:
 
     /* constructors and destructors */
@@ -102,7 +103,6 @@ class ImplAlignatorFragments : public ImplAlignator {
     /** get gap extension penalty for col */
     Score getColGep();
     
-
  protected:
 
     /** perform the alignment */
@@ -116,6 +116,7 @@ class ImplAlignatorFragments : public ImplAlignator {
 
     /** traces back through dot-trace and put it in the alignment in Alignata-object */
     virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignata * result);				
+
  protected:
     
     /** The dotter object that supplies the fragments */

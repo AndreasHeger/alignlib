@@ -101,6 +101,10 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
     /** destructor */
     virtual ~ImplAlignatorDPFull();
 
+    /** return a new alignator object of the same type.
+     */
+    virtual ImplAlignatorDPFull * getClone() const;
+    
     /* operators------------------------------------------------------------------------------ */
 
     /* member access functions--------------------------------------------------------------- */

@@ -90,7 +90,12 @@ namespace alignlib {
       debug_func_cerr(5);
 
     }
-  //----------------------------------------------------------------------------------------------------------------------------------------
+
+   //----------------------------------------------------------------------------------------------------------
+  ImplAlignatorDotsNew * ImplAlignatorDotsNew::getClone() const 
+  {
+    return new ImplAlignatorDotsNew( *this );
+  }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
   void ImplAlignatorDots::startUp(const Alignandum * row, const Alignandum *col, Alignata * ali) 

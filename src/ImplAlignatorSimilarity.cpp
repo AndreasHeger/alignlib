@@ -57,6 +57,12 @@ namespace alignlib {
   ImplAlignatorSimilarity::ImplAlignatorSimilarity (const ImplAlignatorSimilarity & src ) : ImplAlignator(src) {
   }
   
+  //--------------------------------------------------------------------------------------------------------
+  ImplAlignatorSimilarity * ImplAlignatorSimilarity::getClone() const 
+  {
+   return new ImplAlignatorSimilarity( *this );
+  }
+  
   Alignata * ImplAlignatorSimilarity::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
     
     startUp(row, col, result );

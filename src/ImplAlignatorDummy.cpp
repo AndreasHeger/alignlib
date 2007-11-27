@@ -62,8 +62,15 @@ namespace alignlib {
     ImplAlignator(src), mAlignata(src.mAlignata)
   {
   }
-  
-  Alignata * ImplAlignatorDummy::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
+
+  //----------------------------------------------------------------------------------------------------------
+  ImplAlignatorDummy * ImplAlignatorDummy::getClone() const 
+  {
+   return new ImplAlignatorDummy( *this );
+  }
+
+  //----------------------------------------------------------------------------------------------------------
+    Alignata * ImplAlignatorDummy::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
     
     startUp(row, col, result );
     

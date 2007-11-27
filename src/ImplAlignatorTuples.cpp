@@ -66,6 +66,12 @@ namespace alignlib
     ImplAlignator(src), mKtuple( src.mKtuple) {
   }
 
+  //--------------------------------------------------------------------------------------------------------
+  ImplAlignatorTuples * ImplAlignatorTuples::getClone() const 
+  {
+   return new ImplAlignatorTuples( *this );
+  }
+  
   //---------------------------------------------> Alignment <-----------------------------------------
   
   Alignata * ImplAlignatorTuples::align( const Alignandum * row, const Alignandum * col, Alignata * result) 

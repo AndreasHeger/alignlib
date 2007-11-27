@@ -66,10 +66,11 @@ ImplProfile::ImplProfile( const Regularizor * regularizor,
 
 			}
 
-const AlignandumDataProfile & ImplProfile::getData() const {
-	mData.mCountsPointer		= &mCounts[getFrom()];
-	mData.mFrequenciesPointer	= &mFrequencies[getFrom()];
-	mData.mProfilePointer		= &mProfile[getFrom()];
+const AlignandumDataProfile & ImplProfile::getData() const 
+{
+	mData.mCountsPointer		= mCounts;
+	mData.mFrequenciesPointer	= mFrequencies;
+	mData.mProfilePointer		= mProfile;
 	return mData;
 }
 
@@ -418,10 +419,10 @@ void ImplProfile::load( std::istream & input)
 
 	allocateCounts();	
 	input.read( (char*)mCounts, sizeof( CountColumn) * getTrueLength() );
-	
+
 	if (input.fail() ) 
 		throw AlignException( "incomplete profile in stream.");
-	
+
 	if (isPrepared() )
 	{
 		allocateFrequencies();
@@ -429,7 +430,7 @@ void ImplProfile::load( std::istream & input)
 		allocateProfile();
 		input.read( (char*)mProfile, sizeof( ProfileColumn) * getTrueLength() );	
 	}		
-	
+
 }
 
 //--------------------------------------> I/O <------------------------------------------------------------

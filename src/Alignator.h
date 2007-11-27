@@ -80,8 +80,13 @@ namespace alignlib
       
       /** copy constructor */
       Alignator( const Alignator & src);
-      
-      /** method for aligning two Alignandum objects 
+
+      //------------------------------------------------------------------------------------------------------------
+      /** return an identical copy
+       */
+      virtual Alignator * getClone() const = 0;
+            
+      /** align two alignandum objects 
        * */
       virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *) = 0;		
 

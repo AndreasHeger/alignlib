@@ -45,7 +45,11 @@ using namespace std;
 namespace alignlib
 {
 
-  
+	Alignator * makeAlignatorIdentity() 
+	{
+		return new ImplAlignatorIdentity();
+	}
+	
   //---------------------------------------------------------< constructors and destructors >--------------------------------------
   ImplAlignatorIdentity::ImplAlignatorIdentity () : ImplAlignator()
   {
@@ -59,6 +63,14 @@ namespace alignlib
   {
   }
   
+  //--------------------------------------------------------------------------------------------------------
+  ImplAlignatorIdentity * ImplAlignatorIdentity::getClone() const 
+  {
+   return new ImplAlignatorIdentity( *this );
+  }
+  
+  
+  //--------------------------------------------------------------------------------------------------------
   Alignata * ImplAlignatorIdentity::align( const Alignandum * row, const Alignandum * col, Alignata * result)
   
 {

@@ -89,6 +89,13 @@ ImplAlignatorDiagonalDotsSquared::~ImplAlignatorDiagonalDotsSquared()
   debug_func_cerr(5);
 
 }
+
+ImplAlignatorDiagonalDotsSquared * ImplAlignatorDiagonalDotsSquared::getClone() const 
+{
+  return new ImplAlignatorDiagonalDotsSquared( *this );
+}
+
+
 //------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------
 Score ImplAlignatorDiagonalDotsSquared::getGapCost( Dot x1, Dot x2 ) const {

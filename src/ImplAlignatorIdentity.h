@@ -31,7 +31,8 @@
 #include "alignlib.h"
 #include "ImplAlignator.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 class Alignandum;
 class SubstitutionMatrix;
@@ -56,6 +57,10 @@ class ImplAlignatorIdentity : public ImplAlignator {
 
     /** method for aligning two arbitrary objects */
     virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+    
+    /** return a new alignator object of the same type.
+     */
+    virtual ImplAlignatorIdentity * getClone() const;    
 };
 
 }

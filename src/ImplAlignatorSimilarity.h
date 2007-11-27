@@ -59,7 +59,10 @@ class ImplAlignatorSimilarity : public ImplAlignator {
 
     /** method for aligning two arbitrary objects */
     virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
-    
+  
+    /** return a new alignator object of the same type.
+     */
+    virtual ImplAlignatorSimilarity * getClone() const;    
 };
 
 }

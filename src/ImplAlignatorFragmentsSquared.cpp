@@ -100,6 +100,13 @@ ImplAlignatorFragmentsSquared::~ImplAlignatorFragmentsSquared()
   debug_func_cerr(5);
 
 }
+
+//----------------------------------------------------------------------------------------------------------
+ImplAlignatorFragmentsSquared * ImplAlignatorFragmentsSquared::getClone() const 
+{
+ return new ImplAlignatorFragmentsSquared( *this );
+}
+
 //------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------
 Score ImplAlignatorFragmentsSquared::getGapCost( Dot x1, Dot x2 ) const {

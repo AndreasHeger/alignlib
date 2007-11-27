@@ -65,6 +65,7 @@ HEADERS_ALIGNATA =	Alignata.h HelpersAlignata.h \
 HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignator.h ImplAlignatorDP.h \
 			ImplAlignatorDPFull.h \
+			ImplAlignatorIterative.h \
 			ImplAlignatorDots.h ImplAlignatorDotsWrap.h \
 			ImplAlignatorDotsSquared.h ImplAlignatorDotsSquaredDiagonal.h\
 			ImplAlignatorIdentity.h ImplAlignatorSimilarity.h \
@@ -148,6 +149,7 @@ PARTS_ALIGNATA =      Alignata.cpp HelpersAlignata.cpp HelpersAlignataPrivate.cp
 PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
 			ImplAlignator.cpp ImplAlignatorDP.cpp \
 			ImplAlignatorDPFull.cpp \
+			ImplAlignatorIterative.cpp \
 			ImplAlignatorDots.cpp ImplAlignatorDotsSquared.cpp ImplAlignatorDotsSquaredDiagonal.cpp \
 			ImplAlignatorIdentity.cpp ImplAlignatorSimilarity.cpp ImplAlignatorTuples.cpp \
 			ImplAlignatorDummy.cpp \

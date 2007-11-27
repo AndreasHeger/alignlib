@@ -90,6 +90,12 @@ ImplAlignatorDotsWrap::~ImplAlignatorDotsWrap()
 
 }
 
+//----------------------------------------------------------------------------------------------------------
+ImplAlignatorDotsWrap * ImplAlignatorDotsWrap::getClone() const 
+{
+ return new ImplAlignatorDotsWrap( *this );
+}
+
 //----------------------------------------------------------------------------------------------------------------------------------------
 
 Score ImplAlignatorDotsWrap::getGapCost( Dot x1, Dot x2 ) const {

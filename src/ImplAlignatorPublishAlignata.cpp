@@ -61,9 +61,17 @@ namespace alignlib
   ImplAlignatorPublishAlignata::ImplAlignatorPublishAlignata (const ImplAlignatorPublishAlignata & src ) : ImplAlignator(src) {
   }
   
-  Alignata * ImplAlignatorPublishAlignata::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
-    
+  //--------------------------------------------------------------------------------------------------------
+  ImplAlignatorPublishAlignata * ImplAlignatorPublishAlignata::getClone() const 
+  {
+   return new ImplAlignatorPublishAlignata( *this );
+  }
+  
+  
+  Alignata * ImplAlignatorPublishAlignata::align( const Alignandum * row, const Alignandum * col, Alignata * result) 
+  {    
     startUp(row, col, result );
+    cleanUp( row, col, result );
     return mAlignata;
   }
 

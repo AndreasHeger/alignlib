@@ -24,10 +24,18 @@ import sys
 
 class AlignatorTestCase( unittest.TestCase ):
 
+    def __init__(self, *args, **kwargs):
+        self.mReferenceSequence1 = None
+        self.mReferenceSequence2 = None
+        unittest.TestCase.__init__(self, *args, **kwargs )
+
     def setUp( self ):
 
-        self.mReferenceSequence1 = "AAAAAAACCCCAAAAAAA"
-        self.mReferenceSequence2 = "WWAAAAAWWWWAAAAAWW"         
+        if not self.mReferenceSequence1:
+            self.mReferenceSequence1 = "AAAAAAACCCCAAAAAAA"
+        if not self.mReferenceSequence2:
+            self.mReferenceSequence2 = "WWAAAAAWWWWAAAAAWW"
+                     
         self.mAlignataA2B = makeAlignataVector()
         self.mAlignataB2A = makeAlignataVector()        
         self.mSeq1 = makeSequence( self.mReferenceSequence1 )
@@ -130,11 +138,43 @@ class AlignatorDPWrapTestCase( AlignatorTestCase ):
         else:
             self.assertEqual( self.mAlignataA2B.getLength(), 14 )
             
+
+class AlignatorIterativeTestCase( AlignatorTestCase ):
+
+    def setUp( self ):
+
+        self.mReferenceSequence1 = "AAACCCCCCCCGGGCCCCCCCQQQCCCCCCCWWWCCCCCCCFFF"
+        self.mReferenceSequence2 = "AAAKKKKKKKkGGGKKKKKKKQQQKKKKKKKWWWKKKKKKKFFF"        
+
+        self.mReferenceSequence1 = "AAACCCCCCCCGGGCCCCCCCQQQCCCCCCCAAACCCCCCCFFF"
+        self.mReferenceSequence2 = "AAAKKKKKKKkGGGKKKKKKKQQQKKKKKKKAAAKKKKKKKFFF"        
+
+        AlignatorTestCase.setUp( self )
+        
+        alignator = makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 )
+        
+        self.mAlignator = makeAlignatorIterative( alignator, 1.0 )
+        
+    def checkAlignment( self, row, col ):
+
+        if self.mAlignataA2B.getScore() != self.mAlignataB2A.getScore():
+            print str(self.mAlignataA2B)
+            print str(self.mAlignataB2A)
+            print row, col, self.mAlignataA2B.getScore(), self.mAlignataB2A.getScore()
+
+        AlignatorTestCase.checkAlignment( self, row, col )
+        
+        if row == col or (row,col) in self.mSames:
+            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() )            
+            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[col].getLength() )
+            self.assertEqual( self.mAlignataA2B.getNumGaps(), 0 )
+        
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(AlignatorDPGlobalWithEndGapsPenaltiesTestCase)
     suite.addTest(AlignatorDPGlobalNoEndGapsPenaltiesTestCase)
-    suite.addTest(AlignatorDPLocalTestCase)        
+    suite.addTest(AlignatorDPLocalTestCase)
+    suite.addTest(AlignatorIterativeTestCase)   
     return suite
 
 if __name__ == "__main__":

@@ -66,6 +66,10 @@ class ImplAlignatorFragmentsSquared : public ImplAlignatorFragments {
 
     /** destructor */
     virtual ~ImplAlignatorFragmentsSquared();
+    
+    /** return a new alignator object of the same type.
+     */
+    virtual ImplAlignatorFragmentsSquared * getClone() const;    
 
  protected:
 

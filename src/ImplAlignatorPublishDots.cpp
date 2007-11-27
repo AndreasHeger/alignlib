@@ -60,11 +60,20 @@ ImplAlignatorPublishAlignata::~ImplAlignatorPublishAlignata () {
 ImplAlignatorPublishAlignata::ImplAlignatorPublishAlignata (const ImplAlignatorPublishAlignata & src ) : ImplAlignator(src) {
 }
 
+//--------------------------------------------------------------------------------------------------------
+ImplAlignatorPublishDots * ImplAlignatorPublishDots::getClone() const 
+{
+ return new ImplAlignatorPublishDots( *this );
+}
+
+
 Alignata * ImplAlignatorPublishAlignata::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
 
   startUp(row, col, result );
 
   return mAlignata;
+  
+  cleanUp( row, col, results );
 }
 
 

@@ -72,103 +72,101 @@ using namespace alignlib;
 
 
 bool testPairwiseAlignment(int test_id,
-    alignlib::Alignator * a, 
-    const Alignandum * benchmark_row,
-    const Alignandum * benchmark_col,
-    Position row_from,
-    Position row_to,
-    const char * row,
-    Position col_from,
-    Position col_to,
-    const char * col,
-    Score score )
-  {
+		alignlib::Alignator * a, 
+		const Alignandum * benchmark_row,
+		const Alignandum * benchmark_col,
+		Position row_from,
+		Position row_to,
+		const char * row,
+		Position col_from,
+		Position col_to,
+		const char * col,
+		Score score )
+{
 
-    std::cout << "======== test " << test_id << " =========" << std::endl;
-    std::cout << *benchmark_row << std::endl;
-    std::cout << *benchmark_col << std::endl;
+	std::cout << "======== test " << test_id << " =========" << std::endl;
+	std::cout << *benchmark_row << std::endl;
+	std::cout << *benchmark_col << std::endl;
 
-    alignlib::Alignata * result = makeAlignataVector();
+	std::auto_ptr<alignlib::Alignata>result(makeAlignataVector());
 
-    a->align( benchmark_row, benchmark_col, result);
+	a->align( benchmark_row, benchmark_col, &*result);
 
-    std::string b_row;
-    std::string b_col;
-    std::string r_row(row);
-    std::string r_col(col);
+	std::string b_row;
+	std::string b_col;
+	std::string r_row(row);
+	std::string r_col(col);
 
-    writePairAlignment( std::cout, benchmark_row, benchmark_col, result );
+	writePairAlignment( std::cout, benchmark_row, benchmark_col, &*result );
 
-    std::cout << "result=" << *result << std::endl;
-    writeAlignataCompressed( result, b_row, b_col );
+	std::cout << "result=" << *result << std::endl;
+	writeAlignataCompressed( &*result, b_row, b_col );
 
-    if ( result->getScore() == score &&
-        row_from == result->getRowFrom() &&
-        row_to == result->getRowTo() &&
-        col_from == result->getColFrom() &&
-        col_to == result->getColTo() &&
-        b_row == r_row &&
-        b_col == r_col )
-      {
-        std::cout << "test " << test_id << " success" << std::endl;
-        return true;
-      }
-    else
-      {
-        std::cout << row_from << "-" << row_to << ":" << r_row
-        << (( b_row == r_row && row_from == result->getRowFrom() && row_to == result->getRowTo() ) ? " == " : " != ")
-        << result->getRowFrom() << "-" << result->getRowTo() << ":" << b_row << "\t"
-        << col_from << "-" << col_to << ":" << r_col
-        << (( b_col == r_col && col_from == result->getColFrom() && col_to == result->getColTo() ) ? " == " : " != ") 
-        << result->getColFrom() << "-" << result->getColTo() << ":" << b_col << "\t"
-        << score << (( score == result->getScore() ) ? " == " : " != ") << result->getScore()
-        << std::endl;
-        std::cout << "test " << test_id << " failure" << std::endl;      
+	if ( result->getScore() == score &&
+			row_from == result->getRowFrom() &&
+			row_to == result->getRowTo() &&
+			col_from == result->getColFrom() &&
+			col_to == result->getColTo() &&
+			b_row == r_row &&
+			b_col == r_col )
+	{
+		std::cout << "test " << test_id << " success" << std::endl;
+		return true;
+	}
+	else
+	{
+		std::cout << row_from << "-" << row_to << ":" << r_row
+		<< (( b_row == r_row && row_from == result->getRowFrom() && row_to == result->getRowTo() ) ? " == " : " != ")
+		<< result->getRowFrom() << "-" << result->getRowTo() << ":" << b_row << "\t"
+		<< col_from << "-" << col_to << ":" << r_col
+		<< (( b_col == r_col && col_from == result->getColFrom() && col_to == result->getColTo() ) ? " == " : " != ") 
+		<< result->getColFrom() << "-" << result->getColTo() << ":" << b_col << "\t"
+		<< score << (( score == result->getScore() ) ? " == " : " != ") << result->getScore()
+		<< std::endl;
+		std::cout << "test " << test_id << " failure" << std::endl;      
 
-        return false;
-      }
-    delete result;
-  }
+		return false;
+	}
+}
 
 bool testWrappedAlignment(int test_id,
-    alignlib::Alignator * a, 
-    const Alignandum * benchmark_row,
-    const Alignandum * benchmark_col,
-    const char * r_ali,
-    Score score )
-  {
+		alignlib::Alignator * a, 
+		const Alignandum * benchmark_row,
+		const Alignandum * benchmark_col,
+		const char * r_ali,
+		Score score )
+{
 
-    std::cout << "======== test " << test_id << " =========" << std::endl;
-    std::cout << *benchmark_row << std::endl;
-    std::cout << *benchmark_col << std::endl;
+	std::cout << "======== test " << test_id << " =========" << std::endl;
+	std::cout << *benchmark_row << std::endl;
+	std::cout << *benchmark_col << std::endl;
 
-    alignlib::Alignata * result = makeAlignataMatrixDiagonal();
+	std::auto_ptr<alignlib::Alignata> result(makeAlignataMatrixDiagonal());
 
-    a->align( benchmark_row, benchmark_col, result);
+	a->align( benchmark_row, benchmark_col, &*result);
 
-    std::string b_ali;
-    std::string r_row(r_ali);
+	std::string b_ali;
+	std::string r_row(r_ali);
 
-    writeAlignataCompressedDiagonal( result, b_ali );
+	writeAlignataCompressedDiagonal( &*result, b_ali );
 
-    if ( result->getScore() == score &&
-        b_ali == r_ali )
-      {
-        std::cout << "test " << test_id << " success" << std::endl;
-        return true;
-      }
-    else
-      {
-        std::cout << r_ali
-        << (( b_ali == r_ali ) ? " == " : " != ")
-        << b_ali
-        << std::endl;
-        std::cout << "test " << test_id << " failure" << std::endl;      
+	if ( result->getScore() == score &&
+			b_ali == r_ali )
+	{
+		std::cout << "test " << test_id << " success" << std::endl;
+		return true;
+	}
+	else
+	{
+		std::cout << r_ali
+		<< (( b_ali == r_ali ) ? " == " : " != ")
+		<< b_ali
+		<< std::endl;
+		std::cout << "test " << test_id << " failure" << std::endl;      
 
-        return false;
-      }
-    delete result;
-  }
+		return false;
+	}
+}
 
 
 /* test pairwise alignments. For the calculation of the score it is assumed, 
@@ -301,145 +299,183 @@ void testPairAlignator( Alignator * a,
  */
 int main () {
 
-  SubstitutionMatrix * matrix = makeSubstitutionMatrixAAIdentity( 10, -1);
+	SubstitutionMatrix * matrix = makeSubstitutionMatrixAAIdentity( 10, -1);
 
-  delete setDefaultSubstitutionMatrix( matrix );
+	delete setDefaultSubstitutionMatrix( matrix );
 
-  Alignandum * seq1 = makeSequence( "AAAAACCCCCAAAAA");
-  Alignandum * seq2 = makeSequence( "CCCCC");
-  Alignandum * seq3 = makeSequence( "CCCKCCC");
-  Alignandum * seq4 = makeSequence( "AAAAACCACCAAAAA");
-  Alignandum * seq5 = makeSequence( "KKKACACACKKK");
-  Alignandum * seq6 = makeSequence( "AC");  
-  Alignandum * seq7 = makeSequence( "AAAAAAACCCCAAAAAAA" );
-  Alignandum * seq8 = makeProfile( "AAAAAAACCCCAAAAAAA", 1);
-  
-  Score gop = -12;
-  Score gep = -2;
+	Alignandum * seq1 = makeSequence( "AAAAACCCCCAAAAA");
+	Alignandum * seq2 = makeSequence( "CCCCC");
+	Alignandum * seq3 = makeSequence( "CCCKCCC");
+	Alignandum * seq4 = makeSequence( "AAAAACCACCAAAAA");
+	Alignandum * seq5 = makeSequence( "KKKACACACKKK");
+	Alignandum * seq6 = makeSequence( "AC");  
+	Alignandum * seq7 = makeSequence( "AAAAAAACCCCAAAAAAA" );
+	Alignandum * seq8 = makeProfile( "AAAAAAACCCCAAAAAAA", 1);
 
-    {
-      std::cout << "--- testing AlignatorDPFull (global mode) " << std::endl;
-      Alignator * a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true );
-      testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-      testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 6 );
-      testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 6 );
-      testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+3-2+2", 0,  7,      "+7", 34 );
-      testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
+	Score gop = -12;
+	Score gep = -2;
+	{
+		std::cout << "--- testing AlignatorDPFull (global mode) " << std::endl;
+		Alignator * a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true );
+		testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 6 );
+		testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 6 );
+		testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+3-2+2", 0,  7,      "+7", 34 );
+		testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 
-      Iterator2D * i = makeIterator2DBanded( NULL, NULL, 0, 0);
-      a->setIterator2D( i );
+		Iterator2D * i = makeIterator2DBanded( NULL, NULL, 0, 0);
+		a->setIterator2D( i );
 
-      testPairwiseAlignment( 6, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-      testPairwiseAlignment( 7, a, seq1, seq2, 0,  5, "+5",     0,  5,      "+5", -5 );
-      testPairwiseAlignment( 8, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
-      testPairwiseAlignment( 9, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
+		testPairwiseAlignment( 6, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment( 7, a, seq1, seq2, 0,  5, "+5",     0,  5,      "+5", -5 );
+		testPairwiseAlignment( 8, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
+		testPairwiseAlignment( 9, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 
-      delete i;
-      delete a;
-    }
+		delete i;
+		delete a;
+	}
 
-      {
-        std::cout << "--- testing AlignatorDPFull (local mode)" << std::endl;
-        Alignator * a = makeAlignatorDPFull( ALIGNMENT_LOCAL, gop, gep );
-        testPairwiseAlignment(11, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-        testPairwiseAlignment(12, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
-        testPairwiseAlignment(13, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
-        testPairwiseAlignment(14, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
+	{
+		std::cout << "--- testing AlignatorDPFull (local mode)" << std::endl;
+		Alignator * a = makeAlignatorDPFull( ALIGNMENT_LOCAL, gop, gep );
+		testPairwiseAlignment(11, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment(12, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
+		testPairwiseAlignment(13, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
+		testPairwiseAlignment(14, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
 
-        Iterator2D * i = makeIterator2DBanded( NULL, NULL, 0, 0);
-        a->setIterator2D( i );
+		Iterator2D * i = makeIterator2DBanded( NULL, NULL, 0, 0);
+		a->setIterator2D( i );
 
-        testPairwiseAlignment( 15, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-        testPairwiseAlignment( 16, a, seq1, seq2, NO_POS, NO_POS, "",     NO_POS,  NO_POS,      "", 0 );
-        testPairwiseAlignment( 17, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
-        testPairwiseAlignment( 18, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
+		testPairwiseAlignment( 15, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment( 16, a, seq1, seq2, NO_POS, NO_POS, "",     NO_POS,  NO_POS,      "", 0 );
+		testPairwiseAlignment( 17, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
+		testPairwiseAlignment( 18, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 
-        delete i;
-        delete a;
-      }
+		delete i;
+		delete a;
+	}
 
-        {
-          std::cout << "--- testing AlignatorDPWrap (local mode)" << std::endl;
-          Alignator * a = makeAlignatorDPFull( ALIGNMENT_WRAP, gop, gep );
-          testWrappedAlignment(21, a, seq5, seq6, "-7:-0+2;-5:-0+2;-3:-0+2", 60 );
-          testWrappedAlignment(22, a, seq6, seq5, "3:-0+2", 20 );    
-          delete a;
-        }
+	{
+		std::cout << "--- testing AlignatorDPWrap (local mode)" << std::endl;
+		Alignator * a = makeAlignatorDPFull( ALIGNMENT_WRAP, gop, gep );
+		testWrappedAlignment(21, a, seq5, seq6, "-7:-0+2;-5:-0+2;-3:-0+2", 60 );
+		testWrappedAlignment(22, a, seq6, seq5, "3:-0+2", 20 );    
+		delete a;
+	}
 
-          { 
-            std::cout << "--- testing setting of range ---" << std::endl;
-            std::auto_ptr<Alignator>a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
-            seq1->useSegment(5,8);
-            testPairwiseAlignment( 23, &*a, seq1, seq2, 5, 8, "+3", 0, 3, "+3", 14 );
-            seq1->useSegment(); 
-          }
-          
-          { 
-            std::cout << "--- testing sequence/profile alignment ---" << std::endl;
-            std::auto_ptr<Alignator>a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
-            testPairwiseAlignment( 24, &*a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 42 );
-          }
-          
-          
+	{ 
+		std::cout << "--- testing setting of range ---" << std::endl;
+		std::auto_ptr<Alignator>a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
+		seq1->useSegment(5,8);
+		testPairwiseAlignment( 23, &*a, seq1, seq2, 5, 8, "+3", 0, 3, "+3", 14 );
+		seq1->useSegment(); 
+	}
 
-          //   cout << "---------------------testing AlignatorFullDPWrap----------------------------------" << endl;
-          //   a1 = makeAlignatorFullDPWrap( -1, -0.1 );
-          //   ali= makeAlignataSet();
-          //   testAlignator( a1, ali, PAIR   );
-          //   delete a1;
-          //   delete ali;
+	{ 
+		std::cout << "--- testing sequence/profile alignment ---" << std::endl;
+		std::auto_ptr<Alignator>a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
+		testPairwiseAlignment( 24, &*a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 42 );
+	}
+	{ 
+		
+		SubstitutionMatrix * new_matrix = makeSubstitutionMatrixAAIdentity( 10, -10);
+		setDefaultSubstitutionMatrix( new_matrix );
 
-          //    cout << "---------------------testing AlignatorFullDPGlobal: end-gap-penalties on both sides----------------------------------" << endl;
-          //    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, true );
-          //    ali= makeAlignataSet();
-          //    testAlignator( a1, ali, PAIR );
-          //    delete a1;
-          //    delete ali;
+		std::cout << "--- testing iterative alignment ---" << std::endl;
+		std::auto_ptr<Alignator>a(makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 ));
 
-          //    cout << "---------------------testing AlignatorFullDPGlobal: no right end-gap-penalty----------------------------------" << endl;
-          //    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, false );
-          //    ali= makeAlignataSet();
-          //    testAlignator( a1, ali, PAIR );
-          //    delete a1;
-          //    delete ali;
+		Alignata * result = makeAlignataVector();
+		Alignator * alignator = makeAlignatorIterative( &*a, 1.0 );
+		{
+			Alignandum * row = makeSequence( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA" );
+			Alignandum * col = makeSequence( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA" );
+		
+			alignator->align( row, col, result);		
+		
+			std::cout << *result << std::endl;
+			writePairAlignment( std::cout, row, col, result );
+			
+			delete row;
+			delete col;
+		}
+		{
+			Alignandum * row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2 );
+			Alignandum * col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2 );
+		
+			alignator->align( row, col, result);		
+		
+			std::cout << *result << std::endl;
+			writePairAlignment( std::cout, row, col, result );
+			
+			delete row;
+			delete col;
+		}
+		
+		setDefaultSubstitutionMatrix( matrix );
+		
+		delete new_matrix;
+		delete alignator;
+		delete result;
+	}
+	
+	//   cout << "---------------------testing AlignatorFullDPWrap----------------------------------" << endl;
+	//   a1 = makeAlignatorFullDPWrap( -1, -0.1 );
+	//   ali= makeAlignataSet();
+	//   testAlignator( a1, ali, PAIR   );
+	//   delete a1;
+	//   delete ali;
 
-          //    cout << "---------------------testing AlignatorFullDPGlobal: no left end gap-penalty----------------------------------" << endl;
-          //    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, true );
-          //    ali= makeAlignataSet();
-          //    testAlignator( a1, ali, PAIR );
-          //    delete a1;
-          //    delete ali;
+	//    cout << "---------------------testing AlignatorFullDPGlobal: end-gap-penalties on both sides----------------------------------" << endl;
+	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, true );
+	//    ali= makeAlignataSet();
+	//    testAlignator( a1, ali, PAIR );
+	//    delete a1;
+	//    delete ali;
 
-          //    cout << "---------------------testing AlignatorFullDPGlobal: no end gap-penalty----------------------------------" << endl;
-          //    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, false );
-          //    ali= makeAlignataSet();
-          //    testAlignator( a1, ali, PAIR );
-          //    delete a1;
-          //    delete ali;
+	//    cout << "---------------------testing AlignatorFullDPGlobal: no right end-gap-penalty----------------------------------" << endl;
+	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, false );
+	//    ali= makeAlignataSet();
+	//    testAlignator( a1, ali, PAIR );
+	//    delete a1;
+	//    delete ali;
+
+	//    cout << "---------------------testing AlignatorFullDPGlobal: no left end gap-penalty----------------------------------" << endl;
+	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, true );
+	//    ali= makeAlignataSet();
+	//    testAlignator( a1, ali, PAIR );
+	//    delete a1;
+	//    delete ali;
+
+	//    cout << "---------------------testing AlignatorFullDPGlobal: no end gap-penalty----------------------------------" << endl;
+	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, false );
+	//    ali= makeAlignataSet();
+	//    testAlignator( a1, ali, PAIR );
+	//    delete a1;
+	//    delete ali;
 
 
-          //   cout << "---------------------testing AlignatorIdentity----------------------------------" << endl;
-          //   a1 = makeAlignatorIdentity();
-          //   ali= makeAlignataMatrixRow();
-          //   testAlignator( a1, ali, PAIR );
-          //   delete a1;
-          //   delete ali;
+	//   cout << "---------------------testing AlignatorIdentity----------------------------------" << endl;
+	//   a1 = makeAlignatorIdentity();
+	//   ali= makeAlignataMatrixRow();
+	//   testAlignator( a1, ali, PAIR );
+	//   delete a1;
+	//   delete ali;
 
-          //   cout << "---------------------testing AlignatorSimilarity----------------------------------" << endl;
-          //   a1 = makeAlignatorSimilarity();		
-          //   ali= makeAlignataMatrixRow();
-          //   testAlignator( a1, ali, MATRIX);
-          //   delete a1;
-          //   delete ali;
+	//   cout << "---------------------testing AlignatorSimilarity----------------------------------" << endl;
+	//   a1 = makeAlignatorSimilarity();		
+	//   ali= makeAlignataMatrixRow();
+	//   testAlignator( a1, ali, MATRIX);
+	//   delete a1;
+	//   delete ali;
 
-          //   cout << "---------------------testing AlignatorTuples----------------------------------" << endl;
-          //   a1 = makeAlignatorTuples();		// this uses default values for ktuple-size and substitution matrix
-          //   ali= makeAlignataMatrixRow();
-          //   testAlignator( a1, ali, MATRIX );
-          //   delete a1;
-          //   delete ali;
+	//   cout << "---------------------testing AlignatorTuples----------------------------------" << endl;
+	//   a1 = makeAlignatorTuples();		// this uses default values for ktuple-size and substitution matrix
+	//   ali= makeAlignataMatrixRow();
+	//   testAlignator( a1, ali, MATRIX );
+	//   delete a1;
+	//   delete ali;
 
-          /*
+	/*
   {
     cout << "---------------------testing AlignatorDots----------------------------------" << endl;
 
@@ -453,17 +489,17 @@ int main () {
     delete t;
     delete ali;
   }
-           */
+	 */
 
-          delete seq1;
-          delete seq2;
-          delete seq3;
-          delete seq4;
-          delete seq5;
-          delete seq6;
-          delete seq7;
-          delete seq8;
-          
-          delete matrix;
+	delete seq1;
+	delete seq2;
+	delete seq3;
+	delete seq4;
+	delete seq5;
+	delete seq6;
+	delete seq7;
+	delete seq8;
+
+	delete matrix;
 
 }

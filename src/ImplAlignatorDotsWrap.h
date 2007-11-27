@@ -72,6 +72,10 @@ class ImplAlignatorDotsWrap : public ImplAlignatorDots {
     /** destructor */
     virtual ~ImplAlignatorDotsWrap();
 
+    /** return a new alignator object of the same type.
+     */
+    virtual ImplAlignatorDotsWrap * getClone() const ;
+    
  protected:
 
     /** perform the alignment */

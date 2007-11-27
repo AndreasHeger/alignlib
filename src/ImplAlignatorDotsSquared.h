@@ -65,6 +65,10 @@ class ImplAlignatorDotsSquared : public ImplAlignatorDots {
 
     /** destructor */
     virtual ~ImplAlignatorDotsSquared();
+    
+    /** return a new alignator object of the same type.
+     */
+    virtual ImplAlignatorDotsSquared * getClone() const;    
 
  protected:
 

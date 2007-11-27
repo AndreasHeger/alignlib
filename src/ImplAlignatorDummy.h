@@ -47,7 +47,8 @@ namespace alignlib {
 
 class Alignandum;
 
-class ImplAlignatorDummy : public ImplAlignator {
+class ImplAlignatorDummy : public ImplAlignator 
+{
  public:
     // constructors and desctructors
 
@@ -63,6 +64,10 @@ class ImplAlignatorDummy : public ImplAlignator {
     /** method for aligning two arbitrary objects */
     virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
 
+    /** return a new alignator object of the same type.
+     */
+    virtual ImplAlignatorDummy * getClone() const;
+    
  private:
     const Alignata * mAlignata;
 
