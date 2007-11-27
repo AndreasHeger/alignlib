@@ -43,20 +43,9 @@ namespace alignlib
 // forward declarations
 class Alignata; 
 
-
 #define MAX_NDOTS    1000000        /* maximum number of dots */
 #define MAX_SEQLEN   30000	     /* maximum sequence length */
-#define MAX_INSERTLENGTH 30	     /* maximum length of insert before truncating in output */
-#define MAX_LEAVES	10000	     /* maximum number of leaves to have in a tree */
 #define MAX_DIAGONAL 999999		/* the maximum diagonal there can be */
-
-#define TYPE_LEAF_WEIGHT double		/* weights of leaves */
-#define TYPE_EDGE_WEIGHT double		/* weights of edges */
-#define TYPE_EDGE int			/* type of edges */
-
-/* out of bound position for alignments */
-#define LOWER_BOUNDS_POSITION   0
-#define UPPER_BOUNDS_POSITION	10000000
 
 /* type for the internal representation of residues */  
 typedef unsigned char Residue;
@@ -75,25 +64,24 @@ typedef long Dot;
 /* type of a fragment index, has to be signed, since NOFRAGMENT is -1 */
 typedef long Fragment;	
 
-/* type of a position in a sequence, negative positions are invalid positions*/
+/* type of a position in a sequence, negative positions are invalid positions, thus use a signed type. */
 typedef int Position;	
 
 /* invalid position */
 #define NO_POS -1
-
 
 /* type of sequence weights */
 typedef double SequenceWeight;
 
 /* type for substitution matrices */
 #define MATRIXWIDTH_AA  21		     /* width of ordinary substitution matrix, 20 amino acid residues + 1 mask-character */
-#define MATRIXWIDTH_TCO 4
 
 typedef Score ScoreColumn[MATRIXWIDTH_AA];  
 
 /* type of one entry in a profile */
 #define PROFILEWIDTH 20					/* width of profile, 4 for NA, 20 for AA */
 #define MASK_VALUE -10					/* value used, for masking a profile-entry */
+
 typedef double ProfileScore; 
 typedef ProfileScore ProfileColumn[PROFILEWIDTH];
 
@@ -108,7 +96,10 @@ typedef double Frequency;
 typedef Frequency FrequencyColumn[PROFILEWIDTH];		// frequencies have to be double  
 typedef std::vector<Frequency>Frequencies;
 typedef std::vector<Frequencies>ProfileFrequencies;
+
+/** vector of sequence weights */
 typedef std::vector<SequenceWeight>SequenceWeights;
+
 /** alignment types */
 enum AlignmentType
 {
@@ -127,8 +118,8 @@ enum SearchType
 
 enum LinkageType
 {
-	SINGLE_LINKAGE,
-	COMPLETE_LINKAGE,
+	SINGLE_LINKAGE,           // = single linkage clustering
+	COMPLETE_LINKAGE,		  // = complete linkage clustering
 	AVERAGE_LINKAGE,          // = UPGMA
 	UPGMA,                    // = unweighted pair group method average (UPGMA), see Theodoridis & Koutroumbas, p411
 	WPGMA,                    // = weighted pair group method average (WPGMA), as above
@@ -151,7 +142,7 @@ typedef double TreeHeight;
 /* type of a weight of an edge in the tree */
 typedef double TreeWeight;
 
-/* type of a node */
+/* type of a tree node */
 typedef unsigned long Node;
 
 
@@ -167,6 +158,9 @@ typedef unsigned long PhyloMatrixSize;
 
 /** A vector of aligned fragmens */
 typedef std::vector<Alignata*> FragmentVector;
+
+/** A vector of positions */
+typedef std::vector< Position > PositionVector;
 
 } 
 

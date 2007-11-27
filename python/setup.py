@@ -229,9 +229,26 @@ def buildModule( include_paths, dest, options) :
         ## tried: const std::string &, std::string const &, and more
         mb.free_functions( name='makeProfile', arg_types=[None, "int"] ).exclude()
         
-            
+   
     def export_classes( mb ):
-        """export classes."""
+        """export classes.
+        
+        These classes can be instantiated directly from python.
+        """
+        classes_to_export = set( ['AlignedBlocks',] )
+        
+        ## include all classes
+        mb.classes( lambda x: x.name in classes_to_export ).include()
+
+        mb.member_functions( lambda x: x.name == "copy" ).call_policies = \
+            return_value_policy( reference_existing_object )
+    
+            
+    def export_interface_classes( mb ):
+        """export virtual classes.
+        
+        These classes can not instantiated directly from python.
+        """
         classes_to_export = set( ['Alignandum',
                                   'MultipleAlignment',
                                   'Alignator',
@@ -258,7 +275,7 @@ def buildModule( include_paths, dest, options) :
                                   'Distor',
                                   'Treetor',
                                   'Tree',
-                                  'PhyloMatrix',                                  
+                                  'PhyloMatrix',
                                   ])
     
         ## include all classes
@@ -269,7 +286,7 @@ def buildModule( include_paths, dest, options) :
                              return_value_policy( manage_new_object )
         mb.member_functions( lambda x: x.name == "getNew" ).call_policies = \
                              return_value_policy( manage_new_object )
-    
+
         ## add __str__ function for functions having defined the '<<' operator
         ## This automatically maps std::ostream to a string
         mb.free_operators( lambda x: x.name == "operator<<" ).include()    
@@ -386,6 +403,8 @@ def buildModule( include_paths, dest, options) :
     export_functions( mb )
     
     export_classes( mb )
+    
+    export_interface_classes( mb )
     
     ######################################################################
     

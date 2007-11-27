@@ -55,6 +55,7 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersP
 
 HEADERS_ALIGNATA =	Alignata.h HelpersAlignata.h \
 			AlignataIterator.h \
+			AlignedBlocks.h \
 			ImplAlignata.h \
 			ImplAlignataVector.h \
 			ImplAlignataSet.h ImplAlignataSetCol.h \
@@ -139,6 +140,7 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 	                ImplLogOddor.cpp ImplLogOddorDirichlet.cpp ImplLogOddorUniform.cpp 
 
 PARTS_ALIGNATA =      Alignata.cpp HelpersAlignata.cpp HelpersAlignataPrivate.cpp \
+			AlignedBlocks.cpp \
 			ImplAlignata.cpp \
 			ImplAlignataVector.cpp \
 			ImplAlignataSet.cpp \

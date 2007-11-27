@@ -67,6 +67,8 @@
 #include "Tree.h"
 #include "HelpersTree.h"
 
+#include "AlignedBlocks.h"
+
 #include <iostream>
 
 namespace py_details

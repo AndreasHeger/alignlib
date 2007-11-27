@@ -223,7 +223,8 @@ namespace alignlib {
  void writeWraparoundAlignment( std::ostream & output, 
 				const Alignandum * row, 
 				const Alignandum * col, 
-				const Alignata * ali );
+				const Alignata * ali,
+				size_t max_insert_length = 30);
 
  /** create an identity alignment between residues from and to in row using an offset for col */
  Alignata * fillAlignataIdentity( Alignata * dest, 
@@ -425,7 +426,7 @@ void removeFragments( Alignata * dest,
 		      unsigned int window_length,
 		      unsigned int min_gap_length,
 		      Position row_length = NO_POS);
-
+	
 }
 
 #endif	/* HELPERS_ALIGNATA_H */

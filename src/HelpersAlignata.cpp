@@ -557,8 +557,13 @@ namespace alignlib {
 
   /** convenience function */
   //--------------------------------------------------------------------------------------------------------------
-  /** Print pretty wraparound pairwise aligment. Iteration is over rows. Pairs have to be sorted first by row and then by column? */
-  void writeWraparoundAlignment( std::ostream & output, const Alignandum * row, const Alignandum * col, const Alignata * ali ) 
+  /** Print pretty wraparound pairwise aligment. Iteration is over rows. 
+   * Pairs have to be sorted first by row and then by column? */
+  void writeWraparoundAlignment( std::ostream & output, 
+		  						const Alignandum * row, 
+		  						const Alignandum * col, 
+		  						const Alignata * ali,
+		  						size_t max_insert_length ) 
     {
       debug_func_cerr(5);
 
@@ -596,7 +601,7 @@ namespace alignlib {
 
         if (col_ins < 0) nrepeats ++;
 
-        if (row_ins > MAX_INSERTLENGTH) row_ins = MAX_INSERTLENGTH;
+        if (row_ins > max_insert_length) row_ins = max_insert_length;
 
         // if ( (col_ins > 1) && (inserts[current_col] < col_ins)) inserts[current_col] = col_ins;
         if ( (row_ins > 1) && (inserts[current_col] < row_ins)) 
@@ -637,8 +642,8 @@ namespace alignlib {
 
         if (col_ins < 0) repeat_no++;                   // check if new repeat appeared
 
-        if (col_ins > MAX_INSERTLENGTH) col_ins = MAX_INSERTLENGTH;
-        if (row_ins > MAX_INSERTLENGTH) row_ins = MAX_INSERTLENGTH;
+        if (col_ins > max_insert_length) col_ins = max_insert_length;
+        if (row_ins > max_insert_length) row_ins = max_insert_length;
 
         // some remarks on the following:
 
