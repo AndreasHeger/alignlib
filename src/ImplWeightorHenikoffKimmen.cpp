@@ -61,6 +61,8 @@ SequenceWeights * ImplWeightorHenikoffKimmen::calculateWeights( const MultipleAl
 
 	SequenceWeights * weights = ImplWeightorHenikoff::calculateWeights( src );
 
+	int nsequences = src.getWidth();
+	
 	// rescale weights, so that they sum to the number of nsequences 
 	rescaleWeights( weights, nsequences, nsequences);
 
