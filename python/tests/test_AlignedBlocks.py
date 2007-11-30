@@ -33,8 +33,6 @@ class AlignedBlocksCase( unittest.TestCase ):
         fillAlignataIdentity( a, 25, 30, -5)
     
         blocks_out = AlignedBlocks( a );
-    
-        print str(blocks_out)
                 
 def suite():
     suite = unittest.TestSuite()

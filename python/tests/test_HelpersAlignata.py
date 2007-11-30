@@ -18,55 +18,50 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
-import unittest, sys
+import unittest
+import StringIO
 from alignlib import *
 
-class WeightorCase( unittest.TestCase ):
+class HelpersAlignataTestCase( unittest.TestCase ):
 
     def setUp( self ):
+
+        self.mAlignata = makeAlignataVector()
+
+    def buildAlignment( self, alignment ):
         
-        self.mWeightorFactory = makeNoWeightor
-
-        self.mMali = makeMultipleAlignment()
+        alignment.clear()
         
-        self.mMali.add( makeAlignatumFromString("AAAAAAAAAAAAAAAAAAAA") )
-        self.mMali.add( makeAlignatumFromString("AAAAAAAAAAAAAAAAAAAA") )
-        self.mMali.add( makeAlignatumFromString("AAAAAAAAAAAAAAAAAAAA") )
+        for d in (
+            (3,3,1),    
+            (4,4,1),
+            (5,6,1),
+            (6,7,1),
+            (8,8,1),
+            (9,10,1),
+            (10,11,1),
+            (12,12,1)):
+            alignment.addPair( d[0], d[1], float(d[2]))
+                    
+    def testWritePairAlignment(self ):
         
-    def testSetDefault(self):
-    
-        setDefaultWeightor( self.mWeightorFactory() )
-    
-    def testWeight(self):
+        row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" )
+        col = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" )
         
-        weightor = getDefaultWeightor()
-        weightor.calculateWeights( self.mMali )
+        self.buildAlignment( self.mAlignata )
+        
+        outfile = open("test.out", "wb" )
+        writePairAlignment(outfile, row, col, self.mAlignata )
+        
+        output = StringIO.StringIO()
+        result = writePairAlignment( output, row, col, self.mAlignata )
 
-"""
-class WeightorHenikoffCase( WeightorCase ):
 
-    def setUp( self ):
-        self.mWeightorFactory = makeWeightorHenikoff
-
-class WeightorHenikoffKimmenCase( WeightorCase ):
-
-    def setUp( self ):
-        self.mWeightorFactory = makeWeightorHenikoffKimmen
-"""     
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(WeightorTestCase)
-    #suite.addTest(WeightorHenikoffTestCase)
-    #suite.addTest(WeightorHenikoffKimmenTestCase)
+    suite.addTest(AlignataVectorTestCase)
+    suite.addTest(AlignataSetTestCase)    
     return suite
 
 if __name__ == "__main__":
     unittest.main()
-
-
-        
-
-
-
-
-
