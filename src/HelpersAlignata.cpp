@@ -533,6 +533,12 @@ namespace alignlib {
       if (src->isEmpty()) 
         return;
 
+      if (src->getRowTo() > row->getLength() )
+    	  throw AlignException("alignment for row is out of bounds.");
+
+      if (src->getColTo() > row->getLength() )	
+    	  throw AlignException("alignment for col is out of bounds.");	
+      
       Alignata * map_row2new = makeAlignataVector();
       Alignata * map_col2new = makeAlignataVector();
 

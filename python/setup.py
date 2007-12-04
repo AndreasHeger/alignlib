@@ -533,6 +533,9 @@ if __name__ == "__main__":
     parser.add_option( "-f", "--force", dest="force", action="store_true",
                       help="force complete rebuilt..")
     
+    parser.add_option( "--boost-dir", dest="boost_dir", type="string",
+                       help="location of boost." )
+    
     parser.set_defaults( extension_name = "alignlib",
                          force = False, 
                          src_dir = "../src",
