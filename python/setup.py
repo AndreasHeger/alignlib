@@ -170,7 +170,10 @@ def export_writePairAlignment( mb ):
     fun = mb.free_function("writePairAlignment")
     fun.include_files.append( "streambuf" )
     fun.exclude()
-    registration_code = 'bp::def( "writePairAlignment", wrapper_for_writePairAlignment );' 
+    registration_code = """bp::def( "writePairAlignment", 
+        wrapper_for_writePairAlignment, 
+        (bp::arg("output"), bp::arg("row"), bp::arg("col"), bp::arg("ali") ));"""
+         
     mb.add_declaration_code( declaration_code, tail = True )
     mb.add_registration_code( registration_code )
 
