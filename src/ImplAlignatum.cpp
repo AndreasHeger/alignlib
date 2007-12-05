@@ -152,7 +152,7 @@ namespace alignlib {
     	  throw AlignException( "attempting to map an Alignatum object with an empty alignment ");
 
       // check if alignment is out-of-bounds
-      if( mLength >= map_old2new->getRowTo() )
+      if( map_old2new->getRowTo() > mLength )
     	  throw AlignException("alignment out of bounds.");
       
       Position length = std::max( new_length, map_old2new->getColTo());
