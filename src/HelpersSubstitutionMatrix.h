@@ -62,11 +62,18 @@ namespace alignlib {
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
 
-    /** gets the default Regularizor object */ 
+    /** gets the default SubstitionMatrix.
+     * 
+     * The library keeps ownership of the object 
+     * */ 
     const SubstitutionMatrix * getDefaultSubstitutionMatrix();
     
-    /** sets the default SubstitutionMatrix object */
-    const SubstitutionMatrix * setDefaultSubstitutionMatrix( const SubstitutionMatrix * matrix);
+    /** sets the default SubstitutionMatrix.
+     * 
+     * The library takes ownership of the default matrix.
+     * The return type is void because of constraints in py++/boost.python
+     * */
+    void setDefaultSubstitutionMatrix( SubstitutionMatrix * matrix);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

@@ -29,6 +29,7 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
+#include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 #ifdef WITH_DMALLOC
@@ -64,18 +65,20 @@ namespace alignlib {
 {   -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4,}, /* X */
     };
 
-  static const SubstitutionMatrix * DEFAULT_SUBSTITUTIONMATRIX = makeSubstitutionMatrixAA( blosum62 );
+  static SubstitutionMatrix * DEFAULT_SUBSTITUTIONMATRIX = makeSubstitutionMatrixAA( blosum62 );
   
   /** gets the default SubstitutionMatrix object */ 
-  const SubstitutionMatrix * getDefaultSubstitutionMatrix() {
+  const SubstitutionMatrix * getDefaultSubstitutionMatrix() 
+  {
     return DEFAULT_SUBSTITUTIONMATRIX;
   }
 
   /** sets the default SubstitutionMatrix object */
-  const SubstitutionMatrix * setDefaultSubstitutionMatrix( const SubstitutionMatrix * substitutionMatrix ) {
-    const SubstitutionMatrix * t = DEFAULT_SUBSTITUTIONMATRIX;
-    DEFAULT_SUBSTITUTIONMATRIX = substitutionMatrix;
-    return t;
+  void setDefaultSubstitutionMatrix( SubstitutionMatrix * matrix ) 
+  {
+	  if (DEFAULT_SUBSTITUTIONMATRIX != NULL)
+		  delete DEFAULT_SUBSTITUTIONMATRIX;
+	  DEFAULT_SUBSTITUTIONMATRIX = matrix;
   }
  
 /** create the identity substitution matrix. Identities score as 1, mismatches as -1.

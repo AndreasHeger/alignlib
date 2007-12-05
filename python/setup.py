@@ -212,13 +212,26 @@ def export_functions( mb ):
         mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
                            return_value_policy( reference_existing_object )
 
-    # set call policies for functions that set a default object
-    # in this case the caller takes ownership of the old object
-    # and relinquishes control of the default object to the library
+    # Set call policies for functions that set a default object
+    # The caller takes ownership of the old default object and
+    # and passes control of the new default object to the library
+    # This only worked for non-const argument types and not returning
+    # an new object.
     for prefix in ("setDefault", ):
-        mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
-                           return_value_policy( manage_new_object )
+        
+        for fun in mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix ) ):
+            
+            cpointee = fun.name[len(prefix):]
+            cls_pointee = mb.class_( cpointee )
+            cls_pointee.held_type = 'std::auto_ptr< %s >' % cls_pointee.decl_string
+                    
+            fname = fun.name
+            # set alias to original function name, otherwise ugly names will be created
+            fun.add_transformation( function_transformers.transfer_ownership( 0 ), 
+                                    alias = fname )
 
+            # the following did not work, thus changed setDefault to return void
+            # fun.call_policies = return_value_policy( manage_new_object )
 
     # other functions that return new objects, including the factory functions
     for prefix in ("extract", "read", "make", "load", "exportProfileFrequencies", "splitAlignata" ): 
@@ -232,7 +245,7 @@ def export_functions( mb ):
     #######################################################################################
     #######################################################################################
     ## patches to exclude problematic functions
-    for prefix in ("getMapResidue", "makeSubstitutionMatrixAA", "makeRendererColumn", "makeAlignatorDotsWrap", "getDefaultPalette" ):
+    for prefix in ("getMapResidue", "makeRendererColumn", "makeAlignatorDotsWrap", "getDefaultPalette" ):
         try:
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).exclude()
         except RuntimeError:
@@ -376,7 +389,7 @@ def export_interface_classes( mb ):
     ## deal with methods that transfer ownership of the first argument
     ## supplied to the method.
     ## The list contains 
-    ## 1: the class with the member functino
+    ## 1: the class with the member function
     ## 2: the function prefix that needs to wrapped
     ## 3: the class of the pointee
     classes_with_ownership_transfer = [ ("MultipleAlignment", "add", "Alignatum") , ]

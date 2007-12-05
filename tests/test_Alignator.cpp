@@ -301,7 +301,7 @@ int main () {
 
 	SubstitutionMatrix * matrix = makeSubstitutionMatrixAAIdentity( 10, -1);
 
-	delete setDefaultSubstitutionMatrix( matrix );
+	setDefaultSubstitutionMatrix( matrix );
 
 	Alignandum * seq1 = makeSequence( "AAAAACCCCCAAAAA");
 	Alignandum * seq2 = makeSequence( "CCCCC");
@@ -410,10 +410,7 @@ int main () {
 			delete row;
 			delete col;
 		}
-		
-		setDefaultSubstitutionMatrix( matrix );
-		
-		delete new_matrix;
+				
 		delete alignator;
 		delete result;
 	}
@@ -499,7 +496,5 @@ int main () {
 	delete seq6;
 	delete seq7;
 	delete seq8;
-
-	delete matrix;
 
 }
