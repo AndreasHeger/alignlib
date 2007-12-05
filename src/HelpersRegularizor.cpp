@@ -28,7 +28,7 @@
 
 namespace alignlib {
   
-  static const Regularizor * DEFAULT_REGULARIZOR = makeRegularizorDirichlet();
+  static Regularizor * DEFAULT_REGULARIZOR = makeRegularizorDirichlet();
 
   /** gets the default Regularizor object */ 
   const Regularizor * getDefaultRegularizor() {
@@ -36,10 +36,11 @@ namespace alignlib {
   }
 
   /** sets the default Regularizor object */
-  const Regularizor * setDefaultRegularizor( const Regularizor * regularizor ) {
-    const Regularizor * t = DEFAULT_REGULARIZOR;
-    DEFAULT_REGULARIZOR = regularizor;
-    return t;
+  void setDefaultRegularizor( Regularizor * regularizor ) 
+  {
+	  if (DEFAULT_REGULARIZOR != NULL)
+		  DEFAULT_REGULARIZOR = regularizor;
+	  DEFAULT_REGULARIZOR = regularizor;
   }
 
 } // namespace alignlib

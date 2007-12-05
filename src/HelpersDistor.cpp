@@ -15,13 +15,14 @@
 #include <dmalloc.h>
 #endif
 
+#include "Distor.h"
 #include "HelpersDistor.h"
 
 using namespace std;
 
 namespace alignlib {
   
-  static const Distor * DEFAULT_DISTOR = makeDistorClustal();  
+  static Distor * DEFAULT_DISTOR = makeDistorClustal();  
 
   /** gets the default Distor object */
   const Distor * getDefaultDistor() {
@@ -29,10 +30,11 @@ namespace alignlib {
   }
  
   /** sets the default Distor object */
-  const Distor * setDefaultDistor( const Distor * distor ) {
-    const Distor * t = DEFAULT_DISTOR;
+  void setDefaultDistor( Distor * distor ) 
+  {
+	  if (DEFAULT_DISTOR != NULL)
+	  	delete DEFAULT_DISTOR;
     DEFAULT_DISTOR = distor;
-    return t;
   }            
 
 } // namespace alignlib

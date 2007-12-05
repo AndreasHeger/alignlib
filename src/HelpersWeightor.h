@@ -58,8 +58,11 @@ namespace alignlib {
     /** gets the default Weightor object */ 
     const Weightor * getDefaultWeightor();
 
-    /** sets the default Weightor object */
-    const Weightor * setDefaultWeightor( const Weightor * weightor);
+    /** sets the default Weightor object 
+     * 
+     * The library obtains ownership of the weightor.
+     * */
+    void setDefaultWeightor( Weightor * weightor );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

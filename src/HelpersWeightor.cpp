@@ -26,9 +26,10 @@
 #include "ImplWeightor.h"
 #include "HelpersWeightor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
   
-  static const Weightor * DEFAULT_WEIGHTOR = makeNoWeightor();
+  static Weightor * DEFAULT_WEIGHTOR = makeNoWeightor();
   
   /** gets the default Weightor object */ 
   const Weightor * getDefaultWeightor() {
@@ -36,10 +37,11 @@ namespace alignlib {
   }
 
   /** sets the default Weightor object */
-  const Weightor * setDefaultWeightor( const Weightor * weightor ) {
-    const Weightor * t = DEFAULT_WEIGHTOR;
-    DEFAULT_WEIGHTOR = weightor;
-    return t;
+  void setDefaultWeightor( Weightor * weightor ) 
+  {
+	  if (DEFAULT_WEIGHTOR != NULL)
+		  delete DEFAULT_WEIGHTOR;
+	  DEFAULT_WEIGHTOR = weightor;
   }
 
 } // namespace alignlib

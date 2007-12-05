@@ -15,6 +15,7 @@
 #include <dmalloc.h>
 #endif
 
+#include "Treetor.h"
 #include "HelpersTreetor.h"
 
 using namespace std;
@@ -29,10 +30,11 @@ namespace alignlib {
   }
  
   /** sets the default Treetor object */
-  const Treetor * setDefaultTreetor( const Treetor * treetor ) {
-    const Treetor * t = DEFAULT_TREETOR;
+  void setDefaultTreetor( Treetor * treetor ) 
+  {	
+	  if (DEFAULT_TREETOR != NULL)
+		 delete DEFAULT_TREETOR;
     DEFAULT_TREETOR = treetor;
-    return t;
   }            
 
 } // namespace alignlib

@@ -26,20 +26,23 @@
 #include "ImplLogOddor.h"
 #include "HelpersLogOddor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
   
-  static const LogOddor * DEFAULT_LOGODDOR = makeLogOddorDirichlet();
+  static LogOddor * DEFAULT_LOGODDOR = makeLogOddorDirichlet();
   
   /** gets the default LogOddor object */ 
-  const LogOddor * getDefaultLogOddor() {
+  const LogOddor * getDefaultLogOddor() 
+  {
     return DEFAULT_LOGODDOR;
   }
 
   /** sets the default LogOddor object */
-  const LogOddor * setDefaultLogOddor( const LogOddor * logOddor ) {
-    const LogOddor * t = DEFAULT_LOGODDOR;
+  void setDefaultLogOddor( LogOddor * logOddor ) 
+  {
+	  if (DEFAULT_LOGODDOR != NULL)
+		  delete DEFAULT_LOGODDOR;	  
     DEFAULT_LOGODDOR = logOddor;
-    return t;
   }
 
 } // namespace alignlib

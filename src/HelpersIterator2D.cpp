@@ -32,20 +32,23 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
-  static const Iterator2D * DEFAULT_ITERATOR2D = makeIterator2DFull();
+  static Iterator2D * DEFAULT_ITERATOR2D = makeIterator2DFull();
   
   /** gets the default Iterator2D object */ 
-  const Iterator2D * getDefaultIterator2D() {
+  const Iterator2D * getDefaultIterator2D() 
+  {
     return DEFAULT_ITERATOR2D;
   }
 
   /** sets the default Iterator2D object */
-  const Iterator2D * setDefaultIterator2D( const Iterator2D * iterator2D ) {
-    const Iterator2D * t = DEFAULT_ITERATOR2D;
+  void setDefaultIterator2D( Iterator2D * iterator2D ) 
+  {
+	  if (DEFAULT_ITERATOR2D != NULL)
+		  delete DEFAULT_ITERATOR2D;
     DEFAULT_ITERATOR2D = iterator2D;
-    return t;
   }
 }
 

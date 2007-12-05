@@ -49,8 +49,10 @@ namespace alignlib {
     /** gets the default Treetor object */
     const Treetor * getDefaultTreetor();
       
-    /** sets the default Treetor object */
-    const Treetor * setDefaultTreetor( const Treetor * treetor );
+    /** sets the default Treetor object
+     * 
+     * The library obtains ownership of the supplied treetor */
+    void setDefaultTreetor( Treetor * treetor );
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

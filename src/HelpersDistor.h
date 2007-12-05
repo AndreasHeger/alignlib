@@ -53,8 +53,11 @@ namespace alignlib
     /** gets the default Distor object */
     const Distor * getDefaultDistor();
       
-    /** sets the default Distor object */
-    const Distor * setDefaultDistor( const Distor * distor );
+    /** sets the default Distor object 
+     * 
+     * The library takes ownership of the distor object.
+     * */
+    void setDefaultDistor( Distor * distor );
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

@@ -23,12 +23,13 @@
 #include <iostream>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
+#include "Translator.h"
 #include "HelpersTranslator.h"
 
 namespace alignlib 
 {
 
-static const Translator * DEFAULT_TRANSLATOR = makeTranslatorProtein();
+static Translator * DEFAULT_TRANSLATOR = makeTranslatorProtein();
 
 /** gets the default Translator object */ 
 const Translator * getDefaultTranslator() 
@@ -38,12 +39,12 @@ const Translator * getDefaultTranslator()
 }
 
 /** sets the default Translator object */
-const Translator * setDefaultTranslator( const Translator * translator ) 
+void setDefaultTranslator( Translator * translator ) 
 {	
 	debug_func_cerr( 5 );
-	const Translator * t = DEFAULT_TRANSLATOR;
+	if (DEFAULT_TRANSLATOR != NULL)
+		delete DEFAULT_TRANSLATOR;
 	DEFAULT_TRANSLATOR = translator;
-	return t;
 }
 
 } // namespace alignlib

@@ -61,8 +61,10 @@ namespace alignlib {
     /** gets the default Regularizor object */ 
     const Regularizor * getDefaultRegularizor();
 
-    /** sets the default Regularizor object */
-    const Regularizor * setDefaultRegularizor( const Regularizor * regularizor);
+    /** sets the default Regularizor object 
+     * The library obtains ownership of the regularizor
+     * */
+    void setDefaultRegularizor( Regularizor * regularizor);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

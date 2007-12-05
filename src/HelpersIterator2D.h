@@ -58,7 +58,12 @@ namespace alignlib {
 
   /* 2. accessor functions for default objects */
   const Iterator2D * getDefaultIterator2D();
-  const Iterator2D * setDefaultIterator2D( const Iterator2D *);
+  
+  /** set the default iterator.
+   * 
+   * The library takes ownership of the supplied iterator
+   */
+  void setDefaultIterator2D( Iterator2D *);
 
   /* 3. convenience functions */
 }

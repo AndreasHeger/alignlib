@@ -41,7 +41,8 @@ namespace alignlib {
       0.0302298, 0.04398  , 0.0227958, 0.0455504,  0.0520589, 
       0.0672516, 0.0577926, 0.0920675, 0.00737194, 0.029067 };    
 
-  const LogOddor * makeLogOddorDirichlet( Score scale_factor) { 
+  LogOddor * makeLogOddorDirichlet( Score scale_factor) 
+  { 
     return new ImplLogOddor( background, scale_factor ); 
   }
 

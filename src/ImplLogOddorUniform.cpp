@@ -25,13 +25,16 @@
 
 #include "ImplLogOddor.h"
 
-namespace alignlib {
-
-  static const Frequency background[PROFILEWIDTH] = {     
+namespace alignlib 
+{
+  static const Frequency background[PROFILEWIDTH] = 
+  {     
     0.05, 0.05, 0.05, 0.05, 0.05, 0.05 , 0.05, 0.05 , 0.05, 0.05 , 
-    0.05, 0.05, 0.05, 0.05 ,0.05, 0.05 , 0.05, 0.05 , 0.05, 0.05 };
+    0.05, 0.05, 0.05, 0.05 ,0.05, 0.05 , 0.05, 0.05 , 0.05, 0.05 
+    };
      
-const LogOddor * makeLogOddorUniform( Score scale_factor) {
+LogOddor * makeLogOddorUniform( Score scale_factor) 
+{
   return new ImplLogOddor( background, scale_factor );
 }
 

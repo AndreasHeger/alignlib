@@ -54,8 +54,10 @@ namespace alignlib
     /** return the library wide translator */
     const Translator * getDefaultTranslator();
 
-    /** set the library wide translator and return last translator */
-    const Translator * setDefaultTranslator( const Translator * translator);
+    /** set the library wide translator
+     * The library gets ownership of the translator
+     *  */
+    void setDefaultTranslator( Translator * translator);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

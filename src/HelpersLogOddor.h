@@ -46,9 +46,9 @@ namespace alignlib {
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
     
-    const LogOddor * makeLogOddorUniform( Score scale_factor = 1.0);
+    LogOddor * makeLogOddorUniform( Score scale_factor = 1.0);
 
-    const LogOddor * makeLogOddorDirichlet( Score scale_factor = 1.0);
+    LogOddor * makeLogOddorDirichlet( Score scale_factor = 1.0);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
@@ -56,8 +56,11 @@ namespace alignlib {
     /** gets the default LogOddor object */ 
     const LogOddor * getDefaultLogOddor();
 
-    /** sets the default LogOddor object */
-    const LogOddor * setDefaultLogOddor( const LogOddor * logoddor);
+    /** sets the default LogOddor object 
+     * 
+     * The library obtains ownership of the logoddor 
+     * */
+    void setDefaultLogOddor( LogOddor * logoddor);
     
 
     /* -------------------------------------------------------------------------------------------------------------------- */
