@@ -86,11 +86,15 @@ bool TestCompressionMonotone( Alignata * a,
 
 	a = fillAlignataCompressed( a, 3, row, 3, col);
 
+	std::stringstream output;
+
+	writeAlignataCompressed( output, a  );
+	output.seekp( 0);
 	std::string new_row;
 	std::string new_col;
-
-	writeAlignataCompressed( a, new_row, new_col );
-
+	
+	output >> new_row >> new_col;
+	
 	row = crow;
 	col = ccol;
 
@@ -116,9 +120,9 @@ bool TestCompressionDiagonal( Alignata * a,
 
 	a = fillAlignataCompressedDiagonal( a, row );
 
-	std::string new_row;
-
-	writeAlignataCompressedDiagonal( a, new_row );
+	std::stringstream output;
+	writeAlignataCompressedDiagonal( output, a );
+	std::string new_row(output.str());
 
 	row = crow;
 

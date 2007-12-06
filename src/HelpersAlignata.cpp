@@ -58,20 +58,16 @@ namespace alignlib {
 
   //--------------------------------------------------------------------------------------------------
   /** write an alignment in compressed form into two streams*/
-  void writeAlignataCompressed( const Alignata * src, 
-      std::string & out_row, 
-      std::string & out_col,
-      Position col_from,
-      Position col_to) 
+  void writeAlignataCompressed(
+		  std::ostream & output,
+		  const Alignata * src, 
+		  Position col_from,
+		  Position col_to) 
     {
       debug_func_cerr(5);
 
-      out_row = "";
-      out_col = "";
-
       // sanity checks
-      if (src->isEmpty()) 
-        return;
+      if (src->isEmpty()) return;
 
       if (col_from < src->getColFrom() || col_from == NO_POS)
         col_from = src->getColFrom();
@@ -130,8 +126,7 @@ namespace alignlib {
       os_col << "+" << len_col;
       os_row << "+" << len_row;
 
-      out_row = os_row.str(); 
-      out_col = os_col.str(); 
+      output << os_row.str() << "\t" << os_col.str();  
 
     }       
 
@@ -150,13 +145,8 @@ namespace alignlib {
         output << src->getRowFrom() << MY_SEPARATOR << src->getRowTo() << MY_SEPARATOR;
         output << src->getColFrom() << MY_SEPARATOR << src->getColTo() << MY_SEPARATOR;
 
-        std::string s_row;
-        std::string s_col;
+        writeAlignataCompressed( output, src );
 
-        writeAlignataCompressed( src, s_row, s_col );
-
-        output << s_row << MY_SEPARATOR;
-        output << s_col;
       }
 #undef MY_SEPARATOR
     }
@@ -708,20 +698,19 @@ namespace alignlib {
     @param	 diagonal_to	only look at diagonals smaller than diagonal_to
 
    */
-  void writeAlignataCompressedDiagonal( const Alignata * src, 
-      std::string & out_string, 
-      bool reverse,
-      Position row_from,
-      Position row_to,
-      Position col_from,
-      Position col_to,
-      Diagonal diagonal_from,
-      Diagonal diagonal_to
+  void writeAlignataCompressedDiagonal(
+		  std::ostream & output,
+		  const Alignata * src, 
+		  bool reverse,
+		  Position row_from,
+		  Position row_to,
+		  Position col_from,
+		  Position col_to,
+		  Diagonal diagonal_from,
+		  Diagonal diagonal_to
   ) 
     {
       debug_func_cerr(5);
-
-      out_string = "";
 
       // sanity check
       if (src->isEmpty()) 
@@ -745,8 +734,6 @@ namespace alignlib {
       // declare variables you need for iteration of the pairs
       AlignataConstIterator it(src->begin());
       AlignataConstIterator it_end(src->end());
-
-      std::ostringstream out;
 
       Diagonal last_diagonal = calculateDiagonal( *it );
       Diagonal this_diagonal = 0;
@@ -784,7 +771,7 @@ namespace alignlib {
         if (last_diagonal != this_diagonal || last_row >= this_row || first) {
 
           if (!first) 
-            out  << "+" << emissions << ";";
+            output  << "+" << emissions << ";";
 
           // write last emission and switch to new diagonal
           if (this_diagonal < 0) 
@@ -793,9 +780,9 @@ namespace alignlib {
             initial_gaps = this_row;
 
           if (reverse)
-            out << -this_diagonal << ":-" << initial_gaps;
+            output << -this_diagonal << ":-" << initial_gaps;
           else
-            out << this_diagonal << ":-" << initial_gaps;
+            output << this_diagonal << ":-" << initial_gaps;
 
           first = false;
 
@@ -808,7 +795,7 @@ namespace alignlib {
         // insert a gap
         if (last_row < this_row - 1) 
           {
-            out << "+" << emissions << "-" << (this_row - last_row - 1);
+            output << "+" << emissions << "-" << (this_row - last_row - 1);
             emissions = 0;
           }
 
@@ -817,8 +804,7 @@ namespace alignlib {
 
       }
 
-      out << "+" << emissions;
-      out_string = out.str(); 
+      output << "+" << emissions;
 
     }       
 

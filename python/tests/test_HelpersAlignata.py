@@ -49,33 +49,65 @@ class HelpersAlignataTestCase( unittest.TestCase ):
         col = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" )
 
         self.buildAlignment( self.mAlignata )
-
-        self.mAlignata.clear()
-        fillAlignataIdentity( self.mAlignata, 3, 610, 0 )
-        print str(self.mAlignata)
         
-        row = makeSequence( "ATGGACATGGTGTTGCCCAAAGTAGTTCCTATCAAGGGTAATAAAGTCACCAAGATGTCAATGAATCTTATTGACGGATTTGACTGTTTCTACTCCACAGATGACCACGACCCCAAGACTGTGTACGTTTGTTTTACGTTGGTGGATATACCCAAGATTCTGCCCATCAGAATACTCAGCGGGCTCCAGGTCTATGATTCCAATGCCACAAACGAACTCTTGAGTTCTCATGTAGGCCAGATACTGGACTCTTTCCACGAAGAGCTAGTGAAATACCGTAATCAAACTCTAAACAGTTCTGAAAATGGCCAATCTAGCAACTATAATGGACAAGACGCCATTACTGATATCGGGGACGCGACTGAAGACCAAATAAAAGACGTTATACAGATAATGAACGATAATATCGACAAGTTTTTAGAAAGACAGGAAAGAGTATCTCTGCTAGTGGACAAAACTTCTCAACTGAATAGCAACAGCAACAAATTCAGGCGCAAAGCTGTCAACATAAAGGAGATAATGTGGTGGCAAAAAGTTAAAAATATTACGCTGTTGACTTTCACAATTATACTATTTGTTAGTGCCGCTTTCATGTTTTTCTATCTGTGG")
-        col = makeSequence( "ATGGATATGGTATTGCCGAAAGTGATTCCGATCAAGGGCAACAAAGTCACGAAGATGTCAATGAATCTCATTGACGGTTTCGATTGCTTCTACTCTACGGATGACCATAACCCCAAGACTGTGTACGTTTGTTTCACGTTGGTAGATATACCCAAAATCTTGCCCATTAGAATACTAAGTGGGCTACAGGATTATGATTCCAACGCCACAAACGAACTTTTAAGTTCTCATGTAGGTCAAATACTAGACTCATTCCATGAAGAGCTAGTAAAATACCGCAATCAAACTTTAAACAGTTCTGGGAATGCTCAGTCTAGTAAAGGAAGCGGTCCAAATACTATTAGTGACATCGGGGATGCCACCGAAGATCAAATAAAAGACGTCATTCAGATAATGAACGATAATATTGATAAGTTTTTAGAGAGGCAAGAAAGAGTTTCTCTACTGGTGGATAAAACCTCCCAACTAAATAGCAACAGTAATAAATTTAGACGTAAAGCAGTCAACATAAAAGAAATAATGTGGTGGCAAAAAGTTAAAAATATTACACTATTGACTTTTACAATTATATTGTTTGTTAGTGCCGCTTTCATGTTCTTCTATCTGTGG")
-        
-        print "file"
         outfile = open("test.out", "wb" )
         writePairAlignment(outfile, row, col, self.mAlignata )
         outfile.close()
         
-        print "tempfile"
         outfile = tempfile.TemporaryFile( "w+b" )
         result = writePairAlignment( outfile, row, col, self.mAlignata )
         outfile.seek(0)
-        print outfile.readlines()
+        input = outfile.readlines()
             
-        output = cStringIO.StringIO()
-        result = writePairAlignment( output, row, col, self.mAlignata )
-        print output
-                    
-        output = StringIO.StringIO()
-        result = writePairAlignment( output, row, col, self.mAlignata )
-        print output
+    def testAlignataCompressed( self ):
 
+        self.buildAlignment( self.mAlignata )
+
+        outfile = tempfile.TemporaryFile( "w+b" )
+        writeAlignataCompressed( outfile, self.mAlignata )
+        outfile.seek(0)
+        row_ali, col_ali = outfile.readline().split("\t")
+        
+        alignment = self.mAlignata.getNew()
+        
+        fillAlignataCompressed( alignment,
+                                self.mAlignata.getRowFrom(),
+                                row_ali, 
+                                self.mAlignata.getColFrom(),
+                                col_ali )
+        
+        self.assertTrue( self.compareResidueWise( self.mAlignata, alignment ) )
+    
+    def compareResidueWise(self, a, b, inverse = False):
+        """compare two alignments. Returns true if they are identical
+        residuewise."""
+        
+        
+        for x in range( a.getRowFrom(), a.getRowTo() ):
+            if a.mapRowToCol( x ) != b.mapRowToCol( x ):
+                return False
+            
+        return True
+        
+        it1 = a.begin()
+        it1_end = a.end()
+        
+        it2 = b.begin()
+        it2_end = b.end()
+        
+        is_identical = True
+        while it1 != it1_end:
+            row = it1.getReference()
+            col = it2.getReference()
+            if not inverse: 
+                if it1.mRow != it2.mRow and it1.mCol != it2.mCol:
+                    is_identical = False 
+            else:
+                if it1.mRow != it2.mCol and it1.mCol != it2.mRow:
+                    is_identical = False
+                    
+        return is_identical
+        
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(AlignataVectorTestCase)

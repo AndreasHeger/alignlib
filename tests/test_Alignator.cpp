@@ -34,6 +34,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 
 #include <time.h> 
@@ -92,16 +93,22 @@ bool testPairwiseAlignment(int test_id,
 
 	a->align( benchmark_row, benchmark_col, &*result);
 
-	std::string b_row;
-	std::string b_col;
 	std::string r_row(row);
 	std::string r_col(col);
 
 	writePairAlignment( std::cout, benchmark_row, benchmark_col, &*result );
 
 	std::cout << "result=" << *result << std::endl;
-	writeAlignataCompressed( &*result, b_row, b_col );
+	
+	std::string b_row;
+	std::string b_col;
+	std::stringstream output;
+	
+	writeAlignataCompressed( output, &*result );
 
+	output.seekp(0);
+	output >> b_row >> b_col;
+	
 	if ( result->getScore() == score &&
 			row_from == result->getRowFrom() &&
 			row_to == result->getRowTo() &&
@@ -145,11 +152,14 @@ bool testWrappedAlignment(int test_id,
 
 	a->align( benchmark_row, benchmark_col, &*result);
 
-	std::string b_ali;
 	std::string r_row(r_ali);
+	std::stringstream output;
+	
+	writeAlignataCompressedDiagonal( output, &*result );
 
-	writeAlignataCompressedDiagonal( &*result, b_ali );
-
+	output.seekp(0);
+	std::string b_ali( output.str() );
+	
 	if ( result->getScore() == score &&
 			b_ali == r_ali )
 	{

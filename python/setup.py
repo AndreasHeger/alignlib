@@ -177,6 +177,37 @@ def export_writePairAlignment( mb ):
     mb.add_declaration_code( declaration_code, tail = True )
     mb.add_registration_code( registration_code )
 
+def export_writeAlignataCompressed( mb ):
+    """export writePairAlignment.
+    
+    This function has to map ostream to a python file.
+    """
+    declaration_code = \
+"""
+      void wrapper_for_writeAlignataCompressed( PyObject* fp, 
+          const alignlib::Alignata * alignment )
+      {
+        if (!PyFile_Check(fp)) 
+        {
+          throw boost::python::error_already_set();
+        }
+        std::FILE* f = PyFile_AsFile(fp);
+        std_obuf buf(f);
+        std::ostream os(&buf);
+        writeAlignataCompressed( os, alignment );
+      }
+    """
+    
+    fun = mb.free_function("writeAlignataCompressed")
+    fun.include_files.append( "streambuf" )
+    fun.exclude()
+    registration_code = """bp::def( "writeAlignataCompressed", 
+        wrapper_for_writeAlignataCompressed, 
+        (bp::arg("output"), bp::arg("ali") ));"""
+         
+    mb.add_declaration_code( declaration_code, tail = True )
+    mb.add_registration_code( registration_code )
+
 
 def export_functions( mb ):
     """export utility functions."""
@@ -258,7 +289,8 @@ def export_functions( mb ):
     
     ## deal with functions that work on streams
     export_writePairAlignment( mb )
-        
+    export_writeAlignataCompressed( mb )
+
    
 def export_classes( mb ):
     """export classes.
