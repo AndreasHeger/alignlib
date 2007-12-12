@@ -254,7 +254,7 @@ public:
 	virtual void removePair( const ResiduePAIR & old_pair );
 
 	/** retrieves a pair of residues from the alignment */
-	virtual ResiduePAIR getPair( Position row ) const;
+	virtual ResiduePAIR getPair( const ResiduePAIR & p) const;
 
 	/** maps a residue from row to column. returns 0, if not found. This is quick, since there is 
 	only one lookup in the array needed.*/

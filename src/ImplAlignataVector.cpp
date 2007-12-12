@@ -192,8 +192,12 @@ void ImplAlignataVector::moveAlignment( Position row_offset, Position col_offset
 
 //----------------------------------------------------------------------------------------------------------
 /** retrieves a pair of residues from the alignment */
-ResiduePAIR ImplAlignataVector::getPair( Position row ) const {
-	return *mPairs[row];
+ResiduePAIR ImplAlignataVector::getPair( const ResiduePAIR & p) const 
+{
+	if (p.mRow != NO_POS)
+		return *mPairs[p.mRow];
+	else
+		return ResiduePAIR();
 } 
 
 //----------------------------------------------------------------------------------------------------------

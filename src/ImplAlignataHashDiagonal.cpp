@@ -145,11 +145,13 @@ namespace alignlib {
 
   //----------------------------------------------------------------------------------------------------------
   /** retrieves a pair of residues from the alignment */
-  ResiduePAIR ImplAlignataHashDiagonal::getPair( Position row ) const {
-
-    ResiduePAIR p(row, NO_POS, 0);
-    PairIterator it(mPairs.find( &p ));
-    return **it;
+  ResiduePAIR ImplAlignataHashDiagonal::getPair( const ResiduePAIR & p) const 
+  {
+	PairIterator it(mPairs.find( &p ));
+	if (p != mPairs.end())
+		return **it;
+	else
+		return ResiduePAIR();
   } 
 
   void ImplAlignataHashDiagonal::removePair( const ResiduePAIR & old_pair ) 

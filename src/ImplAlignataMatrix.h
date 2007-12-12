@@ -233,7 +233,7 @@ class ImplAlignataMatrix : public ImplAlignata
     virtual void removePair( const ResiduePAIR & old_pair );
 
     /** retrieves a pair of residues from the alignment */
-    virtual ResiduePAIR getPair( Position row ) const;
+    virtual ResiduePAIR getPair( const ResiduePAIR & p) const;
 
     /** clear the current alignemnt */
     virtual void clear();

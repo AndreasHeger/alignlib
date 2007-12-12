@@ -1921,7 +1921,7 @@ namespace alignlib {
 
             Position last_row = src->getRowTo();
             Position last_col = src->getColTo();    
-            const ResiduePAIR & p = src->getPair( last_row);      
+            const ResiduePAIR & p = src->getPair( ResiduePAIR( last_row, last_col) );      
             Score score = -p.mScore;
 
             Position this_row = last_row - 1;
@@ -1933,7 +1933,7 @@ namespace alignlib {
               if (!this_col)
                 continue;
 
-              const ResiduePAIR & p = src->getPair( this_row);      
+              const ResiduePAIR & p = src->getPair( ResiduePAIR( this_row, this_col) );      
 
               // apply filter
 

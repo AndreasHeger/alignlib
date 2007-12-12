@@ -170,7 +170,7 @@ void ImplAlignataMatrix::addPair( Position row, Position col, Score score )
 
 //-------------------------------------------------------------------------------------------------------------
 /** retrieves a pair of residues from the alignment */
-ResiduePAIR ImplAlignataMatrix::getPair( Position row ) const 
+ResiduePAIR ImplAlignataMatrix::getPair( const ResiduePAIR & p) const 
 {
 	// TODO
 	assert(0);

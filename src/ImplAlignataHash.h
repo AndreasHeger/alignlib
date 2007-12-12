@@ -191,7 +191,7 @@ class ImplAlignataHash : public ImplAlignata {
     virtual void addPair( ResiduePAIR * new_pair ); 
 
     /** retrieves a pair of residues from the alignment */
-    virtual ResiduePAIR getPair( Position row ) const;
+    virtual ResiduePAIR getPair( const ResiduePAIR & p) const;
 
     /** removes a pair of residues from the alignment */
     virtual void removePair( const ResiduePAIR & old_pair );

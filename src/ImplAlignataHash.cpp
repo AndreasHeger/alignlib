@@ -149,7 +149,7 @@ namespace alignlib {
 
   //----------------------------------------------------------------------------------------------------------
   /** retrieves a pair of residues from the alignment */
-  ResiduePAIR ImplAlignataHash::getPair( Position row ) const 
+  ResiduePAIR ImplAlignataHash::getPair( const ResiduePAIR & p) const 
   {
 
     ResiduePAIR p(row, NO_POS, 0);

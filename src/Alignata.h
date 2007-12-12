@@ -48,8 +48,8 @@ struct ResiduePAIR
 
 	friend std::ostream & operator<< (std::ostream &, const ResiduePAIR &);
 
-	ResiduePAIR() : mRow(0), mCol(0), mScore(0) {}
-	ResiduePAIR( Position a, Position b, Score c) : mRow(a), mCol(b), mScore(c) {}
+	ResiduePAIR() : mRow(NO_POS), mCol(NO_POS), mScore(0) {}
+	ResiduePAIR( Position a, Position b, Score c = 0) : mRow(a), mCol(b), mScore(c) {}
 	ResiduePAIR& operator=( const ResiduePAIR & src) 
 	{ 
 		mRow = src.mRow; 
@@ -256,7 +256,7 @@ public:
 	 *  
 	 * @param row row of residue pair
 	 * */
-	virtual ResiduePAIR getPair( Position row ) const = 0;
+	virtual ResiduePAIR getPair( const ResiduePAIR & p) const = 0;
 
 	/** move alignment */
 	virtual void moveAlignment( Position row_offset, Position col_offset) = 0;

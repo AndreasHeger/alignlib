@@ -133,7 +133,7 @@ namespace alignlib {
 
   //----------------------------------------------------------------------------------------------------------
   /** retrieves a pair of residues from the alignment */
-  ResiduePAIR ImplAlignataSetCol::getPair( Position row ) const {
+  ResiduePAIR ImplAlignataSetCol::getPair( const ResiduePAIR & p) const {
 
     ResiduePAIR p(row, NO_POS, 0);
     PairIterator it(mPairs.find( &p ));

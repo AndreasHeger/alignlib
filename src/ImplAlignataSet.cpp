@@ -37,167 +37,173 @@ using namespace std;
 
 namespace alignlib {
 
-  //------------------------------factory functions -----------------------------
-  Alignata * makeAlignataSet() {
-    return new ImplAlignataSet();
-  }
+//------------------------------factory functions -----------------------------
+Alignata * makeAlignataSet() {
+	return new ImplAlignataSet();
+}
 
-  //------------------------------------< constructors and destructors >-----
-  ImplAlignataSet::ImplAlignataSet() : ImplAlignata() 
-  {
-    debug_func_cerr(5);
+//------------------------------------< constructors and destructors >-----
+ImplAlignataSet::ImplAlignataSet() : ImplAlignata() 
+{
+	debug_func_cerr(5);
 
-  }
+}
 
-  ImplAlignataSet::ImplAlignataSet( const ImplAlignataSet& src) : ImplAlignata( src ) 
-  {
-    debug_func_cerr(5);
-
-
-    clearContainer();
-
-    PairIterator it(src.mPairs.begin()), it_end(src.mPairs.end());
-    for (;it != it_end; ++it) 
-      mPairs.insert( new ResiduePAIR(**it) );
-  }
-
-  ImplAlignataSet::~ImplAlignataSet( ) 
-    {
-      debug_func_cerr(5);
-
-      clear();
-    }
-
-  //------------------------------------------------------------------------------------------------------------
-  ImplAlignataSet * ImplAlignataSet::getNew() const {
-    return new ImplAlignataSet();
-  }
-
-  ImplAlignataSet * ImplAlignataSet::getClone() const {
-    return new ImplAlignataSet( *this );
-  }
-
-  //------------------------------------------------------------------------------------------------------------
-  void ImplAlignataSet::clearContainer() { 
-    PAIRSET::iterator it(mPairs.begin()), it_end(mPairs.end());
-    for (;it != it_end; ++it) delete *it;
-    mPairs.clear(); 
-  }
-
-  //------------------------------------------------------------------------------------------------------------
-  void ImplAlignataSet::clear() { 
-    ImplAlignata::clear();
-    clearContainer();
-  }
-
-  //-----------------------------------------------------------------------------------------------------------   
-
-  AlignataConstIterator ImplAlignataSet::begin() const { 
-    return AlignataConstIterator( new ImplAlignataSet_ConstIterator(mPairs.begin()));
-  }
-
-  AlignataConstIterator ImplAlignataSet::end()   const { 
-    return AlignataConstIterator( new ImplAlignataSet_ConstIterator(mPairs.end())); 
-  }
-
-  AlignataIterator ImplAlignataSet::begin() { 
-    return AlignataIterator( new ImplAlignataSet_Iterator(mPairs.begin()));
-  }
-
-  AlignataIterator ImplAlignataSet::end() { 
-    return AlignataIterator( new ImplAlignataSet_Iterator(mPairs.end())); 
-  }
+ImplAlignataSet::ImplAlignataSet( const ImplAlignataSet& src) : ImplAlignata( src ) 
+{
+	debug_func_cerr(5);
 
 
-  //----------------> accessors <------------------------------------------------------------------------------
+	clearContainer();
 
-  Position ImplAlignataSet::getRowFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mRow : NO_POS; }
-  Position ImplAlignataSet::getColFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mCol : NO_POS; }
-  Position ImplAlignataSet::getRowTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mRow : NO_POS; }
-  Position ImplAlignataSet::getColTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mCol : NO_POS; }
+	PairIterator it(src.mPairs.begin()), it_end(src.mPairs.end());
+	for (;it != it_end; ++it) 
+		mPairs.insert( new ResiduePAIR(**it) );
+}
 
-  ResiduePAIR ImplAlignataSet::front() const { return **(mPairs.begin()); }
-  ResiduePAIR ImplAlignataSet::back()  const { return **(mPairs.rbegin()); }
+ImplAlignataSet::~ImplAlignataSet( ) 
+{
+	debug_func_cerr(5);
 
-  void ImplAlignataSet::addPair( ResiduePAIR * new_pair ) 
-    {
-      debug_func_cerr(5);
+	clear();
+}
 
-      if (mPairs.find( new_pair) != mPairs.end()) {
-        delete new_pair;
-      } else {
-        setChangedLength(); 
-        mPairs.insert( new_pair ); 
-      } 
-    } 
+//------------------------------------------------------------------------------------------------------------
+ImplAlignataSet * ImplAlignataSet::getNew() const {
+	return new ImplAlignataSet();
+}
 
-  //----------------------------------------------------------------------------------------------------------
-  /** retrieves a pair of residues from the alignment */
-  ResiduePAIR ImplAlignataSet::getPair( Position row ) const {
+ImplAlignataSet * ImplAlignataSet::getClone() const {
+	return new ImplAlignataSet( *this );
+}
 
-    ResiduePAIR p(row, NO_POS, 0);
-    PairIterator it(mPairs.find( &p ));
-    return **it;
-  } 
+//------------------------------------------------------------------------------------------------------------
+void ImplAlignataSet::clearContainer() { 
+	PAIRSET::iterator it(mPairs.begin()), it_end(mPairs.end());
+	for (;it != it_end; ++it) delete *it;
+	mPairs.clear(); 
+}
+
+//------------------------------------------------------------------------------------------------------------
+void ImplAlignataSet::clear() { 
+	ImplAlignata::clear();
+	clearContainer();
+}
+
+//-----------------------------------------------------------------------------------------------------------   
+
+AlignataConstIterator ImplAlignataSet::begin() const { 
+	return AlignataConstIterator( new ImplAlignataSet_ConstIterator(mPairs.begin()));
+}
+
+AlignataConstIterator ImplAlignataSet::end()   const { 
+	return AlignataConstIterator( new ImplAlignataSet_ConstIterator(mPairs.end())); 
+}
+
+AlignataIterator ImplAlignataSet::begin() { 
+	return AlignataIterator( new ImplAlignataSet_Iterator(mPairs.begin()));
+}
+
+AlignataIterator ImplAlignataSet::end() { 
+	return AlignataIterator( new ImplAlignataSet_Iterator(mPairs.end())); 
+}
 
 
-  void ImplAlignataSet::removePair( const ResiduePAIR & old_pair ) 
-    {
-      debug_func_cerr(5);
+//----------------> accessors <------------------------------------------------------------------------------
+
+Position ImplAlignataSet::getRowFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mRow : NO_POS; }
+Position ImplAlignataSet::getColFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mCol : NO_POS; }
+Position ImplAlignataSet::getRowTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mRow : NO_POS; }
+Position ImplAlignataSet::getColTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mCol : NO_POS; }
+
+ResiduePAIR ImplAlignataSet::front() const { return **(mPairs.begin()); }
+ResiduePAIR ImplAlignataSet::back()  const { return **(mPairs.rbegin()); }
+
+void ImplAlignataSet::addPair( ResiduePAIR * new_pair ) 
+{
+	debug_func_cerr(5);
+
+	if (mPairs.find( new_pair) != mPairs.end()) {
+		delete new_pair;
+	} else {
+		setChangedLength(); 
+		mPairs.insert( new_pair ); 
+	} 
+} 
+
+//----------------------------------------------------------------------------------------------------------
+/** retrieves a pair of residues from the alignment */
+ResiduePAIR ImplAlignataSet::getPair( const ResiduePAIR & p) const 
+{
+	mPairs.find( &p2 );
+	// PairConstIterator it(mPairs.find( &p ));
+	
+	/*
+	if (it != mPairs.end())
+		return **it;
+	else
+	*/
+		return ResiduePAIR();
+} 
 
 
-      ResiduePAIR p(old_pair);
-      PairIterator it(mPairs.find( &p ));
+void ImplAlignataSet::removePair( const ResiduePAIR & old_pair ) 
+{
+	debug_func_cerr(5);
 
-      if (it != mPairs.end()) {
-        setChangedLength(); 
-        delete *it;
-        mPairs.erase(it);
-      }
-    } 
 
-  //----------------------------------------------------------------------------------------
-  /** This is non-generic routine. Since pairs are accessed by row, this is quite quick.
-   */
-  void ImplAlignataSet::removeRowRegion( Position from, Position to) {
+	ResiduePAIR p(old_pair);
+	PairIterator it(mPairs.find( &p ));
 
-    for (Position pos = from; pos < to; pos++) {
-      ResiduePAIR p(pos, NO_POS, 0);
-      PairIterator it(mPairs.find( &p ));
+	if (it != mPairs.end()) {
+		setChangedLength(); 
+		delete *it;
+		mPairs.erase(it);
+	}
+} 
 
-      if (it != mPairs.end()) {
-        setChangedLength(); 
-        delete *it;
-        mPairs.erase(it);
-      }
-    }
+//----------------------------------------------------------------------------------------
+/** This is non-generic routine. Since pairs are accessed by row, this is quite quick.
+ */
+void ImplAlignataSet::removeRowRegion( Position from, Position to) {
 
-  }
+	for (Position pos = from; pos < to; pos++) {
+		ResiduePAIR p(pos, NO_POS, 0);
+		PairIterator it(mPairs.find( &p ));
 
-  //----------------------------------------------------------------------------------------
-  /** This is a generic routine. It creates a new alignment by making a copy of the old one */
-  void ImplAlignataSet::removeColRegion( Position from, Position to) 
-    {
+		if (it != mPairs.end()) {
+			setChangedLength(); 
+			delete *it;
+			mPairs.erase(it);
+		}
+	}
 
-      PairIterator it(mPairs.begin()), it_end(mPairs.end());
+}
 
-      // Valgrind did not like the iterator being deleted,
-      // thus this complicated loop structure. Did not complain 
-      while (it != it_end) 
-        {
-          if ( (*it)->mCol >= from && (*it)->mCol < to) 
-            {
-              delete *it;
-              PairIterator it2 = it;
-              ++it;              
-              mPairs.erase(it2);
-            }
-          else  
-            ++it;           
-        }
+//----------------------------------------------------------------------------------------
+/** This is a generic routine. It creates a new alignment by making a copy of the old one */
+void ImplAlignataSet::removeColRegion( Position from, Position to) 
+{
 
-      setChangedLength();
+	PairIterator it(mPairs.begin()), it_end(mPairs.end());
 
-    }
+	// Valgrind did not like the iterator being deleted,
+	// thus this complicated loop structure. Did not complain 
+	while (it != it_end) 
+	{
+		if ( (*it)->mCol >= from && (*it)->mCol < to) 
+		{
+			delete *it;
+			PairIterator it2 = it;
+			++it;              
+			mPairs.erase(it2);
+		}
+		else  
+			++it;           
+	}
+
+	setChangedLength();
+
+}
 
 } // namespace alignlib

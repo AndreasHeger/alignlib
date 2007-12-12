@@ -43,11 +43,16 @@ class Alignandum;
     @author Andreas Heger
     @version $Id: ImplAlignataSet.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignataSet : public ImplAlignata {
+class ImplAlignataSet : public ImplAlignata 
+{
 
   /** residues are sorted by row */
-  struct Comparator {
-      bool operator()( const ResiduePAIR * x, const ResiduePAIR * y) const { return x->mRow < y->mRow; } 
+  struct Comparator 
+  {
+      bool operator()( const ResiduePAIR * x, const ResiduePAIR * y) const 
+      { 
+    	  return x->mRow < y->mRow; 
+      } 
   };
     
   typedef std::set<ResiduePAIR *, Comparator> PAIRSET;
@@ -179,7 +184,7 @@ class ImplAlignataSet : public ImplAlignata {
     virtual void removePair( const ResiduePAIR & old_pair );
 
     /** retrieves a pair of residues from the alignment */
-    virtual ResiduePAIR getPair( Position row ) const;
+    virtual ResiduePAIR getPair( const ResiduePAIR & p) const;
 
     /** clear the current alignemnt */
     virtual void clear();
