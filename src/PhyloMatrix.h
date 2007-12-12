@@ -84,16 +84,16 @@ class PhyloMatrix
   virtual PhyloMatrixValue & operator()(PhyloMatrixSize row, PhyloMatrixSize col) = 0;
   virtual void setElement(PhyloMatrixSize row, PhyloMatrixSize col, PhyloMatrixValue value) = 0;
 
-  /** delete last row/column from PhyloMatrix */
-  virtual void Shrink() = 0;
-
   /** swap two columns/rows */
-  virtual void Swap( PhyloMatrixSize col_1, PhyloMatrixSize col_2 ) = 0;
+  virtual void swap( PhyloMatrixSize col_1, PhyloMatrixSize col_2 ) = 0;
 
+  /** shrink matrix by one */
+  virtual void shrink() = 0;
+    
   /** read information from stream */
-  virtual void Read ( std::istream & input ) const = 0;
+  virtual void read ( std::istream & input ) const = 0;
 
-  virtual void Write( std::ostream & output ) const = 0;
+  virtual void write( std::ostream & output ) const = 0;
 
 };
 

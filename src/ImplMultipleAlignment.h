@@ -55,7 +55,8 @@ class Renderer;
     @author Andreas Heger
     @version $Id: ImplMultipleAlignment.h,v 1.5 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplMultipleAlignment : public MultipleAlignment {
+class ImplMultipleAlignment : public MultipleAlignment 
+{
 
   // class member functions
  public:

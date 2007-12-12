@@ -31,7 +31,8 @@
 #include <string>
 #include "alignlib.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 class Alignandum;
 class Alignata;

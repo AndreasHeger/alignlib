@@ -94,7 +94,8 @@ namespace alignlib {
     }
 
   //--------------------------------------------------------------------------------------------------------------
-  Position ImplAlignata::getNumGaps() const {
+  Position ImplAlignata::getNumGaps() const 
+  {
     if (mChangedLength)
       calculateLength();
 

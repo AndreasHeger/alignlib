@@ -47,23 +47,22 @@
 #include "Matrix.h"
 #include <math.h>
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** factory functions */
 
 /** create an empty multiple alignment */
-MultipleAlignment * makeMultipleAlignment() {
+MultipleAlignment * makeMultipleAlignment() 
+{
 	return new ImplMultipleAlignment();
 }
 
 MultipleAlignment * makeMultipleAlignmentDots( bool compress_unaligned_columns,
-		int max_insertion_length) {
+		int max_insertion_length) 
+{
 	return new ImplMultipleAlignmentDots( compress_unaligned_columns, max_insertion_length );
 }
 

@@ -38,13 +38,31 @@
 #include "HelpersAlignata.h"
 #include "AlignataIterator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
+
+MaliRow::MaliRow() : 
+	mAlignatumInput(NULL), 
+	mMapMali2Alignatum(NULL), 
+	mAlignatumOutput(NULL) {}
+
+MaliRow::MaliRow( Alignatum * input, 
+				Alignata * map_alignatum2mali, 
+				Alignatum * output) : 
+	mAlignatumInput(input), 
+	mMapMali2Alignatum(map_alignatum2mali), 
+	mAlignatumOutput(output) {}
+
+MaliRow::~MaliRow()
+{
+	delete mAlignatumInput;
+	delete mMapMali2Alignatum;
+	delete mAlignatumOutput;
+}
+
+
 
 /** factory functions */
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
@@ -54,7 +72,7 @@ ImplMultipleAlignmentDots::ImplMultipleAlignmentDots ( bool compress_unaligned_c
 			mCompressUnalignedColumns( compress_unaligned_columns),
 			mMaxInsertionLength( max_insertion_length) 
 			{
-}
+			}
 
 //--------------------------------------------------------------------------------------------------------------
 ImplMultipleAlignmentDots::~ImplMultipleAlignmentDots () 
@@ -81,7 +99,7 @@ ImplMultipleAlignmentDots::ImplMultipleAlignmentDots (const ImplMultipleAlignmen
 				src.mRows[row].mAlignatumInput->getClone(), 
 				src.mRows[row].mMapMali2Alignatum->getClone(), 
 				src.mRows[row].mAlignatumOutput->getClone())
-				);
+		);
 
 	}
 
@@ -89,16 +107,6 @@ ImplMultipleAlignmentDots::ImplMultipleAlignmentDots (const ImplMultipleAlignmen
 void ImplMultipleAlignmentDots::freeMemory() 
 {
 	debug_func_cerr(5);
-
-	unsigned int nrows = mRows.size();
-
-	for (unsigned int row = 0; row < nrows; ++row) 
-	{
-		delete mRows[row].mAlignatumInput;
-		delete mRows[row].mMapMali2Alignatum;
-		delete mRows[row].mAlignatumOutput;
-	}
-
 	mRows.clear();
 }
 
@@ -148,9 +156,13 @@ void ImplMultipleAlignmentDots::clear()
 //-----------------------------------------------------------------------------------------------------------
 void ImplMultipleAlignmentDots::eraseRow( int row ) 
 {
-	assert( false );
-	// TODO: implement
-}
+	if (row < 0 || row >= mRows.size() )
+		return;
+
+	mRows.erase( mRows.begin() + row );
+	if (mRows.size() == 0)
+		mLength = 0;
+}	
 
 //------------------------------------------------------------------------------------
 /* add single entry to *this multiple alignment given an alignment.

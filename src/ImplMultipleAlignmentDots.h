@@ -35,7 +35,8 @@
 #include "alignlib.h" 
 #include "MultipleAlignment.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** 
     Multiple alignments are collection of aligned sequences (more specifically: objects of type
@@ -62,13 +63,16 @@ class Alignatum;
 class Alignata;	
 class Renderer;
 
-struct MaliRow {
-  MaliRow() : mAlignatumInput(NULL), mMapMali2Alignatum(NULL), mAlignatumOutput(NULL) {}
-  MaliRow( Alignatum * input, Alignata * map_alignatum2mali, Alignatum * output = NULL) : 
-    mAlignatumInput(input), 
-    mMapMali2Alignatum(map_alignatum2mali), 
-    mAlignatumOutput(output) {}
+/** This structure takes possession of the passed objects. 
+ */
+struct MaliRow 
+{
+  MaliRow(); 
 
+  MaliRow( Alignatum * input, Alignata * map_alignatum2mali, Alignatum * output = NULL);
+
+  ~MaliRow();
+  
   /** the sequence */
   Alignatum * mAlignatumInput; 
   /** the dots */
@@ -77,7 +81,8 @@ struct MaliRow {
   Alignatum * mAlignatumOutput;
 };
 
-class ImplMultipleAlignmentDots : public MultipleAlignment {
+class ImplMultipleAlignmentDots : public MultipleAlignment 
+{
 
   // class member functions
  public:

@@ -30,13 +30,13 @@ PhyloMatrix::PhyloMatrix (const PhyloMatrix & src )
 
 std::ostream & operator<<( std::ostream & output, const PhyloMatrix & src)
 {
-  src.Write( output );
+  src.write( output );
   return output;
 }
   
 std::istream & operator>>( std::istream & input, PhyloMatrix & target)
 {
-  target.Read( input );
+  target.read( input );
   return input;
 } 
 

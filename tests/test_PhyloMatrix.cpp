@@ -56,11 +56,11 @@ int main ()
   (*m)(3,5) = 1000;
   cout << *m << endl;
 
-  m->Swap( 3, 5);
+  m->swap( 3, 5);
   
   cout << "After swapping 3 and 5\n" << *m << endl;
 
-  m->Shrink();
+  m->shrink();
 
   cout << "After shrinking\n" << *m << endl;
 

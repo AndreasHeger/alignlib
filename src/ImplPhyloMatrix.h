@@ -35,7 +35,8 @@ namespace alignlib {
   // did not want to do all the checking
 #define NO_INDEX 0		
 
-class ImplPhyloMatrix : public PhyloMatrix {
+class ImplPhyloMatrix : public PhyloMatrix 
+{
  public:
   
   /* constructors and desctructors------------------------------------------------------- */
@@ -85,17 +86,16 @@ class ImplPhyloMatrix : public PhyloMatrix {
   virtual PhyloMatrixValue & operator()(PhyloMatrixSize row, PhyloMatrixSize col);
   virtual void setElement(PhyloMatrixSize row, PhyloMatrixSize col, PhyloMatrixValue value);
 
-  /** delete last row/column from PhyloMatrix */
-  virtual void Shrink();
-
   /** swap two columns/rows */
-  virtual void Swap( PhyloMatrixSize col_1, PhyloMatrixSize col_2 );
+  virtual void swap( PhyloMatrixSize col_1, PhyloMatrixSize col_2 ) = 0;
 
+  /** shrink matrix by one */
+  virtual void shrink() = 0;
+  
   /** read information from stream */
-  virtual void Read ( std::istream & input ) const;
+  virtual void read ( std::istream & input ) const;
 
-  virtual void Write( std::ostream & output ) const;
-
+  virtual void write( std::ostream & output ) const;
 
  protected:
   

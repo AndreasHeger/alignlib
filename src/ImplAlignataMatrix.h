@@ -79,7 +79,8 @@ inline Diagonal calculateNormalizedDiagonal( const ResiduePAIR & p,
     @version $Id: ImplAlignataMatrix.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
 
-class ImplAlignataMatrix : public ImplAlignata {
+class ImplAlignataMatrix : public ImplAlignata 
+{
 
     friend class ConstIterator;
     friend class ImplAlignatorDots;

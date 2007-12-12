@@ -145,12 +145,12 @@ Tree * ImplTreetorDistance::calculateTree( Tree * tree, const alignlib::Multiple
     PhyloMatrixSize second_row = last_row - 1;		// second to last row
 
     // exchange row with last row
-    mWorkMatrix->Swap( min_row, last_row);
+    mWorkMatrix->swap( min_row, last_row);
     SWAP( mIndices[min_row], mIndices[last_row]);
     swapHelpers( min_row, last_row);
     
     // exchange col with second to last row
-    mWorkMatrix->Swap( min_col, second_row);
+    mWorkMatrix->swap( min_col, second_row);
     SWAP( mIndices[min_col], mIndices[second_row]);
     swapHelpers( min_col, second_row);
 
@@ -177,7 +177,8 @@ Tree * ImplTreetorDistance::calculateTree( Tree * tree, const alignlib::Multiple
 	yyyyyyyy
     */
     
-    mWorkMatrix->Shrink();
+    mWorkMatrix->shrink();
+    
     mIndices[last_row - 1] = new_node;
     
     last_row = mWorkMatrix->getWidth() - 1;

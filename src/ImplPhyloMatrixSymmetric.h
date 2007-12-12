@@ -51,10 +51,10 @@ class ImplPhyloMatrixSymmetric : public ImplPhyloMatrix {
   /* member access functions--------------------------------------------------------------- */
 
   /** delete last row/column from PhyloMatrix */
-  virtual void Shrink();
+  virtual void shrink();
 
   /** swap two columns/rows */
-  virtual void Swap( PhyloMatrixSize col_1, PhyloMatrixSize col_2 );
+  virtual void swap( PhyloMatrixSize col_1, PhyloMatrixSize col_2 );
 
  protected:
   

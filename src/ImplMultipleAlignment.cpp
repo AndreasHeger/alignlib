@@ -39,17 +39,15 @@
 #include "HelpersAlignata.h"
 #include "AlignataIterator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** factory functions */
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplMultipleAlignment::ImplMultipleAlignment () : mLength(0), mRenderer( NULL )
+ImplMultipleAlignment::ImplMultipleAlignment () : mLength(0), 
+mRenderer( NULL )
 {
 }
 
@@ -121,10 +119,15 @@ void ImplMultipleAlignment::clear() {
 }
 
 //-----------------------------------------------------------------------------------------------------------
-void ImplMultipleAlignment::eraseRow( int row_from) 
+void ImplMultipleAlignment::eraseRow( int row ) 
 {
-	// TODO: make sure that this does not introduce inconsistencies
-	assert( false );
+	if (row < 0 || row >= mRows.size() )
+		return;
+
+	delete mRows[row];
+	mRows.erase( mRows.begin() + row );
+	if (mRows.size() == 0)
+		mLength = 0;
 }
 
 //------------------------------------------------------------------------------------
