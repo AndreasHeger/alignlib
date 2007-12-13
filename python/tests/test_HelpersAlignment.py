@@ -1,6 +1,6 @@
 # alignlib - a library for aligning protein sequences
 # 
-# $Id: test_Alignata.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
+# $Id: test_Alignment.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
 # 
 # Copyright (C) 2004 Andreas Heger
 # 
@@ -22,11 +22,11 @@ import unittest, tempfile
 import StringIO, cStringIO
 from alignlib import *
 
-class HelpersAlignataTestCase( unittest.TestCase ):
+class HelpersAlignmentTestCase( unittest.TestCase ):
 
     def setUp( self ):
 
-        self.mAlignata = makeAlignataVector()
+        self.mAlignment = makeAlignmentVector()
 
     def buildAlignment( self, alignment ):
         
@@ -48,35 +48,35 @@ class HelpersAlignataTestCase( unittest.TestCase ):
         row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" )
         col = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" )
 
-        self.buildAlignment( self.mAlignata )
+        self.buildAlignment( self.mAlignment )
         
         outfile = open("test.out", "wb" )
-        writePairAlignment(outfile, row, col, self.mAlignata )
+        writePairAlignment(outfile, row, col, self.mAlignment )
         outfile.close()
         
         outfile = tempfile.TemporaryFile( "w+b" )
-        result = writePairAlignment( outfile, row, col, self.mAlignata )
+        result = writePairAlignment( outfile, row, col, self.mAlignment )
         outfile.seek(0)
         input = outfile.readlines()
             
-    def testAlignataCompressed( self ):
+    def testAlignmentCompressed( self ):
 
-        self.buildAlignment( self.mAlignata )
+        self.buildAlignment( self.mAlignment )
 
         outfile = tempfile.TemporaryFile( "w+b" )
-        writeAlignataCompressed( outfile, self.mAlignata )
+        writeAlignmentCompressed( outfile, self.mAlignment )
         outfile.seek(0)
         row_ali, col_ali = outfile.readline().split("\t")
         
-        alignment = self.mAlignata.getNew()
+        alignment = self.mAlignment.getNew()
         
-        fillAlignataCompressed( alignment,
-                                self.mAlignata.getRowFrom(),
+        fillAlignmentCompressed( alignment,
+                                self.mAlignment.getRowFrom(),
                                 row_ali, 
-                                self.mAlignata.getColFrom(),
+                                self.mAlignment.getColFrom(),
                                 col_ali )
         
-        self.assertTrue( self.compareResidueWise( self.mAlignata, alignment ) )
+        self.assertTrue( self.compareResidueWise( self.mAlignment, alignment ) )
     
     def compareResidueWise(self, a, b, inverse = False):
         """compare two alignments. Returns true if they are identical
@@ -110,8 +110,8 @@ class HelpersAlignataTestCase( unittest.TestCase ):
         
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(AlignataVectorTestCase)
-    suite.addTest(AlignataSetTestCase)    
+    suite.addTest(AlignmentVectorTestCase)
+    suite.addTest(AlignmentSetTestCase)    
     return suite
 
 if __name__ == "__main__":

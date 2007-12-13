@@ -1,6 +1,6 @@
 # alignlib - a library for aligning protein sequences
 # 
-# $Id: test_Alignata.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
+# $Id: test_Alignment.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
 # 
 # Copyright (C) 2004 Andreas Heger
 # 
@@ -21,11 +21,11 @@
 import unittest
 from alignlib import *
 
-class AlignataTestCase( unittest.TestCase ):
+class AlignmentTestCase( unittest.TestCase ):
 
     def setUp( self ):
 
-        self.mAlignata = makeAlignataVector()
+        self.mAlignment = makeAlignmentVector()
 
     def buildAlignment( self, alignment ):
         
@@ -43,37 +43,37 @@ class AlignataTestCase( unittest.TestCase ):
             alignment.addPair( d[0], d[1], float(d[2]))
 
     def testAddPair( self ):
-        self.buildAlignment( self.mAlignata )
+        self.buildAlignment( self.mAlignment )
         
     def testGetRowFrom( self ):
         self.testAddPair()
-        self.assertEqual( self.mAlignata.getRowFrom(), 3) 
+        self.assertEqual( self.mAlignment.getRowFrom(), 3) 
 
     def testGetRowTo( self ):
         self.testAddPair()
-        self.assertEqual( self.mAlignata.getRowTo(), 13) 
+        self.assertEqual( self.mAlignment.getRowTo(), 13) 
 
     def testGetColFrom( self ):
         self.testAddPair()
-        self.assertEqual( self.mAlignata.getRowFrom(), 3) 
+        self.assertEqual( self.mAlignment.getRowFrom(), 3) 
 
     def testGetColTo( self ):
         self.testAddPair()
-        self.assertEqual( self.mAlignata.getColTo(), 13) 
+        self.assertEqual( self.mAlignment.getColTo(), 13) 
 
     def testRemoveRowRegion( self ):
         self.testAddPair()
 
-        f = self.mAlignata.removeRowRegion
+        f = self.mAlignment.removeRowRegion
         f( 3, 5)
-        self.assertEqual( self.mAlignata.getRowFrom(), 5)
-        self.assertEqual( self.mAlignata.getColFrom(), 6)        
+        self.assertEqual( self.mAlignment.getRowFrom(), 5)
+        self.assertEqual( self.mAlignment.getColFrom(), 6)        
         f( 10, 13 )
-        self.assertEqual( self.mAlignata.getRowTo(), 10)
-        self.assertEqual( self.mAlignata.getColTo(), 11)        
+        self.assertEqual( self.mAlignment.getRowTo(), 10)
+        self.assertEqual( self.mAlignment.getColTo(), 11)        
         f( 0, 20 )
-        self.assertEqual( self.mAlignata.getLength(), 0 )
-        self.assertEqual( self.mAlignata.isEmpty(), True)
+        self.assertEqual( self.mAlignment.getLength(), 0 )
+        self.assertEqual( self.mAlignment.isEmpty(), True)
 
         ## try nonsense input
         self.testAddPair()
@@ -82,21 +82,21 @@ class AlignataTestCase( unittest.TestCase ):
         f(0, 2)
         f(1, 2)
         f(2, 1)                                
-        self.assertEqual( self.mAlignata.getLength(), 12 )
+        self.assertEqual( self.mAlignment.getLength(), 12 )
 
     def testRemoveColRegion( self ):
         self.testAddPair()
 
-        f = self.mAlignata.removeColRegion
+        f = self.mAlignment.removeColRegion
         f( 3, 5)
-        self.assertEqual( self.mAlignata.getRowFrom(), 5)
-        self.assertEqual( self.mAlignata.getColFrom(), 6)        
+        self.assertEqual( self.mAlignment.getRowFrom(), 5)
+        self.assertEqual( self.mAlignment.getColFrom(), 6)        
         f( 10, 13 )
-        self.assertEqual( self.mAlignata.getRowTo(), 9)
-        self.assertEqual( self.mAlignata.getColTo(), 9)        
+        self.assertEqual( self.mAlignment.getRowTo(), 9)
+        self.assertEqual( self.mAlignment.getColTo(), 9)        
         f( 0, 20 )
-        self.assertEqual( self.mAlignata.getLength(), 0 )
-        self.assertEqual( self.mAlignata.isEmpty(), True)
+        self.assertEqual( self.mAlignment.getLength(), 0 )
+        self.assertEqual( self.mAlignment.isEmpty(), True)
 
         ## try nonsense input
         self.testAddPair()
@@ -105,22 +105,22 @@ class AlignataTestCase( unittest.TestCase ):
         f(0, 2)
         f(1, 2)
         f(2, 1)                                
-        self.assertEqual( self.mAlignata.getLength(), 12 )
+        self.assertEqual( self.mAlignment.getLength(), 12 )
 
     def testSwitchRowCol( self ):
         """test switching of row and column and mapping."""
         
         self.testAddPair()
-        ali = self.mAlignata.getClone()
+        ali = self.mAlignment.getClone()
         ali.switchRowCol()
 
-        for x in range(self.mAlignata.getRowFrom(), self.mAlignata.getRowTo()):
-            y = self.mAlignata.mapRowToCol( x )
+        for x in range(self.mAlignment.getRowFrom(), self.mAlignment.getRowTo()):
+            y = self.mAlignment.mapRowToCol( x )
             if y >= 0:
                 z = ali.mapRowToCol( y )
                 self.assertEqual( x, z )
                 
-            y = self.mAlignata.mapColToRow( x )            
+            y = self.mAlignment.mapColToRow( x )            
             if y >= 0:
                 z = ali.mapColToRow( y )
                 self.assertEqual( x, z )
@@ -129,55 +129,55 @@ class AlignataTestCase( unittest.TestCase ):
         '''!!!TODO!!!'''        
         self.testAddPair()
                 
-class AlignataVectorTestCase( AlignataTestCase ):
+class AlignmentVectorTestCase( AlignmentTestCase ):
 
     def setUp( self ):
-        self.mAlignata = makeAlignataVector()
+        self.mAlignment = makeAlignmentVector()
 
-class AlignataSetTestCase( AlignataTestCase ):
-
-    def setUp( self ):
-        self.mAlignata = makeAlignataSet()
-
-class AlignataSetColTestCase( AlignataTestCase ):
+class AlignmentSetTestCase( AlignmentTestCase ):
 
     def setUp( self ):
-        self.mAlignata = makeAlignataSetCol()
+        self.mAlignment = makeAlignmentSet()
 
-class AlignataHashTestCase( AlignataTestCase ):
+class AlignmentSetColTestCase( AlignmentTestCase ):
 
     def setUp( self ):
-        self.mAlignata = makeAlignataHash()
+        self.mAlignment = makeAlignmentSetCol()
+
+class AlignmentHashTestCase( AlignmentTestCase ):
+
+    def setUp( self ):
+        self.mAlignment = makeAlignmentHash()
 
 
-class AlignataHashDiagonalTestCase( AlignataTestCase ):
+class AlignmentHashDiagonalTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        self.mAlignata = makeAlignataHashDiagonal()
-        self.mAlignata = makeAlignataVector()
+        self.mAlignment = makeAlignmentHashDiagonal()
+        self.mAlignment = makeAlignmentVector()
 
-class AlignataMatrixRowTestCase( AlignataTestCase ):
+class AlignmentMatrixRowTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        self.mAlignata = makeAlignataMatrixRowDiagonal()
-        self.mAlignata = makeAlignataVector()
+        self.mAlignment = makeAlignmentMatrixRowDiagonal()
+        self.mAlignment = makeAlignmentVector()
 
-class AlignataMatrixUnsortedTestCase( AlignataTestCase ):
+class AlignmentMatrixUnsortedTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        self.mAlignata = makeAlignataMatrixUnsorted()
-        self.mAlignata = makeAlignataVector()
+        self.mAlignment = makeAlignmentMatrixUnsorted()
+        self.mAlignment = makeAlignmentVector()
 
-class AlignataMatrixDiagonalTestCase( AlignataTestCase ):
+class AlignmentMatrixDiagonalTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        self.mAlignata = makeAlignataMatrixDiagonal()
-        self.mAlignata = makeAlignataVector()
+        self.mAlignment = makeAlignmentMatrixDiagonal()
+        self.mAlignment = makeAlignmentVector()
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(AlignataVectorTestCase)
-    suite.addTest(AlignataSetTestCase)    
+    suite.addTest(AlignmentVectorTestCase)
+    suite.addTest(AlignmentSetTestCase)    
     return suite
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: bench_Alignata.cpp,v 1.4 2005/02/24 11:07:25 aheger Exp $
+  $Id: bench_Alignment.cpp,v 1.4 2005/02/24 11:07:25 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -37,9 +37,9 @@
 #include <time.h> 
 
 #include "alignlib.h"
-#include "Alignata.h"
-#include "AlignataIterator.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
+#include "HelpersAlignment.h"
 
 using namespace std;
 using namespace alignlib;
@@ -53,7 +53,7 @@ using namespace alignlib;
 #define NUM_ITERATIONS_LARGE 100000
 
 //-------------------------------------> Initialisation functions <-----------------------------------
-void InitCreate( Alignata * a) {
+void InitCreate( Alignment * a) {
   for (int i = 1; i < 1000; i++) 
     a->addPair(new alignlib::ResiduePAIR( i, i, 1.0));
 
@@ -62,7 +62,7 @@ void InitCreate( Alignata * a) {
 
 
 //-------------------------------------> Initialisation functions <-----------------------------------
-void InitCreateGaps( Alignata * a) {
+void InitCreateGaps( Alignment * a) {
 
   for (int i = 1; i < 200; i++) 
     a->addPair(new alignlib::ResiduePAIR( i, i, 1.0));
@@ -80,12 +80,12 @@ void InitCreateGaps( Alignata * a) {
 }
 
 //-------------------------------------> Postprocessing functions <-----------------------------------
-void PostClear( Alignata * a) {
+void PostClear( Alignment * a) {
   a->clear();
 }
 
 //-------------------------------------> Benchmarking functions <-----------------------------------
-void BenchmarkAddPair( Alignata * a) {
+void BenchmarkAddPair( Alignment * a) {
 
   for (int i = 1; i < 1000; i++) 
     a->addPair(new  alignlib::ResiduePAIR( i, i, 1.0));
@@ -94,11 +94,11 @@ void BenchmarkAddPair( Alignata * a) {
 }
 
 //-------------------------------------> Benchmarking functions <-----------------------------------
-void BenchmarkIterate( Alignata * a) {
+void BenchmarkIterate( Alignment * a) {
   ResiduePAIR p;
 
-  AlignataIterator it(a->begin());
-  AlignataIterator it_end(a->end());
+  AlignmentIterator it(a->begin());
+  AlignmentIterator it_end(a->end());
 
   long x;
   for (; it != it_end; it++) {
@@ -119,13 +119,13 @@ double tval( struct timeval *timval0, struct timeval *timval1) {
   return t;
 }
  
-double Benchmark( Alignata * a, 
+double Benchmark( Alignment * a, 
 		  long iterations,
-		  void (*ptr_dofunc)(Alignata *), 
-		  void (*ptr_prefunc)(Alignata *) = NULL, 
-		  void (*ptr_postfunc)(Alignata *) = NULL,
-		  void (*ptr_initfunc)(Alignata *) = NULL,
-		  void (*ptr_clearfunc)(Alignata *) = NULL) {
+		  void (*ptr_dofunc)(Alignment *), 
+		  void (*ptr_prefunc)(Alignment *) = NULL, 
+		  void (*ptr_postfunc)(Alignment *) = NULL,
+		  void (*ptr_initfunc)(Alignment *) = NULL,
+		  void (*ptr_clearfunc)(Alignment *) = NULL) {
   
   struct timeval start_time, finish_time;
 
@@ -158,33 +158,33 @@ double Benchmark( Alignata * a,
 }    
 
 void BenchmarkAll( long iterations,
-		   void (*ptr_dofunc)(Alignata *), 
-		   void (*ptr_prefunc)(Alignata *) = NULL, 
-		   void (*ptr_postfunc)(Alignata *) = NULL,
-                   void (*ptr_initfunc)(Alignata *) = NULL,
-		   void (*ptr_clearfunc)(Alignata *) = NULL) {
+		   void (*ptr_dofunc)(Alignment *), 
+		   void (*ptr_prefunc)(Alignment *) = NULL, 
+		   void (*ptr_postfunc)(Alignment *) = NULL,
+                   void (*ptr_initfunc)(Alignment *) = NULL,
+		   void (*ptr_clearfunc)(Alignment *) = NULL) {
 
   
   {
-    alignlib::Alignata * a1 = alignlib::makeAlignataVector();
+    alignlib::Alignment * a1 = alignlib::makeAlignmentVector();
     cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
     delete a1;
   }
 
   {
-    alignlib::Alignata * a1 = alignlib::makeAlignataSet();
+    alignlib::Alignment * a1 = alignlib::makeAlignmentSet();
     cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
     delete a1;
   }
 
   {
-    alignlib::Alignata * a1 = alignlib::makeAlignataHash();
+    alignlib::Alignment * a1 = alignlib::makeAlignmentHash();
     cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t"; 
     delete a1;
   }
 
   {
-    alignlib::Alignata * a1 = alignlib::makeAlignataHashDiagonal();
+    alignlib::Alignment * a1 = alignlib::makeAlignmentHashDiagonal();
     cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
     delete a1;
   }
@@ -199,29 +199,29 @@ int main () {
   cout << "Iterate\t"; BenchmarkAll( NUM_ITERATIONS_LARGE, &BenchmarkIterate, NULL, &PostClear, &InitCreate, NULL );
   cout << "IterateGaps\t"; BenchmarkAll( NUM_ITERATIONS_LARGE, &BenchmarkIterate, NULL, &PostClear, &InitCreateGaps, NULL );
 
-//   cout << "---------------------Testing AlignataHash----------------------------------" << endl;
-//   a1 = alignlib::makeAlignataHash();
-//   TestAlignata( a1 );
+//   cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
+//   a1 = alignlib::makeAlignmentHash();
+//   TestAlignment( a1 );
 //   delete a1;
 
-//   cout << "---------------------Testing AlignataHashDiagonal------------------------------" << endl;
-//   a1 = alignlib::makeAlignataHashDiagonal();
-//   TestAlignata( a1 );
+//   cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
+//   a1 = alignlib::makeAlignmentHashDiagonal();
+//   TestAlignment( a1 );
 //   delete a1;
 
-//   cout << "---------------------Testing AlignataMatrixRow-------------------------------" << endl;
-//   a1 = alignlib::makeAlignataMatrixRow();
-//   TestAlignata( a1 );
+//   cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
+//   a1 = alignlib::makeAlignmentMatrixRow();
+//   TestAlignment( a1 );
 //   delete a1;
 
-//   cout << "---------------------Testing AlignataMatrixDiagonal-------------------------------" << endl;
-//   a1 = alignlib::makeAlignataMatrixDiagonal();
-//   TestAlignata( a1 );
+//   cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
+//   a1 = alignlib::makeAlignmentMatrixDiagonal();
+//   TestAlignment( a1 );
 //   delete a1;
 
-//   cout << "---------------------Testing AlignataMatrixUnsorted-------------------------------" << endl;
-//   a1 = alignlib::makeAlignataMatrixUnsorted();
-//   TestAlignata( a1 );
+//   cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
+//   a1 = alignlib::makeAlignmentMatrixUnsorted();
+//   TestAlignment( a1 );
 //   delete a1;
 
 }
