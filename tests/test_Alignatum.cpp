@@ -36,8 +36,8 @@
 
 #include "Alignatum.h"
 #include "HelpersAlignatum.h"
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 #include "Alignandum.h"
 #include "HelpersSequence.h"
 
@@ -70,10 +70,10 @@ void testAlignatum( Alignatum * a, std::string sample )
 	assert( a->getAlignedLength() == sample.size() + 4);	
 	
 	// wrap on alignment - add one gaps into the middle
-	std::auto_ptr<Alignata> ali(makeAlignataVector());
+	std::auto_ptr<Alignment> ali(makeAlignmentVector());
 	Position pos = a->getAlignedLength() / 2;
-	fillAlignataIdentity( &*ali, 0, pos);
-	fillAlignataIdentity( &*ali, pos, a->getAlignedLength(), 1);
+	fillAlignmentIdentity( &*ali, 0, pos);
+	fillAlignmentIdentity( &*ali, pos, a->getAlignedLength(), 1);
 	
 	a->mapOnAlignment( &*ali );
 		

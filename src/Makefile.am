@@ -23,7 +23,7 @@ pkginclude_HEADERS = 	alignlib.h \
 			$(HEADERS_SCORER) \
 			$(HEADERS_FRAGMENTOR) \
 			$(HEADERS_STATISTICS) \
-			$(HEADERS_ALIGNATA) \
+			$(HEADERS_ALIGNMENT) \
 			$(HEADERS_ALIGNANDUM) \
 			$(HEADERS_MALI) \
 			$(HEADERS_TRANSLATOR) \
@@ -52,13 +52,13 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersP
 			ImplRegularizorDirichletInterpolate.h ImplRegularizorDirichletPrecomputed.h \
 	                ImplLogOddor.h 
 
-HEADERS_ALIGNATA =	Alignata.h HelpersAlignata.h \
-			AlignataIterator.h \
+HEADERS_ALIGNMENT =	Alignment.h HelpersAlignment.h \
+			AlignmentIterator.h \
 			AlignedBlocks.h \
-			ImplAlignata.h \
-			ImplAlignataVector.h ImplAlignataSorted.h \
-			ImplAlignataMatrix.h ImplAlignataMatrixRow.h ImplAlignataMatrixDiagonal.h \
-			ImplAlignataMatrixUnsorted.h 
+			ImplAlignment.h \
+			ImplAlignmentVector.h ImplAlignmentSorted.h \
+			ImplAlignmentMatrix.h ImplAlignmentMatrixRow.h ImplAlignmentMatrixDiagonal.h \
+			ImplAlignmentMatrixUnsorted.h 
 
 HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignator.h ImplAlignatorDP.h \
@@ -69,7 +69,7 @@ HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignatorIdentity.h ImplAlignatorSimilarity.h \
 			ImplAlignatorTuples.h ImplAlignatorDummy.h \
 			ImplAlignatorFragments.h ImplAlignatorFragmentsSquared.h \
-			ImplAlignatorPublishAlignata.h 
+			ImplAlignatorPublishAlignment.h 
 
 HEADERS_ITERATOR=	Iterator2D.h Iterator2DFull.h \
 			HelpersIterator2D.h \
@@ -101,14 +101,14 @@ HEADERS_TRANSLATOR= 	Translator.h HelpersTranslator.h \
 HEADERS_SUBSTMATRIX=    SubstitutionMatrix.h HelpersSubstitutionMatrix.h \
 			ImplSubstitutionMatrix.h ImplSubstitutionMatrixAA.h
 
-PARTS =               AlignException.cpp \
+PARTS = AlignException.cpp \
 			AlignlibDebug.cpp \
 			$(PARTS_ALIGNATOR) \
 			$(PARTS_ITERATOR) \
 			$(PARTS_SCORER) \
 			$(PARTS_FRAGMENTOR) \
 			$(PARTS_STATISTICS) \
-			$(PARTS_ALIGNATA) \
+			$(PARTS_ALIGNMENT) \
 			$(PARTS_ALIGNANDUM) \
 			$(PARTS_MALI) \
 			$(PARTS_TRANSLATOR) \
@@ -136,13 +136,14 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 			ImplRegularizorDirichletInterpolate.cpp ImplRegularizorDirichletPrecomputed.cpp \
 	                ImplLogOddor.cpp ImplLogOddorDirichlet.cpp ImplLogOddorUniform.cpp 
 
-PARTS_ALIGNATA =      Alignata.cpp HelpersAlignata.cpp HelpersAlignataPrivate.cpp \
+PARTS_ALIGNMENT = Alignment.cpp \
+			HelpersAlignment.cpp HelpersAlignmentPrivate.cpp \
 			AlignedBlocks.cpp \
-			ImplAlignata.cpp \
-			ImplAlignataVector.cpp \
-			ImplAlignataSorted.cpp \
-			ImplAlignataMatrix.cpp ImplAlignataMatrixRow.cpp \
-			ImplAlignataMatrixDiagonal.cpp ImplAlignataMatrixUnsorted.cpp 
+			ImplAlignment.cpp \
+			ImplAlignmentVector.cpp \
+			ImplAlignmentSorted.cpp \
+			ImplAlignmentMatrix.cpp ImplAlignmentMatrixRow.cpp \
+			ImplAlignmentMatrixDiagonal.cpp ImplAlignmentMatrixUnsorted.cpp 
 
 
 PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
@@ -153,7 +154,7 @@ PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
 			ImplAlignatorIdentity.cpp ImplAlignatorSimilarity.cpp ImplAlignatorTuples.cpp \
 			ImplAlignatorDummy.cpp \
 			ImplAlignatorFragments.cpp ImplAlignatorFragmentsSquared.cpp \
-			ImplAlignatorPublishAlignata.cpp
+			ImplAlignatorPublishAlignment.cpp
 
 PARTS_ITERATOR=		Iterator2D.cpp HelpersIterator2D.cpp \
 			ImplIterator2D.cpp \

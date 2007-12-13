@@ -30,12 +30,12 @@
 #include "AlignException.h"
 #include "ImplAlignatorDotsWrap.h"
 #include "Alignandum.h"
-#include "ImplAlignataMatrixRow.h"
+#include "ImplAlignmentMatrixRow.h"
 
 #include "HelpersSubstitutionMatrix.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #ifdef DEBUG
 #include "stdio.h"
@@ -54,7 +54,7 @@ namespace alignlib {
 
 /*---------------------factory functions ---------------------------------- */
 
-    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
 Alignator * makeAlignatorDotsWrap(Score gop, Score gep, Alignator * alignator, const SubstitutionMatrix * subst_matrix) {
 
@@ -120,7 +120,7 @@ Score ImplAlignatorDotsWrap::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDotsWrap::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali) {
+void ImplAlignatorDotsWrap::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) {
 
   int left;
   int bestdot, globdot;

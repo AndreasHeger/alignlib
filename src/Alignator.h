@@ -33,7 +33,7 @@
 namespace alignlib
 {
 
-  class Alignata;
+  class Alignment;
   class Alignandum;
   class Iterator2D;
   class Scorer;
@@ -44,7 +44,7 @@ namespace alignlib
        Alignator objects align two objects. The default way to use it
        
        Alignator * a;
-       Alignata * r;
+       Alignment * r;
        
        a->align( row, col, &r );
 
@@ -64,7 +64,7 @@ namespace alignlib
        @version $Id: Alignator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
        @see Iterator2D
        @see Alignandum
-       @see Alignata
+       @see Alignment
   */ 
   class Alignator
     {
@@ -88,7 +88,7 @@ namespace alignlib
             
       /** align two alignandum objects 
        * */
-      virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *) = 0;		
+      virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *) = 0;		
 
       /** accessors */
 

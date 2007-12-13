@@ -27,8 +27,8 @@
 
 #include "Alignator.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "Alignandum.h"
 #include "AlignException.h"
@@ -90,7 +90,7 @@ namespace alignlib
       mScorer = scorer;
     }
 
-  void ImplAlignator::startUp( const Alignandum * row, const Alignandum * col, Alignata * ali)
+  void ImplAlignator::startUp( const Alignandum * row, const Alignandum * col, Alignment * ali)
 
     {
       debug_func_cerr(5);
@@ -124,7 +124,7 @@ namespace alignlib
       ali->clear();
     }
 
-  void ImplAlignator::cleanUp(const Alignandum * row, const Alignandum *col, Alignata * ali) 
+  void ImplAlignator::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
     {
       debug_func_cerr(5);
 

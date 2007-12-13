@@ -34,9 +34,9 @@
 #include "AlignException.h"
 #include "Alignatum.h"
 #include "Alignandum.h"
-#include "Alignata.h"
-#include "HelpersAlignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
+#include "AlignmentIterator.h"
 
 using namespace std;
 
@@ -49,7 +49,7 @@ MaliRow::MaliRow() :
 	mAlignatumOutput(NULL) {}
 
 MaliRow::MaliRow( Alignatum * input, 
-				Alignata * map_alignatum2mali, 
+				Alignment * map_alignatum2mali, 
 				Alignatum * output) : 
 	mAlignatumInput(input), 
 	mMapMali2Alignatum(map_alignatum2mali), 
@@ -170,7 +170,7 @@ void ImplMultipleAlignmentDots::eraseRow( int row )
    In contrast to the next method, here src has not to be realigned
  */
 void ImplMultipleAlignmentDots::add( Alignatum * src,
-		const Alignata * alignment,
+		const Alignment * alignment,
 		bool mali_is_in_row,
 		bool insert_gaps_mali,
 		bool insert_gaps_alignatum,
@@ -179,12 +179,12 @@ void ImplMultipleAlignmentDots::add( Alignatum * src,
 {
 	debug_func_cerr(5);
 
-	Alignata * ali = NULL;
+	Alignment * ali = NULL;
 
 	if (alignment == NULL)
 	{
-		ali = makeAlignataVector();
-		fillAlignataIdentity( ali, 0, src->getFullLength(), 0);
+		ali = makeAlignmentVector();
+		fillAlignmentIdentity( ali, 0, src->getFullLength(), 0);
 	}
 	else
 		ali = alignment->getClone();
@@ -197,7 +197,7 @@ void ImplMultipleAlignmentDots::add( Alignatum * src,
 /** Add a full multiple alignment to the another alignment.
  */
 void ImplMultipleAlignmentDots::add( const MultipleAlignment * src,
-		const Alignata * alignment,
+		const Alignment * alignment,
 		bool mali_is_in_row,
 		bool insert_gaps_mali,
 		bool insert_gaps_alignatum,
@@ -220,15 +220,15 @@ void ImplMultipleAlignmentDots::add( const MultipleAlignment * src,
 	{
 		Alignatum * alignatum = src_mali->mRows[x].mAlignatumInput->getClone();
 
-		Alignata * map_mali2src = makeAlignataVector();
+		Alignment * map_mali2src = makeAlignmentVector();
 
 		if (mali_is_in_row)
-			combineAlignata( map_mali2src,
+			combineAlignment( map_mali2src,
 					alignment,
 					src_mali->mRows[x].mMapMali2Alignatum,
 					CR);
 		else
-			combineAlignata( map_mali2src,
+			combineAlignment( map_mali2src,
 					alignment,
 					src_mali->mRows[x].mMapMali2Alignatum,
 					RR);
@@ -324,7 +324,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 	for (unsigned int x = 0; x < mRows.size(); ++x) 
 	{
-		Alignata * ali = mRows[x].mMapMali2Alignatum;
+		Alignment * ali = mRows[x].mMapMali2Alignatum;
 
 		Position last_col = ali->getColFrom();
 
@@ -355,7 +355,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 		debug_cerr( 5, "col=" << x << " gaps=" << gaps[x]);
 #endif
 
-	Alignata * map_mali2representation = makeAlignataVector(); 
+	Alignment * map_mali2representation = makeAlignmentVector(); 
 	{
 		Position y = 0;
 		for (Position x = 0; x < mali_length; ++x) {
@@ -376,9 +376,9 @@ void ImplMultipleAlignmentDots::updateRows() const
 		delete mRows[x].mAlignatumOutput;
 		mRows[x].mAlignatumOutput = mRows[x].mAlignatumInput->getClone();
 
-		Alignata * map_alignatum2representation = makeAlignataVector(); 
+		Alignment * map_alignatum2representation = makeAlignmentVector(); 
 
-		combineAlignata( map_alignatum2representation, mRows[x].mMapMali2Alignatum, map_mali2representation, RR);
+		combineAlignment( map_alignatum2representation, mRows[x].mMapMali2Alignatum, map_mali2representation, RR);
 
 		// map alignatum-object
 		if (mCompressUnalignedColumns) 
@@ -389,7 +389,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 		} 
 		else 
 		{
-			Alignata * ali = mRows[x].mMapMali2Alignatum;
+			Alignment * ali = mRows[x].mMapMali2Alignatum;
 			// add pairs for gaps 
 			Position last_col = ali->getColFrom();
 			for (Position row = ali->getRowFrom() + 1; row < ali->getRowTo(); ++row) 

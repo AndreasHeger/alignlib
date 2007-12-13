@@ -39,14 +39,14 @@ namespace alignlib
 
 class Alignandum;
 class Alignatum;
-class Alignata;	
+class Alignment;	
 class Renderer;
 
 /**
     @short Interface definition of mutltiple alignment objects.
     
     Multiple alignments are collection of aligned sequences (more specifically: objects of type
-    @ref Alignata). A multiple alignment
+    @ref Alignment). A multiple alignment
     receives submitted aligned objects, or unaligned objects together with a multiple
     alignment, etc. Ownership belongs to the multiple alignment.
     
@@ -66,7 +66,7 @@ class Renderer;
     )
     
     The multiple alignment is a sort of container. Output-formatting, etc. is done
-    by the @ref Alignata objects.
+    by the @ref Alignment objects.
     
     The interface for this class is quite fat, because multiple alignments are used
     in a variety of contexts.
@@ -147,7 +147,7 @@ class MultipleAlignment
 		       not supplied, then it is assumed, that it is the identity alignment. In
 		       that case src has to have the same length the multiple alignment. Note, the
 		       multiple alignment is in col, the src is in row of the multiple alignment, so
-		       when calling the member-function Alignata::Map() with a residue from
+		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
         @param mali_is_in_row		true, if the multiple alignment is in the row in alignment.
 	@param insert_gaps_mali		true, if gaps shall be inserted into the multiple alignment.
@@ -158,7 +158,7 @@ class MultipleAlignment
 			      
     */
     virtual void add( Alignatum * src,
-		      const Alignata * alignment = NULL,
+		      const Alignment * alignment = NULL,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,
@@ -169,7 +169,7 @@ class MultipleAlignment
      * through an alignment
      */
     virtual void add( const MultipleAlignment * src,
-		      const Alignata * alignment = NULL,
+		      const Alignment * alignment = NULL,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,

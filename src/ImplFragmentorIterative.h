@@ -30,13 +30,13 @@
 
 #include "alignlib.h"
 #include "ImplFragmentor.h"
-#include "Alignata.h"
+#include "Alignment.h"
 
 namespace alignlib {
 
 class SubstitutionMatrix;
 class Alignandum;
-class Alignata;
+class Alignment;
 
 
 /**
@@ -50,7 +50,7 @@ class ImplFragmentorIterative : public ImplFragmentor {
  public:
     /* constructors and desctructors------------------------------------------------------- */
     /** constructor */
-    ImplFragmentorIterative( Alignata * dots, 
+    ImplFragmentorIterative( Alignment * dots, 
 			     Score min_score, 
 			     Score gop,
 			     Score gep);
@@ -63,7 +63,7 @@ class ImplFragmentorIterative : public ImplFragmentor {
 
  protected:
     /** the alignator used to create dot-plots */
-    Alignata *mDots;
+    Alignment *mDots;
 
     /** minimum score for alignment */
     Score mMinScore;
@@ -75,7 +75,7 @@ class ImplFragmentorIterative : public ImplFragmentor {
     /** perform the actual alignment */
     virtual void performFragmentation( const Alignandum * row, 
 				       const Alignandum * col, 
-				       const Alignata * sample);
+				       const Alignment * sample);
 };
 
 }

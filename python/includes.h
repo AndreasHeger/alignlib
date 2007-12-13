@@ -5,10 +5,10 @@
 #include "HelpersProfile.h"
 #include "HelpersSequence.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
-#include "AlignataIterator.h"
+#include "AlignmentIterator.h"
 
 #include "Alignator.h"
 #include "HelpersAlignator.h"

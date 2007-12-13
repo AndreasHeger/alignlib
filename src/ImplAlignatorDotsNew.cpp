@@ -30,12 +30,12 @@
 #include "AlignException.h"
 #include "ImplAlignatorDots.h"
 #include "Alignandum.h"
-#include "ImplAlignataMatrixRow.h"
+#include "ImplAlignmentMatrixRow.h"
 
 #include "HelpersSubstitutionMatrix.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #ifdef DEBUG
 #include "stdio.h"
@@ -54,7 +54,7 @@ namespace alignlib {
 
   /*---------------------factory functions ---------------------------------- */
 
-  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
   Alignator * makeAlignatorDots(Score gop, Score gep, Alignator * alignator, const SubstitutionMatrix * subst_matrix) 
   {
@@ -98,14 +98,14 @@ namespace alignlib {
   }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
-  void ImplAlignatorDots::startUp(const Alignandum * row, const Alignandum *col, Alignata * ali) 
+  void ImplAlignatorDots::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
     {
     ImplAlignator::startUp(row, col, ali);  
 
     debug_cerr( 5, "void AlignatorDots::Initialize()" );
 
     // setup matrix of dots
-    mMatrix = (ImplAlignataMatrixRow*)makeAlignataMatrixRow();
+    mMatrix = (ImplAlignmentMatrixRow*)makeAlignmentMatrixRow();
 
     // create dots
     mDottor->align( row, col, mMatrix ); 
@@ -119,14 +119,14 @@ namespace alignlib {
 
     // setup pointers to location of dots(pairs)
     mPairs	= mMatrix->mPairs;
-    mRowIndices = mMatrix->mIndex;	// these have to be sorted by row, that's why I use AlignataMatrixRow	
+    mRowIndices = mMatrix->mIndex;	// these have to be sorted by row, that's why I use AlignmentMatrixRow	
 
     mTrace   = new int[mNDots];
     mLastDot = -1;
   }
 
   //-----------------------------------------------------------------------------------------------------------------------------
-  void ImplAlignatorDots::cleanUp(const Alignandum * row, const Alignandum *col, Alignata * ali) 
+  void ImplAlignatorDots::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
     {
       debug_func_cerr(5);
 
@@ -141,7 +141,7 @@ namespace alignlib {
     }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
-  Alignata * ImplAlignatorDots::align(const Alignandum * row, const Alignandum * col, Alignata * result) 
+  Alignment * ImplAlignatorDots::align(const Alignandum * row, const Alignandum * col, Alignment * result) 
     {
       debug_func_cerr(5);
 
@@ -158,7 +158,7 @@ namespace alignlib {
     }
 
   //-----------------------------------------< BackTracke >-------------------------------------------------------------
-  void ImplAlignatorDots::traceBack( const Alignandum * row, const Alignandum * col, Alignata * result) 
+  void ImplAlignatorDots::traceBack( const Alignandum * row, const Alignandum * col, Alignment * result) 
     {
       debug_func_cerr(5);
 
@@ -241,7 +241,7 @@ namespace alignlib {
   }
 
   //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-  void ImplAlignatorDots::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali) {
+  void ImplAlignatorDots::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) {
 
     /**
      Overview over the algorithm

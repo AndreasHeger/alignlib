@@ -30,7 +30,7 @@
 
 #include "alignlib.h"
 #include "Alignator.h"
-#include "Alignata.h"
+#include "Alignment.h"
 #include "ImplAlignator.h"
 
 namespace alignlib 
@@ -55,7 +55,7 @@ namespace alignlib
       virtual ~ImplAlignatorIterative();
 
       /** method for aligning two arbitrary objects */
-      virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+      virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
       
       /** return a new alignator object of the same type.
        */
@@ -64,7 +64,7 @@ namespace alignlib
    protected:
 	   /** perform one iterative alignment step
 	    */
-	   virtual void alignIteratively( Alignata *, Alignandum *, Alignandum * );
+	   virtual void alignIteratively( Alignment *, Alignandum *, Alignandum * );
       
    private:
 	   /** alignator to use for the alignment */

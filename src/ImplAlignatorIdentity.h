@@ -56,7 +56,7 @@ class ImplAlignatorIdentity : public ImplAlignator {
     virtual ~ImplAlignatorIdentity ();
 
     /** method for aligning two arbitrary objects */
-    virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
     
     /** return a new alignator object of the same type.
      */

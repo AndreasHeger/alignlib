@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrixUnsorted.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignmentMatrixUnsorted.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,7 +29,7 @@
 
 #include <iosfwd>
 #include "alignlib.h"
-#include "ImplAlignataMatrix.h"
+#include "ImplAlignmentMatrix.h"
 
 namespace alignlib {
 
@@ -41,28 +41,28 @@ class Alignandum;
     as they were added.
 
     @author Andreas Heger
-    @version $Id: ImplAlignataMatrixUnsorted.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+    @version $Id: ImplAlignmentMatrixUnsorted.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignataMatrixUnsorted : public ImplAlignataMatrix {
+class ImplAlignmentMatrixUnsorted : public ImplAlignmentMatrix {
 
     friend class ConstIterator;
     
  public:
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignataMatrixUnsorted( long ndots = 0);
+    ImplAlignmentMatrixUnsorted( long ndots = 0);
     
     /** copy constructor */
-    ImplAlignataMatrixUnsorted( const ImplAlignataMatrixUnsorted &src );
+    ImplAlignmentMatrixUnsorted( const ImplAlignmentMatrixUnsorted &src );
 
     /** destructor */
-    virtual ~ImplAlignataMatrixUnsorted();
+    virtual ~ImplAlignmentMatrixUnsorted();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignataMatrixUnsorted * getNew() const;
+    virtual ImplAlignmentMatrixUnsorted * getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignataMatrixUnsorted * getClone() const;
+    virtual ImplAlignmentMatrixUnsorted * getClone() const;
 
  protected:
     /** build index */

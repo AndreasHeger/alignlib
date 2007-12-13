@@ -26,7 +26,7 @@ namespace alignlib
     class Distor;
     class PhyloMatrix;
 
-    /** Helper functions for class Alignata:
+    /** Helper functions for class Alignment:
 	
 	1. factory functions
 	

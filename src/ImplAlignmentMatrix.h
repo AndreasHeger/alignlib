@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrix.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignmentMatrix.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -30,7 +30,7 @@
 #include <iosfwd>
 #include <vector>
 #include "alignlib.h"
-#include "ImplAlignata.h"
+#include "ImplAlignment.h"
 
 namespace alignlib 
 {
@@ -73,13 +73,13 @@ inline Diagonal calculateNormalizedDiagonal( const ResiduePAIR & p,
     Some implementation details:
     
     If the alignment is empty, mRowFrom is larger than mRowTo. This property is needed
-    at some checks (for example in ImplAlignataMatrix_iterator)
+    at some checks (for example in ImplAlignmentMatrix_iterator)
     
     @author Andreas Heger
-    @version $Id: ImplAlignataMatrix.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+    @version $Id: ImplAlignmentMatrix.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
 
-class ImplAlignataMatrix : public ImplAlignata 
+class ImplAlignmentMatrix : public ImplAlignment 
 {
 
     friend class ConstIterator;
@@ -93,34 +93,34 @@ class ImplAlignataMatrix : public ImplAlignata
 
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignataMatrix( long ndots = 0);
+    ImplAlignmentMatrix( long ndots = 0);
     
     /** copy constructor */
-    ImplAlignataMatrix( const ImplAlignataMatrix &src );
+    ImplAlignmentMatrix( const ImplAlignmentMatrix &src );
 
     /** destructor */
-    virtual ~ImplAlignataMatrix();
+    virtual ~ImplAlignmentMatrix();
 
     //------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------
     // this iterator iterates over all dots. 
     //!! to be implemented: another iterator, that iterates over rows
     // valid values for index are 0 to max_index - 1
-    class ImplAlignataMatrix_ConstIterator : public Alignata::ConstIterator{
+    class ImplAlignmentMatrix_ConstIterator : public Alignment::ConstIterator{
     public:
 	
-      ImplAlignataMatrix_ConstIterator( const PAIRVECTOR & pairs, 
+      ImplAlignmentMatrix_ConstIterator( const PAIRVECTOR & pairs, 
 					 Position index, 
 					 Position max_index ) :
 	mPairs( pairs ), mCurrentIndex(index), mMaximumIndex( max_index) {
       };
 	
-      ImplAlignataMatrix_ConstIterator( const ImplAlignataMatrix_ConstIterator & src ) : 
+      ImplAlignmentMatrix_ConstIterator( const ImplAlignmentMatrix_ConstIterator & src ) : 
 	mPairs( src.mPairs ), mCurrentIndex( src.mCurrentIndex ), mMaximumIndex( src.mMaximumIndex ) {};
       
-      virtual ~ImplAlignataMatrix_ConstIterator() {};
+      virtual ~ImplAlignmentMatrix_ConstIterator() {};
       
-      virtual ConstIterator * getClone() const {return new ImplAlignataMatrix_ConstIterator( *this );}
+      virtual ConstIterator * getClone() const {return new ImplAlignmentMatrix_ConstIterator( *this );}
       
       /** dereference operator: runtime error, if out of bounds? */
       virtual const ResiduePAIR & getReference() const { 
@@ -148,21 +148,21 @@ class ImplAlignataMatrix : public ImplAlignata
       
     };
 
-    class ImplAlignataMatrix_Iterator : public Alignata::Iterator {
+    class ImplAlignmentMatrix_Iterator : public Alignment::Iterator {
     public:
 	
-      ImplAlignataMatrix_Iterator( PAIRVECTOR & pairs, 
+      ImplAlignmentMatrix_Iterator( PAIRVECTOR & pairs, 
 				   Position index, 
 				   Position max_index ) :
 	mPairs( pairs ), mCurrentIndex(index), mMaximumIndex( max_index) {
 	};
 	
-	ImplAlignataMatrix_Iterator( const ImplAlignataMatrix_Iterator & src ) : 
+	ImplAlignmentMatrix_Iterator( const ImplAlignmentMatrix_Iterator & src ) : 
 	  mPairs( src.mPairs ), mCurrentIndex( src.mCurrentIndex ), mMaximumIndex( src.mMaximumIndex ) {};
 	
-	 virtual ~ImplAlignataMatrix_Iterator() {};
+	 virtual ~ImplAlignmentMatrix_Iterator() {};
       
-	virtual Iterator * getClone() const {return new ImplAlignataMatrix_Iterator( *this );}
+	virtual Iterator * getClone() const {return new ImplAlignmentMatrix_Iterator( *this );}
 	
 	/** dereference operator: runtime error, if out of bounds? */
 	virtual ResiduePAIR & getReference() const { 
@@ -191,16 +191,16 @@ class ImplAlignataMatrix : public ImplAlignata
     };
     
     /** return const iterator */
-    virtual AlignataConstIterator begin() const; 
+    virtual AlignmentConstIterator begin() const; 
     
     /** return const iterator */
-    virtual AlignataConstIterator end() const; 
+    virtual AlignmentConstIterator end() const; 
 
     /** return const iterator */
-    virtual AlignataIterator begin(); 
+    virtual AlignmentIterator begin(); 
     
     /** return const iterator */
-    virtual AlignataIterator end(); 
+    virtual AlignmentIterator end(); 
 
     //----------------> accessors <------------------------------------------------------------------------------
 

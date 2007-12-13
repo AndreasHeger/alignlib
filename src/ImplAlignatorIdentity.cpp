@@ -27,7 +27,7 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
-#include "Alignata.h"
+#include "Alignment.h"
 
 #include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
@@ -71,7 +71,7 @@ namespace alignlib
   
   
   //--------------------------------------------------------------------------------------------------------
-  Alignata * ImplAlignatorIdentity::align( const Alignandum * row, const Alignandum * col, Alignata * result)
+  Alignment * ImplAlignatorIdentity::align( const Alignandum * row, const Alignandum * col, Alignment * result)
   
 {
   debug_func_cerr(5);

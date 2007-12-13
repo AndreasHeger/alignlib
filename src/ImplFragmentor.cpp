@@ -25,8 +25,8 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "Alignandum.h"
 #include "AlignException.h"
@@ -64,7 +64,7 @@ Position ImplFragmentor::getRowLength() { return mRowLength; }
 Position ImplFragmentor::getColLength() { return mColLength; }
 
 //-------------------------------------------------------------------------------------------------------
-void ImplFragmentor::startUp( const Alignandum * row, const Alignandum * col, Alignata * ali) 
+void ImplFragmentor::startUp( const Alignandum * row, const Alignandum * col, Alignment * ali) 
 {
   debug_func_cerr(5);
 
@@ -79,7 +79,7 @@ void ImplFragmentor::startUp( const Alignandum * row, const Alignandum * col, Al
 }
 
 //--------------------------------------------------------------------------------------------------------
-void ImplFragmentor::cleanUp(const Alignandum * row, const Alignandum *col, Alignata * ali) 
+void ImplFragmentor::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
 {
   debug_func_cerr(5);
 
@@ -101,7 +101,7 @@ void ImplFragmentor::cleanUp(const Alignandum * row, const Alignandum *col, Alig
 }
 
 //--------------------------------------------------------------------------------------------------------
-FragmentVector * ImplFragmentor::fragment(const Alignandum * row, const Alignandum * col, Alignata * ali) {
+FragmentVector * ImplFragmentor::fragment(const Alignandum * row, const Alignandum * col, Alignment * ali) {
 
   startUp(row, col, ali);
 

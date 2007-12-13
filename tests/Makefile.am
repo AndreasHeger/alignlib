@@ -10,8 +10,8 @@
 
 AM_CPPFLAGS = -I$(top_srcdir)/src
 
-programs=test_Fragmentor test_AlignatorDots test_Alignata  test_Alignator \
-		test_MultipleAlignment test_Alignandum test_HelpersAlignata test_Statistics \
+programs=test_Fragmentor test_AlignatorDots test_Alignment  test_Alignator \
+		test_MultipleAlignment test_Alignandum test_HelpersAlignment test_Statistics \
 		test_SubstitutionMatrix test_Iterator test_Alignatum \
 		test_Tree test_Treetor test_PhyloMatrix test_Distor \
 		test_AlignedBlocks test_Weightor
@@ -27,13 +27,13 @@ LDADD = $(top_srcdir)/src/.libs/libalignlib.a -lm
 
 test_Fragmentor_SOURCES = test_Fragmentor.cpp 
 test_AlignatorDots_SOURCES = test_AlignatorDots.cpp 
-test_Alignata_SOURCES = test_Alignata.cpp 
+test_Alignment_SOURCES = test_Alignment.cpp 
 test_Alignatum_SOURCES = test_Alignatum.cpp
 test_Alignator_SOURCES = test_Alignator.cpp 
 test_MultipleAlignment_SOURCES = test_MultipleAlignment.cpp 
 test_Alignandum_SOURCES = test_Alignandum.cpp 
 test_Statistics_SOURCES = test_Statistics.cpp
-test_HelpersAlignata_SOURCES = test_HelpersAlignata.cpp
+test_HelpersAlignment_SOURCES = test_HelpersAlignment.cpp
 test_AlignedBlocks_SOURCES = test_AlignedBlocks.cpp
 test_SubstitutionMatrix_SOURCES = test_SubstitutionMatrix.cpp
 test_Iterator_SOURCES = test_Iterator.cpp

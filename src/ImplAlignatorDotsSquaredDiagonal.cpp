@@ -30,12 +30,12 @@
 #include "AlignException.h"
 #include "ImplAlignatorDotsSquaredDiagonal.h"
 #include "Alignandum.h"
-#include "ImplAlignataMatrixRow.h"
+#include "ImplAlignmentMatrixRow.h"
 
 #include "HelpersSubstitutionMatrix.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "HelpersAlignator.h"
 
@@ -56,7 +56,7 @@ namespace alignlib {
 
 /*---------------------factory functions ---------------------------------- */
 
-    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
   Alignator * makeAlignatorDotsSquaredDiagonal(Score gop, Score gep, Alignator * alignator, 
 					       Score diagonal_gop, Score diagonal_gep )

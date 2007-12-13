@@ -53,7 +53,7 @@ class ImplAlignatorDummy : public ImplAlignator
     // constructors and desctructors
 
     /** default constructor */
-    ImplAlignatorDummy  ( const Alignata * ali);
+    ImplAlignatorDummy  ( const Alignment * ali);
     
     /** copy constructor */
     ImplAlignatorDummy  (const ImplAlignatorDummy &);
@@ -62,14 +62,14 @@ class ImplAlignatorDummy : public ImplAlignator
     virtual ~ImplAlignatorDummy();
 
     /** method for aligning two arbitrary objects */
-    virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
 
     /** return a new alignator object of the same type.
      */
     virtual ImplAlignatorDummy * getClone() const;
     
  private:
-    const Alignata * mAlignata;
+    const Alignment * mAlignment;
 
 };
 

@@ -35,9 +35,9 @@
 #include "AlignException.h"
 #include "Alignatum.h"
 #include "Alignandum.h"
-#include "Alignata.h"
-#include "HelpersAlignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
+#include "AlignmentIterator.h"
 
 using namespace std;
 
@@ -136,7 +136,7 @@ void ImplMultipleAlignment::eraseRow( int row )
    In contrast to the next method, here src has not to be realigned
  */
 void ImplMultipleAlignment::add( Alignatum * src,
-		const Alignata * alignment,
+		const Alignment * alignment,
 		bool mali_is_in_row,
 		bool insert_gaps_mali,
 		bool insert_gaps_alignatum,
@@ -168,11 +168,11 @@ void ImplMultipleAlignment::add( Alignatum * src,
 	// the string is not prealigned to the multiple alignment. We have to
 	// do this by ourselves.
 
-	Alignata * map_this2new = makeAlignataVector();
-	Alignata * map_alignatum2new = makeAlignataVector();
+	Alignment * map_this2new = makeAlignmentVector();
+	Alignment * map_alignatum2new = makeAlignmentVector();
 
 	if (mali_is_in_row)
-		fillAlignataSummation( map_this2new, 
+		fillAlignmentSummation( map_this2new, 
 				map_alignatum2new, 
 				alignment, 
 				insert_gaps_mali,
@@ -182,7 +182,7 @@ void ImplMultipleAlignment::add( Alignatum * src,
 				getLength(),
 				src->getAlignedLength());
 	else
-		fillAlignataSummation( map_alignatum2new, 
+		fillAlignmentSummation( map_alignatum2new, 
 				map_this2new, 
 				alignment, 
 				insert_gaps_alignatum,
@@ -216,7 +216,7 @@ void ImplMultipleAlignment::add( Alignatum * src,
 /** Add a full multiple alignment to the another alignment.
  */
 void ImplMultipleAlignment::add( const MultipleAlignment * src,
-		const Alignata * alignment,
+		const Alignment * alignment,
 		bool mali_is_in_row,
 		bool insert_gaps_mali,
 		bool insert_gaps_alignatum,
@@ -265,11 +265,11 @@ void ImplMultipleAlignment::add( const MultipleAlignment * src,
 		// the string is not prealigned to the multiple alignment. We have to
 		// do this by ourselves.
 
-		Alignata * map_this2new = makeAlignataVector();
-		Alignata * map_alignatum2new = makeAlignataVector();
+		Alignment * map_this2new = makeAlignmentVector();
+		Alignment * map_alignatum2new = makeAlignmentVector();
 
 		if (mali_is_in_row)
-			fillAlignataSummation( map_this2new, 
+			fillAlignmentSummation( map_this2new, 
 					map_alignatum2new, 
 					alignment, 
 					insert_gaps_mali,
@@ -279,7 +279,7 @@ void ImplMultipleAlignment::add( const MultipleAlignment * src,
 					getLength(),
 					copy->getLength());
 		else
-			fillAlignataSummation( map_alignatum2new, 
+			fillAlignmentSummation( map_alignatum2new, 
 					map_this2new, 
 					alignment, 
 					insert_gaps_alignatum,

@@ -32,7 +32,7 @@
 
 namespace alignlib {
     class Alignandum;
-    class Alignata;
+    class Alignment;
     class SubstitutionMatrix;
     class Fragmentor;
     
@@ -74,7 +74,7 @@ class ImplAlignatorFragmentsSquared : public ImplAlignatorFragments {
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignata * result);
+    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
 
     /** get GAP cost for a gap */
     virtual Score getGapCost( Dot x1, Dot x2 ) const;

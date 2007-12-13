@@ -34,7 +34,7 @@
 
 namespace alignlib {
 
-    class Alignata;
+    class Alignment;
 
 struct AlignandumDataSequence : public AlignandumData {
   Residue * mSequencePointer;
@@ -51,7 +51,7 @@ struct AlignandumDataSequence : public AlignandumData {
 
 class ImplSequence : public ImplAlignandum {
 
-    friend Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, const Alignata * map_source2dest );
+    friend Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest );
 
  public:
     /*------------------------------------------------------------------------------------ */

@@ -35,8 +35,8 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "Alignator.h"
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 #include "Alignandum.h"
 #include "Statistics.h"
 
@@ -63,7 +63,7 @@ Score * fillScoresVector( Score * dest,
 			     Position window_size = 0) {
 
   Alignandum * clone = row->getClone();
-  Alignata * ali = makeAlignataVector();
+  Alignment * ali = makeAlignmentVector();
   
   for (unsigned int i = 0; i < n_iterations; i++) {
     clone->shuffle( n_iterations_shuffle, window_size );

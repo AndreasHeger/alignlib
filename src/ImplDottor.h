@@ -35,7 +35,7 @@ namespace alignlib {
 
 class Alignandum;
 
-class ImplAlignataMatrix; 
+class ImplAlignmentMatrix; 
 
   /** Protocoll class for objects, that regularize profile columns.
       
@@ -72,7 +72,7 @@ class ImplDottor : public Dottor {
     virtual Position * getRowIndices() const;
 
  protected:
-    mutable ImplAlignataMatrix * mMatrix;
+    mutable ImplAlignmentMatrix * mMatrix;
 
     /** calculate the dots. Overload this method to calculate different types of dots */
     virtual void calculateNewPairs( const Alignandum * row, const Alignandum * col) const = 0;

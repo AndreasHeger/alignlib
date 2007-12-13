@@ -36,8 +36,8 @@
 #include "HelpersSubstitutionMatrix.h"
 #include "ImplSubstitutionMatrixAA.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "Alignandum.h"
 #include "ImplAlignatorDPFull.h"
@@ -127,7 +127,7 @@ ImplAlignatorDPFull * ImplAlignatorDPFull::getClone() const
 }
 
 //------------------------------------------------------------------------------------------------
-void ImplAlignatorDPFull::startUp(const Alignandum * row, const Alignandum *col, Alignata * ali)
+void ImplAlignatorDPFull::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
 
 {
 	debug_func_cerr(5);
@@ -170,7 +170,7 @@ void ImplAlignatorDPFull::startUp(const Alignandum * row, const Alignandum *col,
 }
 
 //--------------------------------------------------------------------------------------------------------------
-void ImplAlignatorDPFull::cleanUp(const Alignandum * row, const Alignandum *col, Alignata * ali)
+void ImplAlignatorDPFull::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
 {
 	if (mTraceMatrix != NULL) { delete [] mTraceMatrix; mTraceMatrix = NULL; }
 	if (mTraceRowStarts != NULL) { --mTraceRowStarts; delete [] mTraceRowStarts; mTraceRowStarts = NULL; }    
@@ -183,7 +183,7 @@ void ImplAlignatorDPFull::cleanUp(const Alignandum * row, const Alignandum *col,
 // wrapping around for col but not for row, because otherwise there could be an infinite loop.
 #define PREVCOL { if (--col < 0) col = mColLength - 1; }  
 
-void ImplAlignatorDPFull::traceBack( const Alignandum * prow, const Alignandum * pcol, Alignata * result) 
+void ImplAlignatorDPFull::traceBack( const Alignandum * prow, const Alignandum * pcol, Alignment * result) 
 {	
 	debug_func_cerr(5);
 
@@ -275,7 +275,7 @@ void ImplAlignatorDPFull::traceBack( const Alignandum * prow, const Alignandum *
 //---------------------------------< the actual alignment algorithm >-------------------------------------------
 
 //-----------------------------------------------------------------------------------  
-void ImplAlignatorDPFull::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali)
+void ImplAlignatorDPFull::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali)
 {
 
 	debug_func_cerr(5);

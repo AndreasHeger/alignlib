@@ -33,12 +33,12 @@
 #include "AlignException.h"
 #include "ImplAlignatorDiagonalDotsSquared.h"
 #include "Alignandum.h"
-#include "ImplAlignataMatrixRow.h"
+#include "ImplAlignmentMatrixRow.h"
 
 #include "HelpersSubstitutionMatrix.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 
 #ifdef WITH_DMALLOC
@@ -53,7 +53,7 @@ namespace alignlib {
 
 /*---------------------factory functions ---------------------------------- */
 
-    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
 Alignator * makeAlignatorDiagonalDotsSquared(Score gop, Score gep, Alignator * alignator, const SubstitutionMatrix * subst_matrix) {
 
@@ -118,7 +118,7 @@ Score ImplAlignatorDiagonalDotsSquared::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDiagonalDotsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali) {
+void ImplAlignatorDiagonalDotsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) {
 
   /**
      Overview over the algorithm

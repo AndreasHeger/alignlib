@@ -32,7 +32,7 @@
 #include "Alignandum.h"
 #include "SubstitutionMatrix.h"
 #include "ImplDottorSimilarityTuples.h"
-#include "ImplAlignataMatrix.h"
+#include "ImplAlignmentMatrix.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>

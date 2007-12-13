@@ -39,7 +39,7 @@ namespace alignlib {
 
 class Alignandum;
 class Alignatum;
-class Alignata;	
+class Alignment;	
 class Renderer;
 
 
@@ -111,11 +111,11 @@ class ImplMultipleAlignment : public MultipleAlignment
 		       not supplied, then it is assumed, that it is the identity alignment. In
 		       that case src has to have the same length the multiple alignment. Note, the
 		       multiple alignment is in col, the src is in row of the multiple alignment, so
-		       when calling the member-function Alignata::Map() with a residue from
+		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
     */
     virtual void add( Alignatum * src,
-		      const Alignata * alignment = NULL,
+		      const Alignment * alignment = NULL,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,
@@ -128,11 +128,11 @@ class ImplMultipleAlignment : public MultipleAlignment
 		       not supplied, then it is assumed, that it is the identity alignment. In
 		       that case src has to have the same length the multiple alignment. Note, the
 		       multiple alignment is in col, the src is in row of the multiple alignment, so
-		       when calling the member-function Alignata::Map() with a residue from
+		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
      */
     virtual void add( const MultipleAlignment * src,
-		      const Alignata * alignment = NULL,
+		      const Alignment * alignment = NULL,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,

@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignata.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignment.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,7 +29,7 @@
 
 #include <iosfwd>
 #include "alignlib.h"
-#include "Alignata.h"
+#include "Alignment.h"
 
 namespace alignlib
 {
@@ -37,22 +37,22 @@ namespace alignlib
   /** basic implementation for aligned objects. 
 
       @author Andreas Heger
-      @version $Id: ImplAlignata.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+      @version $Id: ImplAlignment.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
       @short basic implementation class for aligned objects
   */
 
-class ImplAlignata : public Alignata {
+class ImplAlignment : public Alignment {
 
  public:
     //------------------> constructors / destructors <---------------------------------------------------------
     /** empty constructor */
-    ImplAlignata();
+    ImplAlignment();
 
     /** copy constructor */
-    ImplAlignata( const ImplAlignata &src );
+    ImplAlignment( const ImplAlignment &src );
 
     /** destructor */
-    virtual ~ImplAlignata();
+    virtual ~ImplAlignment();
     
     //----------------> accessors <------------------------------------------------------------------------------
     virtual Score getScore() const;

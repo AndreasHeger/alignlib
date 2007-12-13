@@ -40,12 +40,12 @@ namespace alignlib
 
 /** 
     Multiple alignments are collection of aligned sequences (more specifically: objects of type
-    @ref Alignata). A multiple alignment
+    @ref Alignment). A multiple alignment
     receives submitted aligned objects, or unaligned objects together with a multiple
     alignment, etc. Ownership belongs to the multiple alignment.
 
     The multiple alignment is a sort of container. Output-formatting, etc. is done
-    by the @ref Alignata-objects.
+    by the @ref Alignment-objects.
     
     The interface for this class is quite fat, because multiple alignments are used
     in a variety of contexts.
@@ -60,7 +60,7 @@ namespace alignlib
 
 class Alignandum;
 class Alignatum;
-class Alignata;	
+class Alignment;	
 class Renderer;
 
 /** This structure takes possession of the passed objects. 
@@ -69,14 +69,14 @@ struct MaliRow
 {
   MaliRow(); 
 
-  MaliRow( Alignatum * input, Alignata * map_alignatum2mali, Alignatum * output = NULL);
+  MaliRow( Alignatum * input, Alignment * map_alignatum2mali, Alignatum * output = NULL);
 
   ~MaliRow();
   
   /** the sequence */
   Alignatum * mAlignatumInput; 
   /** the dots */
-  Alignata * mMapMali2Alignatum;
+  Alignment * mMapMali2Alignatum;
   /** the rendered Alignatum. Needed, for returning as reference */
   Alignatum * mAlignatumOutput;
 };
@@ -138,12 +138,12 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
 		       not supplied, then it is assumed, that it is the identity alignment. In
 		       that case src has to have the same length the multiple alignment. Note, the
 		       multiple alignment is in col, the src is in row of the multiple alignment, so
-		       when calling the member-function Alignata::Map() with a residue from
+		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
 	@param skip_gaps false, if gaps in existing multiple alignment shall be introduced
     */
     virtual void add( Alignatum * src,
-		      const Alignata * alignment = NULL,
+		      const Alignment * alignment = NULL,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,
@@ -156,13 +156,13 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
 		       not supplied, then it is assumed, that it is the identity alignment. In
 		       that case src has to have the same length the multiple alignment. Note, the
 		       multiple alignment is in col, the src is in row of the multiple alignment, so
-		       when calling the member-function Alignata::Map() with a residue from
+		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
           @param skip_gaps false, if gaps in existing multiple alignment shall be introduced
 			   
      */
     virtual void add( const MultipleAlignment * src,
-		      const Alignata * alignment = NULL,
+		      const Alignment * alignment = NULL,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,

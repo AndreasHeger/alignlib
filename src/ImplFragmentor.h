@@ -30,13 +30,13 @@
 
 #include "alignlib.h"
 #include "Fragmentor.h"
-#include "Alignata.h"
+#include "Alignment.h"
 
 namespace alignlib {
 
 class SubstitutionMatrix;
 class Alignandum;
-class Alignata;
+class Alignment;
 
 /**
    @short Basic implementation class for Fragmentor objects.
@@ -61,7 +61,7 @@ class ImplFragmentor : public Fragmentor
     /** copy constructor */
     ImplFragmentor( const ImplFragmentor & src);
     
-    virtual FragmentVector * fragment(const Alignandum *, const Alignandum *, Alignata *);	
+    virtual FragmentVector * fragment(const Alignandum *, const Alignandum *, Alignment *);	
     	
  protected:
     /** get length of row object */
@@ -71,13 +71,13 @@ class ImplFragmentor : public Fragmentor
     Position getColLength();
 
     /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignata * ali);
+    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
     
     /** perform cleanup after alignment */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignata * ali);                     
+    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
 
     /* perform the actual alignment */
-    virtual void performFragmentation( const Alignandum * row, const Alignandum * col, const Alignata * sample) = 0;
+    virtual void performFragmentation( const Alignandum * row, const Alignandum * col, const Alignment * sample) = 0;
 
     /** pointer to substitution matrix to use. not private, so children can access it */
     const SubstitutionMatrix * mSubstitutionMatrix;

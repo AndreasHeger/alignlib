@@ -43,7 +43,7 @@ struct AlignedBlocks
 	friend std::istream & operator>>( std::istream &, AlignedBlocks &);
 	
 	// constructors and desctructors
-	AlignedBlocks  ( const Alignata * src = NULL);
+	AlignedBlocks  ( const Alignment * src = NULL);
 
 	AlignedBlocks  (const AlignedBlocks &);
 
@@ -52,12 +52,12 @@ struct AlignedBlocks
 	/** fill blocks from alignment
 	@param src Alignment to parse
 	 */
-	void fill( const Alignata * src);
+	void fill( const Alignment * src);
 
-	/** fill Alignata object with blocks
+	/** fill Alignment object with blocks
 	 * @param dest Alignment 
 	 */
-	Alignata * copy( Alignata * dest ) const;
+	Alignment * copy( Alignment * dest ) const;
 	
 	/** start of aligned blocks in row*/
 	Position mRowFrom;

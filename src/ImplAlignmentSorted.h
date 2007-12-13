@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataSet.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignmentSet.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,7 +29,7 @@
 
 #include <iosfwd>
 #include "alignlib.h"
-#include "ImplAlignata.h"
+#include "ImplAlignment.h"
 
 namespace alignlib
 {
@@ -42,11 +42,11 @@ class Alignandum;
     Residues are kept in a set indexed by row.
 	
     @author Andreas Heger
-    @version $Id: ImplAlignataSet.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+    @version $Id: ImplAlignmentSet.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
 
  template< class T>
-   class ImplAlignataSorted : public ImplAlignata 
+   class ImplAlignmentSorted : public ImplAlignment 
  {
 
   typedef typename T::const_iterator PairConstIterator;
@@ -56,34 +56,34 @@ class Alignandum;
 
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignataSorted();
+    ImplAlignmentSorted();
 
     /** copy constructor */
-    ImplAlignataSorted( const ImplAlignataSorted &src );
+    ImplAlignmentSorted( const ImplAlignmentSorted &src );
 
     /** destructor */
-    virtual ~ImplAlignataSorted();
+    virtual ~ImplAlignmentSorted();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignataSorted * getNew() const;
+    virtual ImplAlignmentSorted * getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignataSorted * getClone() const;
+    virtual ImplAlignmentSorted * getClone() const;
 
     //------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------
     /**
        @short Const iterator over an alignment.
      */
-    class ImplAlignataSorted_ConstIterator : public Alignata::ConstIterator {
+    class ImplAlignmentSorted_ConstIterator : public Alignment::ConstIterator {
     public:
-        ImplAlignataSorted_ConstIterator(PairConstIterator it) : mIterator( it ) {};
+        ImplAlignmentSorted_ConstIterator(PairConstIterator it) : mIterator( it ) {};
 	
-        ImplAlignataSorted_ConstIterator( const ImplAlignataSorted_ConstIterator & src ) : mIterator( src.mIterator) {};
+        ImplAlignmentSorted_ConstIterator( const ImplAlignmentSorted_ConstIterator & src ) : mIterator( src.mIterator) {};
 	
-        virtual ~ImplAlignataSorted_ConstIterator() {};
+        virtual ~ImplAlignmentSorted_ConstIterator() {};
 	
-  	virtual ImplAlignataSorted_ConstIterator * getClone() const {return new ImplAlignataSorted_ConstIterator( mIterator);}
+  	virtual ImplAlignmentSorted_ConstIterator * getClone() const {return new ImplAlignmentSorted_ConstIterator( mIterator);}
 
         /** dereference operator */
         virtual const ResiduePAIR & getReference() const { return *(*mIterator);}
@@ -104,15 +104,15 @@ class Alignandum;
     /**
        @short Non-Const iterator over an alignment.
      */
-    class ImplAlignataSorted_Iterator : public Alignata::Iterator {
+    class ImplAlignmentSorted_Iterator : public Alignment::Iterator {
     public:
-        ImplAlignataSorted_Iterator(PairIterator it) : mIterator( it ) {};
+        ImplAlignmentSorted_Iterator(PairIterator it) : mIterator( it ) {};
 	
-        ImplAlignataSorted_Iterator( const ImplAlignataSorted_Iterator & src ) : mIterator( src.mIterator) {};
+        ImplAlignmentSorted_Iterator( const ImplAlignmentSorted_Iterator & src ) : mIterator( src.mIterator) {};
 	
-        virtual ~ImplAlignataSorted_Iterator() {};
+        virtual ~ImplAlignmentSorted_Iterator() {};
 	
-  	virtual ImplAlignataSorted_Iterator * getClone() const {return new ImplAlignataSorted_Iterator( mIterator);}
+  	virtual ImplAlignmentSorted_Iterator * getClone() const {return new ImplAlignmentSorted_Iterator( mIterator);}
 
         /** dereference operator
 	    The solution here compiles at least. It is ugly and inefficient. However, when returning *mIterator, you get the following error:
@@ -138,16 +138,16 @@ class Alignandum;
     };
 
     /** return const iterator */
-    virtual AlignataConstIterator begin() const; 
+    virtual AlignmentConstIterator begin() const; 
     
     /** return const iterator */
-    virtual AlignataConstIterator end() const; 
+    virtual AlignmentConstIterator end() const; 
 
     /** return const iterator */
-    virtual AlignataIterator begin(); 
+    virtual AlignmentIterator begin(); 
     
     /** return const iterator */
-    virtual AlignataIterator end(); 
+    virtual AlignmentIterator end(); 
 
     //----------------> accessors <------------------------------------------------------------------------------
 

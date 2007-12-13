@@ -35,8 +35,8 @@
 
 #include "Fragmentor.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -96,7 +96,7 @@ namespace alignlib {
   Score ImplAlignatorFragments::getColGep() { return mColGep; }
 
 //--------------------------------------------------------------------------------------------------------
-void ImplAlignatorFragments::startUp(const Alignandum * row, const Alignandum *col, Alignata * ali) {
+void ImplAlignatorFragments::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali) {
     ImplAlignator::startUp(row, col, ali);  
     debug_func_cerr(5);
     
@@ -104,7 +104,7 @@ void ImplAlignatorFragments::startUp(const Alignandum * row, const Alignandum *c
     mColLength = mIterator->col_size();
     
     // setup example alignment type
-    Alignata * dummy_alignment = makeAlignataSet();
+    Alignment * dummy_alignment = makeAlignmentSet();
     
     // create dots
     mFragments = mFragmentor->fragment( row, col, dummy_alignment ); 
@@ -119,7 +119,7 @@ void ImplAlignatorFragments::startUp(const Alignandum * row, const Alignandum *c
 }
 
 //--------------------------------------------------------------------------------------------------------
-void ImplAlignatorFragments::cleanUp(const Alignandum * row, const Alignandum *col, Alignata * ali) 
+void ImplAlignatorFragments::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
 {
   debug_func_cerr(5);
 
@@ -138,7 +138,7 @@ void ImplAlignatorFragments::cleanUp(const Alignandum * row, const Alignandum *c
 }
 
 //------------------------------------------------------------------------------------------------------
-Alignata * ImplAlignatorFragments::align(const Alignandum * row, const Alignandum * col, Alignata * result) 
+Alignment * ImplAlignatorFragments::align(const Alignandum * row, const Alignandum * col, Alignment * result) 
 {
   debug_func_cerr(5);
 
@@ -155,7 +155,7 @@ Alignata * ImplAlignatorFragments::align(const Alignandum * row, const Alignandu
 }
 
 //-----------------------------------------< BackTracke >-----------------------------------------------
-void ImplAlignatorFragments::traceBack( const Alignandum * row, const Alignandum * col, Alignata * result) 
+void ImplAlignatorFragments::traceBack( const Alignandum * row, const Alignandum * col, Alignment * result) 
 {
   debug_func_cerr(5);
 
@@ -167,7 +167,7 @@ void ImplAlignatorFragments::traceBack( const Alignandum * row, const Alignandum
     Fragment ifragment = mLastFragment;
 
     while ( ifragment >= 0) {
-      addAlignata2Alignata( result, (*mFragments)[ifragment] );
+      addAlignment2Alignment( result, (*mFragments)[ifragment] );
 
 #ifdef DEBUG
       cout << "Traceback: fragment " << ifragment << " with score " << (*mFragments)[ifragment]->getScore() << endl;

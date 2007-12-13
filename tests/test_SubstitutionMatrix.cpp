@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: test_HelpersAlignata.cpp,v 1.4 2004/06/02 12:11:38 aheger Exp $
+  $Id: test_HelpersAlignment.cpp,v 1.4 2004/06/02 12:11:38 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -37,8 +37,8 @@
 #include "Alignandum.h"
 #include "HelpersSequence.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 using namespace std;
 
@@ -51,7 +51,7 @@ using namespace alignlib;
 int main ()
 {
 
-  Alignata * a = makeAlignataVector();
+  Alignment * a = makeAlignmentVector();
 
   Position from1= 33;
   Alignandum * seq1 = makeSequence("MRDGSLKGLFCTAPKSIRSVRRNSGSFNVTAFTEEQEALVVKSWNAMKKNSGELALKFFLRIFEIAPSAKKLFTFLKDSDIPVEQNPKLKPHATTVFVMTCESAVQLRKAGKVTVRESNLKDLGATHFKYGVADEHFEVTKYALLEPIKEPVPEMWSPELKNAWAEAYDQLAAAIKIEMKPPS");
@@ -62,14 +62,14 @@ int main ()
   std::string ali1 = "+46-1+100";
   std::string ali2 = "+78-4+65";
 
-  fillAlignataCompressed( a, from1, ali1, from2, ali2);
+  fillAlignmentCompressed( a, from1, ali1, from2, ali2);
   rescoreAlignment( a, seq1, seq2 );
 
   std::cout << *a << std::endl;
   
   a->clear();
 
-  fillAlignataCompressed( a, from2, ali2, from1, ali1);
+  fillAlignmentCompressed( a, from2, ali2, from1, ali1);
   rescoreAlignment( a, seq2, seq1 );
 
   std::cout << *a << std::endl;  

@@ -32,7 +32,7 @@
 
 namespace alignlib {
     
-    /** Helper functions for class Alignata:
+    /** Helper functions for class Alignment:
 	
 	1. factory functions
 	
@@ -43,7 +43,7 @@ namespace alignlib {
 
   class Alignator;
   class Alignandum;
-  class Alignata;
+  class Alignment;
   class SubstitutionMatrix; 
   class Fragmentor;
 
@@ -65,10 +65,10 @@ namespace alignlib {
     Alignator * makeAlignatorTuples(int ktuple = 3 );
 
     /** make an alignator object, which returns a dummy alignments */
-    Alignator * makeAlignatorDummy( const Alignata * ali );
+    Alignator * makeAlignatorDummy( const Alignment * ali );
 
     /** make an alignator object, which returns a dummy alignment */
-    Alignator * makeAlignatorPublishAlignata( Alignata * ali );
+    Alignator * makeAlignatorPublishAlignment( Alignment * ali );
     
     /** make an alignator object, which does a dot-alignment with wrapping around. */
     Alignator * makeAlignatorDotsWrap( Score gop, 

@@ -28,8 +28,8 @@
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
@@ -44,13 +44,13 @@ using namespace std;
 
 namespace alignlib {
 
-  Alignator * makeAlignatorDummy( const Alignata * ali)
+  Alignator * makeAlignatorDummy( const Alignment * ali)
   {
     return new ImplAlignatorDummy( ali );
   }
   
   //---------------------------------------------------------< constructors and destructors >--------------------------------------
-  ImplAlignatorDummy::ImplAlignatorDummy ( const Alignata * ali) : ImplAlignator(), mAlignata ( ali )
+  ImplAlignatorDummy::ImplAlignatorDummy ( const Alignment * ali) : ImplAlignator(), mAlignment ( ali )
   {
   }
   
@@ -59,7 +59,7 @@ namespace alignlib {
   }
   
   ImplAlignatorDummy::ImplAlignatorDummy (const ImplAlignatorDummy & src ) :
-    ImplAlignator(src), mAlignata(src.mAlignata)
+    ImplAlignator(src), mAlignment(src.mAlignment)
   {
   }
 
@@ -70,12 +70,12 @@ namespace alignlib {
   }
 
   //----------------------------------------------------------------------------------------------------------
-    Alignata * ImplAlignatorDummy::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
+    Alignment * ImplAlignatorDummy::align( const Alignandum * row, const Alignandum * col, Alignment * result) {
     
     startUp(row, col, result );
     
     // copy alignment only in region given and move to (1,1)
-    copyAlignata( result, mAlignata,
+    copyAlignment( result, mAlignment,
 		  mIterator->row_front(), mIterator->row_back(),
 		  mIterator->col_front(), mIterator->col_back() );
 

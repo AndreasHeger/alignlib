@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: Alignata.cpp,v 1.2 2004/01/07 14:35:31 aheger Exp $
+  $Id: Alignment.cpp,v 1.2 2004/01/07 14:35:31 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -23,26 +23,26 @@
 
 #include <iostream>
 #include <iomanip>
-#include "Alignata.h"
+#include "Alignment.h"
 
 using namespace std;
 
 namespace alignlib {
 
 //--------------------------------------------------------------------------------------
-Alignata::Alignata() {
+Alignment::Alignment() {
 }    
 
 //--------------------------------------------------------------------------------------
-Alignata::~Alignata () {
+Alignment::~Alignment () {
 }
 
 //--------------------------------------------------------------------------------------
-Alignata::Alignata(const Alignata & src) 
+Alignment::Alignment(const Alignment & src) 
 {
 }
    
-std::ostream & operator<<( std::ostream & output, const Alignata & src) 
+std::ostream & operator<<( std::ostream & output, const Alignment & src) 
 {
   src.write( output );
   return output;

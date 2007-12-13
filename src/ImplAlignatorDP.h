@@ -34,7 +34,7 @@ namespace alignlib {
 
     class SubstitutionMatrix;
     class Alignandum;
-    class Alignata;
+    class Alignment;
 
     /* re: Global functions and pointers for the fast determination of match score.
        
@@ -93,7 +93,7 @@ class ImplAlignatorDP : public ImplAlignator {
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
 
     /* member access functions--------------------------------------------------------------- */
 
@@ -123,13 +123,13 @@ class ImplAlignatorDP : public ImplAlignator {
     
  protected:
     /** perform initialization before alignment */
-    virtual void startUp(const Alignandum * row, const Alignandum * col, Alignata * ali);                     
+    virtual void startUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
     
     /** clean up temporary memory after alignment step */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignata * ali);                     
+    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignata * result) = 0;
+    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result) = 0;
 
     /* member data --------------------------------------------------------------------------- */
  protected:

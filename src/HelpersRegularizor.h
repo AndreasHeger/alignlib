@@ -32,7 +32,7 @@
 
 namespace alignlib {
     
-    /** Helper functions for class Alignata:
+    /** Helper functions for class Alignment:
 	
 	1. factory functions
 	

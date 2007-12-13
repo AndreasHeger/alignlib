@@ -1,6 +1,6 @@
 # alignlib - a library for aligning protein sequences
 # 
-# $Id: test_Alignata.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
+# $Id: test_Alignment.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
 # 
 # Copyright (C) 2004 Andreas Heger
 # 
@@ -27,10 +27,10 @@ class AlignedBlocksCase( unittest.TestCase ):
         self.mWeightorFactory = makeNoWeightor
         
     def testBlocks(self):
-        a = makeAlignataVector()
-        fillAlignataIdentity( a, 5, 10, 0)
-        fillAlignataIdentity( a, 10, 15, 5)
-        fillAlignataIdentity( a, 25, 30, -5)
+        a = makeAlignmentVector()
+        fillAlignmentIdentity( a, 5, 10, 0)
+        fillAlignmentIdentity( a, 10, 15, 5)
+        fillAlignmentIdentity( a, 25, 30, -5)
     
         blocks_out = AlignedBlocks( a );
                 

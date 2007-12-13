@@ -28,9 +28,9 @@
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 
-#include "AlignataIterator.h"
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "AlignmentIterator.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersFragmentor.h"
@@ -52,7 +52,7 @@ namespace alignlib {
     int i = 0;
     for (; it != it_end; ++it) {
       output << "Fragment " << i++ << ": ";
-      writeAlignataTable( output, *it );
+      writeAlignmentTable( output, *it );
       output << endl;
     }
   }
@@ -77,9 +77,9 @@ namespace alignlib {
     FragmentVector::iterator it(fragments->begin()), it_end(fragments->end());
     
     for (; it != it_end; ++it) {
-      Alignata * fragment = *it;
+      Alignment * fragment = *it;
       
-      AlignataIterator a_it(fragment->begin()), a_end(fragment->end());
+      AlignmentIterator a_it(fragment->begin()), a_end(fragment->end());
 
       Score score = 0;
       Position last_row = (*a_it).mRow - 1;

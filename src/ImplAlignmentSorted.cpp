@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataSet.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
+  $Id: ImplAlignmentSet.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -26,8 +26,8 @@
 #include <set>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "ImplAlignataSorted.h"
-#include "AlignataIterator.h"
+#include "ImplAlignmentSorted.h"
+#include "AlignmentIterator.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -92,37 +92,37 @@ typedef std::set<ResiduePAIR *, ComparatorRowCol> AlignmentSetRowCol;
 typedef std::set<ResiduePAIR *, ComparatorDiagonalCol> AlignmentSetDiagonalCol;  
 
 //------------------------------factory functions -----------------------------
-Alignata * makeAlignataSet()
+Alignment * makeAlignmentSet()
 {
-	return new ImplAlignataSorted< AlignmentSetRow >();
+	return new ImplAlignmentSorted< AlignmentSetRow >();
 }
 
-Alignata * makeAlignataSetCol()
+Alignment * makeAlignmentSetCol()
 {
-	return new ImplAlignataSorted< AlignmentSetCol >();
+	return new ImplAlignmentSorted< AlignmentSetCol >();
 }
 
-Alignata * makeAlignataHash()
+Alignment * makeAlignmentHash()
 {
-	return new ImplAlignataSorted< AlignmentSetRowCol >();
+	return new ImplAlignmentSorted< AlignmentSetRowCol >();
 }
 
-Alignata * makeAlignataHashDiagonal()
+Alignment * makeAlignmentHashDiagonal()
 {
-	return new ImplAlignataSorted< AlignmentSetDiagonalCol >();
+	return new ImplAlignmentSorted< AlignmentSetDiagonalCol >();
 }
 
 
 //------------------------------------< constructors and destructors >-----
 template <class T>
-ImplAlignataSorted<T>::ImplAlignataSorted() : ImplAlignata() 
+ImplAlignmentSorted<T>::ImplAlignmentSorted() : ImplAlignment() 
 {
 	debug_func_cerr(5);
 
 }
 
 template <class T>
-ImplAlignataSorted<T>::ImplAlignataSorted( const ImplAlignataSorted& src) : ImplAlignata( src ) 
+ImplAlignmentSorted<T>::ImplAlignmentSorted( const ImplAlignmentSorted& src) : ImplAlignment( src ) 
 {
 	debug_func_cerr(5);
 
@@ -135,7 +135,7 @@ ImplAlignataSorted<T>::ImplAlignataSorted( const ImplAlignataSorted& src) : Impl
 }
 
 template <class T>  
-ImplAlignataSorted<T>::~ImplAlignataSorted( ) 
+ImplAlignmentSorted<T>::~ImplAlignmentSorted( ) 
 {
 	debug_func_cerr(5);
 
@@ -144,20 +144,20 @@ ImplAlignataSorted<T>::~ImplAlignataSorted( )
 
 //------------------------------------------------------------------------------------------------------------
 template <class T>
-ImplAlignataSorted<T> * ImplAlignataSorted<T>::getNew() const
+ImplAlignmentSorted<T> * ImplAlignmentSorted<T>::getNew() const
 {
-	return new ImplAlignataSorted<T>();
+	return new ImplAlignmentSorted<T>();
 }
 
 template <class T>
-ImplAlignataSorted<T> * ImplAlignataSorted<T>::getClone() const
+ImplAlignmentSorted<T> * ImplAlignmentSorted<T>::getClone() const
 {
-	return new ImplAlignataSorted( *this );
+	return new ImplAlignmentSorted( *this );
 }
 
 //------------------------------------------------------------------------------------------------------------
 template <class T>  
-void ImplAlignataSorted<T>::clearContainer()
+void ImplAlignmentSorted<T>::clearContainer()
 { 
 	PairIterator it(mPairs.begin()), it_end(mPairs.end());
 	for (;it != it_end; ++it) delete *it;
@@ -166,54 +166,54 @@ void ImplAlignataSorted<T>::clearContainer()
 
 //------------------------------------------------------------------------------------------------------------
 template <class T>  
-void ImplAlignataSorted<T>::clear() { 
-	ImplAlignata::clear();
+void ImplAlignmentSorted<T>::clear() { 
+	ImplAlignment::clear();
 	clearContainer();
 }
 
 //-----------------------------------------------------------------------------------------------------------   
 template <class T>
-AlignataConstIterator ImplAlignataSorted<T>::begin() const
+AlignmentConstIterator ImplAlignmentSorted<T>::begin() const
 { 
-	return AlignataConstIterator( new ImplAlignataSorted_ConstIterator(mPairs.begin()));
+	return AlignmentConstIterator( new ImplAlignmentSorted_ConstIterator(mPairs.begin()));
 }
 
 template <class T>  
-AlignataConstIterator ImplAlignataSorted<T>::end()   const
+AlignmentConstIterator ImplAlignmentSorted<T>::end()   const
 { 
-	return AlignataConstIterator( new ImplAlignataSorted_ConstIterator(mPairs.end())); 
+	return AlignmentConstIterator( new ImplAlignmentSorted_ConstIterator(mPairs.end())); 
 }
 
 template <class T>
-AlignataIterator ImplAlignataSorted<T>::begin()
+AlignmentIterator ImplAlignmentSorted<T>::begin()
 { 
-	return AlignataIterator( new ImplAlignataSorted_Iterator(mPairs.begin()));
+	return AlignmentIterator( new ImplAlignmentSorted_Iterator(mPairs.begin()));
 }
 
 template <class T>
-AlignataIterator ImplAlignataSorted<T>::end()
+AlignmentIterator ImplAlignmentSorted<T>::end()
 { 
-	return AlignataIterator( new ImplAlignataSorted_Iterator(mPairs.end())); 
+	return AlignmentIterator( new ImplAlignmentSorted_Iterator(mPairs.end())); 
 }
 
 
 //----------------> accessors <------------------------------------------------------------------------------
 
 template <class T>
-Position ImplAlignataSorted<T>::getRowFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mRow : NO_POS; }
+Position ImplAlignmentSorted<T>::getRowFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mRow : NO_POS; }
 template <class T>  
-Position ImplAlignataSorted<T>::getColFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mCol : NO_POS; }
+Position ImplAlignmentSorted<T>::getColFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mCol : NO_POS; }
 template <class T>  
-Position ImplAlignataSorted<T>::getRowTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mRow : NO_POS; }
+Position ImplAlignmentSorted<T>::getRowTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mRow : NO_POS; }
 template <class T>  
-Position ImplAlignataSorted<T>::getColTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mCol : NO_POS; }
+Position ImplAlignmentSorted<T>::getColTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mCol : NO_POS; }
 template <class T>
-ResiduePAIR ImplAlignataSorted<T>::front() const { return **(mPairs.begin()); }
+ResiduePAIR ImplAlignmentSorted<T>::front() const { return **(mPairs.begin()); }
 template <class T>  
-ResiduePAIR ImplAlignataSorted<T>::back()  const { return **(mPairs.rbegin()); }
+ResiduePAIR ImplAlignmentSorted<T>::back()  const { return **(mPairs.rbegin()); }
 
 template <class T>
-void ImplAlignataSorted<T>::addPair( ResiduePAIR * new_pair ) 
+void ImplAlignmentSorted<T>::addPair( ResiduePAIR * new_pair ) 
 {
 	debug_func_cerr(5);
 
@@ -228,7 +228,7 @@ void ImplAlignataSorted<T>::addPair( ResiduePAIR * new_pair )
 //----------------------------------------------------------------------------------------------------------
 /** retrieves a pair of residues from the alignment */
 template <class T>  
-ResiduePAIR ImplAlignataSorted<T>::getPair( const ResiduePAIR & p) const 
+ResiduePAIR ImplAlignmentSorted<T>::getPair( const ResiduePAIR & p) const 
 {
 	PairIterator it = mPairs.find( const_cast< ResiduePAIR* > (&p) );
 	if (it != mPairs.end())
@@ -240,7 +240,7 @@ ResiduePAIR ImplAlignataSorted<T>::getPair( const ResiduePAIR & p) const
 //----------------------------------------------------------------------------------------------------------
 /** remove a pair from an alignment */
 template <class T>  
-void ImplAlignataSorted<T>::removePair( const ResiduePAIR & p ) 
+void ImplAlignmentSorted<T>::removePair( const ResiduePAIR & p ) 
 {
 	debug_func_cerr(5);
 
@@ -258,7 +258,7 @@ void ImplAlignataSorted<T>::removePair( const ResiduePAIR & p )
 /** This is non-generic routine. Since pairs are accessed by row, this is quite quick.
  */
 template <class T>  
-void ImplAlignataSorted<T>::removeRowRegion( Position from, Position to) 
+void ImplAlignmentSorted<T>::removeRowRegion( Position from, Position to) 
 {
 
 	for (Position pos = from; pos < to; pos++) 
@@ -278,7 +278,7 @@ void ImplAlignataSorted<T>::removeRowRegion( Position from, Position to)
 //----------------------------------------------------------------------------------------
 /** This is a generic routine. It creates a new alignment by making a copy of the old one */
 template <class T>  
-void ImplAlignataSorted<T>::removeColRegion( Position from, Position to) 
+void ImplAlignmentSorted<T>::removeColRegion( Position from, Position to) 
 {
 
 	PairIterator it(mPairs.begin()), it_end(mPairs.end());

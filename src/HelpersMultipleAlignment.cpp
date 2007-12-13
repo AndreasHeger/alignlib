@@ -34,8 +34,8 @@
 #include "Alignatum.h"
 #include "HelpersAlignatum.h"
 #include "Alignandum.h"
-#include "Alignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
 #include "HelpersMultipleAlignment.h"
 
 #include "Regularizor.h"

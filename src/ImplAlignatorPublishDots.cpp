@@ -28,13 +28,13 @@
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
-#include "ImplAlignatorPublishAlignata.h"
+#include "ImplAlignatorPublishAlignment.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -44,20 +44,20 @@ using namespace std;
 
 namespace alignlib {
 
-Alignator * makeAlignatorPublishAlignata( Alignata * ali) {
-  return new ImplAlignatorPublishAlignata( ali );
+Alignator * makeAlignatorPublishAlignment( Alignment * ali) {
+  return new ImplAlignatorPublishAlignment( ali );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplAlignatorPublishAlignata::ImplAlignatorPublishAlignata ( Alignata * ali) : 
+ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment ( Alignment * ali) : 
   ImplAlignator( getDefaultSubstitutionMatrix(), 0, 0 ), 
-  mAlignata ( ali ) {
+  mAlignment ( ali ) {
 }
 		       
-ImplAlignatorPublishAlignata::~ImplAlignatorPublishAlignata () {
+ImplAlignatorPublishAlignment::~ImplAlignatorPublishAlignment () {
 }
 
-ImplAlignatorPublishAlignata::ImplAlignatorPublishAlignata (const ImplAlignatorPublishAlignata & src ) : ImplAlignator(src) {
+ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment (const ImplAlignatorPublishAlignment & src ) : ImplAlignator(src) {
 }
 
 //--------------------------------------------------------------------------------------------------------
@@ -67,11 +67,11 @@ ImplAlignatorPublishDots * ImplAlignatorPublishDots::getClone() const
 }
 
 
-Alignata * ImplAlignatorPublishAlignata::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
+Alignment * ImplAlignatorPublishAlignment::align( const Alignandum * row, const Alignandum * col, Alignment * result) {
 
   startUp(row, col, result );
 
-  return mAlignata;
+  return mAlignment;
   
   cleanUp( row, col, results );
 }

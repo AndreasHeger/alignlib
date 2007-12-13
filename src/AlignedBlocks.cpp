@@ -16,8 +16,8 @@
 #include <string>
 
 #include "AlignlibDebug.h"
-#include "Alignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
 #include "AlignedBlocks.h"
 using namespace std;
 
@@ -25,7 +25,7 @@ namespace alignlib
 {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-AlignedBlocks::AlignedBlocks (const Alignata * src) : 
+AlignedBlocks::AlignedBlocks (const Alignment * src) : 
 	mRowFrom(NO_POS), mRowTo(NO_POS), mColFrom(NO_POS), mColTo(NO_POS)
 	{
 	if (src != NULL)
@@ -45,7 +45,7 @@ AlignedBlocks::AlignedBlocks (const AlignedBlocks & src )
 }
 
 //---------------------------------------------------------------
-void AlignedBlocks::fill( const Alignata * src)
+void AlignedBlocks::fill( const Alignment * src)
 {
 	debug_func_cerr(5);
 
@@ -61,8 +61,8 @@ void AlignedBlocks::fill( const Alignata * src)
 	// sanity checks
 	if (src->isEmpty()) return;
 
-	AlignataConstIterator it(src->begin());
-	AlignataConstIterator it_end(src->end());
+	AlignmentConstIterator it(src->begin());
+	AlignmentConstIterator it_end(src->end());
 
 	Position last_col = it->mCol; 
 	Position last_row = it->mRow; 
@@ -96,7 +96,7 @@ void AlignedBlocks::fill( const Alignata * src)
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Alignata * AlignedBlocks::copy( Alignata * dest ) const 
+Alignment * AlignedBlocks::copy( Alignment * dest ) const 
 {
 	debug_func_cerr(5);
 

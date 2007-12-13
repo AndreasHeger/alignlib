@@ -35,7 +35,7 @@ namespace alignlib {
 #define STACKEMPTY     0
     
     class Alignandum;
-    class Alignata;
+    class Alignment;
     class SubstitutionMatrix;
     class Fragmentor;
 
@@ -76,7 +76,7 @@ class ImplAlignatorFragments : public ImplAlignator
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
 
     /* member access functions--------------------------------------------------------------- */
     /** set gap opening penalty for row */
@@ -106,16 +106,16 @@ class ImplAlignatorFragments : public ImplAlignator
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignata * result) = 0 ;
+    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result) = 0 ;
 
     /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignata * ali);
+    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
     
     /** perform cleanup after alignment */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignata * ali);                     
+    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
 
-    /** traces back through dot-trace and put it in the alignment in Alignata-object */
-    virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignata * result);				
+    /** traces back through dot-trace and put it in the alignment in Alignment-object */
+    virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignment * result);				
 
  protected:
     

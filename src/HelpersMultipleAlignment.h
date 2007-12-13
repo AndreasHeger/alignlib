@@ -38,7 +38,7 @@ namespace alignlib {
     typedef Matrix<unsigned int> CountsMatrix;
     typedef std::vector<double> VectorDouble;
 
-    /** Helper functions for class Alignata:
+    /** Helper functions for class Alignment:
 	
 	1. factory functions
 	

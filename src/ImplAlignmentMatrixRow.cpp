@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrixRow.cpp,v 1.3 2004/06/02 12:11:37 aheger Exp $
+  $Id: ImplAlignmentMatrixRow.cpp,v 1.3 2004/06/02 12:11:37 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -26,9 +26,9 @@
 #include <set>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "AlignataIterator.h"
+#include "AlignmentIterator.h"
 #include "AlignException.h"
-#include "ImplAlignataMatrixRow.h"
+#include "ImplAlignmentMatrixRow.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -56,45 +56,45 @@ namespace alignlib {
 #define NODOT -1 
 
 //------------------------------factory functions -----------------------------
-Alignata * makeAlignataMatrixRow( long ndots ) 
+Alignment * makeAlignmentMatrixRow( long ndots ) 
 {
   debug_func_cerr(5);
 
-  return new ImplAlignataMatrixRow( ndots);
+  return new ImplAlignmentMatrixRow( ndots);
 }
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignataMatrixRow::ImplAlignataMatrixRow( long ndots ) : ImplAlignataMatrix( ndots) 
+ImplAlignmentMatrixRow::ImplAlignmentMatrixRow( long ndots ) : ImplAlignmentMatrix( ndots) 
 {
   debug_func_cerr(5);
 
 }
 
-ImplAlignataMatrixRow::ImplAlignataMatrixRow( const ImplAlignataMatrixRow& src) : 
-  ImplAlignataMatrix( src ) 
+ImplAlignmentMatrixRow::ImplAlignmentMatrixRow( const ImplAlignmentMatrixRow& src) : 
+  ImplAlignmentMatrix( src ) 
 {
   debug_func_cerr(5);
 
 }
 
-ImplAlignataMatrixRow::~ImplAlignataMatrixRow( ) 
+ImplAlignmentMatrixRow::~ImplAlignmentMatrixRow( ) 
 {
   debug_func_cerr(5);
 
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignataMatrixRow * ImplAlignataMatrixRow::getNew() const {
-  return new ImplAlignataMatrixRow();
+ImplAlignmentMatrixRow * ImplAlignmentMatrixRow::getNew() const {
+  return new ImplAlignmentMatrixRow();
 }
     
-ImplAlignataMatrixRow * ImplAlignataMatrixRow::getClone() const {
-  return new ImplAlignataMatrixRow( *this );
+ImplAlignmentMatrixRow * ImplAlignmentMatrixRow::getClone() const {
+  return new ImplAlignmentMatrixRow( *this );
 }
 
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignataMatrixRow::mapRowToCol( Position pos, SearchType search ) const {
+Position ImplAlignmentMatrixRow::mapRowToCol( Position pos, SearchType search ) const {
 	if (mChangedLength) calculateLength();
     Position index;
     if (pos >= mRowFrom && pos < mRowTo)
@@ -109,7 +109,7 @@ Position ImplAlignataMatrixRow::mapRowToCol( Position pos, SearchType search ) c
    faster to only sort the indices (as I did in the old version) and then copy it into a new memory location
 */
 
-void ImplAlignataMatrixRow::sortDots() const {
+void ImplAlignmentMatrixRow::sortDots() const {
     
   /* sort indices on row */
   sortDotsByRow( 0, mPairs.size() - 1);
@@ -119,7 +119,7 @@ void ImplAlignataMatrixRow::sortDots() const {
 
 //--------------------------------------------------------------------------------------------------------------
 // build the index
-void ImplAlignataMatrixRow::buildIndex() const {
+void ImplAlignmentMatrixRow::buildIndex() const {
   // 2 .calculate index
   // delete old instance of mIndex, if it exists
   if (mIndex != NULL) {                            

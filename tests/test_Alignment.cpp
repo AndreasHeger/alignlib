@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: test_Alignata.cpp,v 1.4 2004/06/02 12:11:38 aheger Exp $
+  $Id: test_Alignment.cpp,v 1.4 2004/06/02 12:11:38 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -35,23 +35,23 @@
 #include <time.h> 
 
 #include "alignlib.h"
-#include "Alignata.h"
-#include "AlignataIterator.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
+#include "HelpersAlignment.h"
 #include "AlignlibDebug.h"
 
 using namespace std;
 
 using namespace alignlib;
 
-bool isIdentical( const Alignata * a, const Alignata * b, bool inverse = false) 
+bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false) 
 {
 
-	AlignataConstIterator it1(a->begin());
-	AlignataConstIterator it1_end(a->end());
+	AlignmentConstIterator it1(a->begin());
+	AlignmentConstIterator it1_end(a->end());
 
-	AlignataConstIterator it2(b->begin());
-	AlignataConstIterator it2_end(b->end());
+	AlignmentConstIterator it2(b->begin());
+	AlignmentConstIterator it2_end(b->end());
 
 	bool is_identical = true;
 
@@ -72,7 +72,7 @@ bool isIdentical( const Alignata * a, const Alignata * b, bool inverse = false)
 }
 
 // tests for both empty and full alignments
-void TestAlignata(Alignata * a)
+void TestAlignment(Alignment * a)
 {
 	{ 
 		cout << "testing...writing alignment...";
@@ -84,8 +84,8 @@ void TestAlignata(Alignata * a)
 	{
 		cout << "testing...iteration (post-increment)...";
 
-		AlignataIterator it(a->begin());
-		AlignataIterator it_end(a->end());
+		AlignmentIterator it(a->begin());
+		AlignmentIterator it_end(a->end());
 		for (; it != it_end; it++) { ResiduePAIR p = *it; p.mRow+=1;}
 		cout << "passed" << endl;
 	}
@@ -93,8 +93,8 @@ void TestAlignata(Alignata * a)
 	{
 		cout << "testing...iteration (pre-increment)...";
 
-		AlignataIterator it(a->begin());
-		AlignataIterator it_end(a->end());
+		AlignmentIterator it(a->begin());
+		AlignmentIterator it_end(a->end());
 		for (; it != it_end; ++it) { ResiduePAIR p = *it; p.mRow+=1;}
 		cout << "passed" << endl;
 	}
@@ -129,7 +129,7 @@ void TestAlignata(Alignata * a)
 
 	{
 		cout << "testing...getClone()...";
-		Alignata * a_clone = a->getClone();
+		Alignment * a_clone = a->getClone();
 
 		if (a_clone->getScore()   == a->getScore() && 
 				a_clone->getLength()  == a->getLength() && 
@@ -147,7 +147,7 @@ void TestAlignata(Alignata * a)
 	{
 
 		cout << "testing...getNew()...";
-		Alignata * a_new = a->getNew();
+		Alignment * a_new = a->getNew();
 
 		if (a_new->getScore() == 0 && 
 				a_new->getLength() == 0 && 
@@ -164,8 +164,8 @@ void TestAlignata(Alignata * a)
 	{ 
 		cout << "testing...mapRowToCol()..."; 
 
-		AlignataIterator it(a->begin());
-		AlignataIterator it_end(a->end());
+		AlignmentIterator it(a->begin());
+		AlignmentIterator it_end(a->end());
 		Position pos = 0;
 		bool passed = true;
 		while (pos < a->getRowTo()) 
@@ -194,8 +194,8 @@ void TestAlignata(Alignata * a)
 	{ 
 		cout << "testing...mapColToRow()..."; 
 
-		AlignataIterator it(a->begin());
-		AlignataIterator it_end(a->end());
+		AlignmentIterator it(a->begin());
+		AlignmentIterator it_end(a->end());
 		Position pos = 0;
 		bool passed = true;
 		while (pos < a->getColTo() ) 
@@ -220,7 +220,7 @@ void TestAlignata(Alignata * a)
 	{ 
 		cout << "testing...switchRowCol()...";
 
-		Alignata * a_clone = a->getClone();
+		Alignment * a_clone = a->getClone();
 		a_clone->switchRowCol();    
 		bool passed = isIdentical( a, a_clone, true );
 		a_clone->switchRowCol();    
@@ -240,7 +240,7 @@ void TestAlignata(Alignata * a)
 
 		int i = 0;
 
-		Alignata * a_clone = a->getClone();
+		Alignment * a_clone = a->getClone();
 
 		for (i = 0; i < a->getRowTo() + 5; i+=3) 
 			a_clone->removeRowRegion(i, i+3);       
@@ -255,7 +255,7 @@ void TestAlignata(Alignata * a)
 
 		int i = 0;
 
-		Alignata * a_clone = a->getClone();
+		Alignment * a_clone = a->getClone();
 
 		for (i = 0; i < a->getColTo() + 5; i+=3) 
 			a_clone->removeColRegion(i, i+3);       
@@ -269,10 +269,10 @@ void TestAlignata(Alignata * a)
 
 		int i = 0;
 
-		Alignata * a_clone = a->getClone();
+		Alignment * a_clone = a->getClone();
 
-		AlignataIterator it(a->begin());
-		AlignataIterator it_end(a->end());
+		AlignmentIterator it(a->begin());
+		AlignmentIterator it_end(a->end());
 		
 		for (; it != it_end; ++it)
 			a_clone->removePair( *it );
@@ -297,7 +297,7 @@ void TestAlignata(Alignata * a)
 }
 
 // tests that only make sense for populated alignments
-void FullTest( Alignata * a) {
+void FullTest( Alignment * a) {
 
 	{
 		cout << "testing...getRowFrom()...";
@@ -333,10 +333,10 @@ void FullTest( Alignata * a) {
 
 //----------------------------------------------------------
 // main test routine for a pairwise alignment
-void Test( Alignata * a ) {
+void Test( Alignment * a ) {
 
 	cout << "-->testing empty alignment" << endl;
-	TestAlignata(a);
+	TestAlignment(a);
 
 	{
 		cout << "testing...addPair()...";
@@ -360,51 +360,51 @@ void Test( Alignata * a ) {
 
 	cout << "-->testing populated alignment" << endl;
 	FullTest(a);
-	TestAlignata(a);
+	TestAlignment(a);
 
 }
 
 int main () {
 
-	Alignata * a;
+	Alignment * a;
 
-	cout << "---------------------Testing AlignataVector-------------------------------" << endl;
-	a = makeAlignataVector();
+	cout << "---------------------Testing AlignmentVector-------------------------------" << endl;
+	a = makeAlignmentVector();
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataSet----------------------------------" << endl;
-	a = makeAlignataSet();
+	cout << "---------------------Testing AlignmentSet----------------------------------" << endl;
+	a = makeAlignmentSet();
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataHash----------------------------------" << endl;
-	a = makeAlignataHash();
+	cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
+	a = makeAlignmentHash();
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataHashDiagonal------------------------------" << endl;
-	a = makeAlignataHashDiagonal();
+	cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
+	a = makeAlignmentHashDiagonal();
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataSetCol------------------------------" << endl;
-	a = makeAlignataSetCol();
+	cout << "---------------------Testing AlignmentSetCol------------------------------" << endl;
+	a = makeAlignmentSetCol();
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataMatrixRow-------------------------------" << endl;
-	a = makeAlignataMatrixRow();
+	cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
+	a = makeAlignmentMatrixRow();
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataMatrixDiagonal-------------------------------" << endl;
-	a = makeAlignataMatrixDiagonal();
+	cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
+	a = makeAlignmentMatrixDiagonal();
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataMatrixUnsorted-------------------------------" << endl;
-	a = makeAlignataMatrixUnsorted();
+	cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
+	a = makeAlignmentMatrixUnsorted();
 	Test( a );
 	delete a;
 

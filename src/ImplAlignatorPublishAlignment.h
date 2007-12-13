@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignatorPublishAlignata.h,v 1.2 2004/01/07 14:35:34 aheger Exp $
+  $Id: ImplAlignatorPublishAlignment.h,v 1.2 2004/01/07 14:35:34 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -38,36 +38,36 @@ namespace alignlib {
      Use this for storing premade dot-plots.
      
      @author Andreas Heger
-     @version $Id: ImplAlignatorPublishAlignata.h,v 1.2 2004/01/07 14:35:34 aheger Exp $
+     @version $Id: ImplAlignatorPublishAlignment.h,v 1.2 2004/01/07 14:35:34 aheger Exp $
      @short Return a non-const pre-built alignment
       
   */
 
 class Alignandum;
 
-class ImplAlignatorPublishAlignata : public ImplAlignator 
+class ImplAlignatorPublishAlignment : public ImplAlignator 
 {
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplAlignatorPublishAlignata  ( Alignata * ali);
+    ImplAlignatorPublishAlignment  ( Alignment * ali);
     
     /** copy constructor */
-    ImplAlignatorPublishAlignata  (const ImplAlignatorPublishAlignata &);
+    ImplAlignatorPublishAlignment  (const ImplAlignatorPublishAlignment &);
 
     /** destructor */
-    virtual ~ImplAlignatorPublishAlignata();
+    virtual ~ImplAlignatorPublishAlignment();
 
     /** method for aligning two arbitrary objects */
-    virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
 
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorPublishAlignata * getClone() const;
+    virtual ImplAlignatorPublishAlignment * getClone() const;
     
  private:
-    Alignata * mAlignata;
+    Alignment * mAlignment;
 
 };
 

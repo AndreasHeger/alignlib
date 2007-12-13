@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrix.cpp,v 1.6 2004/09/24 19:03:27 aheger Exp $
+  $Id: ImplAlignmentMatrix.cpp,v 1.6 2004/09/24 19:03:27 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -27,8 +27,8 @@
 #include <cassert>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "ImplAlignataMatrix.h"
-#include "AlignataIterator.h"
+#include "ImplAlignmentMatrix.h"
+#include "AlignmentIterator.h"
 #include "AlignException.h"
 
 #ifdef WITH_DMALLOC
@@ -58,7 +58,7 @@ namespace alignlib
 #define NODOT -1 
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignataMatrix::ImplAlignataMatrix( long ndots ) : ImplAlignata(), 
+ImplAlignmentMatrix::ImplAlignmentMatrix( long ndots ) : ImplAlignment(), 
 mIndex(NULL),
 mRowFrom(NO_POS), mRowTo(NO_POS), mColFrom(NO_POS), mColTo(NO_POS), 
 mAllocatedIndexSize(0) 
@@ -71,8 +71,8 @@ mAllocatedIndexSize(0)
 	otherwise (at least gcc) adds an implicit mPairs(src.mPairs), which is 
 	absolutely disastrous 
  */
-ImplAlignataMatrix::ImplAlignataMatrix( const ImplAlignataMatrix & src) : 
-	ImplAlignata( src ), 
+ImplAlignmentMatrix::ImplAlignmentMatrix( const ImplAlignmentMatrix & src) : 
+	ImplAlignment( src ), 
 	mPairs(),			
 	mIndex(NULL),
 	mRowFrom( src.mRowFrom), 
@@ -99,7 +99,7 @@ ImplAlignataMatrix::ImplAlignataMatrix( const ImplAlignataMatrix & src) :
 	}
 	}
 
-ImplAlignataMatrix::~ImplAlignataMatrix( ) 
+ImplAlignmentMatrix::~ImplAlignmentMatrix( ) 
 {
 	debug_func_cerr(5);
 
@@ -115,55 +115,55 @@ ImplAlignataMatrix::~ImplAlignataMatrix( )
 
 //-----------------------------------------------------------------------------------------------------------   
 
-AlignataConstIterator ImplAlignataMatrix::begin() const { 
+AlignmentConstIterator ImplAlignmentMatrix::begin() const { 
 	if (mChangedLength) calculateLength();
-	return AlignataConstIterator( new ImplAlignataMatrix_ConstIterator( mPairs, 0, mPairs.size() )); 
+	return AlignmentConstIterator( new ImplAlignmentMatrix_ConstIterator( mPairs, 0, mPairs.size() )); 
 }
 
-AlignataConstIterator ImplAlignataMatrix::end() const { 
+AlignmentConstIterator ImplAlignmentMatrix::end() const { 
 	if (mChangedLength) calculateLength();
-	return AlignataConstIterator( new ImplAlignataMatrix_ConstIterator(mPairs, mPairs.size(), mPairs.size() )); 
+	return AlignmentConstIterator( new ImplAlignmentMatrix_ConstIterator(mPairs, mPairs.size(), mPairs.size() )); 
 }
 //-----------------------------------------------------------------------------------------------------------   
 
-AlignataIterator ImplAlignataMatrix::begin() { 
+AlignmentIterator ImplAlignmentMatrix::begin() { 
 	if (mChangedLength) calculateLength();
-	return AlignataIterator( new ImplAlignataMatrix_Iterator( mPairs, 0, mPairs.size() )); 
+	return AlignmentIterator( new ImplAlignmentMatrix_Iterator( mPairs, 0, mPairs.size() )); 
 }
 
-AlignataIterator ImplAlignataMatrix::end() { 
+AlignmentIterator ImplAlignmentMatrix::end() { 
 	if (mChangedLength) calculateLength();
-	return AlignataIterator( new ImplAlignataMatrix_Iterator(mPairs, mPairs.size(), mPairs.size() )); 
+	return AlignmentIterator( new ImplAlignmentMatrix_Iterator(mPairs, mPairs.size(), mPairs.size() )); 
 }
 
 //----------------> accessors <------------------------------------------------------------------------------
 
-Position ImplAlignataMatrix::getRowFrom() const { if (mChangedLength) calculateLength(); return mRowFrom; }
-Position ImplAlignataMatrix::getColFrom() const { if (mChangedLength) calculateLength(); return mColFrom; }
-Position ImplAlignataMatrix::getRowTo()   const { if (mChangedLength) calculateLength(); return mRowTo; }
-Position ImplAlignataMatrix::getColTo()   const { if (mChangedLength) calculateLength(); return mColTo; }
+Position ImplAlignmentMatrix::getRowFrom() const { if (mChangedLength) calculateLength(); return mRowFrom; }
+Position ImplAlignmentMatrix::getColFrom() const { if (mChangedLength) calculateLength(); return mColFrom; }
+Position ImplAlignmentMatrix::getRowTo()   const { if (mChangedLength) calculateLength(); return mRowTo; }
+Position ImplAlignmentMatrix::getColTo()   const { if (mChangedLength) calculateLength(); return mColTo; }
 
-ResiduePAIR ImplAlignataMatrix::front() const 
+ResiduePAIR ImplAlignmentMatrix::front() const 
 { 
 	if (mChangedLength) calculateLength(); 
 	return (mPairs.size() > 0) ? (*mPairs.front()) : ResiduePAIR(NO_POS,NO_POS,0); 
 }
 
-ResiduePAIR ImplAlignataMatrix::back()  const 
+ResiduePAIR ImplAlignmentMatrix::back()  const 
 { 
 	if (mChangedLength) calculateLength(); 
 	return (mPairs.size() > 0) ? (*mPairs.back()) : ResiduePAIR(NO_POS,NO_POS,0); 
 }
 
 //-------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::addPair( ResiduePAIR * new_pair ) 
+void ImplAlignmentMatrix::addPair( ResiduePAIR * new_pair ) 
 { 
 
 	mPairs.push_back( new_pair );
 	setChangedLength();		// has to be resorted
 } 
 //-------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::addPair( Position row, Position col, Score score ) 
+void ImplAlignmentMatrix::addPair( Position row, Position col, Score score ) 
 { 
 	mPairs.push_back( new ResiduePAIR(row,col,score) );
 	setChangedLength();		// has to be resorted
@@ -171,7 +171,7 @@ void ImplAlignataMatrix::addPair( Position row, Position col, Score score )
 
 //-------------------------------------------------------------------------------------------------------------
 /** retrieves a pair of residues from the alignment */
-ResiduePAIR ImplAlignataMatrix::getPair( const ResiduePAIR & p) const 
+ResiduePAIR ImplAlignmentMatrix::getPair( const ResiduePAIR & p) const 
 {
   /** generic implementation - returns any pair of row */
   PAIRVECTOR::iterator it(mPairs.begin()), it_end(mPairs.end());
@@ -183,7 +183,7 @@ ResiduePAIR ImplAlignataMatrix::getPair( const ResiduePAIR & p) const
 } 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::removePair( const ResiduePAIR & p ) 
+void ImplAlignmentMatrix::removePair( const ResiduePAIR & p ) 
 { 
 	debug_func_cerr(5);
 
@@ -207,11 +207,11 @@ void ImplAlignataMatrix::removePair( const ResiduePAIR & p )
 } 
 
 //--------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::clear() 
+void ImplAlignmentMatrix::clear() 
 {
 	debug_func_cerr(5);
 
-	ImplAlignata::clear();
+	ImplAlignment::clear();
 
 	mRowFrom = NO_POS;
 	mRowTo = NO_POS;
@@ -227,11 +227,11 @@ void ImplAlignataMatrix::clear()
 }
 
 //--------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::moveAlignment( Position row_offset, Position col_offset) 
+void ImplAlignmentMatrix::moveAlignment( Position row_offset, Position col_offset) 
 {
 	debug_func_cerr(5);
 
-	ImplAlignata::moveAlignment( row_offset, col_offset);
+	ImplAlignment::moveAlignment( row_offset, col_offset);
 
 	// reset coordinates of alignment
 	mRowFrom += row_offset;
@@ -243,7 +243,7 @@ void ImplAlignataMatrix::moveAlignment( Position row_offset, Position col_offset
 //------------------------------------> sorting subroutines <-----------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::sortDotsByDiagonal(Position from, Position to) const 
+void ImplAlignmentMatrix::sortDotsByDiagonal(Position from, Position to) const 
 {
 	Position lastsmall, c1, i;
 	Diagonal m; /* value of median */
@@ -274,7 +274,7 @@ void ImplAlignataMatrix::sortDotsByDiagonal(Position from, Position to) const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::sortDotsByRow(Position from, Position to) const 
+void ImplAlignmentMatrix::sortDotsByRow(Position from, Position to) const 
 {
 	Position lastsmall, c1, i;
 	Position m; /* value of median */
@@ -310,7 +310,7 @@ void ImplAlignataMatrix::sortDotsByRow(Position from, Position to) const
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::sortDotsByCol(Position from, Position to) const 
+void ImplAlignmentMatrix::sortDotsByCol(Position from, Position to) const 
 {
 	Position lastsmall, c1, i;
 	Position m; /* value of median */
@@ -345,7 +345,7 @@ void ImplAlignataMatrix::sortDotsByCol(Position from, Position to) const
 
 
 //-------------------------------------------------------------------------------------------------------------------- 
-void ImplAlignataMatrix::eliminateDuplicates() const {
+void ImplAlignmentMatrix::eliminateDuplicates() const {
 
 	mRowFrom = std::numeric_limits<Position>::max();
 	mColFrom = std::numeric_limits<Position>::max();
@@ -390,7 +390,7 @@ void ImplAlignataMatrix::eliminateDuplicates() const {
 
 
 //--------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::allocateIndex( unsigned long size ) const 
+void ImplAlignmentMatrix::allocateIndex( unsigned long size ) const 
 {
 	if (mIndex != NULL) 
 		delete [] mIndex;
@@ -401,7 +401,7 @@ void ImplAlignataMatrix::allocateIndex( unsigned long size ) const
 
 //--------------------------------------------------------------------------------------------------------------
 // instead of calculating the length, it resorts the dots :=)
-void ImplAlignataMatrix::calculateLength() const 
+void ImplAlignmentMatrix::calculateLength() const 
 {
 	debug_func_cerr(5);
 

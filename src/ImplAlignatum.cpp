@@ -30,8 +30,8 @@
 #include "Alignatum.h"
 #include "ImplAlignatum.h"
 #include "ImplTranslator.h"
-#include "Alignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
 #include "Alignandum.h"
 #include "Renderer.h"
 #include "HelpersTranslator.h"
@@ -67,7 +67,7 @@ namespace alignlib {
       }
 
   Alignatum * makeAlignatum(const Alignandum * src, 
-      const Alignata * map_this2new,
+      const Alignment * map_this2new,
       const Position max_length) 
       {
 
@@ -139,7 +139,7 @@ namespace alignlib {
     }
 
   //--------------------------------------------------------------------------------------------
-  void ImplAlignatum::mapOnAlignment(const Alignata * map_old2new,
+  void ImplAlignatum::mapOnAlignment(const Alignment * map_old2new,
       const Position new_length, 
       const bool unaligned_chars) 
     {
@@ -169,8 +169,8 @@ namespace alignlib {
 
       // substitute new characters for aligned positions:
         {
-          AlignataConstIterator it = map_old2new->begin();
-          AlignataConstIterator it_end = map_old2new->end();
+          AlignmentConstIterator it = map_old2new->begin();
+          AlignmentConstIterator it_end = map_old2new->end();
 
           for (; it != it_end; ++it) 
             {
@@ -181,8 +181,8 @@ namespace alignlib {
         // add unaligned characters
         if (unaligned_chars) {
 
-          AlignataConstIterator it = map_old2new->begin();
-          AlignataConstIterator it_end = map_old2new->end();
+          AlignmentConstIterator it = map_old2new->begin();
+          AlignmentConstIterator it_end = map_old2new->end();
 
           Position last_old = it->mRow;
           Position last_new = it->mCol;

@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: test_HelpersAlignata.cpp,v 1.5 2004/10/14 23:34:09 aheger Exp $
+  $Id: test_HelpersAlignment.cpp,v 1.5 2004/10/14 23:34:09 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -37,9 +37,9 @@
 #include "Alignandum.h"
 #include "HelpersSequence.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
+#include "AlignmentIterator.h"
 
 using namespace std;
 
@@ -49,13 +49,13 @@ using namespace std;
 
 using namespace alignlib;
 
-bool isIdentical( const Alignata * a, const Alignata * b, bool inverse = false) {
+bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false) {
 
-	AlignataConstIterator it1(a->begin());
-	AlignataConstIterator it1_end(a->end());
+	AlignmentConstIterator it1(a->begin());
+	AlignmentConstIterator it1_end(a->end());
 
-	AlignataConstIterator it2(b->begin());
-	AlignataConstIterator it2_end(b->end());
+	AlignmentConstIterator it2(b->begin());
+	AlignmentConstIterator it2_end(b->end());
 
 	bool is_identical = true;
 
@@ -72,7 +72,7 @@ bool isIdentical( const Alignata * a, const Alignata * b, bool inverse = false) 
 	return is_identical;
 }
 
-bool TestCompressionMonotone( Alignata * a, 
+bool TestCompressionMonotone( Alignment * a, 
 		const char *xrow, 
 		const char *xcol,
 		const char *crow = NULL, 
@@ -84,11 +84,11 @@ bool TestCompressionMonotone( Alignata * a,
 	std::string row (xrow);
 	std::string col (xcol);
 
-	a = fillAlignataCompressed( a, 3, row, 3, col);
+	a = fillAlignmentCompressed( a, 3, row, 3, col);
 
 	std::stringstream output;
 
-	writeAlignataCompressed( output, a  );
+	writeAlignmentCompressed( output, a  );
 	output.seekp( 0);
 	std::string new_row;
 	std::string new_col;
@@ -109,7 +109,7 @@ bool TestCompressionMonotone( Alignata * a,
 	}
 }
 
-bool TestCompressionDiagonal( Alignata * a, 
+bool TestCompressionDiagonal( Alignment * a, 
 		const char *xrow, 
 		const char *crow = NULL) {
 
@@ -118,10 +118,10 @@ bool TestCompressionDiagonal( Alignata * a,
 
 	std::string row (xrow);
 
-	a = fillAlignataCompressedDiagonal( a, row );
+	a = fillAlignmentCompressedDiagonal( a, row );
 
 	std::stringstream output;
-	writeAlignataCompressedDiagonal( output, a );
+	writeAlignmentCompressedDiagonal( output, a );
 	std::string new_row(output.str());
 
 	row = crow;
@@ -138,11 +138,11 @@ bool TestCompressionDiagonal( Alignata * a,
 
 
 // tests for diagonal alignments
-void TestDiagonal(Alignata * a) 
+void TestDiagonal(Alignment * a) 
 {
 
 	{ 
-		cout << "testing...fill/writeAlignataCompressedDiagonal()...";
+		cout << "testing...fill/writeAlignmentCompressedDiagonal()...";
 
 		if (TestCompressionDiagonal( a, "-1:-5+2" ) &&				
 				TestCompressionDiagonal( a, "-3:-5+2-2+2;5:-2+3" ) &&				
@@ -158,10 +158,10 @@ void TestDiagonal(Alignata * a)
 
 
 // tests for monotone alignments
-void TestMonotone( Alignata * a) {
+void TestMonotone( Alignment * a) {
 
 	{ 
-		cout << "testing...fill/writeAlignataCompressed()...";
+		cout << "testing...fill/writeAlignmentCompressed()...";
 
 		if (TestCompressionMonotone( a, "+5-5+5", "+15") &&				// treat gaps in one sequence correctly
 				TestCompressionMonotone( a, "+15", "+5-5+5") &&				// treat gaps in one sequence correctly
@@ -175,37 +175,37 @@ void TestMonotone( Alignata * a) {
 	}
 
 	{
-		cout << "testing fillAlignataSummation()...";
+		cout << "testing fillAlignmentSummation()...";
 		a->clear();
 		a->addPair( new ResiduePAIR( 3, 4, 0));
 		a->addPair( new ResiduePAIR( 4, 5, 0));         
 		a->addPair( new ResiduePAIR( 5, 7, 0));                  
 		a->addPair( new ResiduePAIR( 9, 9, 0));                           
 
-		Alignata * b = a->getNew();
-		Alignata * c = a->getNew();
+		Alignment * b = a->getNew();
+		Alignment * c = a->getNew();
 
-		fillAlignataSummation( b, c, a, true, true, true, true, 11, 11);
+		fillAlignmentSummation( b, c, a, true, true, true, true, 11, 11);
 	}
 }
 
 // tests for both
-void Test( Alignata * a) {
+void Test( Alignment * a) {
 	{ 
-		cout << "testing...copyAlignata()...";
+		cout << "testing...copyAlignment()...";
 
-		Alignata * a_new = makeAlignataVector();
-		copyAlignata( a_new, a);
+		Alignment * a_new = makeAlignmentVector();
+		copyAlignment( a_new, a);
 		delete a_new;
 	}
 
 	{ 
-		cout << "testing...combineAlignata()...";
-		Alignata * a_new = makeAlignataVector();
-		combineAlignata( a_new, a, a, alignlib::RR); 
-		combineAlignata( a_new, a, a, alignlib::CR);
-		combineAlignata( a_new, a, a, alignlib::RC);
-		combineAlignata( a_new, a, a, alignlib::CC);
+		cout << "testing...combineAlignment()...";
+		Alignment * a_new = makeAlignmentVector();
+		combineAlignment( a_new, a, a, alignlib::RR); 
+		combineAlignment( a_new, a, a, alignlib::CR);
+		combineAlignment( a_new, a, a, alignlib::RC);
+		combineAlignment( a_new, a, a, alignlib::CC);
 		delete a_new;
 
 		cout << "passed" << endl;
@@ -227,30 +227,30 @@ void Test( Alignata * a) {
 	}
 
 	{
-		cout << "testing...fillAlignataIdentity()...";
-		fillAlignataIdentity( a, 1, 10, 0);
+		cout << "testing...fillAlignmentIdentity()...";
+		fillAlignmentIdentity( a, 1, 10, 0);
 		cout << "passed" << endl;
 	}
 
 	{ 
-		cout << "testing...writeAlignataTable()...";
+		cout << "testing...writeAlignmentTable()...";
 		ostringstream out;
-		writeAlignataTable( out, a);
+		writeAlignmentTable( out, a);
 		cout << "passed" << endl;
 	}
 
 	{ 
-		cout << "testing...addAlignata2Alignata()...";
-		Alignata * b = makeAlignataVector();
-		addAlignata2Alignata( b, a );
+		cout << "testing...addAlignment2Alignment()...";
+		Alignment * b = makeAlignmentVector();
+		addAlignment2Alignment( b, a );
 		delete b;
 		cout << "passed" << endl;
 	}
 
 	{ 
-		cout << "testing...addMappedAlignata2Alignata()...";
-		Alignata * b = makeAlignataVector();
-		addMappedAlignata2Alignata( b, a, a, alignlib::RR );
+		cout << "testing...addMappedAlignment2Alignment()...";
+		Alignment * b = makeAlignmentVector();
+		addMappedAlignment2Alignment( b, a, a, alignlib::RR );
 		delete b;
 		cout << "passed" << endl;
 	}
@@ -261,52 +261,52 @@ void Test( Alignata * a) {
 
 int main () {
 
-	Alignata * a;
+	Alignment * a;
 
-	cout << "---------------------Testing AlignataVector-------------------------------" << endl;
-	a = makeAlignataVector();
+	cout << "---------------------Testing AlignmentVector-------------------------------" << endl;
+	a = makeAlignmentVector();
 	TestMonotone( a );
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataSet----------------------------------" << endl;
-	a = makeAlignataSet();
+	cout << "---------------------Testing AlignmentSet----------------------------------" << endl;
+	a = makeAlignmentSet();
 	TestMonotone( a );
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataHash----------------------------------" << endl;
-	a = makeAlignataHash();
+	cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
+	a = makeAlignmentHash();
 	TestMonotone( a );
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataSetCol------------------------------" << endl;
-	a = makeAlignataSetCol();
+	cout << "---------------------Testing AlignmentSetCol------------------------------" << endl;
+	a = makeAlignmentSetCol();
 	TestMonotone( a );
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataMatrixRow-------------------------------" << endl;
-	a = makeAlignataMatrixRow();
+	cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
+	a = makeAlignmentMatrixRow();
 	TestMonotone( a );
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataMatrixDiagonal-------------------------------" << endl;
-	a = makeAlignataMatrixDiagonal();
+	cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
+	a = makeAlignmentMatrixDiagonal();
 	TestDiagonal( a );
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataHashDiagonal------------------------------" << endl;
-	a = makeAlignataHashDiagonal();
+	cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
+	a = makeAlignmentHashDiagonal();
 	TestDiagonal( a );
 	Test( a );
 	delete a;
 
-	cout << "---------------------Testing AlignataMatrixUnsorted-------------------------------" << endl;
-	a = makeAlignataMatrixUnsorted();
+	cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
+	a = makeAlignmentMatrixUnsorted();
 	TestDiagonal( a );
 	Test( a );
 	delete a;

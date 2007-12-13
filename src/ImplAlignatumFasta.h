@@ -45,7 +45,7 @@ namespace alignlib {
     @short protocol class for aligned objects
 */
 
-class Alignata;
+class Alignment;
 class Alignandum;
 class Renderer;
 

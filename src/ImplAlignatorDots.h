@@ -29,14 +29,14 @@
 
 #include "alignlib.h"
 #include "ImplAlignator.h"
-#include "ImplAlignataMatrix.h"
+#include "ImplAlignmentMatrix.h"
 
 namespace alignlib 
 {
 #define STACKEMPTY     0
 
 class Alignandum;
-class Alignata;
+class Alignment;
 class SubstitutionMatrix;
 
 /** @short Implementation of dotplot-alignment as found in RADAR.
@@ -71,7 +71,7 @@ class ImplAlignatorDots : public ImplAlignator
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual Alignata * align(const Alignandum *, const Alignandum *, Alignata *);
+    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
 
     /* member access functions--------------------------------------------------------------- */
 
@@ -102,16 +102,16 @@ class ImplAlignatorDots : public ImplAlignator
  protected:
 
     /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignata * ali);
+    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
     
     /** perform cleanup after alignment */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignata * ali);                     
+    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
 
-    /** traces back through dot-trace and put it in the alignment in Alignata-object */
-    virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignata * result);				
+    /** traces back through dot-trace and put it in the alignment in Alignment-object */
+    virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignment * result);				
     
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignata * result);
+    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
 
     /** get GAP cost for a gap */
     virtual Score getGapCost( Dot x1, Dot x2 ) const = 0; 
@@ -128,7 +128,7 @@ class ImplAlignatorDots : public ImplAlignator
     Position	mNDots;
 
     /** pointer to dots for fast access */
-    const ImplAlignataMatrix::PAIRVECTOR * mPairs;		
+    const ImplAlignmentMatrix::PAIRVECTOR * mPairs;		
 
     /** pointer to first dot in row for fast access */
     const Dot * mRowIndices;		
@@ -144,7 +144,7 @@ class ImplAlignatorDots : public ImplAlignator
     Score mScore;
 
     /** pointer to the matrix of Dots (= alignment ) */
-    ImplAlignataMatrix * mMatrix;
+    ImplAlignmentMatrix * mMatrix;
 
     /** flag, whether dots were created during alignment */
     bool mIsOwnDots;

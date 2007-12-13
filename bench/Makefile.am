@@ -8,11 +8,11 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-noinst_PROGRAMS = bench_Alignata bench_Alignator
+noinst_PROGRAMS = bench_Alignment bench_Alignator
 
 LDADD = $(top_srcdir)/src/.libs/libalignlib.a -lm 
 
-bench_Alignata_SOURCES = bench_Alignata.cpp 
+bench_Alignment_SOURCES = bench_Alignment.cpp 
 bench_Alignator_SOURCES = bench_Alignator.cpp
 
 INCLUDES = -I$(top_srcdir)/src 

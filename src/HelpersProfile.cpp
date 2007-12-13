@@ -36,8 +36,8 @@
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
 
-#include "Alignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
 
 /** default objects */
 #include "Translator.h"
@@ -395,15 +395,15 @@ Alignandum * normalizeProfileCounts( Alignandum * dest,
 //------------------------------------------------------------------------------------------
 /** substitutes columns in profile dest by columns in profile row using the mapping provided, where dest is in col and source is in row
  */
-Alignandum * substituteProfileWithProfile( Alignandum * dest, const Alignandum * source, const Alignata * map_source2dest ) {
+Alignandum * substituteProfileWithProfile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest ) {
 
 	// check, if we do have two profiles
 	//!! to be implemented: some sensible warning messages
 	const ImplProfile * p_source = dynamic_cast<const ImplProfile*>(source);
 	const ImplProfile * p_dest = dynamic_cast<const ImplProfile*>(dest);
 
-	AlignataConstIterator it(map_source2dest->begin());
-	AlignataConstIterator it_end(map_source2dest->end());
+	AlignmentConstIterator it(map_source2dest->begin());
+	AlignmentConstIterator it_end(map_source2dest->end());
 
 	for (; it != it_end; ++it) {
 		Position row = it->mRow;
@@ -423,14 +423,14 @@ Alignandum * substituteProfileWithProfile( Alignandum * dest, const Alignandum *
 /** add counts of profile source to profile dest, using the mapping provided, where dest is in col and
     source is in row 
  */
-Alignandum * addProfile2Profile( Alignandum * dest, const Alignandum * source, const Alignata * map_source2dest ) {
+Alignandum * addProfile2Profile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest ) {
 
 	// check, if we do have two profiles
 	const ImplProfile * p_source = dynamic_cast<const ImplProfile*>(source);
 	const ImplProfile * p_dest = dynamic_cast<const ImplProfile*>(dest);
 
-	AlignataConstIterator it(map_source2dest->begin());
-	AlignataConstIterator it_end(map_source2dest->end());
+	AlignmentConstIterator it(map_source2dest->begin());
+	AlignmentConstIterator it_end(map_source2dest->end());
 
 	for (; it != it_end; ++it) {
 		Position row = it->mRow;
@@ -452,13 +452,13 @@ Alignandum * addProfile2Profile( Alignandum * dest, const Alignandum * source, c
 /** add sequence of source to profile dest, using the mapping provided, where dest is in col and
     source is in row 
  */
-Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, const Alignata * map_source2dest ) {
+Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest ) {
 
 	// check, if we do have two profiles
 	const ImplProfile * p_dest = dynamic_cast<const ImplProfile*>(dest);
 
-	AlignataConstIterator it(map_source2dest->begin());
-	AlignataConstIterator it_end(map_source2dest->end());
+	AlignmentConstIterator it(map_source2dest->begin());
+	AlignmentConstIterator it_end(map_source2dest->end());
 
 	for (; it != it_end; ++it) {
 		Position row = it->mRow;

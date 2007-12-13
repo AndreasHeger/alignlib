@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataVector.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
+  $Id: ImplAlignmentVector.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -26,8 +26,8 @@
 #include <set>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "ImplAlignataVector.h"
-#include "AlignataIterator.h"
+#include "ImplAlignmentVector.h"
+#include "AlignmentIterator.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -41,19 +41,19 @@ namespace alignlib {
 #define GROWTH_FACTOR 2
 
 //------------------------------factory functions -----------------------------
-Alignata * makeAlignataVector() {
-	return new ImplAlignataVector();
+Alignment * makeAlignmentVector() {
+	return new ImplAlignmentVector();
 }
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignataVector::ImplAlignataVector() : 
-	ImplAlignata(), 
+ImplAlignmentVector::ImplAlignmentVector() : 
+	ImplAlignment(), 
 	mRowFrom(NO_POS), 
 	mRowTo(NO_POS) {
 }
 
-ImplAlignataVector::ImplAlignataVector( const ImplAlignataVector& src) : 
-	ImplAlignata( src ), 
+ImplAlignmentVector::ImplAlignmentVector( const ImplAlignmentVector& src) : 
+	ImplAlignment( src ), 
 	mRowFrom( src.mRowFrom), 
 	mRowTo( src.mRowTo) {
 	debug_func_cerr(5);
@@ -75,7 +75,7 @@ ImplAlignataVector::ImplAlignataVector( const ImplAlignataVector& src) :
 	}
 }
 
-ImplAlignataVector::~ImplAlignataVector( ) 
+ImplAlignmentVector::~ImplAlignmentVector( ) 
 {
 	debug_func_cerr(5);
 
@@ -83,48 +83,48 @@ ImplAlignataVector::~ImplAlignataVector( )
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignataVector * ImplAlignataVector::getNew() const {
-	return new ImplAlignataVector();
+ImplAlignmentVector * ImplAlignmentVector::getNew() const {
+	return new ImplAlignmentVector();
 }
 
-ImplAlignataVector * ImplAlignataVector::getClone() const {
-	return new ImplAlignataVector( *this );
-}
-
-//-----------------------------------------------------------------------------------------------------------   
-
-AlignataConstIterator ImplAlignataVector::begin() const { 
-	// skip gaps in the beginning of the alignment
-	return AlignataConstIterator( new ImplAlignataVector_ConstIterator( mPairs, mRowFrom, mRowFrom, mRowTo )); 
-}
-
-AlignataConstIterator ImplAlignataVector::end() const { 
-	return AlignataConstIterator( new ImplAlignataVector_ConstIterator(mPairs, NO_POS, mRowFrom, mRowTo)); 
+ImplAlignmentVector * ImplAlignmentVector::getClone() const {
+	return new ImplAlignmentVector( *this );
 }
 
 //-----------------------------------------------------------------------------------------------------------   
 
-AlignataIterator ImplAlignataVector::begin() { 
+AlignmentConstIterator ImplAlignmentVector::begin() const { 
 	// skip gaps in the beginning of the alignment
-	return AlignataIterator( new ImplAlignataVector_Iterator( mPairs, mRowFrom, mRowFrom, mRowTo )); 
+	return AlignmentConstIterator( new ImplAlignmentVector_ConstIterator( mPairs, mRowFrom, mRowFrom, mRowTo )); 
 }
 
-AlignataIterator ImplAlignataVector::end() { 
-	return AlignataIterator( new ImplAlignataVector_Iterator(mPairs, NO_POS, mRowFrom, mRowTo)); 
+AlignmentConstIterator ImplAlignmentVector::end() const { 
+	return AlignmentConstIterator( new ImplAlignmentVector_ConstIterator(mPairs, NO_POS, mRowFrom, mRowTo)); 
+}
+
+//-----------------------------------------------------------------------------------------------------------   
+
+AlignmentIterator ImplAlignmentVector::begin() { 
+	// skip gaps in the beginning of the alignment
+	return AlignmentIterator( new ImplAlignmentVector_Iterator( mPairs, mRowFrom, mRowFrom, mRowTo )); 
+}
+
+AlignmentIterator ImplAlignmentVector::end() { 
+	return AlignmentIterator( new ImplAlignmentVector_Iterator(mPairs, NO_POS, mRowFrom, mRowTo)); 
 }
 
 //----------------> accessors <------------------------------------------------------------------------------
 
-Position ImplAlignataVector::getRowFrom() const { return mRowFrom; }
-Position ImplAlignataVector::getColFrom() const { 
+Position ImplAlignmentVector::getRowFrom() const { return mRowFrom; }
+Position ImplAlignmentVector::getColFrom() const { 
 	if (mRowFrom != NO_POS) 
 		return mPairs[mRowFrom]->mCol; 
 	else 
 		return NO_POS;
 }
 
-Position ImplAlignataVector::getRowTo()   const { return mRowTo; }
-Position ImplAlignataVector::getColTo()   const { 
+Position ImplAlignmentVector::getRowTo()   const { return mRowTo; }
+Position ImplAlignmentVector::getColTo()   const { 
 	if (mRowTo != NO_POS) 
 		return mPairs[mRowTo-1]->mCol+1; 
 	else
@@ -132,11 +132,11 @@ Position ImplAlignataVector::getColTo()   const {
 }
 
 
-ResiduePAIR ImplAlignataVector::front() const { return *mPairs[mRowFrom]; }
-ResiduePAIR ImplAlignataVector::back()  const { return *mPairs[mRowTo-1]; }
+ResiduePAIR ImplAlignmentVector::front() const { return *mPairs[mRowFrom]; }
+ResiduePAIR ImplAlignmentVector::back()  const { return *mPairs[mRowTo-1]; }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ImplAlignataVector::addPair( ResiduePAIR * new_pair ) { 
+void ImplAlignmentVector::addPair( ResiduePAIR * new_pair ) { 
 
 	Position new_row = new_pair->mRow;
 
@@ -158,7 +158,7 @@ void ImplAlignataVector::addPair( ResiduePAIR * new_pair ) {
 } 
 
 //--------------------------------------------------------------------------------------------------------------
-void ImplAlignataVector::moveAlignment( Position row_offset, Position col_offset) 
+void ImplAlignmentVector::moveAlignment( Position row_offset, Position col_offset) 
 {
 	debug_func_cerr(5);
 
@@ -192,7 +192,7 @@ void ImplAlignataVector::moveAlignment( Position row_offset, Position col_offset
 
 //----------------------------------------------------------------------------------------------------------
 /** retrieves a pair of residues from the alignment */
-ResiduePAIR ImplAlignataVector::getPair( const ResiduePAIR & p) const 
+ResiduePAIR ImplAlignmentVector::getPair( const ResiduePAIR & p) const 
 {
 	if (p.mRow != NO_POS)
 		return *mPairs[p.mRow];
@@ -201,7 +201,7 @@ ResiduePAIR ImplAlignataVector::getPair( const ResiduePAIR & p) const
 } 
 
 //----------------------------------------------------------------------------------------------------------
-void ImplAlignataVector::removePair( const ResiduePAIR & old_pair ) { 
+void ImplAlignmentVector::removePair( const ResiduePAIR & old_pair ) { 
 
 	// no resizing is done;
 	if (old_pair.mRow >= mRowFrom && old_pair.mRow < mRowTo)
@@ -224,7 +224,7 @@ void ImplAlignataVector::removePair( const ResiduePAIR & old_pair ) {
 
 
 //----------------------------------------------------------------------------------------------------------------
-void ImplAlignataVector::clearContainer() { 
+void ImplAlignmentVector::clearContainer() { 
 
 	PAIRVECTOR::iterator it(mPairs.begin()), it_end(mPairs.end());
 	for (;it != it_end; ++it) delete *it;
@@ -233,8 +233,8 @@ void ImplAlignataVector::clearContainer() {
 }
 
 //----------------------------------------------------------------------------------------------------------------
-void ImplAlignataVector::clear() { 
-	ImplAlignata::clear();
+void ImplAlignmentVector::clear() { 
+	ImplAlignment::clear();
 
 	clearContainer();
 
@@ -243,7 +243,7 @@ void ImplAlignataVector::clear() {
 }
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignataVector::mapRowToCol( Position pos, SearchType search ) const 
+Position ImplAlignmentVector::mapRowToCol( Position pos, SearchType search ) const 
 {
   if (mRowFrom == NO_POS) return NO_POS;
   
@@ -282,7 +282,7 @@ Position ImplAlignataVector::mapRowToCol( Position pos, SearchType search ) cons
 
 
 //-----------------------------------------------------------------------------------------------------------   
-void ImplAlignataVector::resetBoundaries() {
+void ImplAlignmentVector::resetBoundaries() {
 
 	Position max_size = mPairs.size();
 
@@ -308,7 +308,7 @@ void ImplAlignataVector::resetBoundaries() {
 	
 }
 //-----------------------------------------------------------------------------------------------------------   
-void ImplAlignataVector::removeRowRegion( Position from, Position to) {
+void ImplAlignmentVector::removeRowRegion( Position from, Position to) {
 
 	Position pos;
 
@@ -336,7 +336,7 @@ void ImplAlignataVector::removeRowRegion( Position from, Position to) {
 //-----------------------------------------------------------------------------------------------------------   
 /* It is necessary to iterate from mFrowFrom to mRowTo, since the alignment need not be linear
  */
-void ImplAlignataVector::removeColRegion( Position from, Position to) {
+void ImplAlignmentVector::removeColRegion( Position from, Position to) {
 
 	Position pos; 
 

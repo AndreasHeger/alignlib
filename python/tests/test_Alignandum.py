@@ -1,6 +1,6 @@
 # alignlib - a library for aligning protein sequences
 # 
-# $Id: test_Alignata.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
+# $Id: test_Alignment.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
 # 
 # Copyright (C) 2004 Andreas Heger
 # 

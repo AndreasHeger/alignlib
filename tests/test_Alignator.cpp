@@ -53,8 +53,8 @@
 
 #include "HelpersIterator2D.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -89,7 +89,7 @@ bool testPairwiseAlignment(int test_id,
 	std::cout << *benchmark_row << std::endl;
 	std::cout << *benchmark_col << std::endl;
 
-	std::auto_ptr<alignlib::Alignata>result(makeAlignataVector());
+	std::auto_ptr<alignlib::Alignment>result(makeAlignmentVector());
 
 	a->align( benchmark_row, benchmark_col, &*result);
 
@@ -104,7 +104,7 @@ bool testPairwiseAlignment(int test_id,
 	std::string b_col;
 	std::stringstream output;
 	
-	writeAlignataCompressed( output, &*result );
+	writeAlignmentCompressed( output, &*result );
 
 	output.seekp(0);
 	output >> b_row >> b_col;
@@ -148,14 +148,14 @@ bool testWrappedAlignment(int test_id,
 	std::cout << *benchmark_row << std::endl;
 	std::cout << *benchmark_col << std::endl;
 
-	std::auto_ptr<alignlib::Alignata> result(makeAlignataMatrixDiagonal());
+	std::auto_ptr<alignlib::Alignment> result(makeAlignmentMatrixDiagonal());
 
 	a->align( benchmark_row, benchmark_col, &*result);
 
 	std::string r_row(r_ali);
 	std::stringstream output;
 	
-	writeAlignataCompressedDiagonal( output, &*result );
+	writeAlignmentCompressedDiagonal( output, &*result );
 
 	output.seekp(0);
 	std::string b_ali( output.str() );
@@ -184,7 +184,7 @@ bool testWrappedAlignment(int test_id,
  */
 /*
 void testPairAlignator( Alignator * a,
-			Alignata * ali)
+			Alignment * ali)
 {
 
   { 
@@ -394,7 +394,7 @@ int main () {
 		std::cout << "--- testing iterative alignment ---" << std::endl;
 		std::auto_ptr<Alignator>a(makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 ));
 
-		Alignata * result = makeAlignataVector();
+		Alignment * result = makeAlignmentVector();
 		Alignator * alignator = makeAlignatorIterative( &*a, 1.0 );
 		{
 			Alignandum * row = makeSequence( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA" );
@@ -427,35 +427,35 @@ int main () {
 	
 	//   cout << "---------------------testing AlignatorFullDPWrap----------------------------------" << endl;
 	//   a1 = makeAlignatorFullDPWrap( -1, -0.1 );
-	//   ali= makeAlignataSet();
+	//   ali= makeAlignmentSet();
 	//   testAlignator( a1, ali, PAIR   );
 	//   delete a1;
 	//   delete ali;
 
 	//    cout << "---------------------testing AlignatorFullDPGlobal: end-gap-penalties on both sides----------------------------------" << endl;
 	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, true );
-	//    ali= makeAlignataSet();
+	//    ali= makeAlignmentSet();
 	//    testAlignator( a1, ali, PAIR );
 	//    delete a1;
 	//    delete ali;
 
 	//    cout << "---------------------testing AlignatorFullDPGlobal: no right end-gap-penalty----------------------------------" << endl;
 	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, false );
-	//    ali= makeAlignataSet();
+	//    ali= makeAlignmentSet();
 	//    testAlignator( a1, ali, PAIR );
 	//    delete a1;
 	//    delete ali;
 
 	//    cout << "---------------------testing AlignatorFullDPGlobal: no left end gap-penalty----------------------------------" << endl;
 	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, true );
-	//    ali= makeAlignataSet();
+	//    ali= makeAlignmentSet();
 	//    testAlignator( a1, ali, PAIR );
 	//    delete a1;
 	//    delete ali;
 
 	//    cout << "---------------------testing AlignatorFullDPGlobal: no end gap-penalty----------------------------------" << endl;
 	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, false );
-	//    ali= makeAlignataSet();
+	//    ali= makeAlignmentSet();
 	//    testAlignator( a1, ali, PAIR );
 	//    delete a1;
 	//    delete ali;
@@ -463,21 +463,21 @@ int main () {
 
 	//   cout << "---------------------testing AlignatorIdentity----------------------------------" << endl;
 	//   a1 = makeAlignatorIdentity();
-	//   ali= makeAlignataMatrixRow();
+	//   ali= makeAlignmentMatrixRow();
 	//   testAlignator( a1, ali, PAIR );
 	//   delete a1;
 	//   delete ali;
 
 	//   cout << "---------------------testing AlignatorSimilarity----------------------------------" << endl;
 	//   a1 = makeAlignatorSimilarity();		
-	//   ali= makeAlignataMatrixRow();
+	//   ali= makeAlignmentMatrixRow();
 	//   testAlignator( a1, ali, MATRIX);
 	//   delete a1;
 	//   delete ali;
 
 	//   cout << "---------------------testing AlignatorTuples----------------------------------" << endl;
 	//   a1 = makeAlignatorTuples();		// this uses default values for ktuple-size and substitution matrix
-	//   ali= makeAlignataMatrixRow();
+	//   ali= makeAlignmentMatrixRow();
 	//   testAlignator( a1, ali, MATRIX );
 	//   delete a1;
 	//   delete ali;
@@ -489,7 +489,7 @@ int main () {
     // this uses default values for ktuple-size and substitution matrix
     Alignator * t  = makeAlignatorTuples( 1 );
     Alignator * a  = makeAlignatorDotsSquared( -1, -0.1, t);		
-    Alignata  * ali= makeAlignataVector();
+    Alignment  * ali= makeAlignmentVector();
 
     testPairAlignator( a, ali );
     delete a;

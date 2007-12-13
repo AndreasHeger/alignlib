@@ -1,6 +1,6 @@
 # alignlib - a library for aligning protein sequences
 # 
-# $Id: test_Alignata.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
+# $Id: test_Alignment.py,v 1.3 2004/01/23 17:34:58 aheger Exp $
 # 
 # Copyright (C) 2004 Andreas Heger
 # 
@@ -36,8 +36,8 @@ class AlignatorTestCase( unittest.TestCase ):
         if not self.mReferenceSequence2:
             self.mReferenceSequence2 = "WWAAAAAWWWWAAAAAWW"
                      
-        self.mAlignataA2B = makeAlignataVector()
-        self.mAlignataB2A = makeAlignataVector()        
+        self.mAlignmentA2B = makeAlignmentVector()
+        self.mAlignmentB2A = makeAlignmentVector()        
         self.mSeq1 = makeSequence( self.mReferenceSequence1 )
         self.mSeq2 = makeSequence( self.mReferenceSequence2 )
 
@@ -62,20 +62,20 @@ class AlignatorTestCase( unittest.TestCase ):
         if not self.mAlignator: return
         
         for row, col in self.mPairs:
-            self.mAlignataA2B.clear()
-            self.mAlignataB2A.clear()            
-            self.mAlignator.align( self.mSeqs[row], self.mSeqs[col], self.mAlignataA2B )
-            self.mAlignator.align( self.mSeqs[col], self.mSeqs[row], self.mAlignataB2A )            
+            self.mAlignmentA2B.clear()
+            self.mAlignmentB2A.clear()            
+            self.mAlignator.align( self.mSeqs[row], self.mSeqs[col], self.mAlignmentA2B )
+            self.mAlignator.align( self.mSeqs[col], self.mSeqs[row], self.mAlignmentB2A )            
             self.checkAlignment( row, col )
 
     def checkAlignment( self, row, col ):
         """general sanity checks."""
 
-        self.assertEqual( self.mAlignataA2B.getLength(), self.mAlignataB2A.getLength() )
-        self.assertEqual( self.mAlignataA2B.getScore(), self.mAlignataB2A.getScore() )
-        self.assertEqual( self.mAlignataA2B.getNumGaps(), self.mAlignataB2A.getNumGaps() )
-        self.assertEqual( self.mAlignataA2B.getRowFrom(), self.mAlignataB2A.getColFrom() )
-        self.assertEqual( self.mAlignataA2B.getRowTo(), self.mAlignataB2A.getColTo() )        
+        self.assertEqual( self.mAlignmentA2B.getLength(), self.mAlignmentB2A.getLength() )
+        self.assertEqual( self.mAlignmentA2B.getScore(), self.mAlignmentB2A.getScore() )
+        self.assertEqual( self.mAlignmentA2B.getNumGaps(), self.mAlignmentB2A.getNumGaps() )
+        self.assertEqual( self.mAlignmentA2B.getRowFrom(), self.mAlignmentB2A.getColFrom() )
+        self.assertEqual( self.mAlignmentA2B.getRowTo(), self.mAlignmentB2A.getColTo() )        
         
 class AlignatorDPGlobalWithEndGapsPenaltiesTestCase( AlignatorTestCase ):
 
@@ -87,7 +87,7 @@ class AlignatorDPGlobalWithEndGapsPenaltiesTestCase( AlignatorTestCase ):
     def checkAlignment( self, row, col ):
 
         AlignatorTestCase.checkAlignment( self, row, col )
-        self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() )            
+        self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
 
 class AlignatorDPGlobalNoEndGapsPenaltiesTestCase( AlignatorTestCase ):
 
@@ -102,9 +102,9 @@ class AlignatorDPGlobalNoEndGapsPenaltiesTestCase( AlignatorTestCase ):
         AlignatorTestCase.checkAlignment( self, row, col )
         
         if row == col or (row,col) in self.mSames:
-            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() )            
+            self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
         else:
-            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() - 4 )
+            self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() - 4 )
 
 class AlignatorDPLocalTestCase( AlignatorTestCase ):
 
@@ -118,9 +118,9 @@ class AlignatorDPLocalTestCase( AlignatorTestCase ):
         AlignatorTestCase.checkAlignment( self, row, col )
 
         if row == col or (row,col) in self.mSames:
-            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() )            
+            self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
         else:
-            self.assertEqual( self.mAlignataA2B.getLength(), 14 )
+            self.assertEqual( self.mAlignmentA2B.getLength(), 14 )
 
 class AlignatorDPWrapTestCase( AlignatorTestCase ):
 
@@ -134,9 +134,9 @@ class AlignatorDPWrapTestCase( AlignatorTestCase ):
         AlignatorTestCase.checkAlignment( self, row, col )
 
         if row == col or (row,col) in self.mSames:
-            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() )            
+            self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
         else:
-            self.assertEqual( self.mAlignataA2B.getLength(), 14 )
+            self.assertEqual( self.mAlignmentA2B.getLength(), 14 )
             
 
 class AlignatorIterativeTestCase( AlignatorTestCase ):
@@ -157,17 +157,17 @@ class AlignatorIterativeTestCase( AlignatorTestCase ):
         
     def checkAlignment( self, row, col ):
 
-        if self.mAlignataA2B.getScore() != self.mAlignataB2A.getScore():
-            print str(self.mAlignataA2B)
-            print str(self.mAlignataB2A)
-            print row, col, self.mAlignataA2B.getScore(), self.mAlignataB2A.getScore()
+        if self.mAlignmentA2B.getScore() != self.mAlignmentB2A.getScore():
+            print str(self.mAlignmentA2B)
+            print str(self.mAlignmentB2A)
+            print row, col, self.mAlignmentA2B.getScore(), self.mAlignmentB2A.getScore()
 
         AlignatorTestCase.checkAlignment( self, row, col )
         
         if row == col or (row,col) in self.mSames:
-            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[row].getLength() )            
-            self.assertEqual( self.mAlignataA2B.getLength(), self.mSeqs[col].getLength() )
-            self.assertEqual( self.mAlignataA2B.getNumGaps(), 0 )
+            self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
+            self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[col].getLength() )
+            self.assertEqual( self.mAlignmentA2B.getNumGaps(), 0 )
         
 def suite():
     suite = unittest.TestSuite()

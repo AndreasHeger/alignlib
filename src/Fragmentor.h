@@ -33,7 +33,7 @@
 namespace alignlib 
 {
 
-class Alignata;
+class Alignment;
 class Alignandum;
 
 /**
@@ -60,7 +60,7 @@ class Fragmentor {
     Fragmentor( const Fragmentor & src);
     
     /** method for aligning two arbitrary objects */
-    virtual FragmentVector * fragment(const Alignandum *, const Alignandum *, Alignata *) = 0; 
+    virtual FragmentVector * fragment(const Alignandum *, const Alignandum *, Alignment *) = 0; 
     
 };
 

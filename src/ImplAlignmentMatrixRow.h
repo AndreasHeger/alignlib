@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrixRow.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignmentMatrixRow.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,7 +29,7 @@
 
 #include <iosfwd>
 #include "alignlib.h"
-#include "ImplAlignataMatrix.h"
+#include "ImplAlignmentMatrix.h"
 
 namespace alignlib {
 
@@ -38,9 +38,9 @@ class Alignandum;
 /** @brief dotplot with dots sorted by row and then col.
 
     @author Andreas Heger
-    @version $Id: ImplAlignataMatrixRow.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+    @version $Id: ImplAlignmentMatrixRow.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignataMatrixRow : public ImplAlignataMatrix {
+class ImplAlignmentMatrixRow : public ImplAlignmentMatrix {
 
     friend class ConstIterator;
     friend class ImplAlignatorDots;
@@ -48,19 +48,19 @@ class ImplAlignataMatrixRow : public ImplAlignataMatrix {
  public:
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignataMatrixRow( long ndots = 0);
+    ImplAlignmentMatrixRow( long ndots = 0);
     
     /** copy constructor */
-    ImplAlignataMatrixRow( const ImplAlignataMatrixRow &src );
+    ImplAlignmentMatrixRow( const ImplAlignmentMatrixRow &src );
 
     /** destructor */
-    virtual ~ImplAlignataMatrixRow();
+    virtual ~ImplAlignmentMatrixRow();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignataMatrixRow * getNew() const;
+    virtual ImplAlignmentMatrixRow * getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignataMatrixRow * getClone() const;
+    virtual ImplAlignmentMatrixRow * getClone() const;
 
     //------------------------------------------------------------------------------------------------------------
     /** maps a residue from row to column. returns 0, if not found. This is quick, since there is 

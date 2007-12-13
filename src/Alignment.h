@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: Alignata.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
+  $Id: Alignment.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -35,8 +35,8 @@ namespace alignlib
 {
 
 class Alignandum;
-class AlignataIterator;
-class AlignataConstIterator;
+class AlignmentIterator;
+class AlignmentConstIterator;
 
 /**
    @short A residuepair containing row, column, and a score.
@@ -90,36 +90,36 @@ bool operator!=( const ResiduePAIR & x, const ResiduePAIR & y);
 
  */
 
-class Alignata 
+class Alignment 
 {
-	friend std::ostream & operator<<(std::ostream &output, const Alignata &);
+	friend std::ostream & operator<<(std::ostream &output, const Alignment &);
 
 public:
 
 	//------------------> constructors / destructors <---------------------------------------------------------
 	/** empty constructor */
-	Alignata();
+	Alignment();
 
 	/** copy constructor */
-	Alignata( const Alignata &src );
+	Alignment( const Alignment &src );
 
 	/** destructor */
-	virtual ~Alignata();
+	virtual ~Alignment();
 
 	//------------------------------------------------------------------------------------------------------------
 	/** returns a new empty Alignment of the same type.
 	 */
-	virtual Alignata * getNew() const = 0;
+	virtual Alignment * getNew() const = 0;
 
 	/** returns an identical copy
 	 */
-	virtual Alignata * getClone() const = 0;
+	virtual Alignment * getClone() const = 0;
 
 	//------------------------------------------------------------------------------------------------------------
 	/**
        @short Const iterator over an alignment.
 
-       This iterator iterates over residues in the @ref Alignata
+       This iterator iterates over residues in the @ref Alignment
        objects.
 	 */
 	class ConstIterator 
@@ -176,19 +176,19 @@ public:
 
 	/** returns a const_iterator pointing to the first element in the container
 	 */
-	virtual AlignataConstIterator begin() const = 0; 
+	virtual AlignmentConstIterator begin() const = 0; 
 
 	/** returns a const_iterator pointing one past the last element in the container.
 	 */
-	virtual AlignataConstIterator end() const = 0; 
+	virtual AlignmentConstIterator end() const = 0; 
 
 	/** returns an iterator pointing to the first element in the container
 	 */
-	virtual AlignataIterator begin() = 0; 
+	virtual AlignmentIterator begin() = 0; 
 
 	/** returns an iterator pointing one past the last element in the container.
 	 */
-	virtual AlignataIterator end() = 0; 
+	virtual AlignmentIterator end() = 0; 
 
 	//----------------> accessors <------------------------------------------------------------------------------
 

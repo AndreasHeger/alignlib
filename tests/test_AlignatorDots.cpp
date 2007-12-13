@@ -48,8 +48,8 @@
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -68,7 +68,7 @@ void test() {
         cout << "---------------------Testing Alignator----------------------------------" << endl;
         // build alignment
 
-        alignlib::Alignata * dotplot = fillAlignataCompressedDiagonal( makeAlignataMatrixRow(), 
+        alignlib::Alignment * dotplot = fillAlignmentCompressedDiagonal( makeAlignmentMatrixRow(), 
 								       "-321:-89+10;-320:-78+11-11+13;-315:-75+3;-311:-70+5;-310:-47+23;-309:-40+7;-305:-28+12;-304:-27+1;-303:-13+5;-302:-4+9;-301:-20+7;-169:-98+2;-167:-95+3-4+8;-166:-94+1;-164:-60+15;-163:-76+18;-156:-35+25;-155:-5+10;-154:-16+19;-24:-53+2;-23:-92+7;-22:-31+4-57+5;-21:-31+81;-20:-30+6-23+1;-19:-30+6;-18:-33+3;-17:-0+1-32+3;-16:-0+36;-15:-37+1"
 								       );
   
@@ -85,7 +85,7 @@ void test() {
 	alignlib::Alignator * alignator = makeAlignatorDotsSquared( -10, -2, dottor );
 	
 	// setup up map_source2dest; m2 will be in col
-	Alignata *map_source2dest = makeAlignataVector();
+	Alignment *map_source2dest = makeAlignmentVector();
 
 	alignator->align( seq1, seq2, map_source2dest);
 	
@@ -111,7 +111,7 @@ int main () {
 //    {
 //          cout << "---------------------Testing Alignator----------------------------------" << endl;
 //          // build alignment
-//          alignlib::Alignata * dotplot = fillAlignataIdentity( makeAlignataMatrixRow(), 10, 20, 0);
+//          alignlib::Alignment * dotplot = fillAlignmentIdentity( makeAlignmentMatrixRow(), 10, 20, 0);
 //  	rescoreAlignment( dotplot, 1);
 //  	cout << *dotplot << endl;
   
@@ -128,7 +128,7 @@ int main () {
 //  	alignlib::Alignator * alignator = makeAlignatorDotsSquared( -4, -0.4, dottor );
 	
 //  	// setup up map_source2dest; m2 will be in col
-//  	Alignata *map_source2dest = makeAlignataSet();
+//  	Alignment *map_source2dest = makeAlignmentSet();
 	
 //  	alignator->Align( pro1, pro2, map_source2dest);
 	
@@ -149,7 +149,7 @@ int main () {
 // 	Alignandum * pro2 = makeProfile( "AAGGGGGGGGGGGYYAAGGGGGGGGGGGYYAAGGGGGGGGGGGYYAAGGGGGGGGGGG", 1);
 // 	Alignator * dottor = makeAlignatorIdentity();
 // 	Alignator * alignator = makeAlignatorDotsWrap( -4, -0.1, dottor);
-// 	Alignata * ali = makeAlignataSet();
+// 	Alignment * ali = makeAlignmentSet();
 // 	cout << "pro1 -> pro2" << endl;
 // 	alignator->Align( pro1, pro2, ali);
 // 	cout << *ali << endl;
@@ -168,7 +168,7 @@ int main () {
 //  	cout << "-------------------------------Test 2-----------------------------------------" << endl;
 //  // 	Alignandum * seq1 = makeSequence( "XXGXXGX" );
 //  // 	Alignandum * seq2 = makeSequence( "XXGXXGX" );
-//  	Alignata * a = makeAlignataMatrixRow();
+//  	Alignment * a = makeAlignmentMatrixRow();
 
 //   	Alignandum * seq1 = makeSequence( "XXGXXGXXXXAXXAX" );
 //   	Alignandum * seq2 = makeSequence( "XXGXXGXAXXAXXX" );
@@ -179,7 +179,7 @@ int main () {
 //  	cout << *a << endl;
 
 //  	Alignator * alignator = makeAlignatorDotsDiagonals( 0, -0.1, dottor);
-//  	Alignata * ali = makeAlignataSet();
+//  	Alignment * ali = makeAlignmentSet();
 //  	cout << "seq1 -> seq2" << endl;
 //  	alignator->Align( seq1, seq2, ali);
 //  	cout << *ali << endl;

@@ -30,14 +30,14 @@
 
 #include "alignlib.h"
 #include "Alignator.h"
-#include "Alignata.h"
+#include "Alignment.h"
 #include "Scorer.h"
 #include "Iterator2D.h"
 
 namespace alignlib {
 
   class Alignandum;
-  class Alignata;
+  class Alignment;
   class Iterator2D;
   class Scorer;
   
@@ -67,10 +67,10 @@ namespace alignlib {
     
     protected:
       /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-      virtual void startUp( const Alignandum * row, const Alignandum * col, Alignata * ali);
+      virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
     
       /** perform cleanup after alignment */
-      virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignata * ali);                     
+      virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
 
       /** set range object */
       virtual void setIterator2D( const Iterator2D * iterator = NULL);    

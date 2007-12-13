@@ -30,8 +30,8 @@
 
 #include "Alignator.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "ImplAlignatorIterative.h"
 
@@ -71,7 +71,7 @@ namespace alignlib
   }
   
   
-  Alignata * ImplAlignatorIterative::align( const Alignandum * row, const Alignandum * col, Alignata * result) 
+  Alignment * ImplAlignatorIterative::align( const Alignandum * row, const Alignandum * col, Alignment * result) 
   {
       debug_func_cerr(5);
       
@@ -95,7 +95,7 @@ namespace alignlib
   }
 
   void ImplAlignatorIterative::alignIteratively( 
-		  	Alignata * dest, 
+		  	Alignment * dest, 
   			Alignandum * row, 
   			Alignandum * col )
   {
@@ -113,14 +113,14 @@ namespace alignlib
     if (from_1 > to_1 || from_2 > to_2)
       return;
 
-    Alignata * result = dest->getNew();
+    Alignment * result = dest->getNew();
 
     mAlignator->align( row, col, result );
 
     if (result->getScore() > mMinScore) 
     {
 
-        addAlignata2Alignata( dest, result );
+        addAlignment2Alignment( dest, result );
 
         debug_cerr( 5, "new alignment\n" << *result )
         debug_cerr( 5, "new alignment coordinates: row=" << result->getRowFrom() << " " << result->getRowTo()  

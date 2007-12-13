@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrixUnsorted.cpp,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignmentMatrixUnsorted.cpp,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -24,7 +24,7 @@
 #include <iostream> 
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "ImplAlignataMatrixUnsorted.h"
+#include "ImplAlignmentMatrixUnsorted.h"
 #include "AlignException.h"
 
 #ifdef WITH_DMALLOC
@@ -53,39 +53,39 @@ namespace alignlib {
 #define NODOT -1 
 
 //------------------------------factory functions -----------------------------
-Alignata * makeAlignataMatrixUnsorted( long ndots ) {
-  return new ImplAlignataMatrixUnsorted( ndots);
+Alignment * makeAlignmentMatrixUnsorted( long ndots ) {
+  return new ImplAlignmentMatrixUnsorted( ndots);
 }
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignataMatrixUnsorted::ImplAlignataMatrixUnsorted( long ndots ) : ImplAlignataMatrix( ndots ) 
+ImplAlignmentMatrixUnsorted::ImplAlignmentMatrixUnsorted( long ndots ) : ImplAlignmentMatrix( ndots ) 
 {
   debug_func_cerr(5);
 
 }
 
-ImplAlignataMatrixUnsorted::ImplAlignataMatrixUnsorted( const ImplAlignataMatrixUnsorted& src) : 
-  ImplAlignataMatrix( src ) 
+ImplAlignmentMatrixUnsorted::ImplAlignmentMatrixUnsorted( const ImplAlignmentMatrixUnsorted& src) : 
+  ImplAlignmentMatrix( src ) 
 {
   debug_func_cerr(5);
 
 }
 
-ImplAlignataMatrixUnsorted::~ImplAlignataMatrixUnsorted( ) 
+ImplAlignmentMatrixUnsorted::~ImplAlignmentMatrixUnsorted( ) 
 {
   debug_func_cerr(5);
 
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getNew() const 
+ImplAlignmentMatrixUnsorted * ImplAlignmentMatrixUnsorted::getNew() const 
 {
-    return new ImplAlignataMatrixUnsorted();
+    return new ImplAlignmentMatrixUnsorted();
 }
     
-ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getClone() const 
+ImplAlignmentMatrixUnsorted * ImplAlignmentMatrixUnsorted::getClone() const 
 {
-    return new ImplAlignataMatrixUnsorted( *this );
+    return new ImplAlignmentMatrixUnsorted( *this );
 }
 
 //-------------------------------------------------------------------------------------------------------------------- 
@@ -93,11 +93,11 @@ ImplAlignataMatrixUnsorted * ImplAlignataMatrixUnsorted::getClone() const
    faster to only sort the indices (as I did in the old version) and then copy it into a new memory location
 */
 
-void ImplAlignataMatrixUnsorted::sortDots() const 
+void ImplAlignmentMatrixUnsorted::sortDots() const 
 {
 }    
 
-void ImplAlignataMatrixUnsorted::eliminateDuplicates() const 
+void ImplAlignmentMatrixUnsorted::eliminateDuplicates() const 
 {
 
   mRowFrom = std::numeric_limits<Position>::max();
@@ -125,7 +125,7 @@ void ImplAlignataMatrixUnsorted::eliminateDuplicates() const
 
 //--------------------------------------------------------------------------------------------------------------
 // build the index
-void ImplAlignataMatrixUnsorted::buildIndex() const 
+void ImplAlignmentMatrixUnsorted::buildIndex() const 
 {
 }
   

@@ -154,7 +154,7 @@ def export_writePairAlignment( mb ):
       void wrapper_for_writePairAlignment( PyObject* fp, 
           const alignlib::Alignandum * row, 
           const alignlib::Alignandum * col,
-          const alignlib::Alignata * alignment ) 
+          const alignlib::Alignment * alignment ) 
       {
         if (!PyFile_Check(fp)) 
         {
@@ -177,15 +177,15 @@ def export_writePairAlignment( mb ):
     mb.add_declaration_code( declaration_code, tail = True )
     mb.add_registration_code( registration_code )
 
-def export_writeAlignataCompressed( mb ):
+def export_writeAlignmentCompressed( mb ):
     """export writePairAlignment.
     
     This function has to map ostream to a python file.
     """
     declaration_code = \
 """
-      void wrapper_for_writeAlignataCompressed( PyObject* fp, 
-          const alignlib::Alignata * alignment )
+      void wrapper_for_writeAlignmentCompressed( PyObject* fp, 
+          const alignlib::Alignment * alignment )
       {
         if (!PyFile_Check(fp)) 
         {
@@ -194,15 +194,15 @@ def export_writeAlignataCompressed( mb ):
         std::FILE* f = PyFile_AsFile(fp);
         std_obuf buf(f);
         std::ostream os(&buf);
-        writeAlignataCompressed( os, alignment );
+        writeAlignmentCompressed( os, alignment );
       }
     """
     
-    fun = mb.free_function("writeAlignataCompressed")
+    fun = mb.free_function("writeAlignmentCompressed")
     fun.include_files.append( "streambuf" )
     fun.exclude()
-    registration_code = """bp::def( "writeAlignataCompressed", 
-        wrapper_for_writeAlignataCompressed, 
+    registration_code = """bp::def( "writeAlignmentCompressed", 
+        wrapper_for_writeAlignmentCompressed, 
         (bp::arg("output"), bp::arg("ali") ));"""
          
     mb.add_declaration_code( declaration_code, tail = True )
@@ -226,7 +226,7 @@ def export_functions( mb ):
                    "rescore",
                    "flatten",
                    "filter",
-                   "readAlignataPairs",
+                   "readAlignmentPairs",
                    "calculateAffineScore",
 #                       "extractMultipleAlignment",                       
                    "rescaleProfileCounts",
@@ -265,7 +265,7 @@ def export_functions( mb ):
             # fun.call_policies = return_value_policy( manage_new_object )
 
     # other functions that return new objects, including the factory functions
-    for prefix in ("extract", "read", "make", "load", "exportProfileFrequencies", "splitAlignata" ): 
+    for prefix in ("extract", "read", "make", "load", "exportProfileFrequencies", "splitAlignment" ): 
         try:
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
                                return_value_policy( manage_new_object )
@@ -289,7 +289,7 @@ def export_functions( mb ):
     
     ## deal with functions that work on streams
     export_writePairAlignment( mb )
-    export_writeAlignataCompressed( mb )
+    export_writeAlignmentCompressed( mb )
 
    
 def export_classes( mb ):
@@ -319,9 +319,9 @@ def export_interface_classes( mb ):
     #                          'Translator',
                               'SubstitutionMatrix',
                               'Fragmentor',
-                              'Alignata',
-                              'AlignataIterator',
-                              'AlignataConstIterator',
+                              'Alignment',
+                              'AlignmentIterator',
+                              'AlignmentConstIterator',
                               'Scorer',
                               'Weightor',
                               'Renderer',
@@ -395,7 +395,7 @@ def export_interface_classes( mb ):
     ## exlude functions while testing. Need to map return types later.
     mb.member_operators( lambda x: x.name in ("operator++", "operator--", "operator*", "operator->", "operator()") ).exclude()
 
-    ## do not export the internal iterator interfaces. This makes Alignata
+    ## do not export the internal iterator interfaces. This makes Alignment
     ## virtual and the wrapper will cause compilation to fail.
     mb.classes( lambda x: x.name in ("Iterator", "ConstIterator")).exclude()
 
@@ -426,7 +426,7 @@ def export_interface_classes( mb ):
     ## 3: the class of the pointee
     classes_with_ownership_transfer = [ ("MultipleAlignment", "add", "Alignatum") , ]
     ## TODO: add others, in particular addPair, but check for argument types 
-                                         #("Alignata", "addPair", "ResiduePAIR" ) ]
+                                         #("Alignment", "addPair", "ResiduePAIR" ) ]
     
     for ccontainer, fname, cpointee in classes_with_ownership_transfer:
         cls_pointee = mb.class_( cpointee )

@@ -35,7 +35,7 @@
 
 namespace alignlib {
     
-    /** Helper functions for class Alignata:
+    /** Helper functions for class Alignment:
 	
 	1. factory functions
 	
@@ -52,7 +52,7 @@ namespace alignlib {
 				       Score gep, 
 				       Alignator * dottor );
   
-  Fragmentor * makeFragmentorIterative( Alignata * dots, 
+  Fragmentor * makeFragmentorIterative( Alignment * dots, 
 					Score min_score,
 					Score gop,
 					Score gep );

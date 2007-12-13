@@ -33,7 +33,7 @@
 #include "Alignandum.h"
 #include "SubstitutionMatrix.h"
 #include "ImplAlignatorTuples.h"
-#include "ImplAlignataMatrix.h"
+#include "ImplAlignmentMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 #ifdef WITH_DMALLOC
@@ -74,7 +74,7 @@ namespace alignlib
   
   //---------------------------------------------> Alignment <-----------------------------------------
   
-  Alignata * ImplAlignatorTuples::align( const Alignandum * row, const Alignandum * col, Alignata * result) 
+  Alignment * ImplAlignatorTuples::align( const Alignandum * row, const Alignandum * col, Alignment * result) 
 {
   debug_func_cerr(5);
 

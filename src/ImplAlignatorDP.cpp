@@ -33,8 +33,8 @@
 #include "HelpersSubstitutionMatrix.h"
 #include "ImplSubstitutionMatrixAA.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "Alignandum.h"
 #include "Alignator.h"
@@ -136,7 +136,7 @@ Score ImplAlignatorDP::getColGop() { return mColGop; }
 Score ImplAlignatorDP::getColGep() { return mColGep; }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
-Alignata * ImplAlignatorDP::align(const Alignandum * row, const Alignandum * col, Alignata * result)
+Alignment * ImplAlignatorDP::align(const Alignandum * row, const Alignandum * col, Alignment * result)
 
 {
 	debug_func_cerr(5);
@@ -163,7 +163,7 @@ Alignata * ImplAlignatorDP::align(const Alignandum * row, const Alignandum * col
 }
 
 //------------------------------------------------------------------------------------------
-void ImplAlignatorDP::startUp(const Alignandum * row, const Alignandum *col, Alignata * ali) {
+void ImplAlignatorDP::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali) {
 
 	ImplAlignator::startUp(row, col, ali);  
 
@@ -191,7 +191,7 @@ void ImplAlignatorDP::startUp(const Alignandum * row, const Alignandum *col, Ali
 #endif
 }
 //----------------------------------------------------------------------------------------------------------------------------------------
-void ImplAlignatorDP::cleanUp(const Alignandum * row, const Alignandum *col, Alignata * ali)
+void ImplAlignatorDP::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
 {
 
 	if (mCC != NULL) 

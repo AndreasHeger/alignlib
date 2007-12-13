@@ -35,7 +35,7 @@ namespace alignlib
 {
 
 class Alignandum;
-class Alignata;
+class Alignment;
 class Renderer;
 
 /** @short interface definition of Alignatum objects.
@@ -115,7 +115,7 @@ class Alignatum
 	If unaligned chars is true, lower case unaligned characters will be
 	put before the next aligned character (as much as fit) 
     */
-    virtual void mapOnAlignment(const Alignata * map_old2new,
+    virtual void mapOnAlignment(const Alignment * map_old2new,
 				const Position new_length = 0,
 				const bool unaligned_chars = false ) = 0;
 				

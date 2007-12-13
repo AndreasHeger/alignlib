@@ -27,10 +27,10 @@
 
 #include "Fragmentor.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
-#include "AlignataIterator.h"
+#include "AlignmentIterator.h"
 
 #include "Alignandum.h"
 #include "AlignException.h"
@@ -52,7 +52,7 @@ namespace alignlib {
 
 /*---------------------factory functions ---------------------------------- */
 
-  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
       object */
 Fragmentor * makeFragmentorDiagonals(Score gop, 
 				     Score gep, 
@@ -98,7 +98,7 @@ ImplFragmentorDiagonals::ImplFragmentorDiagonals( const ImplFragmentorDiagonals 
 
 //------------------------------------------------------------------------------------------
 /** CleanUp is empty and does not call base class method, as no shifting is necessary */
-void ImplFragmentorDiagonals::cleanUp(const Alignandum * row, const Alignandum *col, Alignata * ali)
+void ImplFragmentorDiagonals::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
 {
   debug_func_cerr(5);
 }
@@ -127,10 +127,10 @@ Score ImplFragmentorDiagonals::getGapCost( const ResiduePAIR & p1, const Residue
 //------------------------------------------------------------------------------------------------
 void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row, 
 						    const Alignandum * col, 
-						    const Alignata * sample) {
+						    const Alignment * sample) {
 
     // create dot-matrix (sorted by diagonal)
-    Alignata * matrix = makeAlignataMatrixDiagonal();
+    Alignment * matrix = makeAlignmentMatrixDiagonal();
     
     // dots are automatically moved to correct position,
     // if only segments are used in row/col
@@ -141,10 +141,10 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
     
     Diagonal last_diagonal = MAX_DIAGONAL;
     
-    AlignataIterator it(matrix->begin()), it_end(matrix->end());
+    AlignmentIterator it(matrix->begin()), it_end(matrix->end());
     
     Score last_score = 0;
-    Alignata * current_ali = makeAlignataSet();
+    Alignment * current_ali = makeAlignmentSet();
     
     const ResiduePAIR * last_p = NULL;
 
@@ -160,8 +160,8 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
 	if (last_diagonal != current_diagonal) {
 	    // save fragment with positive score
 	    if (last_score > 0 && length > 1) {
-		Alignata * new_ali = sample->getNew();
-		copyAlignata( new_ali, current_ali);
+		Alignment * new_ali = sample->getNew();
+		copyAlignment( new_ali, current_ali);
 		new_ali->setScore( last_score );
 		mFragments->push_back( new_ali );
 	    }
@@ -186,8 +186,8 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
 	  // stop existing alignment
 	  // save
 	  if (last_score > 0 && length > 1) {
-	    Alignata * new_ali = sample->getNew();
-	    copyAlignata( new_ali, current_ali);
+	    Alignment * new_ali = sample->getNew();
+	    copyAlignment( new_ali, current_ali);
 	    new_ali->setScore( last_score );
 	    mFragments->push_back( new_ali );
 	    length = 0;
@@ -215,8 +215,8 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
     }
 
     if (last_score > 0 && length > 1) {
-	Alignata * new_ali = sample->getNew();
-	copyAlignata( new_ali, current_ali);
+	Alignment * new_ali = sample->getNew();
+	copyAlignment( new_ali, current_ali);
 	new_ali->setScore( last_score );
 	mFragments->push_back( new_ali );
     }

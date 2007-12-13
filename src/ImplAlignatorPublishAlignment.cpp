@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignatorPublishAlignata.cpp,v 1.2 2004/01/07 14:35:34 aheger Exp $
+  $Id: ImplAlignatorPublishAlignment.cpp,v 1.2 2004/01/07 14:35:34 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -28,13 +28,13 @@
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
-#include "ImplAlignatorPublishAlignata.h"
+#include "ImplAlignatorPublishAlignment.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -45,34 +45,34 @@ using namespace std;
 namespace alignlib
 {
   
-  Alignator * makeAlignatorPublishAlignata( Alignata * ali) {
-    return new ImplAlignatorPublishAlignata( ali );
+  Alignator * makeAlignatorPublishAlignment( Alignment * ali) {
+    return new ImplAlignatorPublishAlignment( ali );
   }
   
   //---------------------------------------------------------< constructors and destructors >--------------------------------------
-  ImplAlignatorPublishAlignata::ImplAlignatorPublishAlignata ( Alignata * ali) : 
+  ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment ( Alignment * ali) : 
     ImplAlignator(), 
-    mAlignata ( ali ) {
+    mAlignment ( ali ) {
   }
   
-  ImplAlignatorPublishAlignata::~ImplAlignatorPublishAlignata () {
+  ImplAlignatorPublishAlignment::~ImplAlignatorPublishAlignment () {
   }
   
-  ImplAlignatorPublishAlignata::ImplAlignatorPublishAlignata (const ImplAlignatorPublishAlignata & src ) : ImplAlignator(src) {
+  ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment (const ImplAlignatorPublishAlignment & src ) : ImplAlignator(src) {
   }
   
   //--------------------------------------------------------------------------------------------------------
-  ImplAlignatorPublishAlignata * ImplAlignatorPublishAlignata::getClone() const 
+  ImplAlignatorPublishAlignment * ImplAlignatorPublishAlignment::getClone() const 
   {
-   return new ImplAlignatorPublishAlignata( *this );
+   return new ImplAlignatorPublishAlignment( *this );
   }
   
   
-  Alignata * ImplAlignatorPublishAlignata::align( const Alignandum * row, const Alignandum * col, Alignata * result) 
+  Alignment * ImplAlignatorPublishAlignment::align( const Alignandum * row, const Alignandum * col, Alignment * result) 
   {    
     startUp(row, col, result );
     cleanUp( row, col, result );
-    return mAlignata;
+    return mAlignment;
   }
 
 

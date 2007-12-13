@@ -27,10 +27,10 @@
 
 #include "Fragmentor.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
-#include "AlignataIterator.h"
+#include "AlignmentIterator.h"
 
 #include "Alignandum.h"
 #include "AlignException.h"
@@ -53,7 +53,7 @@ namespace alignlib {
 
 /*---------------------factory functions ---------------------------------- */
 
-  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
       object */
 Fragmentor * makeFragmentorRepetitive( Alignator * alignator, Score min_score ) {
   return new ImplFragmentorRepetitive( alignator, min_score );
@@ -86,7 +86,7 @@ ImplFragmentorRepetitive::ImplFragmentorRepetitive( const ImplFragmentorRepetiti
 //------------------------------------------------------------------------------------------------
 void ImplFragmentorRepetitive::performFragmentation( const Alignandum * row, 
 						     const Alignandum * col, 
-						     const Alignata * sample) {
+						     const Alignment * sample) {
     
   /* since src1 and src2 are const, I have to create two work-copies, 
      so that the boundaries can be changed. */
@@ -96,7 +96,7 @@ void ImplFragmentorRepetitive::performFragmentation( const Alignandum * row,
   
   while ( 1 ) {
     
-    Alignata * result = sample->getNew();
+    Alignment * result = sample->getNew();
     mAlignator->align( copy_row, copy_col, result);
     if (result->getScore() >= mMinScore) {
 

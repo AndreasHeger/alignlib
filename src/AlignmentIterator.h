@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: AlignataIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
+  $Id: AlignmentIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,14 +29,14 @@
 
 #include <iosfwd>
 #include "alignlib.h"
-#include "Alignata.h"
+#include "Alignment.h"
 
 namespace alignlib 
 {
 
-    /** Iterator interface for constant iterators over Alignata objects. 
+    /** Iterator interface for constant iterators over Alignment objects. 
      * 
-     * The AlignataConstIterator and AlignataIterator classes take any of the 
+     * The AlignmentConstIterator and AlignmentIterator classes take any of the 
      * iterators of aligned pairs of alignata-objects
 	and converts it into an iterator that is STL-compatible in its syntax (i.e. 
 	no overloading, etc.). 
@@ -45,25 +45,25 @@ namespace alignlib
 	two additional indirections.
 
 	@author Andreas Heger
-	@version $Id: AlignataIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
-	@short protocol class for iterators over Alignata objects
-	@ref Alignata
+	@version $Id: AlignmentIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
+	@short protocol class for iterators over Alignment objects
+	@ref Alignment
     */
 
-class AlignataConstIterator 
+class AlignmentConstIterator 
 {
  public:
 
-    AlignataConstIterator() : mIterator(NULL) {};
+    AlignmentConstIterator() : mIterator(NULL) {};
 
-    AlignataConstIterator( Alignata::ConstIterator * it) : mIterator(it) {} ;
+    AlignmentConstIterator( Alignment::ConstIterator * it) : mIterator(it) {} ;
     
-    AlignataConstIterator( const AlignataConstIterator & src ) { mIterator = src.mIterator->getClone();};
+    AlignmentConstIterator( const AlignmentConstIterator & src ) { mIterator = src.mIterator->getClone();};
     
-    ~AlignataConstIterator() { delete mIterator; };
+    ~AlignmentConstIterator() { delete mIterator; };
 
     /** assignment operator */
-    inline AlignataConstIterator & operator=( const AlignataConstIterator & other ) {
+    inline AlignmentConstIterator & operator=( const AlignmentConstIterator & other ) {
       if (*this != other) {
 	/* mIterator = other.mIterator; does not work, I guess, because of shallow copying */
 	delete mIterator;
@@ -74,12 +74,12 @@ class AlignataConstIterator
     }
 
     /** comparison operator */
-    inline bool operator==( const AlignataConstIterator & other) {   
+    inline bool operator==( const AlignmentConstIterator & other) {   
       return ( (*mIterator).getPointer() == (*other.mIterator).getPointer() );
     }
     
     /** comparison operator */
-    inline bool operator!=( const AlignataConstIterator & other) {
+    inline bool operator!=( const AlignmentConstIterator & other) {
       return ( (*mIterator).getPointer() != (*other.mIterator).getPointer() );
     }
       
@@ -90,25 +90,25 @@ class AlignataConstIterator
     inline const ResiduePAIR & operator*() const { return mIterator->getReference(); }
  
     /** prefix ++ */
-    inline AlignataConstIterator & operator++() { mIterator->next(); return *this; }
+    inline AlignmentConstIterator & operator++() { mIterator->next(); return *this; }
  
     /** postfix ++ */
-    inline AlignataConstIterator operator++(int) { AlignataConstIterator tmp = *this; mIterator->next(); return tmp; }
+    inline AlignmentConstIterator operator++(int) { AlignmentConstIterator tmp = *this; mIterator->next(); return tmp; }
  
     /** prefix -- */
-    inline AlignataConstIterator & operator--() { mIterator->previous(); return *this; }
+    inline AlignmentConstIterator & operator--() { mIterator->previous(); return *this; }
  
     /** postfix -- */
-    inline AlignataConstIterator  operator--(int) { 
-      AlignataConstIterator tmp = *this; mIterator->previous(); return tmp; }
+    inline AlignmentConstIterator  operator--(int) { 
+      AlignmentConstIterator tmp = *this; mIterator->previous(); return tmp; }
     
  private:
-    Alignata::ConstIterator * mIterator;
+    Alignment::ConstIterator * mIterator;
 };
 
-/** Iterator interface for constant iterators over Alignata objects. 
+/** Iterator interface for constant iterators over Alignment objects. 
  * 
- * The AlignataConstIterator and AlignataIterator classes take any of the 
+ * The AlignmentConstIterator and AlignmentIterator classes take any of the 
  * iterators of aligned pairs of alignata-objects
 and converts it into an iterator that is STL-compatible in its syntax (i.e. 
 no overloading, etc.). 
@@ -117,23 +117,23 @@ The penalty for this universality in syntax is paid in performance. There are
 two additional indirections.
 
 @author Andreas Heger
-@version $Id: AlignataIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
-@short protocol class for iterators over Alignata objects
-@ref Alignata
+@version $Id: AlignmentIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
+@short protocol class for iterators over Alignment objects
+@ref Alignment
 */
-class AlignataIterator 
+class AlignmentIterator 
 {
  public:
-    AlignataIterator() : mIterator(NULL) {};
+    AlignmentIterator() : mIterator(NULL) {};
 
-    AlignataIterator( Alignata::Iterator * it) : mIterator(it) {} ;
+    AlignmentIterator( Alignment::Iterator * it) : mIterator(it) {} ;
     
-    AlignataIterator( const AlignataIterator & src ) { mIterator = src.mIterator->getClone();};
+    AlignmentIterator( const AlignmentIterator & src ) { mIterator = src.mIterator->getClone();};
     
-    ~AlignataIterator() { delete mIterator; };
+    ~AlignmentIterator() { delete mIterator; };
 
     /** assignment operator */
-    inline AlignataIterator & operator=( const AlignataIterator & other ) {
+    inline AlignmentIterator & operator=( const AlignmentIterator & other ) {
       if (*this != other) {
 	/* mIterator = other.mIterator; does not work, I guess, because of shallow copying */
 	delete mIterator;
@@ -144,12 +144,12 @@ class AlignataIterator
     }
 
     /** comparison operator */
-    inline bool operator==( const AlignataIterator & other) {   
+    inline bool operator==( const AlignmentIterator & other) {   
       return ( (*mIterator).getPointer() == (*other.mIterator).getPointer() );
     }
     
     /** comparison operator */
-    inline bool operator!=( const AlignataIterator & other) {
+    inline bool operator!=( const AlignmentIterator & other) {
       return ( (*mIterator).getPointer() != (*other.mIterator).getPointer() );
     }
       
@@ -160,20 +160,20 @@ class AlignataIterator
     inline ResiduePAIR & operator*() const { return mIterator->getReference(); }
  
     /** prefix ++ */
-    inline AlignataIterator & operator++() { mIterator->next(); return *this; }
+    inline AlignmentIterator & operator++() { mIterator->next(); return *this; }
  
     /** postfix ++ */
-    inline AlignataIterator operator++(int) { AlignataIterator tmp = *this; mIterator->next(); return tmp; }
+    inline AlignmentIterator operator++(int) { AlignmentIterator tmp = *this; mIterator->next(); return tmp; }
  
     /** prefix -- */
-    inline AlignataIterator & operator--() { mIterator->previous(); return *this; }
+    inline AlignmentIterator & operator--() { mIterator->previous(); return *this; }
  
     /** postfix -- */
-    inline AlignataIterator  operator--(int) { 
-      AlignataIterator tmp = *this; mIterator->previous(); return tmp; }
+    inline AlignmentIterator  operator--(int) { 
+      AlignmentIterator tmp = *this; mIterator->previous(); return tmp; }
     
  private:
-    Alignata::Iterator * mIterator;
+    Alignment::Iterator * mIterator;
 };
 
 

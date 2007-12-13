@@ -35,9 +35,9 @@ namespace alignlib {
 #define STACKEMPTY     0
     
     class Alignandum;
-    class Alignata;
+    class Alignment;
     class SubstitutionMatrix;
-    class ImplAlignataMatrix;
+    class ImplAlignmentMatrix;
     
 /** @short Implementation of dotplot-alignment with wrap-around lookup
 
@@ -79,7 +79,7 @@ class ImplAlignatorDotsWrap : public ImplAlignatorDots {
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignata * result);
+    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
 
     /** get GAP cost for a gap in row */
     virtual Score getGapCost( Dot x1, Dot x2 ) const;

@@ -27,7 +27,7 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
-#include "Alignata.h"
+#include "Alignment.h"
 #include "SubstitutionMatrix.h"
 #include "ImplAlignatorSimilarity.h"
 
@@ -63,7 +63,7 @@ namespace alignlib {
    return new ImplAlignatorSimilarity( *this );
   }
   
-  Alignata * ImplAlignatorSimilarity::align( const Alignandum * row, const Alignandum * col, Alignata * result) {
+  Alignment * ImplAlignatorSimilarity::align( const Alignandum * row, const Alignandum * col, Alignment * result) {
     
     startUp(row, col, result );
     

@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrixDiagonal.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignmentMatrixDiagonal.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,7 +29,7 @@
 
 #include <iosfwd>
 #include "alignlib.h"
-#include "ImplAlignataMatrix.h"
+#include "ImplAlignmentMatrix.h"
 
 namespace alignlib {
 
@@ -38,9 +38,9 @@ class Alignandum;
 /** @brief dotplot with dots sorted by diagonal.
 
     @author Andreas Heger
-    @version $Id: ImplAlignataMatrixDiagonal.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+    @version $Id: ImplAlignmentMatrixDiagonal.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignataMatrixDiagonal : public ImplAlignataMatrix {
+class ImplAlignmentMatrixDiagonal : public ImplAlignmentMatrix {
 
     friend class ConstIterator;
     
@@ -48,19 +48,19 @@ class ImplAlignataMatrixDiagonal : public ImplAlignataMatrix {
 
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignataMatrixDiagonal( long ndots = 0);
+    ImplAlignmentMatrixDiagonal( long ndots = 0);
     
     /** copy constructor */
-    ImplAlignataMatrixDiagonal( const ImplAlignataMatrixDiagonal &src );
+    ImplAlignmentMatrixDiagonal( const ImplAlignmentMatrixDiagonal &src );
 
     /** destructor */
-    virtual ~ImplAlignataMatrixDiagonal();
+    virtual ~ImplAlignmentMatrixDiagonal();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignataMatrixDiagonal * getNew() const;
+    virtual ImplAlignmentMatrixDiagonal * getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignataMatrixDiagonal * getClone() const;
+    virtual ImplAlignmentMatrixDiagonal * getClone() const;
     
     //----------------> accessors <------------------------------------------------------------------------------
 

@@ -33,7 +33,7 @@
 
 namespace alignlib {
 
-    /** Helper functions for class Alignata:
+    /** Helper functions for class Alignment:
 	
 	1. factory functions
 	
@@ -47,7 +47,7 @@ namespace alignlib {
     class Weightor;
     class Regularizor;
     class LogOddor;
-    class Alignata;
+    class Alignment;
     class Alignandum; 
 
     // note: the first column is in 1, not in 0
@@ -132,21 +132,21 @@ namespace alignlib {
     */
     Alignandum * addProfile2Profile( Alignandum * dest, 
 				     const Alignandum * source, 
-				     const Alignata * map_source2dest );
+				     const Alignment * map_source2dest );
 
     /** add counts of profile source to profile dest, using the mapping provided, where dest is in col and
 	source is in row 
     */
     Alignandum * addSequence2Profile( Alignandum * dest, 
 				      const Alignandum * source, 
-				      const Alignata * map_source2dest );
+				      const Alignment * map_source2dest );
     
     /** substitutes columns in profile dest by columns in profile row using the mapping provided, 
 	where dest is in col and source is in row
      */
     Alignandum * substituteProfileWithProfile( Alignandum * dest, 
 					       const Alignandum * source, 
-					       const Alignata * map_source2dest );
+					       const Alignment * map_source2dest );
     
     /** rescale counts from a profile by multiplying each entry by the scale_factor */
     Alignandum * rescaleProfileCounts( Alignandum * dest, double scale_factor );

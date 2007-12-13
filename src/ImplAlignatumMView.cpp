@@ -25,8 +25,8 @@
 #include <iomanip>
 #include "ImplAlignatum.h"
 #include "ImplTranslator.h"
-#include "Alignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
 #include "Alignandum.h"
 
 #ifdef WITH_DMALLOC
@@ -39,7 +39,7 @@ namespace alignlib {
 
     /** factory functions */
   Alignatum * makeAlignatum(const Alignatum * src, 
-			    const Alignata * ali, 
+			    const Alignment * ali, 
 			    bool skip_gaps,
 			    bool is_in_row) {
     return new ImplAlignatum( src, ali, skip_gaps, is_in_row);
@@ -76,7 +76,7 @@ ImplAlignatum::ImplAlignatum (const std::string & representation,
    in the aligned strings are 0..length-1
 */
 ImplAlignatum::ImplAlignatum (const ImplAlignatum & src, 
-			      const Alignata * ali, 
+			      const Alignment * ali, 
 			      bool skip_gaps, 
 			      bool is_in_row ) : 
   mRepresentation(src.mRepresentation),
@@ -110,7 +110,7 @@ ImplAlignatum::ImplAlignatum (const ImplAlignatum & src ) :
 
 //--------------------------------------------------------------------------------------------
 ImplAlignatum::ImplAlignatum(const Alignandum * src, 
-			     const Alignata * ali, 
+			     const Alignment * ali, 
 			     bool skip_gaps,
 			     bool is_in_row) : 
 
@@ -131,7 +131,7 @@ ImplAlignatum::ImplAlignatum(const Alignandum * src,
 
   
 //--------------------------------------------------------------------------------------------
-void ImplAlignatum::mapOnAlignment(const Alignata * ali, bool skip_gaps, bool is_in_row ) 
+void ImplAlignatum::mapOnAlignment(const Alignment * ali, bool skip_gaps, bool is_in_row ) 
 {
   debug_func_cerr(5);
 
@@ -157,8 +157,8 @@ void ImplAlignatum::mapOnAlignment(const Alignata * ali, bool skip_gaps, bool is
   int last_col = col_from;
   int current_row, current_col;
   
-  AlignataConstIterator it = ali->begin();
-  AlignataConstIterator it_end = ali->end();
+  AlignmentConstIterator it = ali->begin();
+  AlignmentConstIterator it_end = ali->end();
 
 #ifdef DEBUG
   if (is_in_row) 
@@ -212,7 +212,7 @@ void ImplAlignatum::mapOnAlignment(const Alignata * ali, bool skip_gaps, bool is
   
 }
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplAlignatum * ImplAlignatum::getClone( const Alignata * ali, bool skip_gaps, bool is_in_row) const 
+ImplAlignatum * ImplAlignatum::getClone( const Alignment * ali, bool skip_gaps, bool is_in_row) const 
 {
   debug_func_cerr(5);
 

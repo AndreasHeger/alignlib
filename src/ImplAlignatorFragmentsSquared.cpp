@@ -35,8 +35,8 @@
 #include "ImplAlignatorFragmentsSquared.h"
 #include "Alignandum.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "HelpersSubstitutionMatrix.h"
 
@@ -69,7 +69,7 @@ struct BorderPosition {
 
 /*---------------------factory functions ---------------------------------- */
 
-    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
 Alignator * makeAlignatorFragmentsSquared(Score gop, 
 					  Score gep, 
@@ -129,7 +129,7 @@ Score ImplAlignatorFragmentsSquared::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorFragmentsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignata * ali) {
+void ImplAlignatorFragmentsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) {
 
   /**
      Overview over the algorithm:

@@ -27,10 +27,10 @@
 
 #include "Fragmentor.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
-#include "AlignataIterator.h"
+#include "AlignmentIterator.h"
 
 #include "Alignandum.h"
 #include "AlignException.h"
@@ -53,9 +53,9 @@ namespace alignlib {
 
 /*---------------------factory functions ---------------------------------- */
 
-  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignataMatrix-
+  /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
       object */
-Fragmentor * makeFragmentorIterative( Alignata * dots, Score min_score, Score gop, Score gep) {
+Fragmentor * makeFragmentorIterative( Alignment * dots, Score min_score, Score gop, Score gep) {
   
   return new ImplFragmentorIterative( dots, min_score, gop, gep);
 }
@@ -63,7 +63,7 @@ Fragmentor * makeFragmentorIterative( Alignata * dots, Score min_score, Score go
 
 //----------------------------------------------------------------------------------------------------
   
-ImplFragmentorIterative::ImplFragmentorIterative( Alignata * dots, 
+ImplFragmentorIterative::ImplFragmentorIterative( Alignment * dots, 
 						  Score min_score, 
 						  Score gop, 
 						  Score gep) :
@@ -92,18 +92,18 @@ ImplFragmentorIterative::ImplFragmentorIterative( const ImplFragmentorIterative 
 //------------------------------------------------------------------------------------------------
 void ImplFragmentorIterative::performFragmentation( const Alignandum * row, 
 						    const Alignandum * col, 
-						    const Alignata * sample) {
+						    const Alignment * sample) {
     
-    Alignata * original_dots = mDots;
+    Alignment * original_dots = mDots;
     // true, if mDots contains a copy of orignal alignata object. 
     // Make sure, you do not delete it.
     bool is_copy = false;
 
     while ( 1 ) {
-	Alignator * dottor    = makeAlignatorPublishAlignata( mDots );
+	Alignator * dottor    = makeAlignatorPublishAlignment( mDots );
 	Alignator * alignator = makeAlignatorDotsSquared( mGop, mGep, dottor );
 
-	Alignata * result = sample->getNew();
+	Alignment * result = sample->getNew();
 	alignator->align( row, col, result);
 
 #ifdef DEBUG
@@ -118,9 +118,9 @@ void ImplFragmentorIterative::performFragmentation( const Alignandum * row,
 	  mFragments->push_back( result );
 
 	  // delete dots from dot-plot. Delete all dots in region      
-	  Alignata * copy = makeAlignataMatrixUnsorted();
+	  Alignment * copy = makeAlignmentMatrixUnsorted();
 	  
-	  copyAlignataRemoveRegion( copy, 
+	  copyAlignmentRemoveRegion( copy, 
 				    mDots, 
 				    result->getRowFrom(),
 				    result->getRowTo(),

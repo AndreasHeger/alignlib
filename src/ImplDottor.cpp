@@ -27,7 +27,7 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "ImplDottor.h"
-#include "ImplAlignataMatrix.h"
+#include "ImplAlignmentMatrix.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -70,7 +70,7 @@ void ImplDottor::releasePairs() const {
 /** calculate the dots */
 void ImplDottor::calculatePairs( const Alignandum * row, const Alignandum * col) const {
 
-  mMatrix = new ImplAlignataMatrix();
+  mMatrix = new ImplAlignmentMatrix();
 
   calculateNewPairs( row, col );
 

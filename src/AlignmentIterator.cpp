@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: AlignataIterator.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
+  $Id: AlignmentIterator.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -26,7 +26,7 @@
 #include <set>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "AlignataIterator.h"
+#include "AlignmentIterator.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -38,14 +38,14 @@ using namespace std;
 namespace alignlib {
 
 //------------------------------------< constructors and destructors >-----
-AlignataConstIterator::AlignataConstIterator( Alignata::ConstIterator * it ) /* : mIterator(it) */ 
+AlignmentConstIterator::AlignmentConstIterator( Alignment::ConstIterator * it ) /* : mIterator(it) */ 
 {
   debug_func_cerr(5);
 
   mIterator = it;
 }
 
-AlignataConstIterator::AlignataConstIterator( const AlignataConstIterator& src) : mIterator(0) 
+AlignmentConstIterator::AlignmentConstIterator( const AlignmentConstIterator& src) : mIterator(0) 
 {
   debug_func_cerr(5);
 
@@ -53,11 +53,11 @@ AlignataConstIterator::AlignataConstIterator( const AlignataConstIterator& src) 
   mIterator = src.mIterator->getClone();
 }
 
-AlignataConstIterator::~AlignataConstIterator( ) {
+AlignmentConstIterator::~AlignmentConstIterator( ) {
     delete mIterator;
 }
 
-AlignataConstIterator & AlignataConstIterator::operator=( const AlignataConstIterator & other ) 
+AlignmentConstIterator & AlignmentConstIterator::operator=( const AlignmentConstIterator & other ) 
 {
   debug_func_cerr(5);
 
@@ -72,10 +72,10 @@ AlignataConstIterator & AlignataConstIterator::operator=( const AlignataConstIte
 }
 
 
-const ResiduePAIR & AlignataConstIterator::operator*() const { return mIterator->getReference(); }
+const ResiduePAIR & AlignmentConstIterator::operator*() const { return mIterator->getReference(); }
 
 
-const ResiduePAIR * AlignataConstIterator::operator->() const { return &(mIterator->getReference()); }
+const ResiduePAIR * AlignmentConstIterator::operator->() const { return &(mIterator->getReference()); }
 
   /* How to compare two iterators?
      1.Comparing the two mIterators would result in simply comparing the
@@ -86,38 +86,38 @@ const ResiduePAIR * AlignataConstIterator::operator->() const { return &(mIterat
      Two iterators working on different containers, but being on the same pair, would then be equal.
      3. Compare the memory location of the pairs. It is assumed, that end() will point to NULL
   */     
-bool AlignataConstIterator::operator==( const AlignataConstIterator & other) { 
+bool AlignmentConstIterator::operator==( const AlignmentConstIterator & other) { 
   return ( (*mIterator).getPointer() == (*other.mIterator).getPointer() ); 
 }
 
-bool AlignataConstIterator::operator!=( const AlignataConstIterator & other) { 
+bool AlignmentConstIterator::operator!=( const AlignmentConstIterator & other) { 
   return ( (*mIterator).getPointer() != (*other.mIterator).getPointer() ); 
 }
 
-AlignataConstIterator & AlignataConstIterator::operator++() { mIterator->next(); return *this; };
+AlignmentConstIterator & AlignmentConstIterator::operator++() { mIterator->next(); return *this; };
  
 /** postfix ++ */
-AlignataConstIterator AlignataConstIterator::operator++(int) { AlignataConstIterator tmp = *this; mIterator->next(); return tmp; }
+AlignmentConstIterator AlignmentConstIterator::operator++(int) { AlignmentConstIterator tmp = *this; mIterator->next(); return tmp; }
  
 /** prefix -- */
-AlignataConstIterator & AlignataConstIterator::operator--() { mIterator->previous(); return *this; };
+AlignmentConstIterator & AlignmentConstIterator::operator--() { mIterator->previous(); return *this; };
  
 /** postfix -- */
-AlignataConstIterator AlignataConstIterator::operator--(int) { AlignataConstIterator tmp = *this; mIterator->previous(); return tmp; }
+AlignmentConstIterator AlignmentConstIterator::operator--(int) { AlignmentConstIterator tmp = *this; mIterator->previous(); return tmp; }
 
 
-//--------------------------------------> AlignataIterator <-----------------------------------------------------------------------
+//--------------------------------------> AlignmentIterator <-----------------------------------------------------------------------
 
 
 //------------------------------------< constructors and destructors >-----
-AlignataIterator::AlignataIterator( Alignata::Iterator * it ) /* : mIterator(it) */ 
+AlignmentIterator::AlignmentIterator( Alignment::Iterator * it ) /* : mIterator(it) */ 
 {
   debug_func_cerr(5);
 
   mIterator = it;
 }
 
-AlignataIterator::AlignataIterator( const AlignataIterator& src) : mIterator(0) 
+AlignmentIterator::AlignmentIterator( const AlignmentIterator& src) : mIterator(0) 
 {
   debug_func_cerr(5);
 
@@ -125,11 +125,11 @@ AlignataIterator::AlignataIterator( const AlignataIterator& src) : mIterator(0)
   mIterator = src.mIterator->getClone();
 }
 
-AlignataIterator::~AlignataIterator( ) {
+AlignmentIterator::~AlignmentIterator( ) {
     delete mIterator;
 }
 
-AlignataIterator & AlignataIterator::operator=( const AlignataIterator & other ) 
+AlignmentIterator & AlignmentIterator::operator=( const AlignmentIterator & other ) 
 {
   debug_func_cerr(5);
 
@@ -144,10 +144,10 @@ AlignataIterator & AlignataIterator::operator=( const AlignataIterator & other )
 }
 
 
-ResiduePAIR & AlignataIterator::operator*() const { return mIterator->getReference(); }
+ResiduePAIR & AlignmentIterator::operator*() const { return mIterator->getReference(); }
 
 
-ResiduePAIR * AlignataIterator::operator->() const { return &(mIterator->getReference()); }
+ResiduePAIR * AlignmentIterator::operator->() const { return &(mIterator->getReference()); }
 
   /* How to compare two iterators?
      1.Comparing the two mIterators would result in simply comparing the
@@ -158,24 +158,24 @@ ResiduePAIR * AlignataIterator::operator->() const { return &(mIterator->getRefe
      Two iterators working on different containers, but being on the same pair, would then be equal.
      3. Compare the memory location of the pairs. It is assumed, that end() will point to NULL
   */     
-bool AlignataIterator::operator==( const AlignataIterator & other) { 
+bool AlignmentIterator::operator==( const AlignmentIterator & other) { 
   return ( (*mIterator).getPointer() == (*other.mIterator).getPointer() ); 
 }
 
-bool AlignataIterator::operator!=( const AlignataIterator & other) { 
+bool AlignmentIterator::operator!=( const AlignmentIterator & other) { 
   return ( (*mIterator).getPointer() != (*other.mIterator).getPointer() ); 
 }
 
-AlignataIterator & AlignataIterator::operator++() { mIterator->next(); return *this; };
+AlignmentIterator & AlignmentIterator::operator++() { mIterator->next(); return *this; };
  
 /** postfix ++ */
-AlignataIterator AlignataIterator::operator++(int) { AlignataIterator tmp = *this; mIterator->next(); return tmp; }
+AlignmentIterator AlignmentIterator::operator++(int) { AlignmentIterator tmp = *this; mIterator->next(); return tmp; }
  
 /** prefix -- */
-AlignataIterator & AlignataIterator::operator--() { mIterator->previous(); return *this; };
+AlignmentIterator & AlignmentIterator::operator--() { mIterator->previous(); return *this; };
  
 /** postfix -- */
-AlignataIterator AlignataIterator::operator--(int) { AlignataIterator tmp = *this; mIterator->previous(); return tmp; }
+AlignmentIterator AlignmentIterator::operator--(int) { AlignmentIterator tmp = *this; mIterator->previous(); return tmp; }
 
 
 } // namespace alignlib

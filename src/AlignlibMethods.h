@@ -92,7 +92,7 @@ _OutputIter allvsall_unique(
   _InputIter1 i, j; 
   for ( i = __first1 ; i != __last1 - 1; ++i) {
     for ( j = i+1; j != __last1; ++j, ++__result) {
-      __binary_op.Set_Alignata( new _ResultType );
+      __binary_op.Set_Alignment( new _ResultType );
       *__result = (_ResultType*)__binary_op(*i, *j);		// upcast, potentially dangerous
     }
   }

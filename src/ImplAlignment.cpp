@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignata.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
+  $Id: ImplAlignment.cpp,v 1.4 2004/06/02 12:11:37 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -23,13 +23,13 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
-#include "ImplAlignata.h"
+#include "ImplAlignment.h"
 #include "Alignandum.h"
 #include "Alignatum.h"
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "AlignataIterator.h"
-#include "Alignata.h"
+#include "AlignmentIterator.h"
+#include "Alignment.h"
 #include "AlignException.h"
 
 #ifdef WITH_DMALLOC
@@ -43,10 +43,10 @@ namespace alignlib {
   //--------------------------------------------------------------------------------------------------------------
   // constructors and desctructors
   //--------------------------------------------------------------------------------------------------------------
-  ImplAlignata::ImplAlignata() : mChangedLength(true), mLength(0), mScore(0), mNumGaps( 0 ) {
+  ImplAlignment::ImplAlignment() : mChangedLength(true), mLength(0), mScore(0), mNumGaps( 0 ) {
   }
 
-  ImplAlignata::ImplAlignata( const ImplAlignata & src ) :
+  ImplAlignment::ImplAlignment( const ImplAlignment & src ) :
     mChangedLength(src.mChangedLength), 
     mLength( src.mLength), 
     mScore (src.mScore), 
@@ -56,26 +56,26 @@ namespace alignlib {
 
     }
 
-  ImplAlignata::~ImplAlignata() 
+  ImplAlignment::~ImplAlignment() 
     {
       debug_func_cerr(5);
 
     }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::setChangedLength() {
+  void ImplAlignment::setChangedLength() {
     mChangedLength = true;
   }
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::setScore( Score score ) {
+  void ImplAlignment::setScore( Score score ) {
     mScore = score;
   }
   //--------------------------------------------------------------------------------------------------------------
-  Score ImplAlignata::getScore() const {
+  Score ImplAlignment::getScore() const {
     return mScore;
   }
   //--------------------------------------------------------------------------------------------------------------
-  Position ImplAlignata::getLength() const {
+  Position ImplAlignment::getLength() const {
 
     if (mChangedLength)
       calculateLength();
@@ -83,7 +83,7 @@ namespace alignlib {
     return mLength;
   }
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::clear() 
+  void ImplAlignment::clear() 
     {
       debug_func_cerr(5);
 
@@ -94,7 +94,7 @@ namespace alignlib {
     }
 
   //--------------------------------------------------------------------------------------------------------------
-  Position ImplAlignata::getNumGaps() const 
+  Position ImplAlignment::getNumGaps() const 
   {
     if (mChangedLength)
       calculateLength();
@@ -102,12 +102,12 @@ namespace alignlib {
     return mNumGaps;
   }
   //--------------------------------------------------------------------------------------------------------------
-  bool ImplAlignata::isEmpty() const {
+  bool ImplAlignment::isEmpty() const {
     return (getLength() == 0);
   }
 
   //-----------------------------------------------------------------------------------------------------------   
-  void ImplAlignata::write( std::ostream& output ) const 
+  void ImplAlignment::write( std::ostream& output ) const 
   {
     debug_func_cerr(5);
 
@@ -115,8 +115,8 @@ namespace alignlib {
     output << "Length: " << getLength() << "\tScore: " << getScore() << "\tGaps: " << getNumGaps() << endl;
     output << "Row\tColumn\tScore\t" << endl;
 
-    AlignataConstIterator it(begin());
-    AlignataConstIterator it_end(end());
+    AlignmentConstIterator it(begin());
+    AlignmentConstIterator it_end(end());
 
     for (; it != it_end; ++it)
       output << *it << endl;
@@ -125,17 +125,17 @@ namespace alignlib {
 
   //--------------------------------------------------------------------------------------------------------------
   /** Read data members from stream */
-  void ImplAlignata::read( std::istream & input) {
+  void ImplAlignment::read( std::istream & input) {
   }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::moveAlignment( Position row_offset, Position col_offset) 
+  void ImplAlignment::moveAlignment( Position row_offset, Position col_offset) 
     {
       debug_func_cerr(5);
 
 
-      AlignataIterator it     = begin();
-      AlignataIterator it_end = end();
+      AlignmentIterator it     = begin();
+      AlignmentIterator it_end = end();
 
       for (;it != it_end; ++it) {
         ResiduePAIR & p = (*it);
@@ -146,17 +146,17 @@ namespace alignlib {
     }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::setLength( Position length ) const {
+  void ImplAlignment::setLength( Position length ) const {
     mLength = length;
   }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::setNumGaps( Position num_gaps ) const {
+  void ImplAlignment::setNumGaps( Position num_gaps ) const {
     mNumGaps = num_gaps;
   }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::addPair( Position row, Position col, Score score ) 
+  void ImplAlignment::addPair( Position row, Position col, Score score ) 
     {
       debug_func_cerr(5);
 
@@ -164,7 +164,7 @@ namespace alignlib {
     } 
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignata::calculateLength() const 
+  void ImplAlignment::calculateLength() const 
   {
     debug_func_cerr(5);
 
@@ -183,8 +183,8 @@ namespace alignlib {
     if (row_last == NO_POS || col_last == NO_POS)
       return;
 
-    AlignataConstIterator it(begin());
-    AlignataConstIterator it_end(end());
+    AlignmentConstIterator it(begin());
+    AlignmentConstIterator it_end(end());
 
     Position d;
     for (; it != it_end; ++it) {
@@ -210,15 +210,15 @@ namespace alignlib {
 
   //-----------------------------------------------------------------------------------------------------------   
   /** switch row and column in the alignment. Use more efficient implementations in derived classes. */
-  void ImplAlignata::switchRowCol() 
+  void ImplAlignment::switchRowCol() 
     {
 
       debug_func_cerr(5);
 
-      Alignata * copy = getClone();
+      Alignment * copy = getClone();
 
-      AlignataIterator it     = copy->begin();
-      AlignataIterator it_end = copy->end();
+      AlignmentIterator it     = copy->begin();
+      AlignmentIterator it_end = copy->end();
 
       clear();
       for (;it != it_end; ++it) 
@@ -240,15 +240,15 @@ namespace alignlib {
    * This function iterates through the alignment and is
    * very time inefficient and ignores the search option.
    */
-  Position ImplAlignata::mapRowToCol( Position pos, SearchType search ) const 
+  Position ImplAlignment::mapRowToCol( Position pos, SearchType search ) const 
   {
     debug_func_cerr(5);
 
     if (getLength() == 0)
       return NO_POS;
 
-    AlignataConstIterator it = begin();
-    AlignataConstIterator it_end = end();
+    AlignmentConstIterator it = begin();
+    AlignmentConstIterator it_end = end();
 
     for (; it != it_end; ++it) 
       {
@@ -265,13 +265,13 @@ namespace alignlib {
    * This function iterates through the alignment and is
    * very time inefficient and ignores the search option.
    */
-  Position ImplAlignata::mapColToRow( Position pos, SearchType search ) const {
+  Position ImplAlignment::mapColToRow( Position pos, SearchType search ) const {
 
     if (getLength() == 0)
       return NO_POS;
 
-    AlignataConstIterator it = begin();
-    AlignataConstIterator it_end = end();
+    AlignmentConstIterator it = begin();
+    AlignmentConstIterator it_end = end();
 
     while (it != it_end) {
       if ((*it).mCol == pos)
@@ -285,12 +285,12 @@ namespace alignlib {
   //-----------------------------------------------------------------------------------------------------------   
   /** This is a generic routine. It creates a new alignment by making a copy of the old one.
    */
-  void ImplAlignata::removeRowRegion( Position from, Position to) {
+  void ImplAlignment::removeRowRegion( Position from, Position to) {
 
-    const Alignata * copy = getClone();  
+    const Alignment * copy = getClone();  
 
-    AlignataConstIterator it     = copy->begin();
-    AlignataConstIterator it_end = copy->end();
+    AlignmentConstIterator it     = copy->begin();
+    AlignmentConstIterator it_end = copy->end();
 
     clear();
 
@@ -311,12 +311,12 @@ namespace alignlib {
   //-----------------------------------------------------------------------------------------------------------   
   /** This is a generic routine. It creates a new alignment by making a copy of the old one.
    */
-  void ImplAlignata::removeColRegion( Position from, Position to) {
+  void ImplAlignment::removeColRegion( Position from, Position to) {
 
-    const Alignata * copy = getClone();  
+    const Alignment * copy = getClone();  
 
-    AlignataConstIterator it     = copy->begin();
-    AlignataConstIterator it_end = copy->end();
+    AlignmentConstIterator it     = copy->begin();
+    AlignmentConstIterator it_end = copy->end();
 
     clear();
 

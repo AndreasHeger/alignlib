@@ -46,8 +46,8 @@
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 
 #include "Statistics.h"
 

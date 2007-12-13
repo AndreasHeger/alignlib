@@ -41,7 +41,7 @@ namespace alignlib
 {
 
 // forward declarations
-class Alignata; 
+class Alignment; 
 
 #define MAX_NDOTS    1000000        /* maximum number of dots */
 #define MAX_SEQLEN   30000	     /* maximum sequence length */
@@ -157,7 +157,7 @@ typedef double PhyloMatrixValue;
 typedef unsigned long PhyloMatrixSize;
 
 /** A vector of aligned fragmens */
-typedef std::vector<Alignata*> FragmentVector;
+typedef std::vector<Alignment*> FragmentVector;
 
 /** A vector of positions */
 typedef std::vector< Position > PositionVector;

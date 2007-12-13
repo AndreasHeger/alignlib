@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataVector.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignmentVector.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -30,7 +30,7 @@
 #include <iosfwd>
 #include <vector>
 #include "alignlib.h"
-#include "ImplAlignata.h"
+#include "ImplAlignment.h"
 
 namespace alignlib {
 
@@ -53,13 +53,13 @@ class Alignandum;
     Implementation details:
 
     If the alignment is empty, mRowFrom is larger than mRowTo. This property is needed
-    at some checks (for example in ImplAlignataVector_iterator)
+    at some checks (for example in ImplAlignmentVector_iterator)
 
     @author Andreas Heger
-    @version $Id: ImplAlignataVector.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+    @version $Id: ImplAlignmentVector.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
     @short protocol class for aligned objects
  */
-class ImplAlignataVector : public ImplAlignata {
+class ImplAlignmentVector : public ImplAlignment {
 
 	typedef std::vector<ResiduePAIR *> PAIRVECTOR;
 	typedef PAIRVECTOR::iterator PairIterator;
@@ -71,28 +71,28 @@ public:
 
 	//------------------> constructors / destructors <---------------------------------------------------------
 	/** constructor */
-	ImplAlignataVector();
+	ImplAlignmentVector();
 
 	/** copy constructor */
-	ImplAlignataVector( const ImplAlignataVector &src );
+	ImplAlignmentVector( const ImplAlignmentVector &src );
 
 	/** destructor */
-	virtual ~ImplAlignataVector();
+	virtual ~ImplAlignmentVector();
 
 	//------------------------------------------------------------------------------------------------------------
-	virtual ImplAlignataVector * getNew() const;
+	virtual ImplAlignmentVector * getNew() const;
 
 	/** return an identical copy */
-	virtual ImplAlignataVector * getClone() const;
+	virtual ImplAlignmentVector * getClone() const;
 
 	//------------------------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------------------------
 	/**
        @short Const iterator over an alignment.
 	 */
-	class ImplAlignataVector_ConstIterator : public Alignata::ConstIterator{
+	class ImplAlignmentVector_ConstIterator : public Alignment::ConstIterator{
 	public:
-		ImplAlignataVector_ConstIterator(const PAIRVECTOR & container, 
+		ImplAlignmentVector_ConstIterator(const PAIRVECTOR & container, 
 				Position current, 
 				Position from, 
 				Position to) : 
@@ -104,15 +104,15 @@ public:
 				mCurrentRow = NO_POS;
 		};
 
-		ImplAlignataVector_ConstIterator( const ImplAlignataVector_ConstIterator & src ) : 
+		ImplAlignmentVector_ConstIterator( const ImplAlignmentVector_ConstIterator & src ) : 
 			mContainer( src.mContainer),
 			mCurrentRow( src.mCurrentRow), 
 			mFirstRow( src.mFirstRow), 
 			mLastRow( src.mLastRow) {};
 
-			virtual ~ImplAlignataVector_ConstIterator() {};
+			virtual ~ImplAlignmentVector_ConstIterator() {};
 
-			virtual ConstIterator * getClone() const {return new ImplAlignataVector_ConstIterator( *this );}
+			virtual ConstIterator * getClone() const {return new ImplAlignmentVector_ConstIterator( *this );}
 
 			/** dereference operator: runtime error, if out of bounds? */
 			virtual const ResiduePAIR & getReference() const { return *mContainer[mCurrentRow];}
@@ -154,9 +154,9 @@ public:
 	/**
        @short Non-Const iterator over an alignment.
 	 */
-	class ImplAlignataVector_Iterator : public Alignata::Iterator{
+	class ImplAlignmentVector_Iterator : public Alignment::Iterator{
 	public:
-		ImplAlignataVector_Iterator(PAIRVECTOR & container,
+		ImplAlignmentVector_Iterator(PAIRVECTOR & container,
 				Position current,
 				Position from,
 				Position to) : 
@@ -168,15 +168,15 @@ public:
 				mCurrentRow = NO_POS;
 		};
 
-		ImplAlignataVector_Iterator( const ImplAlignataVector_Iterator & src ) : 
+		ImplAlignmentVector_Iterator( const ImplAlignmentVector_Iterator & src ) : 
 			mContainer( src.mContainer),
 			mCurrentRow( src.mCurrentRow), 
 			mFirstRow( src.mFirstRow), 
 			mLastRow( src.mLastRow) {};
 
-			virtual ~ImplAlignataVector_Iterator() {};
+			virtual ~ImplAlignmentVector_Iterator() {};
 
-			virtual Iterator * getClone() const {return new ImplAlignataVector_Iterator( *this );}
+			virtual Iterator * getClone() const {return new ImplAlignmentVector_Iterator( *this );}
 
 			/** dereference operator: runtime error, if out of bounds? */
 			virtual ResiduePAIR & getReference() const { return *mContainer[mCurrentRow];}
@@ -215,16 +215,16 @@ public:
 	};
 
 	/** return const iterator */
-	virtual AlignataConstIterator begin() const; 
+	virtual AlignmentConstIterator begin() const; 
 
 	/** return const iterator */
-	virtual AlignataConstIterator end() const; 
+	virtual AlignmentConstIterator end() const; 
 
 	/** return const iterator */
-	virtual AlignataIterator begin(); 
+	virtual AlignmentIterator begin(); 
 
 	/** return const iterator */
-	virtual AlignataIterator end(); 
+	virtual AlignmentIterator end(); 
 
 	//----------------> accessors <------------------------------------------------------------------------------
 

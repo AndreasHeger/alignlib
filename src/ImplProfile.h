@@ -54,7 +54,7 @@ class Weightor;
 class Regularizor;
 class LogOddor;
 class MultipleAlignment;
-class Alignata;
+class Alignment;
 
 class ImplProfile : public ImplAlignandum 
 {
@@ -73,15 +73,15 @@ class ImplProfile : public ImplAlignandum
 
     friend Alignandum * addProfile2Profile( Alignandum * dest, 
 					    const Alignandum * source, 
-					    const Alignata * map_source2dest );
+					    const Alignment * map_source2dest );
 
     friend Alignandum * addSequence2Profile( Alignandum * dest, 
 					     const Alignandum * source, 
-					     const Alignata * map_source2dest );
+					     const Alignment * map_source2dest );
 
     friend Alignandum * substituteProfileWithProfile( Alignandum * dest, 
 						      const Alignandum * source, 
-						      const Alignata * map_source2dest );
+						      const Alignment * map_source2dest );
 
     friend Alignandum * rescaleProfileCounts( Alignandum * dest, double scale_factor);
 

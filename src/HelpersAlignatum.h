@@ -32,7 +32,7 @@
 
 namespace alignlib {
     
-    /** Helper functions for class Alignata:
+    /** Helper functions for class Alignment:
 	
 	1. factory functions
 	
@@ -42,7 +42,7 @@ namespace alignlib {
     */
 
     class Alignandum;
-    class Alignata;
+    class Alignment;
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
@@ -55,7 +55,7 @@ namespace alignlib {
 					 Position to = NO_POS);
 
     Alignatum * makeAlignatum(const Alignandum * src, 
-			      const Alignata * map_this2new = NULL,
+			      const Alignment * map_this2new = NULL,
 			      const Position max_length = 0);
 
     Alignatum * makeAlignatumFasta(const std::string & description,

@@ -33,9 +33,9 @@
 namespace alignlib {
 
 class Alignandum;
-class Alignata;
+class Alignment;
 class SubstitutionMatrix;
-class ImplAlignataMatrix;
+class ImplAlignmentMatrix;
 
 /** @short align dots using full lookup using a diagonal gap cost.
         

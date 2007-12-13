@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: bench_Alignata.cpp,v 1.4 2005/02/24 11:07:25 aheger Exp $
+  $Id: bench_Alignment.cpp,v 1.4 2005/02/24 11:07:25 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -37,9 +37,9 @@
 #include <time.h> 
 
 #include "alignlib.h"
-#include "Alignata.h"
-#include "AlignataIterator.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
+#include "HelpersAlignment.h"
 #include "Alignandum.h"
 #include "HelpersSequence.h"
 #include "HelpersProfile.h"
@@ -50,17 +50,17 @@
 using namespace std;
 using namespace alignlib;
 
-typedef void(*FunctionType)(Alignator *, Alignandum *, Alignandum *, Alignata *);
-typedef void(*InitFunctionType)(Alignator **, Alignandum **, Alignandum **, Alignata **);
+typedef void(*FunctionType)(Alignator *, Alignandum *, Alignandum *, Alignment *);
+typedef void(*InitFunctionType)(Alignator **, Alignandum **, Alignandum **, Alignment **);
 
 //-------------------------------------> Initialisation functions <-----------------------------------
 void InitSeqSeq( 
 			Alignator ** a, 
 			Alignandum ** row, 
 			Alignandum ** col,
-			Alignata ** result)
+			Alignment ** result)
 {
-	*result = makeAlignataVector();
+	*result = makeAlignmentVector();
 	*row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
 	*col = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
 }
@@ -69,9 +69,9 @@ void InitSeqProf(
 		 Alignator ** a, 
 		 Alignandum ** row, 
 		 Alignandum ** col,
-		 Alignata ** result)
+		 Alignment ** result)
 {
-	*result = makeAlignataVector();
+	*result = makeAlignmentVector();
 	*row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
 	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3 );
 }
@@ -80,9 +80,9 @@ void InitProfProf(
 		 Alignator ** a, 
 		 Alignandum ** row, 
 		 Alignandum ** col,
-		 Alignata ** result)
+		 Alignment ** result)
 {
-	*result = makeAlignataVector();
+	*result = makeAlignmentVector();
 	*row = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3 );	
 	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3 );
 }
@@ -95,7 +95,7 @@ void ClearAll(
 		Alignator * a, 
 		Alignandum * row, 
 		Alignandum * col,
-		Alignata * result
+		Alignment * result
 )		
 {
 	delete row;
@@ -109,7 +109,7 @@ void ClearAlignment(
 		 Alignator * a, 
 		 Alignandum * row, 
 		 Alignandum * col,
-		Alignata * result
+		Alignment * result
 )		
 {
   result->clear();
@@ -120,7 +120,7 @@ void BenchmarkAlignment(
 			Alignator * a, 
 			Alignandum * row, 
 			Alignandum * col,
-			Alignata * result)
+			Alignment * result)
 {
 	a->align( row, col, result );
 }
@@ -152,7 +152,7 @@ double Benchmark( Alignator * a,
 
   Alignandum * row;
   Alignandum * col;
-  Alignata * result;
+  Alignment * result;
   
   if (ptr_initfunc != NULL)
     (*ptr_initfunc)(&a, &row, &col, &result);

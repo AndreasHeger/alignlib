@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignataMatrixDiagonal.cpp,v 1.3 2004/06/02 12:11:37 aheger Exp $
+  $Id: ImplAlignmentMatrixDiagonal.cpp,v 1.3 2004/06/02 12:11:37 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -26,8 +26,8 @@
 #include <set>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
-#include "ImplAlignataMatrixDiagonal.h"
-#include "AlignataIterator.h"
+#include "ImplAlignmentMatrixDiagonal.h"
+#include "AlignmentIterator.h"
 #include "AlignException.h"
 
 #ifdef WITH_DMALLOC
@@ -45,41 +45,41 @@ namespace alignlib {
 #define NODOT -1
 
 //------------------------------factory functions -----------------------------
-Alignata * makeAlignataMatrixDiagonal( long ndots ) {
-  return new ImplAlignataMatrixDiagonal( ndots);
+Alignment * makeAlignmentMatrixDiagonal( long ndots ) {
+  return new ImplAlignmentMatrixDiagonal( ndots);
 }
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignataMatrixDiagonal::ImplAlignataMatrixDiagonal( long ndots ) : ImplAlignataMatrix( ndots), mNumDiagonals(0) 
+ImplAlignmentMatrixDiagonal::ImplAlignmentMatrixDiagonal( long ndots ) : ImplAlignmentMatrix( ndots), mNumDiagonals(0) 
 {
   debug_func_cerr(5);
 
 }
 
-ImplAlignataMatrixDiagonal::ImplAlignataMatrixDiagonal( const ImplAlignataMatrixDiagonal& src) : 
-  ImplAlignataMatrix( src ), mNumDiagonals(src.mNumDiagonals) 
+ImplAlignmentMatrixDiagonal::ImplAlignmentMatrixDiagonal( const ImplAlignmentMatrixDiagonal& src) : 
+  ImplAlignmentMatrix( src ), mNumDiagonals(src.mNumDiagonals) 
 {
   debug_func_cerr(5);
 
 }
 
-ImplAlignataMatrixDiagonal::~ImplAlignataMatrixDiagonal( ) 
+ImplAlignmentMatrixDiagonal::~ImplAlignmentMatrixDiagonal( ) 
 {
   debug_func_cerr(5);
 
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignataMatrixDiagonal * ImplAlignataMatrixDiagonal::getNew() const {
-    return new ImplAlignataMatrixDiagonal();
+ImplAlignmentMatrixDiagonal * ImplAlignmentMatrixDiagonal::getNew() const {
+    return new ImplAlignmentMatrixDiagonal();
 }
     
-ImplAlignataMatrixDiagonal * ImplAlignataMatrixDiagonal::getClone() const {
-    return new ImplAlignataMatrixDiagonal( *this );
+ImplAlignmentMatrixDiagonal * ImplAlignmentMatrixDiagonal::getClone() const {
+    return new ImplAlignmentMatrixDiagonal( *this );
 }
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignataMatrixDiagonal::mapRowToCol( Position pos, SearchType search ) const {
+Position ImplAlignmentMatrixDiagonal::mapRowToCol( Position pos, SearchType search ) const {
 
     if (mChangedLength) calculateLength();
 
@@ -121,7 +121,7 @@ Position ImplAlignataMatrixDiagonal::mapRowToCol( Position pos, SearchType searc
    faster to only sort the indices (as I did in the old version) and then copy it into a new memory location
 */
 
-void ImplAlignataMatrixDiagonal::sortDots() const {
+void ImplAlignmentMatrixDiagonal::sortDots() const {
     
   Position x, from, to;
   Dot ndots = mPairs.size(); 
@@ -147,7 +147,7 @@ void ImplAlignataMatrixDiagonal::sortDots() const {
 
 //--------------------------------------------------------------------------------------------------------------
 // build the index
-void ImplAlignataMatrixDiagonal::buildIndex() const {
+void ImplAlignmentMatrixDiagonal::buildIndex() const {
   Position i;
 
   mNumDiagonals = (mColTo - mColFrom) + (mRowTo - mRowFrom) + 1;

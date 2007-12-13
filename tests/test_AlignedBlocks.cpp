@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: test_HelpersAlignata.cpp,v 1.5 2004/10/14 23:34:09 aheger Exp $
+  $Id: test_HelpersAlignment.cpp,v 1.5 2004/10/14 23:34:09 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -34,23 +34,23 @@
 
 #include "alignlib.h"
 
-#include "Alignata.h"
-#include "HelpersAlignata.h"
-#include "AlignataIterator.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
+#include "AlignmentIterator.h"
 #include "AlignedBlocks.h"
 
 using namespace std;
 
 using namespace alignlib;
 
-bool isIdentical( const Alignata * a, const Alignata * b, bool inverse = false) 
+bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false) 
 {
 
-  AlignataConstIterator it1(a->begin());
-  AlignataConstIterator it1_end(a->end());
+  AlignmentConstIterator it1(a->begin());
+  AlignmentConstIterator it1_end(a->end());
 
-  AlignataConstIterator it2(b->begin());
-  AlignataConstIterator it2_end(b->end());
+  AlignmentConstIterator it2(b->begin());
+  AlignmentConstIterator it2_end(b->end());
 
   bool is_identical = true;
 
@@ -71,10 +71,10 @@ int main ()
 {
 
 	cout << "---------------------Testing fill-------------------------------" << endl;
-	Alignata * a = makeAlignataVector();
-	fillAlignataIdentity( a, 5, 10, 0);
-	fillAlignataIdentity( a, 10, 15, 5);
-	fillAlignataIdentity( a, 25, 30, -5);
+	Alignment * a = makeAlignmentVector();
+	fillAlignmentIdentity( a, 5, 10, 0);
+	fillAlignmentIdentity( a, 10, 15, 5);
+	fillAlignmentIdentity( a, 25, 30, -5);
 	
 	AlignedBlocks blocks_out( a );
 	
@@ -84,7 +84,7 @@ int main ()
 	AlignedBlocks blocks_in;
 	stream >> blocks_in;
 	
-	Alignata * b = makeAlignataVector();
+	Alignment * b = makeAlignmentVector();
 	blocks_in.copy( b );
 
 	assert( isIdentical( a, b) );

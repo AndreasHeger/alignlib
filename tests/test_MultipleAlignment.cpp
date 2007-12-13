@@ -39,8 +39,8 @@
 #include "HelpersAlignator.h"
 #include "Alignatum.h"
 #include "HelpersAlignatum.h"
-#include "Alignata.h"
-#include "HelpersAlignata.h"
+#include "Alignment.h"
+#include "HelpersAlignment.h"
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
 #include "AlignlibDebug.h"
@@ -67,7 +67,7 @@ int main ()
 		reference->add(makeAlignatumFromString("0123456789"));
 	}
 
-	std::auto_ptr<Alignata> ali(makeAlignataSet());
+	std::auto_ptr<Alignment> ali(makeAlignmentSet());
 	{
 		ali->addPair( new ResiduePAIR( 2,2, 1));
 		ali->addPair( new ResiduePAIR( 3,3, 1));
@@ -174,17 +174,17 @@ int main ()
 		MultipleAlignment * m1 = makeMultipleAlignmentDots( false );
 		MultipleAlignment * m2 = makeMultipleAlignmentDots( false );    
 
-		Alignata * a1 = makeAlignataVector();
-		fillAlignataIdentity( a1, 1, 4, 0 );
-		fillAlignataIdentity( a1, 6, 8, 0 );
+		Alignment * a1 = makeAlignmentVector();
+		fillAlignmentIdentity( a1, 1, 4, 0 );
+		fillAlignmentIdentity( a1, 6, 8, 0 );
 
-		Alignata * a2 = makeAlignataVector();
-		fillAlignataIdentity( a2, 0, 5, +1 );
+		Alignment * a2 = makeAlignmentVector();
+		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignata * a3 = makeAlignataVector();
-		fillAlignataIdentity( a3, 1, 6, -1 );
-		fillAlignataIdentity( a3, 6, 7, 0 );
-		fillAlignataIdentity( a3, 7, 8, +1 );
+		Alignment * a3 = makeAlignmentVector();
+		fillAlignmentIdentity( a3, 1, 6, -1 );
+		fillAlignmentIdentity( a3, 6, 7, 0 );
+		fillAlignmentIdentity( a3, 7, 8, +1 );
 
 		m1->add(makeAlignatumFromString("ABCDGHJL"), a1);
 		m1->add(makeAlignatumFromString(".ABCDEFGH"), a2);
@@ -197,8 +197,8 @@ int main ()
 		cout << *m1 << endl;
 		cout << *m2 << endl;    
 
-		Alignata * aa1 = makeAlignataVector();
-		fillAlignataIdentity( aa1, 1, 9, 0 );    
+		Alignment * aa1 = makeAlignmentVector();
+		fillAlignmentIdentity( aa1, 1, 9, 0 );    
 
 		// IMPORTANT: m1 takes ownership of objects in m2.
 		// Thus: do not delete m2.
@@ -220,8 +220,8 @@ int main ()
 		MultipleAlignment * m1 = makeMultipleAlignment();
 		MultipleAlignment * m2 = makeMultipleAlignmentDots( false );    
 
-		Alignata * a1 = makeAlignataVector();
-		fillAlignataIdentity( a1, 0, 8, 0 );
+		Alignment * a1 = makeAlignmentVector();
+		fillAlignmentIdentity( a1, 0, 8, 0 );
 
 		m1->add(makeAlignatumFromString("ABCDGHIJL"), a1);
 		m1->add(makeAlignatumFromString("ABCDGHIJL"), a1);
@@ -232,9 +232,9 @@ int main ()
 		cout << *m1 << endl;
 		cout << *m2 << endl;    
 
-		Alignata * aa1 = makeAlignataVector();
-		fillAlignataIdentity( aa1, 0, 5 );
-		fillAlignataIdentity( aa1, 5, 7, 1 );        
+		Alignment * aa1 = makeAlignmentVector();
+		fillAlignmentIdentity( aa1, 0, 5 );
+		fillAlignmentIdentity( aa1, 5, 7, 1 );        
 
 		m1->add( m2, aa1 );
 
@@ -253,15 +253,15 @@ int main ()
 		// create a multiple alignment 
 		MultipleAlignment * m1 = makeMultipleAlignmentDots( true );
 
-		Alignata * a1 = makeAlignataVector();
+		Alignment * a1 = makeAlignmentVector();
 
-		Alignata * a2 = makeAlignataVector();
-		fillAlignataIdentity( a2, 0, 5, +1 );
+		Alignment * a2 = makeAlignmentVector();
+		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignata * a3 = makeAlignataVector();
-		fillAlignataIdentity( a3, 1, 6, -1 );
-		fillAlignataIdentity( a3, 6, 7, 0 );
-		fillAlignataIdentity( a3, 7, 8, +1 );
+		Alignment * a3 = makeAlignmentVector();
+		fillAlignmentIdentity( a3, 1, 6, -1 );
+		fillAlignmentIdentity( a3, 6, 7, 0 );
+		fillAlignmentIdentity( a3, 7, 8, +1 );
 
 		m1->add(makeAlignatumFromString("ABCDGHJL") );
 		m1->add(makeAlignatumFromString("YABCDEFGH"), a2);
@@ -282,17 +282,17 @@ int main ()
 		// create a multiple alignment 
 		MultipleAlignment * m1 = makeMultipleAlignmentDots( true );
 
-		Alignata * a1 = makeAlignataVector();
-		fillAlignataIdentity( a1, 1, 4, 0 );
-		fillAlignataIdentity( a1, 6, 8, 0 );
+		Alignment * a1 = makeAlignmentVector();
+		fillAlignmentIdentity( a1, 1, 4, 0 );
+		fillAlignmentIdentity( a1, 6, 8, 0 );
 
-		Alignata * a2 = makeAlignataVector();
-		fillAlignataIdentity( a2, 0, 5, +1 );
+		Alignment * a2 = makeAlignmentVector();
+		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignata * a3 = makeAlignataVector();
-		fillAlignataIdentity( a3, 1, 6, -1 );
-		fillAlignataIdentity( a3, 6, 7, 0 );
-		fillAlignataIdentity( a3, 7, 8, +1 );
+		Alignment * a3 = makeAlignmentVector();
+		fillAlignmentIdentity( a3, 1, 6, -1 );
+		fillAlignmentIdentity( a3, 6, 7, 0 );
+		fillAlignmentIdentity( a3, 7, 8, +1 );
 
 		m1->add(makeAlignatumFromString("ABCDGHJL"), a1);
 		m1->add(makeAlignatumFromString("YABCDEFGH"), a2);
@@ -315,17 +315,17 @@ int main ()
 		// create a multiple alignment 
 		MultipleAlignment * m1 = makeMultipleAlignmentDots( true, 0 );
 
-		Alignata * a1 = makeAlignataVector();
-		fillAlignataIdentity( a1, 1, 4, 0 );
-		fillAlignataIdentity( a1, 6, 8, 0 );
+		Alignment * a1 = makeAlignmentVector();
+		fillAlignmentIdentity( a1, 1, 4, 0 );
+		fillAlignmentIdentity( a1, 6, 8, 0 );
 
-		Alignata * a2 = makeAlignataVector();
-		fillAlignataIdentity( a2, 0, 5, +1 );
+		Alignment * a2 = makeAlignmentVector();
+		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignata * a3 = makeAlignataVector();
-		fillAlignataIdentity( a3, 1, 6, -1 );
-		fillAlignataIdentity( a3, 6, 7, 0 );
-		fillAlignataIdentity( a3, 7, 8, +1 );
+		Alignment * a3 = makeAlignmentVector();
+		fillAlignmentIdentity( a3, 1, 6, -1 );
+		fillAlignmentIdentity( a3, 6, 7, 0 );
+		fillAlignmentIdentity( a3, 7, 8, +1 );
 
 		m1->add(makeAlignatumFromString("ABCDGHJL"), a1);
 		m1->add(makeAlignatumFromString(".ABCDEFGH"), a2);
