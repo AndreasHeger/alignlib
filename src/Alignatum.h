@@ -94,7 +94,7 @@ class Alignatum
     virtual Position getAlignedLength() const = 0;
 
     /** return the length of the line without gaps */
-    virtual Position getTrueLength() const = 0;
+    virtual Position getFullLength() const = 0;
 
     /** add the specified number of gaps in the front and in the back */
     virtual void addGaps(int before, int after)	= 0;		

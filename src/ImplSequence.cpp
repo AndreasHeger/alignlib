@@ -40,24 +40,28 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //---------------------------------< implementation of factory functions >--------------
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a NULL-terminated string */
-Alignandum * makeSequence( const char * sequence ) {
+Alignandum * makeSequence( const char * sequence ) 
+{
 	return new ImplSequence( sequence );
 }
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a string */
-Alignandum * makeSequence( const std::string & sequence ) {
+Alignandum * makeSequence( const std::string & sequence ) 
+{
 	return new ImplSequence( sequence.c_str() );
 }
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence() : mSequence(NULL) {
+ImplSequence::ImplSequence() : mSequence(NULL) 
+{
 }
 
 //--------------------------------------------------------------------------------------
@@ -80,8 +84,8 @@ ImplSequence::ImplSequence( const ImplSequence & src ) : ImplAlignandum( src ), 
 
 	if (mSequence != NULL) delete [] mSequence;
 	//!! make exception safe
-	mSequence = new Residue[src.getTrueLength()];
-	memcpy( mSequence, src.mSequence, src.getTrueLength());
+	mSequence = new Residue[src.getFullLength()];
+	memcpy( mSequence, src.mSequence, src.getFullLength());
 }
 
 
@@ -95,18 +99,21 @@ ImplSequence::~ImplSequence()
 }
 
 //--------------------------------------------------------------------------------------
-Alignandum * ImplSequence::getClone() const {
+Alignandum * ImplSequence::getClone() const 
+{
 	return new ImplSequence( *this );
 }
 
 
 //--------------------------------------------------------------------------------------
-Residue ImplSequence::asResidue(Position n) const { 
+Residue ImplSequence::asResidue(Position n) const 
+{ 
 	return mSequence[n]; 
 }
 
 //--------------------------------------------------------------------------------------
-const AlignandumDataSequence & ImplSequence::getData() const {
+const AlignandumDataSequence & ImplSequence::getData() const 
+{
 	mData.mSequencePointer = mSequence;
 	return mData;
 }
@@ -162,7 +169,7 @@ void ImplSequence::shuffle( unsigned int num_iterations, Position window_size ) 
 //--------------------------------------------------------------------------------------
 void ImplSequence::write( std::ostream & output ) const 
 {
-	const char * result = getDefaultTranslator()->decode( mSequence, getTrueLength() );
+	const char * result = getDefaultTranslator()->decode( mSequence, getFullLength() );
 	output << result;
 	delete [] result;
 }
@@ -178,7 +185,7 @@ void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const
 
 	ImplAlignandum::__save( output, type );
 	
-	output.write( (char*)mSequence, sizeof(Residue) * getTrueLength() );
+	output.write( (char*)mSequence, sizeof(Residue) * getFullLength() );
 }
 
 //--------------------------------------------------------------------------------------
@@ -189,8 +196,8 @@ void ImplSequence::load( std::istream & input)
 	if (mSequence != NULL) 
 		delete [] mSequence;
 	
-	mSequence = new Residue[ getTrueLength() ] ;
-	input.read( (char*)mSequence, sizeof(Residue) * getTrueLength() );
+	mSequence = new Residue[ getFullLength() ] ;
+	input.read( (char*)mSequence, sizeof(Residue) * getFullLength() );
 	
 	if (input.fail()) 
 		throw AlignException( "incomplete sequence in stream.");

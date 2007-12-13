@@ -93,6 +93,13 @@ class Tree {
   /** destructor */
   virtual ~Tree ();
 
+  //------------------------------------------------------------------------------------------------------------
+  /** return a new object of the same type */
+  virtual Tree * getNew() const = 0;
+  
+  /** return an identical copy */
+  virtual Tree * getClone() const = 0;
+  
   /* member access functions--------------------------------------------------------------- */
 
   /** returns the number of leaves */
@@ -174,7 +181,7 @@ class Tree {
 			       TreeWeight weight_2,
 			       const bool map_parents = false ) = 0;
 
-  virtual void Write( std::ostream & output ) const = 0;
+  virtual void write( std::ostream & output ) const = 0;
 
 };
 

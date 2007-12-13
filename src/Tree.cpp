@@ -12,29 +12,27 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-Tree::Tree () {
+Tree::Tree () 
+{
 }
 		       
-Tree::~Tree () {
+Tree::~Tree () 
+{
 }
 
-Tree::Tree (const Tree & src ) {
+Tree::Tree (const Tree & src ) 
+{
 }
 
-std::ostream & operator<<( std::ostream & output, const Tree & src) {
-  src.Write( output );
+//---------------------------------------------------------< Input/Output routines >---------------------------------------------
+std::ostream & operator<<( std::ostream & output, const Tree & src) 
+{
+  src.write( output );
   return output;
 }
 
-  /* 
-std::istream & operator>>( std::istream & input, Alignata & target) {
-  target.Read( input );
-  return input;
-} 
-  */
-
-//---------------------------------------------------------< Input/Output routines >---------------------------------------------
 } /* namespace alignlib */

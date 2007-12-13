@@ -352,7 +352,7 @@ Alignandum * rescaleProfileCounts( Alignandum * dest,
 
 	Position col, length;
 	int i;
-	length = p_source->getTrueLength();
+	length = p_source->getFullLength();
 
 	for ( col = 0; col < length; col++) 
 		for (i = 0; i < PROFILEWIDTH; i++) 
@@ -373,7 +373,7 @@ Alignandum * normalizeProfileCounts( Alignandum * dest,
 	Position col, length;
 	int i;
 
-	length = p_source->getTrueLength();
+	length = p_source->getFullLength();
 
 	for ( col = 0; col < length; col++) {
 

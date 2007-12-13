@@ -81,6 +81,13 @@ class ImplTree : public Tree
   /** destructor */
   virtual ~ImplTree ();
 
+  //------------------------------------------------------------------------------------------------------------
+  /** return a new object of the same type */
+  virtual ImplTree * getNew() const;
+  
+  /** return an identical copy */
+  virtual ImplTree * getClone() const;
+  
   /* member access functions--------------------------------------------------------------- */
 
   /** returns the number of leaves */
@@ -163,7 +170,7 @@ class ImplTree : public Tree
 			       const bool map_parents = false);
 
 
-  virtual void Write( std::ostream & output ) const;
+  virtual void write( std::ostream & output ) const;
   
  private:
   

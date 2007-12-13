@@ -37,7 +37,8 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib
+{
 
 /** Note: There are two arrays that have to be taken care of: mPairs and mIndex. If you
       need to copy one, you have to copy the other one as well. The same applies to deletion.
@@ -172,27 +173,29 @@ void ImplAlignataMatrix::addPair( Position row, Position col, Score score )
 /** retrieves a pair of residues from the alignment */
 ResiduePAIR ImplAlignataMatrix::getPair( const ResiduePAIR & p) const 
 {
-	// TODO
-	assert(0);
-	/** generic implementation - returns any pair of row */
-	PAIRVECTOR::iterator it(mPairs.begin()), it_end(mPairs.end());
-	for (;it != it_end; ++it)
-		if ((*it)->mRow == row)
-			return **it;
-	
-	return ResiduePAIR();
+  /** generic implementation - returns any pair of row */
+  PAIRVECTOR::iterator it(mPairs.begin()), it_end(mPairs.end());
+  for (;it != it_end; ++it)
+    if ((*it)->mRow == p.mRow)
+      return **it;
+  
+  return ResiduePAIR();
 } 
 
 //----------------------------------------------------------------------------------------------------------------------
-void ImplAlignataMatrix::removePair( const ResiduePAIR & old_pair ) 
+void ImplAlignataMatrix::removePair( const ResiduePAIR & p ) 
 { 
 	debug_func_cerr(5);
 
-	PAIRVECTOR::iterator it(mPairs.begin()), it_end(mPairs.end());
-	for (;it != it_end; )
+	PAIRVECTOR::iterator it(mPairs.begin());
+	// re-check mPairs.end() at each loop iteration, do not use
+	// test against other iterator, as this will not catch
+	// the deletion of the last element.
+	for ( ;it != mPairs.end(); )
 	{
-		if ( **it == old_pair )
+		if ( **it == p )
 		{
+			debug_cerr( 5, "deleting pair " << **it );
 			delete *it;
 			it = mPairs.erase( it );
 		}

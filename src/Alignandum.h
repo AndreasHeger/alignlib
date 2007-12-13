@@ -81,9 +81,17 @@ class Alignandum
     /** return an identical copy of this object */
     virtual Alignandum * getClone() const = 0;
 
-    /** get length of sequence */
-    virtual Position	getLength() const = 0;
+    /** get length of sequence. 
+     * 
+     * This is the length of the active segment. 
+     * */
+    virtual Position getLength() const = 0;
 
+    /** get the full length of the sequence
+     * 
+     */
+    virtual Position getFullLength() const = 0;
+    
     /** restrict the use of the sequence to a segment. If no coordinates are given,
      * the full sequence is used.
      *  

@@ -195,7 +195,6 @@ void ImplMultipleAlignment::add( Alignatum * src,
 	mLength = std::max( map_this2new->getColTo(), map_alignatum2new->getColTo());
 
 	// proceed row-wise and remap each alignatum-object
-	// Todo: this procedure for inserting gaps into the mali is still buggy !!!
 	if (insert_gaps_mali)
 		for (unsigned int row = 0; row < mRows.size(); row++) 
 			mRows[row]->mapOnAlignment( map_this2new, mLength );

@@ -110,22 +110,26 @@ void ImplAlignandum::setTrueLength( Position length) const
 }
 
 //--------------------------------------------------------------------------------------
-Position ImplAlignandum::getTrueLength() const {
+Position ImplAlignandum::getFullLength() const 
+{
 	return mLength;
 }
 
 //--------------------------------------------------------------------------------------
-bool ImplAlignandum::isPrepared() const {
+bool ImplAlignandum::isPrepared() const 
+{
 	return mIsPrepared;
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::setPrepared( bool flag ) const {
+void ImplAlignandum::setPrepared( bool flag ) const 
+{
 	mIsPrepared = flag;
 } 
 
 //--------------------------------------------------------------------------------------
-char ImplAlignandum::asChar( Position pos ) const {
+char ImplAlignandum::asChar( Position pos ) const 
+{
 	return getDefaultTranslator()->decode( asResidue( pos ));
 }
 

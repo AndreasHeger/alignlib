@@ -184,7 +184,7 @@ void ImplMultipleAlignmentDots::add( Alignatum * src,
 	if (alignment == NULL)
 	{
 		ali = makeAlignataVector();
-		fillAlignataIdentity( ali, 0, src->getTrueLength(), 0);
+		fillAlignataIdentity( ali, 0, src->getFullLength(), 0);
 	}
 	else
 		ali = alignment->getClone();

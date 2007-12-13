@@ -12,93 +12,102 @@
 #include <string>
 #include <vector>
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "Tree.h"
 #include "HelpersTree.h"
 
-
 using namespace std;
 
-namespace alignlib {
-  
+namespace alignlib 
+{
+
 void writeNewHampshire( std::ostream & output, const Tree * tree, const std::vector<std::string> * labels ) 
 {
 	debug_func_cerr( 5 );
 
-    Node node;
-    std::vector<Node> node_stack;
+	Node node;
+	std::vector<Node> node_stack;
 
-    Node root = tree->getRoot();
-
-    node_stack.push_back( root ); // push root on stack
-
-    bool docomma = false;
-
-    /* after hmmer-2.1 - cluster.c*/
-
-    Node numleaves = tree->getNumLeaves();
-    Node last_interior_node = 2 * numleaves - 1;
-    TreeWeight weight = 0;
-    while (!node_stack.empty()) {
-
-        node = node_stack.back();
-        node_stack.pop_back();
-#ifdef DEBUG
-        // cout << "Processing node " << node << endl;
-#endif
-
-        if (node != root)
-            weight = tree->getWeight( node, tree->getParent( node ));
+	Node root = tree->getRoot();
 
 
-        if (node < numleaves) {                   // process leaves: print name:branchlength
-            if (docomma)
-                output << ",";
+	node_stack.push_back( root ); // push root on stack
 
-            if (labels) {
-                output << (*labels)[node];  // this is a bit awkward
-            } else {
-                output << node;
-            }
+	bool docomma = false;
 
-            output << ":" << weight;
-            docomma = true;
+	Node numleaves = tree->getNumLeaves();
+	Node last_interior_node = 2 * numleaves - 1;
+	TreeWeight weight = 0;
 
-        } else {
-            if (node <= last_interior_node) {             // process interior nodes
-                if (docomma) output << "," << endl;
+	debug_cerr( 5, "starting traversal from root " << root << " with " << numleaves << " leaves" );
 
-                // 1) print a '('
-                output << "(";
+	while (!node_stack.empty()) 
+	{
 
-                // 2) push on stack: ), right child, left child
+		node = node_stack.back();
+		node_stack.pop_back();
 
-                node_stack.push_back( node + numleaves );
-                node_stack.push_back( tree->getRightChild(node) );
-                node_stack.push_back( tree->getLeftChild(node) );
+		debug_cerr( 5, "Processing node " << node << " root=" << root );
 
-                // 3) record branch lengths
-                docomma = false;
+		if (node != root && node < last_interior_node )
+			weight = tree->getWeight( node, tree->getParent( node ));
 
-            } else {                                      // close interior node
-                // print a ):branchlength (if root, just print ")" )
-                if (node == root + numleaves) {
-                    output << ")\n";
-                } else {
-                    node = node - numleaves;
-                    output << "):" << tree->getWeight( node, tree->getParent(node) );
-                }
- 
-                docomma = true;
-            }
-        }
-    }
+
+		if (node < numleaves) 
+		{                   // process leaves: print name:branchlength
+			if (docomma)
+				output << ",";
+
+			if (labels) 
+			{
+				output << (*labels)[node]; 
+			} else 
+			{
+				output << node;
+			}
+
+			output << ":" << weight;
+			docomma = true;
+
+		} 
+		else 
+		{
+			if (node <= last_interior_node) 
+			{             // process interior nodes
+				if (docomma) output << "," << endl;
+
+				// 1) print a '('
+				output << "(";
+
+				// 2) push on stack: ), right child, left child
+
+				node_stack.push_back( node + numleaves );
+				node_stack.push_back( tree->getRightChild(node) );
+				node_stack.push_back( tree->getLeftChild(node) );
+
+				// 3) record branch lengths
+				docomma = false;
+
+			} 
+			else 
+			{                                      // close interior node
+				// print a ):branchlength (if root, just print ")" )
+				if (node == root + numleaves) 
+				{
+					output << ")\n";
+				} 
+				else 
+				{
+					node = node - numleaves;
+					output << "):" << tree->getWeight( node, tree->getParent(node) );
+				}
+
+				docomma = true;
+			}
+		}
+	}
 }
-   
+
 
 } // namespace alignlib

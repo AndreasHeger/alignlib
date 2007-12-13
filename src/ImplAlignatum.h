@@ -86,7 +86,7 @@ class ImplAlignatum : public Alignatum {
     virtual Position getAlignedLength() const;
 
     /** return the length of the line without gaps */
-    virtual Position getTrueLength() const;
+    virtual Position getFullLength() const;
     
     /** return the number of the first residue */
     virtual Position getFrom() const;

@@ -30,6 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 #include <time.h> 
 
@@ -169,18 +170,17 @@ void TestAlignata(Alignata * a)
 		bool passed = true;
 		while (pos < a->getRowTo()) 
 		{
-
+			// check gaps
 			while (it != it_end && pos < (*it).mRow)
 			{
 				if (a->mapRowToCol( pos++ ) != NO_POS) 
-				{
 					passed = false;
-				}
 			}
 
 			if (it != it_end) 
 			{
-				if (a->mapRowToCol( pos) != it->mCol) passed = false;
+				if (a->mapRowToCol( pos) != it->mCol) 
+					passed = false;
 				++it;
 			}
 			++pos;

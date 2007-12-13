@@ -31,7 +31,8 @@
 #include "alignlib.h"
 #include "ImplAlignata.h"
 
-namespace alignlib {
+namespace alignlib
+{
 
 class Alignandum;
 
@@ -43,54 +44,46 @@ class Alignandum;
     @author Andreas Heger
     @version $Id: ImplAlignataSet.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignataSet : public ImplAlignata 
-{
 
-  /** residues are sorted by row */
-  struct Comparator 
-  {
-      bool operator()( const ResiduePAIR * x, const ResiduePAIR * y) const 
-      { 
-    	  return x->mRow < y->mRow; 
-      } 
-  };
-    
-  typedef std::set<ResiduePAIR *, Comparator> PAIRSET;
-  typedef PAIRSET::const_iterator PairConstIterator;
-  typedef PAIRSET::iterator PairIterator;
+ template< class T>
+   class ImplAlignataSorted : public ImplAlignata 
+ {
+
+  typedef typename T::const_iterator PairConstIterator;
+  typedef typename T::iterator PairIterator;
   
  public:
 
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignataSet();
+    ImplAlignataSorted();
 
     /** copy constructor */
-    ImplAlignataSet( const ImplAlignataSet &src );
+    ImplAlignataSorted( const ImplAlignataSorted &src );
 
     /** destructor */
-    virtual ~ImplAlignataSet();
+    virtual ~ImplAlignataSorted();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignataSet * getNew() const;
+    virtual ImplAlignataSorted * getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignataSet * getClone() const;
+    virtual ImplAlignataSorted * getClone() const;
 
     //------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------
     /**
        @short Const iterator over an alignment.
      */
-    class ImplAlignataSet_ConstIterator : public Alignata::ConstIterator {
+    class ImplAlignataSorted_ConstIterator : public Alignata::ConstIterator {
     public:
-        ImplAlignataSet_ConstIterator(PairConstIterator it) : mIterator( it ) {};
+        ImplAlignataSorted_ConstIterator(PairConstIterator it) : mIterator( it ) {};
 	
-        ImplAlignataSet_ConstIterator( const ImplAlignataSet_ConstIterator & src ) : mIterator( src.mIterator) {};
+        ImplAlignataSorted_ConstIterator( const ImplAlignataSorted_ConstIterator & src ) : mIterator( src.mIterator) {};
 	
-        virtual ~ImplAlignataSet_ConstIterator() {};
+        virtual ~ImplAlignataSorted_ConstIterator() {};
 	
-  	virtual ImplAlignataSet_ConstIterator * getClone() const {return new ImplAlignataSet_ConstIterator( mIterator);}
+  	virtual ImplAlignataSorted_ConstIterator * getClone() const {return new ImplAlignataSorted_ConstIterator( mIterator);}
 
         /** dereference operator */
         virtual const ResiduePAIR & getReference() const { return *(*mIterator);}
@@ -111,15 +104,15 @@ class ImplAlignataSet : public ImplAlignata
     /**
        @short Non-Const iterator over an alignment.
      */
-    class ImplAlignataSet_Iterator : public Alignata::Iterator {
+    class ImplAlignataSorted_Iterator : public Alignata::Iterator {
     public:
-        ImplAlignataSet_Iterator(PairIterator it) : mIterator( it ) {};
+        ImplAlignataSorted_Iterator(PairIterator it) : mIterator( it ) {};
 	
-        ImplAlignataSet_Iterator( const ImplAlignataSet_Iterator & src ) : mIterator( src.mIterator) {};
+        ImplAlignataSorted_Iterator( const ImplAlignataSorted_Iterator & src ) : mIterator( src.mIterator) {};
 	
-        virtual ~ImplAlignataSet_Iterator() {};
+        virtual ~ImplAlignataSorted_Iterator() {};
 	
-  	virtual ImplAlignataSet_Iterator * getClone() const {return new ImplAlignataSet_Iterator( mIterator);}
+  	virtual ImplAlignataSorted_Iterator * getClone() const {return new ImplAlignataSorted_Iterator( mIterator);}
 
         /** dereference operator
 	    The solution here compiles at least. It is ugly and inefficient. However, when returning *mIterator, you get the following error:
@@ -203,7 +196,7 @@ class ImplAlignataSet : public ImplAlignata
     void clearContainer();
     
     /** container with residue pairs */
-    PAIRSET mPairs;
+    T mPairs;
 };
 
 						  

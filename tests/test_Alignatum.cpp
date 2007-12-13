@@ -60,13 +60,13 @@ void testAlignatum( Alignatum * a, std::string sample )
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
 	assert( a->getAlignedLength() == sample.size() );	  
-	assert( a->getTrueLength() == sample.size() );
+	assert( a->getFullLength() == sample.size() );
 	
 	// add two terminal gaps on either side
 	a->addGaps( 2,2 );
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
-	assert( a->getTrueLength() == sample.size() );
+	assert( a->getFullLength() == sample.size() );
 	assert( a->getAlignedLength() == sample.size() + 4);	
 	
 	// wrap on alignment - add one gaps into the middle
@@ -79,7 +79,7 @@ void testAlignatum( Alignatum * a, std::string sample )
 		
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
-	assert( a->getTrueLength() == sample.size() );
+	assert( a->getFullLength() == sample.size() );
 	assert( a->getAlignedLength() == sample.size() + 5);	
 	assert( a->getStringReference()[pos] == '-' );
 	

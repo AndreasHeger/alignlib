@@ -85,7 +85,7 @@ mProfile(NULL)
 	debug_func_cerr(5);
 
 	// the first column is empty, so copy one more column
-	Position copy_length = getTrueLength(); 
+	Position copy_length = getFullLength(); 
 
 	if (src.mCounts != NULL) {
 		allocateCounts();
@@ -131,7 +131,7 @@ void ImplProfile::allocateCounts()
 		delete [] mCounts;
 	mCounts = NULL;
 
-	Position length = getTrueLength();
+	Position length = getFullLength();
 
 	mCounts = new CountColumn[length];
 
@@ -150,7 +150,7 @@ void ImplProfile::allocateProfile() const
 	if (mProfile != NULL)	
 		delete [] mProfile;
 
-	Position length = getTrueLength();
+	Position length = getFullLength();
 
 	mProfile = new ProfileColumn[length];
 	int i, j;
@@ -168,7 +168,7 @@ void ImplProfile::allocateFrequencies() const
 	if (mFrequencies != NULL)
 		delete [] mFrequencies;
 
-	Position length = getTrueLength();
+	Position length = getFullLength();
 
 	mFrequencies = new FrequencyColumn[length];
 
@@ -264,12 +264,12 @@ void ImplProfile::prepare() const
 	// do nothing, when a profile and frequencies already exist.
 	if (!mFrequencies) {
 		allocateFrequencies();
-		mRegularizor->fillFrequencies( mFrequencies, mCounts, getTrueLength() );
+		mRegularizor->fillFrequencies( mFrequencies, mCounts, getFullLength() );
 	}
 
 	if (!mProfile) {
 		allocateProfile();
-		mLogOddor->fillProfile( mProfile, mFrequencies, getTrueLength() );
+		mLogOddor->fillProfile( mProfile, mFrequencies, getFullLength() );
 	}
 	setPrepared( true );
 }
@@ -404,11 +404,11 @@ void ImplProfile::__save( std::ostream & output, MagicNumberType type ) const
 	}		
 	ImplAlignandum::__save( output, type );
 
-	output.write( (char*)mCounts, sizeof( CountColumn) * getTrueLength() );
+	output.write( (char*)mCounts, sizeof( CountColumn) * getFullLength() );
 	if (isPrepared() )
 	{
-		output.write( (char*)mFrequencies, sizeof( FrequencyColumn) * getTrueLength() );
-		output.write( (char*)mProfile, sizeof( ProfileColumn) * getTrueLength() );	
+		output.write( (char*)mFrequencies, sizeof( FrequencyColumn) * getFullLength() );
+		output.write( (char*)mProfile, sizeof( ProfileColumn) * getFullLength() );	
 	}		
 }
 
@@ -418,7 +418,7 @@ void ImplProfile::load( std::istream & input)
 	ImplAlignandum::load( input );
 
 	allocateCounts();	
-	input.read( (char*)mCounts, sizeof( CountColumn) * getTrueLength() );
+	input.read( (char*)mCounts, sizeof( CountColumn) * getFullLength() );
 
 	if (input.fail() ) 
 		throw AlignException( "incomplete profile in stream.");
@@ -426,9 +426,9 @@ void ImplProfile::load( std::istream & input)
 	if (isPrepared() )
 	{
 		allocateFrequencies();
-		input.read( (char*)mFrequencies, sizeof( FrequencyColumn) * getTrueLength() );
+		input.read( (char*)mFrequencies, sizeof( FrequencyColumn) * getFullLength() );
 		allocateProfile();
-		input.read( (char*)mProfile, sizeof( ProfileColumn) * getTrueLength() );	
+		input.read( (char*)mProfile, sizeof( ProfileColumn) * getFullLength() );	
 	}		
 
 }

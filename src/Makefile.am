@@ -39,7 +39,6 @@ HEADERS_PHYLOLIB=Tree.h HelpersTree.h \
                         Treetor.h HelpersTreetor.h \
                         ImplTreetor.h ImplTreetorDistance.h ImplTreetorDistanceLinkage.h \
                         ImplTreetorDistanceNJ.h
-                        
 
 
 HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersProfile.h \
@@ -57,9 +56,7 @@ HEADERS_ALIGNATA =	Alignata.h HelpersAlignata.h \
 			AlignataIterator.h \
 			AlignedBlocks.h \
 			ImplAlignata.h \
-			ImplAlignataVector.h \
-			ImplAlignataSet.h ImplAlignataSetCol.h \
-			ImplAlignataHash.h ImplAlignataHashDiagonal.h \
+			ImplAlignataVector.h ImplAlignataSorted.h \
 			ImplAlignataMatrix.h ImplAlignataMatrixRow.h ImplAlignataMatrixDiagonal.h \
 			ImplAlignataMatrixUnsorted.h 
 
@@ -143,10 +140,10 @@ PARTS_ALIGNATA =      Alignata.cpp HelpersAlignata.cpp HelpersAlignataPrivate.cp
 			AlignedBlocks.cpp \
 			ImplAlignata.cpp \
 			ImplAlignataVector.cpp \
-			ImplAlignataSet.cpp \
+			ImplAlignataSorted.cpp \
 			ImplAlignataMatrix.cpp ImplAlignataMatrixRow.cpp \
-			ImplAlignataMatrixDiagonal.cpp ImplAlignataMatrixUnsorted.cpp \
-			ImplAlignataSetCol.cpp ImplAlignataHash.cpp ImplAlignataHashDiagonal.cpp 
+			ImplAlignataMatrixDiagonal.cpp ImplAlignataMatrixUnsorted.cpp 
+
 
 PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
 			ImplAlignator.cpp ImplAlignatorDP.cpp \
@@ -184,7 +181,7 @@ PARTS_STATISTICS =    Statistics.cpp
 PARTS_TRANSLATOR=	HelpersTranslator.cpp \
 			ImplTranslator.cpp ImplTranslatorProtein.cpp ImplTranslatorProteinUC.cpp \
 			ImplTranslatorDNA.cpp 
-			
+
 PARTS_SUBSTMATRIX=   	SubstitutionMatrix.cpp HelpersSubstitutionMatrix.cpp \
 			ImplSubstitutionMatrix.cpp ImplSubstitutionMatrixAA.cpp
 

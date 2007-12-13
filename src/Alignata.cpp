@@ -25,10 +25,6 @@
 #include <iomanip>
 #include "Alignata.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib {
@@ -42,10 +38,12 @@ Alignata::~Alignata () {
 }
 
 //--------------------------------------------------------------------------------------
-Alignata::Alignata(const Alignata & src) {
+Alignata::Alignata(const Alignata & src) 
+{
 }
    
-std::ostream & operator<<( std::ostream & output, const Alignata & src) {
+std::ostream & operator<<( std::ostream & output, const Alignata & src) 
+{
   src.write( output );
   return output;
 }
@@ -53,8 +51,9 @@ std::ostream & operator<<( std::ostream & output, const Alignata & src) {
 bool operator==( const ResiduePAIR & x, const ResiduePAIR & y) { return (x.mRow == y.mRow) && (x.mCol == y.mCol);}
 bool operator!=( const ResiduePAIR & x, const ResiduePAIR & y) { return (x.mRow != y.mRow) || (x.mCol != y.mCol);}
 
-std::ostream & operator<< (std::ostream & output, const ResiduePAIR & src) {
-  output << setw(5) << src.mRow << " " << setw(5) << src.mCol << " " << setw(10) << setprecision(4) << src.mScore;
+std::ostream & operator<< (std::ostream & output, const ResiduePAIR & src) 
+{
+  output << src.mRow << "\t" << setw(5) << src.mCol << "\t" << setprecision(4) << src.mScore;
   return output;
 }
 

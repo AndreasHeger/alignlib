@@ -35,8 +35,8 @@ Treetor * makeTreetorDistanceNJ( const Distor * distor )
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplTreetorDistanceNJ::ImplTreetorDistanceNJ ( const Distor * distor) : 
 	ImplTreetorDistance( distor), mR (NULL) 
-{
-}
+	{
+	}
 
 ImplTreetorDistanceNJ::~ImplTreetorDistanceNJ () 
 {
@@ -44,10 +44,14 @@ ImplTreetorDistanceNJ::~ImplTreetorDistanceNJ ()
 
 ImplTreetorDistanceNJ::ImplTreetorDistanceNJ (const ImplTreetorDistanceNJ & src ) : 
 	ImplTreetorDistance(src), mR( NULL) 
-{
-	// should not be able to copy while object is performing action.
-	assert( src.mR == NULL );
-}
+	{
+	if (mWorkMatrix != NULL)
+	{
+		PhyloMatrixSize width = mWorkMatrix->getWidth();
+		mR = new PhyloMatrixValue[ width ];
+		memcpy( mR, src.mR, sizeof(PhyloMatrixValue) * width );
+	}
+	}	
 
 //------------------------------------------------------------------------------------------------------------------------------
 void ImplTreetorDistanceNJ::startUp( Tree * tree, const alignlib::MultipleAlignment * mali) const 

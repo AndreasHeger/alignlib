@@ -272,7 +272,7 @@ Position ImplAlignatum::getAlignedLength() const {
 
 //--------------------------------------------------------------------------------------------------------------------------------
 /** return the length of the line without gaps */
-Position ImplAlignatum::getTrueLength() const {
+Position ImplAlignatum::getFullLength() const {
     return mTo - mFrom + 1;
 }
     

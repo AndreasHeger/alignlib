@@ -111,7 +111,7 @@ class ImplAlignandum : public Alignandum
     virtual void setTrueLength(Position length) const;
 
     /** get true length*/
-    virtual Position getTrueLength() const;
+    virtual Position getFullLength() const;
 
     /** set prepared flag */
     virtual void setPrepared( bool flag ) const;
