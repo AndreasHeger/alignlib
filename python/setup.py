@@ -297,7 +297,7 @@ def export_classes( mb ):
     
     These classes can be instantiated directly from python.
     """
-    classes_to_export = set( ['AlignedBlocks',] )
+    classes_to_export = set( ['AlignedBlocks', 'Coordinate' ] )
     
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
@@ -316,7 +316,7 @@ def export_interface_classes( mb ):
                               'Alignator',
                               'Iterator',
     #                          'Dottor',
-    #                          'Translator',
+                              'Translator',
                               'SubstitutionMatrix',
                               'Fragmentor',
                               'Alignment',
@@ -369,10 +369,6 @@ def export_interface_classes( mb ):
                          return_value_policy( reference_existing_object )
     mb.member_functions( lambda x: x.name == "fragment" ).call_policies = \
                          return_value_policy( reference_existing_object )
-    mb.member_functions( "decode" ).call_policies = \
-                         return_value_policy( manage_new_object )
-    mb.member_functions( "encode" ).call_policies = \
-                         return_value_policy( manage_new_object )
     mb.member_functions( "calculateWeights" ).call_policies = \
                          return_value_policy( manage_new_object )
     mb.member_functions( "calculateMatrix" ).call_policies = \
@@ -382,7 +378,12 @@ def export_interface_classes( mb ):
     mb.member_functions( lambda mem_fun: mem_fun.name.startswith( "getNodes" ) ).call_policies = \
                          return_value_policy( manage_new_object )
 
-
+    ## deal with Translator objects
+    ## do not export decode/encode
+    cls = mb.class_( "Translator" )
+    cls.member_functions( "decode" ).exclude()
+    cls.member_functions( "encode" ).exclude()
+        
     ## exclude the following because of unhandled arguments/return types
     mb.member_functions( "fillProfile").exclude()
     mb.member_functions( "fillFrequencies").exclude()
@@ -451,18 +452,22 @@ def export_interface_classes( mb ):
                               'Matrix<int>' : 'MatrixInt',  
                               }
 
+    ## first include the whole class, then exclude specific member functions
+    declarations_to_export = set( template_translations.keys() )
+    mb.decls( lambda x: x.name in declarations_to_export ).include()
+
     for old, new in template_translations.items():
         cls = mb.class_( old )
         cls.rename( new )
         cls.alias = new
         ## no warning for warning W1036: Py++ can not expose pointer to Python immutable member
         cls.vars(lambda x: x.name == "mMatrix" ).disable_warnings( messages.W1036 )
-
-    declarations_to_export = set( template_translations.keys() )
-
-    # mb.decls( lambda x: x.name in declarations_to_export ).include()
-
-
+        ## do not wrap [], gives rise to "invalid application of 'sizeof' to incomplete type"        
+        cls.member_operators( "operator[]" ).exclude()
+        ## silence warnings about immutable types
+        cls.mem_fun( "getValue" ).disable_warnings( messages.W1008 )
+        cls.mem_fun( "setValue" ).disable_warnings( messages.W1008 )
+        
     
 def buildModule( include_paths, dest, options) :
     """build module using py++."""
@@ -481,9 +486,6 @@ def buildModule( include_paths, dest, options) :
                                           , define_symbols=[]
                                           , )
     
-    ## Every declaration will be exposed at its own line
-    mb.classes().always_expose_using_scope = True
-    
     ## exclude py_details namespace, only used to instantiate template classes
     mb.namespace( 'py_details' ).exclude()
 
@@ -494,7 +496,10 @@ def buildModule( include_paths, dest, options) :
     export_classes( mb )
     
     export_interface_classes( mb )
-        
+
+    ## Every declaration will be exposed at its own line
+    mb.classes().always_expose_using_scope = True
+
     ######################################################################
     
     # holder = mb.class_( 'vector<double>' )
@@ -517,6 +522,7 @@ def buildModule( include_paths, dest, options) :
     
     #Writing code to file.
     mb.write_module( dest )
+
 
 def compileModule( module_name, options ):
     
@@ -580,6 +586,9 @@ if __name__ == "__main__":
     
     parser.add_option( "--boost-dir", dest="boost_dir", type="string",
                        help="location of boost." )
+    
+    parser.add_option( "--verbose", dest="verbose", action="store_true",
+                       help="output details." )
     
     parser.set_defaults( extension_name = "alignlib",
                          force = False, 

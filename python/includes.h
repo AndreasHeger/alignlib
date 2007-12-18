@@ -75,8 +75,8 @@ namespace py_details
 {
   inline void instantiate() 
   {
-    alignlib::Matrix<int> m1(1,1);
-    alignlib::Matrix<double> m2(1,1);
-    alignlib::Matrix<unsigned int> m3(1,1);
+    sizeof(alignlib::Matrix<int>);
+    sizeof(alignlib::Matrix<double>);
+    sizeof(alignlib::Matrix<unsigned int>);
   }
 }
