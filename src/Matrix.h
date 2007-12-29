@@ -40,14 +40,6 @@ class Matrix
 {
 
 public:
-	T * mMatrix ;
-
-private:
-	unsigned int mRows;
-	unsigned int mCols;
-	unsigned int mSize;
-
-public:
 	Matrix (unsigned int r, unsigned int c, T default_value = 0) 
 	{
 		mRows = r;
@@ -101,7 +93,7 @@ public:
 		mSize=mRows*mCols;
 
 		mMatrix  = new T [mSize];
- 		memcpy( mMatrix, src.mMatrix, sizeof( T) * mSize );
+		memcpy( mMatrix, src.mMatrix, sizeof( T) * mSize );
 
 		return (*this);
 	}
@@ -121,6 +113,20 @@ public:
 
 	unsigned int getNumRows() const { return mRows; }
 	unsigned int getNumCols() const { return mCols; }
+
+	/** return pointer to location of matrix data 
+	 */
+	const T * getData()  const
+	{
+		return mMatrix;
+	}
+
+private:
+	T * mMatrix;
+	unsigned int mRows;
+	unsigned int mCols;
+	unsigned int mSize;
+
 
 };
 

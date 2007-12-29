@@ -30,7 +30,8 @@
 
 #include "alignlib.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -41,18 +42,23 @@ namespace alignlib {
 	3. convenience functions
     */
     
-    class SubstitutionMatrix;
+    typedef Matrix< Score > SubstitutionMatrix;
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 
-    /** create a Substitution Matrix given a memory location of log-odds scores */
-    SubstitutionMatrix * makeSubstitutionMatrixAA( ScoreColumn * matrix, bool this_own = false);
-
+    /** create a Substitution Matrix given a memory location of 
+     * log-odds scores */
+    SubstitutionMatrix * makeSubstitutionMatrix( 
+    			Score * matrix,
+    			int alphabet_size,
+    			bool this_own = false);
+    
     /** create the identity substitution matrix. Identities score as 1, mismatches as -1.
      */
-    SubstitutionMatrix * makeSubstitutionMatrixAAIdentity( const Score match = 10,
-							   const Score mismatch = -1);
+    SubstitutionMatrix * makeSubstitutionMatrixIdentity( 
+    			const Score match = 10,
+    			const Score mismatch = -1);
 
     /** read a simple substitution matrix adn return it. Do not forget to tell the substitution matrix
 	to clear its contents afterwards

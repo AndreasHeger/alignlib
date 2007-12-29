@@ -79,7 +79,7 @@ void test() {
   	// cout << *dotplot << endl;
 	
 	// make a Dottor
-	alignlib::Alignator * dottor = makeAlignatorDummy( dotplot );
+	alignlib::Alignator * dottor = makeAlignatorPublishAlignment( dotplot );
 	
 	// make the alignator
 	alignlib::Alignator * alignator = makeAlignatorDotsSquared( -10, -2, dottor );
@@ -122,7 +122,7 @@ int main () {
 //  	pro2->useSegment(10,20);
 	
 //  	// make a Dottor
-//  	alignlib::Alignator * dottor = makeAlignatorDummy( dotplot );
+//  	alignlib::Alignator * dottor = makeAlignatorPublishAlignment( dotplot );
 	
 //  	// make the alignator
 //  	alignlib::Alignator * alignator = makeAlignatorDotsSquared( -4, -0.4, dottor );

@@ -32,13 +32,10 @@
 #include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
     static ScoreColumn blosum62[MATRIXWIDTH_AA] = {
 /*   A   C   D   E   F   G   H   I   K   L   M   N   P   Q   R   S   T   V   W   Y   X*/
