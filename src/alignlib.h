@@ -139,9 +139,10 @@ enum MagicNumberType
 // Known alphabets
 enum AlphabetType
 {
-	Protein21,
+	User,
+	Protein20,
 	Protein23,
-	DNA5,
+	DNA4,
 };
 
 /* type of a height of a node in the tree */

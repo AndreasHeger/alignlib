@@ -33,33 +33,28 @@ namespace alignlib
 
 //-------------------------------------------------------------------------------
 
-/** various alphabets */
+// the built-in translator objects
 
 /** 20-letter alphabet plus X */
-static std::string alphabet_protein_21 = "ACDEFGHIKLMNPQRSTVWYX";
+static const ImplTranslator translator_protein_20 = ImplTranslator( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" );
 
-/** encoding table ompatible with BLOSUM and PAML matrices */
-static std::string alphabet_protein_23 = "ABCDEFGHIKLMNPQRSTVWYXZ";	
+/** encoding table compatible with BLOSUM and PAML matrices */
+static const ImplTranslator translator_protein_23 = ImplTranslator( Protein23, "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" );
 
-/** 5-letter DNA alphabet */
-static std::string alphabet_dna_5 = "ACGTN";	
+/** 4-letter DNA alphabet */
+static const ImplTranslator translator_dna_4 = ImplTranslator( DNA4, "ACGT", "-.", "N" );
 
-// the built-in translator objects 
-static ImplTranslator translator_protein_21 = ImplTranslator( alphabet_protein_21 );
-static ImplTranslator translator_protein_23 = ImplTranslator( alphabet_protein_23 );
-static ImplTranslator translator_dna_5 = ImplTranslator( alphabet_dna_5 );
-
-const Translator * DEFAULT_TRANSLATOR = & translator_protein_23;
+const Translator * DEFAULT_TRANSLATOR = &translator_protein_23;
 
 const Translator * getTranslator( const AlphabetType & alphabet_type )
 {
 	switch (alphabet_type) 
 	{
-	case Protein21: return &translator_protein_21; break;
+	case Protein20: return &translator_protein_20; break;
 	case Protein23: return &translator_protein_23; break;
-	case DNA5: return & translator_dna_5; break;
+	case DNA4: return & translator_dna_4; break;
 	}
-	
+
 	throw AlignException( "unknown alphabet" );
 }
 
@@ -74,10 +69,71 @@ const Translator * getDefaultTranslator()
  * Only supply built-in objects, otherwise
  * memory leaks will occur.
  * */
-void setDefaultTranslator( Translator * translator ) 
+void setDefaultTranslator( const Translator * translator ) 
 {	
 	debug_func_cerr( 5 );
 	DEFAULT_TRANSLATOR = translator;
 }
+
+/** load a translator object from stream
+ * returns NULL on EOF
+ */
+
+const Translator * loadTranslator( std::istream & input )
+{
+	// read Alignandum type
+	AlphabetType alphabet_type;
+
+	if (input.eof()) return NULL;
+
+	input.read( (char*)&alphabet_type, sizeof(AlphabetType) );
+
+	if (input.eof()) return NULL;
+
+	const Translator * result = NULL;
+
+	switch (alphabet_type)
+	{
+	case User : 
+	{
+		// read user alphabet
+		size_t size;
+		input.read( (char *)&size, sizeof( size_t ));
+		char * alphabet = new char[size];
+		input.read( alphabet, sizeof(char) * size);
+
+		input.read( (char *)&size, sizeof( size_t ));
+		char * gap_chars = new char[size];
+		input.read( gap_chars, sizeof(char) * size);
+
+		input.read( (char *)&size, sizeof( size_t ));
+		char * mask_chars = new char[size];
+		input.read( mask_chars, sizeof(char) * size);
+		
+		if (input.eof())
+			throw AlignException( "incomplete translator ");
+					
+		result = new ImplTranslator( alphabet_type, alphabet, gap_chars, mask_chars );
+		
+		delete [] alphabet;
+		delete [] gap_chars;
+		delete [] mask_chars;
+		
+		break;
+	}
+	case Protein20 :
+		result = getTranslator( Protein20 );
+		break;
+	case Protein23:
+		result = getTranslator( Protein23 );
+		break;
+	case DNA4:
+		result = getTranslator( DNA4 );
+		break;
+	default:
+		throw AlignException( "unknown object found in stream" );
+	}	
+	return result;
+}	
 
 } // namespace alignlib

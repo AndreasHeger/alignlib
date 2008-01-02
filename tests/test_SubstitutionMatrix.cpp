@@ -28,10 +28,6 @@
 #endif
 
 #include <iostream>
-#include <fstream>
-#include <sstream>
-
-#include <time.h> 
 
 #include "alignlib.h"
 #include "Alignandum.h"
@@ -40,34 +36,34 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 
+#include "Translator.h"
+#include "HelpersTranslator.h"
+
+#include "SubstitutionMatrix.h"
+#include "HelpersSubstitutionMatrix.h"
+
 using namespace std;
 using namespace alignlib;
 
 int main ()
 {
 
-  Alignment * a = makeAlignmentVector();
-
-  Position from1= 33;
-  Alignandum * seq1 = makeSequence("MRDGSLKGLFCTAPKSIRSVRRNSGSFNVTAFTEEQEALVVKSWNAMKKNSGELALKFFLRIFEIAPSAKKLFTFLKDSDIPVEQNPKLKPHATTVFVMTCESAVQLRKAGKVTVRESNLKDLGATHFKYGVADEHFEVTKYALLEPIKEPVPEMWSPELKNAWAEAYDQLAAAIKIEMKPPS");
-
-  Position from2= 13;  
-  Alignandum * seq2 = makeSequence("GGTLAIQAQGDLTLAQKKIVRKTWHQLMRNKTSFVTDVFIRIFAYDPSAQNKFPQMAGMSASQLRSSRQMQAHAIRVSSIMSEYVEELDSDILPELLATLARTHDLNKVGADHYNLFAKVLMEALQAELGSDFNEKTRDAWAKAFSVVQAVLLVKHGN");
-
-  std::string ali1 = "+46-1+100";
-  std::string ali2 = "+78-4+65";
-
-  fillAlignmentCompressed( a, from1, ali1, from2, ali2);
-  rescoreAlignment( a, seq1, seq2 );
-
-  std::cout << *a << std::endl;
+  const Translator * translator = getDefaultTranslator();
+  const SubstitutionMatrix * matrix = getDefaultSubstitutionMatrix();
+    
+  std::string alphabet = translator->getAlphabet();
   
-  a->clear();
-
-  fillAlignmentCompressed( a, from2, ali2, from1, ali1);
-  rescoreAlignment( a, seq2, seq1 );
-
-  std::cout << *a << std::endl;  
+  Alignandum * seq1 = makeSequence( alphabet );
+  
+  for (int x = 0; x < seq1->getLength(); ++x)
+  {
+	  Residue r = seq1->asResidue(x);
+	  if (r == translator->getMaskCode() )
+		  continue;
+	  assert( matrix->getValue(r,r) > 0);
+  }
+  
+  delete seq1; 
   
   exit(EXIT_SUCCESS);
   

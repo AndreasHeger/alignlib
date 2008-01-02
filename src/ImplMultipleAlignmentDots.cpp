@@ -57,9 +57,12 @@ MaliRow::MaliRow( Alignatum * input,
 
 MaliRow::~MaliRow()
 {
-	delete mAlignatumInput;
-	delete mMapMali2Alignatum;
-	delete mAlignatumOutput;
+	if (mAlignatumInput != NULL)
+		delete mAlignatumInput;
+	if (mMapMali2Alignatum != NULL)
+		delete mMapMali2Alignatum;
+	if (mAlignatumOutput != NULL)
+		delete mAlignatumOutput;
 }
 
 
@@ -153,7 +156,7 @@ void ImplMultipleAlignmentDots::clear()
 	mRenderer = NULL;
 }
 
-//-----------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
 void ImplMultipleAlignmentDots::eraseRow( int row ) 
 {
 	if (row < 0 || row >= mRows.size() )

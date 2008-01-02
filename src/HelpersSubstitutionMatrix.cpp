@@ -145,20 +145,18 @@ static Score paml250[23*23] = {
 /* Z */  0, 2,-5, 3, 3, -5,-1, 2,-2, 0, -3,-2, 1, 0, 3,  0, 0,-1,-2,-6, -4, 3, 
 };
 
-static SubstitutionMatrix * DEFAULT_SUBSTITUTIONMATRIX = makeSubstitutionMatrixBlosum62();
+static std::auto_ptr<SubstitutionMatrix> DEFAULT_SUBSTITUTIONMATRIX(makeSubstitutionMatrixBlosum62());
 
 /** gets the default SubstitutionMatrix object */ 
 const SubstitutionMatrix * getDefaultSubstitutionMatrix() 
 {
-	return DEFAULT_SUBSTITUTIONMATRIX;
+	return &*DEFAULT_SUBSTITUTIONMATRIX;
 }
 
 /** sets the default SubstitutionMatrix object */
 void setDefaultSubstitutionMatrix( SubstitutionMatrix * matrix ) 
 {
-	if (DEFAULT_SUBSTITUTIONMATRIX != NULL)
-		delete DEFAULT_SUBSTITUTIONMATRIX;
-	DEFAULT_SUBSTITUTIONMATRIX = matrix;
+	DEFAULT_SUBSTITUTIONMATRIX.reset( matrix );
 }
 
 /** create a substitution matrix
@@ -182,29 +180,33 @@ SubstitutionMatrix * makeSubstitutionMatrix(
 /** make blosum62 matrix */
 SubstitutionMatrix * makeSubstitutionMatrixBlosum62()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23, 23, 0 );
+	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23 );
 	matrix->copyData( blosum62 );
+	return matrix;
 }
 
 /** make blosum62 matrix */
 SubstitutionMatrix * makeSubstitutionMatrixBlosum50()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23, 23, 0 );	
+	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23);	
 	matrix->copyData( blosum50 );
+	return matrix;
 }
 
 /** make blosum62 matrix */
 SubstitutionMatrix * makeSubstitutionMatrixPam250()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23, 23, 0 );
-	matrix->copyData( paml250 );	
+	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23 );
+	matrix->copyData( paml250 );
+	return matrix;
 }
 
 /** make blosum62 matrix */
 SubstitutionMatrix * makeSubstitutionMatrixPam120()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23, 23, 0 );	
-	matrix->copyData( paml120 );	
+	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23);	
+	matrix->copyData( paml120 );
+	return matrix;
 }
 
 } // namespace alignlib

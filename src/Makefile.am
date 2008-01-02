@@ -136,7 +136,7 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 	                ImplLogOddor.cpp ImplLogOddorDirichlet.cpp ImplLogOddorUniform.cpp 
 
 PARTS_ALIGNMENT = Alignment.cpp \
-			HelpersAlignment.cpp HelpersAlignmentPrivate.cpp \
+			HelpersAlignment.cpp \
 			AlignedBlocks.cpp \
 			ImplAlignment.cpp \
 			ImplAlignmentVector.cpp \
@@ -178,7 +178,8 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 
 PARTS_STATISTICS =    Statistics.cpp
 
-PARTS_TRANSLATOR=	HelpersTranslator.cpp ImplTranslator.cpp 
+PARTS_TRANSLATOR=	Translator.cpp \
+			HelpersTranslator.cpp ImplTranslator.cpp 
 
 PARTS_SUBSTMATRIX=HelpersSubstitutionMatrix.cpp
 

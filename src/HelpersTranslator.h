@@ -55,11 +55,16 @@ namespace alignlib
     /** set the library wide translator
      * The library gets ownership of the translator
      *  */
-    void setDefaultTranslator( Translator * translator);
+    void setDefaultTranslator( const Translator * translator);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
-    
+
+    /** load a Translator object from stream. 
+     * 
+     * Returns NULL on EOF.
+     */	
+    const Translator * loadTranslator( std::istream & stream );
 
 }
 

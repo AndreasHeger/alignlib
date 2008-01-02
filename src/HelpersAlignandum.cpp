@@ -31,9 +31,6 @@
 #include "Alignandum.h"
 #include "ImplSequence.h"
 #include "ImplProfile.h"
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 

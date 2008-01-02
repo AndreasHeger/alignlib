@@ -25,6 +25,7 @@
 #include <iostream>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
+#include "AlignException.h"
 #include "ImplTranslator.h"
 
 using namespace std;
@@ -34,48 +35,119 @@ namespace alignlib
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplTranslator::ImplTranslator () : 
-	mAlphabet( ""), mEncodingTable(0) 
+	mAlphabetType( User ), mAlphabet( ""), mGapChars( "" ), mMaskChars(""), 
+	mTableSize(0), mEncodingTable(0), mDecodingTable(0) 
 	{
 	}
 
+//--------------------------------------------------------------------------------------------------------------------------------
 ImplTranslator::~ImplTranslator () 
 {
 	if ( mEncodingTable != NULL )
 		delete [] mEncodingTable;
+	
+	if ( mDecodingTable != NULL )
+		delete [] mDecodingTable;
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------
 ImplTranslator::ImplTranslator (const ImplTranslator & src ) :
 	mAlphabet( src.mAlphabet ),
-	mEncodingTable( NULL ) 
-	{
+	mTableSize( src.mTableSize ),
+	mEncodingTable( NULL ),
+	mDecodingTable( NULL )
+{
 	if (src.mEncodingTable != NULL)
 	{
-		mEncodingTable = new Residue[ sizeof( char ) ];
+		mEncodingTable = new Residue[ mTableSize ];
 		memcpy( mEncodingTable, 
 				src.mEncodingTable, 
-				sizeof(char) * mAlphabet.size() );		
+				sizeof(char) * mTableSize );
+		mDecodingTable = new char[ mTableSize ];
+		memcpy( mDecodingTable, 
+				src.mDecodingTable, 
+				sizeof(char) * mTableSize );
+		
+		
 	}
-	}
+	// this might confuse built-in versus non-builtin objects
+	// TODO: check built-in versus non-built-in behaviour
+	mAlphabetType = src.mAlphabetType;
+}
 
-ImplTranslator::ImplTranslator(  const std::string & alphabet ) : 
-	mAlphabet( alphabet ), mEncodingTable( NULL ) 
+//--------------------------------------------------------------------------------------------------------------------------------
+ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
+								 const std::string & alphabet,
+								 const std::string & gap_chars,
+								 const std::string & mask_chars ) :
+									 mAlphabetType( alphabet_type ), 
+									 mAlphabet( alphabet ), 
+									 mGapChars( gap_chars ),
+									 mMaskChars( mask_chars ),
+									 mEncodingTable( NULL ) 	
+{
+	// assertions to check for empty input
+	if (mGapChars.size() == 0)
+		throw AlignException( "ImplTranslator.cpp: no gap characters specified.");
+	
+	if (mMaskChars.size() == 0)
+		throw AlignException( "ImplTranslator.cpp: no mask characters specified.");
+	
+	if (mAlphabet.size() == 0 )
+		throw AlignException( "ImplTranslator.cpp: alphabet is empty.");
+	
+	// build encoding and decoding table
+	mTableSize = std::numeric_limits<char>::max();
+		
+	mEncodingTable = new Residue[ mTableSize ];
+	mDecodingTable = new char[ mTableSize ];
+
+	for ( int x = 0; x < mTableSize; ++x )
 	{
-	mEncodingTable = new Residue[ sizeof( char) ];
-
-	for ( int x = 0; x < sizeof(char); ++x )
-		mEncodingTable[x] = CODE_MASK;
-
+		mEncodingTable[x] = mTableSize;
+		mDecodingTable[x] = mGapChars[0];
+	}
+	int index = 0;
+	
 	for ( int x = 0; x < mAlphabet.size() ; ++x)
 	{
-		mEncodingTable[(Residue)toupper(mAlphabet[x])] = x;
-		mEncodingTable[(Residue)tolower(mAlphabet[x])] = x;
+		mEncodingTable[(unsigned int)toupper(mAlphabet[x])] = index;
+		mEncodingTable[(unsigned int)tolower(mAlphabet[x])] = index;
+		mDecodingTable[index] = mAlphabet[x];
+		++index;
 	}
+	
+	// masking characters can appear in the alphabet (to ensure a certain index)
+	for ( int x = 0; x < mMaskChars.size() ; ++x)
+	{
+		if (mEncodingTable[mMaskChars[x]] == mTableSize )
+		{
+			mEncodingTable[(unsigned int)toupper(mMaskChars[x])] = index;
+			mEncodingTable[(unsigned int)tolower(mMaskChars[x])] = index;
+			mDecodingTable[index] = mMaskChars[x];
+		}
 	}
+
+	// gap characters are automatically mapped to the maximum index
+	
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+char ImplTranslator::operator[]( const Residue & residue ) const
+{
+	return mDecodingTable[residue]; 
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+Residue ImplTranslator::operator[]( const char & c ) const
+{
+	return mEncodingTable[(unsigned int)c]; 	
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------
 char ImplTranslator::decode( const Residue residue) const 
 { 
-	return ( (residue == CODE_GAP) ? CHAR_GAP : mAlphabet[residue] ); 
+	return mDecodingTable[residue]; 
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -87,7 +159,7 @@ std::string ImplTranslator::decode( const Residue * src, int length ) const
 
 	int i;
 	for (i = 0; i < length; i++) 
-		result[i] = (src[i] == CODE_GAP) ? CODE_GAP : mAlphabet[src[i]]; 
+		result[i] = mDecodingTable[src[i]];
 
 	result[length] = '\0'; 
 	std::string s( result );
@@ -98,7 +170,7 @@ std::string ImplTranslator::decode( const Residue * src, int length ) const
 //--------------------------------------------------------------------------------------------------------------------------------
 Residue ImplTranslator::encode( const char residue) const 
 { 
-	return mEncodingTable[residue]; 
+	return mEncodingTable[(unsigned int)residue]; 
 }  
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -132,29 +204,78 @@ int ImplTranslator::getAlphabetSize() const
 	return mAlphabet.size();
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------
+std::string ImplTranslator::getAlphabet() const
+{
+	return mAlphabet;
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+AlphabetType ImplTranslator::getAlphabetType() const
+{
+	return mAlphabetType;
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------
 Residue ImplTranslator::getMaskCode() const 
 {
-	return CODE_MASK;
+	return encode( mMaskChars[0] );
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 Residue ImplTranslator::getGapCode() const 
 {
-	return CODE_GAP;
+	return encode( mGapChars[0] );
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+std::string ImplTranslator::getMaskChars() const 
+{
+	return mMaskChars;
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+std::string ImplTranslator::getGapChars() const 
+{
+	return mGapChars;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 char ImplTranslator::getMaskChar() const 
 {
-	return CHAR_MASK;
+	return mMaskChars[0];
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 char ImplTranslator::getGapChar() const 
 {
-	return CHAR_GAP;
+	return mGapChars[0];
+}
+
+//--------------------------------------------------------------------------------------
+void ImplTranslator::write( std::ostream & output ) const 
+{
+	for ( int x = 0; x < mAlphabet.size(); ++x )
+		output << mAlphabet[x] << '\t' << (int)mEncodingTable[(unsigned int)mAlphabet[x]]  << std::endl;
+
+	output << getGapChar() << '\t' << (int)getGapCode() << std::endl;
+	output << getMaskChar() << '\t' << (int)getMaskCode() << std::endl;
+}
+	
+//--------------------------------------------------------------------------------------
+void ImplTranslator::save( std::ostream & output ) const 
+{
+	output.write( (char *)&mAlphabetType, sizeof( AlphabetType) );
+	
+	if ( mAlphabetType == User )
+	{	
+		output.write( (char *)mAlphabet.size(), sizeof( size_t ) );
+		output.write( (char *)mAlphabet.c_str(), mAlphabet.size() * sizeof( char ) );
+		output.write( (char *)mGapChars.size(), sizeof( size_t ) );		
+		output.write( (char *)mGapChars.c_str(), mGapChars.size() * sizeof( char ) );
+		output.write( (char *)mMaskChars.size(), sizeof( size_t ) );		
+		output.write( (char *)mMaskChars.c_str(), mMaskChars.size() * sizeof( char ) );		
+	}
 }
 
 

@@ -325,16 +325,6 @@ Alignment * rescoreAlignment( Alignment * dest,
 Alignment * rescoreAlignment( Alignment * dest,
 		const Score score = 0);
 
-/** rescore alignment. This routine tries to type-cast row and col and 
-     accesses private data of row and col.
- */
-Alignment * rescoreAlignmentPrivate( Alignment * dest,
-		const Alignandum * row,
-		const Alignandum * col,
-		const SubstitutionMatrix * matrix = NULL);
-
-
-
 /** calculate Alignment score given gap-penalties for row and column */
 Alignment * calculateAffineScore( Alignment * dest, 
 		Score gop, 

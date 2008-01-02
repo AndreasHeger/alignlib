@@ -45,10 +45,6 @@
 
 using namespace std;
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace alignlib;
 
 void testAlignandum( Alignandum * a, const std::string & sample )

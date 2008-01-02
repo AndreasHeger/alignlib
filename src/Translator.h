@@ -43,18 +43,20 @@ namespace alignlib
 */
 class Translator 
 {
+	friend std::ostream & operator<<(std::ostream &output, const Translator &);
+	
     // class member functions
  public:
     // constructors and destructors
 
     /** constructor */
-    Translator() {};
+    Translator();
 
     /** copy constructor */
     // Translator(const Translator &);
 
     /** destructor */
-    virtual ~Translator () {};
+    virtual ~Translator ();
 
     /** translate a string of residues from internal to real-world representation. A copy
 	of the translated (null-terminated) string is returned.
@@ -89,13 +91,33 @@ class Translator
     virtual Residue getGapCode()  const = 0;
     
     /** get character used for a masked character. */
-    virtual char getMaskChar() const = 0;
+    virtual std::string getMaskChars() const = 0;
 
     /** get character used for a gap. */
-    virtual char getGapChar()  const = 0;
+    virtual std::string getGapChars()  const = 0;
 
+    /** get character used for masked characters. */
+    virtual char getMaskChar() const = 0;
+
+    /** get character used for gaps. */
+    virtual char getGapChar()  const = 0;
+    
+    /** returns a string with all letters in the alphabet sorted by their index */
+    virtual std::string getAlphabet() const = 0;
+    
+    /** return the alphabet type */
+    virtual AlphabetType getAlphabetType() const = 0;
+    
     /** get the size of the alphabet - excluding gap and mask characters */
     virtual int getAlphabetSize() const = 0;
+    
+    /** write translator to stream */
+    virtual void write( std::ostream &) const = 0;
+    
+	/** save state of object into stream
+	 */
+	virtual void save( std::ostream & input ) const = 0;
+	
 };
 
 }

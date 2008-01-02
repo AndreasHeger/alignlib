@@ -33,18 +33,15 @@
 namespace alignlib 
 {
     
-#define CODE_MASK       20		/* character corresponding to a masked residues, do not change, this position is fixed in some translation tables */
-#define CODE_GAP       100		/* code corresponding to gap */
-
-#define UNKNOWN_CODE   'X'		/* character corresponding to a residue with unknown code */
-#define CHAR_GAP       '-'		/* character used for a gap */
-#define CHAR_MASK      'X'		/* character used for a gap */
-
 /** @short Basic and complete implementation of translators.
 
-    This implementation uses two translating tables, that have to be
-    supplied to the constructor.
+    This implementation constructs a translation table from 
+    an alphabet supplied to the constructor.
     
+    This implementation ignores case, but does not permit
+    ambiguous characters, for example both T and U mapping to
+    the same index.
+   
     @author Andreas Heger
     @version $Id: ImplTranslator.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
@@ -56,10 +53,15 @@ class ImplTranslator : public Translator
     ImplTranslator();
 
     /** create a translator with two pointers to the translation tables 
-	@param encoding_table	pointer to array of Residue used for encoding
-	@param decoding_table	pointer to array of chars used for decoding
+	@param alphabet_type	the alphabet type (used to identify user alphabets
+	@param alphabet			the letters in the alphabet
+	@param gap_chars		permitted mask characters. These will all be mapped to a unique code.
+	@param mask_chars		permitted gap characters. These will all be mapped to a unique code.
     */
-    ImplTranslator( const std::string & alphabet );
+    ImplTranslator( const AlphabetType & alphabet_type,
+    		const std::string & alphabet, 
+    		const std::string & gap_chars,
+    		const std::string & mask_chars );
 
     /** copy constructor */
     ImplTranslator(const ImplTranslator &);
@@ -67,6 +69,11 @@ class ImplTranslator : public Translator
     /** destructor */
     virtual ~ImplTranslator ();
 
+    /** mapping functions */
+    virtual char operator[]( const Residue & residue ) const;
+    
+    virtual Residue operator[]( const char & c ) const;
+    
     /** translate a string of residues from internal to real world representation
 	@param src		pointer to string of residues
 	@param length	length of string
@@ -96,23 +103,58 @@ class ImplTranslator : public Translator
     /** get internal code used for a gap. */
     virtual Residue getGapCode()  const; 
 
-    /** get character used for a masked character. */
+    /** get character used for masked characters. */
     virtual char getMaskChar() const;
 
-    /** get character used for a gap. */
+    /** get character used for gaps. */
     virtual char getGapChar()  const;
+    
+    /** get character used for a masked character. */
+    virtual std::string getMaskChars() const;
+
+    /** get character allowed for gaps. */
+    virtual std::string getGapChars()  const;
     
     /** get the size of the alphabet - excluding gap and mask characters */
     virtual int getAlphabetSize() const;
+ 
+    /** returns a string with all letters in the alphabet sorted by their index */
+    virtual std::string getAlphabet() const;
+    
+    /** return the alphabet type */
+    virtual AlphabetType getAlphabetType() const;
+    
+    /** write translator to stream in human readable format */
+    virtual void write( std::ostream &) const;
+    
+    /** save state of object into stream
+     */
+    virtual void save( std::ostream & output ) const;    
         
  private:
-	
-	/** the alphabet */
+
+	/** necessary to distinguish between built-in and custom alphabets */
+	AlphabetType mAlphabetType;
+	 
+	 /** the alphabet */
 	std::string mAlphabet;
+
+    /** gap characters */
+    std::string mGapChars;
+    
+    /** mask characters */
+    std::string mMaskChars;
 	
-    /** pointer to encoding table */
+    /** the table size */
+    int mTableSize;
+    
+    /** the encoding table */
     Residue * mEncodingTable;
 
+    /** the decoding table */
+    char * mDecodingTable;
+    
+        
 };
 
 

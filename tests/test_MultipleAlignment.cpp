@@ -45,10 +45,6 @@
 #include "HelpersMultipleAlignment.h"
 #include "AlignlibDebug.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 using namespace alignlib;
 

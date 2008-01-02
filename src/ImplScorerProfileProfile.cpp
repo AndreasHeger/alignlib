@@ -25,9 +25,9 @@
 #include <iomanip>
 #include "AlignException.h"
 #include "Alignandum.h"
+#include "Translator.h"
 #include "ImplProfile.h"
 #include "ImplScorerProfileProfile.h"
-#include "ImplTranslator.h" // for direct access to mask_code
 
 using namespace std;
 

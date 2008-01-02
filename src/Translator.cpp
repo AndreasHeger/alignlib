@@ -1,8 +1,8 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: Weightor.cpp,v 1.2 2004/01/07 14:35:37 aheger Exp $
-
+  $Id$
+  
   Copyright (C) 2004 Andreas Heger
   
   This program is free software; you can redistribute it and/or
@@ -23,26 +23,29 @@
 
 #include <iostream>
 #include <iomanip>
-#include "Weightor.h"
+#include "Translator.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //--------------------------------------------------------------------------------------
-Weightor::Weightor() 
+Translator::Translator() 
 {
 }    
 
 //--------------------------------------------------------------------------------------
-Weightor::~Weightor () 
+Translator::~Translator () 
 {
 }
 
 //--------------------------------------------------------------------------------------
-Weightor::Weightor(const Weightor & src) 
+//---------------------------------------------------------< Input/Output routines >---------------------------------------------
+std::ostream & operator<<( std::ostream & output, const Translator & src) 
 {
+  src.write( output );
+  return output;
 }
-
 
 } // namespace alignlib

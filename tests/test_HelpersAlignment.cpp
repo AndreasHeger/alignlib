@@ -220,7 +220,7 @@ void Test( Alignment * a) {
 		cout << "testing...rescoreAlignment()...";
 		Alignandum * s1 = makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		Alignandum * s2 = makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		rescoreAlignmentPrivate( a, s1, s2);
+		rescoreAlignment( a, s1, s2);
 		delete s1;
 		delete s2;
 		cout << "passed" << endl;

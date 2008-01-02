@@ -37,10 +37,6 @@
 #include "HelpersTranslator.h"
 #include "AlignException.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib {

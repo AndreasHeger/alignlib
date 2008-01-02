@@ -25,10 +25,10 @@
 #include <iomanip>
 #include "AlignException.h"
 #include "Alignandum.h"
+#include "Translator.h"
 #include "ImplSequence.h"
 #include "ImplProfile.h"
 #include "ImplScorerProfileSequence.h"
-#include "ImplTranslator.h" // for direct access to mask_code
 
 using namespace std;
 
@@ -96,10 +96,7 @@ namespace alignlib
    */
   Score ImplScorerProfileSequence::getScore( Position row, Position col ) const
   {
-    if (mColSequence[col] == CODE_MASK)
-      return MASK_VALUE;
-    else
-      return mRowProfile[row][mColSequence[col]];
+	  return mRowProfile[row][mColSequence[col]];
   }
   
 }
