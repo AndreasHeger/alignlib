@@ -30,13 +30,14 @@
 #include "alignlib.h"
 #include "ImplAlignator.h"
 #include "Fragmentor.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 #define STACKEMPTY     0
     
     class Alignandum;
     class Alignment;
-    class SubstitutionMatrix;
     class Fragmentor;
 
     

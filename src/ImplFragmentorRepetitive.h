@@ -31,13 +31,14 @@
 #include "alignlib.h"
 #include "ImplFragmentor.h"
 #include "Alignment.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
-class SubstitutionMatrix;
-class Alignandum;
-class Alignment;
-class Alignator;
+	class Alignandum;
+	class Alignment;
+	class Alignator;
 
 /**
    @short build fragments by repeatedly applying an Alignator object.

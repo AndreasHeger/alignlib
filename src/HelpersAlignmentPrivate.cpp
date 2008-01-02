@@ -129,7 +129,8 @@ namespace alignlib {
     private:
 	//------------------------------------< match functions >--------------------------------------------
 	Score matchSequenceSequence( Position row, Position col ) {
-	    return (mSubstitutionMatrix->getScore(mRowSequence[row],mColSequence[col]));
+	    return (mSubstitutionMatrix->getValue(mRowSequence[row],
+	    									  mColSequence[col]));
 	}
 	
 	Score matchProfileSequence( Position row, Position col ) {

@@ -31,17 +31,18 @@
 #include "Translator.h"
 #include "HelpersTranslator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //--------------------------------------------------------------------------------------
-ImplAlignandum::ImplAlignandum() : 
-	mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false) {
+ImplAlignandum::ImplAlignandum( const Translator * translator ) : 
+	mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false), 
+	mTranslator(translator) 
+{
+	if (mTranslator == NULL) 
+		mTranslator = getDefaultTranslator();
 }    
 
 //--------------------------------------------------------------------------------------
@@ -59,6 +60,7 @@ ImplAlignandum::ImplAlignandum(const ImplAlignandum & src)
 	mTo     = src.mTo;
 	mLength = src.mLength;
 	mIsPrepared = src.mIsPrepared;
+	mTranslator = src.mTranslator;
 }
 
 //--------------------------------------------------------------------------------------
@@ -89,6 +91,12 @@ void ImplAlignandum::useSegment(Position from, Position to)
 		mTo = mLength;
 	else
 		mTo = std::min( to, mLength );
+}
+
+//--------------------------------------------------------------------------------------
+const Translator * ImplAlignandum::getTranslator() const 
+{
+	return mTranslator;
 }
 
 //--------------------------------------------------------------------------------------
@@ -130,7 +138,7 @@ void ImplAlignandum::setPrepared( bool flag ) const
 //--------------------------------------------------------------------------------------
 char ImplAlignandum::asChar( Position pos ) const 
 {
-	return getDefaultTranslator()->decode( asResidue( pos ));
+	return mTranslator->decode( asResidue( pos ));
 }
 
 
@@ -141,7 +149,7 @@ std::string ImplAlignandum::asString() const
 	std::string ret_val("");
 
 	for (Position i = 0; i < mLength; i++) 
-		ret_val += getDefaultTranslator()->decode( asResidue(i) );
+		ret_val += mTranslator->decode( asResidue(i) );
 
 	return ret_val;
 }

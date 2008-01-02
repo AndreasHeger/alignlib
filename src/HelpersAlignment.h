@@ -31,8 +31,10 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** Helper functions for class Alignment:
 
@@ -46,7 +48,6 @@ namespace alignlib {
 class Alignator;
 class Alignment;
 class Alignandum;
-class SubstitutionMatrix;
 
 /* -------------------------------------------------------------------------------------------------------------------- */
 /* 1. factory functions */

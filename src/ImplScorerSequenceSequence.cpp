@@ -26,13 +26,10 @@
 #include <cassert>
 #include "AlignException.h"
 #include "Alignandum.h"
+#include "Translator.h"
 #include "ImplScorerSequenceSequence.h"
 #include "SubstitutionMatrix.h"
 #include "ImplSequence.h"
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 
@@ -64,6 +61,13 @@ namespace alignlib
     mColSequence = s2->getData().mSequencePointer;
 
     mSubstitutionMatrix = matrix;
+    
+    if ( mSubstitutionMatrix->getNumRows() != s1->getTranslator()->getAlphabetSize() )
+    	throw AlignException( "ImplScorerSequenceSequence.cpp: alphabet size different in substitution matrix and row");
+    
+    if ( mSubstitutionMatrix->getNumCols() != s2->getTranslator()->getAlphabetSize() )
+    	throw AlignException( "ImplScorerSequenceSequence.cpp: alphabet size different in substitution matrix and col");
+    
   }    
   
   //--------------------------------------------------------------------------------------
@@ -100,7 +104,7 @@ namespace alignlib
   {
     assert( row >= 0);
     assert( col >= 0);
-    return mSubstitutionMatrix->getScore(mRowSequence[row],mColSequence[col]);
+    return mSubstitutionMatrix->getValue(mRowSequence[row],mColSequence[col]);
   }
   
 }

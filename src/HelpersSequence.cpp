@@ -35,28 +35,51 @@
 #include "HelpersTranslator.h" 
 
 #include "Alignandum.h"
-#include <math.h>
+#include "ImplSequence.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include <math.h>
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
     
   //---------------------------------< implementation of useful functions >--------------
 
+//----------------------------------------------------------------------------------
+/** create a sequence from a NULL-terminated string */
+Alignandum * makeSequence( const char * sequence, 
+							const Translator * translator ) 
+{
+	if (translator == NULL)
+		return new ImplSequence( std::string(sequence), getTranslator( Protein23) );		
+	else
+		return new ImplSequence( std::string(sequence), translator );
+}
+
+//----------------------------------------------------------------------------------
+/** create a sequence from a string */
+Alignandum * makeSequence( const std::string & sequence,
+		const Translator * translator ) 
+{
+	return new ImplSequence( sequence, translator );
+}
+
+
   //----------------------------------------------------------------------------------
   /** create a sequence from a stream */
-  Alignandum * extractSequence( std::istream & input ) {
+  Alignandum * extractSequence( std::istream & input ) 
+  {
     //!! to be implemented
     return NULL;
   }
 
   //----------------------------------------------------------------------------------
   /** create a sequence from a stream, put description into field description. Return Null, if unsuccessfull */
-  Alignandum * extractSequenceFasta( std::istream & input, std::string & description ) {
+  Alignandum * extractSequenceFasta( std::istream & input, 
+		  std::string & description,
+		  Translator * translator ) 
+		  {
     
 #define MAX_CHUNK 10000
 
@@ -86,21 +109,23 @@ namespace alignlib {
       input.getline( buffer, MAX_CHUNK);
       
       for (unsigned int i = 0; i < strlen(buffer); i++) 
-	  if (getDefaultTranslator()->isValidChar( buffer[i] )) 
+	  if (translator->isValidChar( buffer[i] )) 
 	  sequence += buffer[i];
     }
     
     delete [] buffer;
     
     if (sequence.size() > 0)
-      return makeSequence( sequence.c_str() );
+      return makeSequence( sequence.c_str(), translator );
     else
       return NULL;
   }
 
   //----------------------------------------------------------------------------------
   /** read a sequence from a file, given the filename */
-  Alignandum * readSequence( const char * filename ) {
+  Alignandum * readSequence( const char * filename,
+		  Translator * translator ) 
+		  {
     
     ifstream fin( filename);  
     
@@ -113,7 +138,7 @@ namespace alignlib {
     
     fin.close();  
     
-    return makeSequence( sequence.c_str() );
+    return makeSequence( sequence.c_str(), translator );
 
   }
 
@@ -126,22 +151,27 @@ namespace alignlib {
 
 const double max_rand = pow(2.0,31) -1;
 
-Residue SampleFromDistribution( const double * histogram ) {
+Residue sampleFromDistribution( const double * histogram ) 
+{
   double x = random() / max_rand;
   double s = 0;
   Residue i = 0;
-  for (i = 0; i < PROFILEWIDTH; i++) {
+  for (i = 0; i < PROFILEWIDTH; i++) 
+  {
     s+= histogram[i];
     if (x < s) return i;
   }
   return PROFILEWIDTH - 1;
 }
 
-void SetRandomSeed( long seed ) {
+void setRandomSeed( long seed ) 
+{
     srandom(seed);
 }
 
-Alignandum * makeMutatedSequence( Alignandum * src, const MutationMatrix * matrix) {
+Alignandum * makeMutatedSequence( Alignandum * src, 
+		const MutationMatrix * matrix) 
+		{
 
   // intialize random generator
   char * buffer = new char[src->getLength() + 1];
@@ -150,16 +180,16 @@ Alignandum * makeMutatedSequence( Alignandum * src, const MutationMatrix * matri
   unsigned int x;
   Position i;
 
-  for (i = 0, x = 0; i < src->getLength(); i++, x++) {
+  for (i = 0, x = 0; i < src->getLength(); i++, x++) 
+  {
     Residue residue = src->asResidue(i);
-    Residue new_residue = SampleFromDistribution( (*matrix)[residue] );
+    Residue new_residue = sampleFromDistribution( (*matrix)[residue] );
     buffer[x] = translator->decode(new_residue);
-
   }
   
   buffer[x] = '\0';
   
-  Alignandum * sequence = makeSequence(buffer);
+  Alignandum * sequence = makeSequence(buffer, translator );
   delete [] buffer;
 
   return sequence;

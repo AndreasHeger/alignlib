@@ -33,8 +33,6 @@
 #include "Alignandum.h"
 #include "AlignException.h"
 
-#include "SubstitutionMatrix.h"
-
 #include "Iterator2D.h"
 #include "HelpersIterator2D.h"
 

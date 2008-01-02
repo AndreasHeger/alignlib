@@ -34,10 +34,6 @@
 #include "Translator.h"
 #include "HelpersTranslator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib 
@@ -45,40 +41,29 @@ namespace alignlib
 
 //---------------------------------< implementation of factory functions >--------------
 
-//----------------------------------------------------------------------------------
-/** create a sequence from a NULL-terminated string */
-Alignandum * makeSequence( const char * sequence ) 
-{
-	return new ImplSequence( sequence );
-}
-
-//----------------------------------------------------------------------------------
-/** create a sequence from a string */
-Alignandum * makeSequence( const std::string & sequence ) 
-{
-	return new ImplSequence( sequence.c_str() );
-}
-
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence() : mSequence(NULL) 
+ImplSequence::ImplSequence( const Translator * translator ) :
+	ImplAlignandum( translator ),
+	mSequence(NULL) 
 {
 }
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( const char * src ) : 
-	ImplAlignandum(), mSequence(NULL) 
+ImplSequence::ImplSequence( const std::string & src, 
+		const Translator * translator  ) : 
+	ImplAlignandum( translator ), mSequence(NULL) 
 	{
-	Position length = strlen( src );
+	Position length = src.size();
 
-	//!! check for correct translation?
 	setTrueLength( length );
 	useSegment();
-	mSequence = getDefaultTranslator()->encode( src, length );
+	mSequence = translator->encode( src );
 	setPrepared(true );
 	}
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( const ImplSequence & src ) : ImplAlignandum( src ), mSequence(NULL) 
+ImplSequence::ImplSequence( const ImplSequence & src ) : 
+	ImplAlignandum( src ), mSequence(NULL)
 {
 	debug_func_cerr(5);
 
@@ -119,41 +104,49 @@ const AlignandumDataSequence & ImplSequence::getData() const
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::prepare() const {
+void ImplSequence::prepare() const 
+{
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::release() const {
+void ImplSequence::release() const 
+{
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::mask( Position x) {
-	mSequence[ x ] = getDefaultTranslator()->getMaskCode();
+void ImplSequence::mask( Position x) 
+{
+	mSequence[ x ] = mTranslator->getMaskCode();
 }
 
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::shuffle( unsigned int num_iterations, Position window_size ) {
+void ImplSequence::shuffle( unsigned int num_iterations, Position window_size ) 
+{
 
 	if (window_size == 0)
 		window_size = getLength();
 
 	Position first_from = getFrom();
 
-	for (unsigned x = 0; x < num_iterations; x++) { 
+	for (unsigned x = 0; x < num_iterations; x++) 
+	{ 
 
 		Position i,j;
 		Position to = getTo();
 
-		while (to > first_from ) {
+		while (to > first_from ) 
+		{
 			Position from = to - window_size;
 
-			if (from < 1) {
+			if (from < 1) 
+			{
 				from = 1;
 				window_size = to;
 			}
 
-			for (i = to; i > from; i--) {
+			for (i = to; i > from; i--) 
+			{
 				j = to - getRandomPosition(window_size) - 1;
 				Residue x = mSequence[j];
 				mSequence[j] = mSequence[i];
@@ -169,9 +162,8 @@ void ImplSequence::shuffle( unsigned int num_iterations, Position window_size ) 
 //--------------------------------------------------------------------------------------
 void ImplSequence::write( std::ostream & output ) const 
 {
-	const char * result = getDefaultTranslator()->decode( mSequence, getFullLength() );
-	output << result;
-	delete [] result;
+	std::string s = mTranslator->decode( mSequence, getFullLength() );
+	output << s;
 }
 
 //--------------------------------------------------------------------------------------

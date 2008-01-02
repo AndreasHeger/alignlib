@@ -29,10 +29,6 @@
 #include "ImplScorerProfileProfile.h"
 #include "ImplTranslator.h" // for direct access to mask_code
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib
@@ -64,6 +60,11 @@ namespace alignlib
     mColProfile     = s2->getData().mProfilePointer;
     mColFrequencies = s2->getData().mFrequenciesPointer;        
 
+    if ( s1->getTranslator()->getAlphabetSize() != 
+    	s2->getTranslator()->getAlphabetSize() )
+    	throw AlignException( "ImplScorerProfileProfile.cpp: alphabet size different in row and col");
+        
+    mAlphabetSize = s1->getTranslator()->getAlphabetSize();
   }    
   
   //--------------------------------------------------------------------------------------
@@ -99,7 +100,7 @@ namespace alignlib
   Score ImplScorerProfileProfile::getScore( Position row, Position col ) const
   {
     Score score = 0;
-    for (int i = 0; i < PROFILEWIDTH; i++ ) 
+    for (int i = 0; i < mAlphabetSize; i++ ) 
       score +=	mRowProfile[row][i] * mColFrequencies[col][i] + 
 	mColProfile[col][i] * mRowFrequencies[row][i];
     

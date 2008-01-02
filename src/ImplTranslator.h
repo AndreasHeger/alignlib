@@ -27,17 +27,18 @@
 #ifndef IMPL_TRANSLATOR_H
 #define IMPL_TRANSLATOR_H 1
 
+#include <string>
 #include "Translator.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
-
 #define CODE_MASK       20		/* character corresponding to a masked residues, do not change, this position is fixed in some translation tables */
 #define CODE_GAP       100		/* code corresponding to gap */
 
 #define UNKNOWN_CODE   'X'		/* character corresponding to a residue with unknown code */
-#define CHAR_GAP       '-'		/* charachter used for a gap */
-#define CHAR_MASK      'X'		/* charachter used for a gap */
+#define CHAR_GAP       '-'		/* character used for a gap */
+#define CHAR_MASK      'X'		/* character used for a gap */
 
 /** @short Basic and complete implementation of translators.
 
@@ -47,7 +48,8 @@ namespace alignlib {
     @author Andreas Heger
     @version $Id: ImplTranslator.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplTranslator : public Translator {
+class ImplTranslator : public Translator 
+{
     // class member functions
  public:
     /** constructor */
@@ -57,7 +59,7 @@ class ImplTranslator : public Translator {
 	@param encoding_table	pointer to array of Residue used for encoding
 	@param decoding_table	pointer to array of chars used for decoding
     */
-    ImplTranslator( const Residue * encoding_table, const char * decoding_table );
+    ImplTranslator( const std::string & alphabet );
 
     /** copy constructor */
     ImplTranslator(const ImplTranslator &);
@@ -69,7 +71,7 @@ class ImplTranslator : public Translator {
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual char * decode( const Residue *src, int length) const;
+    virtual std::string decode( const Residue *src, int length) const;
     
     /** translate a single residue from internal to real world representation.
      */
@@ -79,7 +81,7 @@ class ImplTranslator : public Translator {
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual Residue * encode( const char * src, int length) const;
+    virtual Residue * encode( const std::string & src) const;
 
     /** translate a single residue from real world to internal representation.
      */
@@ -100,12 +102,17 @@ class ImplTranslator : public Translator {
     /** get character used for a gap. */
     virtual char getGapChar()  const;
     
+    /** get the size of the alphabet - excluding gap and mask characters */
+    virtual int getAlphabetSize() const;
+        
  private:
+	
+	/** the alphabet */
+	std::string mAlphabet;
+	
     /** pointer to encoding table */
-    const Residue * mEncodingTable;
+    Residue * mEncodingTable;
 
-    /** pointer to decoding table */
-    const char * mDecodingTable;
 };
 
 

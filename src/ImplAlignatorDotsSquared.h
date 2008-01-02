@@ -29,12 +29,13 @@
 
 #include "alignlib.h"
 #include "ImplAlignatorDots.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 class Alignandum;
 class Alignment;
-class SubstitutionMatrix;
 class ImplAlignmentMatrix;
     
 /** @short dotplot alignment using full lookup of dots.
@@ -42,7 +43,8 @@ class ImplAlignmentMatrix;
     @author Andreas Heger
     @version $Id: ImplAlignatorDotsSquared.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignatorDotsSquared : public ImplAlignatorDots {
+class ImplAlignatorDotsSquared : public ImplAlignatorDots 
+{
  public:
 
     /* constructors and destructors */

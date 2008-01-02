@@ -25,7 +25,6 @@
 #include <config.h>
 #endif
 
-
 #ifndef HELPERS_SEQUENCE_H
 #define HELPERS_SEQUENCE_H 1
 
@@ -33,7 +32,8 @@
 
 #include "alignlib.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -46,8 +46,8 @@ namespace alignlib {
 
     
     class Alignandum;
-    class SubstitutionMatrix;
-
+    class Translator;
+    
     /* defintion of matrix for mutating a sequence */
     template<class T> class Matrix;
     typedef Matrix<double> MutationMatrix;
@@ -55,32 +55,38 @@ namespace alignlib {
     /* -----------------------------------------------------------------------------------------*/
     /* 1. factory functions */
     /** create a sequence from a NULL-terminated string */
-    Alignandum * makeSequence( const char * sequence );
+    Alignandum * makeSequence( const char * sequence, 
+    		const Translator * translator = NULL );
 
     /** create a sequence from a string */
-    Alignandum * makeSequence( const std::string & sequence );
+    Alignandum * makeSequence( const std::string & sequence,
+    		const Translator * translator = NULL );
 
     /** mutate a sequence according to a substitution matrix */
-    Alignandum * makeMutatedSequence( Alignandum * src, 
-				      const MutationMatrix * matrix );
+    Alignandum * makeMutatedSequence( 
+    			Alignandum * src, 
+    			const MutationMatrix * matrix );
 
     /* ----------------------------------------------------------------------------------------------*/
     /* 2. accessor functions for default objects */
-    
 
     /* ----------------------------------------------------------------------------------------------*/ 
     /* 3. convenience functions */
     /** create a sequence from a stream */
-    Alignandum * extractSequence( std::istream & input );
+    Alignandum * extractSequence( std::istream & input,
+    		const Translator * translator );
 
     /** extract a sequence in Fasta-Format from a stream */
-    Alignandum * extractSequenceFasta( std::istream & input, std::string & description );
+    Alignandum * extractSequenceFasta( std::istream & input, 
+    		std::string & description,
+    		const Translator * translator );
 
     /** create a sequence from a filename */
-    Alignandum * readSequence( const char * filename );
+    Alignandum * readSequence( const char * filename,
+    		const Translator * translator );
 
     /** set random seed */
-    void SetRandomSeed( const long seed );
+    void setRandomSeed( const long seed );
     
 }
 

@@ -62,7 +62,7 @@ public:
 		return (&mMatrix[(row * mCols)]); 
 	}
 
-	T getValue( unsigned int row, unsigned int col)
+	T getValue( unsigned int row, unsigned int col) const
 	{
 		assert( row < mRows);
 		assert( col < mCols);
@@ -121,12 +121,29 @@ public:
 		return mMatrix;
 	}
 
+	/** set new data matrix */
+	void setData( T * matrix ) 
+	{
+		mMatrix = matrix;
+	}
+	
+	/** copy data from a data location. This functions copies
+	 * as many bytes as it needs. */
+	void copyData( T * matrix )
+	{
+		memcpy( mMatrix, matrix, sizeof(T) * mSize );
+	}
+	
 private:
-	T * mMatrix;
-	unsigned int mRows;
-	unsigned int mCols;
-	unsigned int mSize;
 
+	/** data location */
+	T * mMatrix;
+	/** rows in matrix */
+	unsigned int mRows;
+	/** columns in matrix */
+	unsigned int mCols;
+	/** size of matrix */
+	unsigned int mSize;
 
 };
 

@@ -31,7 +31,6 @@
 
 #include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
-#include "ImplSubstitutionMatrixAA.h"
 
 #include "Alignment.h"
 #include "HelpersAlignment.h"

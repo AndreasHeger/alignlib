@@ -29,6 +29,8 @@
 #define HELPERS_SUBSTITUTION_MATRIX_H 1
 
 #include "alignlib.h"
+#include "Matrix.h"
+#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
@@ -47,23 +49,16 @@ namespace alignlib
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 
-    /** create a Substitution Matrix given a memory location of 
-     * log-odds scores */
+    /** create a Substitution Matrix */
     SubstitutionMatrix * makeSubstitutionMatrix( 
-    			Score * matrix,
     			int alphabet_size,
-    			bool this_own = false);
+    			const Score match = 1,
+    			const Score mismatch = -1 );
     
-    /** create the identity substitution matrix. Identities score as 1, mismatches as -1.
-     */
-    SubstitutionMatrix * makeSubstitutionMatrixIdentity( 
-    			const Score match = 10,
-    			const Score mismatch = -1);
-
     /** read a simple substitution matrix adn return it. Do not forget to tell the substitution matrix
 	to clear its contents afterwards
     */
-    SubstitutionMatrix * readSubstitutionMatrixAA( const char * filename ); 
+    SubstitutionMatrix * readSubstitutionMatrix( const char * filename ); 
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
@@ -83,7 +78,24 @@ namespace alignlib
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
+    /** fill a substitution matrix with an array of scores. Scores are given 
+     * 	in row/column order.
+     */
+    SubstitutionMatrix * fillSubstitutionMatrix( SubstitutionMatrix * dest,
+    		Score * scores );
+    
+    /** The blosum62 scoring matrix */
+    SubstitutionMatrix * makeSubstitutionMatrixBlosum62();
+    
+    /** The blosum50 scoring matrix */
+    SubstitutionMatrix * makeSubstitutionMatrixBlosum50();
 
+    /** The pam250 scoring matrix */
+    SubstitutionMatrix * makeSubstitutionMatrixPam250();
+    
+    /** The pam120 scoring matrix */
+    SubstitutionMatrix * makeSubstitutionMatrixPam120();
+    
 }
 
 #endif	/* HELPERS_SUBSTITUTION_MATRIX_H */

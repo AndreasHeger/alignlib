@@ -29,11 +29,11 @@
 
 #include "alignlib.h"
 #include "ImplAlignator.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
-
-    class SubstitutionMatrix;
-    class Alignandum;
+namespace alignlib 
+{
+	class Alignandum;
     class Alignment;
 
     /* re: Global functions and pointers for the fast determination of match score.

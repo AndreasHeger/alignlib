@@ -29,8 +29,10 @@
 #define HELPERS_ALIGNATOR_H 1
 
 #include "alignlib.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -44,7 +46,6 @@ namespace alignlib {
   class Alignator;
   class Alignandum;
   class Alignment;
-  class SubstitutionMatrix; 
   class Fragmentor;
 
   /* 1. factory functions */

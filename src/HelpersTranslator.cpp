@@ -23,13 +23,45 @@
 #include <iostream>
 #include "alignlib.h"
 #include "AlignlibDebug.h"
+#include "AlignException.h"
 #include "Translator.h"
+#include "ImplTranslator.h"
 #include "HelpersTranslator.h"
 
 namespace alignlib 
 {
 
-static Translator * DEFAULT_TRANSLATOR = makeTranslatorProtein();
+//-------------------------------------------------------------------------------
+
+/** various alphabets */
+
+/** 20-letter alphabet plus X */
+static std::string alphabet_protein_21 = "ACDEFGHIKLMNPQRSTVWYX";
+
+/** encoding table ompatible with BLOSUM and PAML matrices */
+static std::string alphabet_protein_23 = "ABCDEFGHIKLMNPQRSTVWYXZ";	
+
+/** 5-letter DNA alphabet */
+static std::string alphabet_dna_5 = "ACGTN";	
+
+// the built-in translator objects 
+static ImplTranslator translator_protein_21 = ImplTranslator( alphabet_protein_21 );
+static ImplTranslator translator_protein_23 = ImplTranslator( alphabet_protein_23 );
+static ImplTranslator translator_dna_5 = ImplTranslator( alphabet_dna_5 );
+
+const Translator * DEFAULT_TRANSLATOR = & translator_protein_23;
+
+const Translator * getTranslator( const AlphabetType & alphabet_type )
+{
+	switch (alphabet_type) 
+	{
+	case Protein21: return &translator_protein_21; break;
+	case Protein23: return &translator_protein_23; break;
+	case DNA5: return & translator_dna_5; break;
+	}
+	
+	throw AlignException( "unknown alphabet" );
+}
 
 /** gets the default Translator object */ 
 const Translator * getDefaultTranslator() 
@@ -38,12 +70,13 @@ const Translator * getDefaultTranslator()
 	return DEFAULT_TRANSLATOR;
 }
 
-/** sets the default Translator object */
+/** sets the default Translator object 
+ * Only supply built-in objects, otherwise
+ * memory leaks will occur.
+ * */
 void setDefaultTranslator( Translator * translator ) 
 {	
 	debug_func_cerr( 5 );
-	if (DEFAULT_TRANSLATOR != NULL)
-		delete DEFAULT_TRANSLATOR;
 	DEFAULT_TRANSLATOR = translator;
 }
 

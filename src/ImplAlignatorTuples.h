@@ -30,12 +30,12 @@
 
 #include "alignlib.h"
 #include "ImplAlignator.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
-class Alignandum;
-class SubstitutionMatrix;
-
+	class Alignandum;
 
 /** @short align all tuples of a given size that have a positive score.
 
@@ -44,7 +44,8 @@ class SubstitutionMatrix;
     @author Andreas Heger
     @version $Id: ImplAlignatorTuples.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplAlignatorTuples : public ImplAlignator {
+class ImplAlignatorTuples : public ImplAlignator 
+{
  public:
     // constructors and desctructors
 

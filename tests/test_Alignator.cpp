@@ -309,7 +309,7 @@ void testPairAlignator( Alignator * a,
  */
 int main () {
 
-	SubstitutionMatrix * matrix = makeSubstitutionMatrixAAIdentity( 10, -1);
+	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23, 10, -1);
 
 	setDefaultSubstitutionMatrix( matrix );
 
@@ -388,7 +388,7 @@ int main () {
 	}
 	{ 
 		
-		SubstitutionMatrix * new_matrix = makeSubstitutionMatrixAAIdentity( 10, -10);
+		SubstitutionMatrix * new_matrix = makeSubstitutionMatrix( 23, 10, -10);
 		setDefaultSubstitutionMatrix( new_matrix );
 
 		std::cout << "--- testing iterative alignment ---" << std::endl;

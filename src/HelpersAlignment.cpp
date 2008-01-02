@@ -1352,7 +1352,6 @@ Alignment * rescoreAlignment( Alignment * dest,
 		{
 	debug_func_cerr(5);
 
-
 	AlignmentIterator it(dest->begin());
 	AlignmentIterator it_end(dest->end());
 
@@ -1361,8 +1360,9 @@ Alignment * rescoreAlignment( Alignment * dest,
 
 	for (; it != it_end; ++it)
 	{
-		it->mScore = matrix->getScore( row->asResidue( it->mRow), col->asResidue( it->mCol) );
-	}
+		it->mScore = matrix->getValue( row->asResidue( it->mRow), 
+									   col->asResidue( it->mCol) );
+	}	
 
 	return dest;
 		}

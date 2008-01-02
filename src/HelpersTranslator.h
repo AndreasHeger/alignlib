@@ -45,9 +45,7 @@ namespace alignlib
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
-    Translator * makeTranslatorProtein();
-    Translator * makeTranslatorProteinUC();
-    Translator * makeTranslatorDNA();
+    const Translator * getTranslator( const AlphabetType & alphabet );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */

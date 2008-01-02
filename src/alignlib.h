@@ -136,6 +136,14 @@ enum MagicNumberType
 	MNImplProfile,
 };
 
+// Known alphabets
+enum AlphabetType
+{
+	Protein21,
+	Protein23,
+	DNA5,
+};
+
 /* type of a height of a node in the tree */
 typedef double TreeHeight;
 

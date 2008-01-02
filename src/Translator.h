@@ -61,7 +61,8 @@ class Translator
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual char * decode( const Residue *src, int length) const = 0;
+    virtual std::string decode( const Residue *src, 
+    							int length) const = 0;
     
     /** translate a single residue from internal to real-world representation.
      */
@@ -72,7 +73,7 @@ class Translator
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual Residue * encode( const char * src, int length ) const = 0;
+    virtual Residue * encode( const std::string & src ) const = 0;
 
     /** translate a single residue from real-world to internal representation.
      */
@@ -92,7 +93,9 @@ class Translator
 
     /** get character used for a gap. */
     virtual char getGapChar()  const = 0;
-    
+
+    /** get the size of the alphabet - excluding gap and mask characters */
+    virtual int getAlphabetSize() const = 0;
 };
 
 }

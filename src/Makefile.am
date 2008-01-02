@@ -98,8 +98,7 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 HEADERS_TRANSLATOR= 	Translator.h HelpersTranslator.h \
 			ImplTranslator.h
 
-HEADERS_SUBSTMATRIX=    SubstitutionMatrix.h HelpersSubstitutionMatrix.h \
-			ImplSubstitutionMatrix.h ImplSubstitutionMatrixAA.h
+HEADERS_SUBSTMATRIX=    SubstitutionMatrix.h HelpersSubstitutionMatrix.h
 
 PARTS = AlignException.cpp \
 			AlignlibDebug.cpp \
@@ -179,12 +178,9 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 
 PARTS_STATISTICS =    Statistics.cpp
 
-PARTS_TRANSLATOR=	HelpersTranslator.cpp \
-			ImplTranslator.cpp ImplTranslatorProtein.cpp ImplTranslatorProteinUC.cpp \
-			ImplTranslatorDNA.cpp 
+PARTS_TRANSLATOR=	HelpersTranslator.cpp ImplTranslator.cpp 
 
-PARTS_SUBSTMATRIX=   	SubstitutionMatrix.cpp HelpersSubstitutionMatrix.cpp \
-			ImplSubstitutionMatrix.cpp ImplSubstitutionMatrixAA.cpp
+PARTS_SUBSTMATRIX=HelpersSubstitutionMatrix.cpp
 
 lib_LTLIBRARIES = libalignlib.la  
 

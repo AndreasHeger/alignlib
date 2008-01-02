@@ -32,11 +32,13 @@
 #include <iosfwd>
 
 
-namespace alignlib {
+namespace alignlib 
+{
 
     class Alignment;
 
-struct AlignandumDataSequence : public AlignandumData {
+struct AlignandumDataSequence : public AlignandumData 
+{
   Residue * mSequencePointer;
 };
     /** A class for sequences, that are to be aligned. Instances of this
@@ -49,7 +51,8 @@ struct AlignandumDataSequence : public AlignandumData {
      */
 
 
-class ImplSequence : public ImplAlignandum {
+class ImplSequence : public ImplAlignandum 
+{
 
     friend Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest );
 
@@ -57,10 +60,11 @@ class ImplSequence : public ImplAlignandum {
     /*------------------------------------------------------------------------------------ */
     /** Since I use lazy evaluation/retrieval of sequences from databases, I need an 
 	empty constructor */
-    ImplSequence();
+    ImplSequence( const Translator * translator = NULL);
 
     /** create sequence from a string, given a translator object */
-    ImplSequence( const char * src );
+    ImplSequence( const std::string & src, 
+    			  const Translator * translator = NULL );
 
     /** the copy constructor */
     ImplSequence( const ImplSequence & );

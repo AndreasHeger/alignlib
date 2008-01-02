@@ -30,6 +30,7 @@
 #include "alignlib.h"
 #include "ImplAlignator.h"
 #include "ImplAlignmentMatrix.h"
+#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
@@ -37,7 +38,6 @@ namespace alignlib
 
 class Alignandum;
 class Alignment;
-class SubstitutionMatrix;
 
 /** @short Implementation of dotplot-alignment as found in RADAR.
     

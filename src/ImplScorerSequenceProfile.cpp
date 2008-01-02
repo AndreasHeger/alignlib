@@ -30,10 +30,6 @@
 #include "ImplScorerSequenceProfile.h"
 #include "ImplTranslator.h" // for direct access to mask_code
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib
@@ -61,6 +57,11 @@ namespace alignlib
     
     mRowSequence    = s1->getData().mSequencePointer;
     mColProfile     = s2->getData().mProfilePointer;
+    
+    if ( s1->getTranslator()->getAlphabetSize() != 
+    	s2->getTranslator()->getAlphabetSize() )
+    	throw AlignException( "ImplScorerSequenceProfile.cpp: alphabet size different in row and col");
+    
   }    
   
   //--------------------------------------------------------------------------------------

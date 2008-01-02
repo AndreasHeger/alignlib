@@ -29,12 +29,13 @@
 
 #include "alignlib.h"
 #include "ImplAlignatorDotsSquared.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 class Alignandum;
 class Alignment;
-class SubstitutionMatrix;
 class ImplAlignmentMatrix;
 
 /** @short align dots using full lookup using a diagonal gap cost.

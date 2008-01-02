@@ -68,6 +68,8 @@ namespace alignlib
       const ProfileColumn * mColProfile;      
       const FrequencyColumn * mColFrequencies;
       
+      /** size of the alphabet in row and column */
+      int mAlphabetSize;
   };
   
 }

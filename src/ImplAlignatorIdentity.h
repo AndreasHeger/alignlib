@@ -30,12 +30,12 @@
 
 #include "alignlib.h"
 #include "ImplAlignator.h"
+#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
 
 class Alignandum;
-class SubstitutionMatrix;
 
 /** @short align identical residues (dot-matrix creation).
       

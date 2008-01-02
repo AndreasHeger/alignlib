@@ -31,7 +31,8 @@
 #include <iosfwd>
 #include "Alignandum.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** 
     Base class for objects that are to be aligned. This class implements a subset of the interface,
@@ -55,7 +56,7 @@ class ImplAlignandum : public Alignandum
     /* constructors and desctructors------------------------------------------------------- */
   
     /** empty constructor */
-    ImplAlignandum();
+    ImplAlignandum( const Translator * translator = NULL );
     
     /** copy constructor */
     ImplAlignandum( const ImplAlignandum &);
@@ -66,6 +67,9 @@ class ImplAlignandum : public Alignandum
     /** accessors ------------------------------------------------------------------------- */
     /** get length of window */
     virtual Position getLength() const;
+
+    /** get translator associated with this object */
+    virtual const Translator * getTranslator() const;
     
     /** use a segment for exporting and set segment to from and to 
 	@param from	where segment starts
@@ -102,7 +106,6 @@ class ImplAlignandum : public Alignandum
      */
     virtual void load( std::istream & input ) ;
     
-
  protected:
     /** the member functions below are protected, because they have to be only accessible for
 	derived classes. They should know, what they are doing. */
@@ -119,6 +122,9 @@ class ImplAlignandum : public Alignandum
     /** save state of object into stream
      */
     virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
+    
+    /** translator */
+    const Translator * mTranslator ;
     
  private:
     /** first residue of segment used for aligning */

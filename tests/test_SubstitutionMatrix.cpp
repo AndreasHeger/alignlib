@@ -41,11 +41,6 @@
 #include "HelpersAlignment.h"
 
 using namespace std;
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace alignlib;
 
 int main ()

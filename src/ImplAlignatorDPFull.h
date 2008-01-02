@@ -29,11 +29,12 @@
 
 #include "alignlib.h"
 #include "ImplAlignatorDP.h"
+#include "SubstitutionMatrix.h"
 #include <cassert>
 
-namespace alignlib {
+namespace alignlib 
+{
 
-    class SubstitutionMatrix;
     class Alignandum;
     class Alignment;
 

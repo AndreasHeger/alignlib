@@ -30,11 +30,12 @@
 
 #include "alignlib.h"
 #include "ImplScorer.h"
+#include "SubstitutionMatrix.h"
+
 namespace alignlib
 {
 
   class Alignandum;
-  class SubstitutionMatrix;
   
   //----------------------------------------------------------------
   class ImplScorerSequenceSequence : public ImplScorer 

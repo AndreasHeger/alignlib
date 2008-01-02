@@ -29,11 +29,12 @@
 
 #include "alignlib.h"
 #include "ImplAlignatorFragments.h"
+#include "SubstitutionMatrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     class Alignandum;
     class Alignment;
-    class SubstitutionMatrix;
     class Fragmentor;
     
 /** 

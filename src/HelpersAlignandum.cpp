@@ -41,7 +41,8 @@ namespace alignlib
 {
 
 	Alignandum * loadAlignandum( std::istream & input) 
-	{
+	{		
+		// read Alignandum type
 		MagicNumberType magic_number;
 		
 		if (input.eof()) return NULL;
