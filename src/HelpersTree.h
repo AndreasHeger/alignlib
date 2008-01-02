@@ -20,11 +20,14 @@
 #include <string>
 #include "alignlib.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
     class Tree;
     class Distor;
 
+    typedef std::vector< std::string > Labels;
+    
     /** Helper functions for class Alignment:
 	
 	1. factory functions
@@ -47,7 +50,7 @@ namespace alignlib {
     /* 3. convenience functions */
 
     /** print a tree in NewHampshire format */
-    void writeNewHampshire( std::ostream & output, const Tree * tree, const std::vector<std::string> * labels = NULL );
+    void writeNewHampshire( std::ostream & output, const Tree * tree, const Labels * labels = NULL );
  
 }
 

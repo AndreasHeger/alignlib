@@ -209,9 +209,10 @@ def export_writeAlignmentCompressed( mb ):
     mb.add_registration_code( registration_code )
 
 
-def export_functions( mb ):
+def exportFunctions( mb ):
     """export utility functions."""
-    ## include all membership functions
+
+    ## include all free functions
     mb.namespace("alignlib").free_functions().include()
 
     # set call policies for functions that return the same object
@@ -253,7 +254,12 @@ def export_functions( mb ):
         for fun in mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix ) ):
             
             cpointee = fun.name[len(prefix):]
-            cls_pointee = mb.class_( cpointee )
+            try:
+                cls_pointee = mb.class_( cpointee )
+            except RuntimeError:
+                print "could not find class %s for set/getDefault" % cpointee
+                continue
+            
             cls_pointee.held_type = 'std::auto_ptr< %s >' % cls_pointee.decl_string
                     
             fname = fun.name
@@ -263,6 +269,14 @@ def export_functions( mb ):
 
             # the following did not work, thus changed setDefault to return void
             # fun.call_policies = return_value_policy( manage_new_object )
+
+    for prefix in ( "getTranslator", ):
+        try:
+            mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
+                               return_value_policy( reference_existing_object )
+        except RuntimeError:
+            print "could not find any function with prefix %s" % prefix
+        
 
     # other functions that return new objects, including the factory functions
     for prefix in ("extract", "read", "make", "load", "exportProfileFrequencies", "splitAlignment" ): 
@@ -292,7 +306,7 @@ def export_functions( mb ):
     export_writeAlignmentCompressed( mb )
 
    
-def export_classes( mb ):
+def exportClasses( mb ):
     """export classes.
     
     These classes can be instantiated directly from python.
@@ -306,7 +320,7 @@ def export_classes( mb ):
         return_value_policy( reference_existing_object )
 
         
-def export_interface_classes( mb ):
+def exportInterfaceClasses( mb ):
     """export virtual classes.
     
     These classes can not instantiated directly from python.
@@ -317,7 +331,6 @@ def export_interface_classes( mb ):
                               'Iterator',
     #                          'Dottor',
                               'Translator',
-                              'SubstitutionMatrix',
                               'Fragmentor',
                               'Alignment',
                               'AlignmentIterator',
@@ -332,13 +345,14 @@ def export_interface_classes( mb ):
                               'Alignatum',
                               'EVDParameters',
                               'AlignandumData',
-                              'SubstitutionMatrixData',
                               'NormalDistributionParameters',
                               'Distor',
                               'Treetor',
                               'Tree',
                               'PhyloMatrix',
                               ])
+
+    ## TODO export substitution matrix
 
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
@@ -361,9 +375,9 @@ def export_interface_classes( mb ):
                          return_value_policy( reference_existing_object )
     mb.member_functions( lambda x: x.name == "getReference" ).call_policies = \
                          return_value_policy( reference_existing_object )
-    ## mb.member_functions( lambda x: x.name == "getRowIndices" ).call_policies = \
-    ##                      return_value_policy( reference_existing_object )
     mb.member_functions( lambda x: x.name == "getRow" ).call_policies = \
+                         return_value_policy( reference_existing_object )
+    mb.member_functions( lambda x: x.name == "getTranslator" ).call_policies = \
                          return_value_policy( reference_existing_object )
     mb.member_functions( lambda x: x.name == "align" ).call_policies = \
                          return_value_policy( reference_existing_object )
@@ -381,20 +395,23 @@ def export_interface_classes( mb ):
     ## deal with Translator objects
     ## do not export decode/encode
     cls = mb.class_( "Translator" )
-    cls.member_functions( "decode" ).exclude()
-    cls.member_functions( "encode" ).exclude()
         
     ## exclude the following because of unhandled arguments/return types
-    mb.member_functions( "fillProfile").exclude()
-    mb.member_functions( "fillFrequencies").exclude()
-    mb.member_functions( "getMatrix" ).exclude()
+    exclude_functions = ("fillProfile", "fillFrequencies", "decode", "encode", "col_begin", "col_end", "row_begin", "row_end" )
+    for f in exclude_functions:
+        try:
+            mb.member_functions(f).exclude()
+        except RuntimeError:
+            print "could not find function %s to exclude" % f
+            
 
     ## get an error for this. For Dottor, now obsolete.
     ## mb.member_functions( lambda x: x.name in ("getRowIndices",) ).exclude()
 
     ## do not include the increment/decrement and dereference operators, because there is no equivalent in python
     ## exlude functions while testing. Need to map return types later.
-    mb.member_operators( lambda x: x.name in ("operator++", "operator--", "operator*", "operator->", "operator()") ).exclude()
+    ## default: exclude most operators
+    mb.member_operators( lambda x: x.name in ("operator++", "operator--", "operator*", "operator->", "operator()", "operator[]") ).exclude()
 
     ## do not export the internal iterator interfaces. This makes Alignment
     ## virtual and the wrapper will cause compilation to fail.
@@ -445,7 +462,16 @@ def export_interface_classes( mb ):
     ## export load/save functionality        
     exportSave( mb, options )        
     exportLoad( mb, options )
-            
+
+
+def exportTemplates( mb ):
+    
+    export_templates = ("SubstitutionMatrix", )
+    
+    for name in export_templates:
+        continue
+        mb.typedef( name ).include()
+                
     ## Deal with templated matrix class
     template_translations = { 'Matrix<double>' : 'MatrixDouble',
                               'Matrix<unsigned>' : 'MatrixUInt',  
@@ -468,6 +494,20 @@ def export_interface_classes( mb ):
         cls.mem_fun( "getValue" ).disable_warnings( messages.W1008 )
         cls.mem_fun( "setValue" ).disable_warnings( messages.W1008 )
         
+    exclude_functions = ( "getData", "setData", "copyData" )
+    
+    for f in exclude_functions:
+        try:
+            mb.member_functions(f).exclude()
+        except RuntimeError:
+            print "could not find function %s to exclude" % f
+
+def exportEnums( mb ):
+    """export enums."""
+    enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 'LinkageType', 'AlphabetType' ] )
+    
+    mb.enumerations( lambda x: x.name in enumerations_to_export ).include()
+
     
 def buildModule( include_paths, dest, options) :
     """build module using py++."""
@@ -489,14 +529,20 @@ def buildModule( include_paths, dest, options) :
     ## exclude py_details namespace, only used to instantiate template classes
     mb.namespace( 'py_details' ).exclude()
 
+    if options.verbose:
+        print "# declarations before building interface."
+        mb.print_declarations()
+
     addStreamBufClasses( mb )
         
-    export_functions( mb )
+    exportFunctions( mb )
     
-    export_classes( mb )
+    exportClasses( mb )
     
-    export_interface_classes( mb )
+    exportInterfaceClasses( mb )
 
+    exportTemplates( mb )
+    
     ## Every declaration will be exposed at its own line
     mb.classes().always_expose_using_scope = True
 
@@ -509,12 +555,11 @@ def buildModule( include_paths, dest, options) :
     ######################################################################
     #Well, don't you want to see what is going on?
     if options.verbose:
+        print "# declarations after building interface."        
         mb.print_declarations()
     
-    enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 'LinkageType' ] )
-    
-    mb.enumerations( lambda x: x.name in enumerations_to_export ).include()
-    
+    exportEnums( mb )
+        
     #Creating code creator. After this step you should not modify/customize declarations.
     mb.build_code_creator( module_name='alignlib' )
     mb.code_creator.add_include( "iostream" )

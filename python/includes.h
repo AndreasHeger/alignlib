@@ -75,8 +75,19 @@ namespace py_details
 {
   inline void instantiate() 
   {
+	  // call these typedefs to register them for alias creation
+	  // otherwise: ugly alias warnings will appear
     sizeof(alignlib::Matrix<int>);
     sizeof(alignlib::Matrix<double>);
     sizeof(alignlib::Matrix<unsigned int>);
+    sizeof(alignlib::SubstitutionMatrix);
+    sizeof(alignlib::FragmentVector);
+    sizeof(alignlib::PositionVector);
+    sizeof(alignlib::Frequencies);
+    sizeof(alignlib::ProfileFrequencies);
+    sizeof(alignlib::SequenceWeights);
+    sizeof(alignlib::NodeVector);
+    sizeof(alignlib::VectorDouble);
+    sizeof(alignlib::Labels);
   }
 }

@@ -181,7 +181,7 @@ int main ()
 		fillAlignmentIdentity( a3, 1, 6, -1 );
 		fillAlignmentIdentity( a3, 6, 7, 0 );
 		fillAlignmentIdentity( a3, 7, 8, +1 );
-
+		
 		m1->add(makeAlignatumFromString("ABCDGHJL"), a1);
 		m1->add(makeAlignatumFromString(".ABCDEFGH"), a2);
 		m1->add(makeAlignatumFromString("BCDEFIJKLM"), a3);
@@ -334,6 +334,8 @@ int main ()
 		delete a2;
 		delete a3;
 	}
+	
+	delete reference;
 }
 
 

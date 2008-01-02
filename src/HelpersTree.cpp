@@ -22,7 +22,7 @@ using namespace std;
 namespace alignlib 
 {
 
-void writeNewHampshire( std::ostream & output, const Tree * tree, const std::vector<std::string> * labels ) 
+void writeNewHampshire( std::ostream & output, const Tree * tree, const Labels * labels ) 
 {
 	debug_func_cerr( 5 );
 

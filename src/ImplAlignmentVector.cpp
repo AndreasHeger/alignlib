@@ -29,13 +29,10 @@
 #include "ImplAlignmentVector.h"
 #include "AlignmentIterator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** by how much the vector grows */
 #define GROWTH_FACTOR 2
@@ -49,13 +46,15 @@ Alignment * makeAlignmentVector() {
 ImplAlignmentVector::ImplAlignmentVector() : 
 	ImplAlignment(), 
 	mRowFrom(NO_POS), 
-	mRowTo(NO_POS) {
+	mRowTo(NO_POS) 
+	{
 }
 
 ImplAlignmentVector::ImplAlignmentVector( const ImplAlignmentVector& src) : 
 	ImplAlignment( src ), 
 	mRowFrom( src.mRowFrom), 
-	mRowTo( src.mRowTo) {
+	mRowTo( src.mRowTo) 
+{
 	debug_func_cerr(5);
 
 	// do not call clear() function, as this will delete attributes of parent
@@ -83,22 +82,26 @@ ImplAlignmentVector::~ImplAlignmentVector( )
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignmentVector * ImplAlignmentVector::getNew() const {
+ImplAlignmentVector * ImplAlignmentVector::getNew() const
+{
 	return new ImplAlignmentVector();
 }
 
-ImplAlignmentVector * ImplAlignmentVector::getClone() const {
+ImplAlignmentVector * ImplAlignmentVector::getClone() const 
+{
 	return new ImplAlignmentVector( *this );
 }
 
 //-----------------------------------------------------------------------------------------------------------   
 
-AlignmentConstIterator ImplAlignmentVector::begin() const { 
+AlignmentConstIterator ImplAlignmentVector::begin() const 
+{ 
 	// skip gaps in the beginning of the alignment
 	return AlignmentConstIterator( new ImplAlignmentVector_ConstIterator( mPairs, mRowFrom, mRowFrom, mRowTo )); 
 }
 
-AlignmentConstIterator ImplAlignmentVector::end() const { 
+AlignmentConstIterator ImplAlignmentVector::end() const 
+{ 
 	return AlignmentConstIterator( new ImplAlignmentVector_ConstIterator(mPairs, NO_POS, mRowFrom, mRowTo)); 
 }
 

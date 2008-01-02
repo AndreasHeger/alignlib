@@ -71,6 +71,8 @@ struct MaliRow
 
   MaliRow( Alignatum * input, Alignment * map_alignatum2mali, Alignatum * output = NULL);
 
+  MaliRow( MaliRow & src );
+  
   ~MaliRow();
   
   /** the sequence */
@@ -84,6 +86,8 @@ struct MaliRow
 class ImplMultipleAlignmentDots : public MultipleAlignment 
 {
 
+	typedef std::vector< MaliRow * > RowVector;
+	
   // class member functions
  public:
 
@@ -205,7 +209,7 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
     mutable int mLength;                       
     
     /** I store an array of vectors. The pointers can not be const, because sequences are told to rescale. */
-    mutable std::vector< MaliRow > mRows;             
+    mutable RowVector mRows;             
 
     /** the Renderer */
     const Renderer * mRenderer;
