@@ -31,10 +31,6 @@
 #include "AlignmentIterator.h"
 #include "AlignException.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib
@@ -60,7 +56,6 @@ namespace alignlib
 //------------------------------------< constructors and destructors >-----
 ImplAlignmentMatrix::ImplAlignmentMatrix( long ndots ) : ImplAlignment(), 
 mIndex(NULL),
-mRowFrom(NO_POS), mRowTo(NO_POS), mColFrom(NO_POS), mColTo(NO_POS), 
 mAllocatedIndexSize(0) 
 {
 	debug_func_cerr(5);
@@ -75,10 +70,6 @@ ImplAlignmentMatrix::ImplAlignmentMatrix( const ImplAlignmentMatrix & src) :
 	ImplAlignment( src ), 
 	mPairs(),			
 	mIndex(NULL),
-	mRowFrom( src.mRowFrom), 
-	mRowTo( src.mRowTo),
-	mColFrom( src.mColFrom), 
-	mColTo( src.mColTo),
 	mAllocatedIndexSize( src.mAllocatedIndexSize) 
 	{
 	debug_func_cerr(5);
@@ -115,12 +106,14 @@ ImplAlignmentMatrix::~ImplAlignmentMatrix( )
 
 //-----------------------------------------------------------------------------------------------------------   
 
-AlignmentConstIterator ImplAlignmentMatrix::begin() const { 
+AlignmentConstIterator ImplAlignmentMatrix::begin() const 
+{ 
 	if (mChangedLength) calculateLength();
 	return AlignmentConstIterator( new ImplAlignmentMatrix_ConstIterator( mPairs, 0, mPairs.size() )); 
 }
 
-AlignmentConstIterator ImplAlignmentMatrix::end() const { 
+AlignmentConstIterator ImplAlignmentMatrix::end() const 
+{ 
 	if (mChangedLength) calculateLength();
 	return AlignmentConstIterator( new ImplAlignmentMatrix_ConstIterator(mPairs, mPairs.size(), mPairs.size() )); 
 }
@@ -131,17 +124,13 @@ AlignmentIterator ImplAlignmentMatrix::begin() {
 	return AlignmentIterator( new ImplAlignmentMatrix_Iterator( mPairs, 0, mPairs.size() )); 
 }
 
-AlignmentIterator ImplAlignmentMatrix::end() { 
+AlignmentIterator ImplAlignmentMatrix::end() 
+{ 
 	if (mChangedLength) calculateLength();
 	return AlignmentIterator( new ImplAlignmentMatrix_Iterator(mPairs, mPairs.size(), mPairs.size() )); 
 }
 
 //----------------> accessors <------------------------------------------------------------------------------
-
-Position ImplAlignmentMatrix::getRowFrom() const { if (mChangedLength) calculateLength(); return mRowFrom; }
-Position ImplAlignmentMatrix::getColFrom() const { if (mChangedLength) calculateLength(); return mColFrom; }
-Position ImplAlignmentMatrix::getRowTo()   const { if (mChangedLength) calculateLength(); return mRowTo; }
-Position ImplAlignmentMatrix::getColTo()   const { if (mChangedLength) calculateLength(); return mColTo; }
 
 ResiduePAIR ImplAlignmentMatrix::front() const 
 { 
@@ -156,17 +145,11 @@ ResiduePAIR ImplAlignmentMatrix::back()  const
 }
 
 //-------------------------------------------------------------------------------------------------------------
-void ImplAlignmentMatrix::addPair( ResiduePAIR * new_pair ) 
+void ImplAlignmentMatrix::addPair( ResiduePAIR * pair ) 
 { 
-
-	mPairs.push_back( new_pair );
-	setChangedLength();		// has to be resorted
-} 
-//-------------------------------------------------------------------------------------------------------------
-void ImplAlignmentMatrix::addPair( Position row, Position col, Score score ) 
-{ 
-	mPairs.push_back( new ResiduePAIR(row,col,score) );
-	setChangedLength();		// has to be resorted
+	ImplAlignment::addPair( pair );
+	mPairs.push_back( pair );
+	setChangedLength();
 } 
 
 //-------------------------------------------------------------------------------------------------------------
@@ -226,20 +209,6 @@ void ImplAlignmentMatrix::clear()
 	mPairs.clear();
 }
 
-//--------------------------------------------------------------------------------------------------------------
-void ImplAlignmentMatrix::moveAlignment( Position row_offset, Position col_offset) 
-{
-	debug_func_cerr(5);
-
-	ImplAlignment::moveAlignment( row_offset, col_offset);
-
-	// reset coordinates of alignment
-	mRowFrom += row_offset;
-	mRowTo   += row_offset;
-	mColFrom += col_offset;
-	mColTo   += col_offset;
-
-}
 //------------------------------------> sorting subroutines <-----------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------
@@ -345,7 +314,8 @@ void ImplAlignmentMatrix::sortDotsByCol(Position from, Position to) const
 
 
 //-------------------------------------------------------------------------------------------------------------------- 
-void ImplAlignmentMatrix::eliminateDuplicates() const {
+void ImplAlignmentMatrix::eliminateDuplicates() const 
+{
 
 	mRowFrom = std::numeric_limits<Position>::max();
 	mColFrom = std::numeric_limits<Position>::max();

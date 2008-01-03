@@ -151,18 +151,6 @@ class Alignandum;
 
     //----------------> accessors <------------------------------------------------------------------------------
 
-    /** returns the first residue aligned in row */
-    virtual Position getRowFrom() const;
-
-    /** returns the last residue aligned in row */
-    virtual Position	getRowTo() const;
-
-    /** returns the first residue aligned in col */
-    virtual Position	getColFrom() const;
-
-    /** returns the last residue aligned in col */
-    virtual Position	getColTo()   const;
-
     /** returns the first aligned pair. Have to create a copy not a reference, because not all alignments will have
 	a list of pairs ready */
     virtual ResiduePAIR front() const;

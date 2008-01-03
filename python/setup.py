@@ -10,6 +10,8 @@ The following commands are available:
 
 import re, sys, os, optparse, subprocess
 
+from types import *
+
 from pyplusplus import module_builder, messages, function_transformers
 from pyplusplus.module_builder import call_policies
 from pyplusplus.decl_wrappers import \
@@ -208,6 +210,60 @@ def export_writeAlignmentCompressed( mb ):
     mb.add_declaration_code( declaration_code, tail = True )
     mb.add_registration_code( registration_code )
 
+def exportDefaultSetters( mb ):
+    """export get/set functions of default objects"""
+    
+    # set call policies for functions that return get a default object
+    # in this case the caller is not a new object.
+    for prefix in ("getDefault", ):
+        mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
+                           return_value_policy( reference_existing_object )
+
+    def set_default( fun, cpointee, name = None):
+        
+        cls_pointee = None
+        if cpointee == "SubstitutionMatrix": return
+        try:
+            cls_pointee = mb.class_( cpointee )
+        except RuntimeError:
+            pass
+                        
+        if cls_pointee == None:
+            print "could not find class %s for set/getDefault" % cpointee
+            return
+        
+        cls_pointee.held_type = 'std::auto_ptr< %s >' % cls_pointee.decl_string
+                     
+        fname = fun.name
+        if type(fname) != StringType:
+            if not name:
+                print "undefined name to map for ambiguous type %s" % cpointee
+                return
+            fname = "setDefault%s" % name
+            
+        # set alias to original function name, otherwise ugly names will be created
+        fun.add_transformation( function_transformers.transfer_ownership( 0 ), 
+                                alias = fname )
+
+        # the following did not work, thus changed setDefault to return void
+        # fun.call_policies = return_value_policy( manage_new_object )
+        
+
+    # Set call policies for functions that set a default object
+    # The caller takes ownership of the old default object and
+    # and passes control of the new default object to the library
+    # This only worked for non-const argument types and not returning
+    # an new object.
+    for prefix in ("setDefault", ):
+        
+        for fun in mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix ) ):
+            
+            cpointee = fun.name[len(prefix):]
+            set_default( fun, cpointee )
+
+    ## treat SubstitutionMatrix extra, as it is an alias
+    set_default( mb.free_functions( "setDefaultSubstitutionMatrix" ), "Matrix<double>", "SubstitutionMatrix")
+
 
 def exportFunctions( mb ):
     """export utility functions."""
@@ -238,37 +294,7 @@ def exportFunctions( mb ):
         except RuntimeError:
             sys.stderr.write("# could not find free function starting with %s\n" % prefix )
 
-    # set call policies for functions that return get a default object
-    # in this case the caller is not a new object.
-    for prefix in ("getDefault", ):
-        mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
-                           return_value_policy( reference_existing_object )
-
-    # Set call policies for functions that set a default object
-    # The caller takes ownership of the old default object and
-    # and passes control of the new default object to the library
-    # This only worked for non-const argument types and not returning
-    # an new object.
-    for prefix in ("setDefault", ):
-        
-        for fun in mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix ) ):
-            
-            cpointee = fun.name[len(prefix):]
-            try:
-                cls_pointee = mb.class_( cpointee )
-            except RuntimeError:
-                print "could not find class %s for set/getDefault" % cpointee
-                continue
-            
-            cls_pointee.held_type = 'std::auto_ptr< %s >' % cls_pointee.decl_string
-                    
-            fname = fun.name
-            # set alias to original function name, otherwise ugly names will be created
-            fun.add_transformation( function_transformers.transfer_ownership( 0 ), 
-                                    alias = fname )
-
-            # the following did not work, thus changed setDefault to return void
-            # fun.call_policies = return_value_policy( manage_new_object )
+    exportDefaultSetters( mb )    
 
     for prefix in ( "getTranslator", ):
         try:
@@ -534,23 +560,19 @@ def buildModule( include_paths, dest, options) :
         mb.print_declarations()
 
     addStreamBufClasses( mb )
-        
+    
     exportFunctions( mb )
     
     exportClasses( mb )
     
     exportInterfaceClasses( mb )
-
-    exportTemplates( mb )
     
     ## Every declaration will be exposed at its own line
     mb.classes().always_expose_using_scope = True
 
-    ######################################################################
-    
-    # holder = mb.class_( 'vector<double>' )
-    # holder.rename( 'VectorDouble' )
-    
+    exportTemplates( mb )
+
+    exportEnums( mb )
     
     ######################################################################
     #Well, don't you want to see what is going on?
@@ -558,7 +580,6 @@ def buildModule( include_paths, dest, options) :
         print "# declarations after building interface."        
         mb.print_declarations()
     
-    exportEnums( mb )
         
     #Creating code creator. After this step you should not modify/customize declarations.
     mb.build_code_creator( module_name='alignlib' )

@@ -35,13 +35,18 @@ namespace alignlib
 {
 
   /** basic implementation for aligned objects. 
-
+  
+	  This class keeps track of alignment coordinates. These are always ensured
+	  to be correct after every operation, even if the length of the alignment has
+	  not been evaluated.
+	
       @author Andreas Heger
       @version $Id: ImplAlignment.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
       @short basic implementation class for aligned objects
   */
 
-class ImplAlignment : public Alignment {
+class ImplAlignment : public Alignment 
+{
 
  public:
     //------------------> constructors / destructors <---------------------------------------------------------
@@ -55,18 +60,36 @@ class ImplAlignment : public Alignment {
     virtual ~ImplAlignment();
     
     //----------------> accessors <------------------------------------------------------------------------------
+    /** returns the alignment score
+     */
     virtual Score getScore() const;
 
-    virtual Position	getLength() const;
+    /** returns the length of the alignment including gaps in both row and col.
+     */
+    virtual Position getLength() const;
 
+    /** returns the number of gaps in the alignment
+     */
     virtual Position getNumGaps() const;
 
+    /** returns the number of aligned positions 
+      * */
+     virtual Position getNumAligned() const;
+
+    /** set the alignment score 
+     */
     virtual void setScore( Score score );
 
+    /** return true if the alignment is empty
+     */
     bool isEmpty() const;
 
+    /** switch row and column 
+     */
     virtual void switchRowCol();
 
+    /** move aligned position by offsets in row and/or column
+     */
     virtual void moveAlignment( Position row_offset, Position col_offset);
 
     /** maps a residue from row to column. returns 0, if not found. This default, but working implementation is
@@ -84,11 +107,23 @@ class ImplAlignment : public Alignment {
     virtual void removeColRegion( Position from, Position to);
 
     virtual void clear() ;
+    
+	/** returns the first residue aligned in row */
+	virtual Position getRowFrom() const;
 
+	/** returns the last residue aligned in row */
+	virtual Position	getRowTo() const;
+
+	/** returns the first residue aligned in col */
+	virtual Position	getColFrom() const;
+
+	/** returns the last residue aligned in col */
+	virtual Position	getColTo()   const;
+    
     /** @brief adds a pair of residues to the alignment 
 	(have to add this here, otherwise it won't compile!. It seems that overloaded
 	functions can not be separately implemented) */
-    virtual void addPair( ResiduePAIR * new_pair ) = 0; 
+    virtual void addPair( ResiduePAIR * new_pair ); 
 
     /** adds a pair of residues to the alignment */
     virtual void addPair( Position row, Position col, Score score = 0); 
@@ -116,6 +151,12 @@ class ImplAlignment : public Alignment {
     */
     mutable bool mChangedLength;
 
+    /** the alignment coordinates */
+    mutable Position mRowFrom;
+    mutable Position mRowTo;
+    mutable Position mColFrom;
+    mutable Position mColTo;
+    
  private:
 
     /** length of alignemnt, has to be mutable, since length evaluation is lazy */

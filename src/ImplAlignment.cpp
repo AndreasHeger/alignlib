@@ -32,25 +32,31 @@
 #include "Alignment.h"
 #include "AlignException.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
   //--------------------------------------------------------------------------------------------------------------
   // constructors and desctructors
   //--------------------------------------------------------------------------------------------------------------
-  ImplAlignment::ImplAlignment() : mChangedLength(true), mLength(0), mScore(0), mNumGaps( 0 ) {
+  ImplAlignment::ImplAlignment() : mChangedLength(true), mLength(0), mScore(0), mNumGaps( 0 ), 
+  mRowFrom(NO_POS),
+  mRowTo(NO_POS),
+  mColFrom( NO_POS),
+  mColTo(NO_POS)
+  {
   }
 
   ImplAlignment::ImplAlignment( const ImplAlignment & src ) :
     mChangedLength(src.mChangedLength), 
     mLength( src.mLength), 
     mScore (src.mScore), 
-    mNumGaps (src.mNumGaps) 
+    mNumGaps (src.mNumGaps),
+    mRowFrom( src.mRowFrom ),
+    mRowTo( src.mRowTo ),
+    mColFrom( src.mColFrom ),
+    mColTo( src.mColTo )
     {
       debug_func_cerr(5);
 
@@ -63,25 +69,38 @@ namespace alignlib {
     }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignment::setChangedLength() {
+  void ImplAlignment::setChangedLength() 
+  {
     mChangedLength = true;
   }
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignment::setScore( Score score ) {
+  void ImplAlignment::setScore( Score score ) 
+  {
     mScore = score;
   }
+  
+  //--------------------------------------------------------------------------------------------------------------  
+  Position ImplAlignment::getRowFrom() const { return mRowFrom; }
+  Position ImplAlignment::getRowTo() const { return mRowTo; }
+  Position ImplAlignment::getColFrom() const { return mColFrom; }
+  Position ImplAlignment::getColTo() const { return mColTo; }
+  
   //--------------------------------------------------------------------------------------------------------------
-  Score ImplAlignment::getScore() const {
+  Score ImplAlignment::getScore() const 
+  {
     return mScore;
   }
+  
   //--------------------------------------------------------------------------------------------------------------
-  Position ImplAlignment::getLength() const {
+  Position ImplAlignment::getLength() const 
+  {
 
     if (mChangedLength)
       calculateLength();
 
     return mLength;
   }
+
   //--------------------------------------------------------------------------------------------------------------
   void ImplAlignment::clear() 
     {
@@ -93,16 +112,22 @@ namespace alignlib {
       mNumGaps = 0;
     }
 
+  Position ImplAlignment::getNumAligned() const
+  {	
+	  if (mChangedLength)
+		  calculateLength();
+	  return mLength - mNumGaps;
+  }
+  
   //--------------------------------------------------------------------------------------------------------------
   Position ImplAlignment::getNumGaps() const 
   {
-    if (mChangedLength)
-      calculateLength();
 
     return mNumGaps;
   }
   //--------------------------------------------------------------------------------------------------------------
-  bool ImplAlignment::isEmpty() const {
+  bool ImplAlignment::isEmpty() const 
+  {
     return (getLength() == 0);
   }
 
@@ -122,10 +147,11 @@ namespace alignlib {
       output << *it << endl;
 
   }
-
+  
   //--------------------------------------------------------------------------------------------------------------
   /** Read data members from stream */
-  void ImplAlignment::read( std::istream & input) {
+  void ImplAlignment::read( std::istream & input) 
+  {
   }
 
   //--------------------------------------------------------------------------------------------------------------
@@ -133,28 +159,65 @@ namespace alignlib {
     {
       debug_func_cerr(5);
 
-
+      if (mLength == 0) return;
+      
       AlignmentIterator it     = begin();
       AlignmentIterator it_end = end();
 
-      for (;it != it_end; ++it) {
+      for (;it != it_end; ++it) 
+      {
         ResiduePAIR & p = (*it);
         p.mRow += row_offset;
         p.mCol += col_offset;
       }
-
+      
+      mRowFrom += row_offset;
+      mRowTo += row_offset;
+      mColFrom += col_offset;
+      mColTo += col_offset;
+      
     }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignment::setLength( Position length ) const {
+  void ImplAlignment::setLength( Position length ) const 
+  {
     mLength = length;
   }
 
   //--------------------------------------------------------------------------------------------------------------
-  void ImplAlignment::setNumGaps( Position num_gaps ) const {
+  void ImplAlignment::setNumGaps( Position num_gaps ) const 
+  {
     mNumGaps = num_gaps;
   }
 
+  //--------------------------------------------------------------------------------------------------------------  
+  void ImplAlignment::addPair( ResiduePAIR * pair )
+  {
+	  Position row = pair->mRow;
+	  Position col = pair->mCol;
+	  
+	  if (mRowFrom == NO_POS)
+	  {
+		  mRowFrom = row;
+		  mColFrom = col;
+		  mRowTo = row + 1;
+		  mColTo = col + 1;
+	  }
+	  else
+	  {
+		  if (row < mRowFrom) 
+			  mRowFrom = row;
+		  else if ( ++row > mRowTo )
+			  mRowTo = row;
+		  
+		  if (col < mColFrom) 
+			  mColFrom = col;
+		  else if (++col > mColTo)   
+			  mColTo = col;
+	  }
+		  
+  }
+  
   //--------------------------------------------------------------------------------------------------------------
   void ImplAlignment::addPair( Position row, Position col, Score score ) 
     {
@@ -163,49 +226,63 @@ namespace alignlib {
       addPair(new ResiduePAIR( row,col,score) );
     } 
 
+  
   //--------------------------------------------------------------------------------------------------------------
   void ImplAlignment::calculateLength() const 
   {
     debug_func_cerr(5);
 
-
-    Position row_last = getRowFrom();
-    Position col_last = getColFrom();
-    Position row_cur, col_cur;
-
-    mLength = 0;
-    mNumGaps = 0;
-    mChangedLength = false;
-
-    // this is a patch, there is something wrong with empty alignments,
-    // for vectors (and sets)
-
-    if (row_last == NO_POS || col_last == NO_POS)
-      return;
-
     AlignmentConstIterator it(begin());
     AlignmentConstIterator it_end(end());
 
+    mLength = 0;
+    mNumGaps = 0;
+    
+    if (it == it_end)
+    {
+    	mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
+    	return;
+    }
+    
+    mRowFrom = it->mRow;
+    mColFrom = it->mCol;
+    mRowTo = it->mRow;
+    mColTo = it->mCol;
+
+    ++it;
+    Position row_last = mRowFrom;
+    Position col_last = mColFrom;
     Position d;
-    for (; it != it_end; ++it) {
-      ResiduePAIR p(*it);
+        
+    for (; it != it_end; ++it) 
+    {
+    	Position row = it->mRow;
+    	Position col = it->mCol;
+    	
+		// get maximum boundaries
+    	if (row < mRowFrom) mRowFrom = row;
+    	if (col < mColFrom) mColFrom = col;
+    	if (row > mRowTo)   mRowTo = row;
+    	if (col > mColTo)   mColTo = col;
+	
+    	mLength++;
+    	if ( (d = row - row_last - 1) > 0 ) 
+    	{
+    		mLength += d; mNumGaps += d;
+    	}
 
-      row_cur = p.mRow;
-      col_cur = p.mCol;
+    	if ( (d = col - col_last - 1) > 0 ) 
+    	{
+    		mLength += d; mNumGaps += d;
+    	}
 
-      mLength++;
-      if ( (d = row_cur - row_last - 1) > 0 ) {
-        mLength += d; mNumGaps += d;
-      }
-
-      if ( (d = col_cur - col_last - 1) > 0 ) {
-        mLength += d; mNumGaps += d;
-      }
-
-      row_last = row_cur;
-      col_last = col_cur;
+    	row_last = row;
+    	col_last = col;
     }
 
+    ++mRowTo;
+    ++mColTo;
+    mChangedLength = false;
   }  
 
   //-----------------------------------------------------------------------------------------------------------   
@@ -285,7 +362,8 @@ namespace alignlib {
   //-----------------------------------------------------------------------------------------------------------   
   /** This is a generic routine. It creates a new alignment by making a copy of the old one.
    */
-  void ImplAlignment::removeRowRegion( Position from, Position to) {
+  void ImplAlignment::removeRowRegion( Position from, Position to) 
+  {
 
     const Alignment * copy = getClone();  
 
@@ -311,7 +389,8 @@ namespace alignlib {
   //-----------------------------------------------------------------------------------------------------------   
   /** This is a generic routine. It creates a new alignment by making a copy of the old one.
    */
-  void ImplAlignment::removeColRegion( Position from, Position to) {
+  void ImplAlignment::removeColRegion( Position from, Position to) 
+  {
 
     const Alignment * copy = getClone();  
 

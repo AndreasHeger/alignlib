@@ -55,11 +55,6 @@ namespace alignlib
     			const Score match = 1,
     			const Score mismatch = -1 );
     
-    /** read a simple substitution matrix adn return it. Do not forget to tell the substitution matrix
-	to clear its contents afterwards
-    */
-    SubstitutionMatrix * readSubstitutionMatrix( const char * filename ); 
-
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
 
@@ -78,11 +73,11 @@ namespace alignlib
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
-    /** fill a substitution matrix with an array of scores. Scores are given 
-     * 	in row/column order.
+    /** create a substituion matrix from a vector of scores. The scores
+     * are given in row/column order.
      */
-    SubstitutionMatrix * fillSubstitutionMatrix( SubstitutionMatrix * dest,
-    		Score * scores );
+    SubstitutionMatrix * makeSubstitutionMatrix( const ScoreVector & scores,
+    		int nrows, int ncols);
     
     /** The blosum62 scoring matrix */
     SubstitutionMatrix * makeSubstitutionMatrixBlosum62();

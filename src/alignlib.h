@@ -171,6 +171,9 @@ typedef std::vector<Alignment*> FragmentVector;
 /** A vector of positions */
 typedef std::vector< Position > PositionVector;
 
+/** A vector of scores */
+typedef std::vector< Score > ScoreVector;
+
 } 
 
 #endif /* _ALIGNLIB_H */

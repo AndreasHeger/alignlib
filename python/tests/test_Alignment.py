@@ -149,7 +149,6 @@ class AlignmentHashTestCase( AlignmentTestCase ):
     def setUp( self ):
         self.mAlignment = makeAlignmentHash()
 
-
 class AlignmentHashDiagonalTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
@@ -159,7 +158,7 @@ class AlignmentHashDiagonalTestCase( AlignmentTestCase ):
 class AlignmentMatrixRowTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
-        self.mAlignment = makeAlignmentMatrixRowDiagonal()
+        self.mAlignment = makeAlignmentMatrixRow()
         self.mAlignment = makeAlignmentVector()
 
 class AlignmentMatrixUnsortedTestCase( AlignmentTestCase ):

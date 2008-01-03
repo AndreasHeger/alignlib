@@ -29,6 +29,7 @@
 
 #include <iosfwd>
 #include <vector>
+#include <cassert>
 #include "alignlib.h"
 #include "ImplAlignment.h"
 
@@ -59,7 +60,8 @@ class Alignandum;
     @version $Id: ImplAlignmentVector.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
     @short protocol class for aligned objects
  */
-class ImplAlignmentVector : public ImplAlignment {
+class ImplAlignmentVector : public ImplAlignment 
+{
 
 	typedef std::vector<ResiduePAIR *> PAIRVECTOR;
 	typedef PAIRVECTOR::iterator PairIterator;
@@ -90,7 +92,8 @@ public:
 	/**
        @short Const iterator over an alignment.
 	 */
-	class ImplAlignmentVector_ConstIterator : public Alignment::ConstIterator{
+	class ImplAlignmentVector_ConstIterator : public Alignment::ConstIterator
+	{
 	public:
 		ImplAlignmentVector_ConstIterator(const PAIRVECTOR & container, 
 				Position current, 
@@ -99,8 +102,9 @@ public:
 					mContainer( container ),
 					mCurrentRow( current ), 
 					mFirstRow( from), 
-					mLastRow( to ) { 
-			if (mCurrentRow >= mLastRow || to == NO_POS) 
+					mLastRow( to ) 
+					{ 
+			if (mCurrentRow >= mLastRow || to == NO_POS || mContainer.size() == 0) 
 				mCurrentRow = NO_POS;
 		};
 
@@ -115,10 +119,15 @@ public:
 			virtual ConstIterator * getClone() const {return new ImplAlignmentVector_ConstIterator( *this );}
 
 			/** dereference operator: runtime error, if out of bounds? */
-			virtual const ResiduePAIR & getReference() const { return *mContainer[mCurrentRow];}
+			virtual const ResiduePAIR & getReference() const 
+			{
+				assert( mCurrentRow >= 0);
+				return *mContainer[mCurrentRow];
+			}
 
 			/** for indirection */
-			virtual const ResiduePAIR * getPointer() const { 
+			virtual const ResiduePAIR * getPointer() const 
+			{ 
 				if (mCurrentRow != NO_POS) 
 					return mContainer[mCurrentRow]; 
 				else 
@@ -126,18 +135,22 @@ public:
 			}
 
 			/** advance one position, until you find an aligned pair */
-			virtual void next() { 
+			virtual void next() 
+			{ 
 				mCurrentRow++;
-				while (mCurrentRow < mLastRow && mContainer[mCurrentRow] == NULL) { 
+				while (mCurrentRow < mLastRow && mContainer[mCurrentRow] == NULL) 
+				{ 
 					mCurrentRow++;
 				}
 				if (mCurrentRow >= mLastRow) mCurrentRow = NO_POS;
 			}
 
 			/** step back one position, until you find an aligned pair */
-			virtual void previous() { 
+			virtual void previous() 
+			{ 
 				mCurrentRow--; 
-				while (mCurrentRow >= mFirstRow && mContainer[mCurrentRow] == NULL) { 
+				while (mCurrentRow >= mFirstRow && mContainer[mCurrentRow] == NULL) 
+				{ 
 					mCurrentRow--;
 				}
 				if (mCurrentRow < mFirstRow) mCurrentRow = NO_POS;
@@ -154,7 +167,8 @@ public:
 	/**
        @short Non-Const iterator over an alignment.
 	 */
-	class ImplAlignmentVector_Iterator : public Alignment::Iterator{
+	class ImplAlignmentVector_Iterator : public Alignment::Iterator
+	{
 	public:
 		ImplAlignmentVector_Iterator(PAIRVECTOR & container,
 				Position current,
@@ -163,8 +177,9 @@ public:
 					mContainer( container ),
 					mCurrentRow( current ), 
 					mFirstRow( from), 
-					mLastRow( to ) { 
-			if (mCurrentRow >= mLastRow || to == NO_POS) 
+					mLastRow( to ) 
+					{ 
+			if (mCurrentRow >= mLastRow || to == NO_POS || mContainer.size() == 0) 
 				mCurrentRow = NO_POS;
 		};
 
@@ -179,10 +194,15 @@ public:
 			virtual Iterator * getClone() const {return new ImplAlignmentVector_Iterator( *this );}
 
 			/** dereference operator: runtime error, if out of bounds? */
-			virtual ResiduePAIR & getReference() const { return *mContainer[mCurrentRow];}
+			virtual ResiduePAIR & getReference() const 
+			{ 
+				assert( mCurrentRow >= 0 );
+				return *mContainer[mCurrentRow];
+			}
 
 			/** for indirection */
-			virtual ResiduePAIR * getPointer() const { 
+			virtual ResiduePAIR * getPointer() const
+			{ 
 				if (mCurrentRow != NO_POS) 
 					return mContainer[mCurrentRow]; 
 				else 
@@ -190,21 +210,23 @@ public:
 			}
 
 			/** advance one position, until you find an aligned pair */
-			virtual void next() { 
+			virtual void next() 
+			{ 
 				mCurrentRow++;
-				while (mCurrentRow < mLastRow && mContainer[mCurrentRow] == NULL ) { 
+				while (mCurrentRow < mLastRow && mContainer[mCurrentRow] == NULL ) 
 					mCurrentRow++;
-				}
-				if (mCurrentRow >= mLastRow) mCurrentRow = NO_POS;
+				if (mCurrentRow >= mLastRow) 
+					mCurrentRow = NO_POS;
 			}
 
 			/** step back one position, until you find an aligned pair */
-			virtual void previous() { 
+			virtual void previous() 
+			{ 
 				mCurrentRow--; 
-				while (mCurrentRow >= mFirstRow && mContainer[mCurrentRow] == NULL) { 
+				while (mCurrentRow >= mFirstRow && mContainer[mCurrentRow] == NULL) 
 					mCurrentRow--;
-				}
-				if (mCurrentRow < mFirstRow) mCurrentRow = NO_POS;
+				if (mCurrentRow < mFirstRow) 
+					mCurrentRow = NO_POS;
 			}
 
 	private:
@@ -227,18 +249,6 @@ public:
 	virtual AlignmentIterator end(); 
 
 	//----------------> accessors <------------------------------------------------------------------------------
-
-	/** returns the first residue aligned in row */
-	virtual Position getRowFrom() const;
-
-	/** returns the last residue aligned in row */
-	virtual Position	getRowTo() const;
-
-	/** returns the first residue aligned in col */
-	virtual Position	getColFrom() const;
-
-	/** returns the last residue aligned in col */
-	virtual Position	getColTo()   const;
 
 	/** returns the first aligned pair. Have to create a copy not a reference, because not all alignments will have
 	a list of pairs ready */
@@ -284,11 +294,6 @@ public:
 		/** Vector of residue pairs */
 		PAIRVECTOR mPairs;
 
-		/** row of the first aligned residue pair */
-		Position mRowFrom;
-
-		/** row of the last aligned residue pair */
-		Position mRowTo;
 };
 
 

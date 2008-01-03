@@ -209,6 +209,29 @@ SubstitutionMatrix * makeSubstitutionMatrixPam120()
 	return matrix;
 }
 
+/** fill a substitution matrix */
+SubstitutionMatrix * makeSubstitutionMatrix( const ScoreVector & scores,
+		int nrows, int ncols)
+{
+	assert( nrows * ncols == scores.size() );
+	SubstitutionMatrix * matrix = 
+		new SubstitutionMatrix( nrows, ncols, 0);
+	
+	unsigned int row = 0;
+	unsigned int col = 0;
+	for (int x = 0; x < scores.size(); ++ x)
+	{
+		matrix->setValue( row, col++, scores[x] );
+		if (col > ncols)
+		{
+			++nrows;
+			col = 0;
+		}
+	}
+	return matrix;
+}
+		
+
 } // namespace alignlib
 
 

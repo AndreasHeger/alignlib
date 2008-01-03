@@ -129,25 +129,24 @@ void TestAlignment(Alignment * a)
 
 	{
 		cout << "testing...getClone()...";
-		Alignment * a_clone = a->getClone();
+		std::auto_ptr<Alignment>a_clone(a->getClone());
 
 		if (a_clone->getScore()   == a->getScore() && 
 				a_clone->getLength()  == a->getLength() && 
 				a_clone->getNumGaps() == a->getNumGaps() &&
-				isIdentical( a, a_clone ) )
+				isIdentical( a, &*a_clone ) )
 			cout << "passed" << endl;
 		else {
 			cout << "failed" << endl;
 			cout << *a << endl;
 			cout << *a_clone << endl;
 		}
-		delete a_clone;
 	}
 
 	{
 
 		cout << "testing...getNew()...";
-		Alignment * a_new = a->getNew();
+		std::auto_ptr<Alignment>a_new(a->getNew());
 
 		if (a_new->getScore() == 0 && 
 				a_new->getLength() == 0 && 
@@ -156,7 +155,6 @@ void TestAlignment(Alignment * a)
 		else
 			cout << "failed" << endl;
 
-		delete a_new;
 	}
 
 	// this function assumes an ordering by row
@@ -220,12 +218,11 @@ void TestAlignment(Alignment * a)
 	{ 
 		cout << "testing...switchRowCol()...";
 
-		Alignment * a_clone = a->getClone();
+		std::auto_ptr<Alignment>a_clone(a->getClone());
 		a_clone->switchRowCol();    
-		bool passed = isIdentical( a, a_clone, true );
+		bool passed = isIdentical( a, &*a_clone, true );
 		a_clone->switchRowCol();    
-		passed &= isIdentical( a, a_clone );
-		delete a_clone;
+		passed &= isIdentical( a, &*a_clone );
 
 		if (passed)
 			cout << "passed" << endl;
@@ -240,12 +237,11 @@ void TestAlignment(Alignment * a)
 
 		int i = 0;
 
-		Alignment * a_clone = a->getClone();
+		std::auto_ptr<Alignment>a_clone(a->getClone());
 
 		for (i = 0; i < a->getRowTo() + 5; i+=3) 
 			a_clone->removeRowRegion(i, i+3);       
 
-		delete a_clone;    
 		cout << "passed" << endl;
 
 	}
@@ -255,12 +251,11 @@ void TestAlignment(Alignment * a)
 
 		int i = 0;
 
-		Alignment * a_clone = a->getClone();
+		std::auto_ptr<Alignment> a_clone(a->getClone());
 
 		for (i = 0; i < a->getColTo() + 5; i+=3) 
 			a_clone->removeColRegion(i, i+3);       
 
-		delete a_clone;    
 		cout << "passed" << endl;
 	}
 
@@ -269,7 +264,7 @@ void TestAlignment(Alignment * a)
 
 		int i = 0;
 
-		Alignment * a_clone = a->getClone();
+		std::auto_ptr<Alignment>a_clone(a->getClone());
 
 		AlignmentIterator it(a->begin());
 		AlignmentIterator it_end(a->end());
@@ -280,7 +275,6 @@ void TestAlignment(Alignment * a)
 		assert( a_clone->getLength() == 0 );
 		assert( a_clone->getNumGaps() == 0 );
 		
-		delete a_clone;    
 		cout << "passed" << endl;
 	}
 	
@@ -297,8 +291,9 @@ void TestAlignment(Alignment * a)
 }
 
 // tests that only make sense for populated alignments
-void FullTest( Alignment * a) {
-
+void FullTest( Alignment * a) 
+{
+	
 	{
 		cout << "testing...getRowFrom()...";
 		Position result = a->getRowFrom();
@@ -306,6 +301,7 @@ void FullTest( Alignment * a) {
 			cout << "passed" << endl;
 		else 
 			cout << "failed" << endl;
+		
 	}
 
 	{
@@ -333,7 +329,8 @@ void FullTest( Alignment * a) {
 
 //----------------------------------------------------------
 // main test routine for a pairwise alignment
-void Test( Alignment * a ) {
+void Test( Alignment * a ) 
+{
 
 	cout << "-->testing empty alignment" << endl;
 	TestAlignment(a);

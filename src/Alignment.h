@@ -192,7 +192,8 @@ public:
 
 	//----------------> accessors <------------------------------------------------------------------------------
 
-	/** get the score of an alignment */
+	/** get the score of an alignment
+	 */
 	virtual Score getScore() const = 0;
 
 	/** get the length of an alignment 
@@ -208,6 +209,10 @@ public:
 	 * */
 	virtual Position getNumGaps() const = 0;
 
+    /** get the number of aligned positions 
+     * */
+    virtual Position getNumAligned() const = 0;
+	
 	/** set the alignment score. 
 	 * */
 	virtual void setScore( Score score ) = 0;

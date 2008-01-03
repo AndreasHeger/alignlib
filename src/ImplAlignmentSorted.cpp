@@ -29,10 +29,6 @@
 #include "ImplAlignmentSorted.h"
 #include "AlignmentIterator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib
@@ -200,14 +196,6 @@ AlignmentIterator ImplAlignmentSorted<T>::end()
 //----------------> accessors <------------------------------------------------------------------------------
 
 template <class T>
-Position ImplAlignmentSorted<T>::getRowFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mRow : NO_POS; }
-template <class T>  
-Position ImplAlignmentSorted<T>::getColFrom() const { return (mPairs.size() > 0) ? (*mPairs.begin())->mCol : NO_POS; }
-template <class T>  
-Position ImplAlignmentSorted<T>::getRowTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mRow : NO_POS; }
-template <class T>  
-Position ImplAlignmentSorted<T>::getColTo()   const { return (mPairs.size() > 0) ? (*mPairs.rbegin())->mCol : NO_POS; }
-template <class T>
 ResiduePAIR ImplAlignmentSorted<T>::front() const { return **(mPairs.begin()); }
 template <class T>  
 ResiduePAIR ImplAlignmentSorted<T>::back()  const { return **(mPairs.rbegin()); }
@@ -217,9 +205,12 @@ void ImplAlignmentSorted<T>::addPair( ResiduePAIR * new_pair )
 {
 	debug_func_cerr(5);
 
-	if (mPairs.find( new_pair) != mPairs.end()) {
+	ImplAlignment::addPair( new_pair );
+	if (mPairs.find( new_pair) != mPairs.end()) 
+	{
 		delete new_pair;
-	} else {
+	} else 
+	{
 		setChangedLength(); 
 		mPairs.insert( new_pair ); 
 	} 

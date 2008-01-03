@@ -106,7 +106,8 @@ class ImplAlignmentMatrix : public ImplAlignment
     // this iterator iterates over all dots. 
     //!! to be implemented: another iterator, that iterates over rows
     // valid values for index are 0 to max_index - 1
-    class ImplAlignmentMatrix_ConstIterator : public Alignment::ConstIterator{
+    class ImplAlignmentMatrix_ConstIterator : public Alignment::ConstIterator
+    {
     public:
 	
       ImplAlignmentMatrix_ConstIterator( const PAIRVECTOR & pairs, 
@@ -148,7 +149,8 @@ class ImplAlignmentMatrix : public ImplAlignment
       
     };
 
-    class ImplAlignmentMatrix_Iterator : public Alignment::Iterator {
+    class ImplAlignmentMatrix_Iterator : public Alignment::Iterator 
+    {
     public:
 	
       ImplAlignmentMatrix_Iterator( PAIRVECTOR & pairs, 
@@ -204,18 +206,6 @@ class ImplAlignmentMatrix : public ImplAlignment
 
     //----------------> accessors <------------------------------------------------------------------------------
 
-    /** returns the first residue aligned in row */
-    virtual Position getRowFrom() const;
-
-    /** returns the last residue aligned in row */
-    virtual Position	getRowTo() const;
-
-    /** returns the first residue aligned in col */
-    virtual Position	getColFrom() const;
-
-    /** returns the last residue aligned in col */
-    virtual Position	getColTo()   const;
-
     /** returns the first aligned pair. Have to create a copy not a reference, because not all alignments will have
 	a list of pairs ready */
     virtual ResiduePAIR front() const;
@@ -226,9 +216,6 @@ class ImplAlignmentMatrix : public ImplAlignment
     /** adds a pair of residue to the alignment */
     virtual void addPair( ResiduePAIR * new_pair ); 
 
-    /** adds a pair of residues to the alignment */
-    virtual void addPair( Position row, Position col, Score score = 0); 
-
     /** removes a pair of residues from the alignment */
     virtual void removePair( const ResiduePAIR & old_pair );
 
@@ -237,9 +224,6 @@ class ImplAlignmentMatrix : public ImplAlignment
 
     /** clear the current alignemnt */
     virtual void clear();
-
-    /** move alignment */
-    virtual void moveAlignment( Position row_offset, Position col_offset);
 
  protected:
 
@@ -274,13 +258,6 @@ class ImplAlignmentMatrix : public ImplAlignment
 
     /** index of pairs for each row */
     mutable Dot * mIndex;
-
-    /** coordinates of alignment */
-    mutable Position mRowFrom;
-    mutable Position mRowTo;
-    mutable Position mColFrom;
-    mutable Position mColTo;
-
 
  private:
     /* allocated size of size */

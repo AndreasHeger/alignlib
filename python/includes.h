@@ -81,8 +81,10 @@ namespace py_details
     sizeof(alignlib::Matrix<double>);
     sizeof(alignlib::Matrix<unsigned int>);
     sizeof(alignlib::SubstitutionMatrix);
+    sizeof(alignlib::MutationMatrix);
     sizeof(alignlib::FragmentVector);
     sizeof(alignlib::PositionVector);
+    sizeof(alignlib::ScoreVector);
     sizeof(alignlib::Frequencies);
     sizeof(alignlib::ProfileFrequencies);
     sizeof(alignlib::SequenceWeights);

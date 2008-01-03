@@ -71,9 +71,9 @@ Alignandum * makeSequence( const std::string & sequence,
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a stream */
-Alignandum * extractSequence( std::istream & input ) 
+Alignandum * extractSequence( std::istream & input, const Translator * translator ) 
 {
-	//!! to be implemented
+	// TODO to be implemented
 	return NULL;
 }
 
@@ -81,7 +81,7 @@ Alignandum * extractSequence( std::istream & input )
 /** create a sequence from a stream, put description into field description. Return Null, if unsuccessfull */
 Alignandum * extractSequenceFasta( std::istream & input, 
 		std::string & description,
-		Translator * translator ) 
+		const Translator * translator ) 
 		{
 
 #define MAX_CHUNK 10000
@@ -127,7 +127,7 @@ Alignandum * extractSequenceFasta( std::istream & input,
 //----------------------------------------------------------------------------------
 /** read a sequence from a file, given the filename */
 Alignandum * readSequence( const char * filename,
-		Translator * translator ) 
+		const Translator * translator ) 
 		{
 
 	ifstream fin( filename);  
