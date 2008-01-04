@@ -259,6 +259,9 @@ class ImplAlignmentMatrix : public ImplAlignment
     /** index of pairs for each row */
     mutable Dot * mIndex;
 
+	/** update boundaries in case alignment length has changed */
+	virtual void updateBoundaries() const;
+    
  private:
     /* allocated size of size */
     mutable long mAllocatedIndexSize;

@@ -178,6 +178,9 @@ class Alignandum;
 
  protected:
 
+	 /** update boundaries in case alignment length has changed */
+	 virtual void updateBoundaries() const;
+	 
  private:
 
     /** clear container */

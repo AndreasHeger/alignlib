@@ -119,7 +119,8 @@ AlignmentConstIterator ImplAlignmentMatrix::end() const
 }
 //-----------------------------------------------------------------------------------------------------------   
 
-AlignmentIterator ImplAlignmentMatrix::begin() { 
+AlignmentIterator ImplAlignmentMatrix::begin() 
+{ 
 	if (mChangedLength) calculateLength();
 	return AlignmentIterator( new ImplAlignmentMatrix_Iterator( mPairs, 0, mPairs.size() )); 
 }
@@ -165,6 +166,39 @@ ResiduePAIR ImplAlignmentMatrix::getPair( const ResiduePAIR & p) const
   return ResiduePAIR();
 } 
 
+//-----------------------------------------------------------------------------------------------------------   
+void ImplAlignmentMatrix::updateBoundaries() const
+{
+
+	Position max_size = mPairs.size();
+
+	mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
+	
+	// ignore empty alignments
+	if (max_size == 0)
+	  return;
+		
+	mRowFrom = std::numeric_limits<Position>::max();
+	mColFrom = std::numeric_limits<Position>::max();
+	mRowTo = std::numeric_limits<Position>::min();
+	mColTo = std::numeric_limits<Position>::min();
+	
+	PAIRVECTOR::const_iterator it(mPairs.begin()), it_end(mPairs.end());
+	for (; it != it_end; ++it )
+	{
+    	const Position row = (*it)->mRow;
+    	const Position col = (*it)->mCol;
+    	
+		// get maximum boundaries
+    	if (row < mRowFrom) mRowFrom = row;
+    	if (col < mColFrom) mColFrom = col;
+    	if (row > mRowTo)   mRowTo = row;
+    	if (col > mColTo)   mColTo = col;		
+	}
+	++mRowTo;
+	++mColTo;
+}
+
 //----------------------------------------------------------------------------------------------------------------------
 void ImplAlignmentMatrix::removePair( const ResiduePAIR & p ) 
 { 
@@ -178,7 +212,6 @@ void ImplAlignmentMatrix::removePair( const ResiduePAIR & p )
 	{
 		if ( **it == p )
 		{
-			debug_cerr( 5, "deleting pair " << **it );
 			delete *it;
 			it = mPairs.erase( it );
 		}
@@ -186,6 +219,7 @@ void ImplAlignmentMatrix::removePair( const ResiduePAIR & p )
 			++it;
 	}
 
+	updateBoundaries();
 	setChangedLength();    
 } 
 
@@ -196,10 +230,7 @@ void ImplAlignmentMatrix::clear()
 
 	ImplAlignment::clear();
 
-	mRowFrom = NO_POS;
-	mRowTo = NO_POS;
-	mColFrom = NO_POS;
-	mRowTo = NO_POS;
+	mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
 	if (mIndex != NULL)
 		delete [] mIndex; 
 	mIndex = NULL;
@@ -295,8 +326,10 @@ void ImplAlignmentMatrix::sortDotsByCol(Position from, Position to) const
 
 		m = mPairs[from]->mCol;                                 // choose median-value to compare to
 		lastsmall = from;
-		for (i = from + 1; i <= to; i++) {
-			if ( mPairs[i]->mCol < m) {                         // swap lastsmall and i
+		for (i = from + 1; i <= to; i++) 
+		{
+			if ( mPairs[i]->mCol < m) 
+			{                         // swap lastsmall and i
 				lastsmall++;
 				t = mPairs[lastsmall]; 
 				mPairs[lastsmall] = mPairs[i]; 

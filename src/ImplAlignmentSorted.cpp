@@ -57,7 +57,8 @@ struct ComparatorCol
 /** residues are sorted by row and then by column */
 struct ComparatorRowCol
 {
-  bool operator() ( const ResiduePAIR * x, const ResiduePAIR * y) const { 
+  bool operator() ( const ResiduePAIR * x, const ResiduePAIR * y) const 
+  { 
     if (x->mRow < y->mRow) return 1;
     if (x->mRow > y->mRow) return 0;
     if (x->mCol < y->mCol) 
@@ -162,7 +163,8 @@ void ImplAlignmentSorted<T>::clearContainer()
 
 //------------------------------------------------------------------------------------------------------------
 template <class T>  
-void ImplAlignmentSorted<T>::clear() { 
+void ImplAlignmentSorted<T>::clear() 
+{ 
 	ImplAlignment::clear();
 	clearContainer();
 }
@@ -206,6 +208,7 @@ void ImplAlignmentSorted<T>::addPair( ResiduePAIR * new_pair )
 	debug_func_cerr(5);
 
 	ImplAlignment::addPair( new_pair );
+	
 	if (mPairs.find( new_pair) != mPairs.end()) 
 	{
 		delete new_pair;
@@ -228,13 +231,47 @@ ResiduePAIR ImplAlignmentSorted<T>::getPair( const ResiduePAIR & p) const
 		return ResiduePAIR();
 } 
 
+//-----------------------------------------------------------------------------------------------------------   
+template <class T>
+void ImplAlignmentSorted<T>::updateBoundaries() const 
+{
+
+	Position max_size = mPairs.size();
+
+	mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
+	
+	// ignore empty alignments
+	if (max_size == 0)
+	  return;
+		
+	mRowFrom = std::numeric_limits<Position>::max();
+	mColFrom = std::numeric_limits<Position>::max();
+	mRowTo = std::numeric_limits<Position>::min();
+	mColTo = std::numeric_limits<Position>::min();
+	
+	PairConstIterator it(mPairs.begin()), it_end(mPairs.end());
+	for (; it != it_end; ++it )
+	{
+    	const Position row = (*it)->mRow;
+    	const Position col = (*it)->mCol;
+    	
+		// get maximum boundaries
+    	if (row < mRowFrom) mRowFrom = row;
+    	if (col < mColFrom) mColFrom = col;
+    	if (row > mRowTo)   mRowTo = row;
+    	if (col > mColTo)   mColTo = col;		
+	}
+	++mRowTo;
+	++mColTo;
+}
+
 //----------------------------------------------------------------------------------------------------------
 /** remove a pair from an alignment */
 template <class T>  
 void ImplAlignmentSorted<T>::removePair( const ResiduePAIR & p ) 
 {
 	debug_func_cerr(5);
-
+	
 	PairIterator it(mPairs.find( const_cast< ResiduePAIR*> (&p)) );
 
 	if (it != mPairs.end()) 
@@ -243,37 +280,81 @@ void ImplAlignmentSorted<T>::removePair( const ResiduePAIR & p )
 		delete *it;
 		mPairs.erase(it);
 	}
+	
+	ImplAlignment::removePair( p );	
 } 
 
 //----------------------------------------------------------------------------------------
-/** This is non-generic routine. Since pairs are accessed by row, this is quite quick.
+/** This is a generic routine that iterates through the whole container.
+ * TODO: think about template specialization for row sorted containers
+ *
  */
 template <class T>  
 void ImplAlignmentSorted<T>::removeRowRegion( Position from, Position to) 
 {
 
+	PairIterator it(mPairs.begin()), it_end(mPairs.end());
+
+	bool deleted = false;
+	// Valgrind did not like the iterator being deleted,
+	// thus this complicated loop structure. Did not complain 
+	while (it != it_end) 
+	{
+		if ( (*it)->mRow >= from && (*it)->mRow < to) 
+		{
+			delete *it;
+			PairIterator it2 = it;
+			++it;              
+			mPairs.erase(it2);
+			deleted = true;
+		}
+		else  
+			++it;           
+	}
+
+	if (deleted)
+	{
+		updateBoundaries();
+		setChangedLength();
+	}	
+}
+
+/* This is a non-generic routine
+template <class T>  
+void ImplAlignmentSorted<T>::removeRowRegion( Position from, Position to) 
+{
+	bool deleted = false;
 	for (Position pos = from; pos < to; pos++) 
 	{
 		ResiduePAIR p(pos, NO_POS, 0);
 		PairIterator it(mPairs.find( &p ));
 
-		if (it != mPairs.end()) {
-			setChangedLength(); 
+		if (it != mPairs.end()) 
+		{
 			delete *it;
 			mPairs.erase(it);
+			deleted = true;
 		}
+	}	
+	if (deleted)
+	{
+		setChangedLength();
+		updateBoundaries();
 	}
-
 }
+*/
 
 //----------------------------------------------------------------------------------------
-/** This is a generic routine. It creates a new alignment by making a copy of the old one */
+/** This is a generic routine that iterates through the whole container
+ * TODO: think about template specialization for col sorted containers 
+ * */
 template <class T>  
 void ImplAlignmentSorted<T>::removeColRegion( Position from, Position to) 
 {
 
 	PairIterator it(mPairs.begin()), it_end(mPairs.end());
 
+	bool deleted = false;
 	// Valgrind did not like the iterator being deleted,
 	// thus this complicated loop structure. Did not complain 
 	while (it != it_end) 
@@ -284,13 +365,17 @@ void ImplAlignmentSorted<T>::removeColRegion( Position from, Position to)
 			PairIterator it2 = it;
 			++it;              
 			mPairs.erase(it2);
+			deleted = true;
 		}
 		else  
 			++it;           
 	}
 
-	setChangedLength();
-
+	if (deleted)
+	{
+		updateBoundaries();
+		setChangedLength();
+	}	
 }
 
 } // namespace alignlib

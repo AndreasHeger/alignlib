@@ -217,6 +217,15 @@ namespace alignlib
 	  }
 		  
   }
+
+  //--------------------------------------------------------------------------------------------------------------  
+  void ImplAlignment::removePair( const ResiduePAIR & pair )
+  {
+	  debug_func_cerr( 5 );
+	  if (pair.mRow == mRowFrom || pair.mRow == mRowTo || pair.mCol == mColFrom || pair.mCol == mColTo )
+		  updateBoundaries();
+	  setChangedLength();
+  }
   
   //--------------------------------------------------------------------------------------------------------------
   void ImplAlignment::addPair( Position row, Position col, Score score ) 
@@ -226,7 +235,6 @@ namespace alignlib
       addPair(new ResiduePAIR( row,col,score) );
     } 
 
-  
   //--------------------------------------------------------------------------------------------------------------
   void ImplAlignment::calculateLength() const 
   {
@@ -253,7 +261,8 @@ namespace alignlib
     Position row_last = mRowFrom;
     Position col_last = mColFrom;
     Position d;
-        
+    ++mLength;
+    
     for (; it != it_end; ++it) 
     {
     	Position row = it->mRow;
@@ -265,7 +274,7 @@ namespace alignlib
     	if (row > mRowTo)   mRowTo = row;
     	if (col > mColTo)   mColTo = col;
 	
-    	mLength++;
+    	++mLength;
     	if ( (d = row - row_last - 1) > 0 ) 
     	{
     		mLength += d; mNumGaps += d;
@@ -306,7 +315,9 @@ namespace alignlib
 
       delete copy;
 
-      setChangedLength();
+      std::swap( mRowFrom, mColFrom );
+      std::swap( mRowTo, mColTo );
+      
       return;
     }
 
@@ -342,7 +353,8 @@ namespace alignlib
    * This function iterates through the alignment and is
    * very time inefficient and ignores the search option.
    */
-  Position ImplAlignment::mapColToRow( Position pos, SearchType search ) const {
+  Position ImplAlignment::mapColToRow( Position pos, SearchType search ) const 
+  {
 
     if (getLength() == 0)
       return NO_POS;
@@ -382,6 +394,7 @@ namespace alignlib
 
     delete copy;
 
+    updateBoundaries();
     setChangedLength();
     return;
   }
@@ -410,6 +423,7 @@ namespace alignlib
 
     delete copy;
 
+    updateBoundaries();
     setChangedLength();
     return;
   }

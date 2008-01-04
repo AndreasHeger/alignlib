@@ -127,6 +127,9 @@ class ImplAlignment : public Alignment
 
     /** adds a pair of residues to the alignment */
     virtual void addPair( Position row, Position col, Score score = 0); 
+
+    /** removes a pair */
+    virtual void removePair( const ResiduePAIR & pair );
     
     /*-----------------> I/O <------------------------------------------------------------------------------ */
     virtual void write(std::ostream & output ) const;	       
@@ -145,6 +148,13 @@ class ImplAlignment : public Alignment
 
     /** calculate alignment length */
     virtual void calculateLength() const;
+    
+    /** called update boundaries if alignment has changed 
+     * This function can not be generic, because it can not use
+     * the iterator interface. In some child classes, the iterators 
+     * rely on the boundaries to be known.
+     * */
+    virtual void updateBoundaries() const = 0;
 
     /** flag, whether alignment length has changed. Protected, because some childs need to query and 
      set this flag.

@@ -286,6 +286,9 @@ public:
 		/** reset boundaries mRowFrom and mRowTo after the deletion of pairs */
 		void resetBoundaries();
 
+		/** update boundaries in case alignment length has changed */
+		virtual void updateBoundaries() const;
+		
 	private:
 
 		/** clear container */
