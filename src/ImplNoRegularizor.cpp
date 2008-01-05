@@ -27,16 +27,16 @@
 #include "HelpersRegularizor.h"
 #include "ImplNoRegularizor.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
-  /** factory functions */
-  Regularizor * makeNoRegularizor() { return new ImplNoRegularizor();}
+/** factory functions */
+Regularizor * makeNoRegularizor() 
+{ 
+	return new ImplNoRegularizor();
+}
 
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
@@ -46,35 +46,41 @@ ImplNoRegularizor::ImplNoRegularizor () {
 ImplNoRegularizor::~ImplNoRegularizor () {
 }
 
-ImplNoRegularizor::ImplNoRegularizor (const ImplNoRegularizor & src ) {
+ImplNoRegularizor::ImplNoRegularizor (const ImplNoRegularizor & src ) 
+{
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplNoRegularizor::fillFrequencies( FrequencyColumn * frequencies, 
-					 const CountColumn * counts, 
-					 const Position length ) const 
+void ImplNoRegularizor::fillFrequencies( Frequency * frequencies, 
+					 const Count * counts, 
+					 const Position length,
+					 const Residue width ) const 
 {
   debug_func_cerr(5);
-
-
+  
   // simply calculate frequencies
  
   Position column;
   Count ntotal;
   int i;
 
-  for (column = 1; column <= length; column++) {
+  for (column = 0; column < length; ++column) 
+  {
     ntotal = 0;
  
-    for (i = 0; i < PROFILEWIDTH; i ++)
-      ntotal += counts[column][i];
+    const Count * counts_column = &counts[column];
+    Frequency * frequency_column = &frequencies[column];
+    
+    for (i = 0; i < width; i ++)
+      ntotal += counts_column[i];
 
     if (ntotal == 0)
       ntotal = 1;
     
-    for (i = 0; i < PROFILEWIDTH; i++) {
-      Frequency f = (Frequency)((Frequency)counts[column][i] / (Frequency)ntotal);
-      frequencies[column][i] = f;
+    for (i = 0; i < width; i++) 
+    {
+      Frequency f = (Frequency)((Frequency)counts_column[i] / (Frequency)ntotal);
+      frequency_column[i] = f;
     }
     
   }                    

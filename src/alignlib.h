@@ -73,27 +73,13 @@ typedef int Position;
 /* type of sequence weights */
 typedef double SequenceWeight;
 
-/* type for substitution matrices */
-#define MATRIXWIDTH_AA  21		     /* width of ordinary substitution matrix, 20 amino acid residues + 1 mask-character */
-
-typedef Score ScoreColumn[MATRIXWIDTH_AA];  
-
-/* type of one entry in a profile */
-#define PROFILEWIDTH 20					/* width of profile, 4 for NA, 20 for AA */
-#define MASK_VALUE -10					/* value used, for masking a profile-entry */
-
-typedef double ProfileScore; 
-typedef ProfileScore ProfileColumn[PROFILEWIDTH];
-
 /* type of counts, no speed difference between float and double
     I have to use real values, since I the counts correspond to
     weighted counts */
 typedef double Count;
-typedef Count CountColumn[PROFILEWIDTH];
 
 /* type of one entry in a frequencies-table */
 typedef double Frequency;
-typedef Frequency FrequencyColumn[PROFILEWIDTH];		// frequencies have to be double  
 typedef std::vector<Frequency>Frequencies;
 typedef std::vector<Frequencies>ProfileFrequencies;
 

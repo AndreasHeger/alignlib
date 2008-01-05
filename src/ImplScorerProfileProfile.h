@@ -62,14 +62,14 @@ namespace alignlib
 
   protected:
       /** pointer to member data of row/col : AlignandumProfile */
-      const ProfileColumn * mRowProfile;
-      const FrequencyColumn * mRowFrequencies;
+      const Score * mRowProfile;
+      const Frequency * mRowFrequencies;
 
-      const ProfileColumn * mColProfile;      
-      const FrequencyColumn * mColFrequencies;
+      const Score * mColProfile;      
+      const Frequency * mColFrequencies;
       
       /** size of the alphabet in row and column */
-      int mAlphabetSize;
+      int mProfileWidth;
   };
   
 }

@@ -41,7 +41,8 @@ namespace alignlib {
       
   */
 
-class ImplNoRegularizor : public Regularizor {
+class ImplNoRegularizor : public Regularizor 
+{
  public:
     // constructors and desctructors
 
@@ -55,9 +56,10 @@ class ImplNoRegularizor : public Regularizor {
     virtual ~ImplNoRegularizor ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( FrequencyColumn * frequencies, 
-				  const CountColumn * counts, 
-				  const Position length ) const;
+    virtual void fillFrequencies( Frequency * frequencies, 
+				  const Count * counts, 
+				  const Position length,
+				  const Residue width ) const;
 
 };
 

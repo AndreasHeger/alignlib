@@ -55,14 +55,15 @@ ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) :
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-SequenceWeights * ImplWeightorHenikoff::calculateWeights( const MultipleAlignment & src ) const 
+SequenceWeights * ImplWeightorHenikoff::calculateWeights( 
+		const MultipleAlignment & src ) const 
 {
 	debug_func_cerr(5);
 
 	//!! TODO: Right now I have to translate twice. This could be improved by making a temporary
 	// copy (at the expense of memory, though)
 
-	typedef int MY_Count[PROFILEWIDTH];
+	int width = mTranslator->getAlphabetSize();
 
 	int nsequences = src.getWidth();
 	Position length = src.getLength();
@@ -71,20 +72,22 @@ SequenceWeights * ImplWeightorHenikoff::calculateWeights( const MultipleAlignmen
 	int i, j;
 
 	//-----------------> calculate counts for each column and amino acid<----------------------
-	MY_Count * counts = new MY_Count[length];
+	Count * counts = new Count[length * width];
 
-	for (j = 0; j < length; j++) 
-		for ( i = 0; i < PROFILEWIDTH; i++) 
-			counts[j][i] = 0;
-
+	for (j = 0; j < length; j++)
+	{
+		Count * ccolumn = &counts[j * width];
+		for ( i = 0; i < width; i++) 
+			ccolumn[i] = 0;
+	}
 	Residue residue; 
 
 	for (i = 0; i < nsequences; i++) 
 	{
 		const std::string & sequence = src[i];
 		for (column = 0; column < length; column++)
-			if ((residue = mTranslator->encode(sequence[column])) < PROFILEWIDTH) 
-				counts[column][residue]++;
+			if ((residue = mTranslator->encode(sequence[column])) < width) 
+				counts[column * width + residue]++;
 	}
 
 	//-----------------> calculate types per column <------------------------------------------
@@ -92,9 +95,10 @@ SequenceWeights * ImplWeightorHenikoff::calculateWeights( const MultipleAlignmen
 
 	for (column = 0; column < length; column++) 
 	{
+		Count * ccolumn = &counts[j * width];		
 		ntypes[column] = 0;
-		for (i = 0; i < PROFILEWIDTH; i++) 
-			if (counts[column][i] > 0)
+		for (i = 0; i < width; i++) 
+			if (ccolumn[i] > 0)
 				ntypes[column]++;
 	}
 	//---------------> calculate sequence weights <------------------------------------------
@@ -106,8 +110,9 @@ SequenceWeights * ImplWeightorHenikoff::calculateWeights( const MultipleAlignmen
 		for (column = 0; column < length; column++) 
 		{
 			const std::string & sequence = src[i];			// sum up, but skip gaps and masked characters
-			if ( (residue = mTranslator->encode(sequence[column])) < PROFILEWIDTH) 
-				w[i] += (SequenceWeight)(1.0 / ((double)counts[column][residue] * (double)ntypes[column]));
+			if ( (residue = mTranslator->encode(sequence[column])) < width) 
+				w[i] += (SequenceWeight)(1.0 / 
+						((double)counts[column * width + residue] * (double)ntypes[column]));
 		}
 	}
 

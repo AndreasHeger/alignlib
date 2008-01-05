@@ -31,9 +31,10 @@
 #include "alignlib.h"
 #include "Regularizor.h"
 
+namespace alignlib 
+{
 
-namespace alignlib {
-
+#define PROFILEWIDTH 20
 #define NCOMPONENTS 9
 
     typedef double TYPE_WA_COLUMN[NCOMPONENTS];
@@ -41,7 +42,8 @@ namespace alignlib {
     typedef double TYPE_BETA_DIFFERENCES[NCOMPONENTS];
 
   /** Implementation of a class that regularizes count columns based
-      on the 9-component Dirichlet-mixture by Kimmen Sjoerlander.
+      on the 9-component Dirichlet-mixture by Kimmen Sjoerlander. This
+      profile is only defined for the 20 amino acid residues.
       
       @author Andreas Heger
       @version $Id: ImplRegularizorDirichlet.h,v 1.2 2004/01/07 14:35:35 aheger Exp $
@@ -49,8 +51,8 @@ namespace alignlib {
       
   */
 
-
-class ImplRegularizorDirichlet : public Regularizor {
+class ImplRegularizorDirichlet : public Regularizor 
+{
  public:
     // constructors and desctructors
 
@@ -64,9 +66,10 @@ class ImplRegularizorDirichlet : public Regularizor {
     virtual ~ImplRegularizorDirichlet ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( FrequencyColumn * frequencies, 
-				  const CountColumn * counts, 
-				  const Position length ) const;
+    virtual void fillFrequencies( Frequency * frequencies, 
+				  				  const Count * counts, 
+				  				  const Position length,
+				  				  const Residue width ) const;
 
  private:
 
@@ -100,12 +103,11 @@ class ImplRegularizorDirichlet : public Regularizor {
     
     /** fill one frequencies column with the Dirichlet-Mixture */
     virtual void fillColumn( Frequency * frequencies, 
-			     TYPE_BETA_DIFFERENCES beta_differences, 
-			     const Count * n, 
-			     Count ntotal ) const;
+			     		     TYPE_BETA_DIFFERENCES beta_differences, 
+			     		     const Count * n, 
+			     		     Count ntotal ) const;
     
 };
-
 
 }
 

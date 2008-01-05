@@ -27,25 +27,33 @@
 #include <math.h>
 #include <iostream>
 
-namespace alignlib {
+namespace alignlib 
+{
 
     /** factory functions */
-Regularizor * makeRegularizorDirichletFade() { return new ImplRegularizorDirichletFade();}
+Regularizor * makeRegularizorDirichletFade() 
+{ 
+	return new ImplRegularizorDirichletFade();
+}
 
 /* This cutoff determines the number of counts that are needed to switch from
    Dirichlet-mixtures to 
 */
 #define FADE_CUTOFF 10
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplRegularizorDirichletFade::ImplRegularizorDirichletFade () : ImplRegularizorDirichlet() {
+ImplRegularizorDirichletFade::ImplRegularizorDirichletFade () : ImplRegularizorDirichlet() 
+{
 }
   
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplRegularizorDirichletFade::~ImplRegularizorDirichletFade () {
+ImplRegularizorDirichletFade::~ImplRegularizorDirichletFade () 
+{
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
-ImplRegularizorDirichletFade::ImplRegularizorDirichletFade (const ImplRegularizorDirichletFade & src ) : ImplRegularizorDirichlet( src ) {
+ImplRegularizorDirichletFade::ImplRegularizorDirichletFade (const ImplRegularizorDirichletFade & src ) : 
+	ImplRegularizorDirichlet( src ) 
+	{
 }
 
 //-------------------------------------------------------------------------------------------------------
@@ -55,40 +63,49 @@ ImplRegularizorDirichletFade::ImplRegularizorDirichletFade (const ImplRegularizo
       This method calculates the Xi and stores it in the profile. You have
       to call NormalizeColumn to get the correct estimated probabilites.
 */      
-void ImplRegularizorDirichletFade::fillFrequencies( FrequencyColumn * frequencies, 
-						    const CountColumn * counts, 
-						    const Position length ) const {
+void ImplRegularizorDirichletFade::fillFrequencies( Frequency * frequencies, 
+						    const Count * counts, 
+						    const Position length,
+						    const Residue width ) const 
+{
+	
+	if (width != PROFILEWIDTH)
+		throw AlignException( "ImplRegularizorDirichletFade.cpp: profile width of profile has to be 20.")
+		
     Position column;
     Count ntotal;
 
     int i,j;
-    double Xi[PROFILEWIDTH];
+    double Xi[width];
     
     // helper variables for the conversion of log to floating point
     TYPE_BETA_DIFFERENCES beta_differences;
  
-    for (column = 0; column < length; column++) {
+    for (column = 0; column < length; column++) 
+    {
 
-	const Count* n = counts[column];
+	const Count * n = &counts[column * width];
 	
 	ntotal = 0;
 
 	// get ntotal = number of observations
-	for (i = 0; i < PROFILEWIDTH; i++)
+	for (i = 0; i < width; i++)
 	    ntotal += n[i];
 	
 	// if the number of total observation is less than the fade cutoff, do the normal calculation. I have pasted and copied
 	// it, maybe externalize it sometime later..
 
-	if (ntotal < FADE_CUTOFF) {
+	if (ntotal < FADE_CUTOFF) 
+	{
 	    // use normal Dirichlet-Mixture
 	    fillColumn( beta_differences, n. ntotal );
-
-	}  else {
+	}  
+	else 
+	{
 	    // calculate raw frequencies:
-	    for (i = 0; i < PROFILEWIDTH; i++)
-		frequencies[column][i] = (Frequency)(n[i] / ntotal);
-	    
+		Frequency * column = frequencies[column * width];
+	    for (i = 0; i < width; i++)
+	    	frequencies[i] = (Frequency)(n[i] / ntotal);
 	}
     }
 }

@@ -50,30 +50,30 @@
 #include "ImplProfile.h"
 #include "ImplSequence.h"
 
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //---------------------------------< implementation of factory functions >--------------
 
-typedef int TYPE_INT_COUNTS_COLUMN[PROFILEWIDTH];
-
 //------------------------------------------------------------------------------------------
 /** create empty profile */
-Alignandum * makeProfile( const Regularizor * regularizor,
-		const LogOddor * logoddor ) {
-	if (!regularizor) 
+Alignandum * makeProfile( 
+		const Translator * translator,
+		const Regularizor * regularizor,
+		const LogOddor * logoddor ) 
+{
+	if (translator == NULL)
+		translator = getDefaultTranslator();
+	
+	if (regularizor == NULL) 
 		regularizor = getDefaultRegularizor();
 
-	if (!logoddor)
+	if (logoddor == NULL)
 		logoddor = getDefaultLogOddor();
 
-	Alignandum * profile = new ImplProfile( regularizor, logoddor );
+	Alignandum * profile = new ImplProfile( translator, regularizor, logoddor );
 
 	return profile;
 }
@@ -81,17 +81,23 @@ Alignandum * makeProfile( const Regularizor * regularizor,
 //------------------------------------------------------------------------------------------
 /** create empty profile with given length */
 Alignandum * makeProfile( Position length,
+		const Translator * translator,
 		const Regularizor * regularizor,
 		const LogOddor * logoddor ) 
 		{
+	
+	if (translator == NULL)
+		translator == getDefaultTranslator();
+	
 	if (regularizor == NULL) 
 		regularizor = getDefaultRegularizor();
 
 	if (logoddor == NULL)
 		logoddor = getDefaultLogOddor();
 
-
-	ImplProfile * profile = new ImplProfile( regularizor, logoddor );
+	ImplProfile * profile = new ImplProfile( translator,
+			regularizor, logoddor );
+	
 	profile->setTrueLength( length );
 	profile->useSegment();
 	profile->allocateCounts();
@@ -102,7 +108,9 @@ Alignandum * makeProfile( Position length,
 
 //------------------------------------------------------------------------------------------
 /** create profile from a string of sequences */
-Alignandum * makeProfile( const char * src, int nsequences,
+Alignandum * makeProfile( const std::string & src, 
+		int nsequences,
+		const Translator * translator,
 		const Weightor * weightor, 
 		const Regularizor * regularizor,
 		const LogOddor * logoddor ) 
@@ -110,6 +118,9 @@ Alignandum * makeProfile( const char * src, int nsequences,
 	
 	if (weightor == NULL)
 		weightor = getDefaultWeightor();
+
+	if (translator == NULL)
+		translator == getDefaultTranslator();
 	
 	if (regularizor == NULL) 
 		regularizor = getDefaultRegularizor();
@@ -117,9 +128,15 @@ Alignandum * makeProfile( const char * src, int nsequences,
 	if (logoddor == NULL)
 		logoddor = getDefaultLogOddor();
 
-	MultipleAlignment * m = fillMultipleAlignment( makeMultipleAlignment(), src, nsequences );
+	MultipleAlignment * m = fillMultipleAlignment( 
+			makeMultipleAlignment(), 
+			src, 
+			nsequences );
 
-	Alignandum * profile = new ImplProfile( regularizor, logoddor );
+	Alignandum * profile = new ImplProfile( translator, 
+			regularizor, 
+			logoddor );
+	
 	fillProfile( profile, m );
 	delete m;
 	return profile;
@@ -127,10 +144,13 @@ Alignandum * makeProfile( const char * src, int nsequences,
 
 //------------------------------------------------------------------------------------------
 /** create a default profile from a multiple alignment */
-Alignandum * makeProfile( const MultipleAlignment * mali, 
+Alignandum * makeProfile( 
+		const MultipleAlignment * mali, 
+		const Translator * translator,
 		const Weightor * weightor, 
 		const Regularizor * regularizor,
-		const LogOddor * logoddor ) {
+		const LogOddor * logoddor ) 
+		{
 
 	if (weightor == NULL)
 		weightor = getDefaultWeightor();
@@ -141,7 +161,10 @@ Alignandum * makeProfile( const MultipleAlignment * mali,
 	if (logoddor == NULL)
 		logoddor = getDefaultLogOddor();
 
-	Alignandum * profile = new ImplProfile( regularizor, logoddor );
+	Alignandum * profile = new ImplProfile( translator, 
+			regularizor, 
+			logoddor );
+	
 	fillProfile( profile, mali, weightor );
 	return profile;
 }
@@ -153,8 +176,7 @@ Alignandum * fillProfile( Alignandum * dest,
 		{
 	debug_func_cerr(5);
 
-
-	/* first check, that we actually do have a profile here. */
+	// first check, that we actually do have a profile here.
 	ImplProfile * profile = dynamic_cast<ImplProfile*>(dest);
 
 	// set up the weightor object and calculate the weights.
@@ -164,6 +186,7 @@ Alignandum * fillProfile( Alignandum * dest,
 	SequenceWeights * weights = weightor->calculateWeights( *src );
 	
 	debug_cerr_start( 5, "computed the following weights:");
+	
 #ifdef DEBUG
 	for (int i = 0; i < src->getWidth(); i++) 
 		debug_cerr_add ( 5, " " << i << "=" << (*weights)[i] )
@@ -179,18 +202,22 @@ Alignandum * fillProfile( Alignandum * dest,
 	profile->useSegment();
 	profile->allocateCounts();
 
-	CountColumn * counts = profile->getData().mCountsPointer;
+	Count * counts = profile->getData().mCountsPointer;
 
 	// calculate counts
-	int width = src->getWidth();
-
-	Residue code;
-	for (int nsequence = 0; nsequence < width; nsequence++) 
+	int mali_width = src->getWidth();
+	
+	const Translator * translator = profile->getTranslator();
+	Residue width = translator->getAlphabetSize();
+	
+	for (int nsequence = 0; nsequence < mali_width; nsequence++) 
 	{
 		const std::string & seq = (*src)[nsequence];
-		for (int column = 0; column < length; column++) 
-			if ( (code = getDefaultTranslator()->encode( seq[column] ) ) < PROFILEWIDTH)
-				counts[column][code] += (*weights)[nsequence];
+		for (int x = 0; x < length; ++x)
+		{
+			Residue code = translator->encode( seq[x] );  
+			counts[x * width + code] += (*weights)[nsequence];
+		}
 	}
 
 	delete weights;
@@ -198,16 +225,17 @@ Alignandum * fillProfile( Alignandum * dest,
 	profile->setPrepared( false );  
 
 	return profile;
-		}     
+}
 
 //------------------------------------------------------------------------------------------
 /** write counts from profile in binary format to stream */
+/*
 void writeProfileBinaryCounts( std::ostream & output, const Alignandum * src) {
 
-	/* first check, that we actually do have a profile here. */
+	// first check, that we actually do have a profile here.a
 	const ImplProfile * p = dynamic_cast<const ImplProfile*>(src);
 
-	/* If not, there is nothing to write */
+	// If not, there is nothing to write 
 	if (!p) 
 		return;
 
@@ -216,16 +244,17 @@ void writeProfileBinaryCounts( std::ostream & output, const Alignandum * src) {
 	output.write( (char*)&(counts), p->getLength() * PROFILEWIDTH * sizeof( Count));
 
 }
-
+*/
 //------------------------------------------------------------------------------------------
 /** write counts from profile in binary format to stream, store as ints with bytes bytes (not supported yet). */
+/*
 void writeProfileBinaryCountsAsInt( std::ostream & output, const Alignandum * src, int bytes, float scale_factor) {
 
 
-	/* first check, that we actually do have a profile here. */
+	// first check, that we actually do have a profile here.
 	const ImplProfile * p = dynamic_cast<const ImplProfile*>(src);
 
-	/* If not, there is nothing to write */
+	// If not, there is nothing to writea
 	if (!p) 
 		return;
 
@@ -234,6 +263,8 @@ void writeProfileBinaryCountsAsInt( std::ostream & output, const Alignandum * sr
 	int length = p->getLength();
 
 	int i, j;
+
+	typedef int TYPE_INT_COUNTS_COLUMN[PROFILEWIDTH];
 
 	// allocate memory for converted profile
 	TYPE_INT_COUNTS_COLUMN * int_counts = new TYPE_INT_COUNTS_COLUMN[ length + 1];
@@ -247,9 +278,10 @@ void writeProfileBinaryCountsAsInt( std::ostream & output, const Alignandum * sr
 	delete [] int_counts;
 
 }
-
+*/
 //------------------------------------------------------------------------------------------
 /** read counts of a profile from stream in binary format stored as integers */
+/*
 Alignandum * extractProfileBinaryCountsAsInt( std::istream & input, 
 		const Position max_length,
 		int bytes, 
@@ -285,12 +317,15 @@ Alignandum * extractProfileBinaryCountsAsInt( std::istream & input,
 	p->setTrueLength(col);
 	p->useSegment();
 	p->allocateCounts();
-	CountColumn * counts = p->mCounts;
+	Count * counts = p->mCounts;
 
-	for (i = 0; i < col; i++) 
-		for (j = 0; j < PROFILEWIDTH; j++) 
+	for (i = 0; i < col; i++)
+	{
+		Count * column[ width * col ];
+		for (j = 0; j < width; j++) 
 			counts[i][j] = (Count)(int_counts[i][j] / scale_factor);
-
+	}
+	
 	p->setPrepared(false);
 
 	delete [] int_counts;
@@ -298,8 +333,11 @@ Alignandum * extractProfileBinaryCountsAsInt( std::istream & input,
 	return p;
 
 }
+*/
+
 //------------------------------------------------------------------------------------------
 /** read counts of a profile from stream in binary format */
+/*
 Alignandum * extractProfileBinaryCounts( std::istream & input, 
 		const Position max_length,
 		const Regularizor * regularizor,
@@ -341,9 +379,12 @@ Alignandum * extractProfileBinaryCounts( std::istream & input,
 	return p;
 
 }
+*/
+
 
 //------------------------------------------------------------------------------------------
 /** rescale counts from a profile by multiplying each entry by the scale_factor */
+/*
 Alignandum * rescaleProfileCounts( Alignandum * dest,
 		double scale_factor ) {
 
@@ -361,9 +402,11 @@ Alignandum * rescaleProfileCounts( Alignandum * dest,
 	return dest;
 
 }
+*/
 
 //------------------------------------------------------------------------------------------
 /** normalize counts from a profile so that all sum to total_weight per column*/
+/*
 Alignandum * normalizeProfileCounts( Alignandum * dest,
 		Count total_weight) {
 
@@ -391,10 +434,11 @@ Alignandum * normalizeProfileCounts( Alignandum * dest,
 	return dest;
 
 }
-
+*/
 //------------------------------------------------------------------------------------------
 /** substitutes columns in profile dest by columns in profile row using the mapping provided, where dest is in col and source is in row
  */
+/*
 Alignandum * substituteProfileWithProfile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest ) {
 
 	// check, if we do have two profiles
@@ -418,11 +462,12 @@ Alignandum * substituteProfileWithProfile( Alignandum * dest, const Alignandum *
 
 	return dest;
 }
-
+*/
 //------------------------------------------------------------------------------------------
 /** add counts of profile source to profile dest, using the mapping provided, where dest is in col and
     source is in row 
  */
+/*
 Alignandum * addProfile2Profile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest ) {
 
 	// check, if we do have two profiles
@@ -447,11 +492,12 @@ Alignandum * addProfile2Profile( Alignandum * dest, const Alignandum * source, c
 
 	return dest;
 }
-
+*/
 //------------------------------------------------------------------------------------------
 /** add sequence of source to profile dest, using the mapping provided, where dest is in col and
     source is in row 
  */
+/*
 Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest ) {
 
 	// check, if we do have two profiles
@@ -476,10 +522,11 @@ Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, 
 
 	return dest;
 }
-
+*/
 //------------------------------------------------------------------------------------------
 /** reset a profile to a new length. Clear old values.
  */
+/*
 Alignandum * resetProfile( Alignandum * dest, Position new_length ) {
 
 	// clear profile
@@ -492,10 +539,11 @@ Alignandum * resetProfile( Alignandum * dest, Position new_length ) {
 
 	return dest;
 }
-
+*/
 //------------------------------------------------------------------------------------------
 /** reset a profile to a new length. Clear old values.
  */
+/*
 ProfileFrequencies * exportProfileFrequencies( Alignandum * dest ) {
 
 	// clear profile
@@ -528,7 +576,7 @@ ProfileFrequencies * exportProfileFrequencies( Alignandum * dest ) {
 
 	return result;
 }
-
+*/
 
 
 //------------------------------------------------------------------------------------------

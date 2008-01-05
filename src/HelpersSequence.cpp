@@ -154,17 +154,17 @@ Alignandum * readSequence( const char * filename,
 
 const double max_rand = pow(2.0,31) -1;
 
-Residue sampleFromDistribution( const double * histogram ) 
+Residue sampleFromDistribution( const double * histogram, const int width ) 
 {
 	double x = random() / max_rand;
 	double s = 0;
 	Residue i = 0;
-	for (i = 0; i < PROFILEWIDTH; i++) 
+	for (i = 0; i < width; i++) 
 	{
 		s+= histogram[i];
 		if (x < s) return i;
 	}
-	return PROFILEWIDTH - 1;
+	return width - 1;
 }
 
 void setRandomSeed( long seed ) 
@@ -176,6 +176,11 @@ Alignandum * makeMutatedSequence( Alignandum * src,
 		const MutationMatrix * matrix) 
 		{
 
+	assert( matrix->getNumRows() == matrix->getNumCols() );
+	// TODO: check function
+	
+	int width = matrix->getNumRows();
+	
 	// intialize random generator
 	char * buffer = new char[src->getLength() + 1];
 
@@ -186,7 +191,8 @@ Alignandum * makeMutatedSequence( Alignandum * src,
 	for (i = 0, x = 0; i < src->getLength(); i++, x++) 
 	{
 		Residue residue = src->asResidue(i);
-		Residue new_residue = sampleFromDistribution( (*matrix)[residue] );
+		Residue new_residue = sampleFromDistribution( (*matrix)[residue],
+		                                       	width );
 		buffer[x] = translator->decode(new_residue);
 	}
 

@@ -55,9 +55,10 @@ class ImplRegularizor : public Regularizor {
     virtual ~ImplRegularizor ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( FrequencyColumn * frequencies, 
-				  const CountColumn * counts, 
-				  const Position length ) const = 0;
+    virtual void fillFrequencies( Frequency * frequencies, 
+				  const Count * counts, 
+				  const Position length,
+				  const Residue width) const = 0;
 
 };
 

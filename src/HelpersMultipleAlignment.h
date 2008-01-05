@@ -32,7 +32,8 @@
 #include "alignlib.h"
 #include "MultipleAlignment.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
     template<class T> class Matrix;
     typedef Matrix<unsigned int> CountsMatrix;
@@ -77,7 +78,7 @@ namespace alignlib {
 	@param nsequences	number of sequences.
     */
     MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
-					       const char * sequences,
+					       const std::string & sequences,
 					       int nsequences);
     
     /** fill multiple alignment ali from contents of a file, use an Alignatum-object for parsing

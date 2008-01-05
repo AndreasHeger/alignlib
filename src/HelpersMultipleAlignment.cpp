@@ -84,12 +84,14 @@ MultipleAlignment * extractMultipleAlignmentFasta( MultipleAlignment * dest,
   return dest;
 }
  */
-MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, const char * sequences, int nsequences ) 
+MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
+			const std::string & sequences, 
+			int nsequences ) 
 {
 
 	ali->clear();
 
-	int total_length = strlen(sequences);
+	int total_length = sequences.size();
 
 	int length = total_length / nsequences;
 
@@ -97,7 +99,6 @@ MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, const char *
 
 	for (int i = 0; i < total_length; i+= length) 
 	{
-
 		memcpy( buffer, &sequences[i], length);
 		buffer[length] = '\0';
 
@@ -179,32 +180,43 @@ MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
 
 //------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------
-std::string calculateConservation( const MultipleAlignment * mali, Frequency min_frequency) 
+std::string calculateConservation( const MultipleAlignment * mali, 
+		const Translator * translator,
+		Frequency min_frequency) 
 {
 
 	Position row, col, length;
 
 	Regularizor * regularizor = makeNoRegularizor();
 
-	alignlib::Alignandum * profile = makeProfile( mali, NULL, regularizor );
+	alignlib::Alignandum * profile = makeProfile( mali, 
+			translator, 
+			NULL, 
+			regularizor );
 
 	profile->prepare();
 
 	const AlignandumDataProfile & data = (const AlignandumDataProfile &)profile->getData();
-	const FrequencyColumn * frequencies = data.mFrequenciesPointer;
+	const Frequency * frequencies = data.mFrequenciesPointer;
 
 	length = mali->getLength();
-	const Translator * translator = getDefaultTranslator();
 
 	char * buffer = new char[length + 1];
 
-	for (col = 1; col <= length; col++) {
+	Residue width = translator->getAlphabetSize();
+	
+	for (col = 0; col < length; col++) 
+	{
 		Frequency max_frequency = 0;
 		Frequency f;
 		Residue max_residue = translator->getGapCode();
-
-		for (row = 0; row < PROFILEWIDTH; row++) {
-			if ( (f = frequencies[col][row]) > max_frequency && f >= min_frequency) {
+		
+		const Frequency * fcolumn = &frequencies[col * width];
+		for (row = 0; row < width; row++) 
+		{
+			if ( (f = fcolumn[row]) > max_frequency && 
+					f >= min_frequency) 
+			{
 				max_frequency = f;
 				max_residue = row;
 			}
@@ -221,19 +233,26 @@ std::string calculateConservation( const MultipleAlignment * mali, Frequency min
 
 	return seq;
 }
-
+// TODO: sort out categories and alphabet-size
 //------------------------------------------------------------------------------------------------------
-CountsMatrix * makeCountsByCategory( const MultipleAlignment * mali, 
-		const unsigned int * map_residue2category ) {
+CountsMatrix * makeCountsByCategory( 
+		const MultipleAlignment * mali, 
+		const Translator * translator,
+		const unsigned int * map_residue2category ) 
+		{
 
 	Position col, length;
 
 	// build profile. Counts are calculated automatically
 	Regularizor * regularizor = makeNoRegularizor();
-	alignlib::Alignandum * profile = makeProfile( mali, NULL, regularizor );
+	assert( false );
+	alignlib::Alignandum * profile = makeProfile( mali, 
+			translator,
+			NULL, 
+			regularizor );
 
 	const AlignandumDataProfile & data   = (const AlignandumDataProfile &)profile->getData();
-	const CountColumn    * counts = data.mCountsPointer;
+	const Count * counts = data.mCountsPointer;
 
 	length = mali->getLength();
 
@@ -241,21 +260,24 @@ CountsMatrix * makeCountsByCategory( const MultipleAlignment * mali,
 	unsigned int num_categories;
 
 	if (map_residue2category == NULL)
-		num_categories = PROFILEWIDTH;
+		num_categories = 20;
 	else {
 		num_categories = 0;
-		for (unsigned int i = 0; i < PROFILEWIDTH; i++) 
+		for (unsigned int i = 0; i < 20; i++) 
 			if (num_categories < map_residue2category[i]) 
 				num_categories = map_residue2category[i];
 	}
 	num_categories++;
 
 	// allocate and initialize result structure
-	CountsMatrix * result = new CountsMatrix(length+1, num_categories);
+	CountsMatrix * result = new CountsMatrix(length, num_categories);
 
+	Residue width = translator->getAlphabetSize();
+	
 	// go through counts and map counts to classes. Iterate
 	// row-wise, so that mapping has to be done only once.
-	for (unsigned int row = 0; row < PROFILEWIDTH; row++) {
+	for (unsigned int row = 0; row < width; row++) 
+	{
 
 		unsigned int category;
 		if (map_residue2category == NULL)
@@ -264,7 +286,7 @@ CountsMatrix * makeCountsByCategory( const MultipleAlignment * mali,
 			category = map_residue2category[row];
 
 		for (col = 1; col <= length; col++)
-			(*result)[col][category] += (unsigned int)counts[col][row];
+			(*result)[col][category] += (unsigned int)counts[col * width + row];
 	}
 
 	delete regularizor;
@@ -283,14 +305,14 @@ CountsMatrix * makeCountsByCategory( const MultipleAlignment * mali,
     'A': 5, 'I': 5, 'L': 5,'M': 5, 'V': 5,
  */
 
-const unsigned int MapResidue2CategorySurface[PROFILEWIDTH] = { 
+const unsigned int MapResidue2CategorySurface[20] = { 
 		5, 3, 2, 2, 3,     /* A */
 		0, 3, 5, 1, 5,     /* G */  
 		5, 4, 0, 4, 1,     /* M */
 		4, 4, 5, 3, 3,     /* S */
 };
 
-const unsigned int MapResidue2CategoryAll[PROFILEWIDTH] = {
+const unsigned int MapResidue2CategoryAll[20] = {
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 
 };
 

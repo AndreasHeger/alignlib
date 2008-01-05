@@ -30,7 +30,11 @@
 
 #include "LogOddor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
+
+// score for masked columns
+#define MASK_VALUE -10
 
   /** Implementation for objects that onvert frequencies into log-odds scores. Different
       log odds scorer use different background frequencies.
@@ -57,9 +61,10 @@ class ImplLogOddor : public LogOddor {
     virtual ~ImplLogOddor ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
-    virtual void fillProfile( ProfileColumn * profile, 
-			      const FrequencyColumn * frequencies,
-			      const Position length ) const;
+    virtual void fillProfile( Score * profile, 
+			      const Frequency * frequencies,
+			      const Position length,
+			      const Residue width ) const;
 
  private:
     /** array of background frequencies */

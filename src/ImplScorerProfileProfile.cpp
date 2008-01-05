@@ -64,7 +64,7 @@ namespace alignlib
     	s2->getTranslator()->getAlphabetSize() )
     	throw AlignException( "ImplScorerProfileProfile.cpp: alphabet size different in row and col");
         
-    mAlphabetSize = s1->getTranslator()->getAlphabetSize();
+    mProfileWidth = s1->getTranslator()->getAlphabetSize();
   }    
   
   //--------------------------------------------------------------------------------------
@@ -76,7 +76,8 @@ namespace alignlib
   ImplScorerProfileProfile::ImplScorerProfileProfile(const ImplScorerProfileProfile & src) :
     ImplScorer(src),
     mRowProfile( src.mRowProfile ), mRowFrequencies( src.mRowFrequencies ),
-    mColProfile( src.mColProfile ), mColFrequencies( src.mColFrequencies )
+    mColProfile( src.mColProfile ), mColFrequencies( src.mColFrequencies ),
+    mProfileWidth( src.mProfileWidth )
   {
   }
 
@@ -100,9 +101,14 @@ namespace alignlib
   Score ImplScorerProfileProfile::getScore( Position row, Position col ) const
   {
     Score score = 0;
-    for (int i = 0; i < mAlphabetSize; i++ ) 
-      score +=	mRowProfile[row][i] * mColFrequencies[col][i] + 
-	mColProfile[col][i] * mRowFrequencies[row][i];
+    const Score * profile_row = &mRowProfile[row * mProfileWidth ];
+    const Score * profile_col = &mColProfile[col * mProfileWidth ];
+    const Frequency * frequency_row = &mRowFrequencies[row * mProfileWidth ];
+    const Frequency * frequency_col = &mColFrequencies[col * mProfileWidth ];
+    
+    for (int i = 0; i < mProfileWidth; i++ ) 
+      score +=	profile_row[i] * frequency_col[i] + 
+      	profile_col[i] * frequency_row[i];
     
     return score;
   }

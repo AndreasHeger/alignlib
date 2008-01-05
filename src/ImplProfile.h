@@ -32,9 +32,9 @@
 #include "ImplAlignandum.h"
 #include "HelpersProfile.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
- 
 /** 
     Basic implementation for (sequence) profiles, i.e. position specific scoring matrices.
     A profile stores counts, frequencies, and profile-scores for a
@@ -87,15 +87,17 @@ class ImplProfile : public ImplAlignandum
 
     friend Alignandum * normalizeProfileCounts( Alignandum * dest, Count total_weight );
 
-    friend Alignandum * fillProfile( Alignandum * dest, 
-				     const MultipleAlignment * src, 
-				     const Weightor * weightor );
+    friend Alignandum * fillProfile( 
+    		Alignandum * dest, 
+    		const MultipleAlignment * src, 
+    		const Weightor * weightor );
 
     friend Alignandum * resetProfile( Alignandum * dest, Position length );
 
     friend Alignandum * makeProfile( Position length,
-				     const Regularizor *,
-				     const LogOddor *);
+    			const Translator *,
+    			const Regularizor *,
+    			const LogOddor *);
 
     friend ProfileFrequencies * exportProfileFrequencies( Alignandum * dest );
     
@@ -103,7 +105,9 @@ class ImplProfile : public ImplAlignandum
     /* constructors and desctructors------------------------------------------------------- */
 
     /** empty constructor */
-    ImplProfile( const Regularizor * regularizor = NULL, 
+    ImplProfile( 
+    		const Translator * translator = NULL,
+    		const Regularizor * regularizor = NULL, 
     		const LogOddor * logoddor = NULL );	
     
     /** copy constructor */
@@ -153,17 +157,34 @@ class ImplProfile : public ImplAlignandum
     virtual void load( std::istream & input ) ;    
     
  protected:
+	 
+	/** allocate counts for a segment */
+	template< class T>
+	void allocateSegment( T * data ) const;
+	 
+	 /** get row with maximum value per column */
+	template <class T>
+	Residue getMaximumPerColumn( const T * data, const Position & column ) const;
+	
+	/** mask a column */
+	template<class T>
+	void maskColumn( T * data, const Position column );
+	
+	/** write a part of a profile */
+	template<class T>
+	void writeSegment( std::ostream & output, const T * data ) const;
+	
     /** get residue with most counts in column */
-    virtual Residue	   getMaximumCounts( Position column ) const ;
+    virtual Residue	getMaximumCounts( Position column ) const ;
     
     /** get residue with highest positive profile score in column */
-    virtual Residue	   getMaximumProfile ( Position column ) const ;
+    virtual Residue	getMaximumProfile ( Position column ) const ;
 
     /** get residue with highest frequency in column */
-    virtual Residue	   getMaximumFrequencies ( Position column ) const ;
+    virtual Residue	getMaximumFrequencies ( Position column ) const ;
 
     /** allocate memory for counts */
-    virtual void allocateCounts();
+    virtual void allocateCounts() const;
 
     /** allocate memory for frequencies */
     virtual void allocateFrequencies() const;
@@ -174,29 +195,24 @@ class ImplProfile : public ImplAlignandum
     /** save state of object into stream
      */
     virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
-    
-    /*
-      virtual void PrintProfile()     const;
-      virtual void PrintCounts()      const;
-      virtual void PrintFrequencies() const;
-    */
 
-    // changed to protected to allow export of data
- protected:
+    /** width of a profile column */
+    Residue mProfileWidth;
+
     /** pointer to weighter to use for weighting sequences */
-    const Regularizor *  mRegularizor;
+    const Regularizor *mRegularizor;
 
     /** pointer to objects used for calculating log odds scores */
-    const LogOddor *  mLogOddor;
+    const LogOddor *mLogOddor;
 
     /** pointer to the location of the counts stored in memory */
-    mutable CountColumn *mCounts;			
+    mutable Count *mCounts;			
 
     /** pointer to the location of the frequencies stored in memory */
-    mutable FrequencyColumn *mFrequencies;		
+    mutable Frequency *mFrequencies;		
 
     /** pointer to the location of the profile stored in memory */
-    mutable ProfileColumn *mProfile;		
+    mutable Score *mProfile;		
 
     mutable AlignandumDataProfile mData;
 };

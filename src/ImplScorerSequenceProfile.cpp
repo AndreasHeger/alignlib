@@ -57,9 +57,10 @@ namespace alignlib
     
     mRowSequence    = s1->getData().mSequencePointer;
     mColProfile     = s2->getData().mProfilePointer;
+
+    mProfileWidth = s2->getTranslator()->getAlphabetSize();
     
-    if ( s1->getTranslator()->getAlphabetSize() != 
-    	s2->getTranslator()->getAlphabetSize() )
+    if ( s1->getTranslator()->getAlphabetSize() != mProfileWidth ) 
     	throw AlignException( "ImplScorerSequenceProfile.cpp: alphabet size different in row and col");
     
   }    
@@ -73,7 +74,8 @@ namespace alignlib
   ImplScorerSequenceProfile::ImplScorerSequenceProfile(const ImplScorerSequenceProfile & src) :
     ImplScorer(src),
     mRowSequence( src.mRowSequence ),
-    mColProfile( src.mColProfile )
+    mColProfile( src.mColProfile ),
+    mProfileWidth( src.mProfileWidth )
   {
   }
 
@@ -96,7 +98,7 @@ namespace alignlib
    */
   Score ImplScorerSequenceProfile::getScore( Position row, Position col ) const
   {
-	return mColProfile[col][mRowSequence[row]];
+	return mColProfile[mProfileWidth * col + mRowSequence[row]];
   }
   
 }

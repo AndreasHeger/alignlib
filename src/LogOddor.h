@@ -60,9 +60,10 @@ class LogOddor {
     virtual ~LogOddor ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
-    virtual void fillProfile( ProfileColumn * profile, 
-			      const FrequencyColumn * frequencies,
-			      const Position length ) const = 0;
+    virtual void fillProfile( Score * profile, 
+			      const Frequency * frequencies,
+			      const Position length,
+			      const Residue width) const = 0;
 
 };
 

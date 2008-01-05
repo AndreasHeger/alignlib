@@ -29,33 +29,33 @@
 #include "ImplLogOddor.h"
 #include "HelpersLogOddor.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplLogOddor::ImplLogOddor ( const Frequency * f, Score scale_factor) : 
-  mBackgroundFrequencies( f ), mScaleFactor( scale_factor ){
+	mBackgroundFrequencies( f ), 
+	mScaleFactor( scale_factor )
+{
 }
 		       
-ImplLogOddor::~ImplLogOddor () {
+ImplLogOddor::~ImplLogOddor () 
+{
 }
 
-ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) : mScaleFactor (src.mScaleFactor ) {
+ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) : 
+	mScaleFactor (src.mScaleFactor ) 
+{
 }
-
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddor::fillProfile( ProfileColumn * profile ,
-				const FrequencyColumn * frequencies, 
-				const Position length ) const 
+void ImplLogOddor::fillProfile( Score * profile ,
+				const Frequency * frequencies, 
+				const Position length,
+				const Residue width ) const 
 {
   debug_func_cerr(5);
-
 
   // simply take the frequencies and divide by background-frequencies and take log. 
   // For frequencies of 0, MASK_VALUE is used.
@@ -64,11 +64,18 @@ void ImplLogOddor::fillProfile( ProfileColumn * profile ,
   Frequency f;
 
   for (column = 0; column < length; column++) 
-      for (int i = 0; i < PROFILEWIDTH; i++) 
-	if ((f = frequencies[column][i]) > 0)
-	  profile[column][i] = log(f / mBackgroundFrequencies[i]) / mScaleFactor;
-	else
-	  profile[column][i] = MASK_VALUE;
+  {
+	  const Frequency * fcolumn = & frequencies[column * width ];
+	  Score * pcolumn = & profile[column * width ];
+	  
+      for (int i = 0; i < width; ++i)
+      {
+    	  if ((f = fcolumn[i]) > 0)
+    		  pcolumn[i] = log(f / mBackgroundFrequencies[i]) / mScaleFactor;
+    	  else
+    		  pcolumn[i] = MASK_VALUE;
+      }
+  }
 }
 
 } // namespace alignlib

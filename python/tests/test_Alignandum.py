@@ -91,7 +91,7 @@ class ProfileTestCase( AlignandumTestCase ):
     def testMask( self ):
         ## TODO: make this test and the code conforming to use X as mask char
         self.mAlignandum.mask( 3, 7 )
-        self.assertEqual( "AAA----AAA", self.renderSeq() )
+        self.assertEqual( "AAAXXXXAAA", self.renderSeq() )
 
     def testSave(self):
         

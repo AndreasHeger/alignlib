@@ -26,7 +26,8 @@
 #include "ImplLogOddor.h"
 #include "HelpersLogOddor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
   /* these are the background frequencies as they result from the 9-component
      dirichlet mixture of Kimmen Sjoerlander (see file ImplRegularizorDirichlet for
@@ -35,7 +36,7 @@ namespace alignlib {
      The 20 residues in here are sorted alphabetically.
   */
   
-  static const Frequency background[PROFILEWIDTH] = {     
+  static const Frequency background[20] = {     
       0.0804111, 0.0131282, 0.0479706, 0.0651176,  0.035627,
       0.0395005, 0.0229268, 0.0781316, 0.0706055,  0.0984159,
       0.0302298, 0.04398  , 0.0227958, 0.0455504,  0.0520589, 

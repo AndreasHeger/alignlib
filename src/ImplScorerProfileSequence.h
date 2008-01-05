@@ -63,10 +63,12 @@ namespace alignlib
 	  
   protected:
       /** pointer to member data of row/col : AlignandumSequence */
-      const FrequencyColumn * mRowFrequencies;
-      const ProfileColumn * mRowProfile;
+      const Score * mRowProfile;
       
-      const Residue * mColSequence; 
+      const Residue * mColSequence;
+      
+      /** the profile width */
+      Residue mProfileWidth;
 
   };
   

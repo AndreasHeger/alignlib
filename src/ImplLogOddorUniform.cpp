@@ -27,7 +27,8 @@
 
 namespace alignlib 
 {
-  static const Frequency background[PROFILEWIDTH] = 
+//TODO: sort out logoddor - necessary?
+  static const Frequency background[20] = 
   {     
     0.05, 0.05, 0.05, 0.05, 0.05, 0.05 , 0.05, 0.05 , 0.05, 0.05 , 
     0.05, 0.05, 0.05, 0.05 ,0.05, 0.05 , 0.05, 0.05 , 0.05, 0.05 
