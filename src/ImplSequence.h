@@ -37,10 +37,6 @@ namespace alignlib
 
     class Alignment;
 
-struct AlignandumDataSequence : public AlignandumData 
-{
-  Residue * mSequencePointer;
-};
     /** A class for sequences, that are to be aligned. Instances of this
 	class are created by factory functions. This class implements the
 	part of the interface, that has not been implemented by IAlignandum
@@ -76,18 +72,11 @@ class ImplSequence : public ImplAlignandum
     /** return an identical copy of this object */
     virtual Alignandum * getClone() const;
 
-    /** return a pointer to the member data of this sequence */
-    virtual const AlignandumDataSequence & getData() const;
-
     /** get internal representation of residue in position pos */
     virtual Residue asResidue( Position pos ) const;
     
     /** mask column at position x */
     virtual void mask( Position x);
-
-    /** shuffle object */
-    virtual void shuffle( unsigned int num_iterations = 1,
-			  Position window_size = 0);
 
     /* Mutators ------------------------------------------------------------------------------ */
     
@@ -105,6 +94,11 @@ class ImplSequence : public ImplAlignandum
      */
     virtual void load( std::istream & input ) ;
     
+    /** export functions for Scorer objects */
+    virtual const Residue * getSequence() const ;
+    
+    /** swap two residues */
+    virtual void swap( const Position & x, const Position & y);
     
  protected:
 
@@ -117,8 +111,6 @@ class ImplSequence : public ImplAlignandum
  public:
 
  protected:
-    /** where I store my member data */
-    mutable AlignandumDataSequence mData;				
 
     /** The actual sequence is here*/
     Residue * mSequence;

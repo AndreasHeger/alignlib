@@ -45,13 +45,10 @@
 #include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //---------------------------------------------------------------------------------------------------
 inline Diagonal calculateDiagonal( const ResiduePAIR & p) { return (p.mCol - p.mRow); }

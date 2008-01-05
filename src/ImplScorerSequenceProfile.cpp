@@ -55,8 +55,8 @@ namespace alignlib
     if (!s2)
       throw AlignException( "ImplScoreSequenceProfile.cpp: col not a profile.");
     
-    mRowSequence    = s1->getData().mSequencePointer;
-    mColProfile     = s2->getData().mProfilePointer;
+    mRowSequence    = s1->getSequence();
+    mColProfile     = s2->getScoreMatrix();
 
     mProfileWidth = s2->getTranslator()->getAlphabetSize();
     
@@ -98,7 +98,7 @@ namespace alignlib
    */
   Score ImplScorerSequenceProfile::getScore( Position row, Position col ) const
   {
-	return mColProfile[mProfileWidth * col + mRowSequence[row]];
+	return mColProfile->getValue( col, mRowSequence[row] );
   }
   
 }

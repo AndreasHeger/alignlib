@@ -48,61 +48,38 @@ namespace alignlib
 {
 
 //---------------------------------------> constructors and destructors <--------------------------------------
+// The constructor is potentially empty, so that this object can be read from file.
 ImplProfile::ImplProfile( const Translator * translator, 
 		const Regularizor * regularizor, 
 		const LogOddor * logoddor ) :
 			ImplAlignandum( translator ),
 			mRegularizor( regularizor ),
 			mLogOddor( logoddor ),
-			mCounts(NULL), mFrequencies(NULL), mProfile(NULL) 
-			{
-
-	if (regularizor == NULL) 
-		mRegularizor = getDefaultRegularizor();
-
-	if (logoddor == NULL)
-		mLogOddor = getDefaultLogOddor();
-
-			}
-
-const AlignandumDataProfile & ImplProfile::getData() const 
+			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
+			mProfileWidth( 0 )
 {
-	mData.mCountsPointer		= mCounts;
-	mData.mFrequenciesPointer	= mFrequencies;
-	mData.mProfilePointer		= mProfile;
-	return mData;
+	allocateCounts();
 }
-
+	
 //---------------------------------------------------------------------------------------------------------------
 ImplProfile::ImplProfile(const ImplProfile & src ) : ImplAlignandum( src ), 
 	mRegularizor( src.mRegularizor ),
 	mLogOddor( src.mLogOddor),  
-	mCounts(NULL), 
-	mFrequencies(NULL), 
-	mProfile(NULL) 
+	mCountMatrix(NULL), 
+	mFrequencyMatrix(NULL), 
+	mScoreMatrix(NULL),
+	mProfileWidth(src.mProfileWidth)
 {
 	debug_func_cerr(5);
 
-	// the first column is empty, so copy one more column
-	Position copy_length = getFullLength(); 
+	if (src.mCountMatrix != NULL) 
+		mCountMatrix = new CountMatrix( *src.mCountMatrix );		
 
-	if (src.mCounts != NULL) 
-	{
-		allocateCounts();
-		memcpy( mCounts, src.mCounts, sizeof(Count) * mProfileWidth * copy_length);
-	}
-	if (src.mFrequencies != NULL) 
-	{
-		allocateFrequencies();
-		memcpy( mFrequencies, src.mFrequencies, sizeof(Frequency) * mProfileWidth * copy_length);
-	}
-
-	if (src.mProfile != NULL) 
-	{
-		allocateProfile();
-		memcpy( mProfile, src.mProfile, sizeof(Score) * mProfileWidth * copy_length);
-	}
-
+	if (src.mFrequencyMatrix != NULL) 
+		mFrequencyMatrix = new FrequencyMatrix( *src.mFrequencyMatrix );
+	
+	if (src.mScoreMatrix != NULL) 
+		mScoreMatrix = new ScoreMatrix( *src.mScoreMatrix );
 }
 
 //---------------------------------------------------------------------------------------------------------------
@@ -110,12 +87,12 @@ ImplProfile::~ImplProfile()
 {
 	debug_func_cerr(5);
 
-	if (mCounts != NULL)
-	{ delete [] mCounts; mCounts = NULL; }
-	if (mFrequencies != NULL)
-	{ delete [] mFrequencies; mFrequencies = NULL; }
-	if (mProfile != NULL)
-	{ delete [] mProfile; mProfile = NULL; }
+	if (mCountMatrix != NULL)
+		{ delete mCountMatrix; mCountMatrix = NULL; }
+	if (mFrequencyMatrix != NULL)
+		{ delete mFrequencyMatrix; mFrequencyMatrix = NULL; }
+	if (mScoreMatrix != NULL)
+		{ delete mScoreMatrix; mScoreMatrix = NULL; }
 }
 
 //--------------------------------------------------------------------------------------
@@ -124,91 +101,117 @@ ImplProfile * ImplProfile::getClone() const
 	return new ImplProfile( *this );
 }
 
+//--------------------------------------------------------------------------------------
+CountMatrix * ImplProfile::getCountMatrix() const
+{
+	return mCountMatrix;
+}
+
+//--------------------------------------------------------------------------------------
+FrequencyMatrix * ImplProfile::getFrequencyMatrix() const
+{
+	return mFrequencyMatrix;
+}
+
+//--------------------------------------------------------------------------------------
+ScoreMatrix * ImplProfile::getScoreMatrix() const
+{
+	return mScoreMatrix;
+}
+
+
 //---------------------------------------------------------------------------------------------------------------
 template< class T>
-void ImplProfile::allocateSegment( T * data ) const
+Matrix<T> * ImplProfile::allocateSegment( Matrix<T> * data ) const
 {
 	debug_func_cerr(5);
 
 	if (data != NULL)
-		delete [] data;
-	data = NULL;
-
-	Position length = getFullLength();
-
-	data = new T[length * mProfileWidth];
-
-	int i, j;
-	for (i = 0; i < length * mProfileWidth; i++ )
-		data[i] = 0;
+		delete data;
+	data = new Matrix<T>( getFullLength(), mProfileWidth, 0 );
+	return data;
 }
 
 //---------------------------------------------------------------------------------------------------------------
 void ImplProfile::allocateCounts() const
 {
 	debug_func_cerr(5);
-	allocateSegment<Count>( mCounts );
+	if (mTranslator == NULL )
+		throw AlignException("ImpProfile.cpp: defining a profile without a translator." );
+				
+	mProfileWidth = mTranslator->getAlphabetSize();
+	
+	mCountMatrix = allocateSegment<Count>( mCountMatrix );
 }              
 
 //---------------------------------------------------------------------------------------------------------------
-void ImplProfile::allocateProfile() const 
+void ImplProfile::allocateScores() const 
 {
 	debug_func_cerr(5);
-	allocateSegment<Score>( mProfile );
+	mScoreMatrix = allocateSegment<Score>( mScoreMatrix );
 }
 
 //---------------------------------------------------------------------------------------------------------------
 void ImplProfile::allocateFrequencies() const 
 {
 	debug_func_cerr(5);
-	allocateSegment<Score>( mProfile );
+	mFrequencyMatrix = allocateSegment<Frequency>( mFrequencyMatrix );
 }
 
 //---------------------------------------------------------------------------------------------------------------
 template<class T>
-Residue ImplProfile::getMaximumPerColumn( const T * data, 
+Residue ImplProfile::getMaximumPerColumn( const Matrix<T> * data, 
 										  const Position & column ) const
 {
-	Count max = 0;
-	Residue max_i = getDefaultTranslator()->getGapCode();
+	assert( data != NULL );
+	
+	T max = std::numeric_limits<T>::min();
+	Residue max_i = 0;
 
-	Count * col = &mCounts[column * mProfileWidth];
-	for (int i = 0; i < mProfileWidth; i++) 
+	T * col = data->getRow( column );
+	for (Residue i = 0; i < mProfileWidth; ++i) 
 	{
 		if (col[i] > max) 
 		{
-			max   = col[i];
+			max = col[i];
 			max_i = i;
 		}
 	}  
+	
+	if (max == 0)
+		return mTranslator->getMaskCode();
+	
 	return max_i;
 }
 
 //---------------------------------------------------------------------------------------------------------------
-Residue ImplProfile::getMaximumCounts( const Position column ) const 
+Residue ImplProfile::getMaximumCount( const Position column ) const 
 {
-	return getMaximumPerColumn<Count>( mCounts, column );
+	debug_func_cerr(5);
+	return getMaximumPerColumn<Count>( mCountMatrix, column );
 }
 
 //---------------------------------------------------------------------------------------------------------------
-Residue ImplProfile::getMaximumFrequencies( const Position column ) const 
+Residue ImplProfile::getMaximumFrequency( const Position column ) const 
 {
-	return getMaximumPerColumn<Frequency>( mFrequencies, column );
+	debug_func_cerr(5);
+	return getMaximumPerColumn<Frequency>( mFrequencyMatrix, column );
 }
 
 //---------------------------------------------------------------------------------------------------------------
-Residue ImplProfile::getMaximumProfile( const Position column ) const 
+Residue ImplProfile::getMaximumScore( const Position column ) const 
 {
-	return getMaximumPerColumn<Score>( mProfile, column );
+	debug_func_cerr(5);	
+	return getMaximumPerColumn<Score>( mScoreMatrix, column );
 }
 
 //---------------------------------------------------------------------------------------------------------------
 template<class T>
-void ImplProfile::maskColumn( T * data, const Position column )
+void ImplProfile::maskColumn( Matrix<T> * data, const Position column )
 {
 	if (data == NULL) return;
 		
-	T * col = &data[column * mProfileWidth ];
+	T * col = data->getRow( column );
 	for (int i = 0; i < mProfileWidth; i++) 
 		col[i] = 0;
 }
@@ -216,18 +219,15 @@ void ImplProfile::maskColumn( T * data, const Position column )
 //---------------------------------------------------------------------------------------------------------------
 void ImplProfile::mask( const Position column) 
 {
-	maskColumn<Count>( mCounts, column);
-	maskColumn<Frequency>( mFrequencies, column);
-	maskColumn<Score>( mProfile, column);
+	maskColumn<Count>( mCountMatrix, column);
+	maskColumn<Frequency>( mFrequencyMatrix, column);
+	maskColumn<Score>( mScoreMatrix, column);
 }
 
 //---------------------------------------------------------------------------------------------------------------
 Residue ImplProfile::asResidue( const Position column ) const 
 {
-	if (mCounts) 
-		return getMaximumCounts( column );
-
-	return getDefaultTranslator()->getGapCode();
+	return getMaximumCount( column );
 }
 
 //--------------------------------------------------------------------------------------
@@ -236,22 +236,16 @@ void ImplProfile::prepare() const
 	debug_func_cerr(5);
 
 	// do nothing, when a profile and frequencies already exist.
-	if (!mFrequencies) 
+	if (mFrequencyMatrix == NULL) 
 	{
 		allocateFrequencies();
-		mRegularizor->fillFrequencies( mFrequencies, 
-				mCounts, 
-				getFullLength(), 
-				mProfileWidth );
+		mRegularizor->fillFrequencies( mFrequencyMatrix, mCountMatrix ); 
 	}
 
-	if (!mProfile) 
+	if (!mScoreMatrix) 
 	{
-		allocateProfile();
-		mLogOddor->fillProfile( mProfile, 
-				mFrequencies, 
-				getFullLength(),
-				mProfileWidth); 
+		allocateScores();
+		mLogOddor->fillProfile( mScoreMatrix, mFrequencyMatrix );
 	}
 	setPrepared( true );
 }
@@ -259,76 +253,41 @@ void ImplProfile::prepare() const
 //--------------------------------------------------------------------------------------
 void ImplProfile::release() const 
 {
-	if (mFrequencies != NULL)
+	debug_func_cerr(5);
+	
+	if (mFrequencyMatrix != NULL)
 	{
-		delete [] mFrequencies;
-		mFrequencies = NULL;
+		delete [] mFrequencyMatrix;
+		mFrequencyMatrix = NULL;
 	}
-	if (mProfile != NULL)
+	if (mScoreMatrix != NULL)
 	{
-		delete [] mProfile;
-		mProfile = NULL;
+		delete [] mScoreMatrix;
+		mScoreMatrix = NULL;
 	}
 	setPrepared(false);
 }
 
 //--------------------------------------------------------------------------------------
-void ImplProfile::shuffle( unsigned int num_iterations,
-		Position window_size) 
+void ImplProfile::swap( const Position & x, const Position & y )
 {
-
-	if (window_size == 0)
-		window_size = getLength();
-
-	Position first_from = getFrom();
-	Count buffer[mProfileWidth];
-
-	for (unsigned x = 0; x < num_iterations; x++) 
-	{ 
-
-		Position i,j;
-		Position to = getTo();
-
-		while (to > first_from ) 
-		{
-			Position from = to - window_size;
-
-			if (from < 1) 
-			{
-				from = 1;
-				window_size = to;
-			}
-
-			for (i = to; i >= from; i--) 
-			{
-				j = to - getRandomPosition(window_size) - 1;
-				memcpy(buffer, 
-						&mCounts[i * mProfileWidth], 
-						mProfileWidth * sizeof(mCounts));
-				memcpy(&mCounts[i*mProfileWidth], 
-						&mCounts[j*mProfileWidth], 
-						mProfileWidth * sizeof(mCounts));
-				memcpy(&mCounts[j*mProfileWidth], 
-						buffer, 
-						mProfileWidth * sizeof(mCounts));
-			}
-
-			to -= window_size;
-		}
-	}
-	this->release();
+	mCountMatrix->swapRows( x, y );
+	if (mFrequencyMatrix != NULL)
+		mFrequencyMatrix->swapRows( x, y );
+	if (mCountMatrix != NULL)
+		mCountMatrix->swapRows( x, y );
 }
 
 //--------------------------------------------------------------------------------------
 template<class T>
-void ImplProfile::writeSegment( std::ostream & output, const T * data ) const
+void ImplProfile::writeSegment( std::ostream & output, const Matrix<T> * data ) const
 {
 	if (data == NULL) return;
 	
 	for (int i = 0; i < getLength(); i++) 
 	{
 		output << setw(2) << i << "\t";
-		const T * column = &data[ i * mProfileWidth ];		
+		const T * column = data->getRow( i );		
 		for (Residue j = 0; j < mProfileWidth; j++) 
 			output << setw(6) << setprecision(2) << column[j];
 		output << endl;
@@ -341,30 +300,30 @@ void ImplProfile::write( std::ostream & output ) const
 
 	output.setf( ios::fixed );
 
-	if (mCounts) 
+	if (mCountMatrix) 
 	{
 		output << "----------->counts<----------------------------------------" << endl;
-		writeSegment<Count>( output, mCounts );
+		writeSegment<Count>( output, mCountMatrix );
 	}
 	else 
 	{
 		output << "----------->no counts available<---------------------------" << endl;
 	}
 
-	if (mFrequencies) 
+	if (mFrequencyMatrix) 
 	{
 		output << "----------->frequencies<-----------------------------------" << endl;
-		writeSegment<Frequency>( output, mFrequencies );
+		writeSegment<Frequency>( output, mFrequencyMatrix );
 	}
 	else 
 	{
 		output << "----------->no frequencies available<----------------------" << endl;
 	}
 
-	if (mProfile) 
+	if (mScoreMatrix) 
 	{
 		output << "----------->profile<---------------------------------------" << endl;
-		writeSegment<Score>( output, mProfile );		
+		writeSegment<Score>( output, mScoreMatrix );		
 	} 
 	else 
 	{
@@ -382,12 +341,14 @@ void ImplProfile::__save( std::ostream & output, MagicNumberType type ) const
 	ImplAlignandum::__save( output, type );
 
 	output.write( (char*)&mProfileWidth, sizeof(Residue) );
+
+	size_t size = getFullLength() * mProfileWidth;
 	
-	output.write( (char*)mCounts, sizeof(Count) * getFullLength() * mProfileWidth );
+	output.write( (char*)mCountMatrix->getData(), sizeof(Count) * size);
 	if (isPrepared() )
 	{
-		output.write( (char*)mFrequencies, sizeof(Frequency) * getFullLength() * mProfileWidth );
-		output.write( (char*)mProfile, sizeof(Score) * getFullLength() * mProfileWidth );	
+		output.write( (char*)mFrequencyMatrix->getData(), sizeof(Frequency) * size);
+		output.write( (char*)mScoreMatrix->getData(), sizeof(Score) * size );	
 	}		
 }
 
@@ -398,8 +359,11 @@ void ImplProfile::load( std::istream & input)
 
 	input.read( (char*)&mProfileWidth, sizeof( Residue ) );
 	
-	allocateCounts();	
-	input.read( (char*)mCounts, sizeof( Count) * getFullLength() * mProfileWidth);
+	allocateCounts();
+	
+	size_t size = getFullLength() * mProfileWidth;
+	input.read( (char*)mCountMatrix->getData(), 
+			sizeof( Count) * size );
 
 	if (input.fail() ) 
 		throw AlignException( "incomplete profile in stream.");
@@ -407,12 +371,12 @@ void ImplProfile::load( std::istream & input)
 	if (isPrepared() )
 	{
 		allocateFrequencies();
-		input.read( (char*)mFrequencies, 
-				sizeof( Frequency) * getFullLength() * mProfileWidth );
-		allocateProfile();
-		input.read( (char*)mProfile, 
-				sizeof(Score) * getFullLength() * mProfileWidth );	
-	}		
+		input.read( (char*)mFrequencyMatrix->getData(), 
+				sizeof( Frequency) * size );
+		allocateScores();
+		input.read( (char*)mScoreMatrix->getData(), 
+				sizeof(Score) * size );
+	}
 }
 
 //--------------------------------------> I/O <------------------------------------------------------------

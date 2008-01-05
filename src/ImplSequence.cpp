@@ -97,13 +97,6 @@ Residue ImplSequence::asResidue(Position n) const
 }
 
 //--------------------------------------------------------------------------------------
-const AlignandumDataSequence & ImplSequence::getData() const 
-{
-	mData.mSequencePointer = mSequence;
-	return mData;
-}
-
-//--------------------------------------------------------------------------------------
 void ImplSequence::prepare() const 
 {
 }
@@ -119,45 +112,17 @@ void ImplSequence::mask( Position x)
 	mSequence[ x ] = mTranslator->getMaskCode();
 }
 
-
 //--------------------------------------------------------------------------------------
-void ImplSequence::shuffle( unsigned int num_iterations, Position window_size ) 
+const Residue * ImplSequence::getSequence() const 
 {
-
-	if (window_size == 0)
-		window_size = getLength();
-
-	Position first_from = getFrom();
-
-	for (unsigned x = 0; x < num_iterations; x++) 
-	{ 
-
-		Position i,j;
-		Position to = getTo();
-
-		while (to > first_from ) 
-		{
-			Position from = to - window_size;
-
-			if (from < 1) 
-			{
-				from = 1;
-				window_size = to;
-			}
-
-			for (i = to; i > from; i--) 
-			{
-				j = to - getRandomPosition(window_size) - 1;
-				Residue x = mSequence[j];
-				mSequence[j] = mSequence[i];
-				mSequence[i] = x;
-			}
-
-			to -= window_size;
-		}
-	}
+	return mSequence;
 }
 
+//--------------------------------------------------------------------------------------
+void ImplSequence::swap( const Position & x, const Position & y )
+{
+	std::swap( mSequence[x], mSequence[y] );
+}
 
 //--------------------------------------------------------------------------------------
 void ImplSequence::write( std::ostream & output ) const 

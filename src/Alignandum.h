@@ -31,15 +31,15 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "Matrix.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** this is an empty class definition, that will be subclassed by other descendents
     of Alignandum. I have to do this, so that there will be no warning messages. This
     class contains handles (const pointers) to the member data of Alignandum objects.
  */
-
-struct AlignandumData{};
 
 /** 
     Base class for objects that are to be aligned, typically sequences or profiles.
@@ -115,10 +115,6 @@ public:
 	 * profiles. */
 	virtual bool isPrepared() const = 0;	
 
-	/** returns a structure that can be used to access internal data.
-	 */
-	virtual const AlignandumData & getData() const = 0;
-
 	/** get internal representation of residue in position pos 
 	 */
 	virtual Residue asResidue( Position pos ) const = 0;
@@ -142,6 +138,9 @@ public:
 	virtual void shuffle( unsigned int num_iterations = 1,
 			Position window_size = 0 ) = 0;
 
+    /** swap two positions */
+    virtual void swap( const Position & x, const Position & y ) = 0;
+	
 	/* Mutators ------------------------------------------------------------------------------ */
 
 	/** load data into cache, if cacheable type */

@@ -56,22 +56,13 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include "Alignandum.h"
 
 using namespace std;
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace alignlib;
 
 // typedef enum MODE { PAIR, MATRIX };
-
-
-
 bool testPairwiseAlignment(int test_id,
 		alignlib::Alignator * a, 
 		const Alignandum * benchmark_row,

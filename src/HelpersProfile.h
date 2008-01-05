@@ -29,9 +29,10 @@
 
 #include <string>
 #include "alignlib.h"
-#include "Alignandum.h"
+#include "alignlib_fwd.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
     /** Helper functions for class Alignment:
 	
@@ -41,25 +42,7 @@ namespace alignlib {
 	
 	3. convenience functions
     */
-
     
-    class MultipleAlignment;
-    class Weightor;
-    class Regularizor;
-    class LogOddor;
-    class Alignment;
-    class Alignandum; 
-
-    // note: the first column is in 1, not in 0
-    /** @short data structure for exporting profile data
-     */
-    struct AlignandumDataProfile : public AlignandumData 
-    {
-      Count * mCountsPointer;
-      Frequency * mFrequenciesPointer;
-      Score * mProfilePointer;
-    };
-
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 

@@ -23,18 +23,10 @@
 #include <iostream>
 #include <iomanip>
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
-
-  
-
-//--------------------------------------------------------------------------------------------------------------------------------
-
+namespace alignlib 
+{
 } // namespace alignlib
 
 

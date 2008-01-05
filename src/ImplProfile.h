@@ -29,9 +29,12 @@
 
 #include <iosfwd>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+
 #include "ImplAlignandum.h"
 #include "HelpersProfile.h"
 
+#include "Matrix.h"
 namespace alignlib 
 {
 
@@ -49,12 +52,6 @@ namespace alignlib
     @version $Id: ImplProfile.h,v 1.3 2004/01/07 14:35:35 aheger Exp $
     @short base class for profiles
 */
-
-class Weightor;
-class Regularizor;
-class LogOddor;
-class MultipleAlignment;
-class Alignment;
 
 class ImplProfile : public ImplAlignandum 
 {
@@ -119,10 +116,6 @@ class ImplProfile : public ImplAlignandum
     /** return an identical copy of this object */
     virtual ImplProfile * getClone() const;
 
-    /*------------------------------------------------------------------------------------ */
-    /** return a pointer to the member data of this sequence */
-    virtual const AlignandumDataProfile & getData() const;
-
     /** get internal representation of residue in position pos */
     virtual Residue asResidue( Position pos ) const;
     
@@ -148,56 +141,67 @@ class ImplProfile : public ImplAlignandum
      */
     virtual void write( std::ostream & output ) const;
 
-    /** shuffle object */
-    virtual void shuffle( unsigned int num_iterations = 1,
-			  Position window_size = 0);
+    /** swap two positions in the profile */
+    virtual void swap( const Position & x, const Position & y );
     
     /** save state of object into stream
      */
     virtual void load( std::istream & input ) ;    
     
+    /** export member data for Scorer and filler objects */
+    virtual ScoreMatrix * getScoreMatrix() const ;
+    virtual FrequencyMatrix * getFrequencyMatrix() const ;
+    virtual CountMatrix * getCountMatrix() const;
+    
  protected:
 	 
 	/** allocate counts for a segment */
 	template< class T>
-	void allocateSegment( T * data ) const;
+	Matrix<T> * allocateSegment( Matrix<T> * data ) const;
 	 
 	 /** get row with maximum value per column */
 	template <class T>
-	Residue getMaximumPerColumn( const T * data, const Position & column ) const;
+	Residue getMaximumPerColumn( const Matrix<T> * data, const Position & column ) const;
 	
 	/** mask a column */
 	template<class T>
-	void maskColumn( T * data, const Position column );
+	void maskColumn( Matrix<T> * data, const Position column );
 	
 	/** write a part of a profile */
 	template<class T>
-	void writeSegment( std::ostream & output, const T * data ) const;
+	void writeSegment( std::ostream & output, const Matrix<T> * data ) const;
 	
     /** get residue with most counts in column */
-    virtual Residue	getMaximumCounts( Position column ) const ;
+    virtual Residue	getMaximumCount( Position column ) const ;
     
     /** get residue with highest positive profile score in column */
-    virtual Residue	getMaximumProfile ( Position column ) const ;
+    virtual Residue	getMaximumScore( Position column ) const ;
 
     /** get residue with highest frequency in column */
-    virtual Residue	getMaximumFrequencies ( Position column ) const ;
+    virtual Residue	getMaximumFrequency( Position column ) const ;
 
-    /** allocate memory for counts */
+    /** allocate memory for counts 
+     * 
+     * Also sets the width of the profile.
+     * */
     virtual void allocateCounts() const;
 
     /** allocate memory for frequencies */
     virtual void allocateFrequencies() const;
-    
+   
     /** allocate memory for the profile */
-    virtual void allocateProfile() const;
+    virtual void allocateScores() const;
 
     /** save state of object into stream
      */
     virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
 
-    /** width of a profile column */
-    Residue mProfileWidth;
+    /** width of a profile column 
+     * 
+     * This width is set from the alphabet size of the translator and is set if 
+     * allocateCounts() is called.
+     * */
+    mutable Residue mProfileWidth;
 
     /** pointer to weighter to use for weighting sequences */
     const Regularizor *mRegularizor;
@@ -206,15 +210,14 @@ class ImplProfile : public ImplAlignandum
     const LogOddor *mLogOddor;
 
     /** pointer to the location of the counts stored in memory */
-    mutable Count *mCounts;			
+    mutable CountMatrix *mCountMatrix;			
 
     /** pointer to the location of the frequencies stored in memory */
-    mutable Frequency *mFrequencies;		
+    mutable FrequencyMatrix *mFrequencyMatrix;		
 
     /** pointer to the location of the profile stored in memory */
-    mutable Score *mProfile;		
+    mutable ScoreMatrix *mScoreMatrix;		
 
-    mutable AlignandumDataProfile mData;
 };
  
 

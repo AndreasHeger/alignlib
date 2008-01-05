@@ -31,6 +31,7 @@
 #include <string>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
@@ -43,14 +44,6 @@ namespace alignlib
 	
 	3. convenience functions
     */
-
-    
-    class Alignandum;
-    class Translator;
-    
-    /* defintion of matrix for mutating a sequence */
-    template<class T> class Matrix;
-    typedef Matrix<double> MutationMatrix;
 
     /* -----------------------------------------------------------------------------------------*/
     /* 1. factory functions */

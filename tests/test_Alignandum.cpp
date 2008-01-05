@@ -58,16 +58,21 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 	assert( a->asString() == sample );
 
 	// check that useSegment does not interfere with output
-	Position from = 1;
-	Position to = sample.size() -1;
-	a->useSegment( from, to);
-	assert( a->getFrom() == from);
-	assert( a->getTo() == to );
-	for ( int x = 0; x < sample.size(); ++x)
-		assert( a->asChar(x) == sample[x]);
-
-	assert( a->asString() == sample );
-
+	{
+		std::auto_ptr<Alignandum>clone(a->getClone());
+		Position from = 0;
+		Position to = sample.size();
+		clone->useSegment( from, to);
+		assert( clone->getFrom() == from);
+		assert( clone->getTo() == to );
+		for ( int x = 0; x < sample.size(); ++x)
+		{
+			assert( clone->asChar(x) == sample[x]);
+		}
+		assert( clone->asString() == sample );
+	}	
+	
+	
 	// check saving/loading from stream.
 	{
 		ofstream file("test_Alignandum.tmp", ios::binary);
@@ -88,9 +93,20 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 			assert( a->getTo() == a->getTo() );
 			assert( a->asString() == b->asString() );
 			++n; 
+			delete b;
 		}
 		assert( n == 2 );
 	}
+	
+	// check masking
+	{
+		std::auto_ptr<Alignandum>clone(a->getClone());
+		
+		a->mask( 0, a->getLength() );
+		std::cout << a->getLength() << a->asString() << std::endl;
+	}
+
+	
 }
 
 

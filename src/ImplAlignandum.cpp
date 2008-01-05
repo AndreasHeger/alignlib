@@ -114,7 +114,8 @@ Position ImplAlignandum::getTo() const
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::setTrueLength( Position length) const 
 {
-	mLength = length;
+	mFrom = 0;
+	mTo = mLength = length;
 }
 
 //--------------------------------------------------------------------------------------
@@ -141,6 +142,47 @@ char ImplAlignandum::asChar( Position pos ) const
 	return mTranslator->decode( asResidue( pos ));
 }
 
+//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------
+/** get a random position in a sequence ranging from 0 to max */
+inline Position getRandomPosition ( Position max ) 
+{
+	return (Position)((double)max*rand()/(RAND_MAX+1.0));
+}
+
+void ImplAlignandum::shuffle( unsigned int num_iterations,
+		Position window_size) 
+{
+	if (window_size == 0)
+		window_size = getLength();
+
+	Position first_from = getFrom();
+
+	for (unsigned x = 0; x < num_iterations; x++) 
+	{ 
+
+		Position i,j;
+		Position to = getTo();
+
+		while (to > first_from ) 
+		{
+			Position from = to - window_size;
+
+			if (from < 1) 
+			{
+				from = 1;
+				window_size = to;
+			}
+
+			for (i = to; i >= from; i--) 
+			{
+				j = to - getRandomPosition(window_size) - 1;
+				swap( i, j );
+			}
+			to -= window_size;
+		}
+	}
+}
 
 //--------------------------------------------------------------------------------------
 // use faster implementations in subclasses, if you prefer

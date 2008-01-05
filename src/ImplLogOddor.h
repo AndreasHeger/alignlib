@@ -47,7 +47,8 @@ namespace alignlib
       
   */
     
-class ImplLogOddor : public LogOddor {
+class ImplLogOddor : public LogOddor 
+{
  public:
     // constructors and desctructors
 
@@ -61,10 +62,8 @@ class ImplLogOddor : public LogOddor {
     virtual ~ImplLogOddor ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
-    virtual void fillProfile( Score * profile, 
-			      const Frequency * frequencies,
-			      const Position length,
-			      const Residue width ) const;
+    virtual void fillProfile( ScoreMatrix * profile, 
+			      const FrequencyMatrix * frequencies ) const;
 
  private:
     /** array of background frequencies */

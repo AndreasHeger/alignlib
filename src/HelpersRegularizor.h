@@ -30,8 +30,11 @@
 
 #include "alignlib.h"
 
-namespace alignlib {
-    
+namespace alignlib 
+{
+
+	class Regularizor;
+
     /** Helper functions for class Alignment:
 	
 	1. factory functions

@@ -63,7 +63,7 @@ namespace alignlib
 	  
   protected:
       /** pointer to member data of row/col : AlignandumSequence */
-      const Score * mRowProfile;
+      const ScoreMatrix * mRowProfile;
       
       const Residue * mColSequence;
       

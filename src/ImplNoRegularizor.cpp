@@ -51,11 +51,10 @@ ImplNoRegularizor::ImplNoRegularizor (const ImplNoRegularizor & src )
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplNoRegularizor::fillFrequencies( Frequency * frequencies, 
-					 const Count * counts, 
-					 const Position length,
-					 const Residue width ) const 
-{
+void ImplNoRegularizor::fillFrequencies( FrequencyMatrix * frequencies, 
+					 const CountMatrix * counts ) const
+					 {
+
   debug_func_cerr(5);
   
   // simply calculate frequencies
@@ -64,12 +63,15 @@ void ImplNoRegularizor::fillFrequencies( Frequency * frequencies,
   Count ntotal;
   int i;
 
+  Position width = frequencies->getNumCols();
+  Position length = frequencies->getNumRows();
+  
   for (column = 0; column < length; ++column) 
   {
     ntotal = 0;
  
-    const Count * counts_column = &counts[column];
-    Frequency * frequency_column = &frequencies[column];
+    const Count * counts_column = counts->getRow(column);
+    Frequency * frequency_column = frequencies->getRow(column);
     
     for (i = 0; i < width; i ++)
       ntotal += counts_column[i];

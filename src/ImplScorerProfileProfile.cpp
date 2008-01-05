@@ -54,11 +54,11 @@ namespace alignlib
     if (!s2)
       throw AlignException( "ImplScoreProfileProfile.cpp: col not a profile.");
     
-    mRowProfile     = s1->getData().mProfilePointer;
-    mRowFrequencies = s1->getData().mFrequenciesPointer;    
+    mRowProfile     = s1->getScoreMatrix();
+    mRowFrequencies = s1->getFrequencyMatrix();
     
-    mColProfile     = s2->getData().mProfilePointer;
-    mColFrequencies = s2->getData().mFrequenciesPointer;        
+    mColProfile     = s2->getScoreMatrix();
+    mColFrequencies = s2->getFrequencyMatrix();
 
     if ( s1->getTranslator()->getAlphabetSize() != 
     	s2->getTranslator()->getAlphabetSize() )
@@ -101,10 +101,10 @@ namespace alignlib
   Score ImplScorerProfileProfile::getScore( Position row, Position col ) const
   {
     Score score = 0;
-    const Score * profile_row = &mRowProfile[row * mProfileWidth ];
-    const Score * profile_col = &mColProfile[col * mProfileWidth ];
-    const Frequency * frequency_row = &mRowFrequencies[row * mProfileWidth ];
-    const Frequency * frequency_col = &mColFrequencies[col * mProfileWidth ];
+    const Score * profile_row = mRowProfile->getRow( row );
+    const Score * profile_col = mColProfile->getRow( col );
+    const Frequency * frequency_row = mRowFrequencies->getRow( row );
+    const Frequency * frequency_col = mColFrequencies->getRow( col );
     
     for (int i = 0; i < mProfileWidth; i++ ) 
       score +=	profile_row[i] * frequency_col[i] + 

@@ -98,6 +98,10 @@ class ImplAlignandum : public Alignandum
     /** return last residue number in segment */
     virtual Position getTo() const;
     
+    /** shuffle the object */
+    virtual void shuffle( unsigned int num_iterations,
+    		Position window_size );
+    
     /** save state of object into stream
      */
     virtual void save( std::ostream & output ) const;
@@ -110,7 +114,7 @@ class ImplAlignandum : public Alignandum
     /** the member functions below are protected, because they have to be only accessible for
 	derived classes. They should know, what they are doing. */
     
-    /** set true length*/
+    /** set true length - calling this method resets the segment coordinates. */
     virtual void setTrueLength(Position length) const;
 
     /** get true length*/
@@ -126,12 +130,15 @@ class ImplAlignandum : public Alignandum
     /** translator */
     const Translator * mTranslator ;
     
+    /** bitvector keeping track of masked positions */
+    std::vector< bool > mMasked;
+    
  private:
     /** first residue of segment used for aligning */
-    Position  mFrom;
+    mutable Position  mFrom;
 
     /** last residue of segment used for aligning */
-    Position  mTo;                   
+    mutable Position  mTo;                   
 
     /** true length of sequence */
     mutable Position mLength; 

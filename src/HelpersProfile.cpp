@@ -24,28 +24,28 @@
 #include <iostream>
 #include <iomanip>
 #include <stdio.h>
+#include <math.h>
 
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "HelpersProfile.h"
+
+#include "Alignandum.h"
+#include "MultipleAlignment.h"
+#include "Alignment.h"
+#include "AlignmentIterator.h"
+#include "Translator.h"
 #include "Weightor.h"
 #include "LogOddor.h"
 #include "Regularizor.h"
 
-#include "MultipleAlignment.h"
-#include "HelpersMultipleAlignment.h"
-
-#include "Alignment.h"
-#include "AlignmentIterator.h"
-
-/** default objects */
-#include "Translator.h"
 #include "HelpersTranslator.h"
-
 #include "HelpersWeightor.h"
 #include "HelpersRegularizor.h"
 #include "HelpersLogOddor.h"
+#include "HelpersMultipleAlignment.h"
+
+#include "HelpersProfile.h"
 
 #include "ImplProfile.h"
 #include "ImplSequence.h"
@@ -64,18 +64,12 @@ Alignandum * makeProfile(
 		const Regularizor * regularizor,
 		const LogOddor * logoddor ) 
 {
-	if (translator == NULL)
-		translator = getDefaultTranslator();
+
+	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
+	if (logoddor == NULL) logoddor = getDefaultLogOddor();
+	if (translator == NULL) translator = getDefaultTranslator();
 	
-	if (regularizor == NULL) 
-		regularizor = getDefaultRegularizor();
-
-	if (logoddor == NULL)
-		logoddor = getDefaultLogOddor();
-
-	Alignandum * profile = new ImplProfile( translator, regularizor, logoddor );
-
-	return profile;
+	return new ImplProfile( translator, regularizor, logoddor );
 }
 
 //------------------------------------------------------------------------------------------
@@ -85,21 +79,15 @@ Alignandum * makeProfile( Position length,
 		const Regularizor * regularizor,
 		const LogOddor * logoddor ) 
 		{
-	
-	if (translator == NULL)
-		translator == getDefaultTranslator();
-	
-	if (regularizor == NULL) 
-		regularizor = getDefaultRegularizor();
 
-	if (logoddor == NULL)
-		logoddor = getDefaultLogOddor();
-
+	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
+	if (logoddor == NULL) logoddor = getDefaultLogOddor();
+	if (translator == NULL) translator = getDefaultTranslator();
+	
 	ImplProfile * profile = new ImplProfile( translator,
 			regularizor, logoddor );
 	
 	profile->setTrueLength( length );
-	profile->useSegment();
 	profile->allocateCounts();
 	return profile;
 }
@@ -115,18 +103,11 @@ Alignandum * makeProfile( const std::string & src,
 		const Regularizor * regularizor,
 		const LogOddor * logoddor ) 
 		{
-	
-	if (weightor == NULL)
-		weightor = getDefaultWeightor();
 
-	if (translator == NULL)
-		translator == getDefaultTranslator();
-	
-	if (regularizor == NULL) 
-		regularizor = getDefaultRegularizor();
-
-	if (logoddor == NULL)
-		logoddor = getDefaultLogOddor();
+ 	if (weightor == NULL) weightor = getDefaultWeightor();
+	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
+	if (logoddor == NULL) logoddor = getDefaultLogOddor();
+	if (translator == NULL) translator = getDefaultTranslator();
 
 	MultipleAlignment * m = fillMultipleAlignment( 
 			makeMultipleAlignment(), 
@@ -152,18 +133,12 @@ Alignandum * makeProfile(
 		const LogOddor * logoddor ) 
 		{
 
-	if (weightor == NULL)
-		weightor = getDefaultWeightor();
-
-	if (regularizor == NULL) 
-		regularizor = getDefaultRegularizor();
-
-	if (logoddor == NULL)
-		logoddor = getDefaultLogOddor();
-
-	Alignandum * profile = new ImplProfile( translator, 
-			regularizor, 
-			logoddor );
+	if (weightor == NULL) weightor = getDefaultWeightor();
+	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
+	if (logoddor == NULL) logoddor = getDefaultLogOddor();
+	if (translator == NULL) translator = getDefaultTranslator();
+	
+	Alignandum * profile = new ImplProfile( translator, regularizor, logoddor );
 	
 	fillProfile( profile, mali, weightor );
 	return profile;
@@ -199,10 +174,9 @@ Alignandum * fillProfile( Alignandum * dest,
 	Position length = src->getLength();
 
 	profile->setTrueLength( length );
-	profile->useSegment();
 	profile->allocateCounts();
 
-	Count * counts = profile->getData().mCountsPointer;
+	CountMatrix * counts = profile->getCountMatrix();
 
 	// calculate counts
 	int mali_width = src->getWidth();
@@ -216,7 +190,7 @@ Alignandum * fillProfile( Alignandum * dest,
 		for (int x = 0; x < length; ++x)
 		{
 			Residue code = translator->encode( seq[x] );  
-			counts[x * width + code] += (*weights)[nsequence];
+			counts->setValue( x, code, counts->getValue( x, code) + (*weights)[nsequence] );
 		}
 	}
 
@@ -612,6 +586,178 @@ Alignandum * makeProfile( const CountsMatrix * src) {
 }
 
  */
+
+//------------------------------------------------------------------------------------------------------------------------
+std::string calculateConservation( 
+		const MultipleAlignment * mali, 
+		const Translator * translator,
+		Frequency min_frequency) 
+{
+
+	Position row, col;
+
+	Regularizor * regularizor = makeNoRegularizor();
+
+	ImplProfile * profile = dynamic_cast<ImplProfile*>
+		(makeProfile( mali, 
+				translator, 
+				NULL, 
+				regularizor ));
+
+	profile->prepare();
+
+	const FrequencyMatrix * frequencies = profile->getFrequencyMatrix();
+
+	Position length = frequencies->getNumRows();
+	Residue width = frequencies->getNumCols();
+
+	char * buffer = new char[length + 1];
+	
+	for (col = 0; col < length; col++) 
+	{
+		Frequency max_frequency = 0;
+		Frequency f;
+		Residue max_residue = translator->getGapCode();
+		
+		const Frequency * fcolumn = frequencies->getRow(col);
+		for (row = 0; row < width; row++) 
+		{
+			if ( (f = fcolumn[row]) > max_frequency && 
+					f >= min_frequency) 
+			{
+				max_frequency = f;
+				max_residue = row;
+			}
+		}
+		buffer[col-1] = translator->decode( max_residue );
+	}
+
+	buffer[length] = '\0';
+
+	std::string seq(buffer);
+	delete [] buffer;
+	delete regularizor;
+	delete profile;
+
+	return seq;
+}
+
+// TODO: sort out categories and alphabet-size
+//------------------------------------------------------------------------------------------------------
+CountsMatrix * makeCountsByCategory( 
+		const MultipleAlignment * mali, 
+		const Translator * translator,
+		const unsigned int * map_residue2category ) 
+		{
+
+	// build profile. Counts are calculated automatically
+	Regularizor * regularizor = makeNoRegularizor();
+	assert( false );
+	ImplProfile * profile = dynamic_cast<ImplProfile*>
+		(makeProfile( mali, 
+			translator,
+			NULL, 
+			regularizor));
+
+	const CountMatrix * counts = profile->getCountMatrix();
+
+	Position length = counts->getNumRows();
+	Residue width = counts->getNumCols();
+	
+	// deterimine number of categories
+	unsigned int num_categories;
+
+	if (map_residue2category == NULL)
+		num_categories = 20;
+	else {
+		num_categories = 0;
+		for (unsigned int i = 0; i < 20; i++) 
+			if (num_categories < map_residue2category[i]) 
+				num_categories = map_residue2category[i];
+	}
+	num_categories++;
+
+	// allocate and initialize result structure
+	CountsMatrix * result = new CountsMatrix(length, num_categories);
+
+	// go through counts and map counts to classes. Iterate
+	// row-wise, so that mapping has to be done only once.
+	for (Residue col = 0; col < width; ++col) 
+	{
+
+		unsigned int category;
+		if (map_residue2category == NULL)
+			category = col;
+		else
+			category = map_residue2category[col];
+
+		for (Position row = 0; row < length; ++row)
+			(*result)[col][category] += (unsigned int)counts->getValue( row, col );
+	}
+
+	delete regularizor;
+	delete profile;
+
+	return result;
+}
+
+/** make a map from residues to categories. The following order has been suggested by Hannes for
+    surface area calculations:
+    'G': 0, 'P': 0
+    'K': 1, 'R': 1,
+    'D': 2, 'E': 2,
+    'H': 3, 'F': 3, 'W':3, 'Y': 3, 'C': 3,
+    'N': 4, 'Q': 4, 'S':4, 'T': 4,
+    'A': 5, 'I': 5, 'L': 5,'M': 5, 'V': 5,
+ */
+
+const unsigned int MapResidue2CategorySurface[20] = { 
+		5, 3, 2, 2, 3,     /* A */
+		0, 3, 5, 1, 5,     /* G */  
+		5, 4, 0, 4, 1,     /* M */
+		4, 4, 5, 3, 3,     /* S */
+};
+
+const unsigned int MapResidue2CategoryAll[20] = {
+		0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 
+};
+
+const unsigned int * getMapResidue2CategorySurface() {
+	return MapResidue2CategorySurface;
+}
+
+const unsigned int * getMapResidue2CategoryAll() {
+	return MapResidue2CategoryAll;
+}
+
+/** return a vector of entropies calculated for a CountsMatrix
+ */
+VectorDouble * makeEntropyVector( const CountsMatrix * src) {
+
+	unsigned int length      = src->getNumRows();
+	unsigned int categories  = src->getNumCols();
+
+	VectorDouble * result = new VectorDouble(length,0);
+
+	for (unsigned int l = 0; l < length; l++) {
+		double total = 0;
+		for (unsigned int c = 0; c < categories; c++) {
+			total += (*src)[l][c];
+		}
+		double e = 0;
+		unsigned int counts;
+		for (unsigned int c = 0; c < categories; c++) {
+			if ( (counts = (*src)[l][c]) > 0) {
+				double p = (double)counts / (double)total;
+				e -= p * log(p);
+			}
+		}	
+		(*result)[l] = e;
+	}
+
+	return result;
+}
+
 
 
 } // namespace alignlib

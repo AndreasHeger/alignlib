@@ -256,12 +256,14 @@ void ImplRegularizorDirichlet::fillColumn(  Frequency * frequencies,
       This method calculates the Xi and stores it in the profile. You have
       to call NormalizeColumn to get the correct estimated probabilites.
  */      
-void ImplRegularizorDirichlet::fillFrequencies( Frequency * frequencies, 
-		const Count * counts, 
-		const Position length,
-		const Residue width) const 
+void ImplRegularizorDirichlet::fillFrequencies( 
+		FrequencyMatrix * frequencies, 
+		const CountMatrix * counts ) const
 {
 	debug_func_cerr(5);
+
+	Position width = counts->getNumCols();
+	Position length = counts->getNumRows();
 
 	if (width != PROFILEWIDTH)
 		throw AlignException( "ImplRegularizorDirichlet.cpp: width of profile has to be 20" );
@@ -270,13 +272,13 @@ void ImplRegularizorDirichlet::fillFrequencies( Frequency * frequencies,
 
 	Position column;
 	Count ntotal;
-
+	
 	// helper variables for the conversion of log to floating point
 	TYPE_BETA_DIFFERENCES beta_differences;
 
 	for (column = 0; column < length; column++) 
 	{
-		const Count * n = &counts[width * column];
+		const Count * n = counts->getRow( column );
 
 		ntotal = 0;
 
@@ -287,14 +289,15 @@ void ImplRegularizorDirichlet::fillFrequencies( Frequency * frequencies,
 		if (ntotal < mFadeCutoff ) 
 		{
 			// use Dirichlet-Mixture
-			fillColumn( &frequencies[column * width], 
+			fillColumn( frequencies->getRow( column ), 
 					beta_differences, 
 					n, 
 					ntotal );
 
-		} else 
+		} 
+		else 
 		{
-			Frequency * col = &frequencies[column * width];
+			Frequency * col = frequencies->getRow( column );
 			// calculate raw frequencies:
 			for (i = 0; i < width; i++)
 				col[i] = (Frequency)(n[i] / ntotal);

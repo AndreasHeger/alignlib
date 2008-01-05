@@ -28,10 +28,11 @@
 #ifndef LOGODDOR_H
 #define LOGODDOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
-namespace alignlib {
-
+namespace alignlib 
+{
+	
   /** Protocoll class for objects, convert frequencies into log-odds scores. Different
       log odds scorer use different background frequencies.
       
@@ -45,7 +46,8 @@ namespace alignlib {
       
   */
     
-class LogOddor {
+class LogOddor 
+{
 
  public:
     // constructors and desctructors
@@ -60,10 +62,8 @@ class LogOddor {
     virtual ~LogOddor ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
-    virtual void fillProfile( Score * profile, 
-			      const Frequency * frequencies,
-			      const Position length,
-			      const Residue width) const = 0;
+    virtual void fillProfile( ScoreMatrix * scores, 
+    		const FrequencyMatrix * frequencies ) const = 0;
 
 };
 

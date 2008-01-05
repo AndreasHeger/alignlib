@@ -116,12 +116,12 @@ public:
 
 	/** return pointer to location of matrix data 
 	 */
-	const T * getData()  const
+	T * getData()  const
 	{
 		return mMatrix;
 	}
 
-	/** set new data matrix */
+	/** set new data matrix - the old memory is not released */
 	void setData( T * matrix ) 
 	{
 		mMatrix = matrix;
@@ -132,6 +132,23 @@ public:
 	void copyData( T * matrix )
 	{
 		memcpy( mMatrix, matrix, sizeof(T) * mSize );
+	}
+	
+	/** return pointer to start of a given row */
+	T * getRow( unsigned int row) const
+	{
+		return &mMatrix[ row * mCols ];
+	}
+	
+	/** swap two rows
+	 */
+	void swapRows( unsigned int x, unsigned int y)
+	{
+		T * buffer = new T[mCols];
+		size_t s = sizeof(T) * mCols;
+		memcpy( buffer,             &mMatrix[x*mCols], s );
+		memcpy( &mMatrix[x*mCols], &mMatrix[y*mCols], s );
+		memcpy( &mMatrix[y*mCols], buffer           , s );
 	}
 	
 private:

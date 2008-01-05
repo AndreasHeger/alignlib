@@ -62,11 +62,11 @@ namespace alignlib
 
   protected:
       /** pointer to member data of row/col : AlignandumProfile */
-      const Score * mRowProfile;
-      const Frequency * mRowFrequencies;
+      const ScoreMatrix * mRowProfile;
+      const FrequencyMatrix * mRowFrequencies;
 
-      const Score * mColProfile;      
-      const Frequency * mColFrequencies;
+      const ScoreMatrix * mColProfile;      
+      const FrequencyMatrix * mColFrequencies;
       
       /** size of the alphabet in row and column */
       int mProfileWidth;

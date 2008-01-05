@@ -36,6 +36,7 @@
 #define _ALIGNLIB_H 1
 
 #include <vector>
+#include "Matrix.h"
 
 namespace alignlib
 {

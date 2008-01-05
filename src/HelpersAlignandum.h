@@ -59,11 +59,6 @@ Alignandum * loadAlignandum( std::istream & stream );
 /* ----------------------------------------------------------------------------------------*/
 /* 3. convenience functions */
 
-/** get a random position in a sequence ranging from 0 to max */
-inline Position getRandomPosition ( Position max ) 
-{
-	return (Position)((double)max*rand()/(RAND_MAX+1.0));
-}
 
 
 

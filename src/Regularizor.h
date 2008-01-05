@@ -28,11 +28,11 @@
 #ifndef REGULARIZOR_H
 #define REGULARIZOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
-
-namespace alignlib {
-
+namespace alignlib 
+{
+	
   /** Protocoll class for objects, that regularize profile columns.
       
       This class is a protocol class and as such defines only the general interface.
@@ -43,7 +43,8 @@ namespace alignlib {
       
   */
 
-class Regularizor {
+class Regularizor 
+{
  public:
     // constructors and desctructors
 
@@ -57,10 +58,8 @@ class Regularizor {
     virtual ~Regularizor ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( Frequency * frequencies, 
-				  const Count * counts, 
-				  const Position length,
-				  const Residue width) const = 0;
+    virtual void fillFrequencies( FrequencyMatrix * frequencies, 
+				  const CountMatrix * counts ) const = 0;
 
 };
 

@@ -57,8 +57,8 @@ namespace alignlib
     if (!s2)
       throw AlignException( "ImplScoreSequenceSequence.cpp: col not a sequence.");
     
-    mRowSequence = s1->getData().mSequencePointer;
-    mColSequence = s2->getData().mSequencePointer;
+    mRowSequence = s1->getSequence();
+    mColSequence = s2->getSequence();
 
     mSubstitutionMatrix = matrix;
     
