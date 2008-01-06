@@ -81,13 +81,31 @@ int main ()
 	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
 	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
 	
-	{
-		std::auto_ptr<LogOddor>l(makeLogOddorGribskov( makeSubstitutionMatrixBlosum62()) );
+	std::cout << "----- checking LogOddorGribskov ------" << std::endl;
+  	{
+		std::auto_ptr<SubstitutionMatrix>m( makeSubstitutionMatrixBlosum62() );
+		std::auto_ptr<LogOddor>l(makeLogOddorGribskov( &*m )); 
+		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
+				NULL, NULL, NULL, &*l ));
+		testAlignandum( &*a, ref_protein20x3 );
+	}
+	
+	std::cout << "----- checking LogOddor ------" << std::endl;	
+  	{
+		std::auto_ptr<LogOddor>l(makeLogOddor()); 
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
 				NULL, NULL, NULL, &*l ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 
+	std::cout << "----- checking LogOddorUniform ------" << std::endl;	
+  	{
+		std::auto_ptr<LogOddor>l(makeLogOddorUniform()); 
+		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
+				NULL, NULL, NULL, &*l ));
+		testAlignandum( &*a, ref_protein20x3 );
+	}
+	
 	return EXIT_SUCCESS;
 
 }

@@ -29,19 +29,18 @@
 namespace alignlib 
 {
   
-  static Weightor * DEFAULT_WEIGHTOR = makeNoWeightor();
+  static std::auto_ptr<Weightor>DEFAULT_WEIGHTOR(makeNoWeightor());
   
   /** gets the default Weightor object */ 
-  const Weightor * getDefaultWeightor() {
-    return DEFAULT_WEIGHTOR;
+  const Weightor * getDefaultWeightor() 
+  {
+    return &*DEFAULT_WEIGHTOR;
   }
 
   /** sets the default Weightor object */
   void setDefaultWeightor( Weightor * weightor ) 
   {
-	  if (DEFAULT_WEIGHTOR != NULL)
-		  delete DEFAULT_WEIGHTOR;
-	  DEFAULT_WEIGHTOR = weightor;
+	  DEFAULT_WEIGHTOR.reset(weightor);
   }
 
 } // namespace alignlib

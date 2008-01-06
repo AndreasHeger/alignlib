@@ -191,7 +191,7 @@ Residue ImplProfile::getMaximumPerColumn( const Matrix<T> * data,
 //---------------------------------------------------------------------------------------------------------------
 Residue ImplProfile::getMaximumCount( const Position column ) const 
 {
-	debug_func_cerr(5);
+	debug_func_cerr(6);
 	return getMaximumPerColumn<Count>( mCountMatrix, column );
 }
 
@@ -293,9 +293,13 @@ void ImplProfile::writeSegment( std::ostream & output, const Matrix<T> * data ) 
 {
 	if (data == NULL) return;
 	
+	output << setw(5) << "#" << "  " << " ";
+	for (Residue j = 0; j < mProfileWidth; j++) 
+		output << setw(6) << mTranslator->decode( j );
+	output << std::endl;
 	for (int i = 0; i < getLength(); i++) 
 	{
-		output << setw(2) << i << "\t";
+		output << setw(5) << i << " " << asChar(i) << " ";
 		const T * column = data->getRow( i );		
 		for (Residue j = 0; j < mProfileWidth; j++) 
 			output << setw(6) << setprecision(2) << column[j];

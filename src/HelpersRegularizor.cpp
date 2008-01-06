@@ -26,21 +26,21 @@
 #include "ImplRegularizor.h"
 #include "HelpersRegularizor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
   
-  static Regularizor * DEFAULT_REGULARIZOR = makeNoRegularizor();
+  static std::auto_ptr<Regularizor>DEFAULT_REGULARIZOR(makeNoRegularizor());
 
   /** gets the default Regularizor object */ 
-  const Regularizor * getDefaultRegularizor() {
-    return DEFAULT_REGULARIZOR;
+  const Regularizor * getDefaultRegularizor() 
+  {
+    return &*DEFAULT_REGULARIZOR;
   }
 
   /** sets the default Regularizor object */
   void setDefaultRegularizor( Regularizor * regularizor ) 
   {
-	  if (DEFAULT_REGULARIZOR != NULL)
-		  DEFAULT_REGULARIZOR = regularizor;
-	  DEFAULT_REGULARIZOR = regularizor;
+	  DEFAULT_REGULARIZOR.reset(regularizor);
   }
 
 } // namespace alignlib

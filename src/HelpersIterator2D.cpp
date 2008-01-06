@@ -26,29 +26,23 @@
 
 #include "HelpersIterator2D.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib 
 {
 
-  static Iterator2D * DEFAULT_ITERATOR2D = makeIterator2DFull();
+  static auto_ptr<Iterator2D>DEFAULT_ITERATOR2D(makeIterator2DFull());
   
   /** gets the default Iterator2D object */ 
   const Iterator2D * getDefaultIterator2D() 
   {
-    return DEFAULT_ITERATOR2D;
+    return &*DEFAULT_ITERATOR2D;
   }
 
   /** sets the default Iterator2D object */
   void setDefaultIterator2D( Iterator2D * iterator2D ) 
   {
-	  if (DEFAULT_ITERATOR2D != NULL)
-		  delete DEFAULT_ITERATOR2D;
-    DEFAULT_ITERATOR2D = iterator2D;
+    DEFAULT_ITERATOR2D.reset(iterator2D);
   }
 }
 

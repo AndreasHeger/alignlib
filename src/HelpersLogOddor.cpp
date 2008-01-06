@@ -28,20 +28,18 @@
 namespace alignlib 
 {
   
-  static LogOddor * DEFAULT_LOGODDOR = makeLogOddorUniform();
+  static std::auto_ptr<LogOddor>DEFAULT_LOGODDOR(makeLogOddorUniform());
   
   /** gets the default LogOddor object */ 
   const LogOddor * getDefaultLogOddor() 
   {
-    return DEFAULT_LOGODDOR;
+    return &*DEFAULT_LOGODDOR;
   }
 
   /** sets the default LogOddor object */
   void setDefaultLogOddor( LogOddor * logOddor ) 
   {
-	  if (DEFAULT_LOGODDOR != NULL)
-		  delete DEFAULT_LOGODDOR;	  
-    DEFAULT_LOGODDOR = logOddor;
+    DEFAULT_LOGODDOR.reset(logOddor);
   }
 
 } // namespace alignlib

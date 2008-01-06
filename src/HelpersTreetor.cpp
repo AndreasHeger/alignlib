@@ -11,30 +11,26 @@
 #include <iostream>
 #include <string>
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 #include "Treetor.h"
 #include "HelpersTreetor.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
   
-  static const Treetor * DEFAULT_TREETOR = makeTreetorDistanceLinkage();  
+  static std::auto_ptr<Treetor>DEFAULT_TREETOR(makeTreetorDistanceLinkage());  
 
   /** gets the default Treetor object */
-  const Treetor * getDefaultTreetor() {
-    return DEFAULT_TREETOR;
+  const Treetor * getDefaultTreetor() 
+  {
+    return &*DEFAULT_TREETOR;
   }
  
   /** sets the default Treetor object */
   void setDefaultTreetor( Treetor * treetor ) 
   {	
-	  if (DEFAULT_TREETOR != NULL)
-		 delete DEFAULT_TREETOR;
-    DEFAULT_TREETOR = treetor;
+    DEFAULT_TREETOR.reset(treetor);
   }            
 
 } // namespace alignlib

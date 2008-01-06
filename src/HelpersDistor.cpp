@@ -20,21 +20,21 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
   
-  static Distor * DEFAULT_DISTOR = makeDistorClustal();  
+  static std::auto_ptr<Distor>DEFAULT_DISTOR(makeDistorClustal());  
 
   /** gets the default Distor object */
-  const Distor * getDefaultDistor() {
-    return DEFAULT_DISTOR;
+  const Distor * getDefaultDistor() 
+  {
+    return &*DEFAULT_DISTOR;
   }
  
   /** sets the default Distor object */
   void setDefaultDistor( Distor * distor ) 
   {
-	  if (DEFAULT_DISTOR != NULL)
-	  	delete DEFAULT_DISTOR;
-    DEFAULT_DISTOR = distor;
+    DEFAULT_DISTOR.reset(distor);
   }            
 
 } // namespace alignlib

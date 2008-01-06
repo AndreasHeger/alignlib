@@ -26,6 +26,6 @@
 #include "ImplRegularizor.h"
 #include "HelpersRegularizor.h"
 
-namespace alignlib {
-
+namespace alignlib 
+{
 } // namespace alignlib

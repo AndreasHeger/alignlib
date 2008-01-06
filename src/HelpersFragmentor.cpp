@@ -3,8 +3,8 @@
 
   $Id: HelpersFragmentor.cpp,v 1.2 2004/01/07 14:35:32 aheger Exp $
 
-  Copyright (C) 2004 Andreas Heger
   
+  Copyright (C) 2004 Andreas Heger
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
@@ -35,14 +35,10 @@
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersFragmentor.h"
 
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib { 
+namespace alignlib 
+{ 
 
   //-----------------------------------------------------------------------------------
   void writeFragments( std::ostream & output, const FragmentVector * fragments) {
