@@ -29,7 +29,7 @@
 namespace alignlib 
 {
   
-  static std::auto_ptr<Regularizor>DEFAULT_REGULARIZOR(makeNoRegularizor());
+  static std::auto_ptr<Regularizor>DEFAULT_REGULARIZOR(makeRegularizor());
 
   /** gets the default Regularizor object */ 
   const Regularizor * getDefaultRegularizor() 

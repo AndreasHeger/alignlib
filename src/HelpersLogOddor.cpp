@@ -28,7 +28,7 @@
 namespace alignlib 
 {
   
-  static std::auto_ptr<LogOddor>DEFAULT_LOGODDOR(makeLogOddorUniform());
+  static std::auto_ptr<LogOddor>DEFAULT_LOGODDOR(makeLogOddor());
   
   /** gets the default LogOddor object */ 
   const LogOddor * getDefaultLogOddor() 

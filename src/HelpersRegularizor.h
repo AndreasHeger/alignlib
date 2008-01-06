@@ -48,7 +48,20 @@ namespace alignlib
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 
-    Regularizor * makeNoRegularizor();
+	/** empty regularizor - computes frequencies from counts */
+    Regularizor * makeRegularizor();
+    
+    /** regularizor according to Tatusov et al.()
+     * for own parameterization. 
+     */
+    Regularizor * makeRegularizorTatusov( const SubstitutionMatrix * matrix,
+    		const FrequencyVector & background,
+    		const double & beta, 
+    		const double & lambda ); 
+
+    /** regularizor according to Tatusov et al.() parameterized according to PSIBLAST
+     */    
+    Regularizor * makeRegularizorPsiblast();
     
     Regularizor * makeRegularizorDirichlet( Count fade_cutoff = 0);
     

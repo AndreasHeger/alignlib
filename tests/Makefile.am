@@ -16,7 +16,8 @@ programs=test_Fragmentor test_AlignatorDots test_Alignment  test_Alignator \
 		test_Tree test_Treetor test_PhyloMatrix test_Distor \
 		test_AlignedBlocks test_Weightor \
 		test_Translator \
-		test_LogOddor
+		test_LogOddor \
+		test_Regularizor 
 
 check_PROGRAMS = ${programs}
 
@@ -46,3 +47,4 @@ test_Distor_SOURCES = test_Distor.cpp
 test_Weightor_SOURCES = test_Weightor.cpp
 test_Translator_SOURCES = test_Translator.cpp
 test_LogOddor_SOURCES = test_LogOddor.cpp
+test_Regularizor_SOURCES = test_Regularizor.cpp

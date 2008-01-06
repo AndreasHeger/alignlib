@@ -47,7 +47,7 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersP
 			LogOddor.h HelpersLogOddor.h \
 			ImplAlignandum.h ImplSequence.h ImplProfile.h \
 			ImplNoWeightor.h ImplWeightor.h ImplWeightorHenikoff.h ImplWeightorHenikoffKimmen.h \
-			ImplRegularizor.h ImplNoRegularizor.h \
+			ImplRegularizor.h ImplRegularizorTatusov.h \
 			ImplRegularizorDirichlet.h ImplRegularizorDirichletHash.h \
 			ImplRegularizorDirichletInterpolate.h ImplRegularizorDirichletPrecomputed.h \
 			ImplLogOddor.h ImplLogOddorUniform.h ImplLogOddorGribskov.h ImplLogOddorBackground.h
@@ -130,7 +130,7 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 			LogOddor.cpp HelpersLogOddor.cpp \
 			ImplAlignandum.cpp ImplSequence.cpp ImplProfile.cpp \
 			ImplNoWeightor.cpp ImplWeightor.cpp ImplWeightorHenikoff.cpp ImplWeightorHenikoffKimmen.cpp \
-			ImplRegularizor.cpp  ImplNoRegularizor.cpp \
+			ImplRegularizor.cpp ImplRegularizorTatusov.cpp \
 			ImplRegularizorDirichlet.cpp ImplRegularizorDirichletHash.cpp \
 			ImplRegularizorDirichletInterpolate.cpp ImplRegularizorDirichletPrecomputed.cpp \
 			ImplLogOddor.cpp ImplLogOddorUniform.cpp ImplLogOddorGribskov.cpp ImplLogOddorBackground.cpp			

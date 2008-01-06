@@ -29,9 +29,11 @@
 #define IMPL_REGULARIZOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Regularizor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
   /** Implementation of a class that regularizes count columns.
       
@@ -41,7 +43,8 @@ namespace alignlib {
       
   */
 
-class ImplRegularizor : public Regularizor {
+class ImplRegularizor : public Regularizor 
+{
  public:
     // constructors and desctructors
 
@@ -55,10 +58,13 @@ class ImplRegularizor : public Regularizor {
     virtual ~ImplRegularizor ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( Frequency * frequencies, 
-				  const Count * counts, 
-				  const Position length,
-				  const Residue width) const = 0;
+    virtual void fillFrequencies( FrequencyMatrix * frequencies, 
+				  const CountMatrix * counts ) const;
+    
+ protected:
+	 /** return alignment diversity (average number of different characters) 
+	  * */
+	 virtual double calculateDiversity( const CountMatrix * counts ) const;
 
 };
 

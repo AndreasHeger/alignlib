@@ -595,7 +595,7 @@ std::string calculateConservation(
 
 	Position row, col;
 
-	Regularizor * regularizor = makeNoRegularizor();
+	Regularizor * regularizor = makeRegularizor();
 
 	ImplProfile * profile = dynamic_cast<ImplProfile*>
 		(makeProfile( mali, 
@@ -650,7 +650,7 @@ CountsMatrix * makeCountsByCategory(
 		{
 
 	// build profile. Counts are calculated automatically
-	Regularizor * regularizor = makeNoRegularizor();
+	Regularizor * regularizor = makeRegularizor();
 	assert( false );
 	ImplProfile * profile = dynamic_cast<ImplProfile*>
 		(makeProfile( mali, 
