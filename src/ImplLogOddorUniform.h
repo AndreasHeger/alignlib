@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignatorIdentity.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
+  $Id: ImplLogOddor.h,v 1.2 2004/01/07 14:35:35 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -25,46 +25,47 @@
 #include <config.h>
 #endif
 
-#ifndef IMPL_ALIGNATOR_IDENTITY_H
-#define IMPL_ALIGNATOR_IDENTITY_H 1
+#ifndef IMPL_LOGODDOR_UNIFORM_H
+#define IMPL_LOGODDOR_UNIFORM_H 1
 
-#include "alignlib.h"
-#include "alignlib_fwd.h"
-#include "ImplAlignator.h"
+#include "ImplLogOddor.h"
 
 namespace alignlib 
 {
 
-class Alignandum;
+  /** Implementation for objects that onvert frequencies into log-odds scores. Different
+      log odds scorer use different background frequencies.
 
-/** @short align identical residues (dot-matrix creation).
+      This implementation uses the natural-logarithm. 
       
-    @author Andreas Heger
-    @version $Id: ImplAlignatorIdentity.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
-*/
-class ImplAlignatorIdentity : public ImplAlignator 
+      @author Andreas Heger
+      @version $Id: ImplLogOddor.h,v 1.2 2004/01/07 14:35:35 aheger Exp $
+      @short default implementation for calculating log-odds
+      
+  */
+    
+class ImplLogOddorUniform : public ImplLogOddor 
 {
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplAlignatorIdentity  ();
+    ImplLogOddorUniform  ( const Score & scale_factor = 1,
+    						  const Score & mask_value = 10);
     
     /** copy constructor */
-    ImplAlignatorIdentity  (const ImplAlignatorIdentity &);
+    ImplLogOddorUniform  (const ImplLogOddorUniform &);
 
     /** destructor */
-    virtual ~ImplAlignatorIdentity ();
+    virtual ~ImplLogOddorUniform ();
 
-    /** method for aligning two arbitrary objects */
-    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
-    
-    /** return a new alignator object of the same type.
-     */
-    virtual ImplAlignatorIdentity * getClone() const;    
+    /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
+    virtual void fillProfile( ScoreMatrix * profile, 
+			      const FrequencyMatrix * frequencies ) const;
+
 };
 
 }
 
-#endif /* IMPL_ALIGNATOR_H */
+#endif /* IMPL_LOGODDOR_H */
 

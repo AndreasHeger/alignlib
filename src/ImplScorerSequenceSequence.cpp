@@ -24,11 +24,12 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignException.h"
 #include "Alignandum.h"
 #include "Translator.h"
 #include "ImplScorerSequenceSequence.h"
-#include "SubstitutionMatrix.h"
 #include "ImplSequence.h"
 
 using namespace std;

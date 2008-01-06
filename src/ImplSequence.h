@@ -54,9 +54,8 @@ class ImplSequence : public ImplAlignandum
 
  public:
     /*------------------------------------------------------------------------------------ */
-    /** Since I use lazy evaluation/retrieval of sequences from databases, I need an 
-	empty constructor */
-    ImplSequence( const Translator * translator = NULL);
+    /** constructor */
+    ImplSequence( const Translator * translator);
 
     /** create sequence from a string, given a translator object */
     ImplSequence( const std::string & src, 

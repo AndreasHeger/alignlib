@@ -26,10 +26,11 @@
 #include <iomanip>
 #include <stdlib.h>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
-#include "SubstitutionMatrix.h"
+#include "Matrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 using namespace std;

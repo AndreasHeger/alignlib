@@ -28,9 +28,9 @@
 #define IMPL_ALIGNATOR_FRAGMENTS_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignator.h"
 #include "Fragmentor.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {

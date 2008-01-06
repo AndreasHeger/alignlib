@@ -29,15 +29,12 @@
 #define IMPL_FRAGMENTOR_DIAGONALS_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplFragmentor.h"
 #include "Alignment.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
-
-	class Alignandum;
-	class Alignment;
 
 /**
    @short align fragments using a gap penalty based on diagonal changes.
@@ -46,7 +43,8 @@ namespace alignlib
    @version $Id: ImplFragmentorDiagonals.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 
 */ 
-class ImplFragmentorDiagonals : public ImplFragmentor {
+class ImplFragmentorDiagonals : public ImplFragmentor 
+{
   /* class member functions-------------------------------------------------------------- */
  public:
     /* constructors and desctructors------------------------------------------------------- */

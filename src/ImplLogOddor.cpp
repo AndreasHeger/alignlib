@@ -25,18 +25,27 @@
 #include <iomanip>
 #include <math.h>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
+#include "AlignException.h"
+
 #include "ImplLogOddor.h"
 #include "HelpersLogOddor.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
+
+//---------------------------------------------------------< factory functions >--------------------------------------
+LogOddor * makeLogOddor( const Score & scale, const Score & mask_value )
+{
+	return new ImplLogOddor( scale, mask_value );
+}
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplLogOddor::ImplLogOddor ( const Frequency * f, Score scale_factor) : 
-	mBackgroundFrequencies( f ), 
-	mScaleFactor( scale_factor )
+ImplLogOddor::ImplLogOddor ( const Score & scale_factor, const Score & mask_value) : 
+	mScaleFactor( scale_factor ), mMaskValue( mask_value )
 	{
 	}
 
@@ -45,7 +54,7 @@ ImplLogOddor::~ImplLogOddor ()
 }
 
 ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) : 
-	mScaleFactor (src.mScaleFactor ) 
+	mScaleFactor (src.mScaleFactor ), mMaskValue( src.mMaskValue ) 
 	{
 	}
 
@@ -55,29 +64,27 @@ void ImplLogOddor::fillProfile( ScoreMatrix * profile ,
 		{
 	debug_func_cerr(5);
 
-	// simply take the frequencies and divide by background-frequencies and take log. 
-	// For frequencies of 0, MASK_VALUE is used.
-
-	Position column;
-	Frequency f;
+	// simply take the frequencies and use them as scores.
+	// For frequencies of 0, mMaskValue is used.
 
 	Position length = frequencies->getNumRows();
 	Residue width  = frequencies->getNumCols();
 
-	for (column = 0; column < length; column++) 
+	for (Position column = 0; column < length; column++) 
 	{
 		const Frequency * fcolumn = frequencies->getRow(column);
 		Score * pcolumn = profile->getRow(column);
 
-		for (int i = 0; i < width; ++i)
+		for (Residue i = 0; i < width; ++i)
 		{
+			Frequency f;			
 			if ((f = fcolumn[i]) > 0)
-				pcolumn[i] = log(f / mBackgroundFrequencies[i]) / mScaleFactor;
+				pcolumn[i] = f;
 			else
-				pcolumn[i] = MASK_VALUE;
+				pcolumn[i] = mMaskValue;
 		}
 	}
-		}
+		}	
 
 } // namespace alignlib
 

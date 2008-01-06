@@ -25,18 +25,18 @@
 #include <config.h>
 #endif
 
-#ifndef IMPL_LOGODDOR_H
-#define IMPL_LOGODDOR_H 1
+#ifndef IMPL_LOGODDOR_BACKGROUND_H
+#define IMPL_LOGODDOR_BACKGROUND_H 1
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
-#include "LogOddor.h"
+#include "ImplLogOddor.h"
 
 namespace alignlib 
 {
 
   /** Implementation for objects that onvert frequencies into log-odds scores. Different
-      log odds scorer use different background frequencies.
+      log odds scorer use different Uniform frequencies.
 
       This implementation uses the natural-logarithm. 
       
@@ -46,32 +46,30 @@ namespace alignlib
       
   */
     
-class ImplLogOddor : public LogOddor 
+class ImplLogOddorBackground : public ImplLogOddor 
 {
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplLogOddor  ( const Score & scale_factor = 1,
-    		const Score & mask_value = -10 );
+    ImplLogOddorBackground  ( const FrequencyVector & frequencies,
+    		const Score & scale_factor = 1,
+    		const Score & mask_value = 10);
     
     /** copy constructor */
-    ImplLogOddor  (const ImplLogOddor &);
+    ImplLogOddorBackground  (const ImplLogOddorBackground & src);
 
     /** destructor */
-    virtual ~ImplLogOddor ();
+    virtual ~ImplLogOddorBackground ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
     virtual void fillProfile( ScoreMatrix * profile, 
 			      const FrequencyMatrix * frequencies ) const;
 
- protected:
+ private:
+    /** sustitution matrix to use */
+    const FrequencyVector & mBackgroundFrequencies;
     
-    /** scale factor by which to scale the scores */
-    const Score mScaleFactor;
-
-    const Score mMaskValue;
-
 };
 
 }

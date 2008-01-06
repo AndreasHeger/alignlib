@@ -40,8 +40,8 @@
 #include <time.h> 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
-#include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 #include "HelpersSequence.h"

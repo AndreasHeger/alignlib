@@ -29,15 +29,13 @@
 #define IMPL_FRAGMENTOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Fragmentor.h"
 #include "Alignment.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
 
-	class Alignandum;
-	class Alignment;
 
 /**
    @short Basic implementation class for Fragmentor objects.

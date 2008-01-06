@@ -25,6 +25,7 @@
 #define ALIGNLIB_FWD_H_
 
 #include "alignlib.h"
+#include "vector.h"
 
 namespace alignlib
 {
@@ -59,7 +60,9 @@ namespace alignlib
 	typedef Matrix<Frequency> FrequencyMatrix;
 	typedef Matrix<Count> CountMatrix;
     typedef Matrix<Score> MutationMatrix;
-	
+    typedef Matrix<Score> SubstitutionMatrix;	
+    
+    typedef std::vector< Frequency> FrequencyVector;
 }
 
 #endif /*ALIGNLIB_FWD_H_*/

@@ -29,7 +29,7 @@
 #define HELPERS_ALIGNATOR_H 1
 
 #include "alignlib.h"
-#include "SubstitutionMatrix.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {

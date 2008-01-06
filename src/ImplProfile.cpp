@@ -47,6 +47,8 @@ using namespace std;
 namespace alignlib 
 {
 
+//TODO: setTrueLength re-allocates counts
+
 //---------------------------------------> constructors and destructors <--------------------------------------
 // The constructor is potentially empty, so that this object can be read from file.
 ImplProfile::ImplProfile( const Translator * translator, 
@@ -58,6 +60,7 @@ ImplProfile::ImplProfile( const Translator * translator,
 			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
 			mProfileWidth( 0 )
 {
+	debug_func_cerr(5);
 	allocateCounts();
 }
 	
@@ -178,8 +181,9 @@ Residue ImplProfile::getMaximumPerColumn( const Matrix<T> * data,
 		}
 	}  
 	
+	// if no counts, return gap code
 	if (max == 0)
-		return mTranslator->getMaskCode();
+		return mTranslator->getGapCode();
 	
 	return max_i;
 }
@@ -221,6 +225,7 @@ void ImplProfile::setColumnToValue( Matrix<T> * data,
 //---------------------------------------------------------------------------------------------------------------
 void ImplProfile::mask( const Position & column) 
 {
+	ImplAlignandum::mask( column );
 	setColumnToValue<Count>( mCountMatrix, column, 0);
 	setColumnToValue<Frequency>( mFrequencyMatrix, column, 0);
 	setColumnToValue<Score>( mScoreMatrix, column, 0 );
@@ -229,6 +234,8 @@ void ImplProfile::mask( const Position & column)
 //---------------------------------------------------------------------------------------------------------------
 Residue ImplProfile::asResidue( const Position column ) const 
 {
+	if (isMasked(column))
+		return mTranslator->getMaskCode();
 	return getMaximumCount( column );
 }
 

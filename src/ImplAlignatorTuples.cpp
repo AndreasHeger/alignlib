@@ -29,16 +29,13 @@
 #include <set>
 #include <math.h>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
-#include "SubstitutionMatrix.h"
 #include "ImplAlignatorTuples.h"
 #include "ImplAlignmentMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 

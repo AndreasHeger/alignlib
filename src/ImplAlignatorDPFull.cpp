@@ -24,6 +24,7 @@
 #include <iostream>
 #include <iomanip>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
@@ -31,8 +32,6 @@
 #include <sys/socket.h>
 #include <sys/time.h>      
 
-
-#include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 #include "Alignment.h"
@@ -45,13 +44,6 @@
 //implementation of Alignandum-objects
 #include "ImplSequence.h"
 #include "ImplProfile.h"
-
-#include "ImplTranslator.h" // for direct access to mask_code
-
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 

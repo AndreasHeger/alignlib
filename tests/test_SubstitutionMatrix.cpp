@@ -30,6 +30,7 @@
 #include <iostream>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Alignandum.h"
 #include "HelpersSequence.h"
 
@@ -39,7 +40,6 @@
 #include "Translator.h"
 #include "HelpersTranslator.h"
 
-#include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 using namespace std;

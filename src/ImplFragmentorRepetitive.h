@@ -29,17 +29,12 @@
 #define IMPL_FRAGMENTOR_REPETITIVE_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplFragmentor.h"
 #include "Alignment.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
-
-	class Alignandum;
-	class Alignment;
-	class Alignator;
-
 /**
    @short build fragments by repeatedly applying an Alignator object.
 

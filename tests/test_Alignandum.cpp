@@ -29,19 +29,18 @@
 
 #include <iostream>
 #include <fstream>
-
+#include <cassert>
 #include <time.h> 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 #include "Alignandum.h"
 #include "Translator.h"
 #include "HelpersTranslator.h"
-
 #include "HelpersAlignandum.h"
 #include "HelpersSequence.h"
 #include "HelpersProfile.h"
-#include <cassert>
 
 using namespace std;
 
@@ -60,9 +59,13 @@ void checkingEnd( bool passed = true)
 		std::cout << "failed" << std::endl;
 }
 
-void testAlignandum( Alignandum * a, const std::string & sample )
+void runTests( Alignandum * a, const std::string & sample )
 {
 	
+	const Translator * translator = a->getTranslator();
+	
+	checkingStart( "translation and range" );
+	{
 	assert( a->getFrom() == 0);
 	assert( a->getTo() == sample.size() ); 
 	assert( sample.size() == a->getLength() );
@@ -70,7 +73,9 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 		assert( a->asChar(x) == sample[x]);
 
 	assert( a->asString() == sample );
-
+	}
+	checkingEnd();
+	
 	// check that useSegment does not interfere with output
 	checkingStart( "segments" );
 	{
@@ -111,7 +116,6 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 			assert( a->getTo() == a->getTo() );
 			assert( a->asString() == b->asString() );
 			++n; 
-			std::cout << "deleting" << std::endl;
 			delete b;
 		}
 		assert( n == 2 );
@@ -124,31 +128,49 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 		std::auto_ptr<Alignandum>clone(a->getClone());
 		
 		a->mask( 0, a->getLength() );
-		std::cout << a->getLength() << a->asString() << std::endl;
+		for (Position p = 0; p < a->getLength(); ++p)
+		{
+			assert( a->asResidue(p) == translator->getMaskCode() );
+			assert( a->asChar(p) == translator->getMaskChar() );
+		}
 	}
 	checkingEnd();
 	
+}
+
+void testAlignandum( Alignandum * a, const std::string & sample )
+{
+	std::cout << "--- testing fresh --- " << std::endl;
+	runTests( a, sample);
+	std::cout << "--- testing prepared --- " << std::endl;
+	a->prepare();
+	runTests( a, sample);
+	std::cout << "--- testing released --- " << std::endl;	
+	a->release();
+	runTests( a, sample);
 }
 
 
 int main () 
 {
 
+	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
+	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
 	{
 		std::auto_ptr<Alignandum>a(makeSequence( "ACA") );
 		testAlignandum( &*a, "ACA" );
 	}
 
 	{
-		std::auto_ptr<Alignandum>a(makeSequence( "AAAAACCCCCCCCCCAAAAAAAAAAAAAA") );
-		testAlignandum( &*a, "AAAAACCCCCCCCCCAAAAAAAAAAAAAA" );    
+		std::auto_ptr<Alignandum>a(makeSequence( ref_protein20 ) );
+		testAlignandum( &*a, ref_protein20 );    
 	}
 
 	{
-		std::auto_ptr<Alignandum>a(makeProfile( "ACDACDACD", 3) );
-		testAlignandum( &*a, "ACD" );    
+		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3) );
+		testAlignandum( &*a, ref_protein20  );    
 	}
-
+	
 	return EXIT_SUCCESS;
 
 }

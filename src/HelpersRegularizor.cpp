@@ -28,7 +28,7 @@
 
 namespace alignlib {
   
-  static Regularizor * DEFAULT_REGULARIZOR = makeRegularizorDirichlet();
+  static Regularizor * DEFAULT_REGULARIZOR = makeNoRegularizor();
 
   /** gets the default Regularizor object */ 
   const Regularizor * getDefaultRegularizor() {

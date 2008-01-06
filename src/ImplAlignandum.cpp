@@ -41,6 +41,7 @@ ImplAlignandum::ImplAlignandum( const Translator * translator ) :
 	mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false), 
 	mTranslator(translator) 
 {
+	assert( mTranslator != NULL);
 }    
 
 //--------------------------------------------------------------------------------------
@@ -77,11 +78,11 @@ void ImplAlignandum::mask( const Position & from, const Position & to)
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::mask( const Position & pos )
 {
-	mMasked[pos] != mMasked[pos];
+	mMasked[pos] = true;
 }
 
 //--------------------------------------------------------------------------------------
-bool ImplAlignandum::isMasked( const Position & pos )
+bool ImplAlignandum::isMasked( const Position & pos ) const
 {
 	return mMasked[pos];
 }
@@ -204,6 +205,8 @@ void ImplAlignandum::shuffle( unsigned int num_iterations,
 // use faster implementations in subclasses, if you prefer
 std::string ImplAlignandum::asString() const 
 {
+	assert( mTranslator != NULL );
+	
 	std::string ret_val("");
 
 	for (Position i = 0; i < mLength; i++) 
@@ -232,6 +235,8 @@ void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const
 	output.write( (char*)&mFrom, sizeof(Position) );
 	output.write( (char*)&mTo, sizeof(Position) );
 	output.write( (char*)&mLength, sizeof(Position) );
+	mTranslator->save( output );
+	
 }
 
 //--------------------------------------------------------------------------------------
@@ -246,6 +251,8 @@ void ImplAlignandum::load( std::istream & input)
 
 	if (input.fail()) 
 		throw AlignException( "incomplete Alignandum object in stream.");
+	
+	mTranslator = loadTranslator( input );
 	
 	mMasked.clear();
 	mMasked.resize( mLength, false);

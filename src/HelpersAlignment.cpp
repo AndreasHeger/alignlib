@@ -26,6 +26,7 @@
 #include <sstream>
 #include <iomanip>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "AlignmentIterator.h"
@@ -42,7 +43,6 @@
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 
-#include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 using namespace std;

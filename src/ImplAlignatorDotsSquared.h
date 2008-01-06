@@ -28,15 +28,13 @@
 #define IMPL_ALIGNATOR_DOTS_SQUARED_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+
 #include "ImplAlignatorDots.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
 
-class Alignandum;
-class Alignment;
-class ImplAlignmentMatrix;
     
 /** @short dotplot alignment using full lookup of dots.
     

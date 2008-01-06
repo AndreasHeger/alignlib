@@ -29,6 +29,8 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "Alignandum.h"
+#include "Translator.h"
+#include "HelpersTranslator.h"
 #include "ImplSequence.h"
 #include "ImplProfile.h"
 
@@ -54,14 +56,14 @@ namespace alignlib
 		{
 			case MNImplProfile : 
 			{
-				ImplProfile * r = new ImplProfile();
+				ImplProfile * r = new ImplProfile( getDefaultTranslator() );
 				r->load(input);
 				result = r;
 				break;
 			}
 			case MNImplSequence :
 			{
-				ImplSequence * r = new ImplSequence();
+				ImplSequence * r = new ImplSequence( getDefaultTranslator() );
 				r->load( input );
 				result = r;
 				break;

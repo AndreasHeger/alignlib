@@ -29,7 +29,7 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
-#include "SubstitutionMatrix.h"
+#include "alignlib_fwd.h"
 #include "HelpersSubstitutionMatrix.h"
 
 #include "Alignment.h"

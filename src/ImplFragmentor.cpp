@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
 #include "Alignment.h"
@@ -31,22 +32,18 @@
 #include "Alignandum.h"
 #include "AlignException.h"
 
-#include "SubstitutionMatrix.h"
-
 #include "ImplFragmentor.h"
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 
 //----------------------------------------------------------------------------------------------------
   
-ImplFragmentor::ImplFragmentor() {
+ImplFragmentor::ImplFragmentor() 
+{
 }    
 
 ImplFragmentor::~ImplFragmentor() 

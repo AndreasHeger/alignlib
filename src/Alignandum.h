@@ -135,7 +135,7 @@ public:
 
 	/** returns true if a position is masked
 	 */
-	virtual bool isMasked( const Position & pos ) = 0;
+	virtual bool isMasked( const Position & pos ) const = 0;
 	
 	/** shuffle object 
 	 * */

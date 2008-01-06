@@ -29,9 +29,11 @@
 #define HELPERS_LOGODDOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "LogOddor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -45,11 +47,25 @@ namespace alignlib {
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
+
+	/** return logoddor that uses the frequencies as scores.
+	 */
+	LogOddor * makeLogOddor( const Score & scale_factor = 1.0, const Score & mask_value = -10);
+
+    LogOddor * makeLogOddorUniform( const Score & scale_factor = 1.0, const Score & mask_value = -10);
+
+    LogOddor * makeLogOddorBackground( const FrequencyVector & frequencies,
+    									const Score & scale_factor = 1.0,
+    									const Score & mask_value = -10);
+
+    /** compute profile score according to Gribskov's method
+     * 
+     * see Gribskov et al. (1987) PNAS 84: 4355-4358
+     */
+    LogOddor * makeLogOddorGribskov( const SubstitutionMatrix * matrix,
+    		const Score & scale_factor = 1.0,
+    		const Score & mask_value = -10 ); 
     
-    LogOddor * makeLogOddorUniform( Score scale_factor = 1.0);
-
-    LogOddor * makeLogOddorDirichlet( Score scale_factor = 1.0);
-
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
 

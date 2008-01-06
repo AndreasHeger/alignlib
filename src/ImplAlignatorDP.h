@@ -28,13 +28,11 @@
 #define IMPL_ALIGNATOR_DP_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignator.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
-	class Alignandum;
-    class Alignment;
 
     /* re: Global functions and pointers for the fast determination of match score.
        

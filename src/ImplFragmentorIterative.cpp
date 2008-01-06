@@ -23,6 +23,7 @@
 
 #include <iostream>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
 #include "Fragmentor.h"
@@ -35,7 +36,6 @@
 #include "Alignandum.h"
 #include "AlignException.h"
 
-#include "SubstitutionMatrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
 #include "Alignator.h"

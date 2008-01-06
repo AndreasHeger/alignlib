@@ -25,12 +25,10 @@
 #include <config.h>
 #endif
 
-#ifndef IMPL_LOGODDOR_H
-#define IMPL_LOGODDOR_H 1
+#ifndef IMPL_LOGODDOR_GRIBSKOV_H
+#define IMPL_LOGODDOR_GRIBSKOV_H 1
 
-#include "alignlib.h"
-#include "alignlib_fwd.h"
-#include "LogOddor.h"
+#include "ImplLogOddor.h"
 
 namespace alignlib 
 {
@@ -46,35 +44,32 @@ namespace alignlib
       
   */
     
-class ImplLogOddor : public LogOddor 
+class ImplLogOddorGribskov : public ImplLogOddor 
 {
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplLogOddor  ( const Score & scale_factor = 1,
-    		const Score & mask_value = -10 );
+    ImplLogOddorGribskov  ( const SubstitutionMatrix * background_frequencies,
+    		const Score & scale_factor = 1,
+    		const Score & mask_value = 10);
     
     /** copy constructor */
-    ImplLogOddor  (const ImplLogOddor &);
+    ImplLogOddorGribskov  (const ImplLogOddorGribskov &);
 
     /** destructor */
-    virtual ~ImplLogOddor ();
+    virtual ~ImplLogOddorGribskov ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
     virtual void fillProfile( ScoreMatrix * profile, 
 			      const FrequencyMatrix * frequencies ) const;
 
- protected:
+ private:
+    /** sustitution matrix to use */
+    const SubstitutionMatrix * mSubstitutionMatrix;
     
-    /** scale factor by which to scale the scores */
-    const Score mScaleFactor;
-
-    const Score mMaskValue;
-
 };
 
 }
 
 #endif /* IMPL_LOGODDOR_H */
-

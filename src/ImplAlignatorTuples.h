@@ -29,13 +29,11 @@
 #define IMPL_ALIGNATOR_TUPLES_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignator.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
-
-	class Alignandum;
 
 /** @short align all tuples of a given size that have a positive score.
 

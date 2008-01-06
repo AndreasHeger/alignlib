@@ -23,13 +23,12 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "LogOddor.h"
-#include "ImplLogOddor.h"
 #include "HelpersLogOddor.h"
 
 namespace alignlib 
 {
   
-  static LogOddor * DEFAULT_LOGODDOR = makeLogOddorDirichlet();
+  static LogOddor * DEFAULT_LOGODDOR = makeLogOddorUniform();
   
   /** gets the default LogOddor object */ 
   const LogOddor * getDefaultLogOddor() 

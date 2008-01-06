@@ -29,24 +29,20 @@
 #define IMPL_FRAGMENTOR_ITERATIVE_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplFragmentor.h"
 #include "Alignment.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
-
-	class Alignandum;
-	class Alignment;
-
-
 /**
    @short build fragments by iteratively aligning in a dotplot.
 
    @author Andreas Heger
    @version $Id: ImplFragmentorIterative.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */ 
-class ImplFragmentorIterative : public ImplFragmentor {
+class ImplFragmentorIterative : public ImplFragmentor 
+{
   /* class member functions-------------------------------------------------------------- */
  public:
     /* constructors and desctructors------------------------------------------------------- */

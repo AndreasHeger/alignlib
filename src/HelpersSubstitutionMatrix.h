@@ -29,8 +29,7 @@
 #define HELPERS_SUBSTITUTION_MATRIX_H 1
 
 #include "alignlib.h"
-#include "Matrix.h"
-#include "SubstitutionMatrix.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
@@ -44,8 +43,6 @@ namespace alignlib
 	3. convenience functions
     */
     
-    typedef Matrix< Score > SubstitutionMatrix;
-
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 

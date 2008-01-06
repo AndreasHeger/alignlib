@@ -56,8 +56,8 @@ class ImplAlignandum : public Alignandum
  public:
     /* constructors and desctructors------------------------------------------------------- */
   
-    /** empty constructor */
-    ImplAlignandum( const Translator * translator = NULL );
+    /** constructor */
+    ImplAlignandum( const Translator * translator );
     
     /** copy constructor */
     ImplAlignandum( const ImplAlignandum &);
@@ -94,7 +94,7 @@ class ImplAlignandum : public Alignandum
     virtual void mask( const Position & column);
 
     /** check if a position is masked */
-    virtual bool isMasked( const Position & column);
+    virtual bool isMasked( const Position & column) const ;
     
     /** return first residue number in segment */
     virtual Position getFrom() const;

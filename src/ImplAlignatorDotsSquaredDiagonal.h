@@ -28,22 +28,19 @@
 #define IMPL_ALIGNATOR_DOTS_SQUARED_DIAGONAL_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignatorDotsSquared.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
-
-class Alignandum;
-class Alignment;
-class ImplAlignmentMatrix;
 
 /** @short align dots using full lookup using a diagonal gap cost.
         
     @author Andreas Heger
     @version $Id: ImplAlignatorDotsSquaredDiagonal.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplAlignatorDotsSquaredDiagonal : public ImplAlignatorDotsSquared {
+class ImplAlignatorDotsSquaredDiagonal : public ImplAlignatorDotsSquared 
+{
  public:
 
     /* constructors and destructors */

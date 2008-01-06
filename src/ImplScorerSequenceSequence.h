@@ -29,14 +29,12 @@
 #define IMPL_SCORER_SEQUENCE_SEQUENCE_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplScorer.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib
 {
 
-  class Alignandum;
-  
   //----------------------------------------------------------------
   class ImplScorerSequenceSequence : public ImplScorer 
   {

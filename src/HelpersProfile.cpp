@@ -88,7 +88,6 @@ Alignandum * makeProfile( Position length,
 			regularizor, logoddor );
 	
 	profile->setTrueLength( length );
-	profile->allocateCounts();
 	return profile;
 }
 

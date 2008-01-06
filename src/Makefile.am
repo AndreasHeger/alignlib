@@ -50,7 +50,7 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersP
 			ImplRegularizor.h ImplNoRegularizor.h \
 			ImplRegularizorDirichlet.h ImplRegularizorDirichletHash.h \
 			ImplRegularizorDirichletInterpolate.h ImplRegularizorDirichletPrecomputed.h \
-	                ImplLogOddor.h 
+			ImplLogOddor.h ImplLogOddorUniform.h ImplLogOddorGribskov.h ImplLogOddorBackground.h
 
 HEADERS_ALIGNMENT =	Alignment.h HelpersAlignment.h \
 			AlignmentIterator.h \
@@ -95,10 +95,10 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 			ImplRenderer.h ImplRendererMView.h ImplRendererColumn.h \
 			ImplAlignatum.h ImplAlignatumFasta.h 
 
-HEADERS_TRANSLATOR= 	Translator.h HelpersTranslator.h \
+HEADERS_TRANSLATOR= Translator.h HelpersTranslator.h \
 			ImplTranslator.h
 
-HEADERS_SUBSTMATRIX=    SubstitutionMatrix.h HelpersSubstitutionMatrix.h
+HEADERS_SUBSTMATRIX= HelpersSubstitutionMatrix.h
 
 PARTS = AlignException.cpp \
 			AlignlibDebug.cpp \
@@ -133,7 +133,7 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 			ImplRegularizor.cpp  ImplNoRegularizor.cpp \
 			ImplRegularizorDirichlet.cpp ImplRegularizorDirichletHash.cpp \
 			ImplRegularizorDirichletInterpolate.cpp ImplRegularizorDirichletPrecomputed.cpp \
-	                ImplLogOddor.cpp ImplLogOddorDirichlet.cpp ImplLogOddorUniform.cpp 
+			ImplLogOddor.cpp ImplLogOddorUniform.cpp ImplLogOddorGribskov.cpp ImplLogOddorBackground.cpp			
 
 PARTS_ALIGNMENT = Alignment.cpp \
 			HelpersAlignment.cpp \

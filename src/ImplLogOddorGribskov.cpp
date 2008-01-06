@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplLogOddorUniform.cpp,v 1.2 2004/01/07 14:35:35 aheger Exp $
+  $Id: ImplLogOddorGribskov.cpp,v 1.2 2004/01/07 14:35:35 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -20,67 +20,75 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// Actually this is a bit misleading, there is no new class here, just the data
-// and the implementation of a factory function.
-
-#include <math.h>
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "ImplLogOddorUniform.h"
+#include "ImplLogOddorGribskov.h"
+#include "HelpersLogOddor.h"
+#include "Matrix.h"
 
 namespace alignlib 
 {
-
 //---------------------------------------------------------< factory functions >--------------------------------------
-LogOddor * makeLogOddorUniform( const Score & scale, const Score & mask_value )
+LogOddor * makeLogOddorGribskov( const SubstitutionMatrix * matrix,
+		const Score & scale, const Score & mask_value )
 {
-	return new ImplLogOddorUniform( scale, mask_value );
+	return new ImplLogOddorGribskov( matrix, scale, mask_value );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplLogOddorUniform::ImplLogOddorUniform ( const Score & scale_factor, const Score & mask_value ) :
-	ImplLogOddor( scale_factor, mask_value )
+ImplLogOddorGribskov::ImplLogOddorGribskov ( const SubstitutionMatrix * matrix,
+		const Score & scale_factor, const Score & mask_value ) :
+	ImplLogOddor( scale_factor, mask_value ),
+	mSubstitutionMatrix( matrix )
 	{
 	}
 
-ImplLogOddorUniform::~ImplLogOddorUniform () 
+ImplLogOddorGribskov::~ImplLogOddorGribskov () 
 {
 }
 
-ImplLogOddorUniform::ImplLogOddorUniform (const ImplLogOddorUniform & src ) :
-	ImplLogOddor( src )
+ImplLogOddorGribskov::ImplLogOddorGribskov (const ImplLogOddorGribskov & src ) :
+	ImplLogOddor( src ), mSubstitutionMatrix( src.mSubstitutionMatrix )
 	{
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddorUniform::fillProfile( ScoreMatrix * profile ,
+void ImplLogOddorGribskov::fillProfile( ScoreMatrix * profile ,
 		const FrequencyMatrix * frequencies ) const 
-		{
+{
 	debug_func_cerr(5);
 	
-	// simply take the frequencies and divide by Uniform-frequencies and take log. 
+	// simply take the frequencies and divide by Gribskov-frequencies and take log. 
 	// For frequencies of 0, MASK_VALUE is used.
 	Position length = frequencies->getNumRows();
 	Residue width  = frequencies->getNumCols();
 
-	double background = 1.0 / double(width);
-
-	for (Position column = 0; column < length; column++) 
+	if (mSubstitutionMatrix->getNumRows() != width )
+		throw AlignException( "ImplLogOddorGribskov.cpp: frequencies and substitution matrix use different alphabet.");
+	
+	for (Position column = 0; column < length; ++column) 
 	{
 		const Frequency * fcolumn = frequencies->getRow(column);
 		Score * pcolumn = profile->getRow(column);
-		for (Residue i = 0; i < width; ++i)
+		for (Residue a = 0; a < width; ++a)
 		{
-			Frequency f = 0;	
-			if ((f = fcolumn[i]) > 0)
-				pcolumn[i] = log(f / background) / mScaleFactor;
-			else
-				pcolumn[i] = mMaskValue;
+			Score w = 0;
+			Frequency t = 0;
+			for (Residue b = 0; b < width; ++b)
+			{
+				w += fcolumn[b] * mSubstitutionMatrix->getValue(a,b);
+				t += fcolumn[b];
+			}
+			if (t > 0)
+				pcolumn[a] = w / mScaleFactor;
+			else 
+				pcolumn[a] = mMaskValue;
 		}
-	}
-		}
+	}	
+}
+
 
 
 

@@ -28,15 +28,11 @@
 #define IMPL_ALIGNATOR_FRAGMENTS_SQUARED_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignatorFragments.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
-    class Alignandum;
-    class Alignment;
-    class Fragmentor;
-    
 /** 
     This objects aligns two @ref Alignandum objects using a dot-matrix.
     

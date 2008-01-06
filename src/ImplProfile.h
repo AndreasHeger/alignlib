@@ -101,9 +101,9 @@ class ImplProfile : public ImplAlignandum
  public:
     /* constructors and desctructors------------------------------------------------------- */
 
-    /** empty constructor */
+    /** constructor */
     ImplProfile( 
-    		const Translator * translator = NULL,
+    		const Translator * translator,
     		const Regularizor * regularizor = NULL, 
     		const LogOddor * logoddor = NULL );	
     

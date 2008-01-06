@@ -25,22 +25,20 @@
 #include <iomanip>
 #include <math.h>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "Alignment.h"
-#include "SubstitutionMatrix.h"
+#include "Matrix.h"
 #include "ImplAlignatorSimilarity.h"
 
 #include "Iterator2D.h"
 #include "HelpersIterator2D.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
   Alignator * makeAlignatorSimilarity()
   {

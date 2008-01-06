@@ -28,16 +28,13 @@
 #define IMPL_ALIGNATOR_DOTS_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignator.h"
 #include "ImplAlignmentMatrix.h"
-#include "SubstitutionMatrix.h"
 
 namespace alignlib 
 {
 #define STACKEMPTY     0
-
-class Alignandum;
-class Alignment;
 
 /** @short Implementation of dotplot-alignment as found in RADAR.
     
