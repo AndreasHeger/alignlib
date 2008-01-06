@@ -45,6 +45,8 @@
 
 #include "HelpersProfile.h"
 
+#include "Alignandum.h"
+
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 
@@ -57,7 +59,8 @@
 using namespace std;
 using namespace alignlib;
 
-int main () {
+int main () 
+{
 
   Alignment * dots = makeAlignmentMatrixRow();
 

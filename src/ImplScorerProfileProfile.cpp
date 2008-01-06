@@ -41,8 +41,9 @@ namespace alignlib
   }
   
   //--------------------------------------------------------------------------------------
-  ImplScorerProfileProfile::ImplScorerProfileProfile( const Alignandum * row,
-						      const Alignandum * col ) :
+  ImplScorerProfileProfile::ImplScorerProfileProfile( 
+		  const Alignandum * row,
+		  const Alignandum * col ) :
     ImplScorer( row, col )
   {
     const ImplProfile * s1 = dynamic_cast<const ImplProfile*>(row);
@@ -100,17 +101,17 @@ namespace alignlib
    */
   Score ImplScorerProfileProfile::getScore( Position row, Position col ) const
   {
-    Score score = 0;
-    const Score * profile_row = mRowProfile->getRow( row );
-    const Score * profile_col = mColProfile->getRow( col );
-    const Frequency * frequency_row = mRowFrequencies->getRow( row );
-    const Frequency * frequency_col = mColFrequencies->getRow( col );
+	  Score score = 0;
+	  const Score * profile_row = mRowProfile->getRow( row );
+	  const Score * profile_col = mColProfile->getRow( col );
+	  const Frequency * frequency_row = mRowFrequencies->getRow( row );
+	  const Frequency * frequency_col = mColFrequencies->getRow( col );
     
-    for (int i = 0; i < mProfileWidth; i++ ) 
-      score +=	profile_row[i] * frequency_col[i] + 
-      	profile_col[i] * frequency_row[i];
+	  for (int i = 0; i < mProfileWidth; i++ ) 
+		  score +=	profile_row[i] * frequency_col[i] + 
+      		profile_col[i] * frequency_row[i];
     
-    return score;
+	  return score;
   }
   
 }

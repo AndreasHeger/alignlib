@@ -76,7 +76,7 @@ class ImplSequence : public ImplAlignandum
     virtual Residue asResidue( Position pos ) const;
     
     /** mask column at position x */
-    virtual void mask( Position x);
+    virtual void mask( const Position & x);
 
     /* Mutators ------------------------------------------------------------------------------ */
     

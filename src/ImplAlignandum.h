@@ -29,6 +29,7 @@
 #define IMPL_ALIGNANDUM_H 1
 
 #include <iosfwd>
+#include <vector>
 #include "Alignandum.h"
 
 namespace alignlib 
@@ -87,11 +88,14 @@ class ImplAlignandum : public Alignandum
     virtual std::string asString() const;
 
     /** mask column in a segment */
-    virtual void mask( Position from, Position to);
+    virtual void mask( const Position & from, const Position & to);
     
     /** mask column in a segment */
-    virtual void mask( Position column) = 0;
+    virtual void mask( const Position & column);
 
+    /** check if a position is masked */
+    virtual bool isMasked( const Position & column);
+    
     /** return first residue number in segment */
     virtual Position getFrom() const;
 
@@ -115,7 +119,7 @@ class ImplAlignandum : public Alignandum
 	derived classes. They should know, what they are doing. */
     
     /** set true length - calling this method resets the segment coordinates. */
-    virtual void setTrueLength(Position length) const;
+    virtual void setTrueLength(Position length);
 
     /** get true length*/
     virtual Position getFullLength() const;
@@ -135,10 +139,10 @@ class ImplAlignandum : public Alignandum
     
  private:
     /** first residue of segment used for aligning */
-    mutable Position  mFrom;
+    mutable Position mFrom;
 
     /** last residue of segment used for aligning */
-    mutable Position  mTo;                   
+    mutable Position mTo;                   
 
     /** true length of sequence */
     mutable Position mLength; 

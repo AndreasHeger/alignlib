@@ -25,24 +25,23 @@
 #include <iomanip>
 #include "Alignandum.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib {
 
 //--------------------------------------------------------------------------------------
-Alignandum::Alignandum() {
+Alignandum::Alignandum() 
+{
 }    
 
 //--------------------------------------------------------------------------------------
-Alignandum::~Alignandum () {
+Alignandum::~Alignandum () 
+{
 }
 
 //--------------------------------------------------------------------------------------
-Alignandum::Alignandum(const Alignandum & src) {
+Alignandum::Alignandum(const Alignandum & src) 
+{
 }
    
 std::ostream & operator<<( std::ostream & output, const Alignandum & src) 

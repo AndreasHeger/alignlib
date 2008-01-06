@@ -48,22 +48,17 @@
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 
+#include "Alignandum.h"
+
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace alignlib;
 
-void test() {
+void test() 
+{
   {
         cout << "---------------------Testing Alignator----------------------------------" << endl;
         // build alignment

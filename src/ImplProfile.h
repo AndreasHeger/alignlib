@@ -119,9 +119,6 @@ class ImplProfile : public ImplAlignandum
     /** get internal representation of residue in position pos */
     virtual Residue asResidue( Position pos ) const;
     
-    /** mask column at position x */
-    virtual void mask( Position x);
-
     /* Mutators ------------------------------------------------------------------------------ */
     
     /** load data into cache, if cacheable type. In this implementation of profiles, this
@@ -144,6 +141,9 @@ class ImplProfile : public ImplAlignandum
     /** swap two positions in the profile */
     virtual void swap( const Position & x, const Position & y );
     
+    /** mask a column */
+    virtual void mask( const Position & pos);
+    
     /** save state of object into stream
      */
     virtual void load( std::istream & input ) ;    
@@ -165,7 +165,9 @@ class ImplProfile : public ImplAlignandum
 	
 	/** mask a column */
 	template<class T>
-	void maskColumn( Matrix<T> * data, const Position column );
+	void setColumnToValue( Matrix<T> * data, 
+			const Position & column,
+			const T & value );
 	
 	/** write a part of a profile */
 	template<class T>

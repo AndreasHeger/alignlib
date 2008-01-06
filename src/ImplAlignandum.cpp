@@ -41,8 +41,6 @@ ImplAlignandum::ImplAlignandum( const Translator * translator ) :
 	mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false), 
 	mTranslator(translator) 
 {
-	if (mTranslator == NULL) 
-		mTranslator = getDefaultTranslator();
 }    
 
 //--------------------------------------------------------------------------------------
@@ -61,16 +59,33 @@ ImplAlignandum::ImplAlignandum(const ImplAlignandum & src)
 	mLength = src.mLength;
 	mIsPrepared = src.mIsPrepared;
 	mTranslator = src.mTranslator;
+	
+	mMasked.clear();
+	std::copy( src.mMasked.begin(), src.mMasked.end(),
+			std::back_inserter< std::vector<bool> >(mMasked) );
+
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::mask( Position from, Position to) 
+void ImplAlignandum::mask( const Position & from, const Position & to) 
 {
 	Position j;
 	for (j = from; j < to; j++) 
 		mask( j );
 }
 
+//--------------------------------------------------------------------------------------
+void ImplAlignandum::mask( const Position & pos )
+{
+	mMasked[pos] != mMasked[pos];
+}
+
+//--------------------------------------------------------------------------------------
+bool ImplAlignandum::isMasked( const Position & pos )
+{
+	return mMasked[pos];
+}
+	
 //--------------------------------------------------------------------------------------
 Position ImplAlignandum::getLength() const 
 {
@@ -112,10 +127,11 @@ Position ImplAlignandum::getTo() const
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::setTrueLength( Position length) const 
+void ImplAlignandum::setTrueLength( Position length)
 {
 	mFrom = 0;
 	mTo = mLength = length;
+	mMasked.resize( length, false );
 }
 
 //--------------------------------------------------------------------------------------
@@ -204,6 +220,8 @@ void ImplAlignandum::save( std::ostream & output ) const
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const 
 {
+	debug_func_cerr( 5 );
+	
 	if (type == MNNoType )
 	{
 		type = MNImplAlignandum;
@@ -219,7 +237,8 @@ void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::load( std::istream & input)  
 {
-
+	debug_func_cerr( 5 );
+	
 	input.read( (char*)&mIsPrepared, sizeof(bool) );
 	input.read( (char*)&mFrom, sizeof(Position) );
 	input.read( (char*)&mTo, sizeof(Position) );
@@ -227,6 +246,9 @@ void ImplAlignandum::load( std::istream & input)
 
 	if (input.fail()) 
 		throw AlignException( "incomplete Alignandum object in stream.");
+	
+	mMasked.clear();
+	mMasked.resize( mLength, false);
 	
 }
 

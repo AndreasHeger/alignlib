@@ -47,8 +47,22 @@ using namespace std;
 
 using namespace alignlib;
 
+void checkingStart( const std::string & s)
+{
+	std::cout << "starting check:" << s << "...";
+}
+
+void checkingEnd( bool passed = true)
+{
+	if (passed)
+		std::cout << "passed" << std::endl;
+	else
+		std::cout << "failed" << std::endl;
+}
+
 void testAlignandum( Alignandum * a, const std::string & sample )
 {
+	
 	assert( a->getFrom() == 0);
 	assert( a->getTo() == sample.size() ); 
 	assert( sample.size() == a->getLength() );
@@ -58,6 +72,7 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 	assert( a->asString() == sample );
 
 	// check that useSegment does not interfere with output
+	checkingStart( "segments" );
 	{
 		std::auto_ptr<Alignandum>clone(a->getClone());
 		Position from = 0;
@@ -71,8 +86,9 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 		}
 		assert( clone->asString() == sample );
 	}	
+	checkingEnd();
 	
-	
+	checkingStart( "saving" );
 	// check saving/loading from stream.
 	{
 		ofstream file("test_Alignandum.tmp", ios::binary);
@@ -80,7 +96,9 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 		a->save( file );		
 		file.close();
 	}
-
+	checkingEnd();
+	
+	checkingStart( "loading" );
 	{
 		ifstream file("test_Alignandum.tmp", ios::binary) ;
 		
@@ -93,19 +111,22 @@ void testAlignandum( Alignandum * a, const std::string & sample )
 			assert( a->getTo() == a->getTo() );
 			assert( a->asString() == b->asString() );
 			++n; 
+			std::cout << "deleting" << std::endl;
 			delete b;
 		}
 		assert( n == 2 );
 	}
+	checkingEnd();
 	
 	// check masking
+	checkingStart( "masking" );
 	{
 		std::auto_ptr<Alignandum>clone(a->getClone());
 		
 		a->mask( 0, a->getLength() );
 		std::cout << a->getLength() << a->asString() << std::endl;
 	}
-
+	checkingEnd();
 	
 }
 

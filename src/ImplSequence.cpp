@@ -56,7 +56,6 @@ ImplSequence::ImplSequence( const std::string & src,
 	Position length = src.size();
 
 	setTrueLength( length );
-	useSegment();
 	mSequence = translator->encode( src );
 	setPrepared(true );
 	}
@@ -107,9 +106,10 @@ void ImplSequence::release() const
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::mask( Position x) 
+void ImplSequence::mask( const Position & x) 
 {
 	mSequence[ x ] = mTranslator->getMaskCode();
+	ImplAlignandum::mask( x );
 }
 
 //--------------------------------------------------------------------------------------
@@ -134,6 +134,8 @@ void ImplSequence::write( std::ostream & output ) const
 //--------------------------------------------------------------------------------------
 void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const 
 {
+	debug_func_cerr( 5 );
+	
 	if (type == MNNoType )
 	{
 		type = MNImplSequence;
@@ -148,6 +150,8 @@ void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const
 //--------------------------------------------------------------------------------------
 void ImplSequence::load( std::istream & input)  
 {
+	debug_func_cerr( 5 );
+	
 	ImplAlignandum::load( input );
 
 	if (mSequence != NULL) 

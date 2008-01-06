@@ -131,8 +131,12 @@ public:
 	/** mask column at position x or, if y is not omitted,
 	 * in a range.
 	 */
-	virtual void mask( Position from, Position to = NO_POS) = 0;
+	virtual void mask( const Position & from, const Position & to = NO_POS) = 0;
 
+	/** returns true if a position is masked
+	 */
+	virtual bool isMasked( const Position & pos ) = 0;
+	
 	/** shuffle object 
 	 * */
 	virtual void shuffle( unsigned int num_iterations = 1,

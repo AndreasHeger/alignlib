@@ -207,7 +207,9 @@ Residue ImplProfile::getMaximumScore( const Position column ) const
 
 //---------------------------------------------------------------------------------------------------------------
 template<class T>
-void ImplProfile::maskColumn( Matrix<T> * data, const Position column )
+void ImplProfile::setColumnToValue( Matrix<T> * data, 
+		const Position & column,
+		const T & value )
 {
 	if (data == NULL) return;
 		
@@ -217,11 +219,11 @@ void ImplProfile::maskColumn( Matrix<T> * data, const Position column )
 }
 
 //---------------------------------------------------------------------------------------------------------------
-void ImplProfile::mask( const Position column) 
+void ImplProfile::mask( const Position & column) 
 {
-	maskColumn<Count>( mCountMatrix, column);
-	maskColumn<Frequency>( mFrequencyMatrix, column);
-	maskColumn<Score>( mScoreMatrix, column);
+	setColumnToValue<Count>( mCountMatrix, column, 0);
+	setColumnToValue<Frequency>( mFrequencyMatrix, column, 0);
+	setColumnToValue<Score>( mScoreMatrix, column, 0 );
 }
 
 //---------------------------------------------------------------------------------------------------------------
