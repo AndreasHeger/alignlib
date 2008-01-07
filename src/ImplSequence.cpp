@@ -42,7 +42,7 @@ namespace alignlib
 //---------------------------------< implementation of factory functions >--------------
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( const Translator * translator ) :
+ImplSequence::ImplSequence( const HTranslator & translator ) :
 	ImplAlignandum( translator ),
 	mSequence(NULL) 
 {
@@ -50,7 +50,7 @@ ImplSequence::ImplSequence( const Translator * translator ) :
 
 //--------------------------------------------------------------------------------------
 ImplSequence::ImplSequence( const std::string & src, 
-		const Translator * translator  ) : 
+		const HTranslator & translator  ) : 
 	ImplAlignandum( translator ), mSequence(NULL) 
 	{
 	Position length = src.size();

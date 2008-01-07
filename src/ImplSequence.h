@@ -55,11 +55,11 @@ class ImplSequence : public ImplAlignandum
  public:
     /*------------------------------------------------------------------------------------ */
     /** constructor */
-    ImplSequence( const Translator * translator);
+    ImplSequence( const HTranslator & translator);
 
     /** create sequence from a string, given a translator object */
     ImplSequence( const std::string & src, 
-    			  const Translator * translator = NULL );
+    			  const HTranslator & translator  );
 
     /** the copy constructor */
     ImplSequence( const ImplSequence & );

@@ -25,22 +25,23 @@
 #include "Weightor.h"
 #include "ImplWeightor.h"
 #include "HelpersWeightor.h"
+#include "HelpersTranslator.h"
 
 namespace alignlib 
 {
   
-  static std::auto_ptr<Weightor>DEFAULT_WEIGHTOR(makeNoWeightor());
+  static HWeightor DEFAULT_WEIGHTOR(makeWeightor( getDefaultTranslator() ));
   
   /** gets the default Weightor object */ 
-  const Weightor * getDefaultWeightor() 
+  const HWeightor getDefaultWeightor() 
   {
-    return &*DEFAULT_WEIGHTOR;
+    return DEFAULT_WEIGHTOR;
   }
 
   /** sets the default Weightor object */
-  void setDefaultWeightor( Weightor * weightor ) 
+  void setDefaultWeightor( const HWeightor & weightor ) 
   {
-	  DEFAULT_WEIGHTOR.reset(weightor);
+	  DEFAULT_WEIGHTOR = weightor;
   }
 
 } // namespace alignlib

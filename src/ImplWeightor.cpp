@@ -22,25 +22,35 @@
 
 #include <iostream>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "ImplWeightor.h"
 #include "HelpersWeightor.h"
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include "HelpersTranslator.h"
+#include "MultipleAlignment.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
+
+/** factory functions */
+HWeightor makeWeightor( const HTranslator & translator ) 
+{ 
+	return HWeightor(new ImplWeightor( translator ));
+}
 
 #define MIN_WEIGHT 0.0001
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplWeightor::ImplWeightor ( const Translator * translator) : mTranslator(translator){
+ImplWeightor::ImplWeightor ( const HTranslator & translator) : 
+	mTranslator(translator)
+{
 }
 		       
-ImplWeightor::ImplWeightor (const ImplWeightor & src ) : Weightor(src), mTranslator( src.mTranslator ) {
+ImplWeightor::ImplWeightor (const ImplWeightor & src ) : 
+	Weightor(src), mTranslator( src.mTranslator ) 
+	{
 }
 
 ImplWeightor::~ImplWeightor () 
@@ -74,5 +84,19 @@ void ImplWeightor::rescaleWeights( SequenceWeights * weights, int nsequences, Se
     for ( i = 0; i < nsequences; i++) w[i] *= factor;
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------
+SequenceWeights * ImplWeightor::calculateWeights( const MultipleAlignment & src ) const 
+{
+  debug_func_cerr(5);
+
+  int nsequences = src.getWidth();
+
+  SequenceWeights * weights = new SequenceWeights(nsequences);
+  
+  for (int i = 0; i < nsequences; i++) 
+    (*weights)[i] = 1;
+
+  return weights;
+}
 
 } // namespace alignlib

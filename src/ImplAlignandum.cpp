@@ -37,7 +37,7 @@ namespace alignlib
 {
 
 //--------------------------------------------------------------------------------------
-ImplAlignandum::ImplAlignandum( const Translator * translator ) : 
+ImplAlignandum::ImplAlignandum( const HTranslator & translator ) : 
 	mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false), 
 	mTranslator(translator) 
 {
@@ -51,16 +51,12 @@ ImplAlignandum::~ImplAlignandum ()
 }
 
 //--------------------------------------------------------------------------------------
-ImplAlignandum::ImplAlignandum(const ImplAlignandum & src) 
+ImplAlignandum::ImplAlignandum(const ImplAlignandum & src) :
+	mFrom(src.mFrom), mTo(src.mTo), mLength(src.mLength),
+	mIsPrepared(src.mIsPrepared), mTranslator(src.mTranslator)
 {
 	debug_func_cerr(5);
 
-	mFrom   = src.mFrom;
-	mTo     = src.mTo;
-	mLength = src.mLength;
-	mIsPrepared = src.mIsPrepared;
-	mTranslator = src.mTranslator;
-	
 	mMasked.clear();
 	std::copy( src.mMasked.begin(), src.mMasked.end(),
 			std::back_inserter< std::vector<bool> >(mMasked) );
@@ -110,7 +106,7 @@ void ImplAlignandum::useSegment(Position from, Position to)
 }
 
 //--------------------------------------------------------------------------------------
-const Translator * ImplAlignandum::getTranslator() const 
+const HTranslator & ImplAlignandum::getTranslator() const 
 {
 	return mTranslator;
 }

@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "Translator.h"
@@ -36,30 +37,33 @@ namespace alignlib
 // the built-in translator objects
 
 /** 20-letter alphabet plus X */
-static const ImplTranslator translator_protein_20 = ImplTranslator( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" );
+static const HTranslator translator_protein_20(new ImplTranslator( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" )); 
 
 /** encoding table compatible with BLOSUM and PAML matrices */
-static const ImplTranslator translator_protein_23 = ImplTranslator( Protein23, "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" );
+static const HTranslator translator_protein_23(new ImplTranslator( Protein23, "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" ));
 
 /** 4-letter DNA alphabet */
-static const ImplTranslator translator_dna_4 = ImplTranslator( DNA4, "ACGT", "-.", "N" );
+static const HTranslator translator_dna_4( new ImplTranslator( DNA4, "ACGT", "-.", "N" ));
 
-const Translator * DEFAULT_TRANSLATOR = &translator_protein_23;
+static HTranslator DEFAULT_TRANSLATOR( translator_protein_20 );
 
-const Translator * getTranslator( const AlphabetType & alphabet_type )
+const HTranslator getTranslator( const AlphabetType & alphabet_type )
 {
 	switch (alphabet_type) 
 	{
-	case Protein20: return &translator_protein_20; break;
-	case Protein23: return &translator_protein_23; break;
-	case DNA4: return & translator_dna_4; break;
+	case Protein20: 
+		return translator_protein_20; break;		
+	case Protein23:
+		return translator_protein_23; break;
+	case DNA4: 
+		return translator_dna_4; break;
 	}
 
 	throw AlignException( "unknown alphabet" );
 }
 
 /** gets the default Translator object */ 
-const Translator * getDefaultTranslator() 
+const HTranslator getDefaultTranslator() 
 {
 	debug_func_cerr( 5 );	
 	return DEFAULT_TRANSLATOR;
@@ -69,7 +73,7 @@ const Translator * getDefaultTranslator()
  * Only supply built-in objects, otherwise
  * memory leaks will occur.
  * */
-void setDefaultTranslator( const Translator * translator ) 
+void setDefaultTranslator( const HTranslator & translator ) 
 {	
 	debug_func_cerr( 5 );
 	DEFAULT_TRANSLATOR = translator;
@@ -79,19 +83,21 @@ void setDefaultTranslator( const Translator * translator )
  * returns NULL on EOF
  */
 
-const Translator * loadTranslator( std::istream & input )
+const HTranslator loadTranslator( std::istream & input )
 {
 	// read Alignandum type
 	AlphabetType alphabet_type;
 
-	if (input.eof()) return NULL;
+	if (input.eof()) 
+		throw AlignException("HelpersTranslator.cpp: incomplete translator.");
 
 	input.read( (char*)&alphabet_type, sizeof(AlphabetType) );
 
-	if (input.eof()) return NULL;
+	if (input.eof()) 
+		throw AlignException("HelpersTranslator.cpp: incomplete translator.");
 
-	const Translator * result = NULL;
-
+	HTranslator result;
+	
 	switch (alphabet_type)
 	{
 	case User : 
@@ -111,9 +117,9 @@ const Translator * loadTranslator( std::istream & input )
 		input.read( mask_chars, sizeof(char) * size);
 		
 		if (input.eof())
-			throw AlignException( "incomplete translator ");
+			throw AlignException( "HelpersTranslator.cpp: incomplete translator ");
 					
-		result = new ImplTranslator( alphabet_type, alphabet, gap_chars, mask_chars );
+		result = HTranslator( new ImplTranslator( alphabet_type, alphabet, gap_chars, mask_chars ) );
 		
 		delete [] alphabet;
 		delete [] gap_chars;
@@ -131,7 +137,7 @@ const Translator * loadTranslator( std::istream & input )
 		result = getTranslator( DNA4 );
 		break;
 	default:
-		throw AlignException( "unknown object found in stream" );
+		throw AlignException( "HelpersTranslator: unknown object found in stream" );
 	}	
 	return result;
 }	

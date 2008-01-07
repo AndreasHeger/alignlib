@@ -29,8 +29,12 @@
 #define IMPL_WEIGHTOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+
 #include "Weightor.h"
-namespace alignlib {
+
+namespace alignlib 
+{
 
 class MultipleAlignment;
 class Translator;
@@ -43,12 +47,13 @@ class Translator;
     @author Andreas Heger
     @version $Id: ImplWeightor.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplWeightor : public Weightor {
+class ImplWeightor : public Weightor 
+{
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplWeightor( const Translator * translator);
+    ImplWeightor( const HTranslator & translator);
     
     /** copy constructor */
     ImplWeightor(const ImplWeightor &);
@@ -56,12 +61,16 @@ class ImplWeightor : public Weightor {
     /** destructor */
     virtual ~ImplWeightor();
     
+    /** return a vector of weights for a multiple alignment. The ordering in the result will be the same 
+	as in the multiple alignment. Note, that the caller has to delete the weights. */
+    virtual SequenceWeights * calculateWeights( const MultipleAlignment & src ) const;
+    
  protected:
     /** rescale the weights to the desired value. If value is 0, the weights are scaled to the number of sequences */
     virtual void rescaleWeights( SequenceWeights * weights, int nsequences, SequenceWeight value = 0) const;
 
     /** pointer to the translator object to use */
-    const Translator * mTranslator;
+    const HTranslator mTranslator;
 };
 
 

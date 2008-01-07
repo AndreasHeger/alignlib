@@ -31,7 +31,7 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
-#include "Matrix.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
@@ -58,8 +58,6 @@ namespace alignlib
     @short protocol class of alignable objects
  */
 
-class Translator;
-
 class Alignandum 
 {
 	/* friends ---------------------------------------------------------------------------- */
@@ -83,7 +81,7 @@ public:
 	virtual Alignandum * getClone() const = 0;
 
 	/** get the translator object associated with this object */
-	virtual const Translator * getTranslator() const = 0;
+	virtual const HTranslator & getTranslator() const = 0;
 	
 	/** get length of sequence. 
 	 * 

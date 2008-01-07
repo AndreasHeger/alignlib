@@ -29,12 +29,11 @@
 #define IMPL_WEIGHTOR_HENIKOFF_KIMMEN_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplWeightorHenikoff.h"
 
-namespace alignlib {
-
-class MultipleAlignment;
-class Translator;
+namespace alignlib 
+{
 
 /** @short Henikoff weighting, but sum to the number of sequences.
       
@@ -45,12 +44,13 @@ class Translator;
     @version $Id: ImplWeightorHenikoffKimmen.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
      
 */
-class ImplWeightorHenikoffKimmen : public ImplWeightorHenikoff {
+class ImplWeightorHenikoffKimmen : public ImplWeightorHenikoff 
+{
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplWeightorHenikoffKimmen( const Translator * translator );
+    ImplWeightorHenikoffKimmen( const HTranslator & translator );
     
     /** copy constructor */
     ImplWeightorHenikoffKimmen(const ImplWeightorHenikoffKimmen &);

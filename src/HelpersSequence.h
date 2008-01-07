@@ -48,12 +48,14 @@ namespace alignlib
     /* -----------------------------------------------------------------------------------------*/
     /* 1. factory functions */
     /** create a sequence from a NULL-terminated string */
+	Alignandum * makeSequence( const char * sequence ); 
     Alignandum * makeSequence( const char * sequence, 
-    		const Translator * translator = NULL );
+    		const HTranslator & translator );
 
     /** create a sequence from a string */
+    Alignandum * makeSequence( const std::string & sequence );
     Alignandum * makeSequence( const std::string & sequence,
-    		const Translator * translator = NULL );
+    		const HTranslator & translator );
 
     /** mutate a sequence according to a substitution matrix */
     Alignandum * makeMutatedSequence( 
@@ -67,16 +69,16 @@ namespace alignlib
     /* 3. convenience functions */
     /** create a sequence from a stream */
     Alignandum * extractSequence( std::istream & input,
-    		const Translator * translator );
+    		const HTranslator & translator );
 
     /** extract a sequence in Fasta-Format from a stream */
     Alignandum * extractSequenceFasta( std::istream & input, 
     		std::string & description,
-    		const Translator * translator );
+    		const HTranslator & translator );
 
     /** create a sequence from a filename */
     Alignandum * readSequence( const char * filename,
-    		const Translator * translator );
+    		const HTranslator & translator );
 
     /** set random seed */
     void setRandomSeed( const long seed );

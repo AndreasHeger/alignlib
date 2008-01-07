@@ -40,7 +40,7 @@ namespace alignlib
   /** sets the default Regularizor object */
   void setDefaultRegularizor( HRegularizor regularizor ) 
   {
-	  DEFAULT_REGULARIZOR.reset(*regularizor);
+	  DEFAULT_REGULARIZOR = regularizor;
   }
 
 } // namespace alignlib

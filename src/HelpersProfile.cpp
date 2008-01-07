@@ -60,19 +60,24 @@ namespace alignlib
 //------------------------------------------------------------------------------------------
 /** create empty profile */
 Alignandum * makeProfile( 
-		const Translator * translator,
+		const HTranslator & translator,
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
 {
-	if (translator == NULL) translator = getDefaultTranslator();
-	
 	return new ImplProfile( translator, regularizor, logoddor );
 }
 
+Alignandum * makeProfile()
+{
+	return makeProfile( 
+			getDefaultTranslator(), 
+			getDefaultRegularizor(),
+			getDefaultLogOddor() );
+}
 //------------------------------------------------------------------------------------------
 /** create empty profile with given length */
-Alignandum * makeProfile( Position length,
-		const Translator * translator,
+Alignandum * makeProfile( const Position & length,
+		const HTranslator & translator,
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
 		{
@@ -84,20 +89,24 @@ Alignandum * makeProfile( Position length,
 	return profile;
 }
 
+Alignandum * makeProfile( const Position & length )
+{
+	return makeProfile( length, 
+			getDefaultTranslator(), 
+			getDefaultRegularizor(),
+			getDefaultLogOddor() );
+}
 
 
 //------------------------------------------------------------------------------------------
 /** create profile from a string of sequences */
 Alignandum * makeProfile( const std::string & src, 
 		int nsequences,
-		const Translator * translator,
-		const Weightor * weightor, 
+		const HTranslator & translator,
+		const HWeightor & weightor, 
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
 		{
-
- 	if (weightor == NULL) weightor = getDefaultWeightor();
-	if (translator == NULL) translator = getDefaultTranslator();
 
 	MultipleAlignment * m = fillMultipleAlignment( 
 			makeMultipleAlignment(), 
@@ -108,43 +117,55 @@ Alignandum * makeProfile( const std::string & src,
 			regularizor, 
 			logoddor );
 	
-	fillProfile( profile, m );
+	fillProfile( profile, m, weightor );
 	delete m;
 	return profile;
 }
+
+Alignandum * makeProfile( const std::string & src, int nsequences)
+{
+	return makeProfile( src, nsequences,
+			getDefaultTranslator(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor() );
+}
+
 
 //------------------------------------------------------------------------------------------
 /** create a default profile from a multiple alignment */
 Alignandum * makeProfile( 
 		const MultipleAlignment * mali, 
-		const Translator * translator,
-		const Weightor * weightor, 
+		const HTranslator & translator,
+		const HWeightor & weightor, 
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
 		{
 
-	if (weightor == NULL) weightor = getDefaultWeightor();
-	if (translator == NULL) translator = getDefaultTranslator();
-	
 	Alignandum * profile = new ImplProfile( translator, regularizor, logoddor );
 	
 	fillProfile( profile, mali, weightor );
 	return profile;
 }
 
+Alignandum * makeProfile( const MultipleAlignment * mali )
+{
+	return makeProfile( mali,
+			getDefaultTranslator(), 
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor() );
+}
+
 //---------------------------------------------------------------------------------------------------------------
 Alignandum * fillProfile( Alignandum * dest, 
 		const MultipleAlignment * src, 
-		const Weightor * weightor ) 
+		const HWeightor & weightor ) 
 		{
 	debug_func_cerr(5);
 
 	// first check, that we actually do have a profile here.
 	ImplProfile * profile = dynamic_cast<ImplProfile*>(dest);
-
-	// set up the weightor object and calculate the weights.
-	if (weightor == NULL) 
-		weightor = getDefaultWeightor();
 
 	SequenceWeights * weights = weightor->calculateWeights( *src );
 	
@@ -169,7 +190,7 @@ Alignandum * fillProfile( Alignandum * dest,
 	// calculate counts
 	int mali_width = src->getWidth();
 	
-	const Translator * translator = profile->getTranslator();
+	const HTranslator & translator = profile->getTranslator();
 	Residue width = translator->getAlphabetSize();
 	
 	for (int nsequence = 0; nsequence < mali_width; nsequence++) 
@@ -578,19 +599,15 @@ Alignandum * makeProfile( const CountsMatrix * src) {
 //------------------------------------------------------------------------------------------------------------------------
 std::string calculateConservation( 
 		const MultipleAlignment * mali, 
-		const Translator * translator,
+		const HTranslator & translator,
 		Frequency min_frequency) 
 {
-
-	Position row, col;
-
-	HRegularizor regularizor = makeRegularizor();
-
 	ImplProfile * profile = dynamic_cast<ImplProfile*>
 		(makeProfile( mali, 
 				translator, 
-				NULL, 
-				regularizor ));
+				makeWeightor( translator ),
+				makeRegularizor(), 
+				makeLogOddor() ));
 
 	profile->prepare();
 
@@ -601,14 +618,14 @@ std::string calculateConservation(
 
 	char * buffer = new char[length + 1];
 	
-	for (col = 0; col < length; col++) 
+	for (Position col = 0; col < length; col++) 
 	{
 		Frequency max_frequency = 0;
 		Frequency f;
 		Residue max_residue = translator->getGapCode();
 		
 		const Frequency * fcolumn = frequencies->getRow(col);
-		for (row = 0; row < width; row++) 
+		for (Position row = 0; row < width; row++) 
 		{
 			if ( (f = fcolumn[row]) > max_frequency && 
 					f >= min_frequency) 
@@ -633,7 +650,7 @@ std::string calculateConservation(
 //------------------------------------------------------------------------------------------------------
 CountsMatrix * makeCountsByCategory( 
 		const MultipleAlignment * mali, 
-		const Translator * translator,
+		const HTranslator & translator,
 		const unsigned int * map_residue2category ) 
 		{
 
@@ -642,9 +659,10 @@ CountsMatrix * makeCountsByCategory(
 	assert( false );
 	ImplProfile * profile = dynamic_cast<ImplProfile*>
 		(makeProfile( mali, 
-			translator,
-			NULL, 
-			regularizor));
+			translator, 
+			makeWeightor( translator ),
+			makeRegularizor(), 
+			makeLogOddor() )); 
 
 	const CountMatrix * counts = profile->getCountMatrix();
 

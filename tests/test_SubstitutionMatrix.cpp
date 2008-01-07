@@ -48,7 +48,7 @@ using namespace alignlib;
 int main ()
 {
 
-  const Translator * translator = getDefaultTranslator();
+  const HTranslator translator = getDefaultTranslator();
   const SubstitutionMatrix * matrix = getDefaultSubstitutionMatrix();
     
   std::string alphabet = translator->getAlphabet();

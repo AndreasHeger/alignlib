@@ -29,8 +29,10 @@
 #define HELPERS_WEIGHTOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -41,28 +43,26 @@ namespace alignlib {
 	3. convenience functions
     */
 
-    class Weightor;
-
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 
-    Weightor * makeNoWeightor();
+    HWeightor makeWeightor( const HTranslator & translator );
 
-    Weightor * makeWeightorHenikoff();
+    HWeightor makeWeightorHenikoff( const HTranslator & translator );
     
-    Weightor * makeWeightorHenikoffKimmen();
+    HWeightor makeWeightorHenikoffKimmen( const HTranslator & translator );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
     
     /** gets the default Weightor object */ 
-    const Weightor * getDefaultWeightor();
+    const HWeightor getDefaultWeightor();
 
     /** sets the default Weightor object 
      * 
      * The library obtains ownership of the weightor.
      * */
-    void setDefaultWeightor( Weightor * weightor );
+    void setDefaultWeightor( const HWeightor & weightor );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

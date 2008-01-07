@@ -38,7 +38,7 @@
 using namespace std;
 using namespace alignlib;
 
-void testTranslator( const Translator * translator, 
+void testTranslator( const HTranslator & translator, 
 		const std::string & alphabet,
 		const std::string & gap_chars,
 		const std::string & mask_chars )
@@ -71,7 +71,7 @@ void testTranslator( const Translator * translator,
 	{
 		ifstream file("test_Translator.tmp", ios::binary) ;
 		
-		const Translator * b = NULL;
+		const HTranslator b;
 		int n = 0;
 		while ( b = loadTranslator( file ) ) 
 		{

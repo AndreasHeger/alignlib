@@ -54,7 +54,11 @@
 #include "HelpersIterator2D.h"
 
 #include "Alignment.h"
+#include "HelpersTranslator.h"
 #include "HelpersAlignment.h"
+#include "HelpersRegularizor.h"
+#include "HelpersWeightor.h"
+#include "HelpersLogOddor.h"
 
 #include "Alignandum.h"
 
@@ -304,10 +308,10 @@ int main () {
 
 	setDefaultSubstitutionMatrix( matrix );
 
-	Alignandum * seq1 = makeSequence( "AAAAACCCCCAAAAA");
-	Alignandum * seq2 = makeSequence( "CCCCC");
-	Alignandum * seq3 = makeSequence( "CCCKCCC");
-	Alignandum * seq4 = makeSequence( "AAAAACCACCAAAAA");
+	Alignandum * seq1 = makeSequence( "AAAAACCCCCAAAAA" );
+	Alignandum * seq2 = makeSequence( "CCCCC" );
+	Alignandum * seq3 = makeSequence( "CCCKCCC" );
+	Alignandum * seq4 = makeSequence( "AAAAACCACCAAAAA" );
 	Alignandum * seq5 = makeSequence( "KKKACACACKKK");
 	Alignandum * seq6 = makeSequence( "AC");  
 	Alignandum * seq7 = makeSequence( "AAAAAAACCCCAAAAAAA" );
@@ -400,8 +404,16 @@ int main () {
 			delete col;
 		}
 		{
-			Alignandum * row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2 );
-			Alignandum * col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2 );
+			Alignandum * row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2,
+					getDefaultTranslator(),
+					makeWeightor( getDefaultTranslator()),
+					makeRegularizor(),
+					makeLogOddor());
+			Alignandum * col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2,
+					getDefaultTranslator(),
+					makeWeightor(getDefaultTranslator()),
+					makeRegularizor(),
+					makeLogOddor());
 		
 			alignator->align( row, col, result);		
 		

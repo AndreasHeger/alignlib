@@ -31,6 +31,11 @@
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 
+#include "HelpersRegularizor.h"
+#include "HelpersTranslator.h"
+#include "HelpersLogOddor.h"
+#include "HelpersWeightor.h"
+
 namespace alignlib 
 {
 
@@ -52,13 +57,15 @@ namespace alignlib
     		const HTranslator & translator,
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
+    Alignandum * makeProfile();
 
     /** create an empty profile with a given length
      */
-    Alignandum * makeProfile( Position length,
+    Alignandum * makeProfile( const Position & length,
     		const HTranslator & translator,
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
+    Alignandum * makeProfile( const Position & length );
     
     /** create default profile from a NULL-terminated char-array. 
 	@param sequence null terminated string to the concatenated sequences
@@ -71,7 +78,9 @@ namespace alignlib
     		const HWeightor & weightor, 
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
-        
+    Alignandum * makeProfile( 
+    		const std::string & sequences, 
+    		int nsequences );        
     /** create default profile from a multiple alignment.
 	@param mali multiple alignment
     */
@@ -82,6 +91,8 @@ namespace alignlib
     		const HWeightor & weightor, 
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor );
+    Alignandum * makeProfile( 
+    		const MultipleAlignment * mali );
 
     /** read counts in binary format from stream and return a profile */
     /*
@@ -150,7 +161,7 @@ namespace alignlib
     /** fill a profile with a multiple alignment using a specified weightor */
     Alignandum * fillProfile( Alignandum * dest, 
 			      const MultipleAlignment * src, 
-			      const Weightor * weightor = NULL );
+			      const HWeightor & weightor );
     /** reset a profile to a new length. Clear old values.
      */
     /*

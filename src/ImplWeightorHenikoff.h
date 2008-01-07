@@ -29,12 +29,11 @@
 #define IMPL_WEIGHTOR_HENIKOFF_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplWeightor.h"
 
-namespace alignlib {
-
-class MultipleAlignment;
-class Translator;
+namespace alignlib 
+{
 
 /** @short Implements sequence weighting as proposed by the Henikoffs.
     
@@ -44,12 +43,13 @@ class Translator;
     @author Andreas Heger
     @version $Id: ImplWeightorHenikoff.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplWeightorHenikoff : public ImplWeightor {
+class ImplWeightorHenikoff : public ImplWeightor 
+{
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplWeightorHenikoff(const Translator * translator);
+    ImplWeightorHenikoff(const HTranslator & translator);
     
     /** copy constructor */
     ImplWeightorHenikoff(const ImplWeightorHenikoff &);

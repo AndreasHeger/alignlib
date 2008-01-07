@@ -28,7 +28,7 @@
 namespace alignlib 
 {
   
-  static const HLogOddor DEFAULT_LOGODDOR(makeLogOddor());
+  static HLogOddor DEFAULT_LOGODDOR(makeLogOddor());
   
   /** gets the default LogOddor object */ 
   const HLogOddor getDefaultLogOddor() 
@@ -39,7 +39,7 @@ namespace alignlib
   /** sets the default LogOddor object */
   void setDefaultLogOddor( const HLogOddor & logOddor ) 
   {
-    DEFAULT_LOGODDOR.reset(logOddor);
+    DEFAULT_LOGODDOR = logOddor;
   }
 
 } // namespace alignlib

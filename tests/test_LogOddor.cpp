@@ -43,6 +43,7 @@
 #include "HelpersProfile.h"
 #include "HelpersRegularizor.h"
 #include "HelpersLogOddor.h"
+#include "HelpersWeightor.h"
 
 using namespace std;
 
@@ -86,21 +87,31 @@ int main ()
   	{
 		std::auto_ptr<SubstitutionMatrix>m( makeSubstitutionMatrixBlosum62() );
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, getDefaultRegularizor(), makeLogOddorGribskov( &*m ) ));
+				getDefaultTranslator(), 
+				getDefaultWeightor(), 
+				getDefaultRegularizor(), 
+				makeLogOddorGribskov( &*m ) ));
+		
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 	
 	std::cout << "----- checking LogOddor ------" << std::endl;	
   	{
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, getDefaultRegularizor(), makeLogOddor() ));
+				getDefaultTranslator(),
+				getDefaultWeightor(),
+				getDefaultRegularizor(), 
+				makeLogOddor() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 
 	std::cout << "----- checking LogOddorUniform ------" << std::endl;	
   	{
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, getDefaultRegularizor(), makeLogOddorUniform() ));
+				getDefaultTranslator(), 
+				getDefaultWeightor(), 
+				getDefaultRegularizor(), 
+				makeLogOddorUniform() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 	

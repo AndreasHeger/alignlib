@@ -28,6 +28,7 @@
 #ifndef HELPERS_TRANSLATOR_H
 #define HELPERS_TRANSLATOR_H 1
 
+#include "alignlib_fwd.h"
 #include "alignlib.h"
 
 namespace alignlib 
@@ -45,17 +46,17 @@ namespace alignlib
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
-    const Translator * getTranslator( const AlphabetType & alphabet );
+    const HTranslator getTranslator( const AlphabetType & alphabet );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
     /** return the library wide translator */
-    const Translator * getDefaultTranslator();
+    const HTranslator getDefaultTranslator();
 
     /** set the library wide translator
      * The library gets ownership of the translator
      *  */
-    void setDefaultTranslator( const Translator * translator);
+    void setDefaultTranslator( const HTranslator & translator);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
@@ -64,7 +65,7 @@ namespace alignlib
      * 
      * Returns NULL on EOF.
      */	
-    const Translator * loadTranslator( std::istream & stream );
+    const HTranslator loadTranslator( std::istream & stream );
 
 }
 

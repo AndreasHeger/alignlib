@@ -27,6 +27,7 @@
 #include <vector>
 #include <cassert>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
 #include "HelpersProfile.h"
@@ -34,6 +35,7 @@
 #include "HelpersMultipleAlignment.h"
 #include "HelpersRegularizor.h"
 #include "HelpersLogOddor.h"
+#include "HelpersTranslator.h"
 #include "AlignException.h"
 #include "Alignatum.h"
 #include "Alignandum.h"
@@ -328,8 +330,9 @@ std::string ImplMultipleAlignment::getConsensusString() const
 
 	std::auto_ptr<Alignandum>profile(makeProfile( this, 
 			getDefaultTranslator(),
-			getRegularizor(),
-			getLogOddor()));
+			makeWeightor( getDefaultTranslator() ),
+			makeRegularizor(),
+			makeLogOddor()));
 
 	for( int column = 0; column < mLength; column++)
 		result += profile->asChar( column );

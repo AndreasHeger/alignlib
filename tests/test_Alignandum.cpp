@@ -62,7 +62,7 @@ void checkingEnd( bool passed = true)
 void runTests( Alignandum * a, const std::string & sample )
 {
 	
-	const Translator * translator = a->getTranslator();
+	const HTranslator translator = a->getTranslator();
 	
 	checkingStart( "translation and range" );
 	{

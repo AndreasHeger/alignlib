@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
 #include "Weightor.h"
@@ -30,19 +31,20 @@
 #include "HelpersTranslator.h"
 #include "Translator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** factory functions */
-Weightor * makeWeightorHenikoff() { return new ImplWeightorHenikoff( getDefaultTranslator() );}
+HWeightor makeWeightorHenikoff( const HTranslator & translator) 
+{ 
+	return HWeightor(new ImplWeightorHenikoff( translator ) );
+}
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplWeightorHenikoff::ImplWeightorHenikoff ( const Translator * translator) : ImplWeightor( translator ) 
+ImplWeightorHenikoff::ImplWeightorHenikoff ( const HTranslator & translator) : 
+	ImplWeightor( translator ) 
 {
 }
 

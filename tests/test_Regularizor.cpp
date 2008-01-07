@@ -88,14 +88,20 @@ int main ()
 	std::cout << "----- checking Regularizor ------" << std::endl;
   	{
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, makeRegularizor(), getDefaultLogOddor() ));
+				getDefaultTranslator(), 
+				makeWeightor(), 
+				makeRegularizor(), 
+				getDefaultLogOddor() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 	
 	std::cout << "----- checking Regularizor ------" << std::endl;	
   	{
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, makeRegularizorPsiblast(), getDefaultLogOddor() ));
+				getDefaultTranslator(), 
+				makeWeightor(), 
+				makeRegularizorPsiblast(), 
+				getDefaultLogOddor() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 

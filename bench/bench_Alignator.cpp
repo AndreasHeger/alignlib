@@ -45,8 +45,11 @@
 #include "HelpersProfile.h"
 #include "Alignator.h"
 #include "HelpersAlignator.h"
+#include "HelpersTranslator.h"
+#include "HelpersRegularizor.h"
+#include "HelpersLogOddor.h"
+#include "HelpersWeightor.h"
 
-  
 using namespace std;
 using namespace alignlib;
 
@@ -73,7 +76,11 @@ void InitSeqProf(
 {
 	*result = makeAlignmentVector();
 	*row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
-	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3 );
+	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
+			getDefaultTranslator(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor());
 }
 
 void InitProfProf( 
@@ -83,8 +90,18 @@ void InitProfProf(
 		 Alignment ** result)
 {
 	*result = makeAlignmentVector();
-	*row = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3 );	
-	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3 );
+	*row = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
+			getDefaultTranslator(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor());
+			);	
+			
+	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
+			getDefaultTranslator(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor());			
 }
 						
 

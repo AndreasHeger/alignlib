@@ -32,6 +32,9 @@
 #include <sstream>
 #include <cassert>
 
+#include "alignlib.h"
+#include "alignlib_fwd.h"
+
 #include "Alignatum.h"
 #include "HelpersAlignatum.h"
 #include "MultipleAlignment.h"
@@ -39,11 +42,12 @@
 #include "AlignlibDebug.h"
 #include "Weightor.h"
 #include "HelpersWeightor.h"
+#include "HelpersTranslator.h"
 
 using namespace std;
 using namespace alignlib;
 
-void testWeightor( Weightor * weightor ) 
+void testWeightor( const HWeightor & weightor ) 
 {
 	std::auto_ptr<MultipleAlignment> mali(makeMultipleAlignment());
 
@@ -64,20 +68,17 @@ int main ()
 {
 	std::cout << "----- testing NoWeightor ---------" << std::endl;
 	{
-		std::auto_ptr<Weightor>weightor(makeNoWeightor());	
-		testWeightor( &*weightor );
+		testWeightor( makeWeightor( getDefaultTranslator()) );
 	}
 
 	std::cout << "----- testing WeightorHenikoff ---------" << std::endl;
 	{
-		std::auto_ptr<Weightor>weightor(makeWeightorHenikoff());	
-		testWeightor( &*weightor );
+		testWeightor( makeWeightorHenikoff( getDefaultTranslator()) );
 	}
 	
 	std::cout << "----- testing WeightorHenikoffKimmen ---------" << std::endl;
 	{
-		std::auto_ptr<Weightor>weightor(makeWeightorHenikoffKimmen());	
-		testWeightor( &*weightor );
+		testWeightor( makeWeightorHenikoffKimmen( getDefaultTranslator()) );
 	}
 	
 }

@@ -30,6 +30,8 @@
 
 #include <iosfwd>
 #include <vector>
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Alignandum.h"
 
 namespace alignlib 
@@ -57,7 +59,7 @@ class ImplAlignandum : public Alignandum
     /* constructors and desctructors------------------------------------------------------- */
   
     /** constructor */
-    ImplAlignandum( const Translator * translator );
+    ImplAlignandum( const HTranslator & translator );
     
     /** copy constructor */
     ImplAlignandum( const ImplAlignandum &);
@@ -70,7 +72,7 @@ class ImplAlignandum : public Alignandum
     virtual Position getLength() const;
 
     /** get translator associated with this object */
-    virtual const Translator * getTranslator() const;
+    virtual const HTranslator & getTranslator() const;
     
     /** use a segment for exporting and set segment to from and to 
 	@param from	where segment starts
@@ -132,7 +134,7 @@ class ImplAlignandum : public Alignandum
     virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
     
     /** translator */
-    const Translator * mTranslator ;
+    HTranslator mTranslator ;
     
     /** bitvector keeping track of masked positions */
     std::vector< bool > mMasked;
