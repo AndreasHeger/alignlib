@@ -37,10 +37,10 @@ namespace alignlib
 {
 
 //---------------------------------------------------------< factory functions >--------------------------------------
-LogOddor * makeLogOddorBackground( const FrequencyVector & frequencies,
+HLogOddor makeLogOddorBackground( const FrequencyVector & frequencies,
 		const Score & scale, const Score & mask_value )
 {
-	return new ImplLogOddorBackground( frequencies, scale, mask_value );
+	return HLogOddor(new ImplLogOddorBackground( frequencies, scale, mask_value ));
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------

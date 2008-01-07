@@ -50,11 +50,11 @@ namespace alignlib
 
 	/** return logoddor that uses the frequencies as scores.
 	 */
-	LogOddor * makeLogOddor( const Score & scale_factor = 1.0, const Score & mask_value = -10);
+	HLogOddor makeLogOddor( const Score & scale_factor = 1.0, const Score & mask_value = -10);
 
-    LogOddor * makeLogOddorUniform( const Score & scale_factor = 1.0, const Score & mask_value = -10);
+    HLogOddor makeLogOddorUniform( const Score & scale_factor = 1.0, const Score & mask_value = -10);
 
-    LogOddor * makeLogOddorBackground( const FrequencyVector & frequencies,
+    HLogOddor makeLogOddorBackground( const FrequencyVector & frequencies,
     									const Score & scale_factor = 1.0,
     									const Score & mask_value = -10);
 
@@ -62,7 +62,7 @@ namespace alignlib
      * 
      * see Gribskov et al. (1987) PNAS 84: 4355-4358
      */
-    LogOddor * makeLogOddorGribskov( const SubstitutionMatrix * matrix,
+    HLogOddor makeLogOddorGribskov( const SubstitutionMatrix * matrix,
     		const Score & scale_factor = 1.0,
     		const Score & mask_value = -10 ); 
     
@@ -70,13 +70,13 @@ namespace alignlib
     /* 2. accessor functions for default objects */
 
     /** gets the default LogOddor object */ 
-    const LogOddor * getDefaultLogOddor();
+    const HLogOddor getDefaultLogOddor();
 
     /** sets the default LogOddor object 
      * 
      * The library obtains ownership of the logoddor 
      * */
-    void setDefaultLogOddor( LogOddor * logoddor);
+    void setDefaultLogOddor( const HLogOddor & logoddor);
     
 
     /* -------------------------------------------------------------------------------------------------------------------- */

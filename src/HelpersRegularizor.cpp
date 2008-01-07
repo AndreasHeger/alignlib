@@ -29,18 +29,18 @@
 namespace alignlib 
 {
   
-  static std::auto_ptr<Regularizor>DEFAULT_REGULARIZOR(makeRegularizor());
+  static HRegularizor DEFAULT_REGULARIZOR(makeRegularizor());
 
   /** gets the default Regularizor object */ 
-  const Regularizor * getDefaultRegularizor() 
+  const HRegularizor getDefaultRegularizor() 
   {
-    return &*DEFAULT_REGULARIZOR;
+    return DEFAULT_REGULARIZOR;
   }
 
   /** sets the default Regularizor object */
-  void setDefaultRegularizor( Regularizor * regularizor ) 
+  void setDefaultRegularizor( HRegularizor regularizor ) 
   {
-	  DEFAULT_REGULARIZOR.reset(regularizor);
+	  DEFAULT_REGULARIZOR.reset(*regularizor);
   }
 
 } // namespace alignlib

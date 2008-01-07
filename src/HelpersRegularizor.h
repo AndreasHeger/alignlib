@@ -28,6 +28,7 @@
 #ifndef HELPERS_REGULARIZOR_H
 #define HELPERS_REGULARIZOR_H 1
 
+#include "alignlib_fwd.h"
 #include "alignlib.h"
 
 namespace alignlib 
@@ -49,38 +50,38 @@ namespace alignlib
     /* 1. factory functions */
 
 	/** empty regularizor - computes frequencies from counts */
-    Regularizor * makeRegularizor();
+    HRegularizor makeRegularizor();
     
     /** regularizor according to Tatusov et al.()
      * for own parameterization. 
      */
-    Regularizor * makeRegularizorTatusov( const SubstitutionMatrix * matrix,
+    HRegularizor makeRegularizorTatusov( const SubstitutionMatrix * matrix,
     		const FrequencyVector & background,
     		const double & beta, 
     		const double & lambda ); 
 
     /** regularizor according to Tatusov et al.() parameterized according to PSIBLAST
      */    
-    Regularizor * makeRegularizorPsiblast();
+    HRegularizor makeRegularizorPsiblast();
     
-    Regularizor * makeRegularizorDirichlet( Count fade_cutoff = 0);
+    HRegularizor makeRegularizorDirichlet( Count fade_cutoff = 0);
     
-    Regularizor * makeRegularizorDirichletHash( Count fade_cutoff = 0);
+    HRegularizor makeRegularizorDirichletHash( Count fade_cutoff = 0);
     
-    Regularizor * makeRegularizorDirichletInterpolate( Count fade_cutoff = 0);
+    HRegularizor makeRegularizorDirichletInterpolate( Count fade_cutoff = 0);
     
-    Regularizor * makeRegularizorDirichletPrecomputed( Count fade_cutoff = 0);
+    HRegularizor makeRegularizorDirichletPrecomputed( Count fade_cutoff = 0);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
 
     /** gets the default Regularizor object */ 
-    const Regularizor * getDefaultRegularizor();
+    const HRegularizor getDefaultRegularizor();
 
     /** sets the default Regularizor object 
      * The library obtains ownership of the regularizor
      * */
-    void setDefaultRegularizor( Regularizor * regularizor);
+    void setDefaultRegularizor( const HRegularizor regularizor);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

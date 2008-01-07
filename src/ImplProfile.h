@@ -93,8 +93,8 @@ class ImplProfile : public ImplAlignandum
 
     friend Alignandum * makeProfile( Position length,
     			const Translator *,
-    			const Regularizor *,
-    			const LogOddor *);
+    			const HRegularizor &,
+    			const HLogOddor &);
 
     friend ProfileFrequencies * exportProfileFrequencies( Alignandum * dest );
     
@@ -104,8 +104,8 @@ class ImplProfile : public ImplAlignandum
     /** constructor */
     ImplProfile( 
     		const Translator * translator,
-    		const Regularizor * regularizor = NULL, 
-    		const LogOddor * logoddor = NULL );	
+    		const HRegularizor & regularizor, 
+    		const HLogOddor & logoddor );	
     
     /** copy constructor */
     ImplProfile( const ImplProfile &);
@@ -206,10 +206,10 @@ class ImplProfile : public ImplAlignandum
     mutable Residue mProfileWidth;
 
     /** pointer to weighter to use for weighting sequences */
-    const Regularizor *mRegularizor;
+    const HRegularizor mRegularizor;
 
     /** pointer to objects used for calculating log odds scores */
-    const LogOddor *mLogOddor;
+    const HLogOddor mLogOddor;
 
     /** pointer to the location of the counts stored in memory */
     mutable CountMatrix *mCountMatrix;			

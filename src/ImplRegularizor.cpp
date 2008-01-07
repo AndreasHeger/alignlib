@@ -30,9 +30,9 @@ namespace alignlib
 {
 
 /** factory functions */
-Regularizor * makeRegularizor()
+HRegularizor makeRegularizor()
 { 
-	return new ImplRegularizor(); 
+	return HRegularizor(new ImplRegularizor()); 
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------

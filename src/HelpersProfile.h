@@ -49,16 +49,16 @@ namespace alignlib
     /** create an empty profile. 
      */
     Alignandum * makeProfile(
-    		const Translator * translator,
-    		const Regularizor * regularizor = NULL,
-    		const LogOddor * logoddor = NULL );
+    		const HTranslator & translator,
+    		const HRegularizor & regularizor,
+    		const HLogOddor & logoddor);
 
     /** create an empty profile with a given length
      */
     Alignandum * makeProfile( Position length,
-    		const Translator * translator = NULL,
-    		const Regularizor * regularizor = NULL,
-    		const LogOddor * logoddor = NULL );
+    		const HTranslator & translator,
+    		const HRegularizor & regularizor,
+    		const HLogOddor & logoddor);
     
     /** create default profile from a NULL-terminated char-array. 
 	@param sequence null terminated string to the concatenated sequences
@@ -67,10 +67,10 @@ namespace alignlib
     Alignandum * makeProfile( 
     		const std::string & sequences, 
     		int nsequences,
-    		const Translator * translator = NULL, 
-    		const Weightor * weightor = NULL, 
-    		const Regularizor * regularizor = NULL,
-    		const LogOddor * logoddor = NULL );
+    		const HTranslator & translator, 
+    		const HWeightor & weightor, 
+    		const HRegularizor & regularizor,
+    		const HLogOddor & logoddor);
         
     /** create default profile from a multiple alignment.
 	@param mali multiple alignment
@@ -78,10 +78,10 @@ namespace alignlib
 
     Alignandum * makeProfile( 
     		const MultipleAlignment * mali,
-    		const Translator * translator = NULL,
-    		const Weightor * weightor = NULL, 
-    		const Regularizor * regularizor = NULL,
-    		const LogOddor * logoddor = NULL );
+    		const HTranslator & translator,
+    		const HWeightor & weightor, 
+    		const HRegularizor & regularizor,
+    		const HLogOddor & logoddor );
 
     /** read counts in binary format from stream and return a profile */
     /*

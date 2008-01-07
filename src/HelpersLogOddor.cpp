@@ -28,16 +28,16 @@
 namespace alignlib 
 {
   
-  static std::auto_ptr<LogOddor>DEFAULT_LOGODDOR(makeLogOddor());
+  static const HLogOddor DEFAULT_LOGODDOR(makeLogOddor());
   
   /** gets the default LogOddor object */ 
-  const LogOddor * getDefaultLogOddor() 
+  const HLogOddor getDefaultLogOddor() 
   {
-    return &*DEFAULT_LOGODDOR;
+    return DEFAULT_LOGODDOR;
   }
 
   /** sets the default LogOddor object */
-  void setDefaultLogOddor( LogOddor * logOddor ) 
+  void setDefaultLogOddor( const HLogOddor & logOddor ) 
   {
     DEFAULT_LOGODDOR.reset(logOddor);
   }

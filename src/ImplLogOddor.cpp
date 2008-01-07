@@ -38,9 +38,9 @@ namespace alignlib
 {
 
 //---------------------------------------------------------< factory functions >--------------------------------------
-LogOddor * makeLogOddor( const Score & scale, const Score & mask_value )
+HLogOddor makeLogOddor( const Score & scale, const Score & mask_value )
 {
-	return new ImplLogOddor( scale, mask_value );
+	return HLogOddor( new ImplLogOddor( scale, mask_value ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------

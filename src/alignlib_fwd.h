@@ -25,34 +25,51 @@
 #define ALIGNLIB_FWD_H_
 
 #include "alignlib.h"
-#include "vector.h"
+#include <vector>
+#include <boost/shared_ptr.hpp>
 
 namespace alignlib
 {
+	/** actor objects and their handles */
 	class Translator;
-
+	typedef boost::shared_ptr<Translator>HTranslator;
+	
 	class Weightor;
-
+	typedef boost::shared_ptr<Weightor>HWeightor;
+	
 	class Regularizor;
-
+	typedef boost::shared_ptr<Regularizor>HRegularizor;
+	
 	class LogOddor;
-
+	typedef boost::shared_ptr<LogOddor>HLogOddor;
+	
 	class MultipleAlignment;
-
+	typedef boost::shared_ptr<MultipleAlignment>HMultipleAlignment;
+	
 	class Alignment;
+	typedef boost::shared_ptr<Alignment>HAlignment;
+	
+	class Alignatum;
+	typedef boost::shared_ptr<Alignatum>HAlignatum;
 	
 	class Alignandum;
+	typedef boost::shared_ptr<Alignandum>HAlignandum;
 	
 	class Alignator;
+	typedef boost::shared_ptr<Alignator>HAlignator;
 	
 	class Treetor;
+	typedef boost::shared_ptr<Treetor>HTreetor;
 	
 	class Distor;
+	typedef boost::shared_ptr<Distor>HDistor;
 	
 	class Fragmentor;
+	typedef boost::shared_ptr<Fragmentor>HFragmentor;
 	
 	class Iterator2D;
-		
+	typedef boost::shared_ptr<Iterator2D>HIterator2D;
+	
 	/** various matrix definitions */
 	template<class T> class Matrix;
 	
@@ -63,6 +80,8 @@ namespace alignlib
     typedef Matrix<Score> SubstitutionMatrix;	
     
     typedef std::vector< Frequency> FrequencyVector;
+    
+    
 }
 
 #endif /*ALIGNLIB_FWD_H_*/

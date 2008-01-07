@@ -41,6 +41,7 @@
 #include "HelpersAlignandum.h"
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersProfile.h"
+#include "HelpersRegularizor.h"
 #include "HelpersLogOddor.h"
 
 using namespace std;
@@ -84,25 +85,22 @@ int main ()
 	std::cout << "----- checking LogOddorGribskov ------" << std::endl;
   	{
 		std::auto_ptr<SubstitutionMatrix>m( makeSubstitutionMatrixBlosum62() );
-		std::auto_ptr<LogOddor>l(makeLogOddorGribskov( &*m )); 
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, NULL, &*l ));
+				NULL, NULL, getDefaultRegularizor(), makeLogOddorGribskov( &*m ) ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 	
 	std::cout << "----- checking LogOddor ------" << std::endl;	
   	{
-		std::auto_ptr<LogOddor>l(makeLogOddor()); 
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, NULL, &*l ));
+				NULL, NULL, getDefaultRegularizor(), makeLogOddor() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 
 	std::cout << "----- checking LogOddorUniform ------" << std::endl;	
   	{
-		std::auto_ptr<LogOddor>l(makeLogOddorUniform()); 
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, NULL, &*l ));
+				NULL, NULL, getDefaultRegularizor(), makeLogOddorUniform() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 	

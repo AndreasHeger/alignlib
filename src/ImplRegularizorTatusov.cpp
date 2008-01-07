@@ -37,12 +37,12 @@ namespace alignlib
 {
 
 //----------------------------------------------------------< factory functions >------------------------------------------------------
-Regularizor * makeRegularizorTatusov( const SubstitutionMatrix * matrix,
+HRegularizor makeRegularizorTatusov( const SubstitutionMatrix * matrix,
 		const FrequencyVector & background,
 		const double & beta, 
 		const double & lambda ) 
 { 
-	return new ImplRegularizorTatusov( matrix, background, beta, lambda ); 
+	return HRegularizor(new ImplRegularizorTatusov( matrix, background, beta, lambda )); 
 }
 
 // Background frequencies according to Robinson & Robinson (1991) Proc Natl Acad Sci U S A. Oct 15;88(20):8880-4.
@@ -68,10 +68,10 @@ static const Score array[] = {0.078047, 0.053640, 0.062949, 0.038556, 0.038556,
 		 					  0.071198, 0.058413, 0.064409, 0.013298, 0.032165};
 static const std::vector<Score>BackgroundPsiblast( array, array + sizeof(array) / sizeof(*array));
 
-Regularizor * makeRegularizorPsiblast() 
+HRegularizor makeRegularizorPsiblast() 
 { 
 	// parameterized according to psiblast
-	return new ImplRegularizorTatusov( makeSubstitutionMatrixBlosum62(), BackgroundPsiblast, 10, 0.3176 ); 
+	return HRegularizor(new ImplRegularizorTatusov( makeSubstitutionMatrixBlosum62(), BackgroundPsiblast, 10, 0.3176 )); 
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------

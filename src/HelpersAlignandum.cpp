@@ -31,6 +31,8 @@
 #include "Alignandum.h"
 #include "Translator.h"
 #include "HelpersTranslator.h"
+#include "HelpersRegularizor.h"
+#include "HelpersLogOddor.h"
 #include "ImplSequence.h"
 #include "ImplProfile.h"
 
@@ -56,7 +58,11 @@ namespace alignlib
 		{
 			case MNImplProfile : 
 			{
-				ImplProfile * r = new ImplProfile( getDefaultTranslator() );
+				ImplProfile * r = new ImplProfile( 
+						getDefaultTranslator(), 
+						getDefaultRegularizor(),
+						getDefaultLogOddor()
+						);
 				r->load(input);
 				result = r;
 				break;

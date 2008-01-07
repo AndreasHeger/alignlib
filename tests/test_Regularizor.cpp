@@ -42,6 +42,7 @@
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersProfile.h"
 #include "HelpersRegularizor.h"
+#include "HelpersLogOddor.h"
 
 using namespace std;
 
@@ -86,17 +87,15 @@ int main ()
 	
 	std::cout << "----- checking Regularizor ------" << std::endl;
   	{
-		std::auto_ptr<Regularizor>r(makeRegularizor()); 
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, &*r, NULL ));
+				NULL, NULL, makeRegularizor(), getDefaultLogOddor() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 	
 	std::cout << "----- checking Regularizor ------" << std::endl;	
   	{
-		std::auto_ptr<Regularizor>r(makeRegularizorPsiblast()); 
 		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				NULL, NULL, &*r, NULL ));
+				NULL, NULL, makeRegularizorPsiblast(), getDefaultLogOddor() ));
 		testAlignandum( &*a, ref_protein20x3 );
 	}
 

@@ -32,6 +32,8 @@
 #include "HelpersProfile.h"
 #include "ImplMultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
+#include "HelpersRegularizor.h"
+#include "HelpersLogOddor.h"
 #include "AlignException.h"
 #include "Alignatum.h"
 #include "Alignandum.h"
@@ -324,7 +326,10 @@ std::string ImplMultipleAlignment::getConsensusString() const
 
 	std::string result("");
 
-	std::auto_ptr<Alignandum>profile(makeProfile( this ));
+	std::auto_ptr<Alignandum>profile(makeProfile( this, 
+			getDefaultTranslator(),
+			getRegularizor(),
+			getLogOddor()));
 
 	for( int column = 0; column < mLength; column++)
 		result += profile->asChar( column );

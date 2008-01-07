@@ -52,8 +52,8 @@ namespace alignlib
 //---------------------------------------> constructors and destructors <--------------------------------------
 // The constructor is potentially empty, so that this object can be read from file.
 ImplProfile::ImplProfile( const Translator * translator, 
-		const Regularizor * regularizor, 
-		const LogOddor * logoddor ) :
+		const HRegularizor & regularizor, 
+		const HLogOddor & logoddor ) :
 			ImplAlignandum( translator ),
 			mRegularizor( regularizor ),
 			mLogOddor( logoddor ),

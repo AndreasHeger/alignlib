@@ -61,12 +61,9 @@ namespace alignlib
 /** create empty profile */
 Alignandum * makeProfile( 
 		const Translator * translator,
-		const Regularizor * regularizor,
-		const LogOddor * logoddor ) 
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
 {
-
-	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
-	if (logoddor == NULL) logoddor = getDefaultLogOddor();
 	if (translator == NULL) translator = getDefaultTranslator();
 	
 	return new ImplProfile( translator, regularizor, logoddor );
@@ -76,14 +73,10 @@ Alignandum * makeProfile(
 /** create empty profile with given length */
 Alignandum * makeProfile( Position length,
 		const Translator * translator,
-		const Regularizor * regularizor,
-		const LogOddor * logoddor ) 
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
 		{
 
-	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
-	if (logoddor == NULL) logoddor = getDefaultLogOddor();
-	if (translator == NULL) translator = getDefaultTranslator();
-	
 	ImplProfile * profile = new ImplProfile( translator,
 			regularizor, logoddor );
 	
@@ -99,13 +92,11 @@ Alignandum * makeProfile( const std::string & src,
 		int nsequences,
 		const Translator * translator,
 		const Weightor * weightor, 
-		const Regularizor * regularizor,
-		const LogOddor * logoddor ) 
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
 		{
 
  	if (weightor == NULL) weightor = getDefaultWeightor();
-	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
-	if (logoddor == NULL) logoddor = getDefaultLogOddor();
 	if (translator == NULL) translator = getDefaultTranslator();
 
 	MultipleAlignment * m = fillMultipleAlignment( 
@@ -128,13 +119,11 @@ Alignandum * makeProfile(
 		const MultipleAlignment * mali, 
 		const Translator * translator,
 		const Weightor * weightor, 
-		const Regularizor * regularizor,
-		const LogOddor * logoddor ) 
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
 		{
 
 	if (weightor == NULL) weightor = getDefaultWeightor();
-	if (regularizor == NULL)  regularizor = getDefaultRegularizor();
-	if (logoddor == NULL) logoddor = getDefaultLogOddor();
 	if (translator == NULL) translator = getDefaultTranslator();
 	
 	Alignandum * profile = new ImplProfile( translator, regularizor, logoddor );
@@ -595,7 +584,7 @@ std::string calculateConservation(
 
 	Position row, col;
 
-	Regularizor * regularizor = makeRegularizor();
+	HRegularizor regularizor = makeRegularizor();
 
 	ImplProfile * profile = dynamic_cast<ImplProfile*>
 		(makeProfile( mali, 
@@ -635,7 +624,6 @@ std::string calculateConservation(
 
 	std::string seq(buffer);
 	delete [] buffer;
-	delete regularizor;
 	delete profile;
 
 	return seq;
@@ -650,7 +638,7 @@ CountsMatrix * makeCountsByCategory(
 		{
 
 	// build profile. Counts are calculated automatically
-	Regularizor * regularizor = makeRegularizor();
+	HRegularizor regularizor = makeRegularizor();
 	assert( false );
 	ImplProfile * profile = dynamic_cast<ImplProfile*>
 		(makeProfile( mali, 
@@ -694,7 +682,6 @@ CountsMatrix * makeCountsByCategory(
 			(*result)[col][category] += (unsigned int)counts->getValue( row, col );
 	}
 
-	delete regularizor;
 	delete profile;
 
 	return result;
