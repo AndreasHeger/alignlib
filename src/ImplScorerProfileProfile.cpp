@@ -35,19 +35,19 @@ namespace alignlib
 {
 
   // factory function for creating iterator over full matrix
-  Scorer * makeScorerProfileProfile( const Alignandum * row, const Alignandum * col )
+  Scorer * makeScorerProfileProfile( const HAlignandum row, const HAlignandum col )
   {
     return new ImplScorerProfileProfile( row, col );
   }
   
   //--------------------------------------------------------------------------------------
   ImplScorerProfileProfile::ImplScorerProfileProfile( 
-		  const Alignandum * row,
-		  const Alignandum * col ) :
+		  const HAlignandum & row,
+		  const HAlignandum & col ) :
     ImplScorer( row, col )
   {
-    const ImplProfile * s1 = dynamic_cast<const ImplProfile*>(row);
-    const ImplProfile * s2 = dynamic_cast<const ImplProfile*>(col);	
+    HImplProfile s1 = boost::dynamic_pointer_cast<ImplProfile, Alignandum>(row);
+    HImplProfile s2 = boost::dynamic_pointer_cast<ImplProfile, Alignandum>(col);	
 
     if (!s1)
       throw AlignException( "ImplScoreProfileProfile.cpp: row not a profile.");
@@ -85,16 +85,18 @@ namespace alignlib
   //--------------------------------------------------------------------------------------  
   /** return a copy of the same iterator
    */
-  Scorer * ImplScorerProfileProfile::getClone() const
+  HScorer ImplScorerProfileProfile::getClone() const
   {
-    return new ImplScorerProfileProfile( *this );
+    return HScorer( new ImplScorerProfileProfile( *this ) );
   }
 
   /** return a new instance of this object initialized with row and col
    */
-  Scorer * ImplScorerProfileProfile::getNew( const Alignandum * row, const Alignandum * col) const
+  HScorer ImplScorerProfileProfile::getNew( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col) const
   {
-    return new ImplScorerProfileProfile( row, col );
+    return HScorer( new ImplScorerProfileProfile( row, col ) );
   }
   
   /** return score of matching row to col

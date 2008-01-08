@@ -68,7 +68,7 @@ class Dottor
     virtual void releasePairs() const = 0;
     
     /** calculate the dots */
-    virtual void calculatePairs( const Alignandum * row, const Alignandum * col) const = 0;
+    virtual void calculatePairs( const HAlignandum row, const HAlignandum col) const = 0;
     
     /** get array of residue pairs */
     virtual ResiduePAIR * getPairs() const = 0;

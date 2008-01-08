@@ -31,9 +31,11 @@
 #include <iosfwd>
 
 #include "alignlib.h"
-#include "Iterator2D.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -44,28 +46,19 @@ namespace alignlib {
 	3. convenience functions
     */
 
-
-  class Alignandum;
- 
   /* 1. factory functions */
-  Iterator2D * makeIterator2DFull( const Alignandum * row = NULL,
-				   const Alignandum * col = NULL );
+  HIterator2D makeIterator2DFull( 
+		  const HAlignandum & row,
+		  const HAlignandum & col);
+  HIterator2D makeIterator2DFull(); 
   
-  Iterator2D * makeIterator2DBanded( const Alignandum * row = NULL,
-				     const Alignandum * col = NULL,
+  HIterator2D makeIterator2DBanded( const HAlignandum & row,
+				     const HAlignandum & col,
 				     const Diagonal lower_diagonal = 0,
 				     const Diagonal upper_diagonal = 0);
 
-  /* 2. accessor functions for default objects */
-  const Iterator2D * getDefaultIterator2D();
+  DEFINE_DEFAULT( HIterator2D, getDefaultIterator2D, setDefaultIterator2D );
   
-  /** set the default iterator.
-   * 
-   * The library takes ownership of the supplied iterator
-   */
-  void setDefaultIterator2D( Iterator2D *);
-
-  /* 3. convenience functions */
 }
 
 #endif	/* HELPERS_ITERATOR2D_H */

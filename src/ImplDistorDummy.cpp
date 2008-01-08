@@ -43,7 +43,7 @@ PhyloMatrixValue ImplDistorDummy::getMaximumPossibleDistance() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrix * ImplDistorDummy::calculateMatrix( PhyloMatrix * matrix, const alignlib::MultipleAlignment * multali) const 
+PhyloMatrix * ImplDistorDummy::calculateMatrix( PhyloMatrix * matrix, const alignlib::HMultipleAlignment multali) const 
 {
 	debug_func_cerr( 5 );
 

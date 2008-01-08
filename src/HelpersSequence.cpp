@@ -48,41 +48,44 @@ namespace alignlib
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a NULL-terminated string */
-Alignandum * makeSequence( const char * sequence, 
+HAlignandum makeSequence( const char * sequence, 
 		const HTranslator & translator ) 
 		{
-		return new ImplSequence( std::string(sequence), translator );
+		return HAlignandum( new ImplSequence( std::string(sequence), translator ) );
 		}
 
-Alignandum * makeSequence( const char * sequence )
+HAlignandum makeSequence( const char * sequence )
 		{
 		return makeSequence( sequence, getDefaultTranslator() );
 		}
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a string */
-Alignandum * makeSequence( const std::string & sequence,
+HAlignandum makeSequence( const std::string & sequence,
 		const HTranslator & translator ) 
 		{
-		return new ImplSequence( sequence, translator );
+		return HAlignandum( new ImplSequence( sequence, translator ) );
 		}
 
-Alignandum * makeSequence( const std::string & sequence )
+HAlignandum makeSequence( const std::string & sequence )
 		{
 	return makeSequence( sequence );
 		}
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a stream */
-Alignandum * extractSequence( std::istream & input, const HTranslator & translator ) 
+/*
+HAlignandum extractSequence( std::istream & input, const HTranslator & translator ) 
 {
 	// TODO to be implemented
 	return NULL;
 }
+*/
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a stream, put description into field description. Return Null, if unsuccessfull */
-Alignandum * extractSequenceFasta( std::istream & input, 
+/*
+HAlignandum extractSequenceFasta( std::istream & input, 
 		std::string & description,
 		const HTranslator & translator ) 
 		{
@@ -126,10 +129,11 @@ Alignandum * extractSequenceFasta( std::istream & input,
 	else
 		return NULL;
 		}
-
+*/
 //----------------------------------------------------------------------------------
 /** read a sequence from a file, given the filename */
-Alignandum * readSequence( const char * filename,
+/*
+HAlignandum readSequence( const char * filename,
 		const HTranslator & translator ) 
 		{
 
@@ -147,7 +151,7 @@ Alignandum * readSequence( const char * filename,
 	return makeSequence( sequence.c_str(), translator );
 
 		}
-
+*/
 
 /* this routine should be replace by something, that
      a. uses a different random generator
@@ -175,7 +179,7 @@ void setRandomSeed( long seed )
 	srandom(seed);
 }
 
-Alignandum * makeMutatedSequence( Alignandum * src, 
+HAlignandum makeMutatedSequence( HAlignandum src, 
 		const MutationMatrix * matrix) 
 		{
 
@@ -201,7 +205,7 @@ Alignandum * makeMutatedSequence( Alignandum * src,
 
 	buffer[x] = '\0';
 
-	Alignandum * sequence = makeSequence(buffer, translator );
+	HAlignandum sequence = makeSequence(buffer, translator );
 	delete [] buffer;
 
 	return sequence;

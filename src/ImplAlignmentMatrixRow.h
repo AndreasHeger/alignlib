@@ -40,7 +40,8 @@ class Alignandum;
     @author Andreas Heger
     @version $Id: ImplAlignmentMatrixRow.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignmentMatrixRow : public ImplAlignmentMatrix {
+class ImplAlignmentMatrixRow : public ImplAlignmentMatrix 
+{
 
     friend class ConstIterator;
     friend class ImplAlignatorDots;
@@ -57,10 +58,10 @@ class ImplAlignmentMatrixRow : public ImplAlignmentMatrix {
     virtual ~ImplAlignmentMatrixRow();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignmentMatrixRow * getNew() const;
+    virtual HAlignment getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignmentMatrixRow * getClone() const;
+    virtual HAlignment getClone() const;
 
     //------------------------------------------------------------------------------------------------------------
     /** maps a residue from row to column. returns 0, if not found. This is quick, since there is 

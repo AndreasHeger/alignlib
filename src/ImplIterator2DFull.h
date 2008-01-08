@@ -39,7 +39,7 @@ namespace alignlib {
     public:
       
       /** empty constructor */
-      ImplIterator2DFull( const Alignandum * row = NULL, const Alignandum * col = NULL); 
+      ImplIterator2DFull( const HAlignandum & row, const HAlignandum & col); 
     
       /** destructor */
       virtual ~ImplIterator2DFull ();
@@ -49,15 +49,15 @@ namespace alignlib {
 
       /** return a copy of the same iterator
        */
-      virtual Iterator2D * getClone() const;
+      virtual HIterator2D getClone() const;
       
       /** return a new iterator of same type initializes with for row and col
        */
-      virtual Iterator2D * getNew( const Alignandum * row, const Alignandum * col ) const;
+      virtual HIterator2D getNew( const HAlignandum & row, const HAlignandum & col ) const;
 
       /** reset ranges of iterator for new row and col objects
        */
-      virtual void resetRanges( const Alignandum * row, const Alignandum * col );
+      virtual void resetRanges( const HAlignandum & row, const HAlignandum & col );
 
       /** return iterators for rows/columns */
       virtual const_iterator row_begin ( Position col = 0 ) const;

@@ -87,14 +87,15 @@ ImplAlignatorDotsSquaredDiagonal::~ImplAlignatorDotsSquaredDiagonal()
 }
 
 //----------------------------------------------------------------------------------------------------------
-ImplAlignatorDotsSquaredDiagonal * ImplAlignatorDotsSquaredDiagonal::getClone() const 
+HAlignator ImplAlignatorDotsSquaredDiagonal::getClone() const 
 {
- return new ImplAlignatorDotsSquaredDiagonal( *this );
+ return HAlignator( new ImplAlignatorDotsSquaredDiagonal( *this ) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 
-Score ImplAlignatorDotsSquaredDiagonal::getGapCost( Dot x1, Dot x2 ) const {
+Score ImplAlignatorDotsSquaredDiagonal::getGapCost( Dot x1, Dot x2 ) const 
+{
 
     ResiduePAIR & p1 = *((*mPairs)[x1]);
     ResiduePAIR & p2 = *((*mPairs)[x2]);

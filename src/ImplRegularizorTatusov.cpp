@@ -37,8 +37,9 @@ namespace alignlib
 {
 
 //----------------------------------------------------------< factory functions >------------------------------------------------------
-HRegularizor makeRegularizorTatusov( const SubstitutionMatrix * matrix,
-		const FrequencyVector & background,
+HRegularizor makeRegularizorTatusov( 
+		const HSubstitutionMatrix & matrix,
+		const HFrequencyVector & background,
 		const double & beta, 
 		const double & lambda ) 
 { 
@@ -66,17 +67,23 @@ static const Score array[] = {0.078047, 0.053640, 0.062949, 0.038556, 0.038556,
 		 					  0.073772, 0.021992, 0.051420, 0.057438, 0.090191,
 		 					  0.022425, 0.044873, 0.052028, 0.042644, 0.051295,	
 		 					  0.071198, 0.058413, 0.064409, 0.013298, 0.032165};
-static const std::vector<Score>BackgroundPsiblast( array, array + sizeof(array) / sizeof(*array));
+static const HFrequencyVector BackgroundPsiblast( new FrequencyVector( array, array + sizeof(array) / sizeof(*array))); 
+		
+//	BackgroundPsiblast( ( array, array + sizeof(array) / sizeof(*array)) );
 
 HRegularizor makeRegularizorPsiblast() 
 { 
 	// parameterized according to psiblast
-	return HRegularizor(new ImplRegularizorTatusov( makeSubstitutionMatrixBlosum62(), BackgroundPsiblast, 10, 0.3176 )); 
+	return HRegularizor(new ImplRegularizorTatusov( 
+			makeSubstitutionMatrixBlosum62(), 
+			BackgroundPsiblast, 
+			10, 0.3176 )); 
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplRegularizorTatusov::ImplRegularizorTatusov( const SubstitutionMatrix * matrix,
-		const FrequencyVector & background,
+ImplRegularizorTatusov::ImplRegularizorTatusov( 
+		const HSubstitutionMatrix & matrix,
+		const HFrequencyVector & background,
 		const double & beta,
 		const double & lambda ) :
 	mSubstitutionMatrix( matrix ), 
@@ -133,7 +140,7 @@ void ImplRegularizorTatusov::fillFrequencies(
 	// gi in the PSIBLAST paper
 	Score * pseudocounts = new Score[width];
 	
-	const FrequencyVector & bg = mBackgroundFrequencies;
+	const HFrequencyVector & bg = mBackgroundFrequencies;
 	
 	for (Position column = 0; column < length; column++) 
 	{
@@ -144,7 +151,7 @@ void ImplRegularizorTatusov::fillFrequencies(
 		{
 			Score total = 0;
 			for (Residue j = 0; j < width; ++j)
-				total += f[i] * bg[i] * exp( mLambda * mSubstitutionMatrix->getValue( i, j) );  
+				total += f[i] * (*bg)[i] * exp( mLambda * mSubstitutionMatrix->getValue( i, j) );  
 					
 			pseudocounts[i] = total;
 		}

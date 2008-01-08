@@ -30,13 +30,10 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
-
-class Alignandum;
-class AlignmentIterator;
-class AlignmentConstIterator;
 
 /**
    @short A residuepair containing row, column, and a score.
@@ -109,11 +106,11 @@ public:
 	//------------------------------------------------------------------------------------------------------------
 	/** returns a new empty Alignment of the same type.
 	 */
-	virtual Alignment * getNew() const = 0;
+	virtual HAlignment getNew() const = 0;
 
 	/** returns an identical copy
 	 */
-	virtual Alignment * getClone() const = 0;
+	virtual HAlignment getClone() const = 0;
 
 	//------------------------------------------------------------------------------------------------------------
 	/**

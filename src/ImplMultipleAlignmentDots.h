@@ -63,30 +63,35 @@ class Alignatum;
 class Alignment;	
 class Renderer;
 
-/** This structure takes possession of the passed objects. 
+/** Lazily maps input to output via alignment. 
  */
 struct MaliRow 
 {
-  MaliRow(); 
-
-  MaliRow( Alignatum * input, Alignment * map_alignatum2mali, Alignatum * output = NULL);
+  MaliRow( const HAlignatum & input, 
+		   const HAlignment & map_alignatum2mali ); 
+  
+  MaliRow( const HAlignatum & input, 
+		   const HAlignment & map_alignatum2mali, 
+		   const HAlignatum & output);
 
   MaliRow( MaliRow & src );
   
   ~MaliRow();
   
   /** the sequence */
-  Alignatum * mAlignatumInput; 
+  HAlignatum mAlignatumInput; 
   /** the dots */
-  Alignment * mMapMali2Alignatum;
+  HAlignment mMapMali2Alignatum;
   /** the rendered Alignatum. Needed, for returning as reference */
-  Alignatum * mAlignatumOutput;
+  HAlignatum mAlignatumOutput;
 };
+
+typedef boost::shared_ptr< MaliRow > HMaliRow;
 
 class ImplMultipleAlignmentDots : public MultipleAlignment 
 {
 
-	typedef std::vector< MaliRow * > RowVector;
+	typedef std::vector< HMaliRow > RowVector;
 	
   // class member functions
  public:
@@ -94,8 +99,9 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
     // constructors and desctructors
     /** empty constructor 
      */
-    ImplMultipleAlignmentDots  (const bool compress_unaligned_columns = true,
-				const int max_insertion_length = -1);
+    ImplMultipleAlignmentDots(
+    		const bool compress_unaligned_columns = true,
+    		const int max_insertion_length = -1);
 
     /** copy constructor */
     ImplMultipleAlignmentDots  (const ImplMultipleAlignmentDots &);
@@ -126,7 +132,7 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
 
     /** returns a pointer to the object at row from the multiple alignment. The pointer is not const,
 	so you are free to do all sort of ugly stuff.*/
-    virtual Alignatum * getRow( int row ) const;
+    virtual HAlignatum getRow( int row ) const;
     
     /** erases an entry form the multiple alignment */
     virtual void eraseRow( int row );
@@ -146,14 +152,18 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
 		       src, you get the correct position in the multiple alignment.
 	@param skip_gaps false, if gaps in existing multiple alignment shall be introduced
     */
-    virtual void add( Alignatum * src,
-		      const Alignment * alignment = NULL,
+    virtual void add( const HAlignatum & src,
+		      const HAlignment & alignment,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,
 		      bool use_end_mali = false,
 		      bool use_end_alignatum = false);
 
+    /** add a aligned sequence of the same length to this multiple alignment.
+     */
+    virtual void add( const HAlignatum & src );
+    
     /** add the contents of a multiple alignment to the multiple alignment by mapping it through an alignment
 	@param src	       pointer to the unaligned object to be added.
 	@param alignment pointer to the alignment used for combining these two objects. If it is
@@ -165,19 +175,23 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
           @param skip_gaps false, if gaps in existing multiple alignment shall be introduced
 			   
      */
-    virtual void add( const MultipleAlignment * src,
-		      const Alignment * alignment = NULL,
+    virtual void add( const HMultipleAlignment & src,
+		      const HAlignment & alignment,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,
 		      bool use_end_mali = false,
 		      bool use_end_alignatum = false);
+
+    /** add a aligned sequence of the same length to this multiple alignment.
+     */
+    virtual void add( const HMultipleAlignment & src );
     
     /** returns the consensus string for the multiple alignment */
     virtual std::string getConsensusString () const ;			
 
     /** register a new renderer */
-    virtual void registerRenderer( const Renderer * renderer );
+    virtual void registerRenderer( const HRenderer & renderer );
 
     /** returns true, if there are no aligned objects in this alignment */
     virtual bool isEmpty() const;
@@ -186,10 +200,10 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
     virtual void clear();
 
     /** returns a clone of this object */
-    virtual MultipleAlignment * getClone() const;
+    virtual HMultipleAlignment getClone() const;
     
     /** returns an empty version of this object */
-    virtual MultipleAlignment * getNew() const;
+    virtual HMultipleAlignment getNew() const;
 
     /** Write the multiple alignment to a stream
      */
@@ -212,7 +226,7 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
     mutable RowVector mRows;             
 
     /** the Renderer */
-    const Renderer * mRenderer;
+    HRenderer mRenderer;
 
     /** whether or not to compress unaligned columns */
     bool mCompressUnalignedColumns;
@@ -222,6 +236,7 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
     
 };
 
+typedef boost::shared_ptr< ImplMultipleAlignmentDots > HImplMultipleAlignmentDots;
 
 }
 

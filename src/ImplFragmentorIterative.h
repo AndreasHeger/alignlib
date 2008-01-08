@@ -47,7 +47,7 @@ class ImplFragmentorIterative : public ImplFragmentor
  public:
     /* constructors and desctructors------------------------------------------------------- */
     /** constructor */
-    ImplFragmentorIterative( Alignment * dots, 
+    ImplFragmentorIterative( HAlignment dots, 
 			     Score min_score, 
 			     Score gop,
 			     Score gep);
@@ -60,7 +60,7 @@ class ImplFragmentorIterative : public ImplFragmentor
 
  protected:
     /** the alignator used to create dot-plots */
-    Alignment *mDots;
+    HAlignment mDots;
 
     /** minimum score for alignment */
     Score mMinScore;
@@ -70,9 +70,10 @@ class ImplFragmentorIterative : public ImplFragmentor
     Score mGep;
 
     /** perform the actual alignment */
-    virtual void performFragmentation( const Alignandum * row, 
-				       const Alignandum * col, 
-				       const Alignment * sample);
+    virtual void performFragmentation( 
+    		HAlignment & sample,
+    		const HAlignandum & row, 
+    		const HAlignandum & col ); 
 };
 
 }

@@ -57,10 +57,10 @@ class ImplAlignmentMatrixDiagonal : public ImplAlignmentMatrix {
     virtual ~ImplAlignmentMatrixDiagonal();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignmentMatrixDiagonal * getNew() const;
+    virtual HAlignment getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignmentMatrixDiagonal * getClone() const;
+    virtual HAlignment getClone() const;
     
     //----------------> accessors <------------------------------------------------------------------------------
 

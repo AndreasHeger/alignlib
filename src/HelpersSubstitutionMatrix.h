@@ -30,6 +30,7 @@
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "alignlib_default.h"
 
 namespace alignlib 
 {
@@ -47,7 +48,7 @@ namespace alignlib
     /* 1. factory functions */
 
     /** create a Substitution Matrix */
-    SubstitutionMatrix * makeSubstitutionMatrix( 
+    HSubstitutionMatrix makeSubstitutionMatrix( 
     			int alphabet_size,
     			const Score match = 1,
     			const Score mismatch = -1 );
@@ -55,38 +56,29 @@ namespace alignlib
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
 
-    /** gets the default SubstitionMatrix.
-     * 
-     * The library keeps ownership of the object 
-     * */ 
-    const SubstitutionMatrix * getDefaultSubstitutionMatrix();
-    
-    /** sets the default SubstitutionMatrix.
-     * 
-     * The library takes ownership of the default matrix.
-     * The return type is void because of constraints in py++/boost.python
-     * */
-    void setDefaultSubstitutionMatrix( SubstitutionMatrix * matrix);
+    DEFINE_DEFAULT( HSubstitutionMatrix, 
+		getDefaultSubstitutionMatrix,
+		setDefaultSubstitutionMatrix );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
     /** create a substituion matrix from a vector of scores. The scores
      * are given in row/column order.
      */
-    SubstitutionMatrix * makeSubstitutionMatrix( const ScoreVector & scores,
+    HSubstitutionMatrix makeSubstitutionMatrix( const ScoreVector & scores,
     		int nrows, int ncols);
     
     /** The blosum62 scoring matrix */
-    SubstitutionMatrix * makeSubstitutionMatrixBlosum62();
+    HSubstitutionMatrix makeSubstitutionMatrixBlosum62();
     
     /** The blosum50 scoring matrix */
-    SubstitutionMatrix * makeSubstitutionMatrixBlosum50();
+    HSubstitutionMatrix makeSubstitutionMatrixBlosum50();
 
     /** The pam250 scoring matrix */
-    SubstitutionMatrix * makeSubstitutionMatrixPam250();
+    HSubstitutionMatrix makeSubstitutionMatrixPam250();
     
     /** The pam120 scoring matrix */
-    SubstitutionMatrix * makeSubstitutionMatrixPam120();
+    HSubstitutionMatrix makeSubstitutionMatrixPam120();
     
 }
 

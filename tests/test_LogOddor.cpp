@@ -41,85 +41,48 @@
 #include "HelpersAlignandum.h"
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersProfile.h"
-#include "HelpersRegularizor.h"
-#include "HelpersLogOddor.h"
-#include "HelpersWeightor.h"
+
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
 using namespace std;
-
 using namespace alignlib;
 
-void checkingStart( const std::string & s)
-{
-	std::cout << "starting check:" << s << "...";
-}
+std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
+std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
 
-void checkingEnd( bool passed = true)
+void test_GenericLogOddor( HLogOddor & logoddor )
 {
-	if (passed)
-		std::cout << "passed" << std::endl;
-	else
-		std::cout << "failed" << std::endl;
-}
-
-void testAlignandum( Alignandum * a, const std::string & sample )
-{
+	std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
+			getDefaultTranslator(), 
+			getDefaultWeightor(), 
+			getDefaultRegularizor(), 
+			logoddor ));
 	
-	const Translator * translator = a->getTranslator();
-	
-	checkingStart( "checking preparation" );
-	{
-		a->prepare();
-	}
-	checkingEnd();
-	
+	a->prepare();	
 	std::cout << *a << std::endl;
 }
 
-
-int main () 
+BOOST_AUTO_TEST_CASE( test_LogOddor )
 {
-
-	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
-	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
-	
-	std::cout << "----- checking LogOddorGribskov ------" << std::endl;
-  	{
-		std::auto_ptr<SubstitutionMatrix>m( makeSubstitutionMatrixBlosum62() );
-		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				getDefaultTranslator(), 
-				getDefaultWeightor(), 
-				getDefaultRegularizor(), 
-				makeLogOddorGribskov( &*m ) ));
-		
-		testAlignandum( &*a, ref_protein20x3 );
-	}
-	
-	std::cout << "----- checking LogOddor ------" << std::endl;	
-  	{
-		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				getDefaultTranslator(),
-				getDefaultWeightor(),
-				getDefaultRegularizor(), 
-				makeLogOddor() ));
-		testAlignandum( &*a, ref_protein20x3 );
-	}
-
-	std::cout << "----- checking LogOddorUniform ------" << std::endl;	
-  	{
-		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				getDefaultTranslator(), 
-				getDefaultWeightor(), 
-				getDefaultRegularizor(), 
-				makeLogOddorUniform() ));
-		testAlignandum( &*a, ref_protein20x3 );
-	}
-	
-	return EXIT_SUCCESS;
-
+	HLogOddor l = makeLogOddor();	
+	test_GenericLogOddor( l );
 }
 
+BOOST_AUTO_TEST_CASE( test_LogOddorUniform )
+{
+	HLogOddor l = makeLogOddor();
+	test_GenericLogOddor( l );
+}
 
+BOOST_AUTO_TEST_CASE( test_LogOddorGribskov )
+{
+	setDefaultTranslator( getTranslator( Protein23 ) );
+	std::auto_ptr<SubstitutionMatrix>m( makeSubstitutionMatrixBlosum62() );
+	HLogOddor l = makeLogOddorGribskov( &*m );
+	test_GenericLogOddor( l ); 
+}
 
 
 

@@ -85,14 +85,15 @@ ImplAlignatorDotsSquared::~ImplAlignatorDotsSquared()
 }
 
 //----------------------------------------------------------------------------------------------------------
-ImplAlignatorDotsSquared * ImplAlignatorDotsSquared::getClone() const 
+HAlignator ImplAlignatorDotsSquared::getClone() const 
 {
- return new ImplAlignatorDotsSquared( *this );
+ return HAlignator( new ImplAlignatorDotsSquared( *this ) );
 }
 
 //------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------
-Score ImplAlignatorDotsSquared::getGapCost( Dot x1, Dot x2 ) const {
+Score ImplAlignatorDotsSquared::getGapCost( Dot x1, Dot x2 ) const 
+{
 
   Position c1 = (*mPairs)[x1]->mCol;
   Position c2 = (*mPairs)[x2]->mCol;  
@@ -112,7 +113,9 @@ Score ImplAlignatorDotsSquared::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDotsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) 
+void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
+		const HAlignandum & prow, 
+		const HAlignandum & pcol ) 
   {
 
   /**

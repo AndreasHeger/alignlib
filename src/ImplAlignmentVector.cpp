@@ -38,9 +38,9 @@ namespace alignlib
 #define GROWTH_FACTOR 2
 
 //------------------------------factory functions -----------------------------
-Alignment * makeAlignmentVector() 
+HAlignment makeAlignmentVector() 
 {
-	return new ImplAlignmentVector();
+	return HAlignment( new ImplAlignmentVector() );
 }
 
 //------------------------------------< constructors and destructors >-----
@@ -79,14 +79,14 @@ ImplAlignmentVector::~ImplAlignmentVector( )
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignmentVector * ImplAlignmentVector::getNew() const
+HAlignment ImplAlignmentVector::getNew() const
 {
-	return new ImplAlignmentVector();
+	return HAlignment( new ImplAlignmentVector() );
 }
 
-ImplAlignmentVector * ImplAlignmentVector::getClone() const 
+HAlignment ImplAlignmentVector::getClone() const 
 {
-	return new ImplAlignmentVector( *this );
+	return HAlignment( new ImplAlignmentVector( *this ) );
 }
 
 //-----------------------------------------------------------------------------------------------------------   

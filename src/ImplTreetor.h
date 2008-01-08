@@ -50,7 +50,7 @@ class ImplTreetor : public Treetor
   virtual ~ImplTreetor ();
 
   /** create a tree from a multiple alignment */
-  virtual Tree * calculateTree( Tree * dest, const alignlib::MultipleAlignment * src = NULL) const = 0; 
+  virtual Tree * calculateTree( Tree * dest, const alignlib::HMultipleAlignment src = NULL) const = 0; 
 
  private:
 

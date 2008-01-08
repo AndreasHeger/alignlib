@@ -37,14 +37,14 @@ namespace alignlib
 {
 
 /** factory functions */
-HWeightor makeWeightorHenikoff( const HTranslator & translator) 
+HWeightor makeWeightorHenikoff() 
 { 
-	return HWeightor(new ImplWeightorHenikoff( translator ) );
+	return HWeightor(new ImplWeightorHenikoff());
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplWeightorHenikoff::ImplWeightorHenikoff ( const HTranslator & translator) : 
-	ImplWeightor( translator ) 
+ImplWeightorHenikoff::ImplWeightorHenikoff () : 
+	ImplWeightor() 
 {
 }
 
@@ -52,23 +52,25 @@ ImplWeightorHenikoff::~ImplWeightorHenikoff ()
 {
 }
 
-ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) : ImplWeightor(src) 
+ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) : 
+	ImplWeightor(src) 
 {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-SequenceWeights * ImplWeightorHenikoff::calculateWeights( 
-		const MultipleAlignment & src ) const 
+HSequenceWeights ImplWeightorHenikoff::calculateWeights( 
+			const HMultipleAlignment & src,
+			const HTranslator & translator ) const 
 {
 	debug_func_cerr(5);
 
 	//!! TODO: Right now I have to translate twice. This could be improved by making a temporary
 	// copy (at the expense of memory, though)
 
-	int width = mTranslator->getAlphabetSize();
+	int width = translator->getAlphabetSize();
 
-	int nsequences = src.getWidth();
-	Position length = src.getLength();
+	int nsequences = src->getWidth();
+	Position length = src->getLength();
 
 	Position column;
 	int i, j;
@@ -86,9 +88,9 @@ SequenceWeights * ImplWeightorHenikoff::calculateWeights(
 
 	for (i = 0; i < nsequences; i++) 
 	{
-		const std::string & sequence = src[i];
+		const std::string & sequence = (*src)[i];
 		for (column = 0; column < length; column++)
-			if ((residue = mTranslator->encode(sequence[column])) < width) 
+			if ((residue = translator->encode(sequence[column])) < width) 
 				counts[column * width + residue]++;
 	}
 
@@ -104,15 +106,15 @@ SequenceWeights * ImplWeightorHenikoff::calculateWeights(
 				ntypes[column]++;
 	}
 	//---------------> calculate sequence weights <------------------------------------------
-	SequenceWeights * weights = new SequenceWeights(nsequences);
+	HSequenceWeights weights( new SequenceWeights(nsequences) );
 	SequenceWeights & w = *weights;
 	for (i = 0; i < nsequences; i++) 
 	{
 		w[i] = 0;
 		for (column = 0; column < length; column++) 
 		{
-			const std::string & sequence = src[i];			// sum up, but skip gaps and masked characters
-			if ( (residue = mTranslator->encode(sequence[column])) < width) 
+			const std::string & sequence = (*src)[i];			// sum up, but skip gaps and masked characters
+			if ( (residue = translator->encode(sequence[column])) < width) 
 				w[i] += (SequenceWeight)(1.0 / 
 						((double)counts[column * width + residue] * (double)ntypes[column]));
 		}
@@ -125,7 +127,7 @@ SequenceWeights * ImplWeightorHenikoff::calculateWeights(
 	//---------------> rescale weights, so that they sum to 1 <---------------------------
 	rescaleWeights( weights, nsequences, 1.0);
 
-	return weights;
+	return HSequenceWeights( weights );
 }
 } // namespace alignlib
 

@@ -20,13 +20,8 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/** 
-    some global defines
-    define
-	DEBUG, if debugging should be turned on
-	TCO, if TCO alignments should be allowed
+/** global definition of atomic types.
  */
-
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -35,19 +30,12 @@
 #ifndef _ALIGNLIB_H
 #define _ALIGNLIB_H 1
 
-#include <vector>
-#include "Matrix.h"
-
 namespace alignlib
 {
 
-// forward declarations
-class Alignment; 
+#define MAX_DIAGONAL 99999999
 
-#define MAX_NDOTS    1000000        /* maximum number of dots */
-#define MAX_SEQLEN   30000	     /* maximum sequence length */
-#define MAX_DIAGONAL 999999		/* the maximum diagonal there can be */
-
+	
 /* type for the internal representation of residues */  
 typedef unsigned char Residue;
 
@@ -81,11 +69,6 @@ typedef double Count;
 
 /* type of one entry in a frequencies-table */
 typedef double Frequency;
-typedef std::vector<Frequency>Frequencies;
-typedef std::vector<Frequencies>ProfileFrequencies;
-
-/** vector of sequence weights */
-typedef std::vector<SequenceWeight>SequenceWeights;
 
 /** alignment types */
 enum AlignmentType
@@ -151,16 +134,6 @@ struct Coordinate
 typedef double PhyloMatrixValue;
 
 typedef unsigned long PhyloMatrixSize;
-
-/** A vector of aligned fragmens */
-typedef std::vector<Alignment*> FragmentVector;
-
-/** A vector of positions */
-typedef std::vector< Position > PositionVector;
-
-/** A vector of scores */
-typedef std::vector< Score > ScoreVector;
-
 } 
 
 #endif /* _ALIGNLIB_H */

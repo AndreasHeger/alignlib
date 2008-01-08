@@ -53,55 +53,56 @@ namespace alignlib
 
     /** create an empty profile. 
      */
-    Alignandum * makeProfile(
+    HAlignandum makeProfile(
     		const HTranslator & translator,
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
-    Alignandum * makeProfile();
+    HAlignandum makeProfile();
 
     /** create an empty profile with a given length
      */
-    Alignandum * makeProfile( const Position & length,
+    HAlignandum makeProfile( const Position & length,
     		const HTranslator & translator,
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
-    Alignandum * makeProfile( const Position & length );
+    HAlignandum makeProfile( const Position & length );
     
     /** create default profile from a NULL-terminated char-array. 
 	@param sequence null terminated string to the concatenated sequences
 	@param nsequences number of sequences
     */
-    Alignandum * makeProfile( 
+    HAlignandum makeProfile( 
     		const std::string & sequences, 
     		int nsequences,
     		const HTranslator & translator, 
     		const HWeightor & weightor, 
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
-    Alignandum * makeProfile( 
+    HAlignandum makeProfile( 
     		const std::string & sequences, 
     		int nsequences );        
     /** create default profile from a multiple alignment.
 	@param mali multiple alignment
     */
 
-    Alignandum * makeProfile( 
-    		const MultipleAlignment * mali,
+    HAlignandum makeProfile( 
+    		const HMultipleAlignment & mali,
     		const HTranslator & translator,
     		const HWeightor & weightor, 
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor );
-    Alignandum * makeProfile( 
-    		const MultipleAlignment * mali );
+    
+    HAlignandum makeProfile( 
+    		const HMultipleAlignment & mali );
 
     /** read counts in binary format from stream and return a profile */
     /*
-    Alignandum * extractProfileBinaryCounts( std::istream & input, 
+    HAlignandum extractProfileBinaryCounts( std::istream & input, 
 					     const Position max_length = MAX_SEQLEN,
 					     const Regularizor * regularizor = NULL,
 					     const LogOddor * logoddor = NULL );
 
-    Alignandum * extractProfileBinaryCountsAsInt( std::istream & input, 
+    HAlignandum extractProfileBinaryCountsAsInt( std::istream & input, 
 						  const Position max_length = MAX_SEQLEN,
 						  int bytes = 2, 
 						  float scale_factor = 1,
@@ -117,12 +118,12 @@ namespace alignlib
 
     /** write Profile counts to stream in compressed format. Counts are stored columnwise. */
     /*
-    void writeProfileBinaryCounts( std::ostream & output, const Alignandum * src);
+    void writeProfileBinaryCounts( std::ostream & output, const HAlignandum src);
 	*/
     /** write Profile counts to stream in compressed format. Counts are stored columnwise as integers. */
     /*
     void writeProfileBinaryCountsAsInt( std::ostream & output, 
-					const Alignandum * src, 
+					const HAlignandum src, 
 					int bytes = 2, 
 					float scale_factor = 1);
      */
@@ -130,48 +131,45 @@ namespace alignlib
 	source is in row 
     */
     /*
-    Alignandum * addProfile2Profile( Alignandum * dest, 
-				     const Alignandum * source, 
-				     const Alignment * map_source2dest );
+    HAlignandum addProfile2Profile( HAlignandum dest, 
+				     const HAlignandum source, 
+				     const HAlignment map_source2dest );
 	*/
     /** add counts of profile source to profile dest, using the mapping provided, where dest is in col and
 	source is in row 
     */
     /*
-    Alignandum * addSequence2Profile( Alignandum * dest, 
-				      const Alignandum * source, 
-				      const Alignment * map_source2dest );
+    HAlignandum addSequence2Profile( HAlignandum dest, 
+				      const HAlignandum source, 
+				      const HAlignment map_source2dest );
     */
     /** substitutes columns in profile dest by columns in profile row using the mapping provided, 
 	where dest is in col and source is in row
      */
     /*
-    Alignandum * substituteProfileWithProfile( Alignandum * dest, 
-					       const Alignandum * source, 
-					       const Alignment * map_source2dest );
+    HAlignandum substituteProfileWithProfile( HAlignandum dest, 
+					       const HAlignandum source, 
+					       const HAlignment map_source2dest );
     */
     /** rescale counts from a profile by multiplying each entry by the scale_factor */
     /*
-    Alignandum * rescaleProfileCounts( Alignandum * dest, double scale_factor );
+    HAlignandum rescaleProfileCounts( HAlignandum dest, double scale_factor );
 	*/
     /** normalize counts from a profile so that all sum to total_weight per column*/
     /*
-    Alignandum * normalizeProfileCounts( Alignandum * dest, Count total_weight );
+    HAlignandum normalizeProfileCounts( HAlignandum dest, Count total_weight );
 	*/
-    /** fill a profile with a multiple alignment using a specified weightor */
-    Alignandum * fillProfile( Alignandum * dest, 
-			      const MultipleAlignment * src, 
-			      const HWeightor & weightor );
+
     /** reset a profile to a new length. Clear old values.
      */
     /*
-    Alignandum * resetProfile( Alignandum * dest, Position new_length );
+    HAlignandum resetProfile( HAlignandum dest, Position new_length );
 	*/
     /** export frequencies of a profile. Note, that you receive
 	a copy and thus need to free it.
     */
     /*
-    ProfileFrequencies * exportProfileFrequencies( Alignandum * dest );
+    ProfileFrequencies * exportProfileFrequencies( HAlignandum dest );
 	*/
 }
 

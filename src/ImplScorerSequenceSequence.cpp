@@ -29,6 +29,7 @@
 #include "AlignException.h"
 #include "Alignandum.h"
 #include "Translator.h"
+#include "Matrix.h"
 #include "ImplScorerSequenceSequence.h"
 #include "ImplSequence.h"
 
@@ -38,35 +39,34 @@ namespace alignlib
 {
 
   // factory function for creating iterator over full matrix
-  Scorer * makeScorerSequenceSequence( const Alignandum * row, const Alignandum * col, const SubstitutionMatrix * matrix )
+  HScorer makeScorerSequenceSequence( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col, 
+		  const HSubstitutionMatrix & matrix )
   {
-    return new ImplScorerSequenceSequence( row, col, matrix );
+    return HScorer( new ImplScorerSequenceSequence( row, col, matrix ) );
   }
   
   //--------------------------------------------------------------------------------------
-  ImplScorerSequenceSequence::ImplScorerSequenceSequence( const Alignandum * row,
-							  const Alignandum * col,
-							  const SubstitutionMatrix * matrix) :
+  ImplScorerSequenceSequence::ImplScorerSequenceSequence( 
+		  const HAlignandum & row,
+		  const HAlignandum & col,
+		  const HSubstitutionMatrix & matrix) :
     ImplScorer( row, col )
   {
-    const ImplSequence * s1 = dynamic_cast<const ImplSequence*>(row);	
-    const ImplSequence * s2 = dynamic_cast<const ImplSequence*>(col);
 
-    if (!s1)
-      throw AlignException( "ImplScoreSequenceSequence.cpp: row not a sequence.");
-    
-    if (!s2)
-      throw AlignException( "ImplScoreSequenceSequence.cpp: col not a sequence.");
-    
+	const HImplSequence s1(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(row));  
+	const HImplSequence s2(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(col));  
+	
     mRowSequence = s1->getSequence();
     mColSequence = s2->getSequence();
 
     mSubstitutionMatrix = matrix;
     
-    if ( mSubstitutionMatrix->getNumRows() != s1->getTranslator()->getAlphabetSize() )
+    if ( mSubstitutionMatrix->getNumRows() != row->getTranslator()->getAlphabetSize() )
     	throw AlignException( "ImplScorerSequenceSequence.cpp: alphabet size different in substitution matrix and row");
     
-    if ( mSubstitutionMatrix->getNumCols() != s2->getTranslator()->getAlphabetSize() )
+    if ( mSubstitutionMatrix->getNumCols() != col->getTranslator()->getAlphabetSize() )
     	throw AlignException( "ImplScorerSequenceSequence.cpp: alphabet size different in substitution matrix and col");
     
   }    
@@ -87,16 +87,18 @@ namespace alignlib
   //--------------------------------------------------------------------------------------  
   /** return a copy of the same iterator
    */
-  Scorer * ImplScorerSequenceSequence::getClone() const
+  HScorer ImplScorerSequenceSequence::getClone() const
   {
-    return new ImplScorerSequenceSequence( *this );
+    return HScorer( new ImplScorerSequenceSequence( *this ) );
   }
 
   /** return a new instance of this object initialized with row and col
    */
-  Scorer * ImplScorerSequenceSequence::getNew( const Alignandum * row, const Alignandum * col) const
+  HScorer ImplScorerSequenceSequence::getNew( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col) const
   {
-    return new ImplScorerSequenceSequence( row, col, mSubstitutionMatrix );
+    return HScorer( new ImplScorerSequenceSequence( row, col, mSubstitutionMatrix ) );
   }
   
   /** return score of matching row to col

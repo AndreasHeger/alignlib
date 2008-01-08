@@ -78,7 +78,7 @@ public:
 	/** accessors ------------------------------------------------------------------------- */
 
 	/** return an identical copy of this object */
-	virtual Alignandum * getClone() const = 0;
+	virtual HAlignandum getClone() const = 0;
 
 	/** get the translator object associated with this object */
 	virtual const HTranslator & getTranslator() const = 0;

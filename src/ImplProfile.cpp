@@ -32,6 +32,7 @@
 #include "Translator.h"
 #include "HelpersTranslator.h"
 #include "LogOddor.h"
+#include "Weightor.h"
 #include "Regularizor.h"
 #include "MultipleAlignment.h"
 #include "Alignment.h"
@@ -51,19 +52,44 @@ namespace alignlib
 
 //---------------------------------------> constructors and destructors <--------------------------------------
 // The constructor is potentially empty, so that this object can be read from file.
-ImplProfile::ImplProfile( const HTranslator & translator, 
+ImplProfile::ImplProfile( 
+		const HTranslator & translator,
+		const HWeightor & weightor,
 		const HRegularizor & regularizor, 
 		const HLogOddor & logoddor ) :
 			ImplAlignandum( translator ),
+			mWeightor( weightor ),
 			mRegularizor( regularizor ),
 			mLogOddor( logoddor ),
 			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
-			mProfileWidth( 0 )
+			mProfileWidth(0)
 {
 	debug_func_cerr(5);
 	allocateCounts();
 }
+
+ImplProfile::ImplProfile( 
+		const HMultipleAlignment & src,
+		const HTranslator & translator,
+		const HWeightor & weightor,
+		const HRegularizor & regularizor, 
+		const HLogOddor & logoddor ) :
+			ImplAlignandum( translator ),
+			mWeightor( weightor ),
+			mRegularizor( regularizor ),
+			mLogOddor( logoddor ),
+			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
+			mProfileWidth(0)
+{
+	debug_func_cerr(5);
 	
+	setTrueLength( src->getLength() );
+	allocateCounts();
+	fillCounts( src );
+}
+
+		
+		
 //---------------------------------------------------------------------------------------------------------------
 ImplProfile::ImplProfile(const ImplProfile & src ) : ImplAlignandum( src ), 
 	mRegularizor( src.mRegularizor ),
@@ -99,9 +125,9 @@ ImplProfile::~ImplProfile()
 }
 
 //--------------------------------------------------------------------------------------
-ImplProfile * ImplProfile::getClone() const 
+HAlignandum ImplProfile::getClone() const 
 {
-	return new ImplProfile( *this );
+	return HAlignandum( new ImplProfile( *this ) );
 }
 
 //--------------------------------------------------------------------------------------
@@ -122,6 +148,18 @@ ScoreMatrix * ImplProfile::getScoreMatrix() const
 	return mScoreMatrix;
 }
 
+//---------------------------------------------------------------------------------------------------------------
+void ImplProfile::fillCounts( const HMultipleAlignment &  src )
+{
+	debug_func_cerr(5);
+
+	setTrueLength( src->getLength() );
+	allocateCounts();
+
+	mWeightor->fillCounts( mCountMatrix, src, mTranslator );
+
+	setPrepared( false );  
+}
 
 //---------------------------------------------------------------------------------------------------------------
 template< class T>

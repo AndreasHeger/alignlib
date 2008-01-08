@@ -60,7 +60,10 @@ class ImplFragmentor : public Fragmentor
     /** copy constructor */
     ImplFragmentor( const ImplFragmentor & src);
     
-    virtual FragmentVector * fragment(const Alignandum *, const Alignandum *, Alignment *);	
+    virtual FragmentVector * fragment(
+    		HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );	
     	
  protected:
     /** get length of row object */
@@ -70,16 +73,21 @@ class ImplFragmentor : public Fragmentor
     Position getColLength();
 
     /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
+    virtual void startUp( HAlignment & dest,
+    					const HAlignandum & row, 
+    					const HAlignandum & col );
     
     /** perform cleanup after alignment */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
+    virtual void cleanUp( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );                     
 
     /* perform the actual alignment */
-    virtual void performFragmentation( const Alignandum * row, const Alignandum * col, const Alignment * sample) = 0;
+    virtual void performFragmentation( 
+    		HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col ) = 0;
 
     /** pointer to substitution matrix to use. not private, so children can access it */
-    const SubstitutionMatrix * mSubstitutionMatrix;
+    const HSubstitutionMatrix mSubstitutionMatrix;
 
  protected:
     /** length of object in row */

@@ -52,19 +52,21 @@ namespace alignlib
 
   /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
       object */
-Fragmentor * makeFragmentorRepetitive( Alignator * alignator, Score min_score ) {
-  return new ImplFragmentorRepetitive( alignator, min_score );
+HFragmentor makeFragmentorRepetitive( const HAlignator & alignator, Score min_score ) 
+{
+  return HFragmentor( new ImplFragmentorRepetitive( alignator, min_score ) );
 }
 
 
 //----------------------------------------------------------------------------------------------------
   
-ImplFragmentorRepetitive::ImplFragmentorRepetitive( Alignator * alignator, 
-						    Score min_score ):
-
+ImplFragmentorRepetitive::ImplFragmentorRepetitive( 
+		const HAlignator & alignator, 
+		Score min_score ):
   ImplFragmentor(),
   mAlignator( alignator ),
-  mMinScore( min_score) {
+  mMinScore( min_score) 
+  {
 }
 
 
@@ -81,35 +83,34 @@ ImplFragmentorRepetitive::ImplFragmentorRepetitive( const ImplFragmentorRepetiti
 }
 
 //------------------------------------------------------------------------------------------------
-void ImplFragmentorRepetitive::performFragmentation( const Alignandum * row, 
-						     const Alignandum * col, 
-						     const Alignment * sample) {
-    
+void ImplFragmentorRepetitive::performFragmentation(
+		HAlignment & sample,		
+		const HAlignandum & row, 
+		const HAlignandum & col )
+{
+		   
   /* since src1 and src2 are const, I have to create two work-copies, 
      so that the boundaries can be changed. */
 
-  Alignandum * copy_row = row->getClone();
-  Alignandum * copy_col = col->getClone();
+  HAlignandum copy_row(row->getClone());
+  HAlignandum copy_col(col->getClone());
   
   while ( 1 ) {
     
-    Alignment * result = sample->getNew();
-    mAlignator->align( copy_row, copy_col, result);
-    if (result->getScore() >= mMinScore) {
-
+    HAlignment result = sample->getNew();
+    mAlignator->align( result, copy_row, copy_col );
+    
+    if (result->getScore() >= mMinScore) 
+    {
       mFragments->push_back( result );    
       copy_row->mask( result->getRowFrom(), result->getRowTo() );
       copy_col->mask( result->getColFrom(), result->getColTo() );
       
-    } else {
-      delete result;    
+    } else 
+    {
       break;      
     }
   }
-
-  delete copy_row;
-  delete copy_col;
-
 }
   
 

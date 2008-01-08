@@ -59,10 +59,10 @@ class ImplAlignmentMatrixUnsorted : public ImplAlignmentMatrix {
     virtual ~ImplAlignmentMatrixUnsorted();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignmentMatrixUnsorted * getNew() const;
+    virtual HAlignment getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignmentMatrixUnsorted * getClone() const;
+    virtual HAlignment getClone() const;
 
  protected:
     /** build index */

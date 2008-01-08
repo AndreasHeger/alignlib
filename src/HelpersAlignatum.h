@@ -29,8 +29,10 @@
 #define HELPERS_ALIGNATUM_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -41,35 +43,36 @@ namespace alignlib {
 	3. convenience functions
     */
 
-    class Alignandum;
-    class Alignment;
-
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
-    Alignatum * makeAlignatumFromString( const std::string & src, 
-					 Position from = NO_POS, 
-					 Position to = NO_POS);
+    HAlignatum makeAlignatumFromString( 
+    		const std::string & src, 
+    		Position from = NO_POS, 
+    		Position to = NO_POS);
     
-    Alignatum * makeAlignatumFromString( const char * src, 
-					 Position from = NO_POS, 
-					 Position to = NO_POS);
+    HAlignatum makeAlignatumFromString( 
+    		const char * src, 
+    		Position from = NO_POS, 
+    		Position to = NO_POS);
 
-    Alignatum * makeAlignatum(const Alignandum * src, 
-			      const Alignment * map_this2new = NULL,
-			      const Position max_length = 0);
+    HAlignatum makeAlignatum(
+    		const HAlignandum src, 
+    		const HAlignment map_this2new,
+    		const Position max_length = 0);
 
-    Alignatum * makeAlignatumFasta(const std::string & description,
-				   const std::string & src,
-				   Position from = 0, 
-				   Position to = NO_POS);
+    HAlignatum makeAlignatumFasta(
+    		const std::string & description,
+    		const std::string & src,
+    		Position from = 0, 
+    		Position to = NO_POS);
     
     /** return an empty Alignatum object, that 
 	can store a description */
-    Alignatum * makeAlignatumFasta();
+    HAlignatum makeAlignatumFasta();
 
     /** return an empty Alignatum object, that 
 	can be filled for example by the function Read */
-    Alignatum * makeAlignatum();
+    HAlignatum makeAlignatum();
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */

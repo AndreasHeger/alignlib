@@ -50,7 +50,7 @@ class ImplWeightorHenikoffKimmen : public ImplWeightorHenikoff
     // constructors and desctructors
 
     /** default constructor */
-    ImplWeightorHenikoffKimmen( const HTranslator & translator );
+    ImplWeightorHenikoffKimmen();
     
     /** copy constructor */
     ImplWeightorHenikoffKimmen(const ImplWeightorHenikoffKimmen &);
@@ -58,9 +58,12 @@ class ImplWeightorHenikoffKimmen : public ImplWeightorHenikoff
     /** destructor */
     virtual ~ImplWeightorHenikoffKimmen();
     
+ protected:
     /** return a vector of weights for a multiple alignment. The ordering in the result will be the same 
 	as in the multiple alignment. Note, that the caller has to delete the weights. */
-    virtual SequenceWeights * calculateWeights( const MultipleAlignment & src ) const;
+    virtual HSequenceWeights calculateWeights( 
+    		const HMultipleAlignment & src,
+    		const HTranslator & translator ) const;
 
 };
 

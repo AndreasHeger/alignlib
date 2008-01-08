@@ -31,6 +31,7 @@
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 #include "ImplScorer.h"
+#include "ImplSequence.h"
 
 namespace alignlib
 {
@@ -41,8 +42,10 @@ namespace alignlib
     public:
       
       /** empty constructor */
-      ImplScorerSequenceSequence( const Alignandum * row, const Alignandum * col,
-				  const SubstitutionMatrix * matrix); 
+      ImplScorerSequenceSequence( 
+    		  const HAlignandum & row, 
+    		  const HAlignandum & col,
+    		  const HSubstitutionMatrix & matrix); 
     
       /** destructor */
       virtual ~ImplScorerSequenceSequence ();
@@ -52,11 +55,11 @@ namespace alignlib
 
       /** return a copy of the same iterator
        */
-      virtual Scorer * getClone() const;
+      virtual HScorer getClone() const;
       
       /** return a new score of same type initialized with row and col
        */
-      virtual Scorer * getNew( const Alignandum * row, const Alignandum * col) const;
+      virtual HScorer getNew( const HAlignandum & row, const HAlignandum & col) const;
     
       virtual Score getScore( Position row,
 				 Position col ) const;
@@ -65,7 +68,7 @@ namespace alignlib
       /** pointer to member data of row/col : AlignandumSequence */
       const Residue * mRowSequence; 
       const Residue * mColSequence;
-      const SubstitutionMatrix * mSubstitutionMatrix ;
+      HSubstitutionMatrix mSubstitutionMatrix ;
   };
   
 }

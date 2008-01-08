@@ -40,23 +40,22 @@ using namespace std;
 namespace alignlib 
 {
 
-  Alignator * makeAlignatorIterative( 
-		  const Alignator * alignator, 
+  HAlignator makeAlignatorIterative( 
+		  const HAlignator & alignator, 
 		  Score min_score )
   {
-    return new ImplAlignatorIterative( alignator, min_score );
+    return HAlignator(new ImplAlignatorIterative( alignator, min_score ));
   }
   
   //---------------------------------------------------------< constructors and destructors >--------------------------------------
-  ImplAlignatorIterative::ImplAlignatorIterative ( const Alignator * alignator, Score min_score) : 
+  ImplAlignatorIterative::ImplAlignatorIterative ( const HAlignator & alignator, Score min_score) : 
 	  ImplAlignator(), mMinScore( min_score ),
-  	mAlignator ( alignator->getClone() )
+  	  mAlignator ( alignator->getClone() )
   {
   }
   
   ImplAlignatorIterative::~ImplAlignatorIterative ()
   {
-	  delete mAlignator;
   }
   
   ImplAlignatorIterative::ImplAlignatorIterative (const ImplAlignatorIterative & src ) :
@@ -65,39 +64,37 @@ namespace alignlib
   }
 
   //--------------------------------------------------------------------------------------------------------
-  ImplAlignatorIterative * ImplAlignatorIterative::getClone() const 
+  HAlignator ImplAlignatorIterative::getClone() const 
   {
-   return new ImplAlignatorIterative( *this );
+   return HAlignator( new ImplAlignatorIterative( *this ) );
   }
   
   
-  Alignment * ImplAlignatorIterative::align( const Alignandum * row, const Alignandum * col, Alignment * result) 
+  HAlignment & ImplAlignatorIterative::align( HAlignment & result,
+		  const HAlignandum & row, const HAlignandum & col )
   {
       debug_func_cerr(5);
       
-      startUp(row, col, result );
+      startUp(result, row, col );
     
      /* since src1 and src2 are const, I have to create two work-copies, 
         so that the boundaries can be changed. */
 
-      Alignandum * copy_row = row->getClone();
-      Alignandum * copy_col = col->getClone();
+      HAlignandum copy_row(row);
+      HAlignandum copy_col(col);
       
       // start aligning by calling recursively performIterativeAlignmentStep
       alignIteratively( result, copy_row, copy_col );
 
-      delete copy_row;
-      delete copy_col;
-
-      cleanUp( row, col, result );
+      cleanUp( result, row, col );
     
       return result;
   }
 
   void ImplAlignatorIterative::alignIteratively( 
-		  	Alignment * dest, 
-  			Alignandum * row, 
-  			Alignandum * col )
+		  	HAlignment & dest, 
+  			const HAlignandum & row, 
+  			const HAlignandum & col )
   {
     debug_func_cerr(5);
     
@@ -113,9 +110,9 @@ namespace alignlib
     if (from_1 > to_1 || from_2 > to_2)
       return;
 
-    Alignment * result = dest->getNew();
+    HAlignment result(dest->getNew());
 
-    mAlignator->align( row, col, result );
+    mAlignator->align( result, row, col );
 
     if (result->getScore() > mMinScore) 
     {
@@ -144,7 +141,6 @@ namespace alignlib
         alignIteratively( dest, row, col );
 
     }
-    delete result;
   } 
   
   

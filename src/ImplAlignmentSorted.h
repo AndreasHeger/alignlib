@@ -29,12 +29,11 @@
 
 #include <iosfwd>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignment.h"
 
 namespace alignlib
 {
-
-class Alignandum;
 
 /** 
     @short alignment, where residues are stored in a set using row.
@@ -65,10 +64,10 @@ class Alignandum;
     virtual ~ImplAlignmentSorted();
 
     //------------------------------------------------------------------------------------------------------------
-    virtual ImplAlignmentSorted * getNew() const;
+    virtual HAlignment getNew() const;
     
     /** return an identical copy */
-    virtual ImplAlignmentSorted * getClone() const;
+    virtual HAlignment getClone() const;
 
     //------------------------------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------------------------------

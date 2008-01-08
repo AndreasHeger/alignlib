@@ -63,7 +63,8 @@ namespace alignlib
     @author Andreas Heger
     @version $Id: ImplAlignatorDP.h,v 1.1 2005/02/24 11:08:24 aheger Exp $
 */
-class ImplAlignatorDP : public ImplAlignator {
+class ImplAlignatorDP : public ImplAlignator 
+{
     
  public:
     
@@ -91,7 +92,7 @@ class ImplAlignatorDP : public ImplAlignator {
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
+    virtual HAlignment & align( HAlignment & , const HAlignandum & , const HAlignandum &);
 
     /* member access functions--------------------------------------------------------------- */
 
@@ -120,14 +121,16 @@ class ImplAlignatorDP : public ImplAlignator {
     Score getColGep();
     
  protected:
-    /** perform initialization before alignment */
-    virtual void startUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
-    
-    /** clean up temporary memory after alignment step */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
+	    /** perform initialization before alignment */
+	    virtual void startUp(HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
+	    
+	    /** clean up temporary memory after alignment step */
+	    virtual void cleanUp(HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
 
-    /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result) = 0;
+	    /** perform the alignment */
+	    virtual void performAlignment(HAlignment & dest, 
+	    							const HAlignandum & row, 
+	    							const HAlignandum & col ) = 0;
 
     /* member data --------------------------------------------------------------------------- */
  protected:

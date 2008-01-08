@@ -31,20 +31,13 @@
 #include "ImplAlignatorDots.h"
 #include "Alignandum.h"
 #include "ImplAlignmentMatrixRow.h"
-
+#include "Iterator2D.h"
 #include "HelpersSubstitutionMatrix.h"
 
 #include "Alignment.h"
 #include "HelpersAlignment.h"
-
-#ifdef DEBUG
-#include "stdio.h"
-#endif
-
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include "HelpersSequence.h"
+#include "ImplSequence.h"
 
 using namespace std;
 
@@ -101,31 +94,25 @@ namespace alignlib
   Score ImplAlignatorDots::getColGep() { return mColGep; }
 
   //----------------------------------------------------------------------------------------------------------
-  void ImplAlignatorDots::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
+  void ImplAlignatorDots::startUp(HAlignment & ali,
+		  const HAlignandum & row, 
+		  const HAlignandum & col )
     {
-      ImplAlignator::startUp(row, col, ali);  
+      ImplAlignator::startUp(ali, row, col);  
       debug_func_cerr(5);
 
       mRowLength = mIterator->row_size();
       mColLength = mIterator->col_size();
 
+      mMatrix = makeAlignmentMatrixRow();
+      
+      // 
       // setup matrix of dots
-      mMatrix = (ImplAlignmentMatrixRow*)makeAlignmentMatrixRow();
 
+      // TODO: check with AlignatorPublishDots
       // create dots. This is a patch for AlignatorPublishDots, which
       // does not copy into mMatrix, but returns another pointer.
-      ImplAlignmentMatrixRow * temp = (ImplAlignmentMatrixRow*)mDottor->align( row, col, mMatrix ); 
-
-      if (temp != mMatrix) 
-        {
-          delete mMatrix;
-          mMatrix = temp;
-          mIsOwnDots = false;
-        } 
-      else 
-        {
-          mIsOwnDots = true;
-        }
+      mDottor->align( mMatrix, row, col ); 
 
       // get the number of dots, which corresponds to the length of the
       // alignment in this class. Tell the matrix to sort, etc., at the 
@@ -134,16 +121,19 @@ namespace alignlib
 
       debug_cerr( 5, *mMatrix );
 
-      // setup pointers to location of dots(pairs)
-      mPairs	= &mMatrix->mPairs;
-      mRowIndices = mMatrix->mIndex;	// these have to be sorted by row, that's why I use AlignmentMatrixRow	
+      // get pointers to location of dots(pairs)
+      const HAlignment test = makeAlignmentMatrixRow();
+      const HImplAlignmentMatrix t = boost::dynamic_pointer_cast< ImplAlignmentMatrix, Alignment>(test); 
+      mPairs	= &t->mPairs;
+      mRowIndices = t->mIndex;	// these have to be sorted by row, that's why I use AlignmentMatrixRow	
 
       mTrace   = new int[mNDots];
       mLastDot = -1;
     }
 
   //-------------------------------------------------------------------------------------------------------
-  void ImplAlignatorDots::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
+  void ImplAlignatorDots::cleanUp(HAlignment & ali, 
+		  const HAlignandum & row, const HAlignandum & col) 
     {
       debug_func_cerr(5);
 
@@ -151,32 +141,32 @@ namespace alignlib
       if (mTrace != NULL) 
         delete [] mTrace;
 
-      if (mIsOwnDots) 
-        delete mMatrix;
-
-      ImplAlignator::cleanUp(row, col, ali);
+      ImplAlignator::cleanUp(ali, row, col );
 
     }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
-  Alignment * ImplAlignatorDots::align(const Alignandum * row, const Alignandum * col, Alignment * result) 
+  HAlignment & ImplAlignatorDots::align(HAlignment & result,
+		  const HAlignandum & row, 
+		  const HAlignandum & col ) 
     {
       debug_func_cerr(5);
 
+      startUp(result, row, col );
 
-      startUp(row, col, result);
+      performAlignment(result, row, col);
 
-      performAlignment(row, col, result);
+      traceBack(result, row, col);
 
-      traceBack(row, col, result);
-
-      cleanUp(row, col, result);
+      cleanUp(result, row, col);
 
       return result;
     }
 
   //-----------------------------------------< BackTracke >-------------------------------------------------------------
-  void ImplAlignatorDots::traceBack( const Alignandum * row, const Alignandum * col, Alignment * result) 
+  void ImplAlignatorDots::traceBack( HAlignment & result,
+		  const HAlignandum & row, 
+		  const HAlignandum & col ) 
     {
       debug_func_cerr(5);
 
@@ -236,7 +226,9 @@ namespace alignlib
 
 
   //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-  void ImplAlignatorDots::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) 
+  void ImplAlignatorDots::performAlignment( HAlignment & ali,
+		  const HAlignandum & prow, 
+		  const HAlignandum & pcol ) 
     {
 
       /**

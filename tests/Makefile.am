@@ -26,7 +26,7 @@ noinst_PROGRAMS = ${programs}
 
 TESTS = $(check_PROGRAMS)
 
-LDADD = $(top_srcdir)/src/.libs/libalignlib.a -lm 
+LDADD = $(top_srcdir)/src/.libs/libalignlib.a -lm
 
 test_Fragmentor_SOURCES = test_Fragmentor.cpp 
 test_AlignatorDots_SOURCES = test_AlignatorDots.cpp 

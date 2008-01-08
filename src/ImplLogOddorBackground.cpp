@@ -30,6 +30,7 @@
 #include "AlignlibDebug.h"
 #include "ImplLogOddorBackground.h"
 #include "HelpersLogOddor.h"
+#include "Matrix.h"
 
 using namespace std;
 

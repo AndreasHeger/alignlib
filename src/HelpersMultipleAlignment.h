@@ -52,10 +52,10 @@ namespace alignlib
     /* 1. factory functions */
 
     /** return empty alignment */
-    MultipleAlignment * makeMultipleAlignment(); 
+    HMultipleAlignment makeMultipleAlignment(); 
 
     /** return empty alignment */
-    MultipleAlignment * makeMultipleAlignmentDots( bool compress_unaligend_columns = true,
+    HMultipleAlignment makeMultipleAlignmentDots( bool compress_unaligend_columns = true,
 						   int max_insertion_length = -1);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
@@ -67,7 +67,7 @@ namespace alignlib
 
     /** fill multiple alignment ali from contents of a file */
     /*
-    MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
+    HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali,
 					       const char * filename);
 	*/
     /** fill multiple alignment ali from memory, sequences contains the concatenated rows without separator,
@@ -77,30 +77,32 @@ namespace alignlib
 	@param sequences	concatenated sequences to use
 	@param nsequences	number of sequences.
     */
-    MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
-					       const std::string & sequences,
-					       int nsequences);
+    HMultipleAlignment & fillMultipleAlignment( 
+    		HMultipleAlignment & ali,
+    		const std::string & sequences,
+    		int nsequences);
     
     /** fill multiple alignment ali from contents of a file, use an Alignatum-object for parsing
      */
-    /* MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
+    /* HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali, 
 					       const char * filename, 
 					       const Alignatum * alignatum_template);
 					       */
     /** fill multiple alignment ali from contents of a file, use an Alignatum-object for parsing */
     /*
-    MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
+    HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali, 
 					       const char * filename, 
 					       const Alignatum * alignatum_template);
 */
     /** extract a multiple Alignment object from a stream in FASTA format */
     /*
-    MultipleAlignment * extractMultipleAlignmentFasta( MultipleAlignment * ali, 
+    HMultipleAlignment extractMultipleAlignmentFasta( HMultipleAlignment ali, 
 						       std::istream & input );
     */
     /** get Convservation-string for multiple alignment. This returns a string, where 
 	each residue is marked, which is conserved at least > cutoff % */
-    std::string calculateConservation( const MultipleAlignment * mali, Frequency min_frequency);
+    std::string calculateConservation( const HMultipleAlignment & mali, 
+    		Frequency min_frequency);
 
 
     /** calculate counts in mali categorised. The first row in Matrix is empty, so that
@@ -108,7 +110,7 @@ namespace alignlib
 	Only include num_rows rows in the alignment. If num_rows is not set (0), all
 	rows are taken.
     */
-    CountsMatrix * makeCountsByCategory( const MultipleAlignment * mali, 
+    CountsMatrix * makeCountsByCategory( const HMultipleAlignment & mali, 
 					 const unsigned int * map_residue2category = NULL);
 
     /** make a map from residues to categories. The following order has been suggested by Hannes for
@@ -134,8 +136,8 @@ namespace alignlib
 
     /** copy a multiple alignment
      */
-    MultipleAlignment * copyMultipleAlignment( MultipleAlignment * dest, 
-					       const MultipleAlignment * src,
+    HMultipleAlignment & copyMultipleAlignment( HMultipleAlignment & dest, 
+					       const HMultipleAlignment & src,
 					       unsigned int first_row = 0,
 					       unsigned int last_row = 0 );
 

@@ -44,12 +44,12 @@ using namespace std;
 
 namespace alignlib {
 
-Alignator * makeAlignatorPublishAlignment( Alignment * ali) {
+Alignator * makeAlignatorPublishAlignment( HAlignment ali) {
   return new ImplAlignatorPublishAlignment( ali );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment ( Alignment * ali) : 
+ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment ( HAlignment ali) : 
   ImplAlignator( getDefaultSubstitutionMatrix(), 0, 0 ), 
   mAlignment ( ali ) {
 }
@@ -67,7 +67,7 @@ ImplAlignatorPublishDots * ImplAlignatorPublishDots::getClone() const
 }
 
 
-Alignment * ImplAlignatorPublishAlignment::align( const Alignandum * row, const Alignandum * col, Alignment * result) {
+HAlignment ImplAlignatorPublishAlignment::align( const HAlignandum row, const HAlignandum col, HAlignment result) {
 
   startUp(row, col, result );
 

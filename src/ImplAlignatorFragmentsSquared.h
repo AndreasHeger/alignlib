@@ -40,7 +40,8 @@ namespace alignlib
     @version $Id: ImplAlignatorFragmentsSquared.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
     @short represents an alignment algorithm
 */
-class ImplAlignatorFragmentsSquared : public ImplAlignatorFragments {
+class ImplAlignatorFragmentsSquared : public ImplAlignatorFragments 
+{
  public:
 
     /* constructors and destructors */
@@ -52,11 +53,12 @@ class ImplAlignatorFragmentsSquared : public ImplAlignatorFragments {
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorFragmentsSquared( Score row_gop, 
-				   Score row_gep, 
-				   Score col_gop = 0,
-				   Score col_gep = 0,
-				   Fragmentor * fragmentor = NULL );
+    ImplAlignatorFragmentsSquared(
+    		HFragmentor & fragmentor,
+    		Score row_gop, 
+    		Score row_gep, 
+    		Score col_gop = 0,
+    		Score col_gep = 0 );
 
     /** copy constructor */
     ImplAlignatorFragmentsSquared( const ImplAlignatorFragmentsSquared & );
@@ -66,12 +68,15 @@ class ImplAlignatorFragmentsSquared : public ImplAlignatorFragments {
     
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorFragmentsSquared * getClone() const;    
+    virtual HAlignator getClone() const;    
 
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
+    virtual void performAlignment(
+    		HAlignment & result,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
 
     /** get GAP cost for a gap */
     virtual Score getGapCost( Dot x1, Dot x2 ) const;

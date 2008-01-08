@@ -29,6 +29,7 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "ImplLogOddorUniform.h"
+#include "Matrix.h"
 
 namespace alignlib 
 {

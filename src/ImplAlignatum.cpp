@@ -35,6 +35,7 @@
 #include "Alignandum.h"
 #include "Renderer.h"
 #include "HelpersTranslator.h"
+#include "HelpersRenderer.h"
 #include "AlignException.h"
 
 using namespace std;
@@ -43,36 +44,37 @@ namespace alignlib {
 
   //-------------------------------------------------------------------------------------------------
   /** factory functions */
-  Alignatum * makeAlignatum() 
+  HAlignatum makeAlignatum() 
   {
-    return new ImplAlignatum();
+    return HAlignatum( new ImplAlignatum() );
   }
 
-  Alignatum * makeAlignatumFromString( const std::string & src, 
+  HAlignatum makeAlignatumFromString( const std::string & src, 
       Position from, 
       Position to ) 
       {
-        return new ImplAlignatum( src, from, to);
+        return HAlignatum( new ImplAlignatum( src, from, to) );
       }
-  Alignatum * makeAlignatumFromString( const char * src, 
+  HAlignatum makeAlignatumFromString( const char * src, 
       Position from, 
       Position to ) 
       {
-        std::string s( src );
-        return new ImplAlignatum( s, from, to);
+        return HAlignatum( new ImplAlignatum( std::string(src), from, to) );
       }
 
-  Alignatum * makeAlignatum(const Alignandum * src, 
-      const Alignment * map_this2new,
-      const Position max_length) 
+  HAlignatum makeAlignatum(
+		  const HAlignandum & src, 
+		  const HAlignment & map_this2new,
+		  const Position max_length) 
       {
 
         std::string s( src->asString() );
-        Alignatum * result = new ImplAlignatum( s );
+        HAlignatum result(new ImplAlignatum( s ));
 
         Position length;
 
-        if (map_this2new) {
+        if (map_this2new) 
+        {
           if (max_length == 0)
             length = map_this2new->getColTo();
           else
@@ -135,9 +137,10 @@ namespace alignlib {
     }
 
   //--------------------------------------------------------------------------------------------
-  void ImplAlignatum::mapOnAlignment(const Alignment * map_old2new,
-      const Position new_length, 
-      const bool unaligned_chars) 
+  void ImplAlignatum::mapOnAlignment(
+		  const HAlignment & map_old2new,
+		  const Position new_length, 
+		  const bool unaligned_chars) 
     {
       debug_func_cerr(5);
 
@@ -165,8 +168,8 @@ namespace alignlib {
 
       // substitute new characters for aligned positions:
         {
-          AlignmentConstIterator it = map_old2new->begin();
-          AlignmentConstIterator it_end = map_old2new->end();
+          AlignmentIterator it = map_old2new->begin();
+          AlignmentIterator it_end = map_old2new->end();
 
           for (; it != it_end; ++it) 
             {
@@ -177,8 +180,8 @@ namespace alignlib {
         // add unaligned characters
         if (unaligned_chars) {
 
-          AlignmentConstIterator it = map_old2new->begin();
-          AlignmentConstIterator it_end = map_old2new->end();
+          AlignmentIterator it = map_old2new->begin();
+          AlignmentIterator it_end = map_old2new->end();
 
           Position last_old = it->mRow;
           Position last_new = it->mCol;
@@ -188,7 +191,8 @@ namespace alignlib {
           for (; it != it_end; ++it) {
             Position old = it ->mRow-1;
             Position nnew = it ->mCol-1;      
-            while (old - last_old > 0 && nnew - last_new > 0) {
+            while (old - last_old > 0 && nnew - last_new > 0) 
+            {
               old--;
               nnew--;
               if (mRepresentation[old] >= 'A' &&
@@ -205,16 +209,17 @@ namespace alignlib {
 
     }
   //------------------------------------------------------------------------------------------------------
-  ImplAlignatum * ImplAlignatum::getClone() const 
+  HAlignatum ImplAlignatum::getClone() const 
   {
     debug_func_cerr(5);
 
-    return new ImplAlignatum(*this ); 
+    return HAlignatum( new ImplAlignatum(*this ) ); 
   }
 
   //-------------------------------------------------------------------------------------------------------
-  ImplAlignatum * ImplAlignatum::getNew() const {
-    return new ImplAlignatum();
+  HAlignatum ImplAlignatum::getNew() const 
+  {
+    return HAlignatum( new ImplAlignatum() );
   }
 
   //-------------------------------------------------------------------------------------------------------
@@ -223,25 +228,29 @@ namespace alignlib {
   }
 
   //-------------------------------------------------------------------------------------------------------
-  const std::string & ImplAlignatum::getStringReference() const {
+  const std::string & ImplAlignatum::getStringReference() const 
+  {
     return mRepresentation;
   }
 
   //-------------------------------------------------------------------------------------------------------
-  Position ImplAlignatum::getFrom() const {
+  Position ImplAlignatum::getFrom() const 
+  {
     return mFrom;
   }
 
   //-------------------------------------------------------------------------------------------------------
-  Position ImplAlignatum::getTo() const {
+  Position ImplAlignatum::getTo() const 
+  {
     return mTo;
   }
 
   //-------------------------------------------------------------------------------------------------------
-  void ImplAlignatum::writeRow( std::ostream & output, 
-      Position segment_start, 
-      Position segment_end,
-      const Renderer * renderer) const {
+  void ImplAlignatum::writeRow( std::ostream & output,
+		  const HRenderer & renderer,
+		  Position segment_start, 
+		  Position segment_end ) const 
+{
 
         if (segment_start == NO_POS)
           segment_start = 0;
@@ -397,8 +406,9 @@ namespace alignlib {
   }
 
   /** write into stream */
-  void ImplAlignatum::write( std::ostream & output ) const {
-    writeRow( output );
+  void ImplAlignatum::write( std::ostream & output ) const 
+  {
+	  writeRow( output, getDefaultRenderer() );
   }
 
   /** read from stream */

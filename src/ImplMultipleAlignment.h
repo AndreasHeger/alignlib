@@ -32,17 +32,12 @@
 #include <string>
 #include <list>
 
-#include "alignlib.h" 
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "MultipleAlignment.h"
 
-namespace alignlib {
-
-class Alignandum;
-class Alignatum;
-class Alignment;	
-class Renderer;
-
-
+namespace alignlib 
+{
 /**
     @short Implementation class for multiple alignments.
 
@@ -95,7 +90,7 @@ class ImplMultipleAlignment : public MultipleAlignment
 
     /** returns a pointer to the object at row from the multiple alignment. The pointer is not const,
 	so you are free to do all sort of ugly stuff.*/
-    virtual Alignatum * getRow( int row ) const;
+    virtual HAlignatum getRow( int row ) const;
     
     /** erases an entry form the multiple alignment */
     virtual void eraseRow( int row );
@@ -114,14 +109,18 @@ class ImplMultipleAlignment : public MultipleAlignment
 		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
     */
-    virtual void add( Alignatum * src,
-		      const Alignment * alignment = NULL,
+    virtual void add( const HAlignatum & src,
+		      const HAlignment & alignment,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,
 		      bool use_end_mali = false,
 		      bool use_end_alignatum = false);
 
+    /** add a aligned sequence of the same length to this multiple alignment.
+     */
+    virtual void add( const HAlignatum & src );
+    
     /** add the contents of a multiple alignment to the multiple alignment by mapping it through an alignment
 	@param src	       pointer to the unaligned object to be added.
 	@param alignment pointer to the alignment used for combining these two objects. If it is
@@ -131,19 +130,20 @@ class ImplMultipleAlignment : public MultipleAlignment
 		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
      */
-    virtual void add( const MultipleAlignment * src,
-		      const Alignment * alignment = NULL,
+    virtual void add( const HMultipleAlignment & src,
+		      const HAlignment & alignment,
 		      bool mali_is_in_row = true,
 		      bool insert_gaps_mali = true,
 		      bool insert_gaps_alignatum= true,
 		      bool use_end_mali = false,
 		      bool use_end_alignatum = false);
-    
-    /** returns the consensus string for the multiple alignment */
-    virtual std::string getConsensusString () const ;			
 
+    /** add a aligned sequence of the same length to this multiple alignment.
+     */
+    virtual void add( const HMultipleAlignment & src );
+    
     /** register a new renderer */
-    virtual void registerRenderer( const Renderer * renderer );
+    virtual void registerRenderer( const HRenderer & renderer );
 
     /** returns true, if there are no aligned objects in this alignment */
     virtual bool isEmpty() const;
@@ -152,10 +152,10 @@ class ImplMultipleAlignment : public MultipleAlignment
     virtual void clear();
 
     /** returns a clone of this object */
-    virtual MultipleAlignment * getClone() const;
+    virtual HMultipleAlignment getClone() const;
     
     /** returns an empty version of this object */
-    virtual MultipleAlignment * getNew() const;
+    virtual HMultipleAlignment getNew() const;
 
     /** Write the multiple alignment to a stream
      */
@@ -169,13 +169,13 @@ class ImplMultipleAlignment : public MultipleAlignment
 
  private:
     /** the length of the multiple alignment */
-    mutable int mLength;                       
+    int mLength;                       
     
-    /** I store an array of vectors. The pointers can not be const, because sequences are told to rescale. */
-    std::vector<Alignatum *> mRows;             
+    /** I store an array of handles to alignatum objects. */
+    std::vector<HAlignatum> mRows;             
 
     /** the Renderer */
-    const Renderer * mRenderer;
+    HRenderer mRenderer;
     
 };
 

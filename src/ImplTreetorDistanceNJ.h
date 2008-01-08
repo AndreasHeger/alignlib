@@ -60,7 +60,7 @@ class ImplTreetorDistanceNJ : public ImplTreetorDistance {
   virtual Node joinNodes( PhyloMatrixSize cluster_i, PhyloMatrixSize cluster_2 ) const;
 
   /** initialize helper variables that you might need */
-  virtual void startUp(  Tree * tree, const alignlib::MultipleAlignment * mali) const;
+  virtual void startUp(  Tree * tree, const alignlib::HMultipleAlignment mali) const;
 
   /** clean up helper variables */
   virtual void cleanUp() const;

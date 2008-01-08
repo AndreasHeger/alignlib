@@ -29,6 +29,7 @@
 #define SCORER_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib
 {
@@ -51,11 +52,13 @@ namespace alignlib
 
       /** return a copy of the same scorer
        */
-      virtual Scorer * getClone() const = 0;
+      virtual HScorer getClone() const = 0;
       
       /** return a new iterator of same type initializes with for row and col
        */
-      virtual Scorer * getNew( const Alignandum * row, const Alignandum * col) const = 0;
+      virtual HScorer getNew( 
+    		  const HAlignandum & row, 
+    		  const HAlignandum & col) const = 0;
 
       /** return score of matching row to col
        */

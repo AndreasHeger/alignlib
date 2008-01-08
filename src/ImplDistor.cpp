@@ -35,7 +35,7 @@ ImplDistor::ImplDistor (const ImplDistor & src ) :
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrix * ImplDistor::calculateMatrix( PhyloMatrix * matrix, const alignlib::MultipleAlignment * multali) const {
+PhyloMatrix * ImplDistor::calculateMatrix( PhyloMatrix * matrix, const alignlib::HMultipleAlignment multali) const {
 
     PhyloMatrixSize i, j;
     

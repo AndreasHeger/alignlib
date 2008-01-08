@@ -21,27 +21,15 @@
 */
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "AlignlibDebug.h"
 #include "Weightor.h"
 #include "ImplWeightor.h"
 #include "HelpersWeightor.h"
-#include "HelpersTranslator.h"
 
 namespace alignlib 
 {
-  
-  static HWeightor DEFAULT_WEIGHTOR(makeWeightor( getDefaultTranslator() ));
-  
-  /** gets the default Weightor object */ 
-  const HWeightor getDefaultWeightor() 
-  {
-    return DEFAULT_WEIGHTOR;
-  }
-
-  /** sets the default Weightor object */
-  void setDefaultWeightor( const HWeightor & weightor ) 
-  {
-	  DEFAULT_WEIGHTOR = weightor;
-  }
+	IMPLEMENT_DEFAULT( HWeightor, makeWeightor(), getDefaultWeightor, setDefaultWeightor );
 
 } // namespace alignlib

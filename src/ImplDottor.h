@@ -63,7 +63,7 @@ class ImplDottor : public Dottor {
     virtual void releasePairs() const;
     
     /** calculate the dots */
-    virtual void calculatePairs( const Alignandum * row, const Alignandum * col) const;
+    virtual void calculatePairs( const HAlignandum row, const HAlignandum col) const;
     
     /** get array of residue pairs */
     virtual ResiduePAIR * getPairs() const;
@@ -75,7 +75,7 @@ class ImplDottor : public Dottor {
     mutable ImplAlignmentMatrix * mMatrix;
 
     /** calculate the dots. Overload this method to calculate different types of dots */
-    virtual void calculateNewPairs( const Alignandum * row, const Alignandum * col) const = 0;
+    virtual void calculateNewPairs( const HAlignandum row, const HAlignandum col) const = 0;
 
 };
 

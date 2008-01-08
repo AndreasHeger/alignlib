@@ -79,7 +79,7 @@ class ImplAlignatorDotsWrap : public ImplAlignatorDots {
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
+    virtual void performAlignment(const HAlignandum row, const HAlignandumcol, HAlignment result);
 
     /** get GAP cost for a gap in row */
     virtual Score getGapCost( Dot x1, Dot x2 ) const;

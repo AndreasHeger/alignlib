@@ -30,6 +30,7 @@
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "alignlib_default.h"
 
 namespace alignlib 
 {
@@ -46,23 +47,16 @@ namespace alignlib
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 
-    HWeightor makeWeightor( const HTranslator & translator );
+    HWeightor makeWeightor();
 
-    HWeightor makeWeightorHenikoff( const HTranslator & translator );
+    HWeightor makeWeightorHenikoff();
     
-    HWeightor makeWeightorHenikoffKimmen( const HTranslator & translator );
+    HWeightor makeWeightorHenikoffKimmen();
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
     
-    /** gets the default Weightor object */ 
-    const HWeightor getDefaultWeightor();
-
-    /** sets the default Weightor object 
-     * 
-     * The library obtains ownership of the weightor.
-     * */
-    void setDefaultWeightor( const HWeightor & weightor );
+    DEFINE_DEFAULT( HWeightor, getDefaultWeightor, setDefaultWeightor );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

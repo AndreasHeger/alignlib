@@ -58,8 +58,9 @@ class Regularizor
     virtual ~Regularizor ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( FrequencyMatrix * frequencies, 
-				  const CountMatrix * counts ) const = 0;
+    virtual void fillFrequencies( 
+    		FrequencyMatrix * frequencies, 
+    		const CountMatrix * counts ) const = 0;
 
 };
 

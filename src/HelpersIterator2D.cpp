@@ -22,7 +22,10 @@
 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
+
+#include "alignlib_default.h"
 
 #include "HelpersIterator2D.h"
 
@@ -30,19 +33,6 @@ using namespace std;
 
 namespace alignlib 
 {
-
-  static auto_ptr<Iterator2D>DEFAULT_ITERATOR2D(makeIterator2DFull());
-  
-  /** gets the default Iterator2D object */ 
-  const Iterator2D * getDefaultIterator2D() 
-  {
-    return &*DEFAULT_ITERATOR2D;
-  }
-
-  /** sets the default Iterator2D object */
-  void setDefaultIterator2D( Iterator2D * iterator2D ) 
-  {
-    DEFAULT_ITERATOR2D.reset(iterator2D);
-  }
+	IMPLEMENT_DEFAULT( HIterator2D, makeIterator2DFull(), getDefaultIterator2D, setDefaultIterator2D );
 }
 

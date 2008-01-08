@@ -41,7 +41,8 @@ namespace alignlib
 { 
 
   //-----------------------------------------------------------------------------------
-  void writeFragments( std::ostream & output, const FragmentVector * fragments) {
+  void writeFragments( std::ostream & output, const FragmentVector * fragments) 
+  {
 
     FragmentVector::const_iterator it(fragments->begin()), it_end(fragments->end());
     
@@ -55,17 +56,12 @@ namespace alignlib
 
 
   //-----------------------------------------------------------------------------------
-  void deleteFragments( FragmentVector * fragments ) {
+  void deleteFragments( FragmentVector * fragments ) 
+  {
     FragmentVector::iterator it(fragments->begin()), it_end(fragments->end());
-    
-    for (; it != it_end; ++it) 
-      delete *it;
-    
     delete fragments;
-    
   }
-
-
+  
   //-----------------------------------------------------------------------------------
   void rescoreFragmentsNumberGaps( FragmentVector * fragments, 
 				   Score gop, 
@@ -73,7 +69,7 @@ namespace alignlib
     FragmentVector::iterator it(fragments->begin()), it_end(fragments->end());
     
     for (; it != it_end; ++it) {
-      Alignment * fragment = *it;
+      HAlignment fragment = *it;
       
       AlignmentIterator a_it(fragment->begin()), a_end(fragment->end());
 

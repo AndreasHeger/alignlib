@@ -56,11 +56,11 @@ namespace alignlib {
 #define NODOT -1 
 
 //------------------------------factory functions -----------------------------
-Alignment * makeAlignmentMatrixRow( long ndots ) 
+HAlignment makeAlignmentMatrixRow( long ndots ) 
 {
   debug_func_cerr(5);
 
-  return new ImplAlignmentMatrixRow( ndots);
+  return HAlignment( new ImplAlignmentMatrixRow( ndots) );
 }
 
 //------------------------------------< constructors and destructors >-----
@@ -84,12 +84,14 @@ ImplAlignmentMatrixRow::~ImplAlignmentMatrixRow( )
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignmentMatrixRow * ImplAlignmentMatrixRow::getNew() const {
-  return new ImplAlignmentMatrixRow();
+HAlignment ImplAlignmentMatrixRow::getNew() const 
+{
+  return HAlignment( new ImplAlignmentMatrixRow() );
 }
     
-ImplAlignmentMatrixRow * ImplAlignmentMatrixRow::getClone() const {
-  return new ImplAlignmentMatrixRow( *this );
+HAlignment ImplAlignmentMatrixRow::getClone() const 
+{
+  return HAlignment( new ImplAlignmentMatrixRow( *this ) );
 }
 
 

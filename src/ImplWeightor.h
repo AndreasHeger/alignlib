@@ -36,9 +36,6 @@
 namespace alignlib 
 {
 
-class MultipleAlignment;
-class Translator;
-
 /** @short Base implementation class for @ref Weightor.
       
     This class provides some helper functions that are needed
@@ -53,7 +50,7 @@ class ImplWeightor : public Weightor
     // constructors and desctructors
 
     /** default constructor */
-    ImplWeightor( const HTranslator & translator);
+    ImplWeightor();
     
     /** copy constructor */
     ImplWeightor(const ImplWeightor &);
@@ -63,14 +60,22 @@ class ImplWeightor : public Weightor
     
     /** return a vector of weights for a multiple alignment. The ordering in the result will be the same 
 	as in the multiple alignment. Note, that the caller has to delete the weights. */
-    virtual SequenceWeights * calculateWeights( const MultipleAlignment & src ) const;
+    virtual void fillCounts( 
+    		CountMatrix * counts,
+    		const HMultipleAlignment & src,
+    		const HTranslator & translator ) const;
     
  protected:
-    /** rescale the weights to the desired value. If value is 0, the weights are scaled to the number of sequences */
-    virtual void rescaleWeights( SequenceWeights * weights, int nsequences, SequenceWeight value = 0) const;
 
-    /** pointer to the translator object to use */
-    const HTranslator mTranslator;
+	 /** rescale the weights to the desired value. If value is 0, the weights are scaled to the number of sequences */
+    virtual void rescaleWeights( HSequenceWeights & weights, 
+    		int nsequences, 
+    		SequenceWeight value = 0) const;
+    
+    /** calculate weights per sequence */
+    virtual HSequenceWeights calculateWeights( 
+    		const HMultipleAlignment & src,
+    		const HTranslator & translator ) const;
 };
 
 

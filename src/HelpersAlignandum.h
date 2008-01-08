@@ -29,7 +29,7 @@
 #define HELPERS_ALIGNANDUM_H 1
 
 #include "alignlib.h"
-#include <math.h>
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
@@ -50,7 +50,7 @@ class Alignandum;
  * 
  * Returns NULL on EOF.
  */	
-Alignandum * loadAlignandum( std::istream & stream );
+	HAlignandum loadAlignandum( std::istream & stream );
 
 /* -------------------------------------------------------------------------------------------------------------------- */
 /* 2. accessor functions for default objects */

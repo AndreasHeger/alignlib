@@ -68,12 +68,14 @@ class ImplAlignatorDotsSquared : public ImplAlignatorDots
     
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorDotsSquared * getClone() const;    
+    virtual HAlignator getClone() const;    
 
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
+    virtual void performAlignment( HAlignment & dest, 
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
 
     /** get GAP cost for a gap */
     virtual Score getGapCost( Dot x1, Dot x2 ) const;

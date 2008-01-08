@@ -66,10 +66,10 @@ namespace alignlib
     Alignator * makeAlignatorTuples(int ktuple = 3 );
 
     /** make an alignator object, which returns a dummy alignments */
-    Alignator * makeAlignatorDummy( const Alignment * ali );
+    Alignator * makeAlignatorDummy( const HAlignment ali );
 
     /** make an alignator object, which returns a dummy alignment */
-    Alignator * makeAlignatorPublishAlignment( Alignment * ali );
+    Alignator * makeAlignatorPublishAlignment( HAlignment ali );
     
     /** make an alignator object, which does a dot-alignment with wrapping around. */
     Alignator * makeAlignatorDotsWrap( Score gop, 

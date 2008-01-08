@@ -83,9 +83,9 @@ ImplSequence::~ImplSequence()
 }
 
 //--------------------------------------------------------------------------------------
-Alignandum * ImplSequence::getClone() const 
+HAlignandum ImplSequence::getClone() const 
 {
-	return new ImplSequence( *this );
+	return HAlignandum( new ImplSequence( *this ) );
 }
 
 

@@ -35,8 +35,6 @@
 namespace alignlib 
 {
 
-class Alignandum;
-
 /** @short align similar residue pairs (dot-matrix generation).
       
     Create a dot for similar residue pairs. Similarity is given by
@@ -45,7 +43,8 @@ class Alignandum;
     @author Andreas Heger
     @version $Id: ImplAlignatorSimilarity.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplAlignatorSimilarity : public ImplAlignator {
+class ImplAlignatorSimilarity : public ImplAlignator 
+{
  public:
     // constructors and desctructors
 
@@ -59,11 +58,14 @@ class ImplAlignatorSimilarity : public ImplAlignator {
     virtual ~ImplAlignatorSimilarity ();
 
     /** method for aligning two arbitrary objects */
-    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
+    virtual HAlignment & align( 
+    		HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
   
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorSimilarity * getClone() const;    
+    virtual HAlignator getClone() const;    
 };
 
 }

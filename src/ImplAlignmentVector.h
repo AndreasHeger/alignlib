@@ -82,10 +82,10 @@ public:
 	virtual ~ImplAlignmentVector();
 
 	//------------------------------------------------------------------------------------------------------------
-	virtual ImplAlignmentVector * getNew() const;
+	virtual HAlignment getNew() const;
 
 	/** return an identical copy */
-	virtual ImplAlignmentVector * getClone() const;
+	virtual HAlignment getClone() const;
 
 	//------------------------------------------------------------------------------------------------------------
 	//------------------------------------------------------------------------------------------------------------

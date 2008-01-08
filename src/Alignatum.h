@@ -30,13 +30,10 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
-
-class Alignandum;
-class Alignment;
-class Renderer;
 
 /** @short interface definition of Alignatum objects.
 
@@ -73,10 +70,11 @@ class Alignatum
     /*-----> accessors <----------------------------------------------------- */
 
     /** write object into stream nicely formatted */
-    virtual void writeRow( std::ostream & output, 
-			   Position segment_start = 0, 
-			   Position segment_end = 0,
-			   const Renderer * = NULL)  const = 0;
+    virtual void writeRow( 
+    		std::ostream & output, 
+    		const HRenderer & renderer,
+    		Position segment_start = 0, 
+    		Position segment_end = 0 ) const = 0;
 
     /** return a copy of the string representation */
     virtual std::string getString() const = 0;
@@ -115,17 +113,15 @@ class Alignatum
 	If unaligned chars is true, lower case unaligned characters will be
 	put before the next aligned character (as much as fit) 
     */
-    virtual void mapOnAlignment(const Alignment * map_old2new,
+    virtual void mapOnAlignment(const HAlignment & map_old2new,
 				const Position new_length = 0,
 				const bool unaligned_chars = false ) = 0;
-				
-
 
     /** @short return an identical copy. */
-    virtual Alignatum * getClone() const = 0;
+    virtual HAlignatum getClone() const = 0;
 
     /** return an empty copy of this object */
-    virtual Alignatum * getNew() const = 0;
+    virtual HAlignatum getNew() const = 0;
 
     /** write into stream */
     virtual void  write( std::ostream & output ) const = 0;

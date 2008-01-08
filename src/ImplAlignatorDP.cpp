@@ -26,34 +26,24 @@
 #include <limits>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
-#include "alignlib_fwd.h"
 #include "HelpersSubstitutionMatrix.h"
-
 #include "Alignment.h"
 #include "HelpersAlignment.h"
-
 #include "Alignandum.h"
 #include "Alignator.h"
 #include "ImplAlignatorDP.h"
-
-//implementation of Alignandum-objects
 #include "ImplSequence.h"
 #include "ImplProfile.h"
-
-#include "ImplTranslator.h" // for direct access to mask_code
-
-
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include "Iterator2D.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /* How to write a fast algorithm:
      My design objective here was to not duplicate the algorithmic code without penalizing too much
@@ -135,8 +125,10 @@ Score ImplAlignatorDP::getColGop() { return mColGop; }
 Score ImplAlignatorDP::getColGep() { return mColGep; }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
-Alignment * ImplAlignatorDP::align(const Alignandum * row, const Alignandum * col, Alignment * result)
-
+HAlignment & ImplAlignatorDP::align(
+		HAlignment & result,
+		const HAlignandum & row, 
+		const HAlignandum & col ) 
 {
 	debug_func_cerr(5);
 
@@ -152,19 +144,22 @@ Alignment * ImplAlignatorDP::align(const Alignandum * row, const Alignandum * co
      dynamics_cast-way.
 	 */
 
-	startUp(row, col, result);
+	startUp(result, row, col );
 
-	performAlignment(row, col, result);
+	performAlignment(result, row, col );
 
-	cleanUp(row, col, result);
+	cleanUp(result, row, col );
 
 	return result;
 }
 
 //------------------------------------------------------------------------------------------
-void ImplAlignatorDP::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali) {
+void ImplAlignatorDP::startUp(HAlignment & ali,
+		const HAlignandum & row, 
+		const HAlignandum & col) 
+{
 
-	ImplAlignator::startUp(row, col, ali);  
+	ImplAlignator::startUp(ali, row, col );  
 
 	mRowLength = mIterator->row_size();
 	mColLength = mIterator->col_size();
@@ -190,7 +185,9 @@ void ImplAlignatorDP::startUp(const Alignandum * row, const Alignandum *col, Ali
 #endif
 }
 //----------------------------------------------------------------------------------------------------------------------------------------
-void ImplAlignatorDP::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
+void ImplAlignatorDP::cleanUp(HAlignment & ali,
+		const HAlignandum & row, 
+		const HAlignandum & col )
 {
 
 	if (mCC != NULL) 
@@ -206,7 +203,7 @@ void ImplAlignatorDP::cleanUp(const Alignandum * row, const Alignandum *col, Ali
 		mDD = NULL; 
 	}
 
-	ImplAlignator::cleanUp(row, col, ali);
+	ImplAlignator::cleanUp(ali, row, col );
 
 }       
 

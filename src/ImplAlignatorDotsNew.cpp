@@ -98,7 +98,7 @@ namespace alignlib {
   }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
-  void ImplAlignatorDots::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
+  void ImplAlignatorDots::startUp(const HAlignandum row, const HAlignandumcol, HAlignment ali) 
     {
     ImplAlignator::startUp(row, col, ali);  
 
@@ -126,7 +126,7 @@ namespace alignlib {
   }
 
   //-----------------------------------------------------------------------------------------------------------------------------
-  void ImplAlignatorDots::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
+  void ImplAlignatorDots::cleanUp(const HAlignandum row, const HAlignandumcol, HAlignment ali) 
     {
       debug_func_cerr(5);
 
@@ -141,7 +141,7 @@ namespace alignlib {
     }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
-  Alignment * ImplAlignatorDots::align(const Alignandum * row, const Alignandum * col, Alignment * result) 
+  HAlignment ImplAlignatorDots::align(const HAlignandum row, const HAlignandum col, HAlignment result) 
     {
       debug_func_cerr(5);
 
@@ -158,7 +158,7 @@ namespace alignlib {
     }
 
   //-----------------------------------------< BackTracke >-------------------------------------------------------------
-  void ImplAlignatorDots::traceBack( const Alignandum * row, const Alignandum * col, Alignment * result) 
+  void ImplAlignatorDots::traceBack( const HAlignandum row, const HAlignandum col, HAlignment result) 
     {
       debug_func_cerr(5);
 
@@ -241,7 +241,7 @@ namespace alignlib {
   }
 
   //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-  void ImplAlignatorDots::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) {
+  void ImplAlignatorDots::performAlignment( const HAlignandum prow, const HAlignandum pcol, HAlignment ali) {
 
     /**
      Overview over the algorithm

@@ -61,7 +61,9 @@ Position ImplFragmentor::getRowLength() { return mRowLength; }
 Position ImplFragmentor::getColLength() { return mColLength; }
 
 //-------------------------------------------------------------------------------------------------------
-void ImplFragmentor::startUp( const Alignandum * row, const Alignandum * col, Alignment * ali) 
+void ImplFragmentor::startUp( HAlignment & ali,
+		const HAlignandum & row, 
+		const HAlignandum & col ) 
 {
   debug_func_cerr(5);
 
@@ -76,7 +78,10 @@ void ImplFragmentor::startUp( const Alignandum * row, const Alignandum * col, Al
 }
 
 //--------------------------------------------------------------------------------------------------------
-void ImplFragmentor::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
+void ImplFragmentor::cleanUp( 
+		HAlignment & dest,
+		const HAlignandum & row, 
+		const HAlignandum & co ) 
 {
   debug_func_cerr(5);
 
@@ -98,13 +103,17 @@ void ImplFragmentor::cleanUp(const Alignandum * row, const Alignandum *col, Alig
 }
 
 //--------------------------------------------------------------------------------------------------------
-FragmentVector * ImplFragmentor::fragment(const Alignandum * row, const Alignandum * col, Alignment * ali) {
+FragmentVector * ImplFragmentor::fragment(
+		HAlignment & ali,
+		const HAlignandum & row, 
+		const HAlignandum & col) 
+{
 
-  startUp(row, col, ali);
+  startUp(ali, row, col );
 
-  performFragmentation( row, col, ali);
+  performFragmentation( ali, row, col );
   
-  cleanUp( row, col, ali);
+  cleanUp( ali, row, col );
 
   return mFragments;
 }

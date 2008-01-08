@@ -38,14 +38,14 @@ namespace alignlib
 {
 
 /** factory functions */
-HWeightor makeWeightorHenikoffKimmen( const HTranslator & translator ) 
+HWeightor makeWeightorHenikoffKimmen() 
 { 
-	return HWeightor(new ImplWeightorHenikoffKimmen(translator));
+	return HWeightor(new ImplWeightorHenikoffKimmen());
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplWeightorHenikoffKimmen::ImplWeightorHenikoffKimmen ( const HTranslator & translator) : 
-	ImplWeightorHenikoff(translator) 
+ImplWeightorHenikoffKimmen::ImplWeightorHenikoffKimmen () : 
+	ImplWeightorHenikoff() 
 {
 }
 
@@ -53,18 +53,21 @@ ImplWeightorHenikoffKimmen::~ImplWeightorHenikoffKimmen ()
 {
 }
 
-ImplWeightorHenikoffKimmen::ImplWeightorHenikoffKimmen (const ImplWeightorHenikoffKimmen & src ) : ImplWeightorHenikoff(src) 
+ImplWeightorHenikoffKimmen::ImplWeightorHenikoffKimmen (const ImplWeightorHenikoffKimmen & src ) : 
+	ImplWeightorHenikoff(src) 
 {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-SequenceWeights * ImplWeightorHenikoffKimmen::calculateWeights( const MultipleAlignment & src ) const 
+HSequenceWeights ImplWeightorHenikoffKimmen::calculateWeights( 
+		const HMultipleAlignment & src,
+		const HTranslator & translator ) const 
 {
 	debug_func_cerr(5);
 
-	SequenceWeights * weights = ImplWeightorHenikoff::calculateWeights( src );
+	HSequenceWeights weights( ImplWeightorHenikoff::calculateWeights( src, translator ) );
 
-	int nsequences = src.getWidth();
+	int nsequences = src->getWidth();
 	
 	// rescale weights, so that they sum to the number of nsequences 
 	rescaleWeights( weights, nsequences, nsequences);

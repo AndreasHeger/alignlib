@@ -53,7 +53,7 @@ ImplDottorSimilarity::~ImplDottorSimilarity () {
 ImplDottorSimilarity::ImplDottorSimilarity (const ImplDottorSimilarity & src ) : ImplDottor(src), mSubstitutionMatrix( src.mSubstitutionMatrix) {
 }
 
-void ImplDottorSimilarity::calculateNewPairs( const Alignandum * row, const Alignandum * col) const {
+void ImplDottorSimilarity::calculateNewPairs( const HAlignandum row, const HAlignandum col) const {
     Position i, j;
 
     Position row_length = row->getLength();

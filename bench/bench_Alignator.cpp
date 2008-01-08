@@ -95,7 +95,6 @@ void InitProfProf(
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor());
-			);	
 			
 	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
 			getDefaultTranslator(),

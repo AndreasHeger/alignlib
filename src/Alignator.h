@@ -29,22 +29,18 @@
 #define ALIGNATOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib
 {
 
-  class Alignment;
-  class Alignandum;
-  class Iterator2D;
-  class Scorer;
-  
   /**  
        @short protocol class for Alignator objects.
        
        Alignator objects align two objects. The default way to use it
        
        Alignator * a;
-       Alignment * r;
+       HAlignment r;
        
        a->align( row, col, &r );
 
@@ -84,21 +80,23 @@ namespace alignlib
       //------------------------------------------------------------------------------------------------------------
       /** return an identical copy
        */
-      virtual Alignator * getClone() const = 0;
+      virtual HAlignator getClone() const = 0;
             
       /** align two alignandum objects 
        * */
-      virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *) = 0;		
+      virtual HAlignment & align(HAlignment & dest, 
+    		  const HAlignandum & row, 
+    		  const HAlignandum & col) = 0;		
 
       /** accessors */
 
       /** set iterator object 
        * */
-      virtual void setIterator2D( const Iterator2D * iterator = NULL) = 0;    
+      virtual void setIterator2D( const HIterator2D & iterator) = 0;    
 
       /** set scoring object 
        * */
-      virtual void setScorer( const Scorer * scorer ) = 0;    
+      virtual void setScorer( const HScorer & scorer ) = 0;    
       
     };
 }

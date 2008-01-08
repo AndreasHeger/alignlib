@@ -89,37 +89,39 @@ typedef std::set<ResiduePAIR *, ComparatorRowCol> AlignmentSetRowCol;
 typedef std::set<ResiduePAIR *, ComparatorDiagonalCol> AlignmentSetDiagonalCol;  
 
 //------------------------------factory functions -----------------------------
-Alignment * makeAlignmentSet()
+HAlignment makeAlignmentSet()
 {
-	return new ImplAlignmentSorted< AlignmentSetRow >();
+	return HAlignment( new ImplAlignmentSorted< AlignmentSetRow >() );
 }
 
-Alignment * makeAlignmentSetCol()
+HAlignment makeAlignmentSetCol()
 {
-	return new ImplAlignmentSorted< AlignmentSetCol >();
+	return HAlignment( new ImplAlignmentSorted< AlignmentSetCol >() );
 }
 
-Alignment * makeAlignmentHash()
+HAlignment makeAlignmentHash()
 {
-	return new ImplAlignmentSorted< AlignmentSetRowCol >();
+	return HAlignment( new ImplAlignmentSorted< AlignmentSetRowCol >() );
 }
 
-Alignment * makeAlignmentHashDiagonal()
+HAlignment makeAlignmentHashDiagonal()
 {
-	return new ImplAlignmentSorted< AlignmentSetDiagonalCol >();
+	return HAlignment( new ImplAlignmentSorted< AlignmentSetDiagonalCol >() );
 }
 
 
 //------------------------------------< constructors and destructors >-----
 template <class T>
-ImplAlignmentSorted<T>::ImplAlignmentSorted() : ImplAlignment() 
+ImplAlignmentSorted<T>::ImplAlignmentSorted() : 
+	ImplAlignment() 
 {
 	debug_func_cerr(5);
 
 }
 
 template <class T>
-ImplAlignmentSorted<T>::ImplAlignmentSorted( const ImplAlignmentSorted& src) : ImplAlignment( src ) 
+ImplAlignmentSorted<T>::ImplAlignmentSorted( const ImplAlignmentSorted& src) : 
+	ImplAlignment( src ) 
 {
 	debug_func_cerr(5);
 
@@ -141,15 +143,15 @@ ImplAlignmentSorted<T>::~ImplAlignmentSorted( )
 
 //------------------------------------------------------------------------------------------------------------
 template <class T>
-ImplAlignmentSorted<T> * ImplAlignmentSorted<T>::getNew() const
+HAlignment ImplAlignmentSorted<T>::getNew() const
 {
-	return new ImplAlignmentSorted<T>();
+	return HAlignment( new ImplAlignmentSorted<T>() );
 }
 
 template <class T>
-ImplAlignmentSorted<T> * ImplAlignmentSorted<T>::getClone() const
+HAlignment ImplAlignmentSorted<T>::getClone() const
 {
-	return new ImplAlignmentSorted( *this );
+	return HAlignment( new ImplAlignmentSorted<T>( *this ));
 }
 
 //------------------------------------------------------------------------------------------------------------

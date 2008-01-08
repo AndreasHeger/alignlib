@@ -20,6 +20,7 @@
 #include <string>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 /**
 	Data structure for aligned blocks.
@@ -43,21 +44,21 @@ struct AlignedBlocks
 	friend std::istream & operator>>( std::istream &, AlignedBlocks &);
 	
 	// constructors and desctructors
-	AlignedBlocks  ( const Alignment * src = NULL);
+	AlignedBlocks ();
 
-	AlignedBlocks  (const AlignedBlocks &);
+	AlignedBlocks (const AlignedBlocks &);
 
 	virtual ~AlignedBlocks ();
 
 	/** fill blocks from alignment
 	@param src Alignment to parse
 	 */
-	void fill( const Alignment * src);
+	void fill( const HAlignment & src);
 
 	/** fill Alignment object with blocks
 	 * @param dest Alignment 
 	 */
-	Alignment * copy( Alignment * dest ) const;
+	HAlignment & copy( HAlignment & dest ) const;
 	
 	/** start of aligned blocks in row*/
 	Position mRowFrom;
@@ -86,7 +87,6 @@ struct AlignedBlocks
 	
 	/** vector with block sizes */
 	PositionVector mBlockSizes;
-	
 	
 };
 

@@ -44,19 +44,21 @@
 //implementation of Alignandum-objects
 #include "ImplSequence.h"
 #include "ImplProfile.h"
+#include "Iterator2D.h"
+#include "Scorer.h"
 
 using namespace std;
 
 namespace alignlib
 {
 
-Alignator * makeAlignatorDPFull( AlignmentType alignment_type,
+HAlignator makeAlignatorDPFull( AlignmentType alignment_type,
 		Score gop, Score gep,
 		bool penalize_left,
 		bool penalize_right )
 		{
-	return new ImplAlignatorDPFull( alignment_type, gop, gep, gop, gep,
-			penalize_left, penalize_right, penalize_left, penalize_right);
+	return HAlignator( new ImplAlignatorDPFull( alignment_type, gop, gep, gop, gep,
+			penalize_left, penalize_right, penalize_left, penalize_right) );
 		}
 
 /* How to write a fast algorithm:
@@ -112,18 +114,20 @@ ImplAlignatorDPFull::~ImplAlignatorDPFull()
 }
 
 //----------------------------------------------------------------------------------------------------------
-ImplAlignatorDPFull * ImplAlignatorDPFull::getClone() const 
+HAlignator ImplAlignatorDPFull::getClone() const 
 {
-	return new ImplAlignatorDPFull( *this );
+	return HAlignator( new ImplAlignatorDPFull( *this ) );
 }
 
 //------------------------------------------------------------------------------------------------
-void ImplAlignatorDPFull::startUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
+void ImplAlignatorDPFull::startUp( HAlignment & ali,
+		const HAlignandum & row, 
+		const HAlignandum & col )
 
 {
 	debug_func_cerr(5);
 
-	ImplAlignatorDP::startUp(row, col, ali);  
+	ImplAlignatorDP::startUp(ali, row, col );  
 
 	mRowLast = NO_POS;
 	mColLast = NO_POS;
@@ -161,12 +165,13 @@ void ImplAlignatorDPFull::startUp(const Alignandum * row, const Alignandum *col,
 }
 
 //--------------------------------------------------------------------------------------------------------------
-void ImplAlignatorDPFull::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
+void ImplAlignatorDPFull::cleanUp(HAlignment & ali, 
+		const HAlignandum & row, const HAlignandum & col )
 {
 	if (mTraceMatrix != NULL) { delete [] mTraceMatrix; mTraceMatrix = NULL; }
 	if (mTraceRowStarts != NULL) { --mTraceRowStarts; delete [] mTraceRowStarts; mTraceRowStarts = NULL; }    
 
-	ImplAlignatorDP::cleanUp(row, col, ali);
+	ImplAlignatorDP::cleanUp(ali, row, col );
 }       
 
 //-------------------------------------< BackTrace >----------------------------------------------------------------------
@@ -174,7 +179,8 @@ void ImplAlignatorDPFull::cleanUp(const Alignandum * row, const Alignandum *col,
 // wrapping around for col but not for row, because otherwise there could be an infinite loop.
 #define PREVCOL { if (--col < 0) col = mColLength - 1; }  
 
-void ImplAlignatorDPFull::traceBack( const Alignandum * prow, const Alignandum * pcol, Alignment * result) 
+void ImplAlignatorDPFull::traceBack( HAlignment & result,
+		const HAlignandum & prow, const HAlignandum & pcol ) 
 {	
 	debug_func_cerr(5);
 
@@ -266,7 +272,8 @@ void ImplAlignatorDPFull::traceBack( const Alignandum * prow, const Alignandum *
 //---------------------------------< the actual alignment algorithm >-------------------------------------------
 
 //-----------------------------------------------------------------------------------  
-void ImplAlignatorDPFull::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali)
+void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
+		const HAlignandum & prow, const HAlignandum & pcol )
 {
 
 	debug_func_cerr(5);
@@ -502,7 +509,7 @@ void ImplAlignatorDPFull::performAlignment( const Alignandum * prow, const Align
 		}
 	}
 
-	traceBack(prow, pcol, ali);
+	traceBack(ali, prow, pcol );
 }
 
 } // namespace alignlib

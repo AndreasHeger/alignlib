@@ -30,9 +30,12 @@
 
 #include <string>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "Renderer.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 
     /** Helper functions for class Alignment:
@@ -63,7 +66,7 @@ namespace alignlib {
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
-
+	DEFINE_DEFAULT( HRenderer, getDefaultRenderer, setDefaultRenderer );
 }
 
 #endif	/* HELPERS_RENDERER_H */

@@ -70,8 +70,8 @@ EVDParameters * makeEVDParameters();
 
 /** iteratively align src1 and src2 and "fit" a normal distribution */
 void calculateZScoreParameters( NormalDistributionParameters * result,
-				const Alignandum * row, 
-				const Alignandum * col, 
+				const HAlignandum row, 
+				const HAlignandum col, 
 				Alignator * alignator,
 				unsigned int n_iterations,
 				unsigned int n_iterations_shuffle = 1,
@@ -86,8 +86,8 @@ inline Score calculateZScore( Score score,
     distribution. The fit is done using linear regression.
 */
 void calculateEVDParameters( EVDParameters * result,
-			     const Alignandum * row, 
-			     const Alignandum * col, 
+			     const HAlignandum row, 
+			     const HAlignandum col, 
 			     Alignator * alignator,
 			     unsigned int n_iterations,
 			     unsigned int n_iterations_shuffle = 1,

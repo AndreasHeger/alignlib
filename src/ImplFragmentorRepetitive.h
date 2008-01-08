@@ -44,13 +44,15 @@ namespace alignlib
    @version $Id: ImplFragmentorRepetitive.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */ 
 
-class ImplFragmentorRepetitive : public ImplFragmentor {
+class ImplFragmentorRepetitive : public ImplFragmentor 
+{
   /* class member functions-------------------------------------------------------------- */
  public:
     /* constructors and desctructors------------------------------------------------------- */
     /** constructor */
-    ImplFragmentorRepetitive( Alignator * alignator, 
-			      Score min_score );
+    ImplFragmentorRepetitive( 
+    		const HAlignator & alignator, 
+    		Score min_score );
 
     /** destructor */
     virtual ~ImplFragmentorRepetitive ();
@@ -60,15 +62,16 @@ class ImplFragmentorRepetitive : public ImplFragmentor {
 
  protected:
     /** the alignator used to create dot-plots */
-    Alignator * mAlignator;
+    HAlignator mAlignator;
 
     /** minimum score for alignment */
     Score mMinScore;
 
     /** perform the actual alignment */
-    virtual void performFragmentation( const Alignandum * row, 
-				       const Alignandum * col, 
-				       const Alignment * sample);
+    virtual void performFragmentation(
+    		HAlignment & sample,
+    		const HAlignandum & row, 
+    		const HAlignandum & col ); 
 };
 
 }

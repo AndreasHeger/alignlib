@@ -48,18 +48,18 @@ namespace alignlib
     /* -----------------------------------------------------------------------------------------*/
     /* 1. factory functions */
     /** create a sequence from a NULL-terminated string */
-	Alignandum * makeSequence( const char * sequence ); 
-    Alignandum * makeSequence( const char * sequence, 
+	HAlignandum makeSequence( const char * sequence ); 
+    HAlignandum makeSequence( const char * sequence, 
     		const HTranslator & translator );
 
     /** create a sequence from a string */
-    Alignandum * makeSequence( const std::string & sequence );
-    Alignandum * makeSequence( const std::string & sequence,
+    HAlignandum makeSequence( const std::string & sequence );
+    HAlignandum makeSequence( const std::string & sequence,
     		const HTranslator & translator );
 
     /** mutate a sequence according to a substitution matrix */
-    Alignandum * makeMutatedSequence( 
-    			Alignandum * src, 
+    HAlignandum makeMutatedSequence( 
+    			HAlignandum src, 
     			const MutationMatrix * matrix );
 
     /* ----------------------------------------------------------------------------------------------*/
@@ -68,16 +68,16 @@ namespace alignlib
     /* ----------------------------------------------------------------------------------------------*/ 
     /* 3. convenience functions */
     /** create a sequence from a stream */
-    Alignandum * extractSequence( std::istream & input,
+    HAlignandum extractSequence( std::istream & input,
     		const HTranslator & translator );
 
     /** extract a sequence in Fasta-Format from a stream */
-    Alignandum * extractSequenceFasta( std::istream & input, 
+    HAlignandum extractSequenceFasta( std::istream & input, 
     		std::string & description,
     		const HTranslator & translator );
 
     /** create a sequence from a filename */
-    Alignandum * readSequence( const char * filename,
+    HAlignandum readSequence( const char * filename,
     		const HTranslator & translator );
 
     /** set random seed */

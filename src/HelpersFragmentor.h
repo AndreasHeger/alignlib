@@ -52,7 +52,7 @@ namespace alignlib {
 				       Score gep, 
 				       Alignator * dottor );
   
-  Fragmentor * makeFragmentorIterative( Alignment * dots, 
+  Fragmentor * makeFragmentorIterative( HAlignment dots, 
 					Score min_score,
 					Score gop,
 					Score gep );

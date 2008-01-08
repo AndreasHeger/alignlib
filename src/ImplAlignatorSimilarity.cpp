@@ -33,6 +33,7 @@
 #include "ImplAlignatorSimilarity.h"
 
 #include "Iterator2D.h"
+#include "Scorer.h"
 #include "HelpersIterator2D.h"
 
 using namespace std;
@@ -40,34 +41,42 @@ using namespace std;
 namespace alignlib 
 {
 
-  Alignator * makeAlignatorSimilarity()
+  HAlignator makeAlignatorSimilarity()
   {
-    return new ImplAlignatorSimilarity();
+    return HAlignator( new ImplAlignatorSimilarity() );
   }
   
   //---------------------------------------------------------< constructors and destructors >--------------------------------------
-  ImplAlignatorSimilarity::ImplAlignatorSimilarity () : ImplAlignator() {
+  ImplAlignatorSimilarity::ImplAlignatorSimilarity () : ImplAlignator() 
+  {
   }
   
-  ImplAlignatorSimilarity::~ImplAlignatorSimilarity () {
+  ImplAlignatorSimilarity::~ImplAlignatorSimilarity () 
+  {
   }
   
-  ImplAlignatorSimilarity::ImplAlignatorSimilarity (const ImplAlignatorSimilarity & src ) : ImplAlignator(src) {
+  ImplAlignatorSimilarity::ImplAlignatorSimilarity (const ImplAlignatorSimilarity & src ) : 
+	  ImplAlignator(src) 
+  {
   }
   
   //--------------------------------------------------------------------------------------------------------
-  ImplAlignatorSimilarity * ImplAlignatorSimilarity::getClone() const 
+  HAlignator ImplAlignatorSimilarity::getClone() const 
   {
-   return new ImplAlignatorSimilarity( *this );
+   return HAlignator( new ImplAlignatorSimilarity( *this ) );
   }
   
-  Alignment * ImplAlignatorSimilarity::align( const Alignandum * row, const Alignandum * col, Alignment * result) {
+  HAlignment & ImplAlignatorSimilarity::align( 
+		  HAlignment & result,
+		  const HAlignandum & row, 
+		  const HAlignandum & col) 
+  {
     
-    startUp(row, col, result );
+    startUp(result, row, col );
     
     Score score, total_score = 0;
     
-    Iterator2D * it2d = mIterator->getNew( row, col );
+    HIterator2D it2d(mIterator->getNew( row, col ));
     
     Iterator2D::const_iterator rit(it2d->row_begin()), rend(it2d->row_end());
     
@@ -89,7 +98,7 @@ namespace alignlib
     
     result->setScore( total_score );
     
-    cleanUp(row, col, result );
+    cleanUp(result, row, col );
     
     return result;
   

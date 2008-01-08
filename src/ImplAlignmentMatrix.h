@@ -30,6 +30,7 @@
 #include <iosfwd>
 #include <vector>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignment.h"
 
 namespace alignlib 
@@ -268,8 +269,8 @@ class ImplAlignmentMatrix : public ImplAlignment
 
 };
 
+typedef boost::shared_ptr<ImplAlignmentMatrix> HImplAlignmentMatrix;
 						  
-
 }
 
 #endif /* _ALIGNATA_H */

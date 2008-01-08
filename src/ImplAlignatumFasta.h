@@ -30,9 +30,11 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignatum.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** Objects of this type represent an aligned object. This class is responsible for
     producing a nice, real-world representation of the aligned object. To this end, 
@@ -45,11 +47,8 @@ namespace alignlib {
     @short protocol class for aligned objects
 */
 
-class Alignment;
-class Alignandum;
-class Renderer;
-
-class ImplAlignatumFasta : public ImplAlignatum {
+class ImplAlignatumFasta : public ImplAlignatum 
+{
  public:
     // constructors and desctructors
     /** when building a new Alignatum sequence by cloning and an alignment, this specifies,
@@ -75,10 +74,10 @@ class ImplAlignatumFasta : public ImplAlignatum {
 	@param skip_gaps true, if gaps in other sequence shall be skipped 
 	@param is_in_row true, if alignment is in row
     */
-  virtual ImplAlignatumFasta * getClone() const;
+  virtual HAlignatum getClone() const;
     
   /** return an empty copy of this object */
-  virtual ImplAlignatumFasta * getNew() const;
+  virtual HAlignatum getNew() const;
 
 
   /** write object into stream nicely formatted. Segments are addresed by [from,to)
@@ -86,10 +85,10 @@ class ImplAlignatumFasta : public ImplAlignatum {
       @param segment_start beginning of segment 
       @param segment_end end of segment 
   */
-  virtual void writeRow( std::ostream & output, 
-			 Position segment_start = 0, 
-			 Position segment_end = 0,
-			 const Renderer * = NULL)  const;
+  virtual void writeRow( std::ostream & output,
+		  const HRenderer & renderer,
+		  Position segment_start = 0, 
+		  Position segment_end = 0 ) const;
 
   /** write into stream */
   virtual void  write( std::ostream & output ) const;

@@ -11,10 +11,8 @@
 #include <iostream>
 #include <string>
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
 
@@ -23,18 +21,18 @@ using namespace std;
 namespace alignlib 
 {
   
-  static std::auto_ptr<Distor>DEFAULT_DISTOR(makeDistorClustal());  
+  static HDistor DEFAULT_DISTOR(makeDistorClustal());  
 
   /** gets the default Distor object */
-  const Distor * getDefaultDistor() 
+  const HDistor getDefaultDistor() 
   {
-    return &*DEFAULT_DISTOR;
+    return DEFAULT_DISTOR;
   }
  
   /** sets the default Distor object */
-  void setDefaultDistor( Distor * distor ) 
+  void setDefaultDistor( const HDistor & distor ) 
   {
-    DEFAULT_DISTOR.reset(distor);
+    DEFAULT_DISTOR = distor;
   }            
 
 } // namespace alignlib

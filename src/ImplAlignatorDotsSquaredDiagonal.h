@@ -66,7 +66,7 @@ class ImplAlignatorDotsSquaredDiagonal : public ImplAlignatorDotsSquared
     
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorDotsSquaredDiagonal * getClone() const;    
+    virtual HAlignator getClone() const;    
 
  protected:
 

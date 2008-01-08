@@ -29,8 +29,7 @@
 #define IMPL_ALIGNATOR_ITERATIVE_H 1
 
 #include "alignlib.h"
-#include "Alignator.h"
-#include "Alignment.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignator.h"
 
 namespace alignlib 
@@ -38,15 +37,13 @@ namespace alignlib
 	/** Alignator for iterative alignment. 
 	 */
 
-  class Alignandum;
-  
   class ImplAlignatorIterative : public ImplAlignator 
   {
    public:
       // constructors and desctructors
 
       /** default constructor */
-      ImplAlignatorIterative  ( const Alignator * ali, Score min_score );
+      ImplAlignatorIterative  ( const HAlignator &, Score min_score );
       
       /** copy constructor */
       ImplAlignatorIterative  (const ImplAlignatorIterative &);
@@ -55,20 +52,20 @@ namespace alignlib
       virtual ~ImplAlignatorIterative();
 
       /** method for aligning two arbitrary objects */
-      virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
+      virtual HAlignment & align( HAlignment &, const HAlignandum &, const HAlignandum & );
       
       /** return a new alignator object of the same type.
        */
-      virtual ImplAlignatorIterative * getClone() const;      
+      virtual HAlignator getClone() const;      
 
    protected:
 	   /** perform one iterative alignment step
 	    */
-	   virtual void alignIteratively( Alignment *, Alignandum *, Alignandum * );
+	   virtual void alignIteratively( HAlignment &, const HAlignandum & , const HAlignandum & );
       
    private:
 	   /** alignator to use for the alignment */
-      Alignator * mAlignator;
+      HAlignator mAlignator;
       
       /** alignment stops at minimum score */
       Score mMinScore;

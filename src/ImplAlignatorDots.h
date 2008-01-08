@@ -68,7 +68,9 @@ class ImplAlignatorDots : public ImplAlignator
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
+    virtual HAlignment & align( HAlignment & dest, 
+    		const HAlignandum & row, 
+    		const HAlignandum & col); 
 
     /* member access functions--------------------------------------------------------------- */
 
@@ -99,16 +101,16 @@ class ImplAlignatorDots : public ImplAlignator
  protected:
 
     /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
+    virtual void startUp( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
     
     /** perform cleanup after alignment */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
+    virtual void cleanUp( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );                     
 
     /** traces back through dot-trace and put it in the alignment in Alignment-object */
-    virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignment * result);				
+    virtual void traceBack( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );				
     
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
+    virtual void performAlignment( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
 
     /** get GAP cost for a gap */
     virtual Score getGapCost( Dot x1, Dot x2 ) const = 0; 
@@ -141,7 +143,7 @@ class ImplAlignatorDots : public ImplAlignator
     Score mScore;
 
     /** pointer to the matrix of Dots (= alignment ) */
-    ImplAlignmentMatrix * mMatrix;
+    HAlignment mMatrix;
 
     /** flag, whether dots were created during alignment */
     bool mIsOwnDots;

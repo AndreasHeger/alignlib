@@ -54,7 +54,7 @@ ImplTreetorDistanceNJ::ImplTreetorDistanceNJ (const ImplTreetorDistanceNJ & src 
 	}	
 
 //------------------------------------------------------------------------------------------------------------------------------
-void ImplTreetorDistanceNJ::startUp( Tree * tree, const alignlib::MultipleAlignment * mali) const 
+void ImplTreetorDistanceNJ::startUp( Tree * tree, const alignlib::HMultipleAlignment mali) const 
 {
 
 	cleanUp();

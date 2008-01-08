@@ -29,12 +29,10 @@
 #define FRAGMENTOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
-
-class Alignment;
-class Alignandum;
 
 /**
    @short Base class for generating a list of fragments from two objects.
@@ -46,7 +44,8 @@ class Alignandum;
    @version $Id: Fragmentor.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */ 
 
-class Fragmentor {
+class Fragmentor 
+{
   /* class member functions-------------------------------------------------------------- */
  public:
     /* constructors and desctructors------------------------------------------------------- */
@@ -60,7 +59,9 @@ class Fragmentor {
     Fragmentor( const Fragmentor & src);
     
     /** method for aligning two arbitrary objects */
-    virtual FragmentVector * fragment(const Alignandum *, const Alignandum *, Alignment *) = 0; 
+    virtual FragmentVector * fragment( HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col ) = 0; 
     
 };
 

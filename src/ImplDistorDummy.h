@@ -53,7 +53,7 @@ class ImplDistorDummy : public ImplDistor
 	@param multali multiple alignment of protein sequences
 	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
      */
-    virtual PhyloMatrix * calculateMatrix( PhyloMatrix * dest, const alignlib::MultipleAlignment * mali ) const ;
+    virtual PhyloMatrix * calculateMatrix( PhyloMatrix * dest, const alignlib::HMultipleAlignment mali ) const ;
 
     /** Calculate distance between two rows from multiple alignment */
     virtual PhyloMatrixValue calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const;

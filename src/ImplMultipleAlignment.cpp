@@ -33,9 +33,8 @@
 #include "HelpersProfile.h"
 #include "ImplMultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
-#include "HelpersRegularizor.h"
-#include "HelpersLogOddor.h"
 #include "HelpersTranslator.h"
+#include "HelpersRenderer.h"
 #include "AlignException.h"
 #include "Alignatum.h"
 #include "Alignandum.h"
@@ -50,8 +49,8 @@ namespace alignlib
 
 /** factory functions */
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplMultipleAlignment::ImplMultipleAlignment () : mLength(0), 
-mRenderer( NULL )
+ImplMultipleAlignment::ImplMultipleAlignment () : 
+	mLength(0), mRenderer(getDefaultRenderer())
 {
 }
 
@@ -78,14 +77,7 @@ ImplMultipleAlignment::ImplMultipleAlignment (const ImplMultipleAlignment & src 
 void ImplMultipleAlignment::freeMemory() 
 {
 	debug_func_cerr(5);
-
-	unsigned int nrows = mRows.size();
-
-	for (unsigned int row = 0; row < nrows; row++) 
-		delete mRows[row];
-
 	mRows.clear();
-
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -94,14 +86,16 @@ Position ImplMultipleAlignment::getLength() const {
 }
 
 //--------------------------------------------------------------------------------------------------------------
-void ImplMultipleAlignment::setLength( Position length) {
+void ImplMultipleAlignment::setLength( Position length) 
+{
 	if (mLength != 0)
 		throw AlignException("In ImplMultipleAlignment.cpp: length given for non-empty alignment");
 	mLength = length;
 }
 
 //--------------------------------------------------------------------------------------------------------------
-int ImplMultipleAlignment::getWidth() const {
+int ImplMultipleAlignment::getWidth() const 
+{
 	return mRows.size();
 }
 
@@ -111,15 +105,16 @@ const std::string & ImplMultipleAlignment::operator[]( int row ) const {
 }
 
 //-----------------------------------------------------------------------------------------------------------
-Alignatum * ImplMultipleAlignment::getRow( int row ) const {
+HAlignatum ImplMultipleAlignment::getRow( int row ) const 
+{
 	return mRows[row];
 }
 
 //-----------------------------------------------------------------------------------------------------------
-void ImplMultipleAlignment::clear() {
+void ImplMultipleAlignment::clear() 
+{
 	freeMemory();
 	mLength = 0;
-	mRenderer = NULL;
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -128,7 +123,6 @@ void ImplMultipleAlignment::eraseRow( int row )
 	if (row < 0 || row >= mRows.size() )
 		return;
 
-	delete mRows[row];
 	mRows.erase( mRows.begin() + row );
 	if (mRows.size() == 0)
 		mLength = 0;
@@ -139,8 +133,37 @@ void ImplMultipleAlignment::eraseRow( int row )
    in the alignment, the other alignment is in row, *this alignment is in col.
    In contrast to the next method, here src has not to be realigned
  */
-void ImplMultipleAlignment::add( Alignatum * src,
-		const Alignment * alignment,
+void ImplMultipleAlignment::add( const HAlignatum & src )
+{
+	debug_func_cerr(5);
+
+	// if the alignment is empty and no length has been specified, simply add the first element and you are done.
+	// the first element determines the length of the multiple alignment
+	if ( mRows.empty() && mLength == 0) 
+	{
+		mLength = src->getAlignedLength();
+		mRows.push_back( src );
+	}
+	else
+	{
+		// add a prealigned string to the multiple alignment. Precondition is
+		// that the multiple alignment and the aligned string have to have the
+		// same length.
+		if (mLength != src->getAlignedLength())
+			throw AlignException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
+	
+		mRows.push_back( src );
+	}
+}
+
+//------------------------------------------------------------------------------------
+/* add single entry to *this multiple alignment given an alignment.
+   in the alignment, the other alignment is in row, *this alignment is in col.
+   In contrast to the next method, here src has not to be realigned
+ */
+void ImplMultipleAlignment::add( 
+		const HAlignatum & src,
+		const HAlignment & alignment,
 		bool mali_is_in_row,
 		bool insert_gaps_mali,
 		bool insert_gaps_alignatum,
@@ -157,23 +180,12 @@ void ImplMultipleAlignment::add( Alignatum * src,
 		mRows.push_back( src );
 		return;
 	}
-
-	// add a prealigned string to the multiple alignment. Precondition is
-	// that the multiple alignment and the aligned string have to have the
-	// same length.
-	if (!alignment) 
-	{
-		if (mLength != src->getAlignedLength())
-			throw AlignException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
-		mRows.push_back( src );
-		return;
-	}
-
+	
 	// the string is not prealigned to the multiple alignment. We have to
 	// do this by ourselves.
 
-	Alignment * map_this2new = makeAlignmentVector();
-	Alignment * map_alignatum2new = makeAlignmentVector();
+	HAlignment map_this2new = makeAlignmentVector();
+	HAlignment map_alignatum2new = makeAlignmentVector();
 
 	if (mali_is_in_row)
 		fillAlignmentSummation( map_this2new, 
@@ -211,16 +223,51 @@ void ImplMultipleAlignment::add( Alignatum * src,
 
 	mLength = src->getAlignedLength();
 
-	delete map_this2new;
-	delete map_alignatum2new;
-
 }
 
 //------------------------------------------------------------------------------------
 /** Add a full multiple alignment to the another alignment.
  */
-void ImplMultipleAlignment::add( const MultipleAlignment * src,
-		const Alignment * alignment,
+//------------------------------------------------------------------------------------
+/** Add a full multiple alignment to the another alignment.
+ */
+void ImplMultipleAlignment::add( const HMultipleAlignment & src)
+{
+	debug_func_cerr(5);
+
+	// do not add empty mali
+	if (src->getWidth() == 0) 
+		return;
+
+	//--------------------------------------------------------------------
+	// if src and this are the same, create a temporary copy of the multiple alignment. Otherwise, 
+	// you will have trouble when inserting gaps into the multiple alignment
+	// TODO: check if this is correct
+	HMultipleAlignment copy(src);
+
+	if (this == &*src) 
+		copy = HMultipleAlignment( this->getClone() );
+
+	// if the current alignment is empty, simply set current length to length of first residue
+	if ( mRows.empty() )
+		mLength = copy->getLength();
+
+	// add a aligantum objects without mapping. ultiple alignment. Precondition is
+	// that the multiple alignment and the aligned string have to have the
+	// same length.
+	if (mLength != copy->getLength())
+		throw AlignException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
+	
+	for (int row = 0; row < copy->getWidth(); row++) 
+		mRows.push_back( copy->getRow(row)->getClone() );
+}
+
+//------------------------------------------------------------------------------------
+/** Add a full multiple alignment to the another alignment.
+ */
+void ImplMultipleAlignment::add( 
+		const HMultipleAlignment & src,
+		const HAlignment & alignment,
 		bool mali_is_in_row,
 		bool insert_gaps_mali,
 		bool insert_gaps_alignatum,
@@ -236,45 +283,28 @@ void ImplMultipleAlignment::add( const MultipleAlignment * src,
 	//--------------------------------------------------------------------
 	// if src and this are the same, create a temporary copy of the multiple alignment. Otherwise, 
 	// you will have trouble when inserting gaps into the multiple alignment
-	const MultipleAlignment * copy;
+	// TODO: check if this is correct
+	HMultipleAlignment copy(src);
 
-	if (this == src) 
-		copy = this->getClone();
-	else
-		copy = src;
-
+	if (this == &*src) 
+		copy = HMultipleAlignment( this->getClone() );
+	
 	// if the current alignment is empty, simply set current length to length of first residue
 	if ( mRows.empty() )
 		mLength = copy->getLength();
 
-	// add a aligantum objects without mapping. ultiple alignment. Precondition is
-	// that the multiple alignment and the aligned string have to have the
-	// same length.
-	if (!alignment) 
-	{
-		if (mLength != copy->getLength())
-			throw AlignException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
-		for (int row = 0; row < copy->getWidth(); row++) 
-		{
-			Alignatum * new_alignatum = copy->getRow(row)->getClone();
-			mRows.push_back( new_alignatum );
-		}
-	} 
-	else 
-	{
+	if ( mRows.empty() )
+		throw AlignException("In ImplMultipleAlignment.cpp: cannot add mali to empty mali with mapping");
 
-		if ( mRows.empty() )
-			throw AlignException("In ImplMultipleAlignment.cpp: cannot add mali to empty mali with mapping");
+	// the string is not prealigned to the multiple alignment. We have to
+	// do this by ourselves.
 
-		// the string is not prealigned to the multiple alignment. We have to
-		// do this by ourselves.
-
-		Alignment * map_this2new = makeAlignmentVector();
-		Alignment * map_alignatum2new = makeAlignmentVector();
-
-		if (mali_is_in_row)
-			fillAlignmentSummation( map_this2new, 
-					map_alignatum2new, 
+	HAlignment map_this2new = makeAlignmentVector();
+	HAlignment map_alignatum2new = makeAlignmentVector();
+	
+	if (mali_is_in_row)
+		fillAlignmentSummation( map_this2new, 
+				map_alignatum2new, 
 					alignment, 
 					insert_gaps_mali,
 					insert_gaps_alignatum,
@@ -293,63 +323,35 @@ void ImplMultipleAlignment::add( const MultipleAlignment * src,
 					copy->getLength(),
 					getLength());
 
-		debug_cerr( 5, "map_alignatum2new=" << *map_alignatum2new );
-		debug_cerr( 5, "map_this2new" << *map_this2new );
+	debug_cerr( 5, "map_alignatum2new=" << *map_alignatum2new );
+	debug_cerr( 5, "map_this2new" << *map_this2new );
 
-		mLength = std::max( map_this2new->getColTo(), map_alignatum2new->getColTo());
+	mLength = std::max( map_this2new->getColTo(), map_alignatum2new->getColTo());
 
-		// proceed row-wise and remap each alignatum-object in the current alignment
-		for (unsigned int row = 0; row < mRows.size(); row++) 
-			mRows[row]->mapOnAlignment( map_this2new, mLength);
-
-		// now add alignatum objects from the other alignment
-		for (int row = 0; row < copy->getWidth(); row++) 
-		{
-			Alignatum * new_alignatum = copy->getRow(row)->getClone();
-			new_alignatum->mapOnAlignment( map_alignatum2new, mLength );
-			mRows.push_back( new_alignatum );
-		}
-
-		delete map_this2new;
-		delete map_alignatum2new;
+	// proceed row-wise and remap each alignatum-object in the current alignment
+	for (unsigned int row = 0; row < mRows.size(); row++) 
+		mRows[row]->mapOnAlignment( map_this2new, mLength);
+	
+	// now add alignatum objects from the other alignment
+	for (int row = 0; row < copy->getWidth(); row++) 
+	{
+		HAlignatum new_alignatum(copy->getRow(row)->getClone());
+		new_alignatum->mapOnAlignment( map_alignatum2new, mLength );
+		mRows.push_back( new_alignatum );
 	}
 
-	// delete our temporary copy
-	if (this == src) 
-		delete copy;
-
 }
 
 //---------------------------------------------------------------------------------------
-// return consensus string of multiple alignment
-std::string ImplMultipleAlignment::getConsensusString() const 
+HMultipleAlignment ImplMultipleAlignment::getClone() const 
 {
-	debug_func_cerr(5);
-
-	std::string result("");
-
-	std::auto_ptr<Alignandum>profile(makeProfile( this, 
-			getDefaultTranslator(),
-			makeWeightor( getDefaultTranslator() ),
-			makeRegularizor(),
-			makeLogOddor()));
-
-	for( int column = 0; column < mLength; column++)
-		result += profile->asChar( column );
-
-	return (result);
-}
-
-//---------------------------------------------------------------------------------------
-MultipleAlignment * ImplMultipleAlignment::getClone() const 
-{
-	return new ImplMultipleAlignment( *this );
+	return HMultipleAlignment( new ImplMultipleAlignment( *this ) );
 }    
 
 //---------------------------------------------------------------------------------------
-MultipleAlignment * ImplMultipleAlignment::getNew() const 
+HMultipleAlignment ImplMultipleAlignment::getNew() const 
 {
-	return new ImplMultipleAlignment();
+	return HMultipleAlignment( new ImplMultipleAlignment() );
 }    
 
 //---------------------------------------------------------------------------------------
@@ -359,7 +361,7 @@ bool ImplMultipleAlignment::isEmpty() const
 }
 
 //---------------------------------------------------------------------------------------
-void ImplMultipleAlignment::registerRenderer( const Renderer * renderer) 
+void ImplMultipleAlignment::registerRenderer( const HRenderer & renderer) 
 {
 	mRenderer = renderer;
 }
@@ -375,11 +377,11 @@ void ImplMultipleAlignment::write( std::ostream & output,
 
 	for (unsigned int row = 0; row < mRows.size(); ++row) 
 	{
-		mRows[row]->writeRow( output, segment_from, segment_to, mRenderer );    
+		mRows[row]->writeRow( output, mRenderer, segment_from, segment_to );    
 		output << std::endl;
 	}
 
-		}
+}
 
 } // namespace alignlib
 

@@ -25,13 +25,10 @@
 #include <iomanip>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "ImplIterator2DFull.h"
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 
@@ -39,13 +36,13 @@ namespace alignlib
 {
 
   // factory function for creating iterator over full matrix
-  Iterator2D * makeIterator2DFull( const Alignandum * row, const Alignandum * col )
+  Iterator2D * makeIterator2DFull( const HAlignandum row, const HAlignandum col )
   {
     return new ImplIterator2DFull( row, col );
   }
   
   //--------------------------------------------------------------------------------------
-  ImplIterator2DFull::ImplIterator2DFull( const Alignandum * row, const Alignandum * col) :
+  ImplIterator2DFull::ImplIterator2DFull( const HAlignandum & row, const HAlignandum & col) :
     ImplIterator2D( row, col )
   {
     debug_func_cerr(5);
@@ -69,13 +66,13 @@ namespace alignlib
   //--------------------------------------------------------------------------------------  
   /** return a copy of the same iterator
    */
-  Iterator2D * ImplIterator2DFull::getClone() const
+  HIterator2D ImplIterator2DFull::getClone() const
     {
-      return new ImplIterator2DFull( *this );
+      return HIterator2D( new ImplIterator2DFull( *this ) );
     }
 
   //--------------------------------------------------------------------------------------
-  void ImplIterator2DFull::resetRanges( const Alignandum * row, const Alignandum * col )
+  void ImplIterator2DFull::resetRanges( const HAlignandum & row, const HAlignandum & col )
   {
     ImplIterator2D::resetRanges( row, col);
   }
@@ -84,9 +81,9 @@ namespace alignlib
   //--------------------------------------------------------------------------------------    
   /** return a new iterator of same type initializes with for row and col
    */
-  Iterator2D * ImplIterator2DFull::getNew( const Alignandum * row, const Alignandum * col ) const
+  HIterator2D ImplIterator2DFull::getNew( const HAlignandum & row, const HAlignandum & col ) const
     {
-      return new ImplIterator2DFull( row, col );
+      return HIterator2D ( new ImplIterator2DFull( row, col ) );
     }
   
   //--------------------------------------------------------------------------------------

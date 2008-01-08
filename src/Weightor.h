@@ -29,11 +29,10 @@
 #define WEIGHTOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
-namespace alignlib {
-
-class MultipleAlignment;
-class Translator;
+namespace alignlib 
+{
 
 /** @short Interface definition for Weightor objects.
     
@@ -53,7 +52,8 @@ class Translator;
     @author Andreas Heger
     @version $Id: Weightor.h,v 1.3 2004/03/19 18:23:42 aheger Exp $
 */
-class Weightor {
+class Weightor 
+{
  public:
     // constructors and desctructors
 
@@ -66,9 +66,12 @@ class Weightor {
     /** destructor */
     virtual ~Weightor();
     
-    /** return a vector of weights for a multiple alignment. The ordering in the result will be the same 
-	as in the multiple alignment. Note, that the caller has to delete the weights. */
-    virtual SequenceWeights * calculateWeights( const MultipleAlignment & src ) const = 0;
+    /** fill a counts matrix from a multiple alignment 
+     */
+    virtual void fillCounts(
+    		CountMatrix * counts,  		
+    		const HMultipleAlignment & src,
+    		const HTranslator & translator ) const = 0;
 
 };
 

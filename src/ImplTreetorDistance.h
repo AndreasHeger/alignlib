@@ -66,11 +66,11 @@ class ImplTreetorDistance : public ImplTreetor
   */
 
   /** create a tree from a multiple alignment */
-  virtual Tree * calculateTree( Tree * dest, const alignlib::MultipleAlignment * src) const; 
+  virtual Tree * calculateTree( Tree * dest, const alignlib::HMultipleAlignment src) const; 
 
  protected:
   /** initialize helper variables that you might need */
-  virtual void startUp(Tree * dest, const alignlib::MultipleAlignment * src) const;
+  virtual void startUp(Tree * dest, const alignlib::HMultipleAlignment src) const;
 
   /** clean up helper variables */
   virtual void cleanUp() const;

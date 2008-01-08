@@ -55,15 +55,15 @@ namespace alignlib
 /** factory functions */
 
 /** create an empty multiple alignment */
-MultipleAlignment * makeMultipleAlignment() 
+HMultipleAlignment makeMultipleAlignment() 
 {
-	return new ImplMultipleAlignment();
+	return HMultipleAlignment( new ImplMultipleAlignment() );
 }
 
-MultipleAlignment * makeMultipleAlignmentDots( bool compress_unaligned_columns,
+HMultipleAlignment makeMultipleAlignmentDots( bool compress_unaligned_columns,
 		int max_insertion_length) 
 {
-	return new ImplMultipleAlignmentDots( compress_unaligned_columns, max_insertion_length );
+	return HMultipleAlignment( new ImplMultipleAlignmentDots( compress_unaligned_columns, max_insertion_length ) );
 }
 
 //---------------------------------------------------------------------
@@ -71,7 +71,7 @@ MultipleAlignment * makeMultipleAlignmentDots( bool compress_unaligned_columns,
     uses the extraction routine from ImplSequence objects
  */
 /* 
-MultipleAlignment * extractMultipleAlignmentFasta( MultipleAlignment * dest, 
+HMultipleAlignment extractMultipleAlignmentFasta( HMultipleAlignment dest, 
 						   std::istream & input ) {
   dest->clear();
 
@@ -84,9 +84,10 @@ MultipleAlignment * extractMultipleAlignmentFasta( MultipleAlignment * dest,
   return dest;
 }
  */
-MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
-			const std::string & sequences, 
-			int nsequences ) 
+HMultipleAlignment & fillMultipleAlignment( 
+		HMultipleAlignment & ali, 
+		const std::string & sequences, 
+		int nsequences ) 
 {
 
 	ali->clear();
@@ -102,22 +103,19 @@ MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
 		memcpy( buffer, &sequences[i], length);
 		buffer[length] = '\0';
 
-		Alignatum * a = makeAlignatumFromString( buffer );
+		HAlignatum a(makeAlignatumFromString( buffer ));
 
 		if (a->getAlignedLength() != 0)
 			ali->add( a );
-		else 
-			delete a;
 	}
 
 	delete [] buffer;
 
 	return ali;
-
 }
 
 /*
-MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, const char * filename ) 
+HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali, const char * filename ) 
 {
 
     ali->clear();
@@ -145,7 +143,7 @@ MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, const char *
 
 }
 
-MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali, 
+HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali, 
 					   const char * filename, 
 					   const Alignatum * alignatum_template) {
 
@@ -181,10 +179,12 @@ MultipleAlignment * fillMultipleAlignment( MultipleAlignment * ali,
 //----------------------------------------------------------------------
 /** split a multiple alignment in two groups 
  */
-MultipleAlignment * copyMultipleAlignment( MultipleAlignment * dest, 
-		const MultipleAlignment * src,
+HMultipleAlignment & copyMultipleAlignment( 
+		HMultipleAlignment & dest, 
+		const HMultipleAlignment & src,
 		unsigned int start_row,
-		unsigned int end_row ) {
+		unsigned int end_row ) 
+{
 
 	unsigned int width = src->getWidth();
 
@@ -197,6 +197,7 @@ MultipleAlignment * copyMultipleAlignment( MultipleAlignment * dest,
 
 	for (row = start_row; row < end_row; row++) 
 		dest->add( src->getRow(row)->getClone() );
+			
 
 	return dest;
 }

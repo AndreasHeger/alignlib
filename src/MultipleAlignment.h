@@ -32,15 +32,10 @@
 #include <string>
 
 #include "alignlib.h" 
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
-
-
-class Alignandum;
-class Alignatum;
-class Alignment;	
-class Renderer;
 
 /**
     @short Interface definition of mutltiple alignment objects.
@@ -129,7 +124,7 @@ class MultipleAlignment
 
     /** returns a pointer to the object at row from the multiple alignment. The pointer is not const,
 	so you are free to do all sort of ugly stuff.*/
-    virtual Alignatum * getRow( int row ) const = 0;
+    virtual HAlignatum getRow( int row ) const = 0;
 
     /** erases an entry form the multiple alignment */
     virtual void eraseRow( int row ) = 0;
@@ -149,7 +144,7 @@ class MultipleAlignment
 		       multiple alignment is in col, the src is in row of the multiple alignment, so
 		       when calling the member-function Alignment::Map() with a residue from
 		       src, you get the correct position in the multiple alignment.
-        @param mali_is_in_row		true, if the multiple alignment is in the row in alignment.
+    @param mali_is_in_row		true, if the multiple alignment is in the row in alignment.
 	@param insert_gaps_mali		true, if gaps shall be inserted into the multiple alignment.
 	@param insert_gaps_alignatum	analogous to insert_gaps_alignatum.
 	@param use_end_mali		true, if not-aligned residues at the ends of the multiple alignment
@@ -157,24 +152,33 @@ class MultipleAlignment
 	@param use_end_alignatum	analogous to use_end_mali.
 			      
     */
-    virtual void add( Alignatum * src,
-		      const Alignment * alignment = NULL,
-		      bool mali_is_in_row = true,
-		      bool insert_gaps_mali = true,
-		      bool insert_gaps_alignatum= true,
-		      bool use_end_mali = false,
-		      bool use_end_alignatum = false) = 0;
+    virtual void add( const HAlignatum & src,
+    		const HAlignment & alignment,
+    		bool mali_is_in_row = true,
+    		bool insert_gaps_mali = true,
+    		bool insert_gaps_alignatum= true,
+    		bool use_end_mali = false,
+    		bool use_end_alignatum = false) = 0;
 
+    /** add a aligned sequence of the same length to this multiple alignment.
+     */
+    virtual void add( const HAlignatum & src ) = 0;
+    
     /** add the contents of a multiple alignment to the multiple alignment by mapping it 
      * through an alignment
      */
-    virtual void add( const MultipleAlignment * src,
-		      const Alignment * alignment = NULL,
-		      bool mali_is_in_row = true,
-		      bool insert_gaps_mali = true,
-		      bool insert_gaps_alignatum= true,
-		      bool use_end_mali = false,
-		      bool use_end_alignatum = false) = 0;
+    virtual void add( 
+    		const HMultipleAlignment & src,
+    		const HAlignment & alignment,
+    		bool mali_is_in_row = true,
+    		bool insert_gaps_mali = true,
+    		bool insert_gaps_alignatum= true,
+    		bool use_end_mali = false,
+		    bool use_end_alignatum = false) = 0;
+    
+    /** add a multiple alignment of the same length to this multiple alignment. 
+     */
+    virtual void add( const HMultipleAlignment & src ) = 0;    
     
     /** returns true, if there are no aligned objects in this alignment */
     virtual bool isEmpty() const = 0;
@@ -183,16 +187,13 @@ class MultipleAlignment
     virtual void clear() = 0;
 
     /** register a new renderer */
-    virtual void registerRenderer( const Renderer * renderer = NULL) = 0;
+    virtual void registerRenderer( const HRenderer & renderer ) = 0;
     
-    /** returns the consensus string for the multiple alignment */
-    virtual std::string getConsensusString () const = 0;			
-
     /** returns a clone of this object */
-    virtual MultipleAlignment * getClone() const = 0;
+    virtual HMultipleAlignment getClone() const = 0;
     
     /** returns an empty version of this object */
-    virtual MultipleAlignment * getNew() const = 0;
+    virtual HMultipleAlignment getNew() const = 0;
     
     /** Write the multiple alignment to a stream
 

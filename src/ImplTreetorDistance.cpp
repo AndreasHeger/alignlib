@@ -39,7 +39,7 @@ ImplTreetorDistance::ImplTreetorDistance (const ImplTreetorDistance & src ) : Im
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-void ImplTreetorDistance::startUp( Tree * tree, const alignlib::MultipleAlignment * mali) const 
+void ImplTreetorDistance::startUp( Tree * tree, const alignlib::HMultipleAlignment mali) const 
 {
 	debug_func_cerr( 5 );
 
@@ -74,7 +74,7 @@ void ImplTreetorDistance::swapHelpers( PhyloMatrixSize cluster_1, PhyloMatrixSiz
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-Tree * ImplTreetorDistance::calculateTree( Tree * tree, const alignlib::MultipleAlignment * mali ) const 
+Tree * ImplTreetorDistance::calculateTree( Tree * tree, const alignlib::HMultipleAlignment mali ) const 
 {
 
 	debug_func_cerr( 5 );

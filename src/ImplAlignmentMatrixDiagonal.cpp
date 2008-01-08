@@ -42,8 +42,9 @@ namespace alignlib
 #define NODOT -1
 
 //------------------------------factory functions -----------------------------
-Alignment * makeAlignmentMatrixDiagonal( long ndots ) {
-  return new ImplAlignmentMatrixDiagonal( ndots);
+HAlignment makeAlignmentMatrixDiagonal( long ndots ) 
+{
+  return HAlignment( new ImplAlignmentMatrixDiagonal( ndots) );
 }
 
 //------------------------------------< constructors and destructors >-----
@@ -67,16 +68,19 @@ ImplAlignmentMatrixDiagonal::~ImplAlignmentMatrixDiagonal( )
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignmentMatrixDiagonal * ImplAlignmentMatrixDiagonal::getNew() const {
-    return new ImplAlignmentMatrixDiagonal();
+HAlignment ImplAlignmentMatrixDiagonal::getNew() const 
+{
+    return HAlignment( new ImplAlignmentMatrixDiagonal() );
 }
     
-ImplAlignmentMatrixDiagonal * ImplAlignmentMatrixDiagonal::getClone() const {
-    return new ImplAlignmentMatrixDiagonal( *this );
+HAlignment ImplAlignmentMatrixDiagonal::getClone() const 
+{
+    return HAlignment( new ImplAlignmentMatrixDiagonal( *this ) );
 }
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignmentMatrixDiagonal::mapRowToCol( Position pos, SearchType search ) const {
+Position ImplAlignmentMatrixDiagonal::mapRowToCol( Position pos, SearchType search ) const 
+{
 
     if (mChangedLength) calculateLength();
 

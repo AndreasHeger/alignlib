@@ -41,33 +41,41 @@ using namespace std;
 namespace alignlib
 {
   
-  Alignator * makeAlignatorPublishAlignment( Alignment * ali) {
-    return new ImplAlignatorPublishAlignment( ali );
+  HAlignator makeAlignatorPublishAlignment( HAlignment & ali) 
+  {
+    return HAlignator( new ImplAlignatorPublishAlignment( ali ) );
   }
   
   //---------------------------------------------------------< constructors and destructors >--------------------------------------
-  ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment ( Alignment * ali) : 
+  ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment ( HAlignment & ali) : 
     ImplAlignator(), 
-    mAlignment ( ali ) {
+    mAlignment ( ali ) 
+    {
   }
   
-  ImplAlignatorPublishAlignment::~ImplAlignatorPublishAlignment () {
+  ImplAlignatorPublishAlignment::~ImplAlignatorPublishAlignment () 
+  {
   }
   
-  ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment (const ImplAlignatorPublishAlignment & src ) : ImplAlignator(src) {
+  ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment (const ImplAlignatorPublishAlignment & src ) : 
+	  ImplAlignator(src), mAlignment(src.mAlignment) 
+	  {
   }
   
   //--------------------------------------------------------------------------------------------------------
-  ImplAlignatorPublishAlignment * ImplAlignatorPublishAlignment::getClone() const 
+  HAlignator ImplAlignatorPublishAlignment::getClone() const 
   {
-   return new ImplAlignatorPublishAlignment( *this );
+   return HAlignator( new ImplAlignatorPublishAlignment( *this ) );
   }
   
   
-  Alignment * ImplAlignatorPublishAlignment::align( const Alignandum * row, const Alignandum * col, Alignment * result) 
+  HAlignment & ImplAlignatorPublishAlignment::align(
+		  HAlignment & result,
+		  const HAlignandum & row, 
+		  const HAlignandum & col ) 
   {    
-    startUp(row, col, result );
-    cleanUp( row, col, result );
+    startUp( result, row, col);
+    cleanUp( result, col, col );
     return mAlignment;
   }
 

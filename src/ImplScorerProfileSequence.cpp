@@ -36,25 +36,22 @@ namespace alignlib
 {
 
   // factory function for creating iterator over full matrix
-  Scorer * makeScorerProfileSequence( const Alignandum * row, const Alignandum * col )
+  HScorer makeScorerProfileSequence( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col )
   {
-    return new ImplScorerProfileSequence( row, col );
+    return HScorer( new ImplScorerProfileSequence( row, col ) );
   }
   
   //--------------------------------------------------------------------------------------
-  ImplScorerProfileSequence::ImplScorerProfileSequence( const Alignandum * row,
-							const Alignandum * col ) :
+  ImplScorerProfileSequence::ImplScorerProfileSequence( 
+		  const HAlignandum & row,
+		  const HAlignandum & col ) :
     ImplScorer( row, col )
   {
-    const ImplProfile * s1 = dynamic_cast<const ImplProfile*>(row);
-    const ImplSequence * s2 = dynamic_cast<const ImplSequence*>(col);	
+    const HImplProfile s1 = boost::dynamic_pointer_cast<ImplProfile, Alignandum>(row);
+    const HImplSequence s2 = boost::dynamic_pointer_cast<ImplSequence, Alignandum>(col);	
 
-    if (!s1)
-      throw AlignException( "ImplScoreProfileSequence.cpp: row not a profile.");
-    
-    if (!s2)
-      throw AlignException( "ImplScoreProfileSequence.cpp: col not a sequence.");
-        
     mRowProfile  = s1->getScoreMatrix();
     mColSequence = s2->getSequence();
 
@@ -82,16 +79,18 @@ namespace alignlib
   //--------------------------------------------------------------------------------------  
   /** return a copy of the same iterator
    */
-  Scorer * ImplScorerProfileSequence::getClone() const
+  HScorer ImplScorerProfileSequence::getClone() const
   {
-    return new ImplScorerProfileSequence( *this );
+    return HScorer( new ImplScorerProfileSequence( *this ) );
   }
 
   /** return a new instance of this object initialized with row and col
    */
-  Scorer * ImplScorerProfileSequence::getNew( const Alignandum * row, const Alignandum * col) const
+  HScorer ImplScorerProfileSequence::getNew( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col) const
   {
-    return new ImplScorerProfileSequence( row, col );
+    return HScorer( new ImplScorerProfileSequence( row, col ) ) ;
   }
 
   /** return score of matching row to col

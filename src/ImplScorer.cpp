@@ -23,12 +23,10 @@
 
 #include <iostream>
 #include <iomanip>
-#include "Alignandum.h"
-#include "ImplScorer.h"
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include "ImplScorer.h"
 
 using namespace std;
 
@@ -36,8 +34,9 @@ namespace alignlib
 {
 
   //--------------------------------------------------------------------------------------
-  ImplScorer::ImplScorer( const Alignandum * row,
-			  const Alignandum * col )
+  ImplScorer::ImplScorer( 
+		  const HAlignandum & row,
+		  const HAlignandum & col )
     : Scorer()
   {
   }    

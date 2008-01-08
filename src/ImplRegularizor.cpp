@@ -21,10 +21,12 @@
  */
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "Regularizor.h"
 #include "ImplRegularizor.h"
 #include "HelpersRegularizor.h"
+#include "Matrix.h"
 
 namespace alignlib 
 {

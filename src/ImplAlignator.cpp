@@ -41,10 +41,6 @@
 
 #include "ImplAlignator.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 #include <math.h>
 
 using namespace std;
@@ -57,8 +53,7 @@ namespace alignlib
     {
 
       mIteratorTemplate = getDefaultIterator2D();
-      mIterator = NULL;
-      mScorer = NULL;
+      mScorerTemplate = getDefaultScorer();
     }
 
   ImplAlignator::~ImplAlignator()
@@ -70,25 +65,24 @@ namespace alignlib
 
   ImplAlignator::ImplAlignator( const ImplAlignator & src ) : Alignator(src),
   mIterator(src.mIterator),
-  mScorer(src.mScorer),
-  mIsOwnScorer( src.mIsOwnScorer),
+  mScorerTemplate(src.mScorerTemplate),
   mIteratorTemplate(src.mIteratorTemplate)
-
   {
   }
 
   //-------------------------------------------------------------------------------------------------------------------------------
-  void ImplAlignator::setIterator2D( const Iterator2D * iterator ) 
+  void ImplAlignator::setIterator2D( const HIterator2D & iterator ) 
     {
       mIteratorTemplate = iterator;
     }
 
-  void ImplAlignator::setScorer( const Scorer * scorer ) 
+  void ImplAlignator::setScorer( const HScorer & scorer ) 
     {
-      mScorer = scorer;
+      mScorerTemplate = scorer;
     }
 
-  void ImplAlignator::startUp( const Alignandum * row, const Alignandum * col, Alignment * ali)
+  void ImplAlignator::startUp( HAlignment & ali, 
+		  const HAlignandum & row, const HAlignandum & col )
 
     {
       debug_func_cerr(5);
@@ -107,35 +101,15 @@ namespace alignlib
           << *mIterator->row_begin() << "-" <<  *mIterator->row_end() << ":" << mIterator->row_size() << " col=" 
           << *mIterator->col_begin() << "-" <<  *mIterator->col_end() << ":" << mIterator->col_size() );
       
-      
-      if (mScorer == NULL)
-        {
-          mScorer = makeScorer( row, col);
-          mIsOwnScorer = true;
-        }
-      else
-        {
-          mScorer = mScorer->getNew( row, col );
-          mIsOwnScorer = true;
-        }
+      mScorer = mScorerTemplate->getNew( row, col );
 
       ali->clear();
     }
 
-  void ImplAlignator::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali) 
+  void ImplAlignator::cleanUp( HAlignment & ali,
+		  const HAlignandum & row, const HAlignandum & col ) 
     {
       debug_func_cerr(5);
-
-
-      if (mIsOwnScorer)
-        {
-          delete mScorer;
-          mScorer = NULL;
-          mIsOwnScorer = false;
-        }
-
-      delete mIterator;
-      mIterator = NULL;
 
       /* round score to integer. This will get rid
        of ???

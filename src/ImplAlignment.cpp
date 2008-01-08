@@ -301,7 +301,7 @@ namespace alignlib
 
       debug_func_cerr(5);
 
-      Alignment * copy = getClone();
+      HAlignment copy = getClone();
 
       AlignmentIterator it     = copy->begin();
       AlignmentIterator it_end = copy->end();
@@ -312,8 +312,6 @@ namespace alignlib
           // copy over residue pairs from copy reversing row and column
           addPair( new ResiduePAIR( it->mCol, it->mRow, it->mScore ) );
         }	
-
-      delete copy;
 
       std::swap( mRowFrom, mColFrom );
       std::swap( mRowTo, mColTo );
@@ -377,10 +375,10 @@ namespace alignlib
   void ImplAlignment::removeRowRegion( Position from, Position to) 
   {
 
-    const Alignment * copy = getClone();  
+    const HAlignment copy = getClone();  
 
-    AlignmentConstIterator it     = copy->begin();
-    AlignmentConstIterator it_end = copy->end();
+    AlignmentIterator it     = copy->begin();
+    AlignmentIterator it_end = copy->end();
 
     clear();
 
@@ -391,8 +389,6 @@ namespace alignlib
         if ( (*it).mRow < from || (*it).mRow >= to)
           addPair( new ResiduePAIR(*it) );
       }
-
-    delete copy;
 
     updateBoundaries();
     setChangedLength();
@@ -405,10 +401,10 @@ namespace alignlib
   void ImplAlignment::removeColRegion( Position from, Position to) 
   {
 
-    const Alignment * copy = getClone();  
+    const HAlignment copy = getClone();  
 
-    AlignmentConstIterator it     = copy->begin();
-    AlignmentConstIterator it_end = copy->end();
+    AlignmentIterator it     = copy->begin();
+    AlignmentIterator it_end = copy->end();
 
     clear();
 
@@ -420,8 +416,6 @@ namespace alignlib
         if (p.mCol < from || p.mCol >= to)
           addPair( new ResiduePAIR(p) );
       }     
-
-    delete copy;
 
     updateBoundaries();
     setChangedLength();

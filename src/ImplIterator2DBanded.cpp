@@ -52,26 +52,25 @@ namespace alignlib
 
       
   */
-  Iterator2D * makeIterator2DBanded( const Alignandum * row, const Alignandum * col,
-				     const Diagonal lower_diagonal,
-				     const Diagonal upper_diagonal )
+  HIterator2D makeIterator2DBanded( const HAlignandum & row, 
+		  const HAlignandum & col,
+		  const Diagonal lower_diagonal,
+		  const Diagonal upper_diagonal )
   {
-    return new ImplIterator2DBanded( row, col, lower_diagonal, upper_diagonal );
+    return HIterator2D( new ImplIterator2DBanded( row, col, lower_diagonal, upper_diagonal ) );
   }
   
   //--------------------------------------------------------------------------------------
-  ImplIterator2DBanded::ImplIterator2DBanded( const Alignandum * row,
-					      const Alignandum * col,
+  ImplIterator2DBanded::ImplIterator2DBanded( const HAlignandum & row,
+					      const HAlignandum & col,
 					      Diagonal lower_diagonal,
 					      Diagonal upper_diagonal ):
     ImplIterator2D( row, col),
     mLowerDiagonal(lower_diagonal), mUpperDiagonal(upper_diagonal)
   {
     debug_func_cerr(5);
-    assert(mLowerDiagonal <= mUpperDiagonal);
-    
-    if (row != NULL && col != NULL)
-      resetRanges( row, col);
+    assert(mLowerDiagonal <= mUpperDiagonal);    
+    resetRanges( row, col);
   }    
 
   //--------------------------------------------------------------------------------------
@@ -93,7 +92,9 @@ namespace alignlib
   }
 
   //--------------------------------------------------------------------------------------
-  void ImplIterator2DBanded::resetRanges( const Alignandum * row, const Alignandum * col )
+  void ImplIterator2DBanded::resetRanges( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col )
   {
     debug_func_cerr(5);
     mRowFrom = std::max( (Position)(row->getFrom()),                  (Position)(col->getFrom() - mUpperDiagonal) );
@@ -108,17 +109,17 @@ namespace alignlib
   //--------------------------------------------------------------------------------------  
   /** return a copy of the same iterator
    */
-  Iterator2D * ImplIterator2DBanded::getClone() const
+  HIterator2D ImplIterator2DBanded::getClone() const
     {
-      return new ImplIterator2DBanded( *this );
+      return HIterator2D( new ImplIterator2DBanded( *this ) );
     }
   
   //--------------------------------------------------------------------------------------    
   /** return a new iterator of same type initializes with for row and col
    */
-  Iterator2D * ImplIterator2DBanded::getNew( const Alignandum * row, const Alignandum * col ) const
+  HIterator2D ImplIterator2DBanded::getNew( const HAlignandum & row, const HAlignandum & col ) const
   {
-      return new ImplIterator2DBanded( row, col, mLowerDiagonal, mUpperDiagonal );
+      return HIterator2D( new ImplIterator2DBanded( row, col, mLowerDiagonal, mUpperDiagonal ) );
   }
   
   //--------------------------------------------------------------------------------------

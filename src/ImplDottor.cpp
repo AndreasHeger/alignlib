@@ -68,7 +68,7 @@ void ImplDottor::releasePairs() const {
 };
     
 /** calculate the dots */
-void ImplDottor::calculatePairs( const Alignandum * row, const Alignandum * col) const {
+void ImplDottor::calculatePairs( const HAlignandum row, const HAlignandum col) const {
 
   mMatrix = new ImplAlignmentMatrix();
 

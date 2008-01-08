@@ -71,7 +71,7 @@ void testTranslator( const HTranslator & translator,
 	{
 		ifstream file("test_Translator.tmp", ios::binary) ;
 		
-		const HTranslator b;
+		HTranslator b;
 		int n = 0;
 		while ( b = loadTranslator( file ) ) 
 		{

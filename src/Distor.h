@@ -60,7 +60,7 @@ public:
 	@param multali multiple alignment of protein sequences
 	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
 	 */
-	virtual PhyloMatrix * calculateMatrix( PhyloMatrix * dest, const alignlib::MultipleAlignment * mali ) const = 0;
+	virtual PhyloMatrix * calculateMatrix( PhyloMatrix * dest, const alignlib::HMultipleAlignment mali ) const = 0;
 
 	/** return the maximum possible distance than can be achieved between two sequences */
 	virtual PhyloMatrixValue getMaximumPossibleDistance() const = 0;

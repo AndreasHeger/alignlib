@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
@@ -146,30 +147,20 @@ static Score paml250[23*23] = {
 /* Z */  0, 2,-5, 3, 3, -5,-1, 2,-2, 0, -3,-2, 1, 0, 3,  0, 0,-1,-2,-6, -4, 3, 
 };
 
-static std::auto_ptr<SubstitutionMatrix> DEFAULT_SUBSTITUTIONMATRIX(makeSubstitutionMatrixBlosum62());
-
-/** gets the default SubstitutionMatrix object */ 
-const SubstitutionMatrix * getDefaultSubstitutionMatrix() 
-{
-	return &*DEFAULT_SUBSTITUTIONMATRIX;
-}
-
-/** sets the default SubstitutionMatrix object */
-void setDefaultSubstitutionMatrix( SubstitutionMatrix * matrix ) 
-{
-	DEFAULT_SUBSTITUTIONMATRIX.reset( matrix );
-}
+IMPLEMENT_DEFAULT( HSubstitutionMatrix, 
+		makeSubstitutionMatrixBlosum62(), 
+		getDefaultSubstitutionMatrix,
+		setDefaultSubstitutionMatrix )
 
 /** create a substitution matrix
  */
-SubstitutionMatrix * makeSubstitutionMatrix( 
+HSubstitutionMatrix makeSubstitutionMatrix( 
 		int alphabet_size, 
 		Score match,
 		Score mismatch ) 
 		{
 
-	SubstitutionMatrix * matrix = 
-		new SubstitutionMatrix( alphabet_size, alphabet_size, mismatch );
+	HSubstitutionMatrix matrix(new SubstitutionMatrix( alphabet_size, alphabet_size, mismatch ));
 
 	unsigned int row;
 	for (row = 0; row < alphabet_size; row++) 
@@ -179,44 +170,43 @@ SubstitutionMatrix * makeSubstitutionMatrix(
 		}
 
 /** make blosum62 matrix */
-SubstitutionMatrix * makeSubstitutionMatrixBlosum62()
+HSubstitutionMatrix makeSubstitutionMatrixBlosum62()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23 );
+	HSubstitutionMatrix matrix(makeSubstitutionMatrix( 23 ));
 	matrix->copyData( blosum62 );
 	return matrix;
 }
 
 /** make blosum62 matrix */
-SubstitutionMatrix * makeSubstitutionMatrixBlosum50()
+HSubstitutionMatrix makeSubstitutionMatrixBlosum50()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23);	
+	HSubstitutionMatrix matrix(makeSubstitutionMatrix(23));	
 	matrix->copyData( blosum50 );
 	return matrix;
 }
 
 /** make blosum62 matrix */
-SubstitutionMatrix * makeSubstitutionMatrixPam250()
+HSubstitutionMatrix makeSubstitutionMatrixPam250()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23 );
+	HSubstitutionMatrix matrix(makeSubstitutionMatrix(23));
 	matrix->copyData( paml250 );
 	return matrix;
 }
 
 /** make blosum62 matrix */
-SubstitutionMatrix * makeSubstitutionMatrixPam120()
+HSubstitutionMatrix makeSubstitutionMatrixPam120()
 {
-	SubstitutionMatrix * matrix = makeSubstitutionMatrix( 23);	
+	HSubstitutionMatrix matrix(makeSubstitutionMatrix(23));	
 	matrix->copyData( paml120 );
 	return matrix;
 }
 
 /** fill a substitution matrix */
-SubstitutionMatrix * makeSubstitutionMatrix( const ScoreVector & scores,
+HSubstitutionMatrix makeSubstitutionMatrix( const ScoreVector & scores,
 		int nrows, int ncols)
 {
 	assert( nrows * ncols == scores.size() );
-	SubstitutionMatrix * matrix = 
-		new SubstitutionMatrix( nrows, ncols, 0);
+	HSubstitutionMatrix matrix(new SubstitutionMatrix( nrows, ncols, 0));
 	
 	unsigned int row = 0;
 	unsigned int col = 0;

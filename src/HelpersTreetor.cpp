@@ -18,19 +18,21 @@ using namespace std;
 
 namespace alignlib 
 {
-  
+	DEFINE_DEFAULT( Treetor, makeTreetorDistanceLinkage() );
+
+
   static std::auto_ptr<Treetor>DEFAULT_TREETOR(makeTreetorDistanceLinkage());  
 
   /** gets the default Treetor object */
   const Treetor * getDefaultTreetor() 
   {
-    return &*DEFAULT_TREETOR;
+    return DEFAULT_TREETOR;
   }
  
   /** sets the default Treetor object */
   void setDefaultTreetor( Treetor * treetor ) 
   {	
-    DEFAULT_TREETOR.reset(treetor);
+    DEFAULT_TREETOR = treetor;
   }            
 
 } // namespace alignlib

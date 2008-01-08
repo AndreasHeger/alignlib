@@ -29,11 +29,13 @@
 #define IMPL_SCORER_PROFILE_SEQUENCE_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "ImplProfile.h"
+#include "ImplSequence.h"
 #include "ImplScorer.h"
+
 namespace alignlib
 {
-
-  class Alignandum;
 
   //----------------------------------------------------------------
   class ImplScorerProfileSequence : public ImplScorer 
@@ -41,7 +43,7 @@ namespace alignlib
     public:
       
       /** empty constructor */
-      ImplScorerProfileSequence(const Alignandum * row, const Alignandum * col); 
+      ImplScorerProfileSequence(const HAlignandum & row, const HAlignandum & col); 
     
       /** destructor */
       virtual ~ImplScorerProfileSequence ();
@@ -51,11 +53,11 @@ namespace alignlib
 
       /** return a copy of the same iterator
        */
-      virtual Scorer * getClone() const;
+      virtual HScorer getClone() const;
       
       /** return a new scorer of same type initialized with row and col
        */
-      virtual Scorer * getNew( const Alignandum * row, const Alignandum * col) const;
+      virtual HScorer getNew( const HAlignandum & row, const HAlignandum & col) const;
     
       virtual Score getScore( Position row,
 				 Position col ) const;

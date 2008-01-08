@@ -120,7 +120,7 @@ Score ImplAlignatorDotsWrap::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDotsWrap::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) {
+void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAlignandum pcol, HAlignment ali) {
 
   int left;
   int bestdot, globdot;

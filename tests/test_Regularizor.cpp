@@ -41,72 +41,41 @@
 #include "HelpersAlignandum.h"
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersProfile.h"
-#include "HelpersRegularizor.h"
-#include "HelpersLogOddor.h"
+
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
 using namespace std;
-
 using namespace alignlib;
 
-void checkingStart( const std::string & s)
-{
-	std::cout << "starting check:" << s << "...";
-}
+std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
+std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
 
-void checkingEnd( bool passed = true)
-{
-	if (passed)
-		std::cout << "passed" << std::endl;
-	else
-		std::cout << "failed" << std::endl;
-}
+// most profilers only work with the twenty amino acid alphabet
+// setDefaultTranslator( getTranslator(Protein20) );
 
-void testAlignandum( Alignandum * a, const std::string & sample )
-{
-	
-	const Translator * translator = a->getTranslator();
-	
-	checkingStart( "checking preparation" );
-	{
-		a->prepare();
-	}
-	checkingEnd();
-	
+void test_GenericRegularizor( const HRegularizor & r )
+{	
+	std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
+			getDefaultTranslator(), 
+			getDefaultWeightor(), 
+			makeRegularizor(), 
+			getDefaultLogOddor() ));	
+	a->prepare();
 	std::cout << *a << std::endl;
 }
 
-
-int main () 
+BOOST_AUTO_TEST_CASE( test_Regularizor )
 {
+	HRegularizor r( makeRegularizor());
+	test_GenericRegularizor( r );
+}
 
-	// most profilers only work with the twenty amino acid alphabet
-	setDefaultTranslator( getTranslator(Protein20) );
-	
-	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
-	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
-	
-	std::cout << "----- checking Regularizor ------" << std::endl;
-  	{
-		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				getDefaultTranslator(), 
-				makeWeightor(), 
-				makeRegularizor(), 
-				getDefaultLogOddor() ));
-		testAlignandum( &*a, ref_protein20x3 );
-	}
-	
-	std::cout << "----- checking Regularizor ------" << std::endl;	
-  	{
-		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
-				getDefaultTranslator(), 
-				makeWeightor(), 
-				makeRegularizorPsiblast(), 
-				getDefaultLogOddor() ));
-		testAlignandum( &*a, ref_protein20x3 );
-	}
-
-	return EXIT_SUCCESS;
-
+BOOST_AUTO_TEST_CASE( test_RegularizorPsiblast )
+{
+	HRegularizor r( makeRegularizorPsiblast());
+	test_GenericRegularizor( r );
 }
 
 

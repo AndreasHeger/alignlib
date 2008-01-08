@@ -29,6 +29,7 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
+#include "Matrix.h"
 #include "ImplLogOddor.h"
 #include "HelpersLogOddor.h"
 

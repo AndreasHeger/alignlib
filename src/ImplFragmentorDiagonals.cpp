@@ -42,23 +42,21 @@
 
 #include "ImplFragmentorDiagonals.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /*---------------------factory functions ---------------------------------- */
 
   /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
       object */
-Fragmentor * makeFragmentorDiagonals(Score gop, 
-				     Score gep, 
-				     Alignator * dottor ) {
-  
-  return new ImplFragmentorDiagonals( gop, gep, gop, gep, dottor );
+HFragmentor makeFragmentorDiagonals(
+		const HAlignator & dottor,
+		Score gop, 
+		Score gep )
+{
+	return HFragmentor( new ImplFragmentorDiagonals( dottor, gop, gep, gop, gep) );
 }
 
 
@@ -67,15 +65,17 @@ inline Diagonal calculateDiagonal( const ResiduePAIR & p) { return (p.mCol - p.m
 
 //----------------------------------------------------------------------------------------------------
   
-ImplFragmentorDiagonals::ImplFragmentorDiagonals( Score row_gop, Score row_gep, 
-						  Score col_gop, Score col_gep,
-						  Alignator * dottor) :
+ImplFragmentorDiagonals::ImplFragmentorDiagonals(
+		const HAlignator & dottor,
+		Score row_gop, Score row_gep, 
+		Score col_gop, Score col_gep ) :						 
   ImplFragmentor(), 
   mRowGop(row_gop), 
   mRowGep( row_gep), 
   mColGop(col_gop), 
   mColGep( col_gep), 
-  mDottor( dottor ) {
+  mDottor( dottor ) 
+  {
 }
 
 
@@ -98,7 +98,10 @@ ImplFragmentorDiagonals::ImplFragmentorDiagonals( const ImplFragmentorDiagonals 
 
 //------------------------------------------------------------------------------------------
 /** CleanUp is empty and does not call base class method, as no shifting is necessary */
-void ImplFragmentorDiagonals::cleanUp(const Alignandum * row, const Alignandum *col, Alignment * ali)
+void ImplFragmentorDiagonals::cleanUp(
+		HAlignment & ali,
+		const HAlignandum & row, 
+		const HAlignandum & col )
 {
   debug_func_cerr(5);
 }
@@ -125,16 +128,18 @@ Score ImplFragmentorDiagonals::getGapCost( const ResiduePAIR & p1, const Residue
 }
 	
 //------------------------------------------------------------------------------------------------
-void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row, 
-						    const Alignandum * col, 
-						    const Alignment * sample) {
+void ImplFragmentorDiagonals::performFragmentation(
+		HAlignment & sample,
+		const HAlignandum & row, 
+		const HAlignandum & col ) 
+{
 
     // create dot-matrix (sorted by diagonal)
-    Alignment * matrix = makeAlignmentMatrixDiagonal();
+    HAlignment matrix = makeAlignmentMatrixDiagonal();
     
     // dots are automatically moved to correct position,
     // if only segments are used in row/col
-    mDottor->align( row, col, matrix );
+    mDottor->align( matrix, row, col );
     
     // rescore dots (later: use plugin Scoror?), set score to 1
     rescoreAlignment( matrix, 1.0);
@@ -144,7 +149,7 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
     AlignmentIterator it(matrix->begin()), it_end(matrix->end());
     
     Score last_score = 0;
-    Alignment * current_ali = makeAlignmentSet();
+    HAlignment current_ali = makeAlignmentSet();
     
     const ResiduePAIR * last_p = NULL;
 
@@ -160,7 +165,7 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
 	if (last_diagonal != current_diagonal) {
 	    // save fragment with positive score
 	    if (last_score > 0 && length > 1) {
-		Alignment * new_ali = sample->getNew();
+		HAlignment new_ali = sample->getNew();
 		copyAlignment( new_ali, current_ali);
 		new_ali->setScore( last_score );
 		mFragments->push_back( new_ali );
@@ -186,7 +191,7 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
 	  // stop existing alignment
 	  // save
 	  if (last_score > 0 && length > 1) {
-	    Alignment * new_ali = sample->getNew();
+	    HAlignment new_ali = sample->getNew();
 	    copyAlignment( new_ali, current_ali);
 	    new_ali->setScore( last_score );
 	    mFragments->push_back( new_ali );
@@ -215,7 +220,7 @@ void ImplFragmentorDiagonals::performFragmentation( const Alignandum * row,
     }
 
     if (last_score > 0 && length > 1) {
-	Alignment * new_ali = sample->getNew();
+	HAlignment new_ali = sample->getNew();
 	copyAlignment( new_ali, current_ali);
 	new_ali->setScore( last_score );
 	mFragments->push_back( new_ali );

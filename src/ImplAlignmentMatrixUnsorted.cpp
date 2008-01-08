@@ -53,8 +53,9 @@ namespace alignlib {
 #define NODOT -1 
 
 //------------------------------factory functions -----------------------------
-Alignment * makeAlignmentMatrixUnsorted( long ndots ) {
-  return new ImplAlignmentMatrixUnsorted( ndots);
+HAlignment makeAlignmentMatrixUnsorted( long ndots ) 
+{
+  return HAlignment( new ImplAlignmentMatrixUnsorted( ndots) );
 }
 
 //------------------------------------< constructors and destructors >-----
@@ -78,14 +79,14 @@ ImplAlignmentMatrixUnsorted::~ImplAlignmentMatrixUnsorted( )
 }
 
 //------------------------------------------------------------------------------------------------------------
-ImplAlignmentMatrixUnsorted * ImplAlignmentMatrixUnsorted::getNew() const 
+HAlignment ImplAlignmentMatrixUnsorted::getNew() const 
 {
-    return new ImplAlignmentMatrixUnsorted();
+    return HAlignment ( new ImplAlignmentMatrixUnsorted() );
 }
     
-ImplAlignmentMatrixUnsorted * ImplAlignmentMatrixUnsorted::getClone() const 
+HAlignment ImplAlignmentMatrixUnsorted::getClone() const 
 {
-    return new ImplAlignmentMatrixUnsorted( *this );
+    return HAlignment ( new ImplAlignmentMatrixUnsorted( *this ) );
 }
 
 //-------------------------------------------------------------------------------------------------------------------- 

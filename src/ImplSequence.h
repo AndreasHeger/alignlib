@@ -28,14 +28,12 @@
 #define IMPL_SEQUENCE_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignandum.h"
 #include <iosfwd>
 
-
 namespace alignlib 
 {
-
-    class Alignment;
 
     /** A class for sequences, that are to be aligned. Instances of this
 	class are created by factory functions. This class implements the
@@ -50,7 +48,9 @@ namespace alignlib
 class ImplSequence : public ImplAlignandum 
 {
 
-    friend Alignandum * addSequence2Profile( Alignandum * dest, const Alignandum * source, const Alignment * map_source2dest );
+    friend HAlignandum addSequence2Profile( HAlignandum dest, 
+    		const HAlignandum source, 
+    		const HAlignment map_source2dest );
 
  public:
     /*------------------------------------------------------------------------------------ */
@@ -69,7 +69,7 @@ class ImplSequence : public ImplAlignandum
     
     /*------------------------------------------------------------------------------------ */
     /** return an identical copy of this object */
-    virtual Alignandum * getClone() const;
+    virtual HAlignandum getClone() const;
 
     /** get internal representation of residue in position pos */
     virtual Residue asResidue( Position pos ) const;
@@ -115,7 +115,11 @@ class ImplSequence : public ImplAlignandum
     Residue * mSequence;
 };
 
+// handle definition for down-casting
+typedef boost::shared_ptr<ImplSequence>HImplSequence;
+
 }
+
 
 #endif /* _SEQUENCE_H */
 

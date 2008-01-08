@@ -57,11 +57,13 @@ class ImplAlignatorTuples : public ImplAlignator
     virtual ~ImplAlignatorTuples ();
 
     /** method for aligning two arbitrary objects */
-    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
+    virtual HAlignment & align( HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
     
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorTuples * getClone() const;
+    virtual HAlignator getClone() const;
     
  private:
 

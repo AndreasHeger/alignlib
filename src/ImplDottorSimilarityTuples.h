@@ -63,7 +63,7 @@ class ImplDottorSimilarityTuples : public ImplDottor {
  protected:
 
     /** calculate the dots. Overload this method to calculate different types of dots */
-    virtual void calculateNewPairs( const Alignandum * row, const Alignandum * col) const;
+    virtual void calculateNewPairs( const HAlignandum row, const HAlignandum col) const;
     
 };
 

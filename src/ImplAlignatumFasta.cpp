@@ -89,41 +89,44 @@ ImplAlignatumFasta::ImplAlignatumFasta (const ImplAlignatumFasta & src ):
 ImplAlignatumFasta::~ImplAlignatumFasta () 
 {
   debug_func_cerr(5);
-
 }
 
 //------------------------------------------------------------------------------------------------------
-ImplAlignatumFasta * ImplAlignatumFasta::getClone() const 
+HAlignatum ImplAlignatumFasta::getClone() const 
 {
-  debug_func_cerr(5);
-
-  return new ImplAlignatumFasta(*this ); 
+	debug_func_cerr(5);
+	return HAlignatum( new ImplAlignatumFasta(*this ) ); 
 }
 
 //-------------------------------------------------------------------------------------------------------
-ImplAlignatumFasta * ImplAlignatumFasta::getNew() const {
-  return new ImplAlignatumFasta();
+HAlignatum ImplAlignatumFasta::getNew() const 
+{
+	debug_func_cerr(5);
+	return HAlignatum( new ImplAlignatumFasta() );
 }
 
 
 //-------------------------------------------------------------------------------------------------------
-void ImplAlignatumFasta::writeRow( std::ostream & output, 
-			      Position segment_start, 
-			      Position segment_end,
-			      const Renderer * renderer) const {
+void ImplAlignatumFasta::writeRow( std::ostream & output,
+		const HRenderer & renderer,
+		Position segment_start, 
+		Position segment_end ) const 
+		{
   
   output << setw(30) << mDescription;
 
-  ImplAlignatum::writeRow( output, segment_start, segment_end, renderer);
+  ImplAlignatum::writeRow( output, renderer, segment_start, segment_end );
 }
 
 /** write into stream */
-void ImplAlignatumFasta::write( std::ostream & output ) const {
+void ImplAlignatumFasta::write( std::ostream & output ) const 
+{
   output << ">" << mDescription << endl << getRepresentation() << endl;
 }
 
 /** read from stream */
-void ImplAlignatumFasta::read( std::istream & input ) {
+void ImplAlignatumFasta::read( std::istream & input ) 
+{
 
 #define MAX_CHUNK 10000
 

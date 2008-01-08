@@ -29,18 +29,19 @@
 #define ITERATOR2DBAND_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplIterator2D.h"
-namespace alignlib {
 
-  class Alignandum;
-  
+namespace alignlib 
+{
+
   class ImplIterator2DBanded: public ImplIterator2D
     {
     public:
       
       /** constructor */
-      ImplIterator2DBanded( const Alignandum * row = NULL,
-			    const Alignandum * col = NULL,
+      ImplIterator2DBanded( const HAlignandum & row,
+			    const HAlignandum & col,
 			    const Diagonal lower_diagonal = 0,
 			    const Diagonal upper_diagonal = 0); 
     
@@ -52,16 +53,18 @@ namespace alignlib {
 
       /** reset ranges of iterator for new row and col objects
        */
-      virtual void resetRanges( const Alignandum * row,
-				const Alignandum * col );
+      virtual void resetRanges( const HAlignandum & row,
+				const HAlignandum & col );
       
       /** return a copy of the same iterator
        */
-      virtual Iterator2D * getClone() const;
+      virtual HIterator2D getClone() const;
       
       /** return a new iterator of same type initializes with for row and col
        */
-      virtual Iterator2D * getNew( const Alignandum * row, const Alignandum * col ) const;
+      virtual HIterator2D getNew( 
+    		  const HAlignandum & row, 
+    		  const HAlignandum & col ) const;
 
       /** return iterators for rows/columns */
       virtual const_iterator row_begin ( Position col = NO_POS ) const;

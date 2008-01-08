@@ -31,9 +31,12 @@
 #include <iosfwd>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "Scorer.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
     /** Helper functions for class Alignment:
 	
@@ -45,15 +48,15 @@ namespace alignlib {
     */
 
 
-  class Alignandum;
- 
   /* 1. factory functions */
-  Scorer * makeScorer( const Alignandum * row = NULL,
-		       const Alignandum * col = NULL );
+  HScorer makeScorer( const HAlignandum & row,
+		  			  const HAlignandum & col );
   
   /* 2. accessor functions for default objects */
 
   /* 3. convenience functions */
+  
+  DEFINE_DEFAULT( HScorer, getDefaultScorer, setDefaultScorer );
 }
 
 #endif	/* HELPERS_SCORER_H */

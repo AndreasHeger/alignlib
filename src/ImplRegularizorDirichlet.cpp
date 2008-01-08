@@ -28,6 +28,7 @@
 #include "AlignException.h"
 #include "Regularizor.h"
 #include "ImplRegularizorDirichlet.h"
+#include "Matrix.h"
 
 using namespace std;
 

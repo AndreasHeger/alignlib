@@ -55,8 +55,9 @@ class ImplRegularizorTatusov : public ImplRegularizor
     // constructors and desctructors
 
     /** default constructor */
-    ImplRegularizorTatusov  ( const SubstitutionMatrix * matrix,
-    		const FrequencyVector & background,
+    ImplRegularizorTatusov  ( 
+    		const HSubstitutionMatrix & matrix,
+    		const HFrequencyVector & background,
     		const Score & beta,
     		const Score & lambda );
     
@@ -73,10 +74,10 @@ class ImplRegularizorTatusov : public ImplRegularizor
  protected:
 	 
 	 /** substitution matrix */
-	 const SubstitutionMatrix * mSubstitutionMatrix;
+	 const HSubstitutionMatrix mSubstitutionMatrix;
 	 
 	 /** background frequencies */
-	 const FrequencyVector & mBackgroundFrequencies; 
+	 const HFrequencyVector mBackgroundFrequencies; 
 	 
 	 /** beta component : the larger, the higher the influence of pseudocounts */
 	 Score mBeta;

@@ -39,7 +39,7 @@ namespace alignlib {
 
     /** factory functions */
   Alignatum * makeAlignatum(const Alignatum * src, 
-			    const Alignment * ali, 
+			    const HAlignment ali, 
 			    bool skip_gaps,
 			    bool is_in_row) {
     return new ImplAlignatum( src, ali, skip_gaps, is_in_row);
@@ -76,7 +76,7 @@ ImplAlignatum::ImplAlignatum (const std::string & representation,
    in the aligned strings are 0..length-1
 */
 ImplAlignatum::ImplAlignatum (const ImplAlignatum & src, 
-			      const Alignment * ali, 
+			      const HAlignment ali, 
 			      bool skip_gaps, 
 			      bool is_in_row ) : 
   mRepresentation(src.mRepresentation),
@@ -109,8 +109,8 @@ ImplAlignatum::ImplAlignatum (const ImplAlignatum & src ) :
 }
 
 //--------------------------------------------------------------------------------------------
-ImplAlignatum::ImplAlignatum(const Alignandum * src, 
-			     const Alignment * ali, 
+ImplAlignatum::ImplAlignatum(const HAlignandum src, 
+			     const HAlignment ali, 
 			     bool skip_gaps,
 			     bool is_in_row) : 
 
@@ -131,7 +131,7 @@ ImplAlignatum::ImplAlignatum(const Alignandum * src,
 
   
 //--------------------------------------------------------------------------------------------
-void ImplAlignatum::mapOnAlignment(const Alignment * ali, bool skip_gaps, bool is_in_row ) 
+void ImplAlignatum::mapOnAlignment(const HAlignment ali, bool skip_gaps, bool is_in_row ) 
 {
   debug_func_cerr(5);
 
@@ -212,7 +212,7 @@ void ImplAlignatum::mapOnAlignment(const Alignment * ali, bool skip_gaps, bool i
   
 }
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplAlignatum * ImplAlignatum::getClone( const Alignment * ali, bool skip_gaps, bool is_in_row) const 
+ImplAlignatum * ImplAlignatum::getClone( const HAlignment ali, bool skip_gaps, bool is_in_row) const 
 {
   debug_func_cerr(5);
 

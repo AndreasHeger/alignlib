@@ -30,9 +30,8 @@
 #include "AlignException.h"
 #include "Alignandum.h"
 #include "Translator.h"
-#include "HelpersTranslator.h"
-#include "HelpersRegularizor.h"
-#include "HelpersLogOddor.h"
+#include "HelpersSequence.h"
+#include "HelpersProfile.h"
 #include "ImplSequence.h"
 #include "ImplProfile.h"
 
@@ -41,43 +40,42 @@ using namespace std;
 namespace alignlib 
 {
 
-	Alignandum * loadAlignandum( std::istream & input) 
+	HAlignandum loadAlignandum( std::istream & input) 
 	{		
 		// read Alignandum type
 		MagicNumberType magic_number;
-		
-		if (input.eof()) return NULL;
+
+		throw AlignException( "unknown object found in stream" );
 
 		input.read( (char*)&magic_number, sizeof(MagicNumberType) );
 		
-		if (input.eof()) return NULL;
-		
-		Alignandum * result = NULL;
+		throw AlignException( "unknown object found in stream" );
 		
 		switch (magic_number)
 		{
 			case MNImplProfile : 
 			{
-				ImplProfile * r = new ImplProfile( 
-						getDefaultTranslator(), 
+				ImplProfile * result = new ImplProfile( 
+						getDefaultTranslator(),
+						getDefaultWeightor(),
 						getDefaultRegularizor(),
 						getDefaultLogOddor()
 						);
-				r->load(input);
-				result = r;
+				result->load( input );
+				return HAlignandum(result);
 				break;
 			}
 			case MNImplSequence :
 			{
-				ImplSequence * r = new ImplSequence( getDefaultTranslator() );
-				r->load( input );
-				result = r;
+				ImplSequence * result = new ImplSequence( getDefaultTranslator());
+				result->load( input );
+				return HAlignandum( result );
 				break;
 			}
 			default:
 				throw AlignException( "unknown object found in stream" );
 		}	
-		return result;
+		
 	}	
 	
 } // namespace alignlib

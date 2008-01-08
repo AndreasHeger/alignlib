@@ -23,11 +23,15 @@
 #include <iostream>
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "AlignException.h"
 #include "AlignlibDebug.h"
+#include "Weightor.h"
 #include "ImplWeightor.h"
 #include "HelpersWeightor.h"
 #include "HelpersTranslator.h"
 #include "MultipleAlignment.h"
+#include "Matrix.h"
+#include "Translator.h"
 
 using namespace std;
 
@@ -35,21 +39,21 @@ namespace alignlib
 {
 
 /** factory functions */
-HWeightor makeWeightor( const HTranslator & translator ) 
+HWeightor makeWeightor() 
 { 
-	return HWeightor(new ImplWeightor( translator ));
+	return HWeightor(new ImplWeightor());
 }
 
 #define MIN_WEIGHT 0.0001
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplWeightor::ImplWeightor ( const HTranslator & translator) : 
-	mTranslator(translator)
+ImplWeightor::ImplWeightor() : 
+	Weightor() 
 {
 }
 		       
 ImplWeightor::ImplWeightor (const ImplWeightor & src ) : 
-	Weightor(src), mTranslator( src.mTranslator ) 
+	Weightor(src) 
 	{
 }
 
@@ -60,7 +64,10 @@ ImplWeightor::~ImplWeightor ()
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplWeightor::rescaleWeights( SequenceWeights * weights, int nsequences, SequenceWeight value) const 
+void ImplWeightor::rescaleWeights( 
+		HSequenceWeights & weights, 
+		int nsequences, 
+		SequenceWeight value) const 
 {
   debug_func_cerr(5);
 
@@ -73,10 +80,11 @@ void ImplWeightor::rescaleWeights( SequenceWeights * weights, int nsequences, Se
     int i;
     SequenceWeights & w = *weights;
     
-    for ( i = 0; i < nsequences; i++) {
-	if (w[i] < MIN_WEIGHT) 
-	    w[i] = MIN_WEIGHT;               //!! to do: some warnings, exception handling, ...
-	total += w[i];
+    for ( i = 0; i < nsequences; i++) 
+    {
+    	if (w[i] < MIN_WEIGHT) 
+    		w[i] = MIN_WEIGHT;               //!! to do: some warnings, exception handling, ...
+    	total += w[i];
     }
     
     SequenceWeight factor = value / total;
@@ -85,18 +93,59 @@ void ImplWeightor::rescaleWeights( SequenceWeights * weights, int nsequences, Se
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-SequenceWeights * ImplWeightor::calculateWeights( const MultipleAlignment & src ) const 
+void ImplWeightor::fillCounts(
+		CountMatrix * dest,
+		const HMultipleAlignment & src,
+		const HTranslator & translator) const 
 {
-  debug_func_cerr(5);
+	debug_func_cerr(5);
 
-  int nsequences = src.getWidth();
+	if (translator->getAlphabetSize() != dest->getNumCols())
+		throw AlignException( "count matrix and alphabet have different size.");
+	if (src->getLength() != dest->getNumRows())
+		throw AlignException( "count matrix and multiple alignment have different size.");
+	
+	int nsequences = src->getWidth();
 
-  SequenceWeights * weights = new SequenceWeights(nsequences);
+	HSequenceWeights weights( calculateWeights( src, translator) );
   
-  for (int i = 0; i < nsequences; i++) 
-    (*weights)[i] = 1;
+	debug_cerr_start( 5, "computed the following weights:");
+	
+#ifdef DEBUG
+	for (int i = 0; i < src->getWidth(); i++) 
+		debug_cerr_add ( 5, " " << i << "=" << (*weights)[i] )
+	debug_cerr_add( 5, std::endl );	
+#endif
 
-  return weights;
+	Position mali_length = src->getLength();
+	int mali_width = src->getWidth();
+	
+	// calculate counts
+	Residue width = translator->getAlphabetSize();
+	
+	for (int nsequence = 0; nsequence < mali_width; nsequence++) 
+	{
+		const std::string & seq = (*src)[nsequence];
+		for (int x = 0; x < mali_length; ++x)
+		{
+			Residue code = translator->encode( seq[x] );  
+			dest->setValue( x, code, dest->getValue( x, code) + (*weights)[nsequence] );
+		}
+	}
+}
+  
+HSequenceWeights ImplWeightor::calculateWeights(
+		const HMultipleAlignment & src,
+		const HTranslator & translator ) const
+{
+	int nsequences = src->getWidth();
+	
+	HSequenceWeights weights(new SequenceWeights(nsequences));
+	  
+	 for (int i = 0; i < nsequences; i++) 
+		 (*weights)[i] = 1;
+	 
+	return weights;
 }
 
 } // namespace alignlib

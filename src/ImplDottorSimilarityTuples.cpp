@@ -59,7 +59,7 @@ ImplDottorSimilarityTuples::~ImplDottorSimilarityTuples () {
 ImplDottorSimilarityTuples::ImplDottorSimilarityTuples (const ImplDottorSimilarityTuples & src ) : ImplDottorSimilarity(src), mKtuple( src.mKtuple) {
 }
 
-void ImplDottorSimilarityTuples::calculateNewPairs( const Alignandum * row, const Alignandum * col) const 
+void ImplDottorSimilarityTuples::calculateNewPairs( const HAlignandum row, const HAlignandum col) const 
 {
   debug_func_cerr(5);
 

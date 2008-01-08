@@ -29,18 +29,11 @@
 #define IMPL_ALIGNATOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Alignator.h"
-#include "Alignment.h"
-#include "Scorer.h"
-#include "Iterator2D.h"
 
-namespace alignlib {
-
-  class Alignandum;
-  class Alignment;
-  class Iterator2D;
-  class Scorer;
-  
+namespace alignlib 
+{
   /**
      @short base implementation class for Alignator objects.
      
@@ -67,33 +60,36 @@ namespace alignlib {
     
     protected:
       /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-      virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
+      virtual void startUp( HAlignment & ali,
+    		  const HAlignandum & row, const HAlignandum & col);
     
       /** perform cleanup after alignment */
-      virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
+      virtual void cleanUp( HAlignment & ali, 
+    		  const HAlignandum & row, const HAlignandum & col );                     
 
       /** set range object */
-      virtual void setIterator2D( const Iterator2D * iterator = NULL);    
+      virtual void setIterator2D( const HIterator2D & iterator);    
 
       /** set range object */
-      virtual void setScorer( const Scorer * scorer );    
+      virtual void setScorer( const HScorer & scorer);    
       
     protected:
       /** object for iteration over sequences */
-      const Iterator2D * mIterator;
+      HIterator2D mIterator;
       
       /** object for scoring sequence/profile positions */
-      const Scorer * mScorer;
+      HScorer mScorer;
       
       /** length of row */
       int mRowLength;
 
     private:
-      /** flag, that is set if this object manages scorer */
-      bool mIsOwnScorer;
 
       /** template objects for iterators */
-      const Iterator2D * mIteratorTemplate;
+      HIterator2D mIteratorTemplate;
+      
+      /** template for scorer */
+      HScorer mScorerTemplate;
       
     };
   

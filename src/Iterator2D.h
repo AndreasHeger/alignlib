@@ -29,6 +29,7 @@
 #define ITERATOR2D_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include <vector>
 
 namespace alignlib
@@ -105,15 +106,15 @@ public:
 
 	/** return a copy of the same iterator
 	 */
-	virtual Iterator2D * getClone() const = 0;
+	virtual HIterator2D getClone() const = 0;
 
 	/** return a new iterator of same type initializes with for row and col
 	 */
-	virtual Iterator2D * getNew( const Alignandum * row, const Alignandum * col ) const = 0;
+	virtual HIterator2D getNew( const HAlignandum & row, const HAlignandum & col ) const = 0;
 
 	/** reset ranges of iterator for new row and col objects
 	 */
-	virtual void resetRanges( const Alignandum * row, const Alignandum * col ) = 0;
+	virtual void resetRanges( const HAlignandum & row, const HAlignandum & col ) = 0;
 
 	/** return iterators for rows/columns for particular rows/columns 
 	 * If no position is given, the iteration is over the maximum range.

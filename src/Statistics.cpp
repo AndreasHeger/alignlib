@@ -55,33 +55,32 @@ EVDParameters * makeEVDParameters() {
 
 //---------------------------------------------------------------
 Score * fillScoresVector( Score * dest,
-			     const Alignandum * row, 
-			     const Alignandum * col, 
+			     const HAlignandum row, 
+			     const HAlignandum col, 
 			     Alignator * alignator,
 			     unsigned int n_iterations,
 			     unsigned int n_iterations_shuffle = 1,
-			     Position window_size = 0) {
+			     Position window_size = 0) 
+			     {
 
-  Alignandum * clone = row->getClone();
-  Alignment * ali = makeAlignmentVector();
+  HAlignandum clone = row->getClone();
+  HAlignment ali = makeAlignmentVector();
   
-  for (unsigned int i = 0; i < n_iterations; i++) {
+  for (unsigned int i = 0; i < n_iterations; i++) 
+  {
     clone->shuffle( n_iterations_shuffle, window_size );
-    alignator->align( clone, col, ali );
+    alignator->align( ali, clone, col );
     dest[i] = ali->getScore();
   }
-  
-  delete clone;
-  delete ali;
-  
+    
   return dest;
 }
 
 
 /*---------------> other functions <----------------------------- */
 void calculateZScoreParameters( NormalDistributionParameters * result,
-				const Alignandum * row, 
-				const Alignandum * col, 
+				const HAlignandum row, 
+				const HAlignandum col, 
 				Alignator * alignator,
 				unsigned int n_iterations,
 				unsigned int n_iterations_shuffle,
@@ -113,8 +112,8 @@ void calculateZScoreParameters( NormalDistributionParameters * result,
       distribution. The fit is done using linear regression.
 */
 void calculateEVDParameters( EVDParameters * result,
-			     const Alignandum * row, 
-			     const Alignandum * col, 
+			     const HAlignandum row, 
+			     const HAlignandum col, 
 			     Alignator * alignator,
 			     unsigned int n_iterations,
 			     unsigned int n_iterations_shuffle,

@@ -63,11 +63,12 @@ class ImplAlignatorFragments : public ImplAlignator
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorFragments( Score row_gop, 
-			    Score row_gep, 
-			    Score col_gop = 0,
-			    Score col_gep = 0,
-			    Fragmentor * fragmentor = NULL );
+    ImplAlignatorFragments( 
+    		HFragmentor & fragmentor,
+    		Score row_gop, 
+    		Score row_gep,
+    		Score col_gop = 0,
+    		Score col_gep = 0 );
 
     /** copy constructor */
     ImplAlignatorFragments( const ImplAlignatorFragments & );
@@ -77,7 +78,9 @@ class ImplAlignatorFragments : public ImplAlignator
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual Alignment * align(const Alignandum *, const Alignandum *, Alignment *);
+    virtual HAlignment & align( HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
 
     /* member access functions--------------------------------------------------------------- */
     /** set gap opening penalty for row */
@@ -107,21 +110,32 @@ class ImplAlignatorFragments : public ImplAlignator
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result) = 0 ;
+    virtual void performAlignment( HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col ) = 0 ;
 
     /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-    virtual void startUp( const Alignandum * row, const Alignandum * col, Alignment * ali);
+    virtual void startUp( 
+    		HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
     
     /** perform cleanup after alignment */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
+    virtual void cleanUp(
+    		HAlignment & dest,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );                     
 
     /** traces back through dot-trace and put it in the alignment in Alignment-object */
-    virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignment * result);				
+    virtual void traceBack( 
+    		HAlignment & result,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );				
 
  protected:
     
     /** The dotter object that supplies the fragments */
-    Fragmentor * mFragmentor;
+    HFragmentor mFragmentor;
     
     /* number of fragments */
     Position	mNFragments;

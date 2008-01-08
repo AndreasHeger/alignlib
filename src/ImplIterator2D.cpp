@@ -28,17 +28,15 @@
 #include "Alignandum.h"
 #include "ImplIterator2D.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
 namespace alignlib
 {
 
   //--------------------------------------------------------------------------------------
-  ImplIterator2D::ImplIterator2D( const Alignandum * row, const Alignandum * col ) : 
+  ImplIterator2D::ImplIterator2D( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col ) : 
     Iterator2D(),
     mRowFrom(NO_POS), mRowTo(NO_POS),
     mColFrom(NO_POS), mColTo(NO_POS) 
@@ -77,7 +75,7 @@ namespace alignlib
   }
 
   //--------------------------------------------------------------------------------------
-  void ImplIterator2D::resetRanges( const Alignandum * row, const Alignandum * col )
+  void ImplIterator2D::resetRanges( const HAlignandum row, const HAlignandum col )
   {
     mRowFrom = row->getFrom();
     mRowTo   = row->getTo();    

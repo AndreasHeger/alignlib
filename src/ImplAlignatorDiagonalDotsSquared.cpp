@@ -118,7 +118,7 @@ Score ImplAlignatorDiagonalDotsSquared::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDiagonalDotsSquared::performAlignment( const Alignandum * prow, const Alignandum * pcol, Alignment * ali) {
+void ImplAlignatorDiagonalDotsSquared::performAlignment( const HAlignandum prow, const HAlignandum pcol, HAlignment ali) {
 
   /**
      Overview over the algorithm

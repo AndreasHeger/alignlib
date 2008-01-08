@@ -30,6 +30,7 @@
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 #include "ImplAlignatorDP.h"
+#include "Iterator2D.h"
 #include <cassert>
 
 namespace alignlib 
@@ -101,21 +102,28 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
 
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorDPFull * getClone() const;
+    virtual HAlignator getClone() const;
     
     /* operators------------------------------------------------------------------------------ */
 
     /* member access functions--------------------------------------------------------------- */
 
   protected:
-    /** perform initialization before alignment */
-    virtual void startUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
-    
-    /** clean up temporary memory after alignment step */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
+	  
+	    /** perform initialization before alignment */
+	    virtual void startUp(HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
+	    
+	    /** clean up temporary memory after alignment step */
+	    virtual void cleanUp(HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
+
+	    /** perform the alignment */
+	    virtual void performAlignment(HAlignment & dest, 
+	    							const HAlignandum & row, 
+	    							const HAlignandum & col );
 
     /** traces back through trace matrix and put in the alignment in Alignment-object */
-    virtual void traceBack( const Alignandum * row, const Alignandum * col, Alignment * result);				
+    virtual void traceBack( HAlignment & dest,
+    		const HAlignandum & row, const HAlignandum & col );				
 
     /** return index for given row and length.
      * */
@@ -137,9 +145,6 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
     	assert( index < mMatrixSize );
     	return index;
       }; 
-
-    /** perform the alignment */
-    virtual void performAlignment(const Alignandum * row, const Alignandum *col, Alignment * result);
 
     /* member data --------------------------------------------------------------------------- */
   protected:

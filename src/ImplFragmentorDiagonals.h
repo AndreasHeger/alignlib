@@ -49,11 +49,12 @@ class ImplFragmentorDiagonals : public ImplFragmentor
  public:
     /* constructors and desctructors------------------------------------------------------- */
     /** constructor */
-    ImplFragmentorDiagonals( Score row_gop, 
-			     Score row_gep, 
-			     Score col_gop = 0 , 
-			     Score col_gep = 0,
-			     Alignator * dottor = NULL);
+    ImplFragmentorDiagonals( 
+    		const HAlignator & dottor,
+    		Score row_gop, 
+    		Score row_gep, 
+    		Score col_gop = 0 , 
+    		Score col_gep = 0 );
 
     /** destructor */
     virtual ~ImplFragmentorDiagonals ();
@@ -72,17 +73,18 @@ class ImplFragmentorDiagonals : public ImplFragmentor
     Score mColGep;  
 
     /** the alignator used to create dot-plots */
-    Alignator *mDottor;
+    HAlignator mDottor;
 
     virtual Score getGapCost( const ResiduePAIR & p1, const ResiduePAIR & p2 ) const ;
 
     /** perform the actual alignment */
-    virtual void performFragmentation( const Alignandum * row, 
-				       const Alignandum * col, 
-				       const Alignment * sample);
+    virtual void performFragmentation(
+    		HAlignment & sample,
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
     
     /** perform cleanup after alignment */
-    virtual void cleanUp(const Alignandum * row, const Alignandum * col, Alignment * ali);                     
+    virtual void cleanUp( HAlignment & sample, const HAlignandum & row, const HAlignandum & col );                     
 
 };
 
