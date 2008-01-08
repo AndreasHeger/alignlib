@@ -19,13 +19,11 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 
 namespace alignlib 
 {
-
-    class Distor;
-    class PhyloMatrix;
-
     /** Helper functions for class Alignment:
 	
 	1. factory functions
@@ -39,26 +37,18 @@ namespace alignlib
  /* 1. factory functions */
   
     /** return an Distor object, that calculates distances between sequences in a multiple alignment based on Kimura */
-    Distor * makeDistorKimura();
+    HDistor makeDistorKimura();
 
     /** return an Distor object, that calculates distances between sequences in a multiple alignment based on Kimura */
-    Distor * makeDistorClustal();
+    HDistor makeDistorClustal();
     
     /** return a Distor object, that instead of calculating a matrix, copies its own copy of a matrix into a matrix */
-    Distor * makeDistorDummy( const PhyloMatrix * matrix);
+    HDistor makeDistorDummy( const HPhyloMatrix & matrix);
   
  /* -------------------------------------------------------------------------------------------------------------------- */
  /* 2. accessor functions for default objects */
     
-    /** gets the default Distor object */
-    const Distor * getDefaultDistor();
-      
-    /** sets the default Distor object 
-     * 
-     * The library takes ownership of the distor object.
-     * */
-    void setDefaultDistor( Distor * distor );
-    
+    DEFINE_DEFAULT( HDistor, getDefaultDistor, setDefaultDistor );
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
 

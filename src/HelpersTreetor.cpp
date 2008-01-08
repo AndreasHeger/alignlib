@@ -11,28 +11,23 @@
 #include <iostream>
 #include <string>
 
+#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
+
 #include "Treetor.h"
 #include "HelpersTreetor.h"
+
+#include "Distor.h"
+#include "HelpersDistor.h"
 
 using namespace std;
 
 namespace alignlib 
 {
-	DEFINE_DEFAULT( Treetor, makeTreetorDistanceLinkage() );
-
-
-  static std::auto_ptr<Treetor>DEFAULT_TREETOR(makeTreetorDistanceLinkage());  
-
-  /** gets the default Treetor object */
-  const Treetor * getDefaultTreetor() 
-  {
-    return DEFAULT_TREETOR;
-  }
- 
-  /** sets the default Treetor object */
-  void setDefaultTreetor( Treetor * treetor ) 
-  {	
-    DEFAULT_TREETOR = treetor;
-  }            
+	IMPLEMENT_DEFAULT( HTreetor, 
+			makeTreetorDistanceLinkage( getDefaultDistor() ),
+			getDefaultTreetor,
+			setDefaultTreetor );
 
 } // namespace alignlib

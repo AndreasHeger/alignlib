@@ -29,9 +29,9 @@ namespace alignlib
 #define MAX_DISTANCE 5.2030
 
 //-------------------------> factory functions <-------------------------------------------------------------------------------
-Distor * makeDistorKimura() 
+HDistor makeDistorKimura() 
 {
-  return new ImplDistorKimura();
+  return HDistor( new ImplDistorKimura() );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
@@ -45,7 +45,8 @@ ImplDistorKimura::~ImplDistorKimura ()
 	debug_func_cerr( 5 );
 }
 
-ImplDistorKimura::ImplDistorKimura (const ImplDistorKimura & src ) : ImplDistor( src ) {
+ImplDistorKimura::ImplDistorKimura (const ImplDistorKimura & src ) : 
+	ImplDistor( src ) {
 }
 
 
@@ -56,7 +57,10 @@ PhyloMatrixValue ImplDistorKimura::getMaximumPossibleDistance() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplDistorKimura::calculateDistance(const std::string & s_row_1, const std::string & s_row_2) const {
+PhyloMatrixValue ImplDistorKimura::calculateDistance(
+		const std::string & s_row_1, 
+		const std::string & s_row_2) const 
+		{
 
   unsigned int i;
   unsigned int identities = 0;		// number of identities
@@ -65,7 +69,8 @@ PhyloMatrixValue ImplDistorKimura::calculateDistance(const std::string & s_row_1
   unsigned char gap_char = alignlib::getDefaultTranslator()->getGapChar();
   
   for (i = 0; i < s_row_1.length(); i++) {
-    if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char)) {
+    if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char)) 
+    {
       n_nongaps ++;
       if (s_row_1[i] == s_row_2[i]) 
 	identities++;

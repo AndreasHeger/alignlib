@@ -18,13 +18,11 @@
 #include <iosfwd>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplTreetor.h"
 
-namespace alignlib {
-  class MultipleAlignment;
-}
-
-namespace alignlib {
+namespace alignlib 
+{
     
 /**
    Base class for algorithms that generate trees based on distance matrices.
@@ -37,10 +35,6 @@ namespace alignlib {
    @short contains a matrix
 */ 
 
-class Tree;
-class Distor;
-class PhyloMatrix;
-
 class ImplTreetorDistance : public ImplTreetor 
 {
 
@@ -49,7 +43,7 @@ class ImplTreetorDistance : public ImplTreetor
   /* constructors and desctructors------------------------------------------------------- */
 
   /** constructor */
-  ImplTreetorDistance( const Distor * distor );
+  ImplTreetorDistance( const HDistor & distor );
 
   /** copy constructor */
   ImplTreetorDistance (const ImplTreetorDistance & src);
@@ -66,11 +60,14 @@ class ImplTreetorDistance : public ImplTreetor
   */
 
   /** create a tree from a multiple alignment */
-  virtual Tree * calculateTree( Tree * dest, const alignlib::HMultipleAlignment src) const; 
+  virtual HTree & calculateTree( 
+		  HTree & dest, 
+		  const HMultipleAlignment & src) const; 
 
  protected:
   /** initialize helper variables that you might need */
-  virtual void startUp(Tree * dest, const alignlib::HMultipleAlignment src) const;
+  virtual void startUp( HTree & dest, 
+		  const HMultipleAlignment & src) const;
 
   /** clean up helper variables */
   virtual void cleanUp() const;
@@ -82,18 +79,24 @@ class ImplTreetorDistance : public ImplTreetor
   virtual void calculateMinimumDistance() const = 0;
 
   /** update the distance matrix and other helper variables */
-  virtual void updateDistanceMatrix( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2 ) const = 0;
+  virtual void updateDistanceMatrix(
+		  const HTree & tree,
+		  PhyloMatrixSize cluster_1, 
+		  PhyloMatrixSize cluster_2 ) const = 0;
 
   /** join two nodes and return the index of the added node */
-  virtual Node joinNodes( PhyloMatrixSize cluster_i, PhyloMatrixSize cluster_2 ) const = 0;
+  virtual Node joinNodes( 
+		  HTree & tree,
+		  PhyloMatrixSize cluster_i, 
+		  PhyloMatrixSize cluster_2 ) const = 0;
 
-    // member data
+  // member data
  public:
 
  protected:
 
   /** Distor object used for calculating distance matrix */
-  const Distor * mDistor;
+  const HDistor mDistor;
 
   /** coordinates of minimum element in distance matrix
    */
@@ -104,13 +107,10 @@ class ImplTreetorDistance : public ImplTreetor
   mutable PhyloMatrixValue mMinimumValue;
 
   /** working copy of distance matrix */
-  mutable PhyloMatrix * mWorkMatrix;
+  mutable HPhyloMatrix mWorkMatrix;
   
   /** indices, mapping rows in distance matrix to nodes in tree*/
   mutable Node * mIndices;
-
-  /** pointer to result, used for internal access between methods */
-  mutable Tree * mTree;
   
 };
 

@@ -17,9 +17,11 @@
 
 #include <iostream>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplTreetorDistance.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
 /**
    Calculate neighbour-joining tree. The root is placed in the middle
@@ -30,13 +32,14 @@ namespace alignlib {
    @short calculate neighbour-joining tree
 */ 
 
-class ImplTreetorDistanceNJ : public ImplTreetorDistance {
+class ImplTreetorDistanceNJ : public ImplTreetorDistance 
+{
  public:
 
   /* constructors and desctructors------------------------------------------------------- */
 
   /** empty constructor */
-  ImplTreetorDistanceNJ ( const Distor * distor );
+  ImplTreetorDistanceNJ ( const HDistor & distor );
 
   /** copy constructor */
   ImplTreetorDistanceNJ (const ImplTreetorDistanceNJ & src);
@@ -54,13 +57,20 @@ class ImplTreetorDistanceNJ : public ImplTreetorDistance {
   virtual void calculateMinimumDistance() const;
 
   /** update the distance matrix and other helper variables */
-  virtual void updateDistanceMatrix( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2 ) const;
+  virtual void updateDistanceMatrix( 
+		  const HTree & tree,
+		  PhyloMatrixSize cluster_1, 
+		  PhyloMatrixSize cluster_2 ) const;
 
   /** join two nodes and return the index of the added node */
-  virtual Node joinNodes( PhyloMatrixSize cluster_i, PhyloMatrixSize cluster_2 ) const;
+  virtual Node joinNodes( 
+		  HTree & tree,
+		  PhyloMatrixSize cluster_i, 
+		  PhyloMatrixSize cluster_2 ) const;
 
   /** initialize helper variables that you might need */
-  virtual void startUp(  Tree * tree, const alignlib::HMultipleAlignment mali) const;
+  virtual void startUp(  HTree & tree, 
+		  const HMultipleAlignment & mali) const;
 
   /** clean up helper variables */
   virtual void cleanUp() const;

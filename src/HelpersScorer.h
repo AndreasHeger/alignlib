@@ -49,9 +49,12 @@ namespace alignlib
 
 
   /* 1. factory functions */
-  HScorer makeScorer( const HAlignandum & row,
-		  			  const HAlignandum & col );
+	HScorer makeScorer( const HAlignandum & row,
+			const HAlignandum & col );
   
+	/** return a placeholder scorer */
+	HScorer makeScorer();
+	
   /* 2. accessor functions for default objects */
 
   /* 3. convenience functions */

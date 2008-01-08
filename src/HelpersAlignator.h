@@ -43,57 +43,55 @@ namespace alignlib
 	3. convenience functions
     */
 
-  class Alignator;
-  class Alignandum;
-  class Alignment;
-  class Fragmentor;
-
   /* 1. factory functions */
 
     /** Perform full dynamic programming  */
-    Alignator * makeAlignatorDPFull( AlignmentType alignment_type,
-				     Score gop, Score gep, 
-				     bool penalize_left = false, 
-				     bool penalize_right = false );
+	HAlignator makeAlignatorDPFull( 
+			AlignmentType alignment_type,
+			Score gop, Score gep, 
+			bool penalize_left = false, 
+			bool penalize_right = false );
 
     /** make an alignator object, which aligns identical residues */
-    Alignator * makeAlignatorIdentity();
+    HAlignator makeAlignatorIdentity();
 
     /** make an alignator object, which aligns identical residues */
-    Alignator * makeAlignatorSimilarity();
+    HAlignator makeAlignatorSimilarity();
 
     /** make an alignator object, which aligns similar tuples */
-    Alignator * makeAlignatorTuples(int ktuple = 3 );
+    HAlignator makeAlignatorTuples(int ktuple = 3 );
 
     /** make an alignator object, which returns a dummy alignments */
-    Alignator * makeAlignatorDummy( const HAlignment ali );
+    HAlignator makeAlignatorDummy( const HAlignment ali );
 
     /** make an alignator object, which returns a dummy alignment */
-    Alignator * makeAlignatorPublishAlignment( HAlignment ali );
+    HAlignator makeAlignatorPublishAlignment( HAlignment & ali );
     
     /** make an alignator object, which does a dot-alignment with wrapping around. */
-    Alignator * makeAlignatorDotsWrap( Score gop, 
-				       Score gep, 
-				       Alignator * alignator );
+    HAlignator makeAlignatorDotsWrap( 
+    		Score gop, 
+    		Score gep, 
+    		HAlignator & alignator );
 
     /** make an alignator object, which does a dot-alignment with wrapping around. */
-    Alignator * makeAlignatorDotsSquared( Score gop, 
-					  Score gep, 
-					  Alignator * alignator );
+    HAlignator makeAlignatorDotsSquared( 
+    		Score gop, 
+    		Score gep, 
+    		HAlignator & alignator );
     
-
-
     /** make an alignator object, which does a dot-alignment with wrapping around. */
-    Alignator * makeAlignatorDotsSquaredDiagonal(Score gop, 
-						 Score gep, 
-						 Alignator * alignator, 
-						 Score diagnal_gop = 0,
-						 Score diagonal_gep = 0 );
+    HAlignator makeAlignatorDotsSquaredDiagonal(
+    		Score gop, 
+    		Score gep, 
+    		const HAlignator & alignator, 
+    		Score diagnal_gop = 0,
+    		Score diagonal_gep = 0 );
 
     /** make an alignator object, which aligns fragments. */
-    Alignator * makeAlignatorFragmentsSquared(Score gop, 
-					      Score gep, 
-					      Fragmentor * fragmentor );
+    HAlignator makeAlignatorFragmentsSquared(
+    		Score gop, 
+    		Score gep, 
+    		const HFragmentor & fragmentor );
 
     /** alignator object for iterative alignment
      * 
@@ -101,16 +99,18 @@ namespace alignlib
      * alignator object until the alignment score drops below @min_score. 
      * The template alignator object is copied.
      */
-    Alignator * makeAlignatorIterative( const Alignator * alignator, 
-    									Score min_score);
+    HAlignator makeAlignatorIterative( 
+    		const HAlignator & alignator, 
+    		Score min_score);
     
     // compatibility functions
-    inline Alignator * makeFullDP( Score gop, Score gep, 
-				   bool penalize_left = false, 
-				   bool penalize_right = false )
+    inline HAlignator makeFullDP( 
+    		Score gop, Score gep, 
+    		bool penalize_left = false, 
+    		bool penalize_right = false )
       {
-	return makeAlignatorDPFull( ALIGNMENT_LOCAL,
-				    gop, gep, false, false);
+    	return makeAlignatorDPFull( ALIGNMENT_LOCAL,
+    			gop, gep, false, false);
       }
     
 

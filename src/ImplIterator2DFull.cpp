@@ -36,13 +36,17 @@ namespace alignlib
 {
 
   // factory function for creating iterator over full matrix
-  Iterator2D * makeIterator2DFull( const HAlignandum row, const HAlignandum col )
+  HIterator2D makeIterator2DFull( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col )
   {
-    return new ImplIterator2DFull( row, col );
+    return HIterator2D( new ImplIterator2DFull( row, col ) );
   }
   
   //--------------------------------------------------------------------------------------
-  ImplIterator2DFull::ImplIterator2DFull( const HAlignandum & row, const HAlignandum & col) :
+  ImplIterator2DFull::ImplIterator2DFull( 
+		  const HAlignandum & row, 
+		  const HAlignandum & col) :
     ImplIterator2D( row, col )
   {
     debug_func_cerr(5);

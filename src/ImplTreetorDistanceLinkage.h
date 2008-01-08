@@ -17,9 +17,12 @@
 
 #include <iostream>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+
 #include "ImplTreetorDistance.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
 /**
    base class for algorithms that generate trees.
@@ -28,18 +31,21 @@ namespace alignlib {
    @version $Id: ImplTreetorDistanceLinkage.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short asdf
 */ 
-class Distor;
-class PhyloMatrix;
-class ImplTreetorDistanceLinkage : public ImplTreetorDistance {
+class ImplTreetorDistanceLinkage : public ImplTreetorDistance 
+{
     
  public:
   /* constructors and desctructors------------------------------------------------------- */
 
   /** empty constructor */
-  ImplTreetorDistanceLinkage ( const Distor * distor, LinkageType method );
+  ImplTreetorDistanceLinkage ( 
+		  const HDistor & distor, 
+		  LinkageType method );
 
   /** empty constructor */
-  ImplTreetorDistanceLinkage ( const PhyloMatrix * matrix, LinkageType method );
+  ImplTreetorDistanceLinkage ( 
+		  const HPhyloMatrix & matrix, 
+		  LinkageType method );
 
   /** copy constructor */
   ImplTreetorDistanceLinkage (const ImplTreetorDistanceLinkage & src);
@@ -54,10 +60,16 @@ class ImplTreetorDistanceLinkage : public ImplTreetorDistance {
   virtual void calculateMinimumDistance() const;
 
   /** update the distance matrix and other helper variables */
-  virtual void updateDistanceMatrix( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2 ) const;
+  virtual void updateDistanceMatrix(
+		  const HTree & tree,
+		  PhyloMatrixSize cluster_1, 
+		  PhyloMatrixSize cluster_2 ) const;
 
   /** join two nodes and return the index of the added node */
-  virtual Node joinNodes( PhyloMatrixSize cluster_i, PhyloMatrixSize cluster_2 ) const;
+  virtual Node joinNodes( 
+		  HTree & tree,
+		  PhyloMatrixSize cluster_i, 
+		  PhyloMatrixSize cluster_2 ) const;
 
   /** method to use for calculating the distance between new and old clusters */
   LinkageType mMethod;

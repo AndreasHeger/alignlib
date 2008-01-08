@@ -50,12 +50,14 @@ namespace alignlib
   HIterator2D makeIterator2DFull( 
 		  const HAlignandum & row,
 		  const HAlignandum & col);
+  
   HIterator2D makeIterator2DFull(); 
   
-  HIterator2D makeIterator2DBanded( const HAlignandum & row,
-				     const HAlignandum & col,
-				     const Diagonal lower_diagonal = 0,
-				     const Diagonal upper_diagonal = 0);
+  HIterator2D makeIterator2DBanded( 
+		  const HAlignandum & row,
+		  const HAlignandum & col,
+		  const Diagonal lower_diagonal = 0,
+		  const Diagonal upper_diagonal = 0);
 
   DEFINE_DEFAULT( HIterator2D, getDefaultIterator2D, setDefaultIterator2D );
   

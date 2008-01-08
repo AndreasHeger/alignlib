@@ -30,6 +30,7 @@
 #include "Alignandum.h"
 
 #include "Alignment.h"
+#include "HelpersAlignator.h"
 #include "HelpersAlignment.h"
 
 #include "HelpersSubstitutionMatrix.h"

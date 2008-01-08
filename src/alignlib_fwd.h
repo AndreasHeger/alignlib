@@ -73,8 +73,14 @@ namespace alignlib
 	class Treetor;
 	typedef boost::shared_ptr<Treetor>HTreetor;
 	
+	class Tree;
+	typedef boost::shared_ptr<Tree>HTree;
+	
 	class Distor;
 	typedef boost::shared_ptr<Distor>HDistor;
+
+	class PhyloMatrix;
+	typedef boost::shared_ptr<PhyloMatrix>HPhyloMatrix;
 	
 	class Fragmentor;
 	typedef boost::shared_ptr<Fragmentor>HFragmentor;

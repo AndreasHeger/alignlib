@@ -135,8 +135,6 @@ ImplAlignatorFragments::ImplAlignatorFragments(
 			if (mTrace != NULL) 
 				delete [] mTrace;
 
-			delete mFragments;
-
 			ImplAlignator::cleanUp(ali, row, col );
 
 		}

@@ -142,7 +142,7 @@ void writeAlignmentRSDB( std::ostream & output,
 typedef enum { RR, RC, CR, CC } CombinationMode;
 
 /** return a pointer to an Alignment-object, that has been created by combining two others */
-HAlignment combineAlignment( HAlignment & dest, 
+HAlignment & combineAlignment( HAlignment & dest, 
 		const HAlignment & src1, 
 		const HAlignment & src2, 
 		const CombinationMode mode);
@@ -157,7 +157,7 @@ HAlignment combineAlignment( HAlignment & dest,
      @param diagonal_form beginning of tube to use
      @param diagonal_to end of tube to use
  */
-HAlignment copyAlignment( HAlignment & dest, 
+HAlignment & copyAlignment( HAlignment & dest, 
 		const HAlignment & src, 
 		Position row_from = NO_POS,
 		Position row_to = NO_POS,
@@ -176,7 +176,7 @@ HAlignment copyAlignment( HAlignment & dest,
      @param diagonal_form beginning of tube to use
      @param diagonal_to end of tube to use
  */
-HAlignment copyAlignmentRemoveRegion( HAlignment & dest, 
+HAlignment & copyAlignmentRemoveRegion( HAlignment & dest, 
 		const HAlignment & src, 
 		Position row_from = NO_POS,
 		Position row_to = NO_POS,
@@ -188,7 +188,7 @@ HAlignment copyAlignmentRemoveRegion( HAlignment & dest,
 
 /** copy one alignment into another using filter 
  */
-HAlignment copyAlignment( HAlignment & dest, 
+HAlignment & copyAlignment( HAlignment & dest, 
 		const HAlignment & src, 
 		const HAlignment & filter, 
 		const CombinationMode mode);
@@ -226,7 +226,7 @@ void writeWraparoundAlignment( std::ostream & output,
 		size_t max_insert_length = 30);
 
 /** create an identity alignment between residues from and to in row using an offset for col */
-HAlignment fillAlignmentIdentity( HAlignment & dest, 
+HAlignment & fillAlignmentIdentity( HAlignment & dest, 
 		Position row_from, 
 		Position row_to, 
 		Position col_offset = 0);
@@ -234,7 +234,7 @@ HAlignment fillAlignmentIdentity( HAlignment & dest,
 /** fill gaps in an alignment by doing a local alignment in each
      region.
  */
-HAlignment fillAlignmentGaps( HAlignment & dest,
+HAlignment & fillAlignmentGaps( HAlignment & dest,
 		const Alignator & alignator,
 		const HAlignandum & row,
 		const HAlignandum & col );
@@ -243,7 +243,7 @@ HAlignment fillAlignmentGaps( HAlignment & dest,
      @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
      where the row is also present as a row-residue in filter.
  */
-HAlignment filterAlignmentRemovePairs( HAlignment & dest, 
+HAlignment & filterAlignmentRemovePairs( HAlignment & dest, 
 		const HAlignment & filter, 
 		const CombinationMode mode );
 
@@ -251,7 +251,7 @@ HAlignment filterAlignmentRemovePairs( HAlignment & dest,
      @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
      where the row is also present as a row-residue in filter.
  */
-HAlignment filterAlignmentRemovePairwiseSorted( HAlignment & dest, 
+HAlignment & filterAlignmentRemovePairwiseSorted( HAlignment & dest, 
 		const HAlignment & filter, 
 		const CombinationMode mode );
 
@@ -262,7 +262,7 @@ HAlignment filterAlignmentRemovePairwiseSorted( HAlignment & dest,
      the first residue. Note that you will run into problems,
      if residues have been skipped in the explicit alignment.
  */
-HAlignment fillAlignmentExplicit( HAlignment & dest,
+HAlignment & fillAlignmentExplicit( HAlignment & dest,
 		const Position row_from, 
 		const std::string & row_ali,
 		const Position col_from, 
@@ -271,7 +271,7 @@ HAlignment fillAlignmentExplicit( HAlignment & dest,
 
 
 /** fill a multiple alignment given compressed strings */
-HAlignment fillAlignmentCompressed( HAlignment & dest, 
+HAlignment & fillAlignmentCompressed( HAlignment & dest, 
 		const Position row_from, 
 		const std::string & row_ali,
 		const Position col_from, 
@@ -282,7 +282,7 @@ HAlignment fillAlignmentCompressed( HAlignment & dest,
 /** fill a multiple alignment given a compressed string in diagonal format. If 
      reverse is true, then row and column will be reversed while building alignment.
  */
-HAlignment fillAlignmentCompressedDiagonal( HAlignment & dest, 
+HAlignment & fillAlignmentCompressedDiagonal( HAlignment & dest, 
 		const std::string & ali,
 		const bool reverse = false
 );
@@ -290,14 +290,14 @@ HAlignment fillAlignmentCompressedDiagonal( HAlignment & dest,
 
 /** fill a multiple alignment from a stream. The format is a simple pairlist.
  */
-HAlignment readAlignmentPairs( HAlignment & dest, 
+HAlignment & readAlignmentPairs( HAlignment & dest, 
 		std::istream & input,
 		const bool reverse = false
 );
 
 
 /** fill a multiple alignment given a compressed string in diagonal format but apply filter */
-HAlignment fillAlignmentCompressedDiagonal( HAlignment & dest, 
+HAlignment & fillAlignmentCompressedDiagonal( HAlignment & dest, 
 		const std::string & ali,
 		const Position row_from,
 		const Position row_to = NO_POS,
@@ -318,17 +318,17 @@ HAlignment & rescoreAlignment( HAlignment & dest,
 
 /** rescore alignment setting each pair to the same score 
  */
-HAlignment rescoreAlignment( HAlignment & dest,
+HAlignment & rescoreAlignment( HAlignment & dest,
 		const Score score = 0);
 
 /** calculate Alignment score given gap-penalties for row and column */
-HAlignment calculateAffineScore( HAlignment & dest, 
+HAlignment & calculateAffineScore( HAlignment & dest, 
 		const Score gop, 
 		const Score gep );
 
 
 /** fill an alignment with a repeat unit from a wrap-around alignment */
-HAlignment fillAlignmentRepeatUnit( HAlignment & dest, 
+HAlignment & fillAlignmentRepeatUnit( HAlignment & dest, 
 		const HAlignment & source,
 		const Position first_row_residue = NO_POS,
 		const bool skip_negative_ends = false);
@@ -378,15 +378,15 @@ HAlignment & flattenAlignment( HAlignment & dest );
 /** split an alignment, if there are gaps larger than a certain threshold either in row or
      col or both.
  */
-FragmentVector * splitAlignment( const HAlignment & src, 
+HFragmentVector splitAlignment( const HAlignment & src, 
 		const int max_gap_width,
 		bool split_row = true,
 		bool split_col = true);
 
 /** split an alignment at points of intersection with another alignment.
  */ 
-FragmentVector * splitAlignment( const HAlignment & src1, 
-		const HAlignment src2, 
+HFragmentVector splitAlignment( const HAlignment & src1, 
+		const HAlignment & src2, 
 		const CombinationMode mode );
 
 /** starting from the ends of an alignment, remove 

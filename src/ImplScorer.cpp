@@ -33,14 +33,27 @@ using namespace std;
 namespace alignlib
 {
 
-  //--------------------------------------------------------------------------------------
-  ImplScorer::ImplScorer( 
-		  const HAlignandum & row,
-		  const HAlignandum & col )
-    : Scorer()
-  {
-  }    
-  
+	/** return placeholder scorer *
+	 */
+	HScorer makeScorer( )
+	{
+		return HScorer( new ImplScorer() );
+	}
+
+	//--------------------------------------------------------------------------------------
+	  ImplScorer::ImplScorer() 
+	    : Scorer()
+	  {
+	  }    
+	 	
+	//--------------------------------------------------------------------------------------
+	  ImplScorer::ImplScorer( 
+			  const HAlignandum & row,
+			  const HAlignandum & col )
+	    : Scorer()
+	  {
+	  }    
+	  
   //--------------------------------------------------------------------------------------
   ImplScorer::~ImplScorer ()
   {
@@ -50,6 +63,19 @@ namespace alignlib
   ImplScorer::ImplScorer(const ImplScorer & src) : Scorer(src)
   {
   }
+  
+  HScorer ImplScorer::getNew(
+		  const HAlignandum & row,
+		  const HAlignandum & col) const
+  {
+	  return HScorer( new ImplScorer() ) ;
+  }
+
+  HScorer ImplScorer::getClone() const
+  {
+	  return HScorer( new ImplScorer(*this) ) ;
+  }
+  
   
 }
 

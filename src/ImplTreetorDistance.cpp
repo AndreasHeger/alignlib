@@ -22,88 +22,86 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //----------< constructors and destructors >--------------------------------------
-ImplTreetorDistance::ImplTreetorDistance ( const Distor * distor ) : 
+ImplTreetorDistance::ImplTreetorDistance ( 
+		const HDistor & distor ) : 
   ImplTreetor(),
-  mDistor( distor ) {
-}
+  mDistor( distor ) 
+  {
+  }
 
 ImplTreetorDistance::~ImplTreetorDistance () 
   {
 }
 
-ImplTreetorDistance::ImplTreetorDistance (const ImplTreetorDistance & src ) : ImplTreetor( src ) 
+ImplTreetorDistance::ImplTreetorDistance (const ImplTreetorDistance & src ) : 
+	ImplTreetor( src ) 
 {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-void ImplTreetorDistance::startUp( Tree * tree, const alignlib::HMultipleAlignment mali) const 
+void ImplTreetorDistance::startUp( 
+		HTree & tree, 
+		const HMultipleAlignment & mali) const 
 {
 	debug_func_cerr( 5 );
 
-  // create a distance matrix
-  if (mali != NULL) {
-      assert( mali->getWidth() > 0);
-      mWorkMatrix = makePhyloMatrixSymmetric( mali->getWidth());
-  } else {
-      mWorkMatrix = makePhyloMatrixSymmetric(0);
-  }
-
-  // call Distor for multiple alignment to fill matrix with distances
-  mDistor->calculateMatrix( mWorkMatrix, mali );
-
-  // save a pointer to the tree
-  mTree = tree;
+	// create a distance matrix
+	assert( mali->getWidth() > 0);
+	mWorkMatrix = makePhyloMatrixSymmetric( mali->getWidth());
+  
+	// call Distor for multiple alignment to fill matrix with distances
+	mDistor->calculateMatrix( mWorkMatrix, mali );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
 void ImplTreetorDistance::cleanUp() const 
 {
-
-  /* I have to perform this check, as otherwise I got an error
-     under gcc on freeing an empty pointer */
-  if (mWorkMatrix != NULL)
-    delete mWorkMatrix;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-void ImplTreetorDistance::swapHelpers( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2) const 
+void ImplTreetorDistance::swapHelpers( 
+		PhyloMatrixSize cluster_1, 
+		PhyloMatrixSize cluster_2) const 
 {
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-Tree * ImplTreetorDistance::calculateTree( Tree * tree, const alignlib::HMultipleAlignment mali ) const 
+HTree & ImplTreetorDistance::calculateTree( 
+		HTree & tree, 
+		const HMultipleAlignment & mali ) const 
 {
 
 	debug_func_cerr( 5 );
-  startUp( tree, mali );
+	startUp( tree, mali );
 
-  PhyloMatrixSize swap_temp;	// for swapping indices
+	PhyloMatrixSize swap_temp;	// for swapping indices
 
 #define SWAP(x,y) { swap_temp = x; x = y; y = swap_temp; }
 
-  //------------------------------------------------------------------------------------------
-  // start up 
-  PhyloMatrixSize width = mWorkMatrix->getWidth();
-  PhyloMatrixSize i;
+	//------------------------------------------------------------------------------------------
+	// start up 
+	PhyloMatrixSize width = mWorkMatrix->getWidth();
+	PhyloMatrixSize i;
   
-  /* in this algorithm I assume that the matrix I use is only a half-matrix using the lower diagonal */
-  tree->setNumLeaves( width );					// allocate memory for tree
+	/* in this algorithm I assume that the matrix I use is only a half-matrix using the lower diagonal */
+	tree->setNumLeaves( width );					// allocate memory for tree
 
-  mIndices = new Node[width];			        /* allocate array to keep track of indices */
+	mIndices = new Node[width];			        /* allocate array to keep track of indices */
 
-  for (i = 0; i < width; i++) mIndices[i] = i;
+	for (i = 0; i < width; i++) mIndices[i] = i;
   
-  //----------------------------------------------------------------------------------------------------
-  // Perform hierarchical clustering
+	//----------------------------------------------------------------------------------------------------
+	// Perform hierarchical clustering
 
-  PhyloMatrixSize last_row = width - 1;
+	PhyloMatrixSize last_row = width - 1;
   
-  /* shrink distance matrix, until it contains only a single cluster */
-  while (last_row > 0) 
-  {
+	/* shrink distance matrix, until it contains only a single cluster */
+	while (last_row > 0) 
+	{
     
 	  debug_cerr( 6, "Last row " << last_row );
 	  debug_cerr( 6, "Work matrix " << endl << *mWorkMatrix );
@@ -156,13 +154,13 @@ Tree * ImplTreetorDistance::calculateTree( Tree * tree, const alignlib::HMultipl
 
     //------------------------------------------------------------------------------------------------------
     // join the two nodes in the tree giving the correct edge weights
-    Node new_node = joinNodes( second_row, last_row );
+    Node new_node = joinNodes( tree, second_row, last_row );
     
     debug_cerr( 6, "-> new node " << new_node ); 
 
     //------------------------------------------------------------------------------------------------------
     // calculate distance to new cluster and put them in second to last row
-    updateDistanceMatrix( second_row, last_row);
+    updateDistanceMatrix( tree, second_row, last_row);
 
     /* delete last row, update mIndices, so that the last row now
        contains the number of the new cluster id */
@@ -188,7 +186,7 @@ Tree * ImplTreetorDistance::calculateTree( Tree * tree, const alignlib::HMultipl
   delete [] mIndices;
   cleanUp();	// cleans up mWorkMatrix
 
-  return mTree;
+  return tree;
 }
 
 } /* namespace alignlib */

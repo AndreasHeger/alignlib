@@ -141,7 +141,7 @@ class ImplAlignatorFragments : public ImplAlignator
     Position	mNFragments;
 
     /** pointer to fragments */
-    FragmentVector * mFragments;		
+    HFragmentVector mFragments;		
 
     /* help variables for backtracing */
     /** last dot */

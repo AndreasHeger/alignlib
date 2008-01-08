@@ -19,11 +19,11 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 
-namespace alignlib {
-
-    class Treetor;
-    class Distor;
+namespace alignlib 
+{
 
     /** Helper functions for class Alignment:
 	
@@ -38,26 +38,22 @@ namespace alignlib {
  /* 1. factory functions */
 
     /** make a Treetor using Distance matrices */
-    Treetor * makeTreetorDistanceLinkage( LinkageType method = UPGMA, const Distor * distor = NULL);
+	HTreetor makeTreetorDistanceLinkage(
+		const HDistor & distor,     		
+		LinkageType method = UPGMA ); 
 
     /** make a Treetor using Distance matrices and the neighbour-joining algorithm */
-    Treetor * makeTreetorDistanceNJ( const Distor * distor = NULL);    
+    HTreetor makeTreetorDistanceNJ( const HDistor & distor );    
 
- /* -------------------------------------------------------------------------------------------------------------------- */
- /* 2. accessor functions for default objects */
-    
-    /** gets the default Treetor object */
-    const Treetor * getDefaultTreetor();
-      
-    /** sets the default Treetor object
-     * 
-     * The library obtains ownership of the supplied treetor */
-    void setDefaultTreetor( Treetor * treetor );
+    /* -------------------------------------------------------------------------------------------------------------------- */
+    /* 2. accessor functions for default objects */
+
+    DEFINE_DEFAULT( HTreetor, 
+    		getDefaultTreetor,
+    		setDefaultTreetor );
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
-
-
 }
 
 #endif	/* HELPERS_TREETOR_H */

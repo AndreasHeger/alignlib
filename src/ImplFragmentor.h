@@ -60,7 +60,7 @@ class ImplFragmentor : public Fragmentor
     /** copy constructor */
     ImplFragmentor( const ImplFragmentor & src);
     
-    virtual FragmentVector * fragment(
+    virtual HFragmentVector fragment(
     		HAlignment & dest,
     		const HAlignandum & row, 
     		const HAlignandum & col );	
@@ -96,7 +96,7 @@ class ImplFragmentor : public Fragmentor
     Position mColLength;
 
     /** result */
-    FragmentVector * mFragments;
+    HFragmentVector mFragments;
 };
 
 }

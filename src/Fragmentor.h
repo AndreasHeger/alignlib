@@ -59,7 +59,8 @@ class Fragmentor
     Fragmentor( const Fragmentor & src);
     
     /** method for aligning two arbitrary objects */
-    virtual FragmentVector * fragment( HAlignment & dest,
+    virtual HFragmentVector fragment( 
+    		HAlignment & dest,
     		const HAlignandum & row, 
     		const HAlignandum & col ) = 0; 
     

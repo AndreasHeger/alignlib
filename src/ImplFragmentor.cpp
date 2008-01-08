@@ -73,7 +73,7 @@ void ImplFragmentor::startUp( HAlignment & ali,
     mRowLength = row->getLength();
     mColLength = col->getLength();
 
-    mFragments = new FragmentVector();
+    mFragments = HFragmentVector( new FragmentVector() );
   
 }
 
@@ -103,7 +103,7 @@ void ImplFragmentor::cleanUp(
 }
 
 //--------------------------------------------------------------------------------------------------------
-FragmentVector * ImplFragmentor::fragment(
+HFragmentVector ImplFragmentor::fragment(
 		HAlignment & ali,
 		const HAlignandum & row, 
 		const HAlignandum & col) 

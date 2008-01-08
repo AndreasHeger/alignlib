@@ -18,10 +18,10 @@
 
 #include <iosfwd>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
-namespace alignlib {
-
-    class PhyloMatrix;
+namespace alignlib 
+{
 
     /** Helper functions for class Phylomatrix:
 	
@@ -36,7 +36,9 @@ namespace alignlib {
     /* 1. factory functions */
 
     /** create an empty symmetric matrix */
-    PhyloMatrix * makePhyloMatrixSymmetric( PhyloMatrixSize size = 0, PhyloMatrixValue default_value = 0);
+    HPhyloMatrix makePhyloMatrixSymmetric( 
+    		PhyloMatrixSize size = 0, 
+    		PhyloMatrixValue default_value = 0);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
@@ -45,7 +47,9 @@ namespace alignlib {
     /* 3. convenience functions */
     
     /** fill matrix with values from source */
-    PhyloMatrix * fillPhyloMatrix( PhyloMatrix * dest, PhyloMatrixValue * source );
+    HPhyloMatrix & fillPhyloMatrix( 
+    		HPhyloMatrix & dest, 
+    		PhyloMatrixValue * source );
 
 }
 

@@ -39,35 +39,30 @@
 #include <time.h> 
 
 #include "alignlib.h"
-
+#include "alignlib_fwd.h"
 
 #include "HelpersSequence.h"
-
 #include "HelpersProfile.h"
-
 #include "Alignandum.h"
-
 #include "Alignator.h"
 #include "HelpersAlignator.h"
-
 #include "Fragmentor.h"
 #include "HelpersFragmentor.h"
-
 #include "Alignment.h"
 #include "HelpersAlignment.h"
-
 #include "HelpersTranslator.h"
+
 using namespace std;
 using namespace alignlib;
 
 int main () 
 {
 
-  Alignment * dots = makeAlignmentMatrixRow();
+  HAlignment dots(makeAlignmentMatrixRow());
 
-  Alignandum * s2 = makeSequence("AAAA", getDefaultTranslator() );
-  Alignandum * s1 = makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 
-		  getDefaultTranslator() );
+  HAlignandum s2(makeSequence("AAAA", getDefaultTranslator() ) );
+  HAlignandum s1(makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 
+		  getDefaultTranslator() ) );
 
   //  std::ifstream fin("test.dots");
   // readAlignmentPairs( dots, fin );
@@ -79,23 +74,14 @@ int main ()
 
   cout << "Dots read in" << *dots << endl;
 
-  Fragmentor * f = makeFragmentorIterative( dots, 2, -1, -1);
+  HFragmentor f(makeFragmentorIterative( dots, 2, -1, -1));
   
-  Alignment * t_ali = makeAlignmentSet();
+  HAlignment t_ali(makeAlignmentSet());
   
-  FragmentVector * fragments = f->fragment( s1, s2, t_ali);
+  HFragmentVector fragments(f->fragment( t_ali, s1, s2 ));
 
   for (unsigned int i = 0; i < fragments->size(); i++) {
     cout << "fragment " << i << endl << *((*fragments)[i]);
   }
-
-  delete dots;
-  delete s1;
-  delete s2;
-  delete f;
-  delete t_ali;
-  
-
-  deleteFragments( fragments );
   
 }

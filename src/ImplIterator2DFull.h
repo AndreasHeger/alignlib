@@ -53,11 +53,15 @@ namespace alignlib {
       
       /** return a new iterator of same type initializes with for row and col
        */
-      virtual HIterator2D getNew( const HAlignandum & row, const HAlignandum & col ) const;
+      virtual HIterator2D getNew( 
+    		  const HAlignandum & row, 
+    		  const HAlignandum & col ) const;
 
       /** reset ranges of iterator for new row and col objects
        */
-      virtual void resetRanges( const HAlignandum & row, const HAlignandum & col );
+      virtual void resetRanges( 
+    		  const HAlignandum & row, 
+    		  const HAlignandum & col );
 
       /** return iterators for rows/columns */
       virtual const_iterator row_begin ( Position col = 0 ) const;

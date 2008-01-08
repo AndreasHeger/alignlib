@@ -15,10 +15,11 @@
 #ifndef TREETOR_H
 #define TREETOR_H 1
 
+#include "alignlib.h"
+#include "alignlib_fwd.h"
+
 namespace alignlib 
 {
-    class MultipleAlignment;
-
 /**
    base class for algorithms that generate trees. So far this class is empty
 
@@ -29,10 +30,8 @@ namespace alignlib
    @version $Id: Treetor.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short Algorithm class that generates trees.
 */ 
-
-class Tree;
-
-class Treetor {
+class Treetor 
+{
 
   /* class member functions-------------------------------------------------------------- */
  public:
@@ -48,7 +47,8 @@ class Treetor {
   virtual ~Treetor ();
 
   /** create a tree from a multiple alignment */
-  virtual Tree * calculateTree( Tree * dest, const alignlib::HMultipleAlignment src = NULL) const = 0; 
+  virtual HTree & calculateTree( HTree & dest, 
+		  const HMultipleAlignment & src) const = 0; 
 
 };
 

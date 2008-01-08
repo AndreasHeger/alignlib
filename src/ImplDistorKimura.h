@@ -57,7 +57,9 @@ class ImplDistorKimura : public ImplDistor
     virtual PhyloMatrixValue getMaximumPossibleDistance() const;
 
     /** Calculate distance between two rows from multiple alignment */
-    virtual PhyloMatrixValue calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const ;
+    virtual PhyloMatrixValue calculateDistance( 
+    		const std::string & s_row_1, 
+    		const std::string & s_row_2) const ;
 
 };
 

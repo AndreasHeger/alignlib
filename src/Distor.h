@@ -20,6 +20,7 @@
 #include <string>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 /**
    base class for methods calculating distance matrices from
@@ -39,9 +40,6 @@
 
 namespace alignlib 
 {
-class MultipleAlignment;
-
-class PhyloMatrix;
 
 class Distor 
 {
@@ -60,13 +58,17 @@ public:
 	@param multali multiple alignment of protein sequences
 	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
 	 */
-	virtual PhyloMatrix * calculateMatrix( PhyloMatrix * dest, const alignlib::HMultipleAlignment mali ) const = 0;
+	virtual HPhyloMatrix & calculateMatrix( 
+			HPhyloMatrix & dest, 
+			const HMultipleAlignment & mali ) const = 0;
 
 	/** return the maximum possible distance than can be achieved between two sequences */
 	virtual PhyloMatrixValue getMaximumPossibleDistance() const = 0;
 
 	/** Calculate distance between two rows from multiple alignment */
-	virtual PhyloMatrixValue calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const = 0;
+	virtual PhyloMatrixValue calculateDistance( 
+			const std::string & s_row_1, 
+			const std::string & s_row_2) const = 0;
 
 };
 

@@ -101,8 +101,8 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 
 			while ( 1 ) 
 			{
-				Alignator * dottor    = makeAlignatorPublishAlignment( mDots );
-				Alignator * alignator = makeAlignatorDotsSquared( mGop, mGep, dottor );
+				HAlignator dottor(makeAlignatorPublishAlignment( mDots ));
+				HAlignator alignator(makeAlignatorDotsSquared( mGop, mGep, dottor ));
 
 				HAlignment result = sample->getNew();
 				alignator->align( result, row, col );
@@ -112,10 +112,8 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 				cout << "result" << *result << endl;
 #endif
 
-				delete alignator;
-				delete dottor;
-
-				if (result->getScore() >= mMinScore) {
+				if (result->getScore() >= mMinScore) 
+				{
 					mFragments->push_back( result );
 
 					// delete dots from dot-plot. Delete all dots in region      

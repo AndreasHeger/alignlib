@@ -22,6 +22,8 @@
 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "AlignlibDebug.h"
 
 #include "HelpersScorer.h"
@@ -38,6 +40,11 @@ using namespace std;
 
 namespace alignlib 
 {
+
+	IMPLEMENT_DEFAULT( HScorer, 
+			makeScorer(),
+			getDefaultScorer,
+			setDefaultScorer )
 
 /** guess scoring object from row and col type
 
@@ -57,6 +64,7 @@ namespace alignlib
   I do not expect, that there will be that many Alignandum-objects, so I use the
   dynamics_cast - way.
  */
+
 HScorer makeScorer( const HAlignandum & row, const HAlignandum & col )
 {
 	const HImplSequence s1(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(row));  

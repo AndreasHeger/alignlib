@@ -13,6 +13,7 @@
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
 
@@ -20,19 +21,10 @@ using namespace std;
 
 namespace alignlib 
 {
-  
-  static HDistor DEFAULT_DISTOR(makeDistorClustal());  
 
-  /** gets the default Distor object */
-  const HDistor getDefaultDistor() 
-  {
-    return DEFAULT_DISTOR;
-  }
- 
-  /** sets the default Distor object */
-  void setDefaultDistor( const HDistor & distor ) 
-  {
-    DEFAULT_DISTOR = distor;
-  }            
-
-} // namespace alignlib
+	IMPLEMENT_DEFAULT( HDistor,
+			makeDistorClustal(),
+			getDefaultDistor,
+			setDefaultDistor );
+	
+  } // namespace alignlib

@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <iomanip>
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplTreetorDistanceLinkage.h"
 #include "Tree.h"
 #include "PhyloMatrix.h"
@@ -17,6 +19,7 @@
 #include "HelpersDistor.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
+#include "HelpersTreetor.h"
 
 #define MIN(x,y) (x < y ) ? x : y 
 #define MAX(x,y) (x > y ) ? x : y 
@@ -24,22 +27,27 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //------------------------------------------------------< factory functions >-----------------------------------
-Treetor * makeTreetorDistanceLinkage( LinkageType method, const Distor * distor ) {
-  if (distor == NULL) 
-    return new ImplTreetorDistanceLinkage( getDefaultDistor(), method );
-  else 
-    return new ImplTreetorDistanceLinkage( distor, method );
+HTreetor makeTreetorDistanceLinkage( 
+		const HDistor & distor,
+		LinkageType method )
+{
+	return HTreetor( new ImplTreetorDistanceLinkage( getDefaultDistor(), method ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >---------------------
-ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage ( const Distor * distor, LinkageType method ) : 
-    ImplTreetorDistance(distor), mMethod(method) {
+ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage ( 
+		const HDistor & distor, 
+		LinkageType method ) : 
+    ImplTreetorDistance(distor), mMethod(method) 
+    {
 }
 		       
-ImplTreetorDistanceLinkage::~ImplTreetorDistanceLinkage () {
+ImplTreetorDistanceLinkage::~ImplTreetorDistanceLinkage () 
+{
 }
 
 ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage (const ImplTreetorDistanceLinkage & src ) : 
@@ -47,20 +55,24 @@ ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage (const ImplTreetorDistanc
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-Node ImplTreetorDistanceLinkage::joinNodes( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2 ) const {
+Node ImplTreetorDistanceLinkage::joinNodes(
+		HTree & tree,
+		PhyloMatrixSize cluster_1, 
+		PhyloMatrixSize cluster_2 ) const 
+		{
 
   PhyloMatrixValue d_ij = (*mWorkMatrix)( cluster_1, cluster_2 );
-  TreeHeight height_1 = mTree->getHeight( mIndices[cluster_1] );
+  TreeHeight height_1 = tree->getHeight( mIndices[cluster_1] );
   TreeWeight weight_1 = d_ij / 2 - height_1;
   
-  Node new_node = mTree->joinNodes( mIndices[ cluster_1 ], 
+  Node new_node = tree->joinNodes( mIndices[ cluster_1 ], 
 					 mIndices[ cluster_2 ],
 					 weight_1, 
-					 d_ij / 2 - mTree->getHeight( mIndices[ cluster_2])
+					 d_ij / 2 - tree->getHeight( mIndices[ cluster_2])
 					 );
 
   // set the Height of the new node. This should be the same as height_2 + weight_2
-  mTree->setHeight( new_node, height_1 + weight_1);
+  tree->setHeight( new_node, height_1 + weight_1);
 
   return new_node;
 };
@@ -72,7 +84,10 @@ void ImplTreetorDistanceLinkage::calculateMinimumDistance() const {
 }
   
 //------------------------------------------------------------------------------------------------------------------------------
-void ImplTreetorDistanceLinkage::updateDistanceMatrix( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2 ) const {
+void ImplTreetorDistanceLinkage::updateDistanceMatrix(
+		const HTree & tree,
+		PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2 ) const 
+		{
 
   //------------------------------------------------------------------------------------------------------
   // calculate distance to new cluster and put them in cluster_1
@@ -105,15 +120,15 @@ void ImplTreetorDistanceLinkage::updateDistanceMatrix( PhyloMatrixSize cluster_1
 
     case AVERAGE_LINKAGE:
     case UPGMA:			
-      n_i = mTree->getNumChildren( mIndices[cluster_1] );
-      n_j = mTree->getNumChildren( mIndices[cluster_2] );
+      n_i = tree->getNumChildren( mIndices[cluster_1] );
+      n_j = tree->getNumChildren( mIndices[cluster_2] );
       n = n_i + n_j;
       new_dist = n_i * d_is / n + n_j * d_js / n;
       break;
       
     case UPGMC:
-	n_i = mTree->getNumChildren( mIndices[cluster_1] );
-	n_j = mTree->getNumChildren( mIndices[cluster_2] );
+	n_i = tree->getNumChildren( mIndices[cluster_1] );
+	n_j = tree->getNumChildren( mIndices[cluster_2] );
 	n = n_i + n_j;
 	d_ij = (*mWorkMatrix)( cluster_1, cluster_2);
       

@@ -41,7 +41,9 @@ namespace alignlib
     {
     public:
       
-      /** empty constructor */
+      /** empty constructor - for placeholder */
+      ImplScorer();
+        
       ImplScorer( const HAlignandum & row, const HAlignandum & col); 
     
       /** destructor */
@@ -52,16 +54,16 @@ namespace alignlib
 
       /** return a copy of the same scorer
        */
-      virtual HScorer getClone() const = 0;
+      virtual HScorer getClone() const;
       
       /** return a new scorer of same type initialized with row and col
        */
       virtual HScorer getNew( 
     		  const HAlignandum & row, 
-    		  const HAlignandum & col) const = 0;
+    		  const HAlignandum & col) const;
     
       virtual Score getScore( Position row,
-				 Position col ) const = 0;
+				 Position col ) const;
   };
   
 }
