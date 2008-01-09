@@ -44,14 +44,17 @@ using namespace std;
 
 using namespace alignlib;
 
-bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false) 
+bool isIdentical( 
+		const HAlignment & a, 
+		const HAlignment & b, 
+		bool inverse = false) 
 {
 
-	AlignmentConstIterator it1(a->begin());
-	AlignmentConstIterator it1_end(a->end());
+	AlignmentIterator it1(a->begin());
+	AlignmentIterator it1_end(a->end());
 
-	AlignmentConstIterator it2(b->begin());
-	AlignmentConstIterator it2_end(b->end());
+	AlignmentIterator it2(b->begin());
+	AlignmentIterator it2_end(b->end());
 
 	bool is_identical = true;
 
@@ -72,7 +75,7 @@ bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false
 }
 
 // tests for both empty and full alignments
-void TestAlignment(Alignment * a)
+void TestAlignment( HAlignment & a)
 {
 	{ 
 		cout << "testing...writing alignment...";
@@ -129,12 +132,12 @@ void TestAlignment(Alignment * a)
 
 	{
 		cout << "testing...getClone()...";
-		std::auto_ptr<Alignment>a_clone(a->getClone());
+		HAlignment a_clone(a->getClone());
 
 		if (a_clone->getScore()   == a->getScore() && 
 				a_clone->getLength()  == a->getLength() && 
 				a_clone->getNumGaps() == a->getNumGaps() &&
-				isIdentical( a, &*a_clone ) )
+				isIdentical( a, a_clone ) )
 			cout << "passed" << endl;
 		else {
 			cout << "failed" << endl;
@@ -146,7 +149,7 @@ void TestAlignment(Alignment * a)
 	{
 
 		cout << "testing...getNew()...";
-		std::auto_ptr<Alignment>a_new(a->getNew());
+		HAlignment a_new(a->getNew());
 
 		if (a_new->getScore() == 0 && 
 				a_new->getLength() == 0 && 
@@ -218,11 +221,11 @@ void TestAlignment(Alignment * a)
 	{ 
 		cout << "testing...switchRowCol()...";
 
-		std::auto_ptr<Alignment>a_clone(a->getClone());
+		HAlignment a_clone(a->getClone());
 		a_clone->switchRowCol();    
-		bool passed = isIdentical( a, &*a_clone, true );
+		bool passed = isIdentical( a, a_clone, true );
 		a_clone->switchRowCol();    
-		passed &= isIdentical( a, &*a_clone );
+		passed &= isIdentical( a, a_clone );
 
 		if (passed)
 			cout << "passed" << endl;
@@ -237,7 +240,7 @@ void TestAlignment(Alignment * a)
 
 		int i = 0;
 
-		std::auto_ptr<Alignment>a_clone(a->getClone());
+		HAlignment a_clone(a->getClone());
 
 		for (i = 0; i < a->getRowTo() + 5; i+=3) 
 			a_clone->removeRowRegion(i, i+3);       
@@ -251,7 +254,7 @@ void TestAlignment(Alignment * a)
 
 		int i = 0;
 
-		std::auto_ptr<Alignment> a_clone(a->getClone());
+		HAlignment  a_clone(a->getClone());
 
 		for (i = 0; i < a->getColTo() + 5; i+=3) 
 			a_clone->removeColRegion(i, i+3);       
@@ -264,7 +267,7 @@ void TestAlignment(Alignment * a)
 
 		int i = 0;
 
-		std::auto_ptr<Alignment>a_clone(a->getClone());
+		HAlignment a_clone(a->getClone());
 
 		AlignmentIterator it(a->begin());
 		AlignmentIterator it_end(a->end());
@@ -291,7 +294,7 @@ void TestAlignment(Alignment * a)
 }
 
 // tests that only make sense for populated alignments
-void FullTest( Alignment * a) 
+void FullTest( HAlignment & a) 
 {
 	
 	{
@@ -329,7 +332,7 @@ void FullTest( Alignment * a)
 
 //----------------------------------------------------------
 // main test routine for a pairwise alignment
-void Test( Alignment * a ) 
+void Test( HAlignment & a ) 
 {
 
 	cout << "-->testing empty alignment" << endl;
@@ -363,48 +366,40 @@ void Test( Alignment * a )
 
 int main () {
 
-	Alignment * a;
+	HAlignment a;
 
 	cout << "---------------------Testing AlignmentVector-------------------------------" << endl;
 	a = makeAlignmentVector();
 	Test( a );
-	delete a;
 
 	cout << "---------------------Testing AlignmentSet----------------------------------" << endl;
 	a = makeAlignmentSet();
 	Test( a );
-	delete a;
 
 	cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
 	a = makeAlignmentHash();
 	Test( a );
-	delete a;
 
 	cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
 	a = makeAlignmentHashDiagonal();
 	Test( a );
-	delete a;
 
 	cout << "---------------------Testing AlignmentSetCol------------------------------" << endl;
 	a = makeAlignmentSetCol();
 	Test( a );
-	delete a;
 
 	cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
 	a = makeAlignmentMatrixRow();
 	Test( a );
-	delete a;
 
 	cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
 	a = makeAlignmentMatrixDiagonal();
 	Test( a );
-	delete a;
 
 	cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
 	a = makeAlignmentMatrixUnsorted();
 	Test( a );
-	delete a;
-
+	
 	return EXIT_SUCCESS;
 }
 

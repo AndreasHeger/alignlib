@@ -30,8 +30,10 @@
 
 #include <vector>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
     /** Helper functions for class Alignment:
 	
@@ -44,14 +46,16 @@ namespace alignlib {
     
 
 /*-----------------> data structures <------------------------------ */
-struct NormalDistributionParameters {
+struct NormalDistributionParameters 
+{
     double mMean;
     double mStandardDeviation;
     double getMean() { return mMean;}
     double getStandardDeviation() { return mStandardDeviation;}
 };
 
-struct EVDParameters {
+struct EVDParameters 
+{
   double mLambda;
   double mK;
   double getLambda() { return mLambda; }
@@ -69,30 +73,20 @@ EVDParameters * makeEVDParameters();
 /*----------------> convenience functions <-------------------------- */
 
 /** iteratively align src1 and src2 and "fit" a normal distribution */
-void calculateZScoreParameters( NormalDistributionParameters * result,
-				const HAlignandum row, 
-				const HAlignandum col, 
-				Alignator * alignator,
-				unsigned int n_iterations,
-				unsigned int n_iterations_shuffle = 1,
-				Position window_size = 0);
+void calculateZScoreParameters( 
+		NormalDistributionParameters * result,
+		const HAlignandum & row, 
+		const HAlignandum & col, 
+		const HAlignator & alignator,
+		unsigned int n_iterations,
+		unsigned int n_iterations_shuffle = 1,
+		Position window_size = 0);
 
 inline Score calculateZScore( Score score, 
-				 const NormalDistributionParameters * params ) {
+				 const NormalDistributionParameters * params ) 
+{
   return ((score - params->mMean) / params->mStandardDeviation);
 }
-
-/** iteratively align src1 and src2 and fit an extreme value 
-    distribution. The fit is done using linear regression.
-*/
-void calculateEVDParameters( EVDParameters * result,
-			     const HAlignandum row, 
-			     const HAlignandum col, 
-			     Alignator * alignator,
-			     unsigned int n_iterations,
-			     unsigned int n_iterations_shuffle = 1,
-			     Position window_size = 0);
-			     
 
 }
 

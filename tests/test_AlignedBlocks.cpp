@@ -43,14 +43,17 @@ using namespace std;
 
 using namespace alignlib;
 
-bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false) 
+bool isIdentical( 
+		const HAlignment & a, 
+		const HAlignment & b, 
+		bool inverse = false) 
 {
 
-  AlignmentConstIterator it1(a->begin());
-  AlignmentConstIterator it1_end(a->end());
+  AlignmentIterator it1(a->begin());
+  AlignmentIterator it1_end(a->end());
 
-  AlignmentConstIterator it2(b->begin());
-  AlignmentConstIterator it2_end(b->end());
+  AlignmentIterator it2(b->begin());
+  AlignmentIterator it2_end(b->end());
 
   bool is_identical = true;
 
@@ -71,7 +74,7 @@ int main ()
 {
 
 	cout << "---------------------Testing fill-------------------------------" << endl;
-	Alignment * a = makeAlignmentVector();
+	HAlignment a = makeAlignmentVector();
 	fillAlignmentIdentity( a, 5, 10, 0);
 	fillAlignmentIdentity( a, 10, 15, 5);
 	fillAlignmentIdentity( a, 25, 30, -5);
@@ -84,13 +87,10 @@ int main ()
 	AlignedBlocks blocks_in;
 	stream >> blocks_in;
 	
-	Alignment * b = makeAlignmentVector();
+	HAlignment b = makeAlignmentVector();
 	blocks_in.copy( b );
 
 	assert( isIdentical( a, b) );
-	
-	delete a;
-	delete b;
 	
 	exit(EXIT_SUCCESS);
 }

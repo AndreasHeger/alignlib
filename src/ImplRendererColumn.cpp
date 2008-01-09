@@ -31,25 +31,23 @@
 #include "ImplRendererColumn.h"
 #include "HelpersRenderer.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 
 namespace alignlib {
 
 /** factory functions */
-Renderer * makeRendererColumn( const unsigned char * color_code, const TYPE_PALETTE * palette ) {
+HRenderer makeRendererColumn( const unsigned char * color_code, const TYPE_PALETTE * palette ) 
+{
     if (!palette) 
-	palette = getDefaultPalette();
+    	palette = getDefaultPalette();
 	    
-    return new ImplRendererColumn( palette, color_code );
+    return HRenderer( new ImplRendererColumn( palette, color_code ) );
 }
 	
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplRendererColumn::ImplRendererColumn ( const TYPE_PALETTE * palette, const unsigned char * color_code ) : 
-    ImplRenderer( palette ),
+    ImplRendererPalette( palette ),
     mColorCode( color_code ) {
 }
 		       
@@ -57,8 +55,9 @@ ImplRendererColumn::~ImplRendererColumn () {
 }
 
 ImplRendererColumn::ImplRendererColumn (const ImplRendererColumn & src ) : 
-    ImplRenderer( src ), 
-    mColorCode( src.mColorCode ) {
+    ImplRendererPalette( src ), 
+    mColorCode( src.mColorCode ) 
+    {
 }
 
 #define LENGTH_FACTOR 50	// number of bytes per character needed for HTML-encoding

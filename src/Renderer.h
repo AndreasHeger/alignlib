@@ -31,9 +31,10 @@
 #include <string>
 #include "alignlib.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
-typedef char TYPE_PALETTE[10];
+	typedef char TYPE_PALETTE[10];
  
 /** @short Interface definition of Renderer objects.
    
@@ -49,7 +50,8 @@ typedef char TYPE_PALETTE[10];
     @author Andreas Heger
     @version $Id: Renderer.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class Renderer {
+class Renderer 
+{
 
  public:
     // constructors and desctructors

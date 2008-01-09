@@ -19,6 +19,7 @@
 #include <string>
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Tree.h"
 
 // define new tags for our graphs attributes
@@ -83,10 +84,10 @@ class ImplTree : public Tree
 
   //------------------------------------------------------------------------------------------------------------
   /** return a new object of the same type */
-  virtual ImplTree * getNew() const;
+  virtual HTree getNew() const;
   
   /** return an identical copy */
-  virtual ImplTree * getClone() const;
+  virtual HTree getClone() const;
   
   /* member access functions--------------------------------------------------------------- */
 
@@ -128,19 +129,19 @@ class ImplTree : public Tree
   virtual Node getNumChildren( Node node) const;
 
   /** returns a vector of leaves nodes */
-  virtual NodeVector * getNodesLeaves() const;
+  virtual HNodeVector getNodesLeaves() const;
 
   /** returns a vector of nodes sorted according to breadth-first-traversal, first encounter */
-  virtual NodeVector * getNodesBreadthFirstFinish() const;
+  virtual HNodeVector getNodesBreadthFirstFinish() const;
 
   /** returns a vector of nodes sorted according to breadth-first-traversal, last encounter */
-  virtual NodeVector * getNodesBreadthFirstVisit() const;
+  virtual HNodeVector getNodesBreadthFirstVisit() const;
 
   /** returns a vector of nodes sorted according to depth-first-traversal, first encounter */
-  virtual NodeVector * getNodesDepthFirstVisit() const;
+  virtual HNodeVector getNodesDepthFirstVisit() const;
 
   /** returns a vector of nodes sorted according to depth-first-traversal, last encounter */
-  virtual NodeVector * getNodesDepthFirstFinish() const;
+  virtual HNodeVector getNodesDepthFirstFinish() const;
 
   /* ---------------------------------------------------------------------------------------- */
   /** removes the root */
@@ -187,7 +188,7 @@ class ImplTree : public Tree
   virtual void recordLeaves() ;
   
   /** helper function for recursive postorder traversal */
-  void traversePostOrder( Node node, NodeVector * nodes) const;
+  void traversePostOrder( Node node, HNodeVector & nodes) const;
 
 };
 

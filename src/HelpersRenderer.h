@@ -47,18 +47,17 @@ namespace alignlib
 	3. convenience functions
     */
 
-    class Renderer;
-    
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 
     /** factory functions */
-    /** note: the consensus has to live as long as the renderer is used!! */
-    Renderer * makeRendererMView(const std::string & consensus);
+    HRenderer makeRenderer();
+    
+    HRenderer makeRendererMView(const std::string & consensus);
 
     /** Render each position in multiple alignment according to color_code. The color_code has to live as long as the
 	renderer is used */
-    Renderer * makeRendererColumn(const unsigned char * color_code, const char * palette = NULL);
+    HRenderer makeRendererColumn(const unsigned char * color_code, const char * palette = NULL);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */

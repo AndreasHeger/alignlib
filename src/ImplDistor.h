@@ -30,7 +30,8 @@
    @short base class for calculating distance matrices from sequences
 */ 
 
-namespace alignlib {
+namespace alignlib 
+{
 
 class ImplDistor : public Distor 
 {

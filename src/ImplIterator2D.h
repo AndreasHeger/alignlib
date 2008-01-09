@@ -29,17 +29,19 @@
 #define IMPLITERATOR2D_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+
 #include "Iterator2D.h"
+
 namespace alignlib
 {
 
-  class Alignandum;
-  
   class ImplIterator2D : public Iterator2D
     {
     public:
       
       /** empty constructor */
+      ImplIterator2D();     	
       ImplIterator2D( const HAlignandum & row, const HAlignandum & col); 
     
       /** destructor */
@@ -50,7 +52,7 @@ namespace alignlib
 
       /** reset ranges of iterator for new row and col objects
        */
-      virtual void resetRanges( const HAlignandum row, const HAlignandum col );
+      virtual void resetRanges( const HAlignandum & row, const HAlignandum & col );
 
       /** return iterators for rows/columns */
       virtual const_iterator row_begin ( Position col = NO_POS) const;

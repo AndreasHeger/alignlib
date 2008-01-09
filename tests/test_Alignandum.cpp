@@ -59,7 +59,7 @@ void checkingEnd( bool passed = true)
 		std::cout << "failed" << std::endl;
 }
 
-void runTests( Alignandum * a, const std::string & sample )
+void runTests( HAlignandum & a, const std::string & sample )
 {
 	
 	const HTranslator translator = a->getTranslator();
@@ -79,7 +79,7 @@ void runTests( Alignandum * a, const std::string & sample )
 	// check that useSegment does not interfere with output
 	checkingStart( "segments" );
 	{
-		std::auto_ptr<Alignandum>clone(a->getClone());
+		HAlignandum clone(a->getClone());
 		Position from = 0;
 		Position to = sample.size();
 		clone->useSegment( from, to);
@@ -107,7 +107,7 @@ void runTests( Alignandum * a, const std::string & sample )
 	{
 		ifstream file("test_Alignandum.tmp", ios::binary) ;
 		
-		Alignandum * b = NULL;
+		HAlignandum b;
 		int n = 0;
 		while ( b = loadAlignandum( file ) ) 
 		{
@@ -116,7 +116,6 @@ void runTests( Alignandum * a, const std::string & sample )
 			assert( a->getTo() == a->getTo() );
 			assert( a->asString() == b->asString() );
 			++n; 
-			delete b;
 		}
 		assert( n == 2 );
 	}
@@ -125,7 +124,7 @@ void runTests( Alignandum * a, const std::string & sample )
 	// check masking
 	checkingStart( "masking" );
 	{
-		std::auto_ptr<Alignandum>clone(a->getClone());
+		HAlignandum clone(a->getClone());
 		
 		a->mask( 0, a->getLength() );
 		for (Position p = 0; p < a->getLength(); ++p)
@@ -138,7 +137,7 @@ void runTests( Alignandum * a, const std::string & sample )
 	
 }
 
-void testAlignandum( Alignandum * a, const std::string & sample )
+void testAlignandum( HAlignandum & a, const std::string & sample )
 {
 	std::cout << "--- testing fresh --- " << std::endl;
 	runTests( a, sample);
@@ -157,18 +156,18 @@ int main ()
 	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
 	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
 	{
-		std::auto_ptr<Alignandum>a(makeSequence( "ACA") );
-		testAlignandum( &*a, "ACA" );
+		HAlignandum a(makeSequence( "ACA") );
+		testAlignandum( a, "ACA" );
 	}
 
 	{
-		std::auto_ptr<Alignandum>a(makeSequence( ref_protein20 ) );
-		testAlignandum( &*a, ref_protein20 );    
+		HAlignandum a(makeSequence( ref_protein20 ) );
+		testAlignandum( a, ref_protein20 );    
 	}
 
 	{
-		std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3) );
-		testAlignandum( &*a, ref_protein20  );    
+		HAlignandum a(makeProfile( ref_protein20x3, 3) );
+		testAlignandum( a, ref_protein20  );    
 	}
 	
 	return EXIT_SUCCESS;

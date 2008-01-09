@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplRendererColumn.h,v 1.2 2004/01/07 14:35:36 aheger Exp $
+  $Id: ImplRenderer.h,v 1.2 2004/01/07 14:35:36 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -25,53 +25,52 @@
 #include <config.h>
 #endif
 
-#ifndef IMPL_RENDERER_COLUMN_H
-#define IMPL_RENDERER_COLUMN_H 1
+#ifndef IMPL_RENDERER_PALETTE_H
+#define IMPL_RENDERER_PALETTE_H 1
 
 #include "alignlib.h"
-#include "ImplRendererPalette.h"
+#include "alignlib_fwd.h"
+#include "ImplRenderer.h"
 
 namespace alignlib 
 {
 
- /** render one string into another
-     0 = default color
-   
+ /** render on string into another
+      
       @author Andreas Heger
-      @version $Id: ImplRendererColumn.h,v 1.2 2004/01/07 14:35:36 aheger Exp $
+      @version $Id: ImplRenderer.h,v 1.2 2004/01/07 14:35:36 aheger Exp $
       @short protocol class for log-odders
       
   */
-    
-class ImplRendererColumn : public ImplRendererPalette 
+
+class ImplRendererPalette : public ImplRenderer 
 {
 
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplRendererColumn( const TYPE_PALETTE * palette, const unsigned char * color_code );
+    ImplRendererPalette (const TYPE_PALETTE * palette );
     
     /** copy constructor */
-    ImplRendererColumn  (const ImplRendererColumn &);
+    ImplRendererPalette  (const ImplRendererPalette &);
 
     /** destructor */
-    virtual ~ImplRendererColumn ();
+    virtual ~ImplRendererPalette ();
 
     // render one string into a different representation
     virtual std::string render( const std::string & representation, 			      
 				Position segment_start, 
-				Position segment_end ) const ;
+				Position segment_end ) const = 0;
     
- private:
-    /** the consensus string according which to color */
-    const unsigned char * mColorCode;
-
-
+ protected:
+    /** the palette used for coloring */
+    const TYPE_PALETTE * mPalette;
+    
 };
 
  
 }
 
-#endif /* IMPL_RENDERER_MVIEW_H */
+#endif /* IMPL_RENDERER_H */
 

@@ -57,7 +57,7 @@ std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 
 void test_GenericRegularizor( const HRegularizor & r )
 {	
-	std::auto_ptr<Alignandum>a(makeProfile( ref_protein20x3, 3,
+	HAlignandum a(makeProfile( ref_protein20x3, 3,
 			getDefaultTranslator(), 
 			getDefaultWeightor(), 
 			makeRegularizor(), 

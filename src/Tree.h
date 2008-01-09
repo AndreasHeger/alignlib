@@ -19,6 +19,7 @@
 #include <string>
 #include <vector>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 /** 
     Base class for trees.
@@ -73,10 +74,8 @@
 namespace alignlib 
 {
 
-class TreeIterator;
-typedef std::vector<Node> NodeVector;
-
-class Tree {
+class Tree 
+{
   
   /* friends---------------------------------------------------------------------------- */
   friend std::ostream & operator<<( std::ostream &, const Tree &);
@@ -95,10 +94,10 @@ class Tree {
 
   //------------------------------------------------------------------------------------------------------------
   /** return a new object of the same type */
-  virtual Tree * getNew() const = 0;
+  virtual HTree getNew() const = 0;
   
   /** return an identical copy */
-  virtual Tree * getClone() const = 0;
+  virtual HTree getClone() const = 0;
   
   /* member access functions--------------------------------------------------------------- */
 
@@ -140,19 +139,19 @@ class Tree {
   virtual Node getNumChildren( Node node ) const = 0;
 
   /** returns a vector of leaves nodes */
-  virtual NodeVector * getNodesLeaves() const = 0;
+  virtual HNodeVector getNodesLeaves() const = 0;
 
   /** returns a vector of nodes sorted according to breadth-first-traversal, first encounter */
-  virtual NodeVector * getNodesBreadthFirstFinish() const = 0;
+  virtual HNodeVector getNodesBreadthFirstFinish() const = 0;
 
   /** returns a vector of nodes sorted according to breadth-first-traversal, last encounter */
-  virtual NodeVector * getNodesBreadthFirstVisit() const = 0;
+  virtual HNodeVector getNodesBreadthFirstVisit() const = 0;
 
   /** returns a vector of nodes sorted according to depth-first-traversal, first encounter */
-  virtual NodeVector * getNodesDepthFirstVisit() const = 0;
+  virtual HNodeVector getNodesDepthFirstVisit() const = 0;
 
   /** returns a vector of nodes sorted according to depth-first-traversal, last encounter */
-  virtual NodeVector * getNodesDepthFirstFinish() const = 0;
+  virtual HNodeVector getNodesDepthFirstFinish() const = 0;
 
   /* ---------------------------------------------------------------------------------------- */
   /** removes the root */

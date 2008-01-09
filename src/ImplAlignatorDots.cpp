@@ -44,15 +44,14 @@ using namespace std;
 namespace alignlib
 {
 
-#define NODOT -1
-
   /*---------------------factory functions ---------------------------------- */
 
   //----------------------------------------------------------------------------------------------------------
   /** constructors and destructors */
-  ImplAlignatorDots::ImplAlignatorDots( Score row_gop, Score row_gep, 
-      Score col_gop, Score col_gep,
-      Alignator * dots) :
+  ImplAlignatorDots::ImplAlignatorDots( 
+		  const HAlignator & dots,
+		  Score row_gop, Score row_gep, 
+      Score col_gop, Score col_gep ) :
         ImplAlignator(), mDottor (dots),
         mRowGop( row_gop ), mRowGep( row_gep ),
         mColGop( col_gop ), mColGep( col_gep )
@@ -205,8 +204,8 @@ namespace alignlib
     int x     = mRowIndices[r];     
     bool found = false;  
 
-    if ( x == NODOT ) 
-      return NODOT;  
+    if ( x == NO_POS ) 
+      return NO_POS;  
 
     while ((*mPairs)[x]->mRow == r ) {         
       if ((*mPairs)[x]->mCol == c) {             
@@ -219,7 +218,7 @@ namespace alignlib
     if (found)         
       return x;     
     else         
-      return NODOT; 
+      return NO_POS; 
   }
 
   //----------------------------------------------------------------------------------------------------------------------------------------

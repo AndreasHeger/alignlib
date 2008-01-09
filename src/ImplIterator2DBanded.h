@@ -40,10 +40,14 @@ namespace alignlib
     public:
       
       /** constructor */
-      ImplIterator2DBanded( const HAlignandum & row,
-			    const HAlignandum & col,
-			    const Diagonal lower_diagonal = 0,
-			    const Diagonal upper_diagonal = 0); 
+        ImplIterator2DBanded( 
+  			    const Diagonal lower_diagonal = 0,
+  			    const Diagonal upper_diagonal = 0); 
+
+        ImplIterator2DBanded( const HAlignandum & row,
+  			    const HAlignandum & col,
+  			    const Diagonal lower_diagonal = 0,
+  			    const Diagonal upper_diagonal = 0); 
     
       /** destructor */
       virtual ~ImplIterator2DBanded ();

@@ -30,6 +30,7 @@
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "LogOddor.h"
 
 namespace alignlib 
@@ -54,7 +55,7 @@ namespace alignlib
 
     HLogOddor makeLogOddorUniform( const Score & scale_factor = 1.0, const Score & mask_value = -10);
 
-    HLogOddor makeLogOddorBackground( const FrequencyVector & frequencies,
+    HLogOddor makeLogOddorBackground( const HFrequencyVector & frequencies,
     									const Score & scale_factor = 1.0,
     									const Score & mask_value = -10);
 
@@ -62,23 +63,15 @@ namespace alignlib
      * 
      * see Gribskov et al. (1987) PNAS 84: 4355-4358
      */
-    HLogOddor makeLogOddorGribskov( const SubstitutionMatrix * matrix,
+    HLogOddor makeLogOddorGribskov( const HSubstitutionMatrix & matrix,
     		const Score & scale_factor = 1.0,
     		const Score & mask_value = -10 ); 
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
 
-    /** gets the default LogOddor object */ 
-    const HLogOddor getDefaultLogOddor();
-
-    /** sets the default LogOddor object 
-     * 
-     * The library obtains ownership of the logoddor 
-     * */
-    void setDefaultLogOddor( const HLogOddor & logoddor);
+    DEFINE_DEFAULT( HLogOddor, getDefaultLogOddor, setDefaultLogOddor );
     
-
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
     

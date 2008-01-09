@@ -103,7 +103,7 @@ HMultipleAlignment & fillMultipleAlignment(
 		memcpy( buffer, &sequences[i], length);
 		buffer[length] = '\0';
 
-		HAlignatum a(makeAlignatumFromString( buffer ));
+		HAlignatum a(makeAlignatum( buffer ));
 
 		if (a->getAlignedLength() != 0)
 			ali->add( a );

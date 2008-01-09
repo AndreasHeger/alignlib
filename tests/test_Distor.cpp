@@ -35,35 +35,26 @@
 using namespace std;
 using namespace alignlib;
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 int main ()
 {
   // create a multiple alignment
-  alignlib::MultipleAlignment * mali = alignlib::makeMultipleAlignment();
-  mali->add(alignlib::makeAlignatumFromString("-AADDAACCAAA-"));
-  mali->add(alignlib::makeAlignatumFromString("AAKKAA-CCAAAA"));
-  mali->add(alignlib::makeAlignatumFromString("-A-AAA-CCA-A-"));
-  mali->add(alignlib::makeAlignatumFromString("AAAGAAA--AAAA"));     
+  HMultipleAlignment mali(makeMultipleAlignment());
+  mali->add(alignlib::makeAlignatum("-AADDAACCAAA-"));
+  mali->add(alignlib::makeAlignatum("AAKKAA-CCAAAA"));
+  mali->add(alignlib::makeAlignatum("-A-AAA-CCA-A-"));
+  mali->add(alignlib::makeAlignatum("AAAGAAA--AAAA"));     
 
-  PhyloMatrix * matrix = makePhyloMatrixSymmetric(4, 0);
+  HPhyloMatrix matrix(makePhyloMatrixSymmetric(4, 0));
 
   cout << *matrix << endl;
 
-  Distor * d1 = makeDistorKimura();
+  HDistor d1(makeDistorKimura());
   d1->calculateMatrix( matrix, mali );
   cout << *matrix << endl;
 
-  Distor * d2 = makeDistorClustal();
+  HDistor d2(makeDistorClustal());
   d2->calculateMatrix( matrix, mali );
   cout << *matrix << endl;
-
-  delete d1;
-  delete d2;
-  delete matrix;
-  delete mali;
 
   return (EXIT_SUCCESS);
 

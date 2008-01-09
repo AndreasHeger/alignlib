@@ -17,6 +17,7 @@
 #define IMPL_DISTOR_DUMMY_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplDistor.h"
 
 /**
@@ -32,15 +33,12 @@
 namespace alignlib 
 {
 
-class MultipleAlignment;
-class PhyloMatrix;
-
 class ImplDistorDummy : public ImplDistor 
 {
 
  public:
     // constructors and desctructors
-    ImplDistorDummy  (const PhyloMatrix * matrix);
+    ImplDistorDummy  (const HPhyloMatrix & matrix);
 
     ImplDistorDummy  (const ImplDistorDummy &);
 
@@ -53,14 +51,15 @@ class ImplDistorDummy : public ImplDistor
 	@param multali multiple alignment of protein sequences
 	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
      */
-    virtual PhyloMatrix * calculateMatrix( PhyloMatrix * dest, const alignlib::HMultipleAlignment mali ) const ;
+    virtual HPhyloMatrix & calculateMatrix( HPhyloMatrix & dest, 
+    		const alignlib::HMultipleAlignment mali ) const ;
 
     /** Calculate distance between two rows from multiple alignment */
     virtual PhyloMatrixValue calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const;
 
  private:
     /** the matrix for the source. I do not own it. */
-    const PhyloMatrix * mMatrix;
+    const HPhyloMatrix mMatrix;
 };
 
 

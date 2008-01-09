@@ -37,37 +37,34 @@
 
 #include "HelpersSubstitutionMatrix.h"
 
+#include "HelpersAlignator.h"
 #include "Alignment.h"
 #include "HelpersAlignment.h"
-
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 
 namespace alignlib 
 {
 
-#define NODOT -1
-
 /*---------------------factory functions ---------------------------------- */
 
     /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
-Alignator * makeAlignatorDotsSquared(Score gop, Score gep, Alignator * alignator )
+HAlignator makeAlignatorDotsSquared( 
+		const HAlignator & alignator, 
+		Score gop, 
+		Score gep )
 {
-  return new ImplAlignatorDotsSquared( gop, gep, gop, gep, alignator );
+  return HAlignator( new ImplAlignatorDotsSquared( alignator, gop, gep, gop ) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
     /** constructors and destructors */
 ImplAlignatorDotsSquared::ImplAlignatorDotsSquared( 
-				      Score row_gop, Score row_gep, 
-				      Score col_gop, Score col_gep,
-				      Alignator * dots) :
-    ImplAlignatorDots( row_gop - row_gep, row_gep, col_gop - col_gep, col_gep, dots) 
+	      const HAlignator & dots,		
+	      Score row_gop, Score row_gep, 
+	      Score col_gop, Score col_gep ) :
+    ImplAlignatorDots( dots, row_gop - row_gep, row_gep, col_gop - col_gep, col_gep ) 
     {
 }
 
@@ -141,7 +138,7 @@ void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
 
     debug_func_cerr(5);
     
-  Dot global_best_dot = NODOT;
+  Dot global_best_dot = NO_POS;
   Score global_best_score = 0;
 
   // create data structure for search region
@@ -154,7 +151,7 @@ void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
   vector<Score> scores(mNDots,0);
 
   // array with dots in current row
-  vector<Dot> dot_stack(mColLength, NODOT);
+  vector<Dot> dot_stack(mColLength, NO_POS);
 
   unsigned int num_row_dots = 0;
   Position last_row = 0;
@@ -177,7 +174,7 @@ void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
     /* search search-area: always lookup starting at col 1 until current_col - 1. Try to find
        a positive trace leading to current dot. If it were negative, it would not be part of
        the optimum alignment up to current_dot. */
-    Dot search_best_dot   = NODOT;
+    Dot search_best_dot   = NO_POS;
     Score search_best_score = 0;
 
 #ifdef DEBUG
@@ -207,7 +204,7 @@ void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
       }
 
     /* no positive trace found, new trace starts at current dot */
-    if (search_best_dot == NODOT)
+    if (search_best_dot == NO_POS)
       search_best_score = (*mPairs)[current_dot]->mScore;
     else
       search_best_score += (*mPairs)[current_dot]->mScore;
@@ -216,7 +213,7 @@ void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
     debug_cerr( 5, "search_best_dot=" << search_best_dot << " search_best_score=" << search_best_score );
     
 #ifdef DEBUG
-    if (search_best_dot != NODOT) 
+    if (search_best_dot != NO_POS) 
       debug_cerr( 5, "gap_cost=" << getGapCost(search_best_dot, current_dot) );
 #endif
     

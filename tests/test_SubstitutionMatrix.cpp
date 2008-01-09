@@ -37,9 +37,9 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 
+#include "Matrix.h"
 #include "Translator.h"
 #include "HelpersTranslator.h"
-
 #include "HelpersSubstitutionMatrix.h"
 
 using namespace std;
@@ -49,11 +49,11 @@ int main ()
 {
 
   const HTranslator translator = getDefaultTranslator();
-  const SubstitutionMatrix * matrix = getDefaultSubstitutionMatrix();
+  const HSubstitutionMatrix matrix = getDefaultSubstitutionMatrix();
     
   std::string alphabet = translator->getAlphabet();
   
-  Alignandum * seq1 = makeSequence( alphabet );
+  HAlignandum seq1 = makeSequence( alphabet );
   
   for (int x = 0; x < seq1->getLength(); ++x)
   {
@@ -62,8 +62,6 @@ int main ()
 		  continue;
 	  assert( matrix->getValue(r,r) > 0);
   }
-  
-  delete seq1; 
   
   exit(EXIT_SUCCESS);
   

@@ -23,6 +23,7 @@
 #include <time.h> 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
@@ -35,10 +36,7 @@
 #include "HelpersTree.h"
 #include "Treetor.h"
 #include "HelpersTreetor.h"
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include "Matrix.h"
 
 using namespace std;
 using namespace alignlib;
@@ -68,37 +66,37 @@ PhyloMatrixValue source_nj[] =  { 0.0, 0.3, 0.5, 0.6,
 				   0.5, 0.6, 0.0, 0.9,
 				   0.6, 0.5, 0.9, 0.0 };
 
-void testTreetor( Treetor * treetor ) {
+void testTreetor( HTreetor & treetor ) 
+{
 
-  Tree * tree = makeTree();
+  HTree tree (makeTree() );
   
   // create a multiple alignment
-  alignlib::MultipleAlignment * mali = alignlib::makeMultipleAlignment();
-  mali->add(alignlib::makeAlignatumFromString("-AADDAACCAAA-"));
-  mali->add(alignlib::makeAlignatumFromString("AAKKAA-CCAAAA"));
-  mali->add(alignlib::makeAlignatumFromString("-A-AAA-CCA-A-"));
-  mali->add(alignlib::makeAlignatumFromString("AAAGAAA--AAAA"));     
+  HMultipleAlignment mali = makeMultipleAlignment();
+  mali->add(makeAlignatum("-AADDAACCAAA-"));
+  mali->add(makeAlignatum("AAKKAA-CCAAAA"));
+  mali->add(makeAlignatum("-A-AAA-CCA-A-"));
+  mali->add(makeAlignatum("AAAGAAA--AAAA"));     
 
   treetor->calculateTree( tree, mali );
   cout << *tree << endl;
   // writeNewHampshire( cout, tree);
-  delete mali;
 
 }
 
-int main () {
+int main () 
+{
 
   /* test different tree building algorithms */
   
-  Treetor * treetor;
-  Distor * distor;
-  PhyloMatrix * matrix;
+	HTreetor treetor;
+	HDistor distor;
+	HPhyloMatrix matrix;
 
   //------------------------> Test 1<-----------------------------------------
   cout << "Test 1: create a tree from a multiple alignment:" << endl;
-  treetor = makeTreetorDistanceLinkage();
+  treetor = makeTreetorDistanceLinkage( getDefaultDistor() );
   testTreetor( treetor );
-  delete treetor;
   
   //------------------------> Test 2<-----------------------------------------
   cout << "Test 2: creating a tree from a distance matrix:" << endl;
@@ -106,11 +104,8 @@ int main () {
   fillPhyloMatrix( matrix, source_linkage );
   
   distor = makeDistorDummy( matrix );
-  treetor = makeTreetorDistanceLinkage( UPGMA, distor );
+  treetor = makeTreetorDistanceLinkage( distor, UPGMA );
   testTreetor( treetor );
-  delete distor;
-  delete matrix;
-  delete treetor;
   
   //------------------------> Test 2<-----------------------------------------
   cout << "Test 3: creating a tree from a distance matrix:" << endl;
@@ -120,10 +115,7 @@ int main () {
   distor = makeDistorDummy( matrix );
   treetor = makeTreetorDistanceNJ( distor );
   testTreetor( treetor );
-  delete distor;
-  delete matrix;
-  delete treetor;
-
+  
   exit(EXIT_SUCCESS);
 
 }

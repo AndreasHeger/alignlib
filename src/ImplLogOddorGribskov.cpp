@@ -31,14 +31,14 @@
 namespace alignlib 
 {
 //---------------------------------------------------------< factory functions >--------------------------------------
-HLogOddor makeLogOddorGribskov( const SubstitutionMatrix * matrix,
+HLogOddor makeLogOddorGribskov( const HSubstitutionMatrix & matrix,
 		const Score & scale, const Score & mask_value )
 {
 	return HLogOddor( new ImplLogOddorGribskov( matrix, scale, mask_value ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplLogOddorGribskov::ImplLogOddorGribskov ( const SubstitutionMatrix * matrix,
+ImplLogOddorGribskov::ImplLogOddorGribskov ( const HSubstitutionMatrix & matrix,
 		const Score & scale_factor, const Score & mask_value ) :
 	ImplLogOddor( scale_factor, mask_value ),
 	mSubstitutionMatrix( matrix )

@@ -54,11 +54,12 @@ class ImplAlignatorDotsSquared : public ImplAlignatorDots
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorDotsSquared( Score row_gop, 
-			      Score row_gep, 
-			      Score col_gop = 0,
-			      Score col_gep = 0,
-			      Alignator * dottor = NULL );
+    ImplAlignatorDotsSquared(
+    		const HAlignator & dottor,    		
+    		Score row_gop, 
+    		Score row_gep, 
+    		Score col_gop = 0,
+    		Score col_gep = 0 );
 
     /** copy constructor */
     ImplAlignatorDotsSquared( const ImplAlignatorDotsSquared & );

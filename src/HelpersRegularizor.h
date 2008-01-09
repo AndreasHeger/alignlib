@@ -28,13 +28,12 @@
 #ifndef HELPERS_REGULARIZOR_H
 #define HELPERS_REGULARIZOR_H 1
 
-#include "alignlib_fwd.h"
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 
 namespace alignlib 
 {
-
-	class Regularizor;
 
     /** Helper functions for class Alignment:
 	
@@ -74,14 +73,8 @@ namespace alignlib
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
-
-    /** gets the default Regularizor object */ 
-    const HRegularizor getDefaultRegularizor();
-
-    /** sets the default Regularizor object 
-     * The library obtains ownership of the regularizor
-     * */
-    void setDefaultRegularizor( const HRegularizor regularizor);
+    
+    DEFINE_DEFAULT( HRegularizor, getDefaultRegularizor, setDefaultRegularizor );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */

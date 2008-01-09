@@ -19,12 +19,15 @@ using namespace std;
 namespace alignlib {
 
 //-------------------------> factory functions <-------------------------------------------------------------------------------
-Distor * makeDistorDummy( const PhyloMatrix * matrix) {
-  return new ImplDistorDummy( matrix);
+HDistor makeDistorDummy( const HPhyloMatrix & matrix) 
+{
+  return HDistor( new ImplDistorDummy( matrix) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplDistorDummy::ImplDistorDummy ( const PhyloMatrix * matrix) : ImplDistor(), mMatrix(matrix) {
+ImplDistorDummy::ImplDistorDummy ( const HPhyloMatrix & matrix) : 
+	ImplDistor(), mMatrix(matrix) 
+{
 }
 		       
 ImplDistorDummy::~ImplDistorDummy () 
@@ -32,7 +35,9 @@ ImplDistorDummy::~ImplDistorDummy ()
 	debug_func_cerr( 5 );
 }
 
-ImplDistorDummy::ImplDistorDummy (const ImplDistorDummy & src ) : ImplDistor( src ), mMatrix(src.mMatrix) {
+ImplDistorDummy::ImplDistorDummy (const ImplDistorDummy & src ) : 
+	ImplDistor( src ), mMatrix(src.mMatrix) 
+{
 }
 
 
@@ -43,7 +48,8 @@ PhyloMatrixValue ImplDistorDummy::getMaximumPossibleDistance() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrix * ImplDistorDummy::calculateMatrix( PhyloMatrix * matrix, const alignlib::HMultipleAlignment multali) const 
+HPhyloMatrix & ImplDistorDummy::calculateMatrix( HPhyloMatrix & matrix, 
+		const alignlib::HMultipleAlignment multali) const 
 {
 	debug_func_cerr( 5 );
 
@@ -54,8 +60,8 @@ PhyloMatrix * ImplDistorDummy::calculateMatrix( PhyloMatrix * matrix, const alig
 
     // This is definitely not efficient
     for (i = 0; i < width - 1; i++) 
-	for (j = i + 1; j < width; j++) 
-	    (*matrix)(i, j) = (*mMatrix)(i, j);
+    	for (j = i + 1; j < width; j++) 
+    		(*matrix)(i, j) = (*mMatrix)(i, j);
     
     return matrix;
 } 

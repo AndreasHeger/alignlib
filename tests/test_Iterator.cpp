@@ -48,14 +48,10 @@
 #include "Iterator2D.h"
 #include "HelpersIterator2D.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 using namespace alignlib;
 
-void Print( Iterator2D * iterator )
+void Print( HIterator2D & iterator )
 {
     {
       Iterator2D::const_iterator ir( iterator->row_begin()), ir_end( iterator->row_end() );
@@ -94,28 +90,26 @@ void Print( Iterator2D * iterator )
 
 int main () {
 
-	Alignandum * seq1 = makeSequence( "ACDEFGHIKL");
-	Alignandum * seq2 = makeSequence( "ACDEFGHIKLMN");	  
+	HAlignandum seq1(makeSequence( "ACDEFGHIKL"));
+	HAlignandum seq2(makeSequence( "ACDEFGHIKLMN"));	  
 
 	{
 		std::cout << "--------------------- testing Iterator2DFull ----------------------------------" << std::endl;
-		Iterator2D * iterator = makeIterator2DFull( seq1, seq2);
+		HIterator2D iterator(makeIterator2DFull( seq1, seq2));
 		assert( iterator->row_size() == seq1->getLength() ); 
 		assert( iterator->col_size() == seq2->getLength() );
 		Print( iterator );        
-		delete iterator;
 	}
 
 	{
 		std::cout << "--------------------- testing Iterator2DFull with useSegment ----------------------------------" << std::endl;
 		seq1->useSegment( 3, 6);
-		Iterator2D * iterator = makeIterator2DFull( seq1, seq2);
+		HIterator2D iterator(makeIterator2DFull( seq1, seq2));
 		assert( iterator->row_size() == 3 );
                 assert( iterator->row_front() == 3 );
                 assert( iterator->row_back() == 5 );                
 		assert( iterator->col_size() == seq2->getLength() );
 		Print( iterator );        
-		delete iterator;
 		seq1->useSegment();
 		seq2->useSegment( 3, 6);
 		iterator = makeIterator2DFull( seq1, seq2);
@@ -124,50 +118,43 @@ int main () {
                 assert( iterator->col_front() == 3 );
                 assert( iterator->col_back() == 5 );                		
 		Print( iterator );        
-		
+	
 		  {
-		    std::auto_ptr<Iterator2D> iterator2(iterator->getNew( seq1, seq2));
+		    HIterator2D iterator2(iterator->getNew( seq1, seq2));
 	            assert( iterator2->row_size() == seq1->getLength() ); 
 	                assert( iterator2->col_size() == 3);
 	                assert( iterator2->col_front() == 3 );
 	                assert( iterator2->col_back() == 5 );
 		  }
 		
-		delete iterator;
-                seq2->useSegment();
+		  seq2->useSegment();
 	}
 
 
 	{
 		std::cout << "--------------------- testing Iterator2DBanded with diagonals -2, 1 -----" << std::endl;    
-		Iterator2D * iterator = makeIterator2DBanded( seq1, seq2, -2, 1);
+		HIterator2D iterator = makeIterator2DBanded( seq1, seq2, -2, 1);
 		std::cout << "lengths" << std::endl;
 		std::cout << iterator->row_size() << iterator->row_front() << " " << iterator->row_back() << std::endl;
 		std::cout << seq1->getLength() << std::endl;
 		assert( iterator->row_size() == seq1->getLength() ); 
 		assert( iterator->col_size() == seq2->getLength() -1);
 		Print( iterator );
-		delete iterator;
 	}
 
 	{
 		std::cout << "--------------------- testing Iterator2DBanded with diagonals -4, -2 -----" << std::endl;    
-		Iterator2D * iterator = makeIterator2DBanded( seq1, seq2, -4, -2);
+		HIterator2D iterator(makeIterator2DBanded( seq1, seq2, -4, -2));
 		assert( iterator->row_size() == seq1->getLength() -2); 
 		assert( iterator->col_size() == seq2->getLength() -4 );
 		Print( iterator );
-		delete iterator;
 	}
 
 	{
 		std::cout << "--------------------- testing Iterator2DBanded with diagonals 2, 4 -----" << std::endl;    
-		Iterator2D * iterator = makeIterator2DBanded( seq1, seq2, 2, 4);
+		HIterator2D iterator = makeIterator2DBanded( seq1, seq2, 2, 4);
 		assert( iterator->row_size() == seq1->getLength() ); 
 		assert( iterator->col_size() == seq2->getLength() -2);
 		Print( iterator );
-		delete iterator;
 	}
-	
-	delete seq1;
-
 }

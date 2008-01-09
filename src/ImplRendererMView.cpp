@@ -30,13 +30,10 @@
 #include "Renderer.h"
 #include "ImplRendererMView.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 
   const TYPE_PALETTE MVIEW_COLORS[27] = {
@@ -69,21 +66,24 @@ namespace alignlib {
 		  /*Z*/	"#000000" };
 
 /** factory functions */
-Renderer * makeRendererMView( const std::string & consensus) {
+  HRenderer makeRendererMView( const std::string & consensus) 
+  {
 
-  return new ImplRendererMView( &(MVIEW_COLORS[0]), consensus );
-}
+    return HRenderer( new ImplRendererMView( &(MVIEW_COLORS[0]), consensus ) );
+  }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplRendererMView::ImplRendererMView ( const TYPE_PALETTE * palette, const std::string & consensus) : 
-    ImplRenderer( palette ),
+    ImplRendererPalette( palette ),
     mConsensus ( consensus ) {
 }
 		       
 ImplRendererMView::~ImplRendererMView () {
 }
 
-ImplRendererMView::ImplRendererMView (const ImplRendererMView & src ) : ImplRenderer( src ), mConsensus( src.mConsensus ) {
+ImplRendererMView::ImplRendererMView (const ImplRendererMView & src ) : 
+	ImplRendererPalette( src ), mConsensus( src.mConsensus ) 
+	{
 }
 
 

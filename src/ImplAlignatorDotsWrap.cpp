@@ -37,18 +37,10 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 
-#ifdef DEBUG
-#include "stdio.h"
-#endif
-
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 #define NODOT -1
 
@@ -56,24 +48,23 @@ namespace alignlib {
 
     /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
-Alignator * makeAlignatorDotsWrap(Score gop, Score gep, Alignator * alignator, const SubstitutionMatrix * subst_matrix) {
-
-  if (!subst_matrix) 
-    return new ImplAlignatorDotsWrap( getDefaultSubstitutionMatrix(), 
-				  gop, gep, gop, gep, alignator );
-  else
-    return new ImplAlignatorDotsWrap( subst_matrix, 
-				  gop, gep, gop, gep, alignator );
-  
+HAlignator makeAlignatorDotsWrap(
+		Score gop, Score gep, 
+		const HAlignator & alignator, 
+		const HSubstitutionMatrix & subst_matrix) 
+{
+	return new ImplAlignatorDotsWrap( subst_matrix, 
+				  gop, gep, gop, gep, alignator ); 
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
     /** constructors and destructors */
-ImplAlignatorDotsWrap::ImplAlignatorDotsWrap( const SubstitutionMatrix * subst_matrix,
+ImplAlignatorDotsWrap::ImplAlignatorDotsWrap( const HSubstitutionMatrix & subst_matrix,
 					      Score row_gop, Score row_gep, 
 					      Score col_gop, Score col_gep,
-					      Alignator * dots) :
-  ImplAlignatorDots( subst_matrix, row_gop, row_gep, col_gop, col_gep, dots) {
+					      const HAlignator & dots) :
+  ImplAlignatorDots( subst_matrix, row_gop, row_gep, col_gop, col_gep, dots) 
+  {
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------

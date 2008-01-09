@@ -40,6 +40,9 @@
 #include "Alignatum.h"
 #include "HelpersAlignatum.h"
 
+#include "Scorer.h"
+#include "HelpersScorer.h"
+
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 
@@ -1398,7 +1401,7 @@ HAlignment & rescoreAlignment(
 		HAlignment & dest,
 		const HAlignandum & row,
 		const HAlignandum & col, 
-		const HSubstitutionMatrix & matrix) 
+		const HScorer & scorer )
 		{
 	debug_func_cerr(5);
 
@@ -1407,8 +1410,7 @@ HAlignment & rescoreAlignment(
 
 	for (; it != it_end; ++it)
 	{
-		it->mScore = matrix->getValue( row->asResidue( it->mRow), 
-									   col->asResidue( it->mCol) );
+		it->mScore = scorer->getScore( it->mRow, it->mCol ); 
 	}	
 
 	return dest;

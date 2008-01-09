@@ -40,6 +40,8 @@
 #include "HelpersAlignandum.h"
 #include "HelpersLogOddor.h"
 #include "HelpersRegularizor.h"
+#include "HelpersMultipleAlignment.h"
+#include "HelpersWeightor.h"
 
 /** default objects */
 
@@ -47,6 +49,112 @@ using namespace std;
 
 namespace alignlib 
 {
+
+//---------------------------------< implementation of factory functions >--------------
+
+//------------------------------------------------------------------------------------------
+/** create empty profile 
+ * */
+HAlignandum makeProfile( 
+		const HTranslator & translator,
+		const HWeightor & weightor,
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
+{
+	return HAlignandum( new ImplProfile( translator, weightor, regularizor, logoddor ) );
+}
+
+HAlignandum makeProfile()
+{
+	return makeProfile( 
+			getDefaultTranslator(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor() );
+}
+
+//------------------------------------------------------------------------------------------
+/** create empty profile with given length */
+HAlignandum makeProfile( const Position & length,
+		const HTranslator & translator,
+		const HWeightor & weightor,		
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
+		{
+
+	return HAlignandum( new ImplProfile( length, 
+			translator, weightor, regularizor, logoddor ) );
+}
+
+HAlignandum makeProfile( const Position & length )
+{
+	return makeProfile( length, 
+			getDefaultTranslator(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor() );
+}
+
+
+//------------------------------------------------------------------------------------------
+/** create profile from a string of sequences */
+HAlignandum makeProfile( const std::string & src, 
+		int nsequences,
+		const HTranslator & translator,
+		const HWeightor & weightor, 
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
+		{
+
+	HMultipleAlignment m( makeMultipleAlignment() );
+	fillMultipleAlignment( 
+			m,
+			src, 
+			nsequences );
+
+	return HAlignandum (new ImplProfile(
+			m, 
+			translator,
+			weightor,
+			regularizor, 
+			logoddor ));
+}
+
+HAlignandum makeProfile( const std::string & src, int nsequences)
+{
+	return makeProfile( src, nsequences,
+			getDefaultTranslator(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor() );
+}
+
+
+//------------------------------------------------------------------------------------------
+/** create a default profile from a multiple alignment */
+HAlignandum makeProfile( 
+		const HMultipleAlignment & mali, 
+		const HTranslator & translator,
+		const HWeightor & weightor, 
+		const HRegularizor & regularizor,
+		const HLogOddor & logoddor ) 
+		{
+
+	return HAlignandum( new ImplProfile( mali, 
+			translator, 
+			weightor,
+			regularizor, 
+			logoddor ));
+}
+
+HAlignandum makeProfile( const HMultipleAlignment & mali )
+{
+	return makeProfile( mali,
+			getDefaultTranslator(), 
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
+			getDefaultLogOddor());
+}
 
 //TODO: setTrueLength re-allocates counts
 
@@ -68,6 +176,25 @@ ImplProfile::ImplProfile(
 	allocateCounts();
 }
 
+ImplProfile::ImplProfile(
+		const Position & length,
+		const HTranslator & translator,
+		const HWeightor & weightor,
+		const HRegularizor & regularizor, 
+		const HLogOddor & logoddor ) :
+			ImplAlignandum( translator ),
+			mWeightor( weightor ),
+			mRegularizor( regularizor ),
+			mLogOddor( logoddor ),
+			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
+			mProfileWidth(0)
+{
+	debug_func_cerr(5);
+	setTrueLength( length );
+	allocateCounts();
+}
+
+
 ImplProfile::ImplProfile( 
 		const HMultipleAlignment & src,
 		const HTranslator & translator,
@@ -82,7 +209,6 @@ ImplProfile::ImplProfile(
 			mProfileWidth(0)
 {
 	debug_func_cerr(5);
-	
 	setTrueLength( src->getLength() );
 	allocateCounts();
 	fillCounts( src );

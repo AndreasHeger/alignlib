@@ -54,11 +54,12 @@ class ImplAlignatorDots : public ImplAlignator
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorDots( Score row_gop, 
-		       Score row_gep, 
-		       Score col_gop = 0,
-		       Score col_gep = 0,
-		       Alignator * dottor = NULL );
+    ImplAlignatorDots(
+    		const HAlignator & dottor,
+    		Score row_gop, 
+    		Score row_gep, 
+    		Score col_gop = 0,
+    		Score col_gep = 0 );
 
     /** copy constructor */
     ImplAlignatorDots( const ImplAlignatorDots & );
@@ -121,10 +122,10 @@ class ImplAlignatorDots : public ImplAlignator
  protected:
     
     /** The dotter object that supplies the dots */
-    Alignator * mDottor;
+    HAlignator mDottor;
     
     /* diverse helper variables */
-    Position	mNDots;
+    Position mNDots;
 
     /** pointer to dots for fast access */
     const ImplAlignmentMatrix::PAIRVECTOR * mPairs;		

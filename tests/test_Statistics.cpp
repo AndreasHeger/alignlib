@@ -51,23 +51,15 @@
 
 #include "Statistics.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace alignlib;
 
-int main () {
+int main () 
+{
 
-  Alignator * a = makeFullDP( -10.0, -2.0);
-  Alignandum * s1 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
-  Alignandum * s2 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
+  HAlignator a = makeFullDP( -10.0, -2.0);
+  HAlignandum s1 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
+  HAlignandum s2 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
     
   NormalDistributionParameters * result = makeNormalDistributionParameters();
 
@@ -75,9 +67,6 @@ int main () {
 
   cout << "mean=" << result->getMean() << " std=" << result->getStandardDeviation() << endl;
   
-  delete a;
-  delete s1;
-  delete s2;
   delete result;
 
 }

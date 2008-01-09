@@ -187,9 +187,6 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
      */
     virtual void add( const HMultipleAlignment & src );
     
-    /** returns the consensus string for the multiple alignment */
-    virtual std::string getConsensusString () const ;			
-
     /** register a new renderer */
     virtual void registerRenderer( const HRenderer & renderer );
 

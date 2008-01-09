@@ -28,11 +28,8 @@
 #include <vector>
 #include <algorithm>
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "Alignator.h"
 #include "Alignment.h"
@@ -42,7 +39,8 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** factory functions */
 NormalDistributionParameters * makeNormalDistributionParameters() { 
@@ -55,9 +53,9 @@ EVDParameters * makeEVDParameters() {
 
 //---------------------------------------------------------------
 Score * fillScoresVector( Score * dest,
-			     const HAlignandum row, 
-			     const HAlignandum col, 
-			     Alignator * alignator,
+			     const HAlignandum & row, 
+			     const HAlignandum & col, 
+			     const HAlignator & alignator,
 			     unsigned int n_iterations,
 			     unsigned int n_iterations_shuffle = 1,
 			     Position window_size = 0) 
@@ -78,13 +76,15 @@ Score * fillScoresVector( Score * dest,
 
 
 /*---------------> other functions <----------------------------- */
-void calculateZScoreParameters( NormalDistributionParameters * result,
-				const HAlignandum row, 
-				const HAlignandum col, 
-				Alignator * alignator,
-				unsigned int n_iterations,
-				unsigned int n_iterations_shuffle,
-				Position window_size) {
+void calculateZScoreParameters( 
+		NormalDistributionParameters * result,
+		const HAlignandum & row, 
+		const HAlignandum & col, 
+		const HAlignator & alignator,
+		unsigned int n_iterations,
+		unsigned int n_iterations_shuffle,
+		Position window_size) 
+{
 
   unsigned int i;
   double total;
@@ -107,26 +107,6 @@ void calculateZScoreParameters( NormalDistributionParameters * result,
   delete [] scores;
 }
    
-/*-------------------------------------------------------------------------*/    
-/** iteratively align src1 and src2 and fit an extreme value 
-      distribution. The fit is done using linear regression.
-*/
-void calculateEVDParameters( EVDParameters * result,
-			     const HAlignandum row, 
-			     const HAlignandum col, 
-			     Alignator * alignator,
-			     unsigned int n_iterations,
-			     unsigned int n_iterations_shuffle,
-			     Position window_size) {
-
-  // 1. get scores
-  Score * scores = new Score[n_iterations];
-  fillScoresVector( scores, row, col, alignator, n_iterations );
-
-  // 2. build histogram
-  
-}
-
   
 
     

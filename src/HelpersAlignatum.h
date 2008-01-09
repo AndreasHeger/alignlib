@@ -45,26 +45,26 @@ namespace alignlib
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
-    HAlignatum makeAlignatumFromString( 
+    HAlignatum makeAlignatum( 
     		const std::string & src, 
-    		Position from = NO_POS, 
-    		Position to = NO_POS);
+    		const Position from = NO_POS, 
+    		const Position to = NO_POS);
     
-    HAlignatum makeAlignatumFromString( 
-    		const char * src, 
-    		Position from = NO_POS, 
-    		Position to = NO_POS);
+    HAlignatum makeAlignatum(
+    		const HAlignandum & src, 
+    		const HAlignment & map_this2new,
+    		const Position max_length = 0);
 
     HAlignatum makeAlignatum(
-    		const HAlignandum src, 
-    		const HAlignment map_this2new,
-    		const Position max_length = 0);
+    		const HAlignandum & src,
+    		const Position from = NO_POS,
+    		const Position to = NO_POS);
 
     HAlignatum makeAlignatumFasta(
     		const std::string & description,
     		const std::string & src,
-    		Position from = 0, 
-    		Position to = NO_POS);
+    		const Position from = 0, 
+    		const Position to = NO_POS);
     
     /** return an empty Alignatum object, that 
 	can store a description */

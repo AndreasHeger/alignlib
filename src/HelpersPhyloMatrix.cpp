@@ -11,35 +11,36 @@
 #include <iostream>
 #include <string>
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
+#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "AlignlibDebug.h"
 
 #include "HelpersPhyloMatrix.h"
 #include "PhyloMatrix.h"
-#include "AlignlibDebug.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
   /** copy the contents of source element wise into the PhyloMatrix */
-  PhyloMatrix * fillPhyloMatrix( PhyloMatrix * dest, PhyloMatrixValue * source) 
+  HPhyloMatrix & fillPhyloMatrix( HPhyloMatrix & dest, 
+		  PhyloMatrixValue * source) 
   {
 	  debug_func_cerr( 5 );
     
       PhyloMatrixSize row, col, index = 0;
     
       for (row = 0; row < dest->getWidth(); row++)
-	  for (col = 0; col < dest->getWidth(); col++) {
-	      cout << (*dest)(0,1);
-	      (*dest)(row,col) = source[index++];
-	      cout << " " << row << " " << col << (*dest)(0,1) << endl;
-	  }
+    	  for (col = 0; col < dest->getWidth(); col++) 
+    	  {
+    		  cout << (*dest)(0,1);
+    		  (*dest)(row,col) = source[index++];
+    		  cout << " " << row << " " << col << (*dest)(0,1) << endl;
+    	  }
 
       cout << *dest << endl;
       return dest;
-
   }
   
 } // namespace alignlib

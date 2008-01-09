@@ -43,13 +43,9 @@
 
 using namespace std;
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace alignlib;
 
-void testAlignatum( Alignatum * a, std::string sample )
+void testAlignatum( HAlignatum & a, const std::string & sample )
 {
 	cout << "testing... with " << *a << "..." ;
 	
@@ -70,12 +66,12 @@ void testAlignatum( Alignatum * a, std::string sample )
 	assert( a->getAlignedLength() == sample.size() + 4);	
 	
 	// wrap on alignment - add one gaps into the middle
-	std::auto_ptr<Alignment> ali(makeAlignmentVector());
+	HAlignment ali(makeAlignmentVector());
 	Position pos = a->getAlignedLength() / 2;
-	fillAlignmentIdentity( &*ali, 0, pos);
-	fillAlignmentIdentity( &*ali, pos, a->getAlignedLength(), 1);
+	fillAlignmentIdentity( ali, 0, pos);
+	fillAlignmentIdentity( ali, pos, a->getAlignedLength(), 1);
 	
-	a->mapOnAlignment( &*ali );
+	a->mapOnAlignment( ali );
 		
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
@@ -88,36 +84,32 @@ void testAlignatum( Alignatum * a, std::string sample )
 
 int main () {
 
-  Alignatum * a;
+  HAlignatum a;
   {	
 	  std::cout << "testing empty alignment" << std::endl;
-	  a = makeAlignatumFromString( "" );
+	  a = makeAlignatum( "" );
 	  testAlignatum( a, "");
-	  delete a;
   }	
 
   {
 	  std::cout << "testing non-empty alignment" << std::endl;
-	  a = makeAlignatumFromString("ACDEF");  
+	  a = makeAlignatum("ACDEF");  
 	  testAlignatum( a, "ACDEF");	
-	  delete a;
   }
   
      {
       std::cout << "testing create from Alignandum" << std::endl;
-      std::auto_ptr<Alignandum>s(makeSequence( "ACDEFGHIKL" ));
-      a = makeAlignatum( &*s );
+      HAlignandum s(makeSequence( "ACDEFGHIKL" ));
+      a = makeAlignatum( s );
       testAlignatum( a, "ACDEFGHIKL");
-      delete a;
     }
  
        {
          std::cout << "testing create from Alignandum" << std::endl;
-         std::auto_ptr<Alignandum>s(makeSequence( "ACDEFGHIKL" ));
+         HAlignandum s(makeSequence( "ACDEFGHIKL" ));
          s->useSegment( 4,6 );
-         a = makeAlignatum( &*s );
+         a = makeAlignatum( s );
          testAlignatum( a, "ACDEFGHIKL");
-         delete a;
        }
 
   

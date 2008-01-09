@@ -37,16 +37,7 @@
 namespace alignlib 
 {
     
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
-
-  /* 1. factory functions */
+  // 1. factory functions */
   HIterator2D makeIterator2DFull( 
 		  const HAlignandum & row,
 		  const HAlignandum & col);
@@ -59,6 +50,11 @@ namespace alignlib
 		  const Diagonal lower_diagonal = 0,
 		  const Diagonal upper_diagonal = 0);
 
+  HIterator2D makeIterator2DBanded( 
+		  const Diagonal lower_diagonal = 0,
+		  const Diagonal upper_diagonal = 0);
+
+  // 2. accessory functions for default objects  
   DEFINE_DEFAULT( HIterator2D, getDefaultIterator2D, setDefaultIterator2D );
   
 }

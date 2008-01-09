@@ -37,6 +37,7 @@
 #include <time.h> 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Alignment.h"
 #include "AlignmentIterator.h"
 #include "HelpersAlignment.h"
@@ -44,70 +45,71 @@
 using namespace std;
 using namespace alignlib;
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
-
 #define NUM_ITERATIONS 1000
 #define NUM_ITERATIONS_LARGE 100000
 
 //-------------------------------------> Initialisation functions <-----------------------------------
-void InitCreate( Alignment * a) {
+void InitCreate( HAlignment & a) 
+{
   for (int i = 1; i < 1000; i++) 
-    a->addPair(new alignlib::ResiduePAIR( i, i, 1.0));
+    a->addPair(new ResiduePAIR( i, i, 1.0));
 
   a->getLength();
 }
 
 
 //-------------------------------------> Initialisation functions <-----------------------------------
-void InitCreateGaps( Alignment * a) {
+void InitCreateGaps( HAlignment & a) 
+{
 
   for (int i = 1; i < 200; i++) 
-    a->addPair(new alignlib::ResiduePAIR( i, i, 1.0));
+    a->addPair(new ResiduePAIR( i, i, 1.0));
 
   for (int i = 300; i < 400; i++) 
-    a->addPair(new alignlib::ResiduePAIR( i, i, 1.0));
+    a->addPair(new ResiduePAIR( i, i, 1.0));
 
   for (int i = 500; i < 600; i++) 
-    a->addPair(new alignlib::ResiduePAIR( i, i, 1.0));
+    a->addPair(new ResiduePAIR( i, i, 1.0));
 
   for (int i = 800; i < 1000; i++) 
-    a->addPair(new alignlib::ResiduePAIR( i, i, 1.0));
+    a->addPair(new ResiduePAIR( i, i, 1.0));
 
   a->getLength();
 }
 
 //-------------------------------------> Postprocessing functions <-----------------------------------
-void PostClear( Alignment * a) {
+void PostClear( HAlignment & a) 
+{
   a->clear();
 }
 
 //-------------------------------------> Benchmarking functions <-----------------------------------
-void BenchmarkAddPair( Alignment * a) {
-
+void BenchmarkAddPair( HAlignment & a) 
+{
   for (int i = 1; i < 1000; i++) 
-    a->addPair(new  alignlib::ResiduePAIR( i, i, 1.0));
+    a->addPair(new  ResiduePAIR( i, i, 1.0));
   a->getLength();
 
 }
 
 //-------------------------------------> Benchmarking functions <-----------------------------------
-void BenchmarkIterate( Alignment * a) {
+void BenchmarkIterate( HAlignment & a) 
+{
   ResiduePAIR p;
 
   AlignmentIterator it(a->begin());
   AlignmentIterator it_end(a->end());
 
   long x;
-  for (; it != it_end; it++) {
+  for (; it != it_end; it++) 
+  {
     p = *it;
     x+=p.mRow;
   }
 }
 
-double tval( struct timeval *timval0, struct timeval *timval1) {
+double tval( struct timeval *timval0, struct timeval *timval1) 
+{
   double t;
   
   double t0, t1;
@@ -119,13 +121,14 @@ double tval( struct timeval *timval0, struct timeval *timval1) {
   return t;
 }
  
-double Benchmark( Alignment * a, 
+double Benchmark( HAlignment & a, 
 		  long iterations,
-		  void (*ptr_dofunc)(Alignment *), 
-		  void (*ptr_prefunc)(Alignment *) = NULL, 
-		  void (*ptr_postfunc)(Alignment *) = NULL,
-		  void (*ptr_initfunc)(Alignment *) = NULL,
-		  void (*ptr_clearfunc)(Alignment *) = NULL) {
+		  void (*ptr_dofunc)(HAlignment &), 
+		  void (*ptr_prefunc)(HAlignment &) = NULL, 
+		  void (*ptr_postfunc)(HAlignment &) = NULL,
+		  void (*ptr_initfunc)(HAlignment &) = NULL,
+		  void (*ptr_clearfunc)(HAlignment &) = NULL) 
+{
   
   struct timeval start_time, finish_time;
 
@@ -134,7 +137,8 @@ double Benchmark( Alignment * a,
   if (ptr_initfunc != NULL)
     (*ptr_initfunc)(a);
 
-  for (int x = 0; x < iterations; x++) {
+  for (int x = 0; x < iterations; x++) 
+  {
     
     if (ptr_prefunc != NULL)
       (*ptr_prefunc)(a);
@@ -158,35 +162,31 @@ double Benchmark( Alignment * a,
 }    
 
 void BenchmarkAll( long iterations,
-		   void (*ptr_dofunc)(Alignment *), 
-		   void (*ptr_prefunc)(Alignment *) = NULL, 
-		   void (*ptr_postfunc)(Alignment *) = NULL,
-                   void (*ptr_initfunc)(Alignment *) = NULL,
-		   void (*ptr_clearfunc)(Alignment *) = NULL) {
+		   void (*ptr_dofunc)(HAlignment &), 
+		   void (*ptr_prefunc)(HAlignment &) = NULL, 
+		   void (*ptr_postfunc)(HAlignment &) = NULL,
+		   void (*ptr_initfunc)(HAlignment &) = NULL,
+		   void (*ptr_clearfunc)(HAlignment &) = NULL) {
 
   
   {
-    alignlib::Alignment * a1 = alignlib::makeAlignmentVector();
-    cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
-    delete a1;
+	  HAlignment a1 = makeAlignmentVector();
+	  cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
   }
 
   {
-    alignlib::Alignment * a1 = alignlib::makeAlignmentSet();
-    cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
-    delete a1;
+	  HAlignment a1 = makeAlignmentSet();
+	  cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
   }
 
   {
-    alignlib::Alignment * a1 = alignlib::makeAlignmentHash();
-    cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t"; 
-    delete a1;
+	  HAlignment a1 = makeAlignmentHash();
+	  cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t"; 
   }
 
   {
-    alignlib::Alignment * a1 = alignlib::makeAlignmentHashDiagonal();
-    cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
-    delete a1;
+	  HAlignment a1 = makeAlignmentHashDiagonal();
+	  cout << Benchmark( a1, NUM_ITERATIONS, ptr_dofunc, ptr_prefunc, ptr_postfunc, ptr_initfunc, ptr_clearfunc ) << " s\t";
   }
 
   cout << endl;
@@ -200,27 +200,27 @@ int main () {
   cout << "IterateGaps\t"; BenchmarkAll( NUM_ITERATIONS_LARGE, &BenchmarkIterate, NULL, &PostClear, &InitCreateGaps, NULL );
 
 //   cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
-//   a1 = alignlib::makeAlignmentHash();
+//   a1 = makeAlignmentHash();
 //   TestAlignment( a1 );
 //   delete a1;
 
 //   cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
-//   a1 = alignlib::makeAlignmentHashDiagonal();
+//   a1 = makeAlignmentHashDiagonal();
 //   TestAlignment( a1 );
 //   delete a1;
 
 //   cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
-//   a1 = alignlib::makeAlignmentMatrixRow();
+//   a1 = makeAlignmentMatrixRow();
 //   TestAlignment( a1 );
 //   delete a1;
 
 //   cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
-//   a1 = alignlib::makeAlignmentMatrixDiagonal();
+//   a1 = makeAlignmentMatrixDiagonal();
 //   TestAlignment( a1 );
 //   delete a1;
 
 //   cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
-//   a1 = alignlib::makeAlignmentMatrixUnsorted();
+//   a1 = makeAlignmentMatrixUnsorted();
 //   TestAlignment( a1 );
 //   delete a1;
 

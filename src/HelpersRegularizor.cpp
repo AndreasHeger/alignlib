@@ -21,6 +21,8 @@
 */
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "AlignlibDebug.h"
 #include "Regularizor.h"
 #include "ImplRegularizor.h"
@@ -29,18 +31,5 @@
 namespace alignlib 
 {
   
-  static HRegularizor DEFAULT_REGULARIZOR(makeRegularizor());
-
-  /** gets the default Regularizor object */ 
-  const HRegularizor getDefaultRegularizor() 
-  {
-    return DEFAULT_REGULARIZOR;
-  }
-
-  /** sets the default Regularizor object */
-  void setDefaultRegularizor( HRegularizor regularizor ) 
-  {
-	  DEFAULT_REGULARIZOR = regularizor;
-  }
-
+ 	IMPLEMENT_DEFAULT( HRegularizor, makeRegularizor(), getDefaultRegularizor, setDefaultRegularizor );
 } // namespace alignlib

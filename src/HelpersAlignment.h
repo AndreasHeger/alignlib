@@ -201,15 +201,15 @@ HAlignment & addAlignment2Alignment( HAlignment & dest, const HAlignment & src )
  */
 HAlignment & addMappedAlignment2Alignment( HAlignment & dest, 
 		const HAlignment & src, 
-		const HAlignment map_src2new,
+		const HAlignment & map_src2new,
 		const CombinationMode mode );
 
 /** add one alignment to another. Map both row and column.
  */
 HAlignment & addMappedAlignments2Alignment( HAlignment & dest, 
 		const HAlignment & src, 
-		const HAlignment map_src_row2dest_row, 
-		const HAlignment map_src_col2dest_col );
+		const HAlignment & map_src_row2dest_row, 
+		const HAlignment & map_src_col2dest_col );
 
 
 /** print a nice pairwise alignment */
@@ -313,8 +313,7 @@ HAlignment & fillAlignmentCompressedDiagonal( HAlignment & dest,
 HAlignment & rescoreAlignment( HAlignment & dest,
 		const HAlignandum & row,
 		const HAlignandum & col,
-		const HSubstitutionMatrix & matrix);
-
+		const HScorer & scorer );
 
 /** rescore alignment setting each pair to the same score 
  */

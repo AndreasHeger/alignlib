@@ -102,7 +102,7 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 			while ( 1 ) 
 			{
 				HAlignator dottor(makeAlignatorPublishAlignment( mDots ));
-				HAlignator alignator(makeAlignatorDotsSquared( mGop, mGep, dottor ));
+				HAlignator alignator(makeAlignatorDotsSquared( dottor, mGop, mGep ));
 
 				HAlignment result = sample->getNew();
 				alignator->align( result, row, col );

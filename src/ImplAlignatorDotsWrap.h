@@ -47,7 +47,8 @@ namespace alignlib {
     @author Andreas Heger
     @version $Id: ImplAlignatorDotsWrap.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplAlignatorDotsWrap : public ImplAlignatorDots {
+class ImplAlignatorDotsWrap : public ImplAlignatorDots 
+{
  public:
 
     /* constructors and destructors */
@@ -59,12 +60,12 @@ class ImplAlignatorDotsWrap : public ImplAlignatorDots {
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorDotsWrap( const SubstitutionMatrix * subst_matrix,
+    ImplAlignatorDotsWrap( const HSubstitutionMatrix & subst_matrix,
 		       Score row_gop, 
 		       Score row_gep, 
 		       Score col_gop = 0,
 		       Score col_gep = 0,
-		       Alignator * dottor = NULL );
+		       const HAlignator & dottor);
 
     /** copy constructor */
     ImplAlignatorDotsWrap( const ImplAlignatorDotsWrap & );
@@ -74,12 +75,12 @@ class ImplAlignatorDotsWrap : public ImplAlignatorDots {
 
     /** return a new alignator object of the same type.
      */
-    virtual ImplAlignatorDotsWrap * getClone() const ;
+    virtual HAlignator & getClone() const ;
     
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const HAlignandum row, const HAlignandumcol, HAlignment result);
+    virtual void performAlignment(const HAlignandum & row, const HAlignandum & col, HAlignment result);
 
     /** get GAP cost for a gap in row */
     virtual Score getGapCost( Dot x1, Dot x2 ) const;

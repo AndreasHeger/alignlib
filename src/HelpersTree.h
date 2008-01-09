@@ -19,12 +19,10 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
-
-    class Tree;
-    class Distor;
 
     typedef std::vector< std::string > Labels;
     
@@ -41,7 +39,7 @@ namespace alignlib
     /* 1. factory functions */
 
     /** create an empty tree */
-    Tree * makeTree( Node num_leaves = 0);
+    HTree makeTree( const Node num_leaves = 0);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
@@ -50,7 +48,9 @@ namespace alignlib
     /* 3. convenience functions */
 
     /** print a tree in NewHampshire format */
-    void writeNewHampshire( std::ostream & output, const Tree * tree, const Labels * labels = NULL );
+    void writeNewHampshire( std::ostream & output, 
+    		const HTree & tree, 
+    		const Labels * labels = NULL );
  
 }
 

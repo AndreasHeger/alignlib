@@ -39,36 +39,30 @@
 
 #include "HelpersAlignator.h"
 
-#ifdef DEBUG
-#include "stdio.h"
-#endif
-
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
-
-#define NODOT -1
+namespace alignlib 
+{
 
 /*---------------------factory functions ---------------------------------- */
 
     /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
-  Alignator * makeAlignatorDotsSquaredDiagonal(Score gop, Score gep, Alignator * alignator, 
-					       Score diagonal_gop, Score diagonal_gep )
+  HAlignator makeAlignatorDotsSquaredDiagonal(
+		  const HAlignator & alignator,
+		  Score gop, Score gep,  
+		  Score diagonal_gop, Score diagonal_gep )
   {
-    return new ImplAlignatorDotsSquaredDiagonal( gop, gep, diagonal_gop, diagonal_gep, alignator );
+    return HAlignator( new ImplAlignatorDotsSquaredDiagonal( alignator, gop, gep, diagonal_gop, diagonal_gep ));
   }
   //----------------------------------------------------------------------------------------------------------------------------------------
   /** constructors and destructors */
-  ImplAlignatorDotsSquaredDiagonal::ImplAlignatorDotsSquaredDiagonal( Score row_gop, Score row_gep, 
-								      Score col_gop, Score col_gep,
-								      Alignator * dots) :
-    ImplAlignatorDotsSquared( row_gop, row_gep, col_gop, col_gep, dots) {
+  ImplAlignatorDotsSquaredDiagonal::ImplAlignatorDotsSquaredDiagonal( 
+		  const HAlignator & dots,
+		  Score row_gop, Score row_gep, 
+		  Score col_gop, Score col_gep ):
+    ImplAlignatorDotsSquared( dots, row_gop, row_gep, col_gop, col_gep ) 
+    {
   }
   
   //----------------------------------------------------------------------------------------------------------------------------------------

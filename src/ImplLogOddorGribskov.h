@@ -50,7 +50,7 @@ class ImplLogOddorGribskov : public ImplLogOddor
     // constructors and desctructors
 
     /** default constructor */
-    ImplLogOddorGribskov  ( const SubstitutionMatrix * background_frequencies,
+    ImplLogOddorGribskov  ( const HSubstitutionMatrix & matrix,
     		const Score & scale_factor = 1,
     		const Score & mask_value = 10);
     
@@ -66,7 +66,7 @@ class ImplLogOddorGribskov : public ImplLogOddor
 
  private:
     /** sustitution matrix to use */
-    const SubstitutionMatrix * mSubstitutionMatrix;
+    const HSubstitutionMatrix mSubstitutionMatrix;
     
 };
 

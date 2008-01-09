@@ -24,6 +24,7 @@
 #include <time.h> 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "HelpersTree.h"
 #include "Tree.h"
 
@@ -33,7 +34,7 @@ using namespace alignlib;
 int main ()
 {
 
-	Tree * tree = makeTree(4);
+	HTree tree(makeTree(4));
 
 	cout << *tree << endl;
 
@@ -51,25 +52,20 @@ int main ()
 
 	// writeNewHampshire( cout, tree );
 
-	NodeVector * v;
-
-	v = tree->getNodesLeaves();
+	HNodeVector v(tree->getNodesLeaves());
 	cout << "Leaves-traversal:" << endl;
 	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
 	cout << endl;
-	delete v;
 
 	v = tree->getNodesDepthFirstVisit();
 	cout << "DFS-traversal visit:" << endl;
 	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
 	cout << endl;
-	delete v;
 
 	v = tree->getNodesDepthFirstFinish();
 	cout << "DFS-traversal finish:" << endl;
 	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
 	cout << endl;
-	delete v;
 
 	/*
   v = tree->getNodesBreadthFirstVisit();
@@ -87,13 +83,10 @@ int main ()
 
 	{
 		std::cout << "copying" << std::endl;
-		Tree * t2 = tree->getClone();
+		HTree t2 = tree->getClone();
 		assert( t2->getRoot() == tree->getRoot() );
 		assert( t2->getNumLeaves() == tree->getNumLeaves() );
-		delete t2;
 	}
-
-	delete tree;
 
 	return (EXIT_SUCCESS);
 }

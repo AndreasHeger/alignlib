@@ -30,6 +30,12 @@ AlignedBlocks::AlignedBlocks() :
 	{
 	}
 
+AlignedBlocks::AlignedBlocks( const HAlignment & src) : 
+	mRowFrom(NO_POS), mRowTo(NO_POS), mColFrom(NO_POS), mColTo(NO_POS)
+	{
+	fill( src );
+	}
+
 
 AlignedBlocks::~AlignedBlocks () 
 {

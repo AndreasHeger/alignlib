@@ -125,7 +125,15 @@ namespace alignlib
      */
     typedef std::vector< SequenceWeight > SequenceWeights;
     typedef boost::shared_ptr<SequenceWeights>HSequenceWeights;    
+
+    /** A vector with nodes
+     */
+    typedef std::vector<Node> NodeVector;
+    typedef boost::shared_ptr<NodeVector>HNodeVector;
+
     
 }
+
+
 
 #endif /*ALIGNLIB_FWD_H_*/

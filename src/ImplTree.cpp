@@ -14,6 +14,8 @@
 #include <utility>
 #include <stack>
 #include <cassert>
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplTree.h"
 #include "AlignlibDebug.h"
 
@@ -23,9 +25,13 @@ namespace alignlib
 {
 
 //-----------------------------< factory functions >----------------------------------------------------
-Tree * makeTree( Node num_leaves) { return new ImplTree( num_leaves); }
+HTree makeTree( Node num_leaves) 
+{ 
+	return HTree(new ImplTree( num_leaves)); 
+}
 
-std::ostream & operator<<( std::ostream & output, const NODE_INFO & src) {
+std::ostream & operator<<( std::ostream & output, const NODE_INFO & src) 
+{
 	output << src.mParent << " " << src.mLeftChild << " " << src.mRightChild << " " 
 	<< src.mNumChildren << " " << src.mWeight << " " << src.mHeight;
 
@@ -65,14 +71,14 @@ ImplTree::ImplTree (const ImplTree & src ) :
 
 	}
 
-ImplTree * ImplTree::getNew() const
+HTree ImplTree::getNew() const
 {
-	return new ImplTree();
+	return HTree(new ImplTree());
 }
 
-ImplTree * ImplTree::getClone() const
+HTree ImplTree::getClone() const
 {
-	return new ImplTree( *this );
+	return HTree(new ImplTree( *this ));
 }
 
 //-------------------------------------------------------< accessors >----------------------------------------
@@ -222,11 +228,11 @@ void ImplTree::recordLeaves()
 
 //---------------------------------> methods for creation of node-lists <--------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------
-NodeVector * ImplTree::getNodesLeaves() const 
+HNodeVector ImplTree::getNodesLeaves() const 
 {
 	debug_func_cerr( 5 );
 
-	std::vector<Node> * nodes = new std::vector<Node>(getNumLeaves());
+	HNodeVector nodes( new std::vector<Node>(getNumLeaves()) );
 
 	// by definition, all nodes in the graph with number 0 to getNumLeaves - 1 are leaves
 	// there is probably a STL version of this
@@ -237,17 +243,18 @@ NodeVector * ImplTree::getNodesLeaves() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------
-NodeVector * ImplTree::getNodesDepthFirstVisit() const 
+HNodeVector ImplTree::getNodesDepthFirstVisit() const 
 {
 	debug_func_cerr( 5 );
 
-	std::vector<Node> * nodes = new std::vector<Node>;
+	HNodeVector nodes( new std::vector<Node>() );
 
 	std::stack< Node> s;
 
 	s.push( getRoot() );
 
-	while (!s.empty()) {
+	while (!s.empty()) 
+	{
 
 		Node node = s.top();
 		s.pop();
@@ -265,7 +272,9 @@ NodeVector * ImplTree::getNodesDepthFirstVisit() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------
-void ImplTree::traversePostOrder( Node node, NodeVector * nodes)  const 
+void ImplTree::traversePostOrder( 
+		Node node, 
+		HNodeVector & nodes)  const 
 {
 	debug_func_cerr( 5 );
 
@@ -279,11 +288,11 @@ void ImplTree::traversePostOrder( Node node, NodeVector * nodes)  const
 }
 
 
-NodeVector * ImplTree::getNodesDepthFirstFinish() const 
+HNodeVector ImplTree::getNodesDepthFirstFinish() const 
 {
 	debug_func_cerr( 5 );
 
-	std::vector<Node> * nodes = new std::vector<Node>;
+	HNodeVector nodes( new std::vector<Node>() );
 
 	traversePostOrder( getRoot(), nodes);
 	return nodes;
@@ -291,21 +300,25 @@ NodeVector * ImplTree::getNodesDepthFirstFinish() const
 };
 
 //--------------------------------------------------------------------------------------------------------------------
-NodeVector * ImplTree::getNodesBreadthFirstVisit() const 
+HNodeVector ImplTree::getNodesBreadthFirstVisit() const 
 {
+	// TODO: implement function
 	debug_func_cerr( 5 );
+	HNodeVector nodes( new std::vector<Node>() );
 
 	assert( 0 );
-	return NULL;
+	return nodes;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
-NodeVector * ImplTree::getNodesBreadthFirstFinish() const 
+HNodeVector ImplTree::getNodesBreadthFirstFinish() const 
 {
+	// TODO: implement function
 	debug_func_cerr( 5 );
 
 	assert( 0 );
-	return NULL;
+	HNodeVector nodes( new std::vector<Node>() );	
+	return nodes;
 }
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
@@ -313,7 +326,8 @@ void ImplTree::write( std::ostream& output ) const
 {
 	debug_func_cerr( 5 );
 
-	for (Node n =0; n < mCurrentNode; n++) {
+	for (Node n =0; n < mCurrentNode; n++) 
+	{
 		std::cout << n << " " << mTree[n] << endl;
 	}
 }         

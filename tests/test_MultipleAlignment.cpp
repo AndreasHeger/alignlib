@@ -55,15 +55,15 @@ const char FILE_FASTA[] = "data/test.fasta";
 int main () 
 {
 
-	MultipleAlignment * reference = makeMultipleAlignment();
+	HMultipleAlignment reference(makeMultipleAlignment());
 
 	{
-		reference->add(makeAlignatumFromString("0123456789"));
-		reference->add(makeAlignatumFromString("0123456789"));
-		reference->add(makeAlignatumFromString("0123456789"));
+		reference->add(makeAlignatum("0123456789"));
+		reference->add(makeAlignatum("0123456789"));
+		reference->add(makeAlignatum("0123456789"));
 	}
 
-	std::auto_ptr<Alignment> ali(makeAlignmentSet());
+	HAlignment ali(makeAlignmentSet());
 	{
 		ali->addPair( new ResiduePAIR( 2,2, 1));
 		ali->addPair( new ResiduePAIR( 3,3, 1));
@@ -78,12 +78,12 @@ int main ()
 
 	{
 		// create a multiple alignment 
-		std::auto_ptr<MultipleAlignment>m1(makeMultipleAlignment());
+		HMultipleAlignment m1(makeMultipleAlignment());
 
-		m1->add(makeAlignatumFromString("-AAAAA-CCAAA-"));
-		m1->add(makeAlignatumFromString("AAAAAA-CCAAAA"));
-		m1->add(makeAlignatumFromString("-A-AAA-CCA-A-"));
-		m1->add(makeAlignatumFromString("AAAAAAA--AAAA"));
+		m1->add(makeAlignatum("-AAAAA-CCAAA-"));
+		m1->add(makeAlignatum("AAAAAA-CCAAAA"));
+		m1->add(makeAlignatum("-A-AAA-CCA-A-"));
+		m1->add(makeAlignatum("AAAAAAA--AAAA"));
 
 		assert( m1->getLength() == 13);
 		assert( m1->getWidth() == 4);
@@ -102,7 +102,7 @@ int main ()
 	}
 
 	{
-		std::auto_ptr<MultipleAlignment> m1(reference->getClone());
+		HMultipleAlignment m1(reference->getClone());
 		std::cout << "testing using sstream" << std::endl;
 		std::ostringstream temp;
 		std::ostream * p = &temp;
@@ -112,11 +112,11 @@ int main ()
 
 	{
 		std::cout << "testing directly adding a multiple alignment" << std::endl;
-		std::auto_ptr<MultipleAlignment> m1(reference->getClone());
-		std::auto_ptr<MultipleAlignment> m2(makeMultipleAlignment());
+		HMultipleAlignment m1(reference->getClone());
+		HMultipleAlignment m2(makeMultipleAlignment());
 
-		m2->add( &*m1 );
-		m2->add( &*m1 );
+		m2->add( m1 );
+		m2->add( m1 );
 
 		assert( m2->getWidth() == m1->getWidth() * 2);
 		assert( m2->getLength() == m2->getLength() );
@@ -125,10 +125,10 @@ int main ()
 
 	{
 		std::cout << "testing adding alignments with alignment between them" << std::endl;
-		std::auto_ptr<MultipleAlignment> m1(reference->getClone());
-		std::auto_ptr<MultipleAlignment> m2(m1->getClone());
+		HMultipleAlignment m1(reference->getClone());
+		HMultipleAlignment m2(m1->getClone());
 
-		m2->add( &*m1, &*ali, true );
+		m2->add( m1, ali, true );
 		assert( m2->getLength() == 8);
 		assert( m2->getWidth() == 2 * m1->getWidth() );
 
@@ -136,10 +136,10 @@ int main ()
 	}
 
 	{
-		std::auto_ptr<MultipleAlignment> m1(reference->getClone());
-		std::auto_ptr<MultipleAlignment> m2(m1->getClone());
+		HMultipleAlignment m1(reference->getClone());
+		HMultipleAlignment m2(m1->getClone());
 
-		m2->add( &*m1, &*ali, false);
+		m2->add( m1, ali, false);
 
 		assert( m2->getLength() == 8);
 		assert( m2->getWidth() == 2 * m1->getWidth() );
@@ -149,16 +149,16 @@ int main ()
 
 	//-------------------------add new objects using an aligment 
 	{	
-		std::auto_ptr<MultipleAlignment> m1(reference->getClone());
+		HMultipleAlignment m1(reference->getClone());
 
-		m1->add(makeAlignatumFromString("0123456789"), &*ali, true );
+		m1->add(makeAlignatum("0123456789"), ali, true );
 		cout << *m1 << endl;
 	}	
 
 	{
-		std::auto_ptr<MultipleAlignment> m1(reference->getClone());
+		HMultipleAlignment m1(reference->getClone());
 
-		m1->add(makeAlignatumFromString("0123456789"), &*ali, false );
+		m1->add(makeAlignatum("0123456789"), ali, false );
 		cout << *m1 << endl;
 	}	
 		
@@ -167,68 +167,57 @@ int main ()
 	{
 
 		// create a multiple alignment 
-		MultipleAlignment * m1 = makeMultipleAlignmentDots( false );
-		MultipleAlignment * m2 = makeMultipleAlignmentDots( false );    
+		HMultipleAlignment m1(makeMultipleAlignmentDots( false ));
+		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));    
 
-		Alignment * a1 = makeAlignmentVector();
+		HAlignment a1(makeAlignmentVector());
 		fillAlignmentIdentity( a1, 1, 4, 0 );
 		fillAlignmentIdentity( a1, 6, 8, 0 );
 
-		Alignment * a2 = makeAlignmentVector();
+		HAlignment a2(makeAlignmentVector());
 		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignment * a3 = makeAlignmentVector();
+		HAlignment a3(makeAlignmentVector());
 		fillAlignmentIdentity( a3, 1, 6, -1 );
 		fillAlignmentIdentity( a3, 6, 7, 0 );
 		fillAlignmentIdentity( a3, 7, 8, +1 );
 		
-		m1->add(makeAlignatumFromString("ABCDGHJL"), a1);
-		m1->add(makeAlignatumFromString(".ABCDEFGH"), a2);
-		m1->add(makeAlignatumFromString("BCDEFIJKLM"), a3);
+		m1->add(makeAlignatum("ABCDGHJL"), a1);
+		m1->add(makeAlignatum(".ABCDEFGH"), a2);
+		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
 
-		m2->add(makeAlignatumFromString("ABCDGHJL"), a1);
-		m2->add(makeAlignatumFromString(".ABCDEFGH"), a2);
-		m2->add(makeAlignatumFromString("BCDEFIJKLM"), a3);
+		m2->add(makeAlignatum("ABCDGHJL"), a1);
+		m2->add(makeAlignatum(".ABCDEFGH"), a2);
+		m2->add(makeAlignatum("BCDEFIJKLM"), a3);
 
 		cout << *m1 << endl;
 		cout << *m2 << endl;    
 
-		Alignment * aa1 = makeAlignmentVector();
+		HAlignment aa1(makeAlignmentVector());
 		fillAlignmentIdentity( aa1, 1, 9, 0 );    
-
-		// IMPORTANT: m1 takes ownership of objects in m2.
-		// Thus: do not delete m2.
 		m1->add( m2, aa1 );
-
 		cout << *m1 << endl;        
-		delete a1;
-		delete a2;
-		delete a3;
-		delete m1;
-		delete m2;
-		delete aa1;
-
 	}
 
 	{
 
 		// create a multiple alignment 
-		MultipleAlignment * m1 = makeMultipleAlignment();
-		MultipleAlignment * m2 = makeMultipleAlignmentDots( false );    
+		HMultipleAlignment m1(makeMultipleAlignment());
+		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));    
 
-		Alignment * a1 = makeAlignmentVector();
+		HAlignment a1(makeAlignmentVector());
 		fillAlignmentIdentity( a1, 0, 8, 0 );
 
-		m1->add(makeAlignatumFromString("ABCDGHIJL"), a1);
-		m1->add(makeAlignatumFromString("ABCDGHIJL"), a1);
+		m1->add(makeAlignatum("ABCDGHIJL"), a1);
+		m1->add(makeAlignatum("ABCDGHIJL"), a1);
 
-		m2->add(makeAlignatumFromString("ABCDGHIJL"), a1);
-		m2->add(makeAlignatumFromString("ABCDGHIJL"), a1);    
+		m2->add(makeAlignatum("ABCDGHIJL"), a1);
+		m2->add(makeAlignatum("ABCDGHIJL"), a1);    
 
 		cout << *m1 << endl;
 		cout << *m2 << endl;    
 
-		Alignment * aa1 = makeAlignmentVector();
+		HAlignment aa1(makeAlignmentVector());
 		fillAlignmentIdentity( aa1, 0, 5 );
 		fillAlignmentIdentity( aa1, 5, 7, 1 );        
 
@@ -236,10 +225,6 @@ int main ()
 
 		cout << *m1 << endl;
 
-		delete m1;
-		delete m2;
-		delete a1;
-		delete aa1;
 	}
 
 	// check mali dots
@@ -247,28 +232,23 @@ int main ()
 	{
 
 		// create a multiple alignment 
-		MultipleAlignment * m1 = makeMultipleAlignmentDots( true );
+		HMultipleAlignment m1(makeMultipleAlignmentDots( true ));
 
-		Alignment * a1 = makeAlignmentVector();
+		HAlignment a1(makeAlignmentVector());
 
-		Alignment * a2 = makeAlignmentVector();
+		HAlignment a2(makeAlignmentVector());
 		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignment * a3 = makeAlignmentVector();
+		HAlignment a3(makeAlignmentVector());
 		fillAlignmentIdentity( a3, 1, 6, -1 );
 		fillAlignmentIdentity( a3, 6, 7, 0 );
 		fillAlignmentIdentity( a3, 7, 8, +1 );
 
-		m1->add(makeAlignatumFromString("ABCDGHJL") );
-		m1->add(makeAlignatumFromString("YABCDEFGH"), a2);
-		m1->add(makeAlignatumFromString("BCDEFIJKLM"), a3);
+		m1->add(makeAlignatum("ABCDGHJL") );
+		m1->add(makeAlignatum("YABCDEFGH"), a2);
+		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
 
 		std::cout << *m1 << endl;
-
-		delete m1;
-		delete a1;
-		delete a2;
-		delete a3;
 
 	}
 
@@ -276,31 +256,25 @@ int main ()
 		std::cout << "## checking MultipleAlignmentDots options" << std::endl;
 
 		// create a multiple alignment 
-		MultipleAlignment * m1 = makeMultipleAlignmentDots( true );
+		HMultipleAlignment m1(makeMultipleAlignmentDots( true ));
 
-		Alignment * a1 = makeAlignmentVector();
+		HAlignment a1(makeAlignmentVector());
 		fillAlignmentIdentity( a1, 1, 4, 0 );
 		fillAlignmentIdentity( a1, 6, 8, 0 );
 
-		Alignment * a2 = makeAlignmentVector();
+		HAlignment a2(makeAlignmentVector());
 		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignment * a3 = makeAlignmentVector();
+		HAlignment a3(makeAlignmentVector());
 		fillAlignmentIdentity( a3, 1, 6, -1 );
 		fillAlignmentIdentity( a3, 6, 7, 0 );
 		fillAlignmentIdentity( a3, 7, 8, +1 );
 
-		m1->add(makeAlignatumFromString("ABCDGHJL"), a1);
-		m1->add(makeAlignatumFromString("YABCDEFGH"), a2);
-		m1->add(makeAlignatumFromString("BCDEFIJKLM"), a3);
+		m1->add(makeAlignatum("ABCDGHJL"), a1);
+		m1->add(makeAlignatum("YABCDEFGH"), a2);
+		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
 
 		std::cout << *m1 << endl;
-
-		delete m1;
-		delete a1;
-		delete a2;
-		delete a3;
-
 	}
 
 	// check mali dots
@@ -309,33 +283,28 @@ int main ()
 		std::cout << "## checking MultipleAlignmentDots options" << std::endl;
 
 		// create a multiple alignment 
-		MultipleAlignment * m1 = makeMultipleAlignmentDots( true, 0 );
+		HMultipleAlignment m1(makeMultipleAlignmentDots( true, 0 ));
 
-		Alignment * a1 = makeAlignmentVector();
+		HAlignment a1(makeAlignmentVector());
 		fillAlignmentIdentity( a1, 1, 4, 0 );
 		fillAlignmentIdentity( a1, 6, 8, 0 );
 
-		Alignment * a2 = makeAlignmentVector();
+		HAlignment a2(makeAlignmentVector());
 		fillAlignmentIdentity( a2, 0, 5, +1 );
 
-		Alignment * a3 = makeAlignmentVector();
+		HAlignment a3(makeAlignmentVector());
 		fillAlignmentIdentity( a3, 1, 6, -1 );
 		fillAlignmentIdentity( a3, 6, 7, 0 );
 		fillAlignmentIdentity( a3, 7, 8, +1 );
 
-		m1->add(makeAlignatumFromString("ABCDGHJL"), a1);
-		m1->add(makeAlignatumFromString(".ABCDEFGH"), a2);
-		m1->add(makeAlignatumFromString("BCDEFIJKLM"), a3);
+		m1->add(makeAlignatum("ABCDGHJL"), a1);
+		m1->add(makeAlignatum(".ABCDEFGH"), a2);
+		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
 
 		cout << *m1 << endl;
 
-		delete m1;
-		delete a1;
-		delete a2;
-		delete a3;
 	}
 	
-	delete reference;
 }
 
 

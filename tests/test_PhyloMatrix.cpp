@@ -9,7 +9,7 @@
 //--------------------------------------------------------------------------------
 
 /** Test Matrix object
-*/
+ */
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -23,46 +23,43 @@
 #include <time.h> 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "PhyloMatrix.h"
 #include "HelpersPhyloMatrix.h"
 
 using namespace std;
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace alignlib;
 
 int main ()
 {
-  
-  PhyloMatrix * m = makePhyloMatrixSymmetric(10, 0);
 
-  cout << *m << endl;
+	HPhyloMatrix m = makePhyloMatrixSymmetric(10, 0);
 
-  // reading and writing
-  (*m)(3,5) = 5;
-  cout << (*m)(3,5) << endl;
+	cout << *m << endl;
 
-  cout << *m << endl;
-  
-  for (int i = 0; i < 10; i++) {
-    (*m)(3,i) = i;
-    (*m)(5,i) = 100 + i;
-  }
+	// reading and writing
+	(*m)(3,5) = 5;
+	cout << (*m)(3,5) << endl;
 
-  (*m)(0,0) = 0;
-  (*m)(3,5) = 1000;
-  cout << *m << endl;
+	cout << *m << endl;
 
-  m->swap( 3, 5);
-  
-  cout << "After swapping 3 and 5\n" << *m << endl;
+	for (int i = 0; i < 10; i++) {
+		(*m)(3,i) = i;
+		(*m)(5,i) = 100 + i;
+	}
 
-  m->shrink();
+	(*m)(0,0) = 0;
+	(*m)(3,5) = 1000;
+	cout << *m << endl;
 
-  cout << "After shrinking\n" << *m << endl;
+	m->swap( 3, 5);
 
-  return (EXIT_SUCCESS);
+	cout << "After swapping 3 and 5\n" << *m << endl;
+
+	m->shrink();
+
+	cout << "After shrinking\n" << *m << endl;
+
+	return (EXIT_SUCCESS);
 }

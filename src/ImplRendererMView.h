@@ -29,9 +29,10 @@
 #define IMPL_RENDERER_MVIEW_H 1
 
 #include "alignlib.h"
-#include "ImplRenderer.h"
+#include "ImplRendererPalette.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
  /** render one string into another
 
@@ -44,7 +45,8 @@ namespace alignlib {
       
   */
     
-class ImplRendererMView : public ImplRenderer {
+class ImplRendererMView : public ImplRendererPalette 
+{
 
  public:
     // constructors and desctructors

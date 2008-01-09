@@ -34,8 +34,10 @@
 #include <time.h> 
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Alignandum.h"
 #include "HelpersSequence.h"
+#include "HelpersScorer.h"
 
 #include "Alignment.h"
 #include "HelpersAlignment.h"
@@ -43,19 +45,20 @@
 
 using namespace std;
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace alignlib;
 
-bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false) {
+bool isIdentical( 
+		const HAlignment & a, 
+		const HAlignment & b, 
+		bool inverse = false) 
+{
 
-	AlignmentConstIterator it1(a->begin());
-	AlignmentConstIterator it1_end(a->end());
+	AlignmentIterator it1(a->begin());
+	AlignmentIterator it1_end(a->end());
 
-	AlignmentConstIterator it2(b->begin());
-	AlignmentConstIterator it2_end(b->end());
+	AlignmentIterator it2(b->begin());
+	AlignmentIterator it2_end(b->end());
 
 	bool is_identical = true;
 
@@ -72,7 +75,7 @@ bool isIdentical( const Alignment * a, const Alignment * b, bool inverse = false
 	return is_identical;
 }
 
-bool TestCompressionMonotone( Alignment * a, 
+bool TestCompressionMonotone( HAlignment & a, 
 		const char *xrow, 
 		const char *xcol,
 		const char *crow = NULL, 
@@ -109,10 +112,10 @@ bool TestCompressionMonotone( Alignment * a,
 	}
 }
 
-bool TestCompressionDiagonal( Alignment * a, 
+bool TestCompressionDiagonal( HAlignment & a, 
 		const char *xrow, 
-		const char *crow = NULL) {
-
+		const char *crow = NULL) 
+{
 
 	if (crow == NULL) crow = xrow;
 
@@ -138,7 +141,7 @@ bool TestCompressionDiagonal( Alignment * a,
 
 
 // tests for diagonal alignments
-void TestDiagonal(Alignment * a) 
+void TestDiagonal(HAlignment & a) 
 {
 
 	{ 
@@ -158,7 +161,8 @@ void TestDiagonal(Alignment * a)
 
 
 // tests for monotone alignments
-void TestMonotone( Alignment * a) {
+void TestMonotone( HAlignment & a) 
+{
 
 	{ 
 		cout << "testing...fill/writeAlignmentCompressed()...";
@@ -182,32 +186,30 @@ void TestMonotone( Alignment * a) {
 		a->addPair( new ResiduePAIR( 5, 7, 0));                  
 		a->addPair( new ResiduePAIR( 9, 9, 0));                           
 
-		Alignment * b = a->getNew();
-		Alignment * c = a->getNew();
+		HAlignment b = a->getNew();
+		HAlignment c = a->getNew();
 
 		fillAlignmentSummation( b, c, a, true, true, true, true, 11, 11);
 	}
 }
 
 // tests for both
-void Test( Alignment * a) {
+void Test( HAlignment & a) 
+{
 	{ 
 		cout << "testing...copyAlignment()...";
 
-		Alignment * a_new = makeAlignmentVector();
+		HAlignment a_new = makeAlignmentVector();
 		copyAlignment( a_new, a);
-		delete a_new;
 	}
 
 	{ 
 		cout << "testing...combineAlignment()...";
-		Alignment * a_new = makeAlignmentVector();
+		HAlignment a_new = makeAlignmentVector();
 		combineAlignment( a_new, a, a, alignlib::RR); 
 		combineAlignment( a_new, a, a, alignlib::CR);
 		combineAlignment( a_new, a, a, alignlib::RC);
 		combineAlignment( a_new, a, a, alignlib::CC);
-		delete a_new;
-
 		cout << "passed" << endl;
 	}
 
@@ -218,11 +220,10 @@ void Test( Alignment * a) {
 	}
 	{
 		cout << "testing...rescoreAlignment()...";
-		Alignandum * s1 = makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		Alignandum * s2 = makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		rescoreAlignment( a, s1, s2);
-		delete s1;
-		delete s2;
+		HAlignandum s1 = makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		HAlignandum s2 = makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		HScorer s( makeScorer( s1, s2 ) );
+		rescoreAlignment( a, s1, s2, s);
 		cout << "passed" << endl;
 	}
 
@@ -241,17 +242,15 @@ void Test( Alignment * a) {
 
 	{ 
 		cout << "testing...addAlignment2Alignment()...";
-		Alignment * b = makeAlignmentVector();
+		HAlignment b = makeAlignmentVector();
 		addAlignment2Alignment( b, a );
-		delete b;
 		cout << "passed" << endl;
 	}
 
 	{ 
 		cout << "testing...addMappedAlignment2Alignment()...";
-		Alignment * b = makeAlignmentVector();
+		HAlignment b = makeAlignmentVector();
 		addMappedAlignment2Alignment( b, a, a, alignlib::RR );
-		delete b;
 		cout << "passed" << endl;
 	}
 
@@ -261,55 +260,55 @@ void Test( Alignment * a) {
 
 int main () {
 
-	Alignment * a;
+	HAlignment a;
 
 	cout << "---------------------Testing AlignmentVector-------------------------------" << endl;
 	a = makeAlignmentVector();
 	TestMonotone( a );
 	Test( a );
-	delete a;
+	
 
 	cout << "---------------------Testing AlignmentSet----------------------------------" << endl;
 	a = makeAlignmentSet();
 	TestMonotone( a );
 	Test( a );
-	delete a;
+	
 
 	cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
 	a = makeAlignmentHash();
 	TestMonotone( a );
 	Test( a );
-	delete a;
+	
 
 	cout << "---------------------Testing AlignmentSetCol------------------------------" << endl;
 	a = makeAlignmentSetCol();
 	TestMonotone( a );
 	Test( a );
-	delete a;
+	
 
 	cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
 	a = makeAlignmentMatrixRow();
 	TestMonotone( a );
 	Test( a );
-	delete a;
+	
 
 	cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
 	a = makeAlignmentMatrixDiagonal();
 	TestDiagonal( a );
 	Test( a );
-	delete a;
+	
 
 	cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
 	a = makeAlignmentHashDiagonal();
 	TestDiagonal( a );
 	Test( a );
-	delete a;
+	
 
 	cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
 	a = makeAlignmentMatrixUnsorted();
 	TestDiagonal( a );
 	Test( a );
-	delete a;
+	
 
 }
 

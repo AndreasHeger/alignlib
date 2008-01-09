@@ -36,53 +36,55 @@
 #include "alignlib_fwd.h"
 
 #include "Alignatum.h"
+#include "Alignandum.h"
 #include "HelpersAlignatum.h"
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
 #include "AlignlibDebug.h"
 #include "Weightor.h"
-#include "HelpersWeightor.h"
+#include "HelpersProfile.h"
 #include "HelpersTranslator.h"
+
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
 using namespace std;
 using namespace alignlib;
 
-void testWeightor( const HWeightor & weightor ) 
+std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
+std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
+
+void test_GenericWeightor( HWeightor & weightor )
 {
-	std::auto_ptr<MultipleAlignment> mali(makeMultipleAlignment());
-
-	mali->add(makeAlignatumFromString("AAAAAAAAAAAAA"));
-	mali->add(makeAlignatumFromString("AAAAAAAAAAAAA"));
-	mali->add(makeAlignatumFromString("AAAAAAAAAAAAA"));
+	HAlignandum a(makeProfile( ref_protein20x3, 3,
+			getDefaultTranslator(), 
+			weightor, 
+			getDefaultRegularizor(), 
+			getDefaultLogOddor()));
 	
-	SequenceWeights * weights = weightor->calculateWeights( *mali );
-	
-	for (int i = 0; i < mali->getWidth(); ++i)
-		std::cout << (*weights)[i] << std::endl;
-
-	delete weights;
+	a->prepare();	
+	std::cout << *a << std::endl;
 }
 
-
-int main () 
+BOOST_AUTO_TEST_CASE( test_Weightor )
 {
-	std::cout << "----- testing NoWeightor ---------" << std::endl;
-	{
-		testWeightor( makeWeightor( getDefaultTranslator()) );
-	}
-
-	std::cout << "----- testing WeightorHenikoff ---------" << std::endl;
-	{
-		testWeightor( makeWeightorHenikoff( getDefaultTranslator()) );
-	}
-	
-	std::cout << "----- testing WeightorHenikoffKimmen ---------" << std::endl;
-	{
-		testWeightor( makeWeightorHenikoffKimmen( getDefaultTranslator()) );
-	}
-	
+	HWeightor l(makeWeightor());	
+	test_GenericWeightor( l );
 }
 
+BOOST_AUTO_TEST_CASE( test_WeightorHenikoff )
+{
+	HWeightor l(makeWeightorHenikoff());
+	test_GenericWeightor( l );
+}
+
+BOOST_AUTO_TEST_CASE( test_WeightorHenikoffKimmen )
+{
+	setDefaultTranslator( getTranslator( Protein23 ) );
+	HWeightor l(makeWeightorHenikoffKimmen());
+	test_GenericWeightor( l ); 
+}
 
 
 

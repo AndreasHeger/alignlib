@@ -25,6 +25,7 @@
 #include <iomanip>
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "AlignException.h"
 
 #include "ImplScorer.h"
 
@@ -76,6 +77,10 @@ namespace alignlib
 	  return HScorer( new ImplScorer(*this) ) ;
   }
   
+  Score ImplScorer::getScore( Position row, Position col) const
+  {
+	  throw AlignException( "asked from a score from the default scorer ");
+  }
   
 }
 

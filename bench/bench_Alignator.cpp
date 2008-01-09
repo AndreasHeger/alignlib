@@ -154,7 +154,7 @@ double tval( struct timeval *timval0, struct timeval *timval1)
   return t;
 }
  
-double Benchmark( Alignator * a, 
+double Benchmark( HAlignator & a, 
 		  long iterations,
 		  FunctionType ptr_dofunc, 
 		  FunctionType ptr_prefunc = NULL, 
@@ -166,9 +166,9 @@ double Benchmark( Alignator * a,
 
   double elapsed = 0;
 
-  Alignandum * row;
-  Alignandum * col;
-  Alignment * result;
+  HAlignandum row;
+  HAlignandum col;
+  HAlignment result;
   
   if (ptr_initfunc != NULL)
     (*ptr_initfunc)(&a, &row, &col, &result);
@@ -202,7 +202,7 @@ double Benchmark( Alignator * a,
 
 void BenchmarkAll( 
 		long iterations,
-		Alignator * alignator )
+		HAlignator & alignator )
 {
 
 	// benchmark seq vs seq
@@ -230,7 +230,7 @@ int main ( int argc, char ** argv)
 	
 	cout << "alignator\tseqseq\tseqprof\tprofprof" << std::endl;
 	{
-		Alignator * alignator = makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 );
+		HAlignator alignator = makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 );
 		cout << "AlignatorDPFull\t"; BenchmarkAll( num_iterations, alignator );
 		delete alignator;
 	}

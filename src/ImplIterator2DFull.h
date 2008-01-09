@@ -39,7 +39,9 @@ namespace alignlib {
     public:
       
       /** empty constructor */
-      ImplIterator2DFull( const HAlignandum & row, const HAlignandum & col); 
+        ImplIterator2DFull(); 
+    	
+        ImplIterator2DFull( const HAlignandum & row, const HAlignandum & col); 
     
       /** destructor */
       virtual ~ImplIterator2DFull ();

@@ -21,25 +21,15 @@
 */
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "AlignlibDebug.h"
 #include "LogOddor.h"
 #include "HelpersLogOddor.h"
 
+
 namespace alignlib 
 {
+	IMPLEMENT_DEFAULT( HLogOddor, makeLogOddor(), getDefaultLogOddor, setDefaultLogOddor );
   
-  static HLogOddor DEFAULT_LOGODDOR(makeLogOddor());
-  
-  /** gets the default LogOddor object */ 
-  const HLogOddor getDefaultLogOddor() 
-  {
-    return DEFAULT_LOGODDOR;
-  }
-
-  /** sets the default LogOddor object */
-  void setDefaultLogOddor( const HLogOddor & logOddor ) 
-  {
-    DEFAULT_LOGODDOR = logOddor;
-  }
-
 } // namespace alignlib

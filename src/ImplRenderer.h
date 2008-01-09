@@ -31,7 +31,8 @@
 #include "alignlib.h"
 #include "Renderer.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
  /** render on string into another
       
@@ -41,29 +42,26 @@ namespace alignlib {
       
   */
 
-class ImplRenderer : public Renderer {
+class ImplRenderer : public Renderer 
+{
 
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplRenderer  (const TYPE_PALETTE * palette );
+    ImplRenderer();
     
     /** copy constructor */
-    ImplRenderer  (const ImplRenderer &);
+    ImplRenderer(const ImplRenderer &);
 
     /** destructor */
-    virtual ~ImplRenderer ();
+    virtual ~ImplRenderer();
 
     // render one string into a different representation
     virtual std::string render( const std::string & representation, 			      
 				Position segment_start, 
-				Position segment_end ) const = 0;
-    
- protected:
-    /** the palette used for coloring */
-    const TYPE_PALETTE * mPalette;
-    
+				Position segment_end ) const;
+        
 };
 
  

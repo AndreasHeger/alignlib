@@ -34,13 +34,15 @@
 #include "AlignmentIterator.h"
 #include "Alignandum.h"
 #include "Renderer.h"
+#include "HelpersAlignatum.h"
 #include "HelpersTranslator.h"
 #include "HelpersRenderer.h"
 #include "AlignException.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
   //-------------------------------------------------------------------------------------------------
   /** factory functions */
@@ -49,17 +51,18 @@ namespace alignlib {
     return HAlignatum( new ImplAlignatum() );
   }
 
-  HAlignatum makeAlignatumFromString( const std::string & src, 
-      Position from, 
-      Position to ) 
+  HAlignatum makeAlignatum( const std::string & src, 
+      const Position from, 
+      const Position to ) 
       {
         return HAlignatum( new ImplAlignatum( src, from, to) );
       }
-  HAlignatum makeAlignatumFromString( const char * src, 
-      Position from, 
-      Position to ) 
+
+  HAlignatum makeAlignatum( const HAlignandum & src,
+      const Position from, 
+      const Position to ) 
       {
-        return HAlignatum( new ImplAlignatum( std::string(src), from, to) );
+        return HAlignatum( new ImplAlignatum( std::string(src->asString()), from, to) );
       }
 
   HAlignatum makeAlignatum(

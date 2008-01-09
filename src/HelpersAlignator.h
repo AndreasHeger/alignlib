@@ -68,22 +68,22 @@ namespace alignlib
     HAlignator makeAlignatorPublishAlignment( HAlignment & ali );
     
     /** make an alignator object, which does a dot-alignment with wrapping around. */
-    HAlignator makeAlignatorDotsWrap( 
+    HAlignator makeAlignatorDotsWrap(
+    		const HAlignator & alignator,    		
     		Score gop, 
-    		Score gep, 
-    		HAlignator & alignator );
+    		Score gep );
 
     /** make an alignator object, which does a dot-alignment with wrapping around. */
-    HAlignator makeAlignatorDotsSquared( 
+    HAlignator makeAlignatorDotsSquared(
+    		const HAlignator & alignator,
     		Score gop, 
-    		Score gep, 
-    		HAlignator & alignator );
+    		Score gep );
     
     /** make an alignator object, which does a dot-alignment with wrapping around. */
     HAlignator makeAlignatorDotsSquaredDiagonal(
+    		const HAlignator & alignator,     		
     		Score gop, 
     		Score gep, 
-    		const HAlignator & alignator, 
     		Score diagnal_gop = 0,
     		Score diagonal_gep = 0 );
 

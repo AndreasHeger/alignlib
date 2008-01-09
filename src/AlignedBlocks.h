@@ -46,6 +46,8 @@ struct AlignedBlocks
 	// constructors and desctructors
 	AlignedBlocks ();
 
+	AlignedBlocks( const HAlignment & src);
+	
 	AlignedBlocks (const AlignedBlocks &);
 
 	virtual ~AlignedBlocks ();
