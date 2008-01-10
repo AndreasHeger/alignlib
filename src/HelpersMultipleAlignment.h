@@ -110,9 +110,10 @@ namespace alignlib
 	Only include num_rows rows in the alignment. If num_rows is not set (0), all
 	rows are taken.
     */
+    /*
     CountsMatrix * makeCountsByCategory( const HMultipleAlignment & mali, 
 					 const unsigned int * map_residue2category = NULL);
-
+	*/
     /** make a map from residues to categories. The following order has been suggested by Hannes for
 	surface area calculations:
           'K': 1, 'R': 1,

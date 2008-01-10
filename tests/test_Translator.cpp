@@ -41,10 +41,14 @@ using namespace alignlib;
 void testTranslator( const HTranslator & translator, 
 		const std::string & alphabet,
 		const std::string & gap_chars,
-		const std::string & mask_chars )
+		const std::string & mask_chars,
+		int alphabet_size )
 {
-	// check alphabet
-	assert( alphabet.size() == translator->getAlphabetSize() );
+	std::cout << *translator << std::endl;
+	
+	// check alphabet size (number of chars + 1 for mask value)
+	assert( alphabet_size == translator->getAlphabetSize() );
+	
 	for (int x = 0; x < alphabet.size(); ++x)
 	{
 		assert( x == translator->encode( alphabet[x] ) );
@@ -73,13 +77,28 @@ void testTranslator( const HTranslator & translator,
 		
 		HTranslator b;
 		int n = 0;
-		while ( b = loadTranslator( file ) ) 
+		while ( file.peek() != EOF )
 		{
+			b = loadTranslator( file ) ;
 			if (b->getAlphabetType() != User )
 				assert( translator == b );
 			++n; 
 		}
 		assert( n == 2 );
+	}	
+	
+	{
+		HTranslator n( getTranslator( Protein20 ));
+		HResidueVector map_new2old( n->map( translator ) );
+		for (Residue x = 0; x < map_new2old->size(); ++x)
+			std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
+	}
+
+	{
+		HTranslator n( getTranslator( Protein20 ));
+		HResidueVector map_new2old( translator->map( n ) );
+		for (Residue x = 0; x < map_new2old->size(); ++x)
+			std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
 	}
 	
 }
@@ -89,18 +108,19 @@ int main ()
 {
 	std::cout << "----- testing Protein23 ---------" << std::endl;
 	{
-		testTranslator( getTranslator( Protein23 ), "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" );
+		testTranslator( getTranslator( Protein23 ), "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X", 23 );
 	}
 
 	std::cout << "----- testing Protein20 ---------" << std::endl;
 	{
-		testTranslator( getTranslator( Protein20 ), "ACDEFGHIKLMNPQRSTVWY", "-.", "X" );
+		testTranslator( getTranslator( Protein20 ), "ACDEFGHIKLMNPQRSTVWY", "-.", "X", 21 );
 	}
 
 	std::cout << "----- testing DNA4 ---------" << std::endl;
 	{
-		testTranslator( getTranslator( DNA4 ), "ACGT", "-.", "N" );
+		testTranslator( getTranslator( DNA4 ), "ACGT", "-.", "N", 5 );
 	}
+	
 	
 	
 	

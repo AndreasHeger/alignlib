@@ -45,11 +45,13 @@ namespace alignlib
 		// read Alignandum type
 		MagicNumberType magic_number;
 
-		throw AlignException( "unknown object found in stream" );
+		if (input.eof())
+			throw AlignException( "unknown object found in stream" );
 
 		input.read( (char*)&magic_number, sizeof(MagicNumberType) );
-		
-		throw AlignException( "unknown object found in stream" );
+			
+		if (input.eof())		
+			throw AlignException( "unknown object found in stream" );
 		
 		switch (magic_number)
 		{

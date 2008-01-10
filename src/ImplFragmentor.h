@@ -82,14 +82,10 @@ class ImplFragmentor : public Fragmentor
 
     /* perform the actual alignment */
     virtual void performFragmentation( 
-    		HAlignment & dest,
+    		const HAlignment & dest,
     		const HAlignandum & row, 
     		const HAlignandum & col ) = 0;
 
-    /** pointer to substitution matrix to use. not private, so children can access it */
-    const HSubstitutionMatrix mSubstitutionMatrix;
-
- protected:
     /** length of object in row */
     Position mRowLength;
     /** length of object in col */

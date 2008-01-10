@@ -72,12 +72,12 @@ int main ()
   fillAlignmentIdentity( dots, 20, 24, 0);
   rescoreAlignment( dots, 1.0);
 
-  cout << "Dots read in" << *dots << endl;
+  cout << "Dots read in:\n" << *dots << endl;
 
   HFragmentor f(makeFragmentorIterative( dots, 2, -1, -1));
   
   HAlignment t_ali(makeAlignmentSet());
-  
+    
   HFragmentVector fragments(f->fragment( t_ali, s1, s2 ));
 
   for (unsigned int i = 0; i < fragments->size(); i++) {

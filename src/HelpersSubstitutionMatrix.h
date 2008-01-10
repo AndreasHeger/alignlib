@@ -70,15 +70,19 @@ namespace alignlib
     
     /** The blosum62 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixBlosum62();
+    HSubstitutionMatrix makeSubstitutionMatrixBlosum62( const HTranslator & );
     
     /** The blosum50 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixBlosum50();
-
+    HSubstitutionMatrix makeSubstitutionMatrixBlosum50( const HTranslator & );
+    
     /** The pam250 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixPam250();
+    HSubstitutionMatrix makeSubstitutionMatrixPam250( const HTranslator & );    
     
     /** The pam120 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixPam120();
+    HSubstitutionMatrix makeSubstitutionMatrixPam120( const HTranslator & );    
     
 }
 

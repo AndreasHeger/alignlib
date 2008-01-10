@@ -29,13 +29,10 @@
 #define ITERATOR2D_H 1
 
 #include "alignlib.h"
-#include "alignlib_fwd.h"
 #include <vector>
 
 namespace alignlib
 {
-
-class Alignandum;
 
 template< class T>
 class const_countable_iterator : public std::iterator< std::random_access_iterator_tag, T>

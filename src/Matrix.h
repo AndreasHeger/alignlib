@@ -29,6 +29,8 @@
 
 #include <iostream>
 #include <cassert>
+#include <vector>
+#include <algorithm>
 
 namespace alignlib 
 {
@@ -151,6 +153,56 @@ public:
 		memcpy( &mMatrix[y*mCols], buffer           , s );
 	}
 	
+	/** mapRows
+	 * 
+	 * creates a new matrix by mapping old rows to new rows
+	 * using the map in map_new2old.
+	 * 
+	 * This is efficient, as the matrix is arranged by rows
+	 * and can thus proceed row-wise.
+	 */
+	void mapRows( std::vector < unsigned int > & map_new2old )
+	{
+		assert( *(std::max_element( map_new2old.begin(), map_new2old.end())) < mRows );
+
+		T * old_matrix = mMatrix;
+
+		mRows = map_new2old.size();
+		mSize = mRows * mCols;
+		mMatrix = new T[mSize];
+		
+		for (unsigned int r = 0; r < mRows; ++r)
+			memcpy( &mMatrix[r * mCols],  
+					&old_matrix[map_new2old[r] * mCols], 
+					sizeof(T) * mCols );
+		delete [] old_matrix;
+	}
+
+	/** mapCols
+	 * creates a new matrix by mapping old cols to new cols.
+	 * This is in-efficient, as the matrix is arranged by rows
+	 * and thus proceeds element-wise.
+	 */
+	void mapCols( std::vector< unsigned int> & map_new2old )
+	{
+		assert( *(std::max_element( map_new2old.begin(), map_new2old.end())) < mCols );
+		
+		unsigned int old_cols = mCols;
+		T * old_matrix = mMatrix;
+		
+		mCols = map_new2old.size();
+		mSize = mRows * mCols;
+		mMatrix = new T[mSize];
+		
+		for (unsigned int c = 0; c < mCols; ++c)
+		{
+			unsigned int m  = map_new2old[c];
+			for (unsigned int r = 0; r < mRows; ++r)				
+				setValue( r,c, old_matrix[ r * old_cols + m] );
+		}
+		delete [] old_matrix;
+	}
+	
 private:
 
 	/** data location */
@@ -164,13 +216,14 @@ private:
 
 };
 
+
+// write a matrix to stream (human readable)
 template<class T> 
 std::ostream & operator<< (std::ostream & out, const Matrix<T> & src) 
 {
-
+	std::cout << src.getNumRows() << " " << src.getNumCols() << std::endl;
 	for (unsigned int i = 0; i < src.getNumRows(); i++) 
 	{
-		out << i << "=\t";
 		for (unsigned int j = 0; j < src.getNumCols(); j++) 
 		{
 			out << src[i][j] << "\t";
@@ -179,6 +232,25 @@ std::ostream & operator<< (std::ostream & out, const Matrix<T> & src)
 	}
 	return out;
 }
+
+// read a matrix from stream (human readable)
+template<class T> 
+std::istream & operator>>(std::istream & input, Matrix<T> & target) 
+{
+	input >> target.mNumRows >> target.mNumCols;
+	target.mSize = target.mNumRows * target.mNumCols;
+	delete [] target.mMatrix;
+	
+	unsigned int z = 0;
+	for (unsigned int i = 0; i < target.getNumRows(); i++) 
+		for (unsigned int j = 0; j < target.getNumCols(); j++, ++z) 
+			input >> target.mMatrix[z];
+	return input;
+}
+
+
+
+
 
 }
 #endif

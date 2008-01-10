@@ -52,7 +52,11 @@ namespace alignlib
 
 /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
       object */
-HFragmentor makeFragmentorIterative( HAlignment dots, Score min_score, Score gop, Score gep) 
+HFragmentor makeFragmentorIterative( 
+		const HAlignment & dots, 
+		Score min_score, 
+		Score gop, Score 
+		gep) 
 {
 	return HFragmentor( new ImplFragmentorIterative( dots, min_score, gop, gep) );
 }
@@ -61,7 +65,7 @@ HFragmentor makeFragmentorIterative( HAlignment dots, Score min_score, Score gop
 //----------------------------------------------------------------------------------------------------
 
 ImplFragmentorIterative::ImplFragmentorIterative( 
-		HAlignment dots, 
+		const HAlignment & dots, 
 		Score min_score, 
 		Score gop, 
 		Score gep) :
@@ -89,7 +93,7 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 
 		//------------------------------------------------------------------------------------------------
 		void ImplFragmentorIterative::performFragmentation(
-				HAlignment & sample,
+				const HAlignment & sample,
 				const HAlignandum & row, 
 				const HAlignandum & col ) 
 		{

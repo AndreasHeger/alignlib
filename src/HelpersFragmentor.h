@@ -48,36 +48,37 @@ namespace alignlib {
   class Alignator;
  
   /* 1. factory functions */
-  Fragmentor * makeFragmentorDiagonals(Score gop, 
-				       Score gep, 
-				       Alignator * dottor );
+  HFragmentor makeFragmentorDiagonals(
+		  Score gop, 
+		  Score gep, 
+		  const HAlignator & dottor );
   
-  Fragmentor * makeFragmentorIterative( HAlignment dots, 
-					Score min_score,
-					Score gop,
-					Score gep );
+  HFragmentor makeFragmentorIterative( 
+		  const HAlignment & dots, 
+		  Score min_score,
+		  Score gop,
+		  Score gep );
 
-  Fragmentor * makeFragmentorRepetitive( Alignator * alignator,
-					 Score min_score );
+  HFragmentor makeFragmentorRepetitive( 
+		  const HAlignator & alignator,
+		  Score min_score );
 
-
-  
   /* 2. accessor functions for default objects */
     
 
   /* 3. convenience functions */
-  void writeFragments( std::ostream & output, const FragmentVector * fragments);
+  void writeFragments( 
+		  std::ostream & output,
+		  const HFragmentVector & fragments);
  
-  /** delete all fragments in fragment-vector and then destroy pointer */
-  void deleteFragments( FragmentVector * fragments );
-
   /** rescore fragments. 
       The score of a fragment is the number of aligned residues plus gap penalties. 
       Gaps are penalized using affine gap penalties.
   */
-  void rescoreFragmentsNumberGaps( FragmentVector * fragments, 
-				   Score gop = 0, 
-				   Score gep = 0);
+  void rescoreFragmentsNumberGaps( 
+		  HFragmentVector & fragments, 
+		  Score gop = 0, 
+		  Score gep = 0);
 
 }
 

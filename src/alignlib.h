@@ -20,7 +20,9 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/** global definition of atomic types.
+/** Interface makefile. 
+ * 
+ * Defines all the classes, types, interfaces and functions.
  */
 
 #if HAVE_CONFIG_H
@@ -30,111 +32,10 @@
 #ifndef _ALIGNLIB_H
 #define _ALIGNLIB_H 1
 
-namespace alignlib
-{
-
-#define MAX_DIAGONAL 99999999
-
-	
-/* type for the internal representation of residues */  
-typedef unsigned char Residue;
-
-/** type in which calculations are done
- */
-typedef double Score;
-
-/** type of a diagonal index. Has to be a signed type, as diagonals can be positive or negative
- */
-typedef long Diagonal;	
-
-/* type of a dot index, has to be signed, since NODOT is -1 */
-typedef long Dot;	
-
-/* type of a fragment index, has to be signed, since NOFRAGMENT is -1 */
-typedef long Fragment;	
-
-/* type of a position in a sequence, negative positions are invalid positions, thus use a signed type. */
-typedef int Position;	
-
-/* invalid position */
-#define NO_POS -1
-
-/* type of sequence weights */
-typedef double SequenceWeight;
-
-/* type of counts, no speed difference between float and double
-    I have to use real values, since I the counts correspond to
-    weighted counts */
-typedef double Count;
-
-/* type of one entry in a frequencies-table */
-typedef double Frequency;
-
-/** alignment types */
-enum AlignmentType
-{
-	ALIGNMENT_LOCAL, ALIGNMENT_WRAP, ALIGNMENT_GLOBAL
-};
-
-/** how to map residues
- * STRICT: do not find adjacent residues
- * LEFT: map to left (smaller residue numbers) until a match is found
- * RIGHT: map to right (larger residue numbers) until a match is found
- */
-enum SearchType
-{
-	NO_SEARCH, LEFT, RIGHT
-};
-
-enum LinkageType
-{
-	SINGLE_LINKAGE,           // = single linkage clustering
-	COMPLETE_LINKAGE,		  // = complete linkage clustering
-	AVERAGE_LINKAGE,          // = UPGMA
-	UPGMA,                    // = unweighted pair group method average (UPGMA), see Theodoridis & Koutroumbas, p411
-	WPGMA,                    // = weighted pair group method average (WPGMA), as above
-	UPGMC,                    // = unweighted pair group method centroid (UPGMC), as above
-	WPGMC                     // = weighted pair group method centroid (UPGMC), as above
-};
-
-// List of objects that allow saving state information
-enum MagicNumberType
-{
-	MNNoType,
-	MNImplAlignandum,
-	MNImplSequence,
-	MNImplProfile,
-};
-
-// Known alphabets
-enum AlphabetType
-{
-	User,
-	Protein20,
-	Protein23,
-	DNA4,
-};
-
-/* type of a height of a node in the tree */
-typedef double TreeHeight;
-
-/* type of a weight of an edge in the tree */
-typedef double TreeWeight;
-
-/* type of a tree node */
-typedef unsigned long Node;
-
-
-struct Coordinate 
-{
-	unsigned long row;
-	unsigned long col;
-};
-
-typedef double PhyloMatrixValue;
-
-typedef unsigned long PhyloMatrixSize;
-} 
+#include "alignlib_types.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
+#include "alignlib_functions.h"
 
 #endif /* _ALIGNLIB_H */
 

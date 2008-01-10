@@ -41,6 +41,33 @@ namespace alignlib
 
 //---------------------------------< implementation of factory functions >--------------
 
+//----------------------------------------------------------------------------------
+/** create a sequence from a NULL-terminated string */
+HAlignandum makeSequence( const char * sequence, 
+		const HTranslator & translator ) 
+		{
+		return makeSequence( std::string(sequence), translator );
+		}
+
+HAlignandum makeSequence( const char * sequence )
+		{
+		return makeSequence( std::string(sequence) );
+		}
+
+//----------------------------------------------------------------------------------
+/** create a sequence from a string */
+HAlignandum makeSequence( const std::string & sequence,
+		const HTranslator & translator ) 
+		{
+		return HAlignandum( new ImplSequence( sequence, translator ) );
+		}
+
+HAlignandum makeSequence( const std::string & sequence )
+		{
+	return HAlignandum( new ImplSequence( sequence, getDefaultTranslator() ) );
+		}
+
+
 //--------------------------------------------------------------------------------------
 ImplSequence::ImplSequence( const HTranslator & translator ) :
 	ImplAlignandum( translator ),

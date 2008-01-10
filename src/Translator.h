@@ -28,6 +28,7 @@
 #define TRANSLATOR_H 1
 
 #include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
@@ -108,8 +109,19 @@ class Translator
     /** return the alphabet type */
     virtual AlphabetType getAlphabetType() const = 0;
     
-    /** get the size of the alphabet - excluding gap and mask characters */
+    /** get the size of the alphabet. This includes
+     * mask characters but excludes gap characters */
     virtual int getAlphabetSize() const = 0;
+    
+    /** build a map between two translators. Return a mapping of
+     * every residue in the other translator to characters in this translator.
+     * 
+     * All characters than can not be mapped will be mapped to the mask 
+     * character.
+     * 
+     * This function will not map gap characters.
+     */
+    virtual HResidueVector map( const HTranslator & other ) const = 0;
     
     /** write translator to stream */
     virtual void write( std::ostream &) const = 0;

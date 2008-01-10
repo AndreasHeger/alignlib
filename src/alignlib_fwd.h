@@ -93,7 +93,7 @@ namespace alignlib
 	
 	typedef Matrix<Score> ScoreMatrix;
     typedef boost::shared_ptr<ScoreMatrix>HScoreMatrix;
-	
+	  
 	typedef Matrix<Frequency> FrequencyMatrix;
     typedef boost::shared_ptr<FrequencyMatrix>HFrequencyMatrix;
 	
@@ -106,6 +106,11 @@ namespace alignlib
     typedef Matrix<Score> SubstitutionMatrix;	
     typedef boost::shared_ptr<SubstitutionMatrix>HSubstitutionMatrix;
     
+    /** A vector of Residues */
+    typedef std::vector< Residue > ResidueVector;
+    typedef boost::shared_ptr<ResidueVector>HResidueVector;
+
+    /** A vector of Frequencies */
     typedef std::vector< Frequency> FrequencyVector;
     typedef boost::shared_ptr<FrequencyVector>HFrequencyVector;    
     

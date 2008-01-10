@@ -71,7 +71,7 @@ HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignatorFragments.h ImplAlignatorFragmentsSquared.h \
 			ImplAlignatorPublishAlignment.h 
 
-HEADERS_ITERATOR=	Iterator2D.h Iterator2DFull.h \
+HEADERS_ITERATOR=	Iterator2D.h \
 			HelpersIterator2D.h \
 			ImplIterator2D.h \
 			ImplIterator2DFull.h ImplIterator2DBanded.h

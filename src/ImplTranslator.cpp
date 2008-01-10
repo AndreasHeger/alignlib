@@ -36,7 +36,7 @@ namespace alignlib
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplTranslator::ImplTranslator () : 
 	mAlphabetType( User ), mAlphabet( ""), mGapChars( "" ), mMaskChars(""), 
-	mTableSize(0), mEncodingTable(0), mDecodingTable(0) 
+	mTableSize(0), mEncodingTable(0), mDecodingTable(0), mAlphabetSize( 0 ) 
 	{
 	}
 
@@ -55,7 +55,8 @@ ImplTranslator::ImplTranslator (const ImplTranslator & src ) :
 	mAlphabet( src.mAlphabet ),
 	mTableSize( src.mTableSize ),
 	mEncodingTable( NULL ),
-	mDecodingTable( NULL )
+	mDecodingTable( NULL ),
+	mAlphabetSize( src.mAlphabetSize )
 {
 	if (src.mEncodingTable != NULL)
 	{
@@ -84,7 +85,8 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 									 mAlphabet( alphabet ), 
 									 mGapChars( gap_chars ),
 									 mMaskChars( mask_chars ),
-									 mEncodingTable( NULL ) 	
+									 mEncodingTable( NULL ),
+									 mAlphabetSize( 0 )
 {
 	// assertions to check for empty input
 	if (mGapChars.size() == 0)
@@ -99,37 +101,48 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 	// build encoding and decoding table
 	mTableSize = std::numeric_limits<char>::max();
 		
-	mEncodingTable = new Residue[ mTableSize ];
+	mEncodingTable = new Residue[ mTableSize + 1 ];
 	mDecodingTable = new char[ mTableSize ];
 
-	for ( int x = 0; x < mTableSize; ++x )
+	for ( Residue x = 0; x < mTableSize; ++x )
 	{
 		mEncodingTable[x] = mTableSize;
-		mDecodingTable[x] = mGapChars[0];
+		mDecodingTable[x] = mMaskChars[0];
 	}
-	int index = 0;
+	 mAlphabetSize = 0;
 	
-	for ( int x = 0; x < mAlphabet.size() ; ++x)
+	for ( Residue x = 0; x < mAlphabet.size() ; ++x)
 	{
-		mEncodingTable[(unsigned int)toupper(mAlphabet[x])] = index;
-		mEncodingTable[(unsigned int)tolower(mAlphabet[x])] = index;
-		mDecodingTable[index] = mAlphabet[x];
-		++index;
+		mEncodingTable[(unsigned int)toupper(mAlphabet[x])] = mAlphabetSize;
+		mEncodingTable[(unsigned int)tolower(mAlphabet[x])] = mAlphabetSize;
+		mDecodingTable[mAlphabetSize] = mAlphabet[x];
+		++mAlphabetSize;
 	}
 	
-	// masking characters can appear in the alphabet (to ensure a certain index)
-	for ( int x = 0; x < mMaskChars.size() ; ++x)
+	Residue mask_code = mAlphabetSize;
+	char mask_char = mMaskChars[0]; 
+	
+	// masking characters can appear in the alphabet (to ensure they use a specific index)
+	for ( Residue x = 0; x < mMaskChars.size() ; ++x)
 	{
 		if (mEncodingTable[mMaskChars[x]] == mTableSize )
 		{
-			mEncodingTable[(unsigned int)toupper(mMaskChars[x])] = index;
-			mEncodingTable[(unsigned int)tolower(mMaskChars[x])] = index;
-			mDecodingTable[index] = mMaskChars[x];
+			mEncodingTable[(unsigned int)toupper(mMaskChars[x])] = mask_code;
+			mEncodingTable[(unsigned int)tolower(mMaskChars[x])] = mask_code;
+			mDecodingTable[mAlphabetSize] = mask_char;
+			++mAlphabetSize;
 		}
 	}
-
-	// gap characters are automatically mapped to the maximum index
+		
+	// set all unknown characters to the masking character
+	for ( Residue x = 0; x < mTableSize; ++x )
+		if (mEncodingTable[x] == mTableSize)
+			mEncodingTable[x] = mask_code;
 	
+	// map gap characters to maximum index
+	for ( Residue x = 0; x < mGapChars.size(); ++x)
+		mEncodingTable[(unsigned int)mGapChars[x]] = mTableSize;
+	mDecodingTable[mTableSize] = mGapChars[0];
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -190,7 +203,7 @@ Residue * ImplTranslator::encode( const std::string & src ) const
 bool ImplTranslator::isValidChar( const char query ) const 
 {
 	// todo: use std::string functions
-	for ( int x = 0; x < mAlphabet.size(); ++x)
+	for ( int x = 0; x < mTableSize; ++x)
 	{
 		if ( mAlphabet[x] == query )
 			return true;
@@ -201,7 +214,7 @@ bool ImplTranslator::isValidChar( const char query ) const
 //--------------------------------------------------------------------------------------------------------------------------------
 int ImplTranslator::getAlphabetSize() const
 {
-	return mAlphabet.size();
+	return mAlphabetSize ;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -255,8 +268,8 @@ char ImplTranslator::getGapChar() const
 //--------------------------------------------------------------------------------------
 void ImplTranslator::write( std::ostream & output ) const 
 {
-	for ( int x = 0; x < mAlphabet.size(); ++x )
-		output << mAlphabet[x] << '\t' << (int)mEncodingTable[(unsigned int)mAlphabet[x]]  << std::endl;
+	for ( Residue x = 0; x < mAlphabet.size(); ++x )
+		output << (int)x << '\t' << mAlphabet[x] << '\t' << (int)encode(mAlphabet[x]) << '\t' << decode(encode(mAlphabet[x]))<< std::endl;
 
 	output << getGapChar() << '\t' << (int)getGapCode() << std::endl;
 	output << getMaskChar() << '\t' << (int)getMaskCode() << std::endl;
@@ -274,9 +287,23 @@ void ImplTranslator::save( std::ostream & output ) const
 		output.write( (char *)mGapChars.size(), sizeof( size_t ) );		
 		output.write( (char *)mGapChars.c_str(), mGapChars.size() * sizeof( char ) );
 		output.write( (char *)mMaskChars.size(), sizeof( size_t ) );		
-		output.write( (char *)mMaskChars.c_str(), mMaskChars.size() * sizeof( char ) );		
+		output.write( (char *)mMaskChars.c_str(), mMaskChars.size() * sizeof( char ) );
 	}
 }
+
+//--------------------------------------------------------------------------------------
+// This will map alphabet and mask characters, but not gap characters.
+//
+HResidueVector ImplTranslator::map( const HTranslator & other ) const
+{
+	HResidueVector map_other2this( new ResidueVector( other->getAlphabetSize(), getMaskCode()) );
+
+	for ( Residue x = 0; x < other->getAlphabetSize(); ++x)
+		(*map_other2this)[x] = encode( other->decode( x ) );
+
+	return map_other2this;
+}
+
 
 
 //--------------------------------------------------------------------------------------------------------------------------------

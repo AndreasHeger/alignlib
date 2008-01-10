@@ -22,9 +22,9 @@ using namespace std;
 
 namespace alignlib {
 
-PhyloMatrix * makePhyloMatrixSymmetric( PhyloMatrixSize size, PhyloMatrixValue default_value)
+HPhyloMatrix makePhyloMatrixSymmetric( PhyloMatrixSize size, PhyloMatrixValue default_value)
 {
-	return new ImplPhyloMatrixSymmetric( size, default_value );
+	return HPhyloMatrix( new ImplPhyloMatrixSymmetric( size, default_value ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------

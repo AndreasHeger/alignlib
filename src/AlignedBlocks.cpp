@@ -19,6 +19,7 @@
 #include "Alignment.h"
 #include "AlignmentIterator.h"
 #include "AlignedBlocks.h"
+
 using namespace std;
 
 namespace alignlib 

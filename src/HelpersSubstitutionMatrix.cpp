@@ -31,6 +31,8 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
+#include "Translator.h"
+#include "HelpersTranslator.h"
 #include "Matrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
@@ -94,7 +96,7 @@ static Score blosum50[23 * 23] = {
 /* Z */ -1,  2, -3,  1,  5,-4, -2,  0, -3,  1,-3, -1,  0, -1,  4, 0,  0, -1, -3, -2,-1, -2,  5, 		
 		};
 
-static Score paml120[23*23] = {
+static Score pam120[23*23] = {
 /*       A  B  C  D  E   F  G  H  I  K   L  M  N  P  Q   R  S  T  V  W   X  Y  Z  */
 /* A */  3, 0,-3, 0, 0, -4, 1,-3,-1,-2, -3,-2,-1, 1,-1, -3, 1, 1, 0,-7, -1,-4,-1,
 /* B */  0, 4,-6, 4, 3, -5, 0, 1,-3, 0, -4,-4, 3,-2, 0, -2, 0, 0,-3,-6, -1,-3, 2,
@@ -121,7 +123,7 @@ static Score paml120[23*23] = {
 /* Z */ -1, 2,-7, 3, 4, -6,-2, 1,-3,-1, -3,-2, 0,-1, 4, -1,-1,-2,-3,-7, -1,-5, 4,
 };
 
-static Score paml250[23*23] = {
+static Score pam250[23*23] = {
 /*       A  B  C  D  E   F  G  H  I  K   L  M  N  P  Q   R  S  T  V  W   Y  Z */ 
 /* A */  2, 0,-2, 0, 0, -4, 1,-1,-1,-1, -2,-1, 0, 1, 0, -2, 1, 1, 0,-6, -3, 0, 
 /* B */  0, 2,-4, 3, 2, -5, 0, 1,-2, 1, -3,-2, 2,-1, 1, -1, 0, 0,-2,-5, -3, 2, 
@@ -169,40 +171,29 @@ HSubstitutionMatrix makeSubstitutionMatrix(
 	return matrix;
 		}
 
-/** make blosum62 matrix */
-HSubstitutionMatrix makeSubstitutionMatrixBlosum62()
-{
-	HSubstitutionMatrix matrix(makeSubstitutionMatrix( 23 ));
-	matrix->copyData( blosum62 );
-	return matrix;
-}
+// define make functions for hard-coded substitution matrices
+// define factory functions with/without a translator
+#define MAKE_SUBSTITUTION_MATRIX(name,size,data) \
+	HSubstitutionMatrix name () \
+	{ HSubstitutionMatrix matrix(makeSubstitutionMatrix(size)); matrix->copyData(data); return matrix; } \
+	HSubstitutionMatrix name ( const HTranslator & translator ) \
+	{ HSubstitutionMatrix matrix(makeSubstitutionMatrix(23)); \
+		matrix->copyData(data); \
+		HResidueVector map_new2old ( getTranslator( Protein23 )->map(translator) ); \
+		std::vector<unsigned int>m; \
+		std::copy( map_new2old->begin(), map_new2old->end(), back_inserter( m )); \
+		matrix->mapRows(m); \
+		matrix->mapCols(m); \
+		return matrix; }
 
-/** make blosum62 matrix */
-HSubstitutionMatrix makeSubstitutionMatrixBlosum50()
-{
-	HSubstitutionMatrix matrix(makeSubstitutionMatrix(23));	
-	matrix->copyData( blosum50 );
-	return matrix;
-}
-
-/** make blosum62 matrix */
-HSubstitutionMatrix makeSubstitutionMatrixPam250()
-{
-	HSubstitutionMatrix matrix(makeSubstitutionMatrix(23));
-	matrix->copyData( paml250 );
-	return matrix;
-}
-
-/** make blosum62 matrix */
-HSubstitutionMatrix makeSubstitutionMatrixPam120()
-{
-	HSubstitutionMatrix matrix(makeSubstitutionMatrix(23));	
-	matrix->copyData( paml120 );
-	return matrix;
-}
+MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixBlosum62, 23, blosum62 );
+MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixBlosum50, 23, blosum50 );
+MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixPam250, 23, pam250 );
+MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixPam120, 23, pam120 );
 
 /** fill a substitution matrix */
-HSubstitutionMatrix makeSubstitutionMatrix( const ScoreVector & scores,
+HSubstitutionMatrix makeSubstitutionMatrix( 
+		const ScoreVector & scores,
 		int nrows, int ncols)
 {
 	assert( nrows * ncols == scores.size() );

@@ -39,10 +39,14 @@ static int total_hits_3 = 0;
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** factory functions */
-Regularizor * makeRegularizorDirichletInterpolate( Count fade_cutoff ) { return new ImplRegularizorDirichletInterpolate( fade_cutoff );}
+	HRegularizor makeRegularizorDirichletInterpolate( Count fade_cutoff ) 
+	{ 
+		return HRegularizor( new ImplRegularizorDirichletInterpolate( fade_cutoff ));
+	}
 
 // precompute values from 0 to 10 very accurately: step-size = 10/1000000 = 1/100000
 #define N_ELEMENTS_1 10000000

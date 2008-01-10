@@ -26,6 +26,7 @@
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 #include "AlignException.h"
+#include "HelpersScorer.h"
 
 #include "ImplScorer.h"
 
@@ -69,7 +70,7 @@ namespace alignlib
 		  const HAlignandum & row,
 		  const HAlignandum & col) const
   {
-	  return HScorer( new ImplScorer() ) ;
+	  return makeScorer( row, col );
   }
 
   HScorer ImplScorer::getClone() const

@@ -84,7 +84,7 @@ ImplFragmentorRepetitive::ImplFragmentorRepetitive( const ImplFragmentorRepetiti
 
 //------------------------------------------------------------------------------------------------
 void ImplFragmentorRepetitive::performFragmentation(
-		HAlignment & sample,		
+		const HAlignment & sample,		
 		const HAlignandum & row, 
 		const HAlignandum & col )
 {

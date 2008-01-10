@@ -14,12 +14,12 @@
 #endif
 
 #ifndef ALIGNED_BLOCKS_H
-#define ALIGNED_BOCKS_H 1
+#define ALIGNED_BLOCKS_H 1
 
 #include <iosfwd>
 #include <string>
 
-#include "alignlib.h"
+#include "alignlib_types.h"
 #include "alignlib_fwd.h"
 
 /**

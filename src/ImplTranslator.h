@@ -28,6 +28,8 @@
 #define IMPL_TRANSLATOR_H 1
 
 #include <string>
+#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Translator.h"
 
 namespace alignlib 
@@ -47,7 +49,8 @@ namespace alignlib
 */
 class ImplTranslator : public Translator 
 {
-    // class member functions
+	
+	// class member functions
  public:
     /** constructor */
     ImplTranslator();
@@ -115,7 +118,8 @@ class ImplTranslator : public Translator
     /** get character allowed for gaps. */
     virtual std::string getGapChars()  const;
     
-    /** get the size of the alphabet - excluding gap and mask characters */
+    /** get the size of the alphabet - including gap but
+     * excluding mask characters */
     virtual int getAlphabetSize() const;
  
     /** returns a string with all letters in the alphabet sorted by their index */
@@ -130,7 +134,17 @@ class ImplTranslator : public Translator
     /** save state of object into stream
      */
     virtual void save( std::ostream & output ) const;    
-        
+    
+    /** build a map between two translators. Return a mapping of
+     * every residue in the other translator to characters in this translators.
+     * 
+     * All characters than can not be mapped will be mapped to the mask 
+     * character.
+     * 
+     * This function does not map gap characters.
+     */
+    virtual HResidueVector map( const HTranslator & other ) const;
+    
  private:
 
 	/** necessary to distinguish between built-in and custom alphabets */
@@ -153,8 +167,9 @@ class ImplTranslator : public Translator
 
     /** the decoding table */
     char * mDecodingTable;
-    
         
+    /** size of alphabet : characters + mask code */
+    int mAlphabetSize;
 };
 
 

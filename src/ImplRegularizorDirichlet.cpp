@@ -39,7 +39,10 @@ namespace alignlib
 #define NO_FADE_CUTOFF 1000000
 
 /** factory functions */
-Regularizor * makeRegularizorDirichlet( Count fade_cutoff ) { return new ImplRegularizorDirichlet( fade_cutoff ); }
+HRegularizor makeRegularizorDirichlet( Count fade_cutoff ) 
+{ 
+	return HRegularizor( new ImplRegularizorDirichlet( fade_cutoff ) ); 
+}
 
 //--------------------------------------------------------------------------------------------------------------------------
 /** very important: the residues here are sorted alphabetically!!!!!!! */

@@ -79,7 +79,7 @@ class ImplFragmentorDiagonals : public ImplFragmentor
 
     /** perform the actual alignment */
     virtual void performFragmentation(
-    		HAlignment & sample,
+    		const HAlignment & sample,
     		const HAlignandum & row, 
     		const HAlignandum & col );
     

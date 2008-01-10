@@ -36,10 +36,14 @@ static int total_lookups = 0;
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** factory functions */
-Regularizor * makeRegularizorDirichletHash( Count fade_cutoff ) { return new ImplRegularizorDirichletHash( fade_cutoff );}
+	HRegularizor makeRegularizorDirichletHash( Count fade_cutoff ) 
+	{ 
+		return HRegularizor( new ImplRegularizorDirichletHash( fade_cutoff ) ); 
+	}
 
 
 #define SCALE_FACTOR 10000

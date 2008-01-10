@@ -129,7 +129,7 @@ Score ImplFragmentorDiagonals::getGapCost( const ResiduePAIR & p1, const Residue
 	
 //------------------------------------------------------------------------------------------------
 void ImplFragmentorDiagonals::performFragmentation(
-		HAlignment & sample,
+		const HAlignment & sample,
 		const HAlignandum & row, 
 		const HAlignandum & col ) 
 {

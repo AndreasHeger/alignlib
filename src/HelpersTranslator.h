@@ -29,6 +29,7 @@
 #define HELPERS_TRANSLATOR_H 1
 
 #include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "alignlib.h"
 
 namespace alignlib 
@@ -51,13 +52,8 @@ namespace alignlib
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
     /** return the library wide translator */
-    const HTranslator getDefaultTranslator();
-
-    /** set the library wide translator
-     * The library gets ownership of the translator
-     *  */
-    void setDefaultTranslator( const HTranslator & translator);
-
+    DEFINE_DEFAULT( HTranslator, getDefaultTranslator, setDefaultTranslator );
+    
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
 

@@ -25,26 +25,16 @@
 #include <iomanip>
 #include <math.h>
 #include "alignlib.h"
-#include "alignlib_fwd.h"
-#include "AlignlibDebug.h"
-#include "Alignandum.h"
-#include "Alignment.h"
-#include "Iterator2D.h"
-
-#include "HelpersSubstitutionMatrix.h"
-
 #include "ImplAlignatorIdentity.h"
-#include "Translator.h"
-#include "HelpersTranslator.h"
 
 using namespace std;
 
 namespace alignlib
 {
 
-Alignator * makeAlignatorIdentity() 
+HAlignator makeAlignatorIdentity() 
 {
-	return new ImplAlignatorIdentity();
+	return HAlignator(new ImplAlignatorIdentity());
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------

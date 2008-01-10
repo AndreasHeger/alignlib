@@ -23,6 +23,7 @@
 #include <iostream>
 #include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "alignlib_default.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "Translator.h"
@@ -62,22 +63,7 @@ const HTranslator getTranslator( const AlphabetType & alphabet_type )
 	throw AlignException( "unknown alphabet" );
 }
 
-/** gets the default Translator object */ 
-const HTranslator getDefaultTranslator() 
-{
-	debug_func_cerr( 5 );	
-	return DEFAULT_TRANSLATOR;
-}
-
-/** sets the default Translator object 
- * Only supply built-in objects, otherwise
- * memory leaks will occur.
- * */
-void setDefaultTranslator( const HTranslator & translator ) 
-{	
-	debug_func_cerr( 5 );
-	DEFAULT_TRANSLATOR = translator;
-}
+IMPLEMENT_DEFAULT( HTranslator, translator_protein_20, getDefaultTranslator, setDefaultTranslator );
 
 /** load a translator object from stream
  * returns NULL on EOF
@@ -94,10 +80,10 @@ const HTranslator loadTranslator( std::istream & input )
 	input.read( (char*)&alphabet_type, sizeof(AlphabetType) );
 
 	if (input.eof()) 
-		throw AlignException("HelpersTranslator.cpp: incomplete translator.");
+		throw AlignException("HelpersTranslator.cpp: incomplete translator - could not read alphabet type.");
 
 	HTranslator result;
-	
+
 	switch (alphabet_type)
 	{
 	case User : 
@@ -115,16 +101,16 @@ const HTranslator loadTranslator( std::istream & input )
 		input.read( (char *)&size, sizeof( size_t ));
 		char * mask_chars = new char[size];
 		input.read( mask_chars, sizeof(char) * size);
-		
+
 		if (input.eof())
 			throw AlignException( "HelpersTranslator.cpp: incomplete translator ");
-					
+
 		result = HTranslator( new ImplTranslator( alphabet_type, alphabet, gap_chars, mask_chars ) );
-		
+
 		delete [] alphabet;
 		delete [] gap_chars;
 		delete [] mask_chars;
-		
+
 		break;
 	}
 	case Protein20 :

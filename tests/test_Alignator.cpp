@@ -40,31 +40,8 @@
 #include <time.h> 
 
 #include "alignlib.h"
-#include "alignlib_fwd.h"
-
-#include "HelpersSubstitutionMatrix.h"
-
-#include "HelpersSequence.h"
-
-#include "HelpersProfile.h"
-
-#include "Alignator.h"
-#include "HelpersAlignator.h"
-
-#include "Iterator2D.h"
-#include "HelpersIterator2D.h"
-
-#include "Alignment.h"
-#include "HelpersTranslator.h"
-#include "HelpersAlignment.h"
-#include "HelpersRegularizor.h"
-#include "HelpersWeightor.h"
-#include "HelpersLogOddor.h"
-
-#include "Alignandum.h"
 
 using namespace std;
-
 using namespace alignlib;
 
 // typedef enum MODE { PAIR, MATRIX };
@@ -305,7 +282,9 @@ void testPairAlignator( Alignator * a,
  */
 int main () {
 
-	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 23, 10, -1);
+	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
+			getDefaultTranslator()->getAlphabetSize(), 
+			10, -1);
 	
 	setDefaultSubstitutionMatrix( matrix );
 
@@ -378,7 +357,8 @@ int main () {
 	}
 	{ 
 		
-		HSubstitutionMatrix new_matrix(makeSubstitutionMatrix( 23, 10, -10));
+		HSubstitutionMatrix new_matrix(makeSubstitutionMatrix( 
+				getDefaultTranslator()->getAlphabetSize(), 10, -10));
 		setDefaultSubstitutionMatrix( new_matrix );
 
 		std::cout << "--- testing iterative alignment ---" << std::endl;

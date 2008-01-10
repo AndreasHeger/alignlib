@@ -29,10 +29,14 @@
 #include "Regularizor.h"
 #include "ImplRegularizorDirichletPrecomputed.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
 /** factory functions */
-Regularizor * makeRegularizorDirichletPrecomputed( Count fade_cutoff ) { return new ImplRegularizorDirichletPrecomputed( fade_cutoff );}
+	HRegularizor makeRegularizorDirichletPrecomputed( Count fade_cutoff ) 
+	{ 
+		return HRegularizor( new ImplRegularizorDirichletPrecomputed( fade_cutoff ));
+	}
     
 typedef double Score_A_JI[NCOMPONENTS][PROFILEWIDTH];
 typedef double TYPE_WA_COLUMN[NCOMPONENTS];

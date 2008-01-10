@@ -28,7 +28,7 @@
 #ifndef REGULARIZOR_H
 #define REGULARIZOR_H 1
 
-#include "alignlib_fwd.h"
+#include "alignlib.h"
 
 namespace alignlib 
 {

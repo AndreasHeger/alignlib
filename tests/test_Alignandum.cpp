@@ -71,7 +71,7 @@ void runTests( HAlignandum & a, const std::string & sample )
 	assert( sample.size() == a->getLength() );
 	for ( int x = 0; x < sample.size(); ++x)
 		assert( a->asChar(x) == sample[x]);
-
+	
 	assert( a->asString() == sample );
 	}
 	checkingEnd();
@@ -109,8 +109,9 @@ void runTests( HAlignandum & a, const std::string & sample )
 		
 		HAlignandum b;
 		int n = 0;
-		while ( b = loadAlignandum( file ) ) 
+		while ( file.peek() != EOF )
 		{
+			b = loadAlignandum( file );
 			assert( a->getFrom() == b->getFrom() );
 			assert( a->getLength() == b->getLength() );
 			assert( a->getTo() == a->getTo() );
@@ -126,11 +127,11 @@ void runTests( HAlignandum & a, const std::string & sample )
 	{
 		HAlignandum clone(a->getClone());
 		
-		a->mask( 0, a->getLength() );
-		for (Position p = 0; p < a->getLength(); ++p)
+		clone->mask( 0, a->getLength() );
+		for (Position p = 0; p < clone->getLength(); ++p)
 		{
-			assert( a->asResidue(p) == translator->getMaskCode() );
-			assert( a->asChar(p) == translator->getMaskChar() );
+			assert( clone->asResidue(p) == translator->getMaskCode() );
+			assert( clone->asChar(p) == translator->getMaskChar() );
 		}
 	}
 	checkingEnd();

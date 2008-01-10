@@ -65,7 +65,7 @@ void ImplFragmentor::startUp( HAlignment & ali,
 		const HAlignandum & row, 
 		const HAlignandum & col ) 
 {
-  debug_func_cerr(5);
+	debug_func_cerr(5);
 
     row->prepare();
     col->prepare();

@@ -47,10 +47,11 @@ class ImplFragmentorIterative : public ImplFragmentor
  public:
     /* constructors and desctructors------------------------------------------------------- */
     /** constructor */
-    ImplFragmentorIterative( HAlignment dots, 
-			     Score min_score, 
-			     Score gop,
-			     Score gep);
+    ImplFragmentorIterative( 
+    		const HAlignment & dots, 
+    		Score min_score, 
+    		Score gop,
+    		Score gep);
 
     /** destructor */
     virtual ~ImplFragmentorIterative ();
@@ -71,7 +72,7 @@ class ImplFragmentorIterative : public ImplFragmentor
 
     /** perform the actual alignment */
     virtual void performFragmentation( 
-    		HAlignment & sample,
+    		const HAlignment & sample,
     		const HAlignandum & row, 
     		const HAlignandum & col ); 
 };

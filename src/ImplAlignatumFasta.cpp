@@ -39,22 +39,23 @@
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
-//--------------------------------------------------------------------------------------------
-  /** factory functions */
-  Alignatum * makeAlignatumFasta() {
-    return new ImplAlignatumFasta();
-  }
+	//--------------------------------------------------------------------------------------------
+  	/** factory functions */
+  	HAlignatum makeAlignatumFasta() 
+  	{
+  		return HAlignatum( new ImplAlignatumFasta() );
+  	}
 
-  Alignatum * makeAlignatumFasta( const std::string & description,
+  	HAlignatum makeAlignatumFasta( const std::string & description,
 				  const std::string & src, 
 				  Position from, 
-				  Position to ) {
-
-    return new ImplAlignatumFasta( description, src, from, to);
-  }
-
+				  Position to ) 
+  	{
+  		return HAlignatum( new ImplAlignatumFasta( description, src, from, to) );
+  	}
 
 
 //---------------------------------------------------------< constructors and destructors >--------

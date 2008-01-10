@@ -303,11 +303,10 @@ Matrix<T> * ImplProfile::allocateSegment( Matrix<T> * data ) const
 void ImplProfile::allocateCounts() const
 {
 	debug_func_cerr(5);
-	if (mTranslator == NULL )
-		throw AlignException("ImpProfile.cpp: defining a profile without a translator." );
-				
-	mProfileWidth = mTranslator->getAlphabetSize();
 	
+	debug_cerr( 5, "allocating counts for a profile of size " << getFullLength() << " x " << (int)mProfileWidth );
+	
+	mProfileWidth = mTranslator->getAlphabetSize();
 	mCountMatrix = allocateSegment<Count>( mCountMatrix );
 }              
 

@@ -47,32 +47,6 @@ namespace alignlib
 //---------------------------------< implementation of useful functions >--------------
 
 //----------------------------------------------------------------------------------
-/** create a sequence from a NULL-terminated string */
-HAlignandum makeSequence( const char * sequence, 
-		const HTranslator & translator ) 
-		{
-		return HAlignandum( new ImplSequence( std::string(sequence), translator ) );
-		}
-
-HAlignandum makeSequence( const char * sequence )
-		{
-		return makeSequence( sequence, getDefaultTranslator() );
-		}
-
-//----------------------------------------------------------------------------------
-/** create a sequence from a string */
-HAlignandum makeSequence( const std::string & sequence,
-		const HTranslator & translator ) 
-		{
-		return HAlignandum( new ImplSequence( sequence, translator ) );
-		}
-
-HAlignandum makeSequence( const std::string & sequence )
-		{
-	return makeSequence( sequence );
-		}
-
-//----------------------------------------------------------------------------------
 /** create a sequence from a stream */
 /*
 HAlignandum extractSequence( std::istream & input, const HTranslator & translator ) 

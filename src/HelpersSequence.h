@@ -49,11 +49,13 @@ namespace alignlib
     /* 1. factory functions */
     /** create a sequence from a NULL-terminated string */
 	HAlignandum makeSequence( const char * sequence ); 
+	
     HAlignandum makeSequence( const char * sequence, 
     		const HTranslator & translator );
 
     /** create a sequence from a string */
     HAlignandum makeSequence( const std::string & sequence );
+   
     HAlignandum makeSequence( const std::string & sequence,
     		const HTranslator & translator );
 

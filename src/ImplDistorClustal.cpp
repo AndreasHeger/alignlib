@@ -80,8 +80,9 @@ int dayhoff_pams[]={
 
 
 //-------------------------> factory functions <-------------------------------------------------------------------------------
-Distor * makeDistorClustal() {
-  return new ImplDistorClustal();
+HDistor makeDistorClustal() 
+{
+  return HDistor( new ImplDistorClustal() );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------

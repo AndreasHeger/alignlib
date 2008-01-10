@@ -53,30 +53,30 @@
 using namespace std;
 using namespace alignlib;
 
-typedef void(*FunctionType)(Alignator *, Alignandum *, Alignandum *, Alignment *);
-typedef void(*InitFunctionType)(Alignator **, Alignandum **, Alignandum **, Alignment **);
+typedef void(*FunctionType)(HAlignator &, HAlignandum &, HAlignandum &, HAlignment &);
+typedef void(*InitFunctionType)(HAlignator &, HAlignandum &, HAlignandum &, HAlignment &);
 
 //-------------------------------------> Initialisation functions <-----------------------------------
 void InitSeqSeq( 
-			Alignator ** a, 
-			Alignandum ** row, 
-			Alignandum ** col,
-			Alignment ** result)
+			HAlignator & a, 
+			HAlignandum  & row, 
+			HAlignandum & col,
+			HAlignment & result)
 {
-	*result = makeAlignmentVector();
-	*row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
-	*col = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
+	result = makeAlignmentVector();
+	row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
+	col = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
 }
 
 void InitSeqProf( 
-		 Alignator ** a, 
-		 Alignandum ** row, 
-		 Alignandum ** col,
-		 Alignment ** result)
+		 HAlignator & a, 
+		 HAlignandum & row, 
+		 HAlignandum & col,
+		 HAlignment & result)
 {
-	*result = makeAlignmentVector();
-	*row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
-	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
+	result = makeAlignmentVector();
+	row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
+	col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
 			getDefaultTranslator(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
@@ -84,19 +84,19 @@ void InitSeqProf(
 }
 
 void InitProfProf( 
-		 Alignator ** a, 
-		 Alignandum ** row, 
-		 Alignandum ** col,
-		 Alignment ** result)
+		 HAlignator & a, 
+		 HAlignandum & row, 
+		 HAlignandum & col,
+		 HAlignment & result)
 {
-	*result = makeAlignmentVector();
-	*row = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
+	result = makeAlignmentVector();
+	row = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
 			getDefaultTranslator(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor());
 			
-	*col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
+	col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
 			getDefaultTranslator(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
@@ -108,24 +108,21 @@ void InitProfProf(
 
 //-------------------------------------> Postprocessing functions <-----------------------------------
 void ClearAll( 
-		Alignator * a, 
-		Alignandum * row, 
-		Alignandum * col,
-		Alignment * result
+		HAlignator & a, 
+		HAlignandum & row, 
+		HAlignandum & col,
+		HAlignment & result
 )		
 {
-	delete row;
-	delete col;
-	delete result;
 }
 
 
 //-------------------------------------> Postprocessing functions <-----------------------------------
 void ClearAlignment( 
-		 Alignator * a, 
-		 Alignandum * row, 
-		 Alignandum * col,
-		Alignment * result
+		 HAlignator & a, 
+		 HAlignandum & row, 
+		 HAlignandum & col,
+		 HAlignment & result
 )		
 {
   result->clear();
@@ -133,12 +130,12 @@ void ClearAlignment(
 
 //-------------------------------------> Benchmarking functions <-----------------------------------
 void BenchmarkAlignment( 
-			Alignator * a, 
-			Alignandum * row, 
-			Alignandum * col,
-			Alignment * result)
+			HAlignator & a, 
+			HAlignandum & row, 
+			HAlignandum & col,
+			HAlignment & result)
 {
-	a->align( row, col, result );
+	a->align( result, row, col );
 }
 
 double tval( struct timeval *timval0, struct timeval *timval1) 
@@ -171,7 +168,7 @@ double Benchmark( HAlignator & a,
   HAlignment result;
   
   if (ptr_initfunc != NULL)
-    (*ptr_initfunc)(&a, &row, &col, &result);
+    (*ptr_initfunc)(a, row, col, result);
 
   row->prepare();
   col->prepare();
@@ -232,7 +229,6 @@ int main ( int argc, char ** argv)
 	{
 		HAlignator alignator = makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 );
 		cout << "AlignatorDPFull\t"; BenchmarkAll( num_iterations, alignator );
-		delete alignator;
 	}
 	exit (EXIT_SUCCESS);
 }

@@ -30,40 +30,62 @@
 #include <iostream>
 
 #include "alignlib.h"
-#include "alignlib_fwd.h"
-#include "Alignandum.h"
-#include "HelpersSequence.h"
-
-#include "Alignment.h"
-#include "HelpersAlignment.h"
-
-#include "Matrix.h"
-#include "Translator.h"
-#include "HelpersTranslator.h"
-#include "HelpersSubstitutionMatrix.h"
 
 using namespace std;
 using namespace alignlib;
 
-int main ()
-{
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
+BOOST_AUTO_TEST_CASE( test1 )
+{
   const HTranslator translator = getDefaultTranslator();
-  const HSubstitutionMatrix matrix = getDefaultSubstitutionMatrix();
-    
-  std::string alphabet = translator->getAlphabet();
-  
-  HAlignandum seq1 = makeSequence( alphabet );
-  
-  for (int x = 0; x < seq1->getLength(); ++x)
   {
-	  Residue r = seq1->asResidue(x);
-	  if (r == translator->getMaskCode() )
-		  continue;
-	  assert( matrix->getValue(r,r) > 0);
+	  const HSubstitutionMatrix matrix = getDefaultSubstitutionMatrix();
+    
+	  std::string alphabet = translator->getAlphabet();
+  
+	  HAlignandum seq1 = makeSequence( alphabet );
+    
+	  for (int x = 0; x < seq1->getLength(); ++x)
+	  {
+		  Residue r = seq1->asResidue(x);
+		  if (r == translator->getMaskCode() )
+			  continue;
+		  assert( matrix->getValue(r,r) > 0);
+	  }
   }
-  
-  exit(EXIT_SUCCESS);
-  
 }
- 
+
+// automatic mapping to 20 residue letter alphabet
+BOOST_AUTO_TEST_CASE( test2 )
+{
+	const HTranslator t1(getTranslator( Protein20 ));
+	const HTranslator t2(getTranslator( Protein23 ));	
+	const HSubstitutionMatrix matrix1( makeSubstitutionMatrixBlosum62(t1) );
+	const HSubstitutionMatrix matrix2( makeSubstitutionMatrixBlosum62() );
+	BOOST_CHECK_EQUAL( matrix1->getNumRows(), t1->getAlphabetSize() );	
+	BOOST_CHECK_EQUAL( matrix1->getNumCols(), t1->getAlphabetSize() );
+	for (Residue x = 0; x < matrix1->getNumRows(); ++x )
+		for (Residue y = 0; y < matrix1->getNumCols(); ++y )
+			BOOST_CHECK_EQUAL( 
+					matrix1->getValue(x,y), 
+					matrix2->getValue( 
+							t2->encode(t1->decode(x)),
+							t2->encode(t1->decode(y)) ) );			
+}	
+
+// automatic mapping to 23 residue letter alphabet (no effect mapping).
+BOOST_AUTO_TEST_CASE( test3 )
+{
+	const HTranslator t(getTranslator( Protein23 ));	  
+	const HSubstitutionMatrix matrix1( makeSubstitutionMatrixBlosum62( t) );
+	const HSubstitutionMatrix matrix2( makeSubstitutionMatrixBlosum62() );
+	BOOST_CHECK_EQUAL( matrix1->getNumRows(), matrix2->getNumRows() );	
+	BOOST_CHECK_EQUAL( matrix1->getNumCols(), matrix2->getNumCols() );		
+	for (int x = 0; x < matrix1->getNumRows(); ++x )
+		for (int y = 0; y < matrix1->getNumCols(); ++y )
+			BOOST_CHECK_EQUAL( matrix1->getValue(x,y), matrix2->getValue(x,y) );
+}	
+
