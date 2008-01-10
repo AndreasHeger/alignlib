@@ -30,6 +30,6 @@
 
 namespace alignlib 
 {
-	IMPLEMENT_DEFAULT( HWeightor, makeWeightor(), getDefaultWeightor, setDefaultWeightor );
+
 
 } // namespace alignlib

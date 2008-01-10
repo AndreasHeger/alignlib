@@ -49,6 +49,8 @@ namespace alignlib
     /* 1. factory functions */
     const HTranslator getTranslator( const AlphabetType & alphabet );
 
+    const HTranslator makeTranslator( const AlphabetType & alphabet );
+
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
     /** return the library wide translator */

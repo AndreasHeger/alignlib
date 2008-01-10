@@ -411,13 +411,13 @@ void ImplProfile::prepare() const
 	if (mFrequencyMatrix == NULL) 
 	{
 		allocateFrequencies();
-		mRegularizor->fillFrequencies( mFrequencyMatrix, mCountMatrix ); 
+		// mRegularizor->fillFrequencies( mFrequencyMatrix, mCountMatrix ); 
 	}
 
 	if (!mScoreMatrix) 
 	{
 		allocateScores();
-		mLogOddor->fillProfile( mScoreMatrix, mFrequencyMatrix );
+		// mLogOddor->fillProfile( mScoreMatrix, mFrequencyMatrix );
 	}
 	setPrepared( true );
 }
@@ -429,12 +429,12 @@ void ImplProfile::release() const
 	
 	if (mFrequencyMatrix != NULL)
 	{
-		delete [] mFrequencyMatrix;
+		delete mFrequencyMatrix;
 		mFrequencyMatrix = NULL;
 	}
 	if (mScoreMatrix != NULL)
 	{
-		delete [] mScoreMatrix;
+		delete mScoreMatrix;
 		mScoreMatrix = NULL;
 	}
 	setPrepared(false);

@@ -149,11 +149,6 @@ static Score pam250[23*23] = {
 /* Z */  0, 2,-5, 3, 3, -5,-1, 2,-2, 0, -3,-2, 1, 0, 3,  0, 0,-1,-2,-6, -4, 3, 
 };
 
-IMPLEMENT_DEFAULT( HSubstitutionMatrix, 
-		makeSubstitutionMatrixBlosum62(), 
-		getDefaultSubstitutionMatrix,
-		setDefaultSubstitutionMatrix )
-
 /** create a substitution matrix
  */
 HSubstitutionMatrix makeSubstitutionMatrix( 

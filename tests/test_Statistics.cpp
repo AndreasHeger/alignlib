@@ -40,23 +40,13 @@
 
 #include "alignlib.h"
 
-#include "Alignandum.h"
-#include "HelpersSequence.h"
-
-#include "Alignator.h"
-#include "HelpersAlignator.h"
-
-#include "Alignment.h"
-#include "HelpersAlignment.h"
-
-#include "Statistics.h"
-
 using namespace std;
 using namespace alignlib;
 
 int main () 
 {
 
+	std::cout << "here" << std::endl;
   HAlignator a = makeFullDP( -10.0, -2.0);
   HAlignandum s1 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
   HAlignandum s2 = makeSequence( "AAACCCAAAAACCCAAAAAAA");

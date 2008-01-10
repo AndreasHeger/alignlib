@@ -31,5 +31,5 @@
 namespace alignlib 
 {
   
- 	IMPLEMENT_DEFAULT( HRegularizor, makeRegularizor(), getDefaultRegularizor, setDefaultRegularizor );
+
 } // namespace alignlib

@@ -35,7 +35,7 @@ namespace alignlib
 
 //-------------------------------------------------------------------------------
 
-// the built-in translator objects
+// the built-in translator objects are built at startup time.
 
 /** 20-letter alphabet plus X */
 static const HTranslator translator_protein_20(new ImplTranslator( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" )); 
@@ -46,7 +46,25 @@ static const HTranslator translator_protein_23(new ImplTranslator( Protein23, "A
 /** 4-letter DNA alphabet */
 static const HTranslator translator_dna_4( new ImplTranslator( DNA4, "ACGT", "-.", "N" ));
 
-static HTranslator DEFAULT_TRANSLATOR( translator_protein_20 );
+const HTranslator makeTranslator( const AlphabetType & alphabet_type )
+{
+	ImplTranslator * t;
+	switch (alphabet_type) 
+	{
+	case Protein20: 
+		t = new ImplTranslator( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" ); 
+		break;
+	case Protein23:
+		t = new ImplTranslator( Protein23, "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" );
+		break;
+	case DNA4: 
+		t = new ImplTranslator( DNA4, "ACGT", "-.", "N" );
+		break;
+	default:
+		throw AlignException( "unknown alphabet" );
+	}
+	return HTranslator( t );
+}
 
 const HTranslator getTranslator( const AlphabetType & alphabet_type )
 {
@@ -62,8 +80,6 @@ const HTranslator getTranslator( const AlphabetType & alphabet_type )
 
 	throw AlignException( "unknown alphabet" );
 }
-
-IMPLEMENT_DEFAULT( HTranslator, translator_protein_20, getDefaultTranslator, setDefaultTranslator );
 
 /** load a translator object from stream
  * returns NULL on EOF

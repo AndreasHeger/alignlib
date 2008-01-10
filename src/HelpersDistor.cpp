@@ -22,9 +22,4 @@ using namespace std;
 namespace alignlib 
 {
 
-	IMPLEMENT_DEFAULT( HDistor,
-			makeDistorClustal(),
-			getDefaultDistor,
-			setDefaultDistor );
-	
   } // namespace alignlib

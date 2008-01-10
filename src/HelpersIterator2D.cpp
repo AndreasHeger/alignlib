@@ -33,6 +33,5 @@ using namespace std;
 
 namespace alignlib 
 {
-	IMPLEMENT_DEFAULT( HIterator2D, makeIterator2DFull(), getDefaultIterator2D, setDefaultIterator2D );
 }
 

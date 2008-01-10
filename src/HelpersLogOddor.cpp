@@ -30,6 +30,6 @@
 
 namespace alignlib 
 {
-	IMPLEMENT_DEFAULT( HLogOddor, makeLogOddor(), getDefaultLogOddor, setDefaultLogOddor );
+
   
 } // namespace alignlib

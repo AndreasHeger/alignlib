@@ -55,6 +55,4 @@ const TYPE_PALETTE DEFAULT_PALETTE[16] = {
 
 const TYPE_PALETTE * getDefaultPalette() { return DEFAULT_PALETTE; }
 
-IMPLEMENT_DEFAULT( HRenderer, makeRenderer(), getDefaultRenderer, setDefaultRenderer );
-
 } // namespace alignlib

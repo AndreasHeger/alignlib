@@ -25,9 +25,5 @@ using namespace std;
 
 namespace alignlib 
 {
-	IMPLEMENT_DEFAULT( HTreetor, 
-			makeTreetorDistanceLinkage( getDefaultDistor() ),
-			getDefaultTreetor,
-			setDefaultTreetor );
 
 } // namespace alignlib

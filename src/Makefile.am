@@ -112,7 +112,8 @@ PARTS = AlignException.cpp \
 			$(PARTS_MALI) \
 			$(PARTS_TRANSLATOR) \
 			$(PARTS_SUBSTMATRIX) \
-			$(PARTS_PHYLOLIB)
+			$(PARTS_PHYLOLIB) \
+			AlignlibDefault.cpp
 
 PARTS_PHYLOLIB= Tree.cpp HelpersTree.cpp \
                         ImplTree.cpp \

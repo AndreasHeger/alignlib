@@ -10,10 +10,10 @@
  * @param get: the name of the get function 
  */
 
-#define IMPLEMENT_DEFAULT(handle,init,get,set) \
-	static handle DEFAULT( init ); \
-	handle get () { return DEFAULT; } \
-	void set ( const handle & v ) { DEFAULT = v; }
+#define IMPLEMENT_DEFAULT(handle,init,get,set,df) \
+	static handle df( init ); \
+	handle get () { return df; } \
+	void set ( const handle & v ) { df = v; }
 
 /** macro do define get/set default
  * @param h: the handle class

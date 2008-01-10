@@ -38,11 +38,13 @@ ImplTranslator::ImplTranslator () :
 	mAlphabetType( User ), mAlphabet( ""), mGapChars( "" ), mMaskChars(""), 
 	mTableSize(0), mEncodingTable(0), mDecodingTable(0), mAlphabetSize( 0 ) 
 	{
+	debug_func_cerr( 5 );
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
 ImplTranslator::~ImplTranslator () 
 {
+	debug_func_cerr( 5 );
 	if ( mEncodingTable != NULL )
 		delete [] mEncodingTable;
 	
@@ -88,6 +90,9 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 									 mEncodingTable( NULL ),
 									 mAlphabetSize( 0 )
 {
+	
+	debug_func_cerr( 5 );
+	
 	// assertions to check for empty input
 	if (mGapChars.size() == 0)
 		throw AlignException( "ImplTranslator.cpp: no gap characters specified.");
@@ -102,9 +107,9 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 	mTableSize = std::numeric_limits<char>::max();
 		
 	mEncodingTable = new Residue[ mTableSize + 1 ];
-	mDecodingTable = new char[ mTableSize ];
+	mDecodingTable = new char[ mTableSize + 1];
 
-	for ( Residue x = 0; x < mTableSize; ++x )
+	for ( Residue x = 0; x <= mTableSize; ++x )
 	{
 		mEncodingTable[x] = mTableSize;
 		mDecodingTable[x] = mMaskChars[0];
@@ -135,7 +140,7 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 	}
 		
 	// set all unknown characters to the masking character
-	for ( Residue x = 0; x < mTableSize; ++x )
+	for ( Residue x = 0; x <= mTableSize; ++x )
 		if (mEncodingTable[x] == mTableSize)
 			mEncodingTable[x] = mask_code;
 	

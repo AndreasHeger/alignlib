@@ -41,10 +41,6 @@ using namespace std;
 namespace alignlib 
 {
 
-	IMPLEMENT_DEFAULT( HScorer, 
-			makeScorer(),
-			getDefaultScorer,
-			setDefaultScorer )
 
 /** guess scoring object from row and col type
 
