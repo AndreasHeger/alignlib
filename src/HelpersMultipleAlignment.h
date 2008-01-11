@@ -100,10 +100,11 @@ namespace alignlib
 						       std::istream & input );
     */
     /** get Convservation-string for multiple alignment. This returns a string, where 
-	each residue is marked, which is conserved at least > cutoff % */
+	each residue is marked, which is conserved at least > cutoff % */        
+    /*
     std::string calculateConservation( const HMultipleAlignment & mali, 
     		Frequency min_frequency);
-
+	*/
 
     /** calculate counts in mali categorised. The first row in Matrix is empty, so that
 	the numbering is consistent with the numbering of columns in the multiple alignment.

@@ -1156,10 +1156,11 @@ HAlignment & fillAlignmentIdentity(
 
 HAlignment & fillAlignmentGaps( 
 		HAlignment & dest,
-		HAlignator &  alignator,
-		HAlignandum & row,
-		HAlignandum & col )
+		const HAlignator &  alignator,
+		const HAlignandum & row,
+		const HAlignandum & col )
 		{
+	
 	if ( dest->getLength() == 0) return dest;
 
 	HAlignment copy = dest->getClone();

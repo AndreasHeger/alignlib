@@ -28,11 +28,6 @@
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
-#include "Alignandum.h"
-#include "Alignment.h"
-#include "HelpersAlignment.h"
-#include "Iterator2D.h"
-
 #include "ImplAlignatorDummy.h"
 
 using namespace std;

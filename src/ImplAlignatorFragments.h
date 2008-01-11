@@ -64,7 +64,7 @@ class ImplAlignatorFragments : public ImplAlignator
      
     */
     ImplAlignatorFragments( 
-    		HFragmentor & fragmentor,
+    		const HFragmentor & fragmentor,
     		Score row_gop, 
     		Score row_gep,
     		Score col_gop = 0,

@@ -235,7 +235,7 @@ HAlignment & fillAlignmentIdentity( HAlignment & dest,
      region.
  */
 HAlignment & fillAlignmentGaps( HAlignment & dest,
-		const Alignator & alignator,
+		const HAlignator & alignator,
 		const HAlignandum & row,
 		const HAlignandum & col );
 

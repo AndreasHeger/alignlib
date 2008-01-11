@@ -24,8 +24,8 @@ from alignlib import *
 class AlignedBlocksCase( unittest.TestCase ):
 
     def setUp( self ):
-        self.mWeightorFactory = makeNoWeightor
-        
+        pass
+    
     def testBlocks(self):
         a = makeAlignmentVector()
         fillAlignmentIdentity( a, 5, 10, 0)

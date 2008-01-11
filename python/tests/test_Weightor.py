@@ -25,13 +25,13 @@ class WeightorCase( unittest.TestCase ):
 
     def setUp( self ):
         
-        self.mWeightorFactory = makeNoWeightor
+        self.mWeightorFactory = makeWeightor
 
         self.mMali = makeMultipleAlignment()
         
-        self.mMali.add( makeAlignatumFromString("AAAAAAAAAAAAAAAAAAAA") )
-        self.mMali.add( makeAlignatumFromString("AAAAAAAAAAAAAAAAAAAA") )
-        self.mMali.add( makeAlignatumFromString("AAAAAAAAAAAAAAAAAAAA") )
+        self.mMali.add( makeAlignatum("AAAAAAAAAAAAAAAAAAAA") )
+        self.mMali.add( makeAlignatum("AAAAAAAAAAAAAAAAAAAA") )
+        self.mMali.add( makeAlignatum("AAAAAAAAAAAAAAAAAAAA") )
         
     def testSetDefault(self):
     
@@ -40,7 +40,7 @@ class WeightorCase( unittest.TestCase ):
     def testWeight(self):
         
         weightor = getDefaultWeightor()
-        weightor.calculateWeights( self.mMali )
+        # weightor.calculateWeights( self.mMali )
 
 """
 class WeightorHenikoffCase( WeightorCase ):

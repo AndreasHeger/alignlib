@@ -15,6 +15,7 @@
 #include <cstring>
 #include <string>
 
+#include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "Alignment.h"
 #include "AlignmentIterator.h"

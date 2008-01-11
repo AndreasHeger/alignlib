@@ -52,7 +52,8 @@ class ImplLogOddorBackground : public ImplLogOddor
     // constructors and desctructors
 
     /** default constructor */
-    ImplLogOddorBackground  ( const FrequencyVector & frequencies,
+    ImplLogOddorBackground  ( 
+    		const HFrequencyVector & frequencies,
     		const Score & scale_factor = 1,
     		const Score & mask_value = 10);
     
@@ -63,12 +64,13 @@ class ImplLogOddorBackground : public ImplLogOddor
     virtual ~ImplLogOddorBackground ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
-    virtual void fillProfile( ScoreMatrix * profile, 
-			      const FrequencyMatrix * frequencies ) const;
+    virtual void fillProfile( 
+    		ScoreMatrix * profile, 
+    		const FrequencyMatrix * frequencies ) const;
 
  private:
     /** sustitution matrix to use */
-    const FrequencyVector & mBackgroundFrequencies;
+    const HFrequencyVector & mBackgroundFrequencies;
     
 };
 

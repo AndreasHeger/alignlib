@@ -38,15 +38,19 @@ namespace alignlib
 {
 
 //---------------------------------------------------------< factory functions >--------------------------------------
-HLogOddor makeLogOddorBackground( const FrequencyVector & frequencies,
-		const Score & scale, const Score & mask_value )
+HLogOddor makeLogOddorBackground( 
+		const HFrequencyVector & frequencies,
+		const Score & scale, 
+		const Score & mask_value )
 {
 	return HLogOddor(new ImplLogOddorBackground( frequencies, scale, mask_value ));
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplLogOddorBackground::ImplLogOddorBackground ( const FrequencyVector & frequencies,
-		const Score & scale_factor, const Score & mask_value ) :
+ImplLogOddorBackground::ImplLogOddorBackground (
+		const HFrequencyVector & frequencies,
+		const Score & scale_factor, 
+		const Score & mask_value ) :
 	ImplLogOddor( scale_factor, mask_value ),
 	mBackgroundFrequencies( frequencies )
 	{
@@ -57,12 +61,14 @@ ImplLogOddorBackground::~ImplLogOddorBackground ()
 }
 
 ImplLogOddorBackground::ImplLogOddorBackground (const ImplLogOddorBackground & src ) :
-	ImplLogOddor( src ), mBackgroundFrequencies( src.mBackgroundFrequencies )
+	ImplLogOddor( src ), 
+	mBackgroundFrequencies( src.mBackgroundFrequencies )
 	{
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddorBackground::fillProfile( ScoreMatrix * profile ,
+void ImplLogOddorBackground::fillProfile( 
+		ScoreMatrix * profile ,
 		const FrequencyMatrix * frequencies ) const 
 		{
 	debug_func_cerr(5);
@@ -72,7 +78,9 @@ void ImplLogOddorBackground::fillProfile( ScoreMatrix * profile ,
 	Position length = frequencies->getNumRows();
 	Residue width  = frequencies->getNumCols();
 
-	if (mBackgroundFrequencies.size() != width )
+	FrequencyVector & bg = *mBackgroundFrequencies;
+	
+	if (bg.size() != width )
 		throw AlignException("ImplLogOddorBackground: the size of alphabet does not correspond to number of supplied background frequencies.");
 
 	for (Position column = 0; column < length; column++) 
@@ -83,7 +91,7 @@ void ImplLogOddorBackground::fillProfile( ScoreMatrix * profile ,
 		{
 			Frequency f = 0;	
 			if ((f = fcolumn[i]) > 0)
-				pcolumn[i] = log(f / mBackgroundFrequencies[i]) / mScaleFactor;
+				pcolumn[i] = log(f / bg[i]) / mScaleFactor;
 			else
 				pcolumn[i] = mMaskValue;
 		}

@@ -49,9 +49,9 @@ namespace alignlib {
  
   /* 1. factory functions */
   HFragmentor makeFragmentorDiagonals(
+		  const HAlignator & alignator,
 		  Score gop, 
-		  Score gep, 
-		  const HAlignator & dottor );
+		  Score gep );
   
   HFragmentor makeFragmentorIterative( 
 		  const HAlignment & dots, 

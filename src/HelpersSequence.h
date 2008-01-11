@@ -59,31 +59,14 @@ namespace alignlib
     HAlignandum makeSequence( const std::string & sequence,
     		const HTranslator & translator );
 
-    /** mutate a sequence according to a substitution matrix */
+    /** mutate a sequence according to a substitution matrix 
+     * 
+     * Initializes random generator with seed, if seed > 0.
+     * */
     HAlignandum makeMutatedSequence( 
     			HAlignandum src, 
-    			const MutationMatrix * matrix );
-
-    /* ----------------------------------------------------------------------------------------------*/
-    /* 2. accessor functions for default objects */
-
-    /* ----------------------------------------------------------------------------------------------*/ 
-    /* 3. convenience functions */
-    /** create a sequence from a stream */
-    HAlignandum extractSequence( std::istream & input,
-    		const HTranslator & translator );
-
-    /** extract a sequence in Fasta-Format from a stream */
-    HAlignandum extractSequenceFasta( std::istream & input, 
-    		std::string & description,
-    		const HTranslator & translator );
-
-    /** create a sequence from a filename */
-    HAlignandum readSequence( const char * filename,
-    		const HTranslator & translator );
-
-    /** set random seed */
-    void setRandomSeed( const long seed );
+    			const HMutationMatrix & matrix,
+    			const long seed = 0);
     
 }
 

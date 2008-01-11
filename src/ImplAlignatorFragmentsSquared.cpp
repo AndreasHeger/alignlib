@@ -75,7 +75,7 @@ public:
 HAlignator makeAlignatorFragmentsSquared(
 		Score gop, 
 		Score gep, 
-		HFragmentor & fragmentor) 
+		const HFragmentor & fragmentor) 
 {
 	return HAlignator( new ImplAlignatorFragmentsSquared( fragmentor, gop, gep, gop, gep));
 }
@@ -83,7 +83,7 @@ HAlignator makeAlignatorFragmentsSquared(
 //----------------------------------------------------------------------------------------------------------------------------------------
 /** constructors and destructors */
 ImplAlignatorFragmentsSquared::ImplAlignatorFragmentsSquared(
-		HFragmentor & fragmentor,
+		const HFragmentor & fragmentor,
 		Score row_gop, Score row_gep, 
 		Score col_gop, Score col_gep ):
 			ImplAlignatorFragments( fragmentor, row_gop, row_gep, col_gop, col_gep ) 

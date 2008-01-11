@@ -53,7 +53,7 @@ namespace alignlib
 //--------------------------------------------------------------------------------------------------------
 /** constructors and destructors */
 ImplAlignatorFragments::ImplAlignatorFragments(
-		HFragmentor & fragmentor,		  
+		const HFragmentor & fragmentor,		  
 		Score row_gop, Score row_gep, 
 		Score col_gop, Score col_gep ) :
 			ImplAlignator(), 

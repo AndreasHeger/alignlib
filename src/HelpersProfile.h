@@ -55,6 +55,7 @@ namespace alignlib
      */
     HAlignandum makeProfile(
     		const HTranslator & translator,
+    		const HWeightor & weightor,
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
     HAlignandum makeProfile();
@@ -63,6 +64,7 @@ namespace alignlib
      */
     HAlignandum makeProfile( const Position & length,
     		const HTranslator & translator,
+    		const HWeightor & weightor,    		
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
     HAlignandum makeProfile( const Position & length );

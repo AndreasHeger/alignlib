@@ -26,20 +26,6 @@
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
-#include "Fragmentor.h"
-
-#include "Alignment.h"
-#include "HelpersAlignment.h"
-
-#include "AlignmentIterator.h"
-
-#include "Alignandum.h"
-#include "AlignException.h"
-
-#include "HelpersSubstitutionMatrix.h"
-
-#include "Alignator.h"
-
 #include "ImplFragmentorDiagonals.h"
 
 using namespace std;
@@ -162,13 +148,15 @@ void ImplFragmentorDiagonals::performFragmentation(
 	Diagonal current_diagonal = calculateDiagonal( *p );
 	
 	// save alignment if diagonal has been changed
-	if (last_diagonal != current_diagonal) {
+	if (last_diagonal != current_diagonal) 
+	{
 	    // save fragment with positive score
-	    if (last_score > 0 && length > 1) {
-		HAlignment new_ali = sample->getNew();
-		copyAlignment( new_ali, current_ali);
-		new_ali->setScore( last_score );
-		mFragments->push_back( new_ali );
+	    if (last_score > 0 && length > 1) 
+	    {
+	    	HAlignment new_ali = sample->getNew();
+	    	copyAlignment( new_ali, current_ali);
+	    	new_ali->setScore( last_score );
+	    	mFragments->push_back( new_ali );
 	    }
 	    
 	    // erase alignment

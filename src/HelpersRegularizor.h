@@ -54,8 +54,8 @@ namespace alignlib
     /** regularizor according to Tatusov et al.()
      * for own parameterization. 
      */
-    HRegularizor makeRegularizorTatusov( const SubstitutionMatrix * matrix,
-    		const FrequencyVector & background,
+    HRegularizor makeRegularizorTatusov( const HSubstitutionMatrix & matrix,
+    		const HFrequencyVector & background,
     		const double & beta, 
     		const double & lambda ); 
 

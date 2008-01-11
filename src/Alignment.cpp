@@ -23,18 +23,22 @@
 
 #include <iostream>
 #include <iomanip>
+#include "alignlib.h"
 #include "Alignment.h"
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //--------------------------------------------------------------------------------------
-Alignment::Alignment() {
+Alignment::Alignment() 
+{
 }    
 
 //--------------------------------------------------------------------------------------
-Alignment::~Alignment () {
+Alignment::~Alignment () 
+{
 }
 
 //--------------------------------------------------------------------------------------

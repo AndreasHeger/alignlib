@@ -62,7 +62,7 @@ namespace alignlib
     HAlignator makeAlignatorTuples(int ktuple = 3 );
 
     /** make an alignator object, which returns a dummy alignments */
-    HAlignator makeAlignatorDummy( const HAlignment ali );
+    HAlignator makeAlignatorDummy( const HAlignment & ali );
 
     /** make an alignator object, which returns a dummy alignment */
     HAlignator makeAlignatorPublishAlignment( HAlignment & ali );

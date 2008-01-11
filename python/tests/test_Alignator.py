@@ -63,9 +63,9 @@ class AlignatorTestCase( unittest.TestCase ):
         
         for row, col in self.mPairs:
             self.mAlignmentA2B.clear()
-            self.mAlignmentB2A.clear()            
-            self.mAlignator.align( self.mSeqs[row], self.mSeqs[col], self.mAlignmentA2B )
-            self.mAlignator.align( self.mSeqs[col], self.mSeqs[row], self.mAlignmentB2A )            
+            self.mAlignmentB2A.clear()
+            self.mAlignator.align( self.mAlignmentA2B, self.mSeqs[row], self.mSeqs[col] )
+            self.mAlignator.align( self.mAlignmentB2A, self.mSeqs[col], self.mSeqs[row] )            
             self.checkAlignment( row, col )
 
     def checkAlignment( self, row, col ):
@@ -138,7 +138,6 @@ class AlignatorDPWrapTestCase( AlignatorTestCase ):
         else:
             self.assertEqual( self.mAlignmentA2B.getLength(), 14 )
             
-
 class AlignatorIterativeTestCase( AlignatorTestCase ):
 
     def setUp( self ):
@@ -168,7 +167,8 @@ class AlignatorIterativeTestCase( AlignatorTestCase ):
             self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
             self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[col].getLength() )
             self.assertEqual( self.mAlignmentA2B.getNumGaps(), 0 )
-        
+
+     
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(AlignatorDPGlobalWithEndGapsPenaltiesTestCase)
@@ -179,5 +179,4 @@ def suite():
 
 if __name__ == "__main__":
     unittest.main()
-
 

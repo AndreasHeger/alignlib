@@ -104,28 +104,6 @@ HAlignandum extractSequenceFasta( std::istream & input,
 		return NULL;
 		}
 */
-//----------------------------------------------------------------------------------
-/** read a sequence from a file, given the filename */
-/*
-HAlignandum readSequence( const char * filename,
-		const HTranslator & translator ) 
-		{
-
-	ifstream fin( filename);  
-
-	if (!fin)       
-		throw AlignException("Could not open file in ImplSequence.cpp");
-
-	std::string sequence;
-
-	fin >> sequence;
-
-	fin.close();  
-
-	return makeSequence( sequence.c_str(), translator );
-
-		}
-*/
 
 /* this routine should be replace by something, that
      a. uses a different random generator
@@ -148,36 +126,32 @@ Residue sampleFromDistribution( const double * histogram, const int width )
 	return width - 1;
 }
 
-void setRandomSeed( long seed ) 
+HAlignandum makeMutatedSequence( 
+		HAlignandum src, 
+		const HMutationMatrix & matrix,
+		const long seed ) 
 {
-	srandom(seed);
-}
-
-HAlignandum makeMutatedSequence( HAlignandum src, 
-		const MutationMatrix * matrix) 
-		{
-
 	assert( matrix->getNumRows() == matrix->getNumCols() );
-	// TODO: check function
-	
+
 	int width = matrix->getNumRows();
 	
 	// intialize random generator
+	if (seed > 0) 
+		srandom(seed);
+	
 	char * buffer = new char[src->getLength() + 1];
+	buffer[src->getLength()] = '\0';
 
-	const HTranslator & translator = getDefaultTranslator();
-	unsigned int x;
-	Position i;
+	const HTranslator & translator = src->getTranslator();
 
-	for (i = 0, x = 0; i < src->getLength(); i++, x++) 
+	for (Position i = 0; i < src->getLength(); ++i) 
 	{
 		Residue residue = src->asResidue(i);
-		Residue new_residue = sampleFromDistribution( (*matrix)[residue],
-		                                       	width );
-		buffer[x] = translator->decode(new_residue);
+		Residue new_residue = sampleFromDistribution( 
+				matrix->getRow(residue),
+				width );
+		buffer[i] = translator->decode(new_residue);
 	}
-
-	buffer[x] = '\0';
 
 	HAlignandum sequence = makeSequence(buffer, translator );
 	delete [] buffer;

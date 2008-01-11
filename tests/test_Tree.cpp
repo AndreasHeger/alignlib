@@ -67,19 +67,15 @@ int main ()
 	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
 	cout << endl;
 
-	/*
-  v = tree->getNodesBreadthFirstVisit();
-  cout << "BFS-traversal visit:" << endl;
-  std::copy( v->begin(), v->end(), std::ostream_iterator< PhyloLib::TYPE_NODE >( std::cout, " " ));
-  cout << endl;
-  delete v;
-
-  v = tree->getNodesBreadthFirstFinish();
-  cout << "BFS-traversal finish:" << endl;
-  std::copy( v->begin(), v->end(), std::ostream_iterator< PhyloLib::TYPE_NODE >( std::cout, " " ));
-  cout << endl;
-  delete v;
-	 */
+	v = tree->getNodesBreadthFirstVisit();
+	cout << "BFS-traversal visit:" << endl;
+	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
+	cout << endl;
+  
+	v = tree->getNodesBreadthFirstFinish();
+	cout << "BFS-traversal finish:" << endl;
+	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
+	cout << endl;
 
 	{
 		std::cout << "copying" << std::endl;

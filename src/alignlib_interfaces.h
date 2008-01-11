@@ -30,6 +30,7 @@
 #include "Alignment.h"
 #include "Alignator.h"
 #include "Alignatum.h"
+#include "AlignmentIterator.h"
 #include "Fragmentor.h"
 #include "Iterator2D.h"
 #include "LogOddor.h"

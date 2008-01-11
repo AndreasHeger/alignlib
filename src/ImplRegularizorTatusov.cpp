@@ -26,9 +26,6 @@
 #include "alignlib.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "Regularizor.h"
-#include "Matrix.h"
-#include "HelpersSubstitutionMatrix.h"
 #include "ImplRegularizorTatusov.h"
 
 using namespace std;

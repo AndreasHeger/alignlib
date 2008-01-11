@@ -29,7 +29,6 @@
 
 #include <iosfwd>
 #include "alignlib.h"
-#include "Alignment.h"
 
 namespace alignlib 
 {

@@ -209,13 +209,8 @@ Residue * ImplTranslator::encode( const std::string & src ) const
 //--------------------------------------------------------------------------------------------------------------------------------
 bool ImplTranslator::isValidChar( const char query ) const 
 {
-	// todo: use std::string functions
-	for ( int x = 0; x < mTableSize; ++x)
-	{
-		if ( mAlphabet[x] == query )
-			return true;
-	}
-	return false;
+	return ( mAlphabet.find( query ) != std::string::npos ||
+			mMaskChars.find( query ) != std::string::npos );
 }    
 
 //--------------------------------------------------------------------------------------------------------------------------------

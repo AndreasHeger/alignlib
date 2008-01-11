@@ -13,6 +13,7 @@
 #include <string>
 #include <utility>
 #include <stack>
+#include <queue>
 #include <cassert>
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -302,22 +303,64 @@ HNodeVector ImplTree::getNodesDepthFirstFinish() const
 //--------------------------------------------------------------------------------------------------------------------
 HNodeVector ImplTree::getNodesBreadthFirstVisit() const 
 {
-	// TODO: implement function
 	debug_func_cerr( 5 );
 	HNodeVector nodes( new std::vector<Node>() );
 
-	assert( 0 );
+	std::queue<Node> q;
+	
+	q.push( getRoot() );
+
+	while (!q.empty()) 
+	{
+		
+		Node node = q.front();
+		q.pop();
+
+		nodes->push_back( node );
+
+		Node c;
+		if ((c = getLeftChild(node)) != NO_NODE)
+			q.push( c );
+		if ((c = getRightChild(node)) != NO_NODE)
+			q.push( c );
+	}
+
 	return nodes;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 HNodeVector ImplTree::getNodesBreadthFirstFinish() const 
 {
-	// TODO: implement function
 	debug_func_cerr( 5 );
 
-	assert( 0 );
-	HNodeVector nodes( new std::vector<Node>() );	
+	std::queue<Node> q;
+	std::vector<bool>visited( mNumLeaves, false ); 
+	HNodeVector nodes( new std::vector<Node>() );
+
+	q.push( getRoot() );
+
+	while (!q.empty()) 
+	{
+
+		Node node = q.front();
+		std::cout << "node=" << node << " " << visited[node] << std::endl;
+		
+		if (visited[node])
+		{
+			q.pop();
+			nodes->push_back( node );
+		}
+		else
+		{
+			Node c;
+			if ((c = getLeftChild(node)) != NO_NODE)
+				q.push( c );
+			if ((c = getRightChild(node)) != NO_NODE)
+				q.push( c );
+			visited[node] = true;
+		}
+	}
+
 	return nodes;
 }
 

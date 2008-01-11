@@ -1,5 +1,6 @@
 #include "alignlib.h"
 
+/*
 #include "Alignandum.h"
 #include "HelpersAlignandum.h"
 #include "HelpersProfile.h"
@@ -68,6 +69,7 @@
 #include "HelpersTree.h"
 
 #include "AlignedBlocks.h"
+*/
 
 #include <iostream>
 
@@ -85,11 +87,17 @@ namespace py_details
     sizeof(alignlib::FragmentVector);
     sizeof(alignlib::PositionVector);
     sizeof(alignlib::ScoreVector);
-    sizeof(alignlib::Frequencies);
-    sizeof(alignlib::ProfileFrequencies);
+    // sizeof(alignlib::Frequencies);
+    // sizeof(alignlib::ProfileFrequencies);
     sizeof(alignlib::SequenceWeights);
     sizeof(alignlib::NodeVector);
     sizeof(alignlib::VectorDouble);
     sizeof(alignlib::Labels);
+    sizeof(alignlib::HAlignandum);
+    sizeof(alignlib::HAlignment);
+    sizeof(alignlib::HAlignator);
+    sizeof(alignlib::HMultipleAlignment);
+    sizeof(boost::shared_ptr<alignlib::Alignandum>);
+    sizeof(boost::shared_ptr<alignlib::Alignment>);
   }
 }

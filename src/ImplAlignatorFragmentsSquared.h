@@ -54,7 +54,7 @@ class ImplAlignatorFragmentsSquared : public ImplAlignatorFragments
      
     */
     ImplAlignatorFragmentsSquared(
-    		HFragmentor & fragmentor,
+    		const HFragmentor & fragmentor,
     		Score row_gop, 
     		Score row_gep, 
     		Score col_gop = 0,
