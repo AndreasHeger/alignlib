@@ -60,6 +60,8 @@ ImplTranslator::ImplTranslator (const ImplTranslator & src ) :
 	mDecodingTable( NULL ),
 	mAlphabetSize( src.mAlphabetSize )
 {
+	debug_func_cerr( 5 );
+	
 	if (src.mEncodingTable != NULL)
 	{
 		mEncodingTable = new Residue[ mTableSize ];
@@ -283,6 +285,7 @@ void ImplTranslator::write( std::ostream & output ) const
 //--------------------------------------------------------------------------------------
 void ImplTranslator::save( std::ostream & output ) const 
 {
+	debug_func_cerr( 5 );
 	output.write( (char *)&mAlphabetType, sizeof( AlphabetType) );
 	
 	if ( mAlphabetType == User )
@@ -301,6 +304,7 @@ void ImplTranslator::save( std::ostream & output ) const
 //
 HResidueVector ImplTranslator::map( const HTranslator & other ) const
 {
+	debug_func_cerr( 5 );
 	HResidueVector map_other2this( new ResidueVector( other->getAlphabetSize(), getMaskCode()) );
 
 	for ( Residue x = 0; x < other->getAlphabetSize(); ++x)

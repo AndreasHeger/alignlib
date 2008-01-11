@@ -171,7 +171,7 @@ void ImplAlignandum::shuffle( unsigned int num_iterations,
 
 	Position first_from = getFrom();
 
-	for (unsigned x = 0; x < num_iterations; x++) 
+	for (unsigned x = 0; x < num_iterations; ++x) 
 	{ 
 
 		Position i,j;
@@ -181,13 +181,13 @@ void ImplAlignandum::shuffle( unsigned int num_iterations,
 		{
 			Position from = to - window_size;
 
-			if (from < 1) 
+			if (from < 0) 
 			{
-				from = 1;
+				from = 0;
 				window_size = to;
 			}
 
-			for (i = to; i >= from; i--) 
+			for (i = to - 1; i >= from; --i) 
 			{
 				j = to - getRandomPosition(window_size) - 1;
 				swap( i, j );

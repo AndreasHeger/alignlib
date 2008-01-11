@@ -48,10 +48,12 @@ HLogOddor makeLogOddor( const Score & scale, const Score & mask_value )
 ImplLogOddor::ImplLogOddor ( const Score & scale_factor, const Score & mask_value) : 
 	mScaleFactor( scale_factor ), mMaskValue( mask_value )
 	{
+		debug_func_cerr( 5 );
 	}
 
 ImplLogOddor::~ImplLogOddor () 
 {
+	debug_func_cerr( 5 );	
 }
 
 ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) : 

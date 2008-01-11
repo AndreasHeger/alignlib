@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplRenderer.cpp,v 1.2 2004/01/07 14:35:36 aheger Exp $
+  $Id: test_Alignandum.cpp,v 1.3 2004/06/02 12:11:38 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -20,42 +20,44 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+/** Test alignata objects
+ */
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <iostream>
+#include <fstream>
+#include <cassert>
+#include <time.h> 
 
 #include "alignlib.h"
-#include "alignlib_fwd.h"
-#include "AlignlibDebug.h"
-#include "ImplRenderer.h"
+
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
 using namespace std;
+using namespace alignlib;
 
-namespace alignlib 
+BOOST_AUTO_TEST_CASE( test_LogOddor )
 {
-
-HRenderer makeRenderer() 
-{
-	return HRenderer( new ImplRenderer() );
+	HLogOddor l = getDefaultLogOddor();	
 }
 
-//---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplRenderer::ImplRenderer () 
+BOOST_AUTO_TEST_CASE( test_Translator )
 {
-	debug_func_cerr( 5 );
+	HTranslator l = getDefaultTranslator();
 }
 
-ImplRenderer::~ImplRenderer () 
+BOOST_AUTO_TEST_CASE( test_SubstitutionMatrix )
 {
+	HSubstitutionMatrix l = getDefaultSubstitutionMatrix();
 }
 
-ImplRenderer::ImplRenderer (const ImplRenderer & src ) 
-{
-}
 
-std::string ImplRenderer::render( const std::string & representation, 			      
-		Position segment_start, 
-		Position segment_end ) const 
-		{
-	// TODO: return substring
-	return representation;
-		}
 
-} // namespace alignlib
+
+
+

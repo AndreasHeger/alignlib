@@ -33,30 +33,25 @@
 #endif
 
 #include <iostream>
-#include <fstream>
-#include <vector>
-
-#include <time.h> 
 
 #include "alignlib.h"
 
 using namespace std;
 using namespace alignlib;
 
-int main () 
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
+
+BOOST_AUTO_TEST_CASE( test_LogOddorUniform )
 {
+	HAlignator a = makeFullDP( -10.0, -2.0);
+	HAlignandum s1 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
+	HAlignandum s2 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
+	    
+	NormalDistributionParameters * result = makeNormalDistributionParameters();
 
-	std::cout << "here" << std::endl;
-  HAlignator a = makeFullDP( -10.0, -2.0);
-  HAlignandum s1 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
-  HAlignandum s2 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
-    
-  NormalDistributionParameters * result = makeNormalDistributionParameters();
-
-  calculateZScoreParameters( result, s1, s2, a, 100);
-
-  cout << "mean=" << result->getMean() << " std=" << result->getStandardDeviation() << endl;
-  
-  delete result;
-
+	calculateZScoreParameters( result, s1, s2, a, 100);
+	cout << "mean=" << result->getMean() << " std=" << result->getStandardDeviation() << endl;
 }
+

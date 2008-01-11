@@ -77,7 +77,7 @@ HScorer makeScorer( const HAlignandum & row, const HAlignandum & col )
 		return HScorer( new ImplScorerProfileProfile( p1, p2 ) );
 
 	if (s1 && p2)
-		return HScorer( new ImplScorerSequenceProfile( s1, s2 ) );
+		return HScorer( new ImplScorerSequenceProfile( s1, p2 ) );
 
 	if (p1 && s2) 
 		return HScorer( new ImplScorerProfileSequence( p1, s2 ) );

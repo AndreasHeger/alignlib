@@ -18,7 +18,8 @@ programs=test_Fragmentor test_AlignatorDots test_Alignment  test_Alignator \
 		test_Translator \
 		test_LogOddor \
 		test_Regularizor \
-		test_Matrix
+		test_Matrix \
+		test_Defaults
 
 check_PROGRAMS = ${programs}
 
@@ -50,3 +51,4 @@ test_Translator_SOURCES = test_Translator.cpp
 test_LogOddor_SOURCES = test_LogOddor.cpp
 test_Regularizor_SOURCES = test_Regularizor.cpp
 test_Matrix_SOURCES = test_Matrix.cpp
+test_Defaults_SOURCES = test_Defaults.cpp

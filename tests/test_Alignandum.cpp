@@ -135,6 +135,14 @@ void runTests( HAlignandum & a, const std::string & sample )
 		}
 	}
 	checkingEnd();
+
+	checkingStart( "shuffling" );
+	{
+		HAlignandum clone(a->getClone());
+		clone->shuffle();
+		assert( clone->getLength() == a->getLength() );
+	}
+	checkingEnd();
 	
 }
 

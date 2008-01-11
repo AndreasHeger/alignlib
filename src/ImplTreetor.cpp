@@ -18,13 +18,18 @@ using namespace std;
 namespace alignlib {
 
 //-------------------------< constructors and destructors >--------------------------
-ImplTreetor::ImplTreetor () {
+ImplTreetor::ImplTreetor () 
+{
+	debug_func_cerr( 5 );
 }
 		       
-ImplTreetor::~ImplTreetor () {
+ImplTreetor::~ImplTreetor () 
+{
+	debug_func_cerr( 5 );
 }
 
-ImplTreetor::ImplTreetor (const ImplTreetor & src ) {
+ImplTreetor::ImplTreetor (const ImplTreetor & src ) 
+{
 }
 
 } /* namespace alignlib */

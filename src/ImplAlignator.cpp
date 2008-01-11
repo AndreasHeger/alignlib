@@ -51,7 +51,7 @@ namespace alignlib
   //----------------------------------------------------------------------------------------
   ImplAlignator::ImplAlignator()
     {
-
+	  debug_func_cerr( 5 );
       mIteratorTemplate = getDefaultIterator2D();
       mScorerTemplate = getDefaultScorer();
     }

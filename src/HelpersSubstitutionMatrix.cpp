@@ -170,11 +170,16 @@ HSubstitutionMatrix makeSubstitutionMatrix(
 // define factory functions with/without a translator
 #define MAKE_SUBSTITUTION_MATRIX(name,size,data) \
 	HSubstitutionMatrix name () \
-	{ HSubstitutionMatrix matrix(makeSubstitutionMatrix(size)); matrix->copyData(data); return matrix; } \
-	HSubstitutionMatrix name ( const HTranslator & translator ) \
-	{ HSubstitutionMatrix matrix(makeSubstitutionMatrix(23)); \
+	{ debug_func_cerr(5); \
+		HSubstitutionMatrix matrix(makeSubstitutionMatrix(size)); \
 		matrix->copyData(data); \
-		HResidueVector map_new2old ( getTranslator( Protein23 )->map(translator) ); \
+		return matrix; } \
+	HSubstitutionMatrix name ( const HTranslator & translator ) \
+	{ debug_func_cerr(5); \
+		HSubstitutionMatrix matrix(makeSubstitutionMatrix(size)); \
+		matrix->copyData(data); \
+		HTranslator t(getTranslator( Protein23 ) ); \
+		HResidueVector map_new2old ( t->map(translator) ); \
 		std::vector<unsigned int>m; \
 		std::copy( map_new2old->begin(), map_new2old->end(), back_inserter( m )); \
 		matrix->mapRows(m); \

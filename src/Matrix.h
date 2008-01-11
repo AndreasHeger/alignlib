@@ -146,6 +146,11 @@ public:
 	 */
 	void swapRows( unsigned int x, unsigned int y)
 	{
+		if (x == y) return;
+		assert( x >= 0);
+		assert( y >= 0);
+		assert( x < mRows);
+		assert( y < mRows);
 		T * buffer = new T[mCols];
 		size_t s = sizeof(T) * mCols;
 		memcpy( buffer,             &mMatrix[x*mCols], s );

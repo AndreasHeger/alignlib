@@ -44,13 +44,12 @@ namespace alignlib
   
 ImplFragmentor::ImplFragmentor() 
 {
+	debug_func_cerr( 5 );
 }    
 
 ImplFragmentor::~ImplFragmentor() 
 {
   debug_func_cerr(5);
-
-
 }
 
 ImplFragmentor::ImplFragmentor( const ImplFragmentor & src ) {

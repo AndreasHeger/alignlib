@@ -148,6 +148,10 @@ const Residue * ImplSequence::getSequence() const
 //--------------------------------------------------------------------------------------
 void ImplSequence::swap( const Position & x, const Position & y )
 {
+	assert( x >= 0);
+	assert( x < getFullLength() );
+	assert( y >= 0);
+	assert( y < getFullLength() );
 	std::swap( mSequence[x], mSequence[y] );
 }
 

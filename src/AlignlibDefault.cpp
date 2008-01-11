@@ -42,9 +42,8 @@ IMPLEMENT_DEFAULT( HDistor, makeDistorClustal(), getDefaultDistor, setDefaultDis
 
 // this depends on the default alphabets already being contstructed
 // If problems, switch to makeTranslator idiom like for other objects.
-IMPLEMENT_DEFAULT( HTranslator, makeTranslator( Protein20 ), 
+IMPLEMENT_DEFAULT( HTranslator, getTranslator( Protein20 ), 
 		getDefaultTranslator, setDefaultTranslator, default_translator );
-
 
 // default objects with dependencies
 IMPLEMENT_DEFAULT( HSubstitutionMatrix, 
@@ -52,7 +51,6 @@ IMPLEMENT_DEFAULT( HSubstitutionMatrix,
 		getDefaultSubstitutionMatrix,
 		setDefaultSubstitutionMatrix,
 		default_matrix )
-
 
 IMPLEMENT_DEFAULT( HTreetor, 
 		makeTreetorDistanceLinkage( getDefaultDistor() ), 

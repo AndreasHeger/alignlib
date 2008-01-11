@@ -35,19 +35,9 @@ namespace alignlib
 
 //-------------------------------------------------------------------------------
 
-// the built-in translator objects are built at startup time.
-
-/** 20-letter alphabet plus X */
-static const HTranslator translator_protein_20(new ImplTranslator( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" )); 
-
-/** encoding table compatible with BLOSUM and PAML matrices */
-static const HTranslator translator_protein_23(new ImplTranslator( Protein23, "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" ));
-
-/** 4-letter DNA alphabet */
-static const HTranslator translator_dna_4( new ImplTranslator( DNA4, "ACGT", "-.", "N" ));
-
 const HTranslator makeTranslator( const AlphabetType & alphabet_type )
 {
+	debug_func_cerr( 5 );
 	ImplTranslator * t;
 	switch (alphabet_type) 
 	{
@@ -66,8 +56,23 @@ const HTranslator makeTranslator( const AlphabetType & alphabet_type )
 	return HTranslator( t );
 }
 
+/** get a built-in translator object 
+ * */
 const HTranslator getTranslator( const AlphabetType & alphabet_type )
 {
+	// The static variables are initialized the first time this function is
+	// called and then retain their values.
+	
+	// 20-letter alphabet plus X
+	static const HTranslator translator_protein_20(makeTranslator( Protein20)); 
+
+	// encoding table compatible with BLOSUM and PAML matrices
+	static const HTranslator translator_protein_23(makeTranslator( Protein23));
+
+	// 4-letter DNA alphabet
+	static const HTranslator translator_dna_4(makeTranslator( DNA4));
+	
+	debug_func_cerr( 5 );
 	switch (alphabet_type) 
 	{
 	case Protein20: 
@@ -77,14 +82,12 @@ const HTranslator getTranslator( const AlphabetType & alphabet_type )
 	case DNA4: 
 		return translator_dna_4; break;
 	}
-
 	throw AlignException( "unknown alphabet" );
 }
 
-/** load a translator object from stream
- * returns NULL on EOF
- */
 
+/** load a translator object from stream
+ */
 const HTranslator loadTranslator( std::istream & input )
 {
 	// read Alignandum type
