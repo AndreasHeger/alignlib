@@ -57,7 +57,7 @@ class ImplAlignatorTuples : public ImplAlignator
     virtual ~ImplAlignatorTuples ();
 
     /** method for aligning two arbitrary objects */
-    virtual HAlignment & align( HAlignment & dest,
+    virtual void align( HAlignment & dest,
     		const HAlignandum & row, 
     		const HAlignandum & col );
     

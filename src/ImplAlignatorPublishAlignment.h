@@ -60,7 +60,7 @@ class ImplAlignatorPublishAlignment : public ImplAlignator
     virtual ~ImplAlignatorPublishAlignment();
 
     /** method for aligning two arbitrary objects */
-    virtual HAlignment & align(
+    virtual void align(
     		HAlignment & dest,
     		const HAlignandum & row, 
     		const HAlignandum & col );

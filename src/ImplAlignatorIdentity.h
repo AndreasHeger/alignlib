@@ -57,7 +57,7 @@ class ImplAlignatorIdentity : public ImplAlignator
     virtual ~ImplAlignatorIdentity ();
 
     /** method for aligning two arbitrary objects */
-    virtual HAlignment & align(HAlignment & dest, 
+    virtual void align(HAlignment & dest, 
     		const HAlignandum & row, const HAlignandum & col );
     
     /** return a new alignator object of the same type.

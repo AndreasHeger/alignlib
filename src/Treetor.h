@@ -47,7 +47,7 @@ class Treetor
   virtual ~Treetor ();
 
   /** create a tree from a multiple alignment */
-  virtual HTree & calculateTree( HTree & dest, 
+  virtual void calculateTree( HTree & dest, 
 		  const HMultipleAlignment & src) const = 0; 
 
 };

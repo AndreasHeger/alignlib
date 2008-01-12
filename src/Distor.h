@@ -58,7 +58,7 @@ public:
 	@param multali multiple alignment of protein sequences
 	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
 	 */
-	virtual HPhyloMatrix & calculateMatrix( 
+	virtual void calculateMatrix( 
 			HPhyloMatrix & dest, 
 			const HMultipleAlignment & mali ) const = 0;
 

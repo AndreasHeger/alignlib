@@ -114,18 +114,21 @@ def exportSave( mb, options):
       }
     """
     
-    cls = mb.decl("HAlignandum")
+    cls = mb.class_("Alignandum")
     cls.include_files.append( "streambuf" )
     registration_code = 'def( "save", wrapper_for_save<alignlib::%s> )' % cls.name
     cls.member_function( "save" ).exclude()
     mb.add_declaration_code( declaration_code, tail=True )
     cls.add_registration_code( registration_code )
 
-def exportLoad( mb, options ):
-    
-    declaration_code = \
-    """        
-      alignlib::HAlignandum wrapper_for_load( PyObject * fp )
+def exportLoad( mb, classes, options ):
+
+    for c in classes:
+        
+        params = { 'class' : c }
+        declaration_code = \
+    """
+      alignlib::H%(class)s wrapper_for_load_%(class)s( PyObject * fp )
       {
           if (!PyFile_Check(fp))
           {
@@ -134,16 +137,17 @@ def exportLoad( mb, options ):
          std::FILE * f = PyFile_AsFile(fp);   
          std_ibuf buf(f);
          std::istream is(&buf);
-         return alignlib::HAlignandum a(alignlib::loadAlignandum( is ));
-      }       
-"""
-    registration_code = 'def( "bp::loadAlignandum", wrapper_for_load, bp::return_value_policy< bp::manage_new_object >() );'     
+         return alignlib::H%(class)s (alignlib::load%(class)s( is ));
+      } 
+""" % params
+
+        registration_code = 'bp::def( "load%(class)s", wrapper_for_load_%(class)s );' % params     
     
-    fun = mb.free_function( "loadAlignandum")
-    fun.include_files.append( "streambuf" )
-    fun.exclude()
-    mb.add_declaration_code( declaration_code, tail = True )
-    mb.add_registration_code( registration_code )
+        fun = mb.free_function( "load%(class)s" % params)
+        fun.include_files.append( "streambuf" )
+        fun.exclude()
+        mb.add_declaration_code( declaration_code, tail = True )
+        mb.add_registration_code( registration_code )
 
 def export_writePairAlignment( mb ):
     """export writePairAlignment.
@@ -405,14 +409,14 @@ def exportInterfaceClasses( mb ):
 #                         return_value_policy( reference_existing_object )
 #    mb.member_functions( lambda x: x.name == "getTranslator" ).call_policies = \
 #                         return_value_policy( reference_existing_object )
-    mb.member_functions( lambda x: x.name == "align" ).call_policies = \
-        return_value_policy( reference_existing_object )
+#    mb.member_functions( lambda x: x.name == "align" ).call_policies = \
+#        return_value_policy( reference_existing_object )
 #    mb.member_functions( lambda x: x.name == "fragment" ).call_policies = \
 #        return_value_policy( reference_existing_object )
-    mb.member_functions( lambda x: x.name == "calculateTree" ).call_policies = \
-        return_value_policy( reference_existing_object )
-    mb.member_functions( lambda x: x.name == "calculateMatrix" ).call_policies = \
-        return_value_policy( reference_existing_object )
+#    mb.member_functions( lambda x: x.name == "calculateTree" ).call_policies = \
+#        return_value_policy( reference_existing_object )
+#    mb.member_functions( lambda x: x.name == "calculateMatrix" ).call_policies = \
+#        return_value_policy( reference_existing_object )
 #    mb.member_functions( "calculateMatrix" ).call_policies = \
 #        return_value_policy( manage_new_object )                             
 #    mb.member_functions( "calculateTree" ).call_policies = \
@@ -488,8 +492,9 @@ def exportInterfaceClasses( mb ):
     exportHandles( mb )
            
     ## export load/save functionality        
-    # exportSave( mb, options )        
-    # exportLoad( mb, options )
+    exportSave( mb, options )        
+    exportLoad( mb, ("Alignandum", "Translator"),
+                options )
 
 def exportHandles( mb ):
     """include handle classes. 
@@ -516,16 +521,25 @@ def exportHandles( mb ):
                               ]
 
     for handle in handles_to_export:
+        
+        for c in mb.classes( lambda x: handle[1:]in x.name ):
+            print "class=", c.name
+        
+        for c in mb.decls( lambda x: handle[1:] in x.name):
+            print "decl=", c.name
+            
         pointer = "boost::shared_ptr<alignlib::%s>" % handle[1:]
         try:
-            d = mb.class_( pointer )
+            d = mb.decl( pointer )
         except RuntimeError:
             print "could not find handle class %s, searching with %s" % (handle, pointer)
             continue
-             
+        
+        print "exporting %s" % handle
+        
         d.include()
-        d.name( handle )
-        d.alias = handle
+        # d.rename( handle )
+        # d.alias = handle
 
 def exportTemplates( mb ):
     """include templated classes.
@@ -585,7 +599,7 @@ def buildModule( include_paths, dest, options) :
     mb = module_builder.module_builder_t( [r"includes.h"]
                                           , gccxml_path=r""
                                           , cache="cache"
-                                          , start_with_declarations=( "alignlib","py_details")
+                                          , start_with_declarations=( "alignlib","py_details" )
                                           , working_directory=r"."
                                           , include_paths=include_paths
                                           , define_symbols=[]
@@ -598,7 +612,7 @@ def buildModule( include_paths, dest, options) :
         print "# declarations before building interface."
         mb.print_declarations()
 
-    # addStreamBufClasses( mb )
+    addStreamBufClasses( mb )
     
     exportFunctions( mb )
     

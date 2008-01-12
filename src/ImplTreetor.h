@@ -51,7 +51,7 @@ class ImplTreetor : public Treetor
   virtual ~ImplTreetor ();
 
   /** create a tree from a multiple alignment */
-  virtual HTree & calculateTree( 
+  virtual void calculateTree( 
 		  HTree & dest, 
 		  const HMultipleAlignment & src ) const = 0; 
 

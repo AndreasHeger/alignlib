@@ -62,7 +62,7 @@ class ImplAlignatorDummy : public ImplAlignator
     virtual ~ImplAlignatorDummy();
 
     /** method for aligning two arbitrary objects */
-    virtual HAlignment & align(
+    virtual void align(
     		HAlignment & dest,
     		const HAlignandum & row, 
     		const HAlignandum & col );

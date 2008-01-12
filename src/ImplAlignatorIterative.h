@@ -52,7 +52,7 @@ namespace alignlib
       virtual ~ImplAlignatorIterative();
 
       /** method for aligning two arbitrary objects */
-      virtual HAlignment & align( HAlignment &, const HAlignandum &, const HAlignandum & );
+      virtual void align( HAlignment &, const HAlignandum &, const HAlignandum & );
       
       /** return a new alignator object of the same type.
        */

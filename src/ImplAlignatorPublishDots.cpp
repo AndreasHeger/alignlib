@@ -36,16 +36,13 @@
 
 #include "ImplAlignatorPublishAlignment.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
-Alignator * makeAlignatorPublishAlignment( HAlignment ali) {
-  return new ImplAlignatorPublishAlignment( ali );
+HAlignator makeAlignatorPublishAlignment( HAlignment ali) {
+  return HAlignator(new ImplAlignatorPublishAlignment( ali ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
@@ -67,11 +64,9 @@ ImplAlignatorPublishDots * ImplAlignatorPublishDots::getClone() const
 }
 
 
-HAlignment ImplAlignatorPublishAlignment::align( const HAlignandum row, const HAlignandum col, HAlignment result) {
+void ImplAlignatorPublishAlignment::align( const HAlignandum row, const HAlignandum col, HAlignment result) {
 
   startUp(row, col, result );
-
-  return mAlignment;
   
   cleanUp( row, col, results );
 }

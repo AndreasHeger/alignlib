@@ -66,7 +66,7 @@ namespace alignlib
    return HAlignator( new ImplAlignatorSimilarity( *this ) );
   }
   
-  HAlignment & ImplAlignatorSimilarity::align( 
+  void ImplAlignatorSimilarity::align( 
 		  HAlignment & result,
 		  const HAlignandum & row, 
 		  const HAlignandum & col) 
@@ -99,9 +99,6 @@ namespace alignlib
     result->setScore( total_score );
     
     cleanUp(result, row, col );
-    
-    return result;
-  
   }
   
 

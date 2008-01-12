@@ -25,13 +25,7 @@
 #include "alignlib_fwd.h"
 #include "AlignException.h"
 #include "AlignlibDebug.h"
-#include "Weightor.h"
 #include "ImplWeightor.h"
-#include "HelpersWeightor.h"
-#include "HelpersTranslator.h"
-#include "MultipleAlignment.h"
-#include "Matrix.h"
-#include "Translator.h"
 
 using namespace std;
 
@@ -119,17 +113,22 @@ void ImplWeightor::fillCounts(
 
 	Position mali_length = src->getLength();
 	int mali_width = src->getWidth();
-	
+
 	// calculate counts
 	Residue width = translator->getAlphabetSize();
 	
 	for (int nsequence = 0; nsequence < mali_width; nsequence++) 
 	{
+		SequenceWeight weight = (*weights)[nsequence];
 		const std::string & seq = (*src)[nsequence];
 		for (int x = 0; x < mali_length; ++x)
 		{
-			Residue code = translator->encode( seq[x] );  
-			dest->setValue( x, code, dest->getValue( x, code) + (*weights)[nsequence] );
+			Residue code = translator->encode( seq[x] );
+			// continue for out-of-range characters (gaps)
+			if (code >= width) continue;
+			
+			debug_cerr(5, "width=" << width << " char=" << seq[x] << " code=" << (int)code << " weight=" << weight );
+			dest->setValue( x, code, dest->getValue( x, code) + weight );
 		}
 	}
 }

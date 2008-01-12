@@ -84,7 +84,7 @@ namespace alignlib
             
       /** align two alignandum objects 
        * */
-      virtual HAlignment & align(HAlignment & dest, 
+      virtual void align(HAlignment & dest, 
     		  const HAlignandum & row, 
     		  const HAlignandum & col) = 0;		
 

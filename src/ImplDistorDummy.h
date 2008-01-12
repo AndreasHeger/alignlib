@@ -51,7 +51,7 @@ class ImplDistorDummy : public ImplDistor
 	@param multali multiple alignment of protein sequences
 	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
      */
-    virtual HPhyloMatrix & calculateMatrix( HPhyloMatrix & dest, 
+    virtual void calculateMatrix( HPhyloMatrix & dest, 
     		const alignlib::HMultipleAlignment mali ) const ;
 
     /** Calculate distance between two rows from multiple alignment */

@@ -72,7 +72,7 @@ HAlignator ImplAlignatorTuples::getClone() const
 
 //---------------------------------------------> Alignment <-----------------------------------------
 
-HAlignment & ImplAlignatorTuples::align( 
+void ImplAlignatorTuples::align( 
 		HAlignment & result, 
 		const HAlignandum & row, 
 		const HAlignandum & col ) 
@@ -151,8 +151,6 @@ HAlignment & ImplAlignatorTuples::align(
 	result->setScore( total_score );
 
 	cleanUp(result, row, col);
-
-	return result;
 }
 
 } // namespace alignlib

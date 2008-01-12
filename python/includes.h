@@ -1,5 +1,5 @@
-#include "alignlib.h"
 
+#include "alignlib.h"
 /*
 #include "Alignandum.h"
 #include "HelpersAlignandum.h"
@@ -87,17 +87,21 @@ namespace py_details
     sizeof(alignlib::FragmentVector);
     sizeof(alignlib::PositionVector);
     sizeof(alignlib::ScoreVector);
-    // sizeof(alignlib::Frequencies);
-    // sizeof(alignlib::ProfileFrequencies);
     sizeof(alignlib::SequenceWeights);
     sizeof(alignlib::NodeVector);
     sizeof(alignlib::VectorDouble);
     sizeof(alignlib::Labels);
-    sizeof(alignlib::HAlignandum);
+/*  sizeof(alignlib::HAlignandum);
     sizeof(alignlib::HAlignment);
     sizeof(alignlib::HAlignator);
     sizeof(alignlib::HMultipleAlignment);
     sizeof(boost::shared_ptr<alignlib::Alignandum>);
     sizeof(boost::shared_ptr<alignlib::Alignment>);
+    sizeof(boost::shared_ptr<alignlib::MultipleAlignment>);
+    sizeof(boost::shared_ptr<alignlib::Alignator>);
+    sizeof(boost::shared_ptr<alignlib::Alignment>);
+  */  
+    
+    
   }
 }

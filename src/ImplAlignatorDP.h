@@ -92,7 +92,7 @@ class ImplAlignatorDP : public ImplAlignator
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual HAlignment & align( HAlignment & , const HAlignandum & , const HAlignandum &);
+    virtual void align( HAlignment & , const HAlignandum & , const HAlignandum &);
 
     /* member access functions--------------------------------------------------------------- */
 

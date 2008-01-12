@@ -58,8 +58,10 @@ HAlignator ImplAlignatorIdentity::getClone() const
 
 
 //--------------------------------------------------------------------------------------------------------
-HAlignment & ImplAlignatorIdentity::align( HAlignment & result,
-		const HAlignandum & row, const HAlignandum & col )
+void ImplAlignatorIdentity::align( 
+		HAlignment & result,
+		const HAlignandum & row, 
+		const HAlignandum & col )
 
 {
 	debug_func_cerr(5);
@@ -97,8 +99,6 @@ HAlignment & ImplAlignatorIdentity::align( HAlignment & result,
 	result->setScore( total_score );
 
 	cleanUp(result, row, col );
-
-	return result;
 }
 
 

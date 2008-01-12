@@ -69,7 +69,7 @@ class ImplAlignatorDots : public ImplAlignator
 
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
-    virtual HAlignment & align( HAlignment & dest, 
+    virtual void align( HAlignment & dest, 
     		const HAlignandum & row, 
     		const HAlignandum & col); 
 

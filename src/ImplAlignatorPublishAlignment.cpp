@@ -42,8 +42,8 @@ using namespace std;
 namespace alignlib
 {
   
-  HAlignator makeAlignatorPublishAlignment( HAlignment & ali) 
   {
+  HAlignator makeAlignatorPublishAlignment( HAlignment & ali) 
     return HAlignator( new ImplAlignatorPublishAlignment( ali ) );
   }
   
@@ -70,14 +70,13 @@ namespace alignlib
   }
   
   
-  HAlignment & ImplAlignatorPublishAlignment::align(
+  void ImplAlignatorPublishAlignment::align(
 		  HAlignment & result,
 		  const HAlignandum & row, 
 		  const HAlignandum & col ) 
   {    
     startUp( result, row, col);
     cleanUp( result, col, col );
-    return mAlignment;
   }
 
 

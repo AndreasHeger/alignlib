@@ -70,8 +70,10 @@ namespace alignlib
   }
   
   
-  HAlignment & ImplAlignatorIterative::align( HAlignment & result,
-		  const HAlignandum & row, const HAlignandum & col )
+  void ImplAlignatorIterative::align( 
+		  HAlignment & result,
+		  const HAlignandum & row, 
+		  const HAlignandum & col )
   {
       debug_func_cerr(5);
       
@@ -87,8 +89,6 @@ namespace alignlib
       alignIteratively( result, copy_row, copy_col );
 
       cleanUp( result, row, col );
-    
-      return result;
   }
 
   void ImplAlignatorIterative::alignIteratively( 

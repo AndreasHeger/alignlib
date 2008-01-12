@@ -70,7 +70,7 @@ void ImplTreetorDistance::swapHelpers(
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
-HTree & ImplTreetorDistance::calculateTree( 
+void ImplTreetorDistance::calculateTree( 
 		HTree & tree, 
 		const HMultipleAlignment & mali ) const 
 {
@@ -186,7 +186,6 @@ HTree & ImplTreetorDistance::calculateTree(
   delete [] mIndices;
   cleanUp();	// cleans up mWorkMatrix
 
-  return tree;
 }
 
 } /* namespace alignlib */

@@ -140,7 +140,7 @@ ImplAlignatorFragments::ImplAlignatorFragments(
 		}
 
 		//------------------------------------------------------------------------------------------------------
-		HAlignment & ImplAlignatorFragments::align(
+		void ImplAlignatorFragments::align(
 				HAlignment & result,
 				const HAlignandum & row, 
 				const HAlignandum & col) 
@@ -155,7 +155,6 @@ ImplAlignatorFragments::ImplAlignatorFragments(
 
 			cleanUp(result, row, col);
 
-			return result;
 		}
 
 		//-----------------------------------------< BackTracke >-----------------------------------------------

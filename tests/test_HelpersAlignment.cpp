@@ -87,7 +87,7 @@ bool TestCompressionMonotone( HAlignment & a,
 	std::string row (xrow);
 	std::string col (xcol);
 
-	a = fillAlignmentCompressed( a, 3, row, 3, col);
+	fillAlignmentCompressed( a, 3, row, 3, col);
 
 	std::stringstream output;
 
@@ -121,7 +121,7 @@ bool TestCompressionDiagonal( HAlignment & a,
 
 	std::string row (xrow);
 
-	a = fillAlignmentCompressedDiagonal( a, row );
+	fillAlignmentCompressedDiagonal( a, row );
 
 	std::stringstream output;
 	writeAlignmentCompressedDiagonal( output, a );

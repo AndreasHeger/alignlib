@@ -145,7 +145,7 @@ namespace alignlib
     }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
-  HAlignment & ImplAlignatorDots::align(HAlignment & result,
+  void ImplAlignatorDots::align(HAlignment & result,
 		  const HAlignandum & row, 
 		  const HAlignandum & col ) 
     {
@@ -158,8 +158,6 @@ namespace alignlib
       traceBack(result, row, col);
 
       cleanUp(result, row, col);
-
-      return result;
     }
 
   //-----------------------------------------< BackTracke >-------------------------------------------------------------

@@ -63,7 +63,7 @@ HAlignator ImplAlignatorDummy::getClone() const
 }
 
 //----------------------------------------------------------------------------------------------------------
-HAlignment & ImplAlignatorDummy::align( HAlignment & result,
+void ImplAlignatorDummy::align( HAlignment & result,
 		const HAlignandum & row, 
 		const HAlignandum & col ) 
 {
@@ -76,8 +76,6 @@ HAlignment & ImplAlignatorDummy::align( HAlignment & result,
 			mIterator->col_front(), mIterator->col_back() );
 
 	cleanUp( result, row, col );
-
-	return result;
 }
 
 

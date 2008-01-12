@@ -28,26 +28,6 @@
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
-#include "Alignandum.h"
-#include "AlignmentIterator.h"
-#include "Alignment.h"
-#include "AlignException.h"
-
-#include "HelpersAlignment.h"
-#include "Translator.h"
-#include "HelpersTranslator.h"
-
-#include "Alignatum.h"
-#include "HelpersAlignatum.h"
-
-#include "Scorer.h"
-#include "HelpersScorer.h"
-
-#include "Alignator.h"
-#include "HelpersAlignator.h"
-
-#include "HelpersSubstitutionMatrix.h"
-#include "Matrix.h"
 
 using namespace std;
 
@@ -154,14 +134,14 @@ void writeAlignmentRSDB( std::ostream & output, const HAlignment & src )
 
 //---------------------------------------------------------------------------------------------------------
 /** write an alignment in rsdb-format */
-HAlignment & readAlignmentPairs( 
-		HAlignment & src, 
+void readAlignmentPairs( 
+		HAlignment & dest, 
 		std::istream & input, 
 		bool reverse ) 
 {
 	debug_func_cerr(5);
 
-	src->clear();
+	dest->clear();
 
 	while (input) 
 	{
@@ -170,18 +150,16 @@ HAlignment & readAlignmentPairs(
 
 		input >> row >> col >> score;
 		if (reverse)
-			src->addPair( new ResiduePAIR(col, row, score) );
+			dest->addPair( new ResiduePAIR(col, row, score) );
 		else
-			src->addPair( new ResiduePAIR(row, col, score) );
+			dest->addPair( new ResiduePAIR(row, col, score) );
 	}
-
-	return src;
 }
 
 
 //-----------------------------------------------------------------------------------------------
 /** convert one type of Alignment-object into another using functions from the public interface */
-HAlignment & copyAlignment( 
+void copyAlignment( 
 		HAlignment & dest, 
 		const HAlignment & src,
 		Position row_from,
@@ -235,11 +213,11 @@ HAlignment & copyAlignment(
 
 	}
 
-	return dest;
+	return;
 		}
 //-----------------------------------------------------------------------------------------------
 /** convert one type of Alignment-object into another using functions from the public interface */
-HAlignment & copyAlignmentRemoveRegion( 
+void copyAlignmentRemoveRegion( 
 		HAlignment & dest, 
 		const HAlignment & src,
 		Position row_from,
@@ -287,12 +265,12 @@ HAlignment & copyAlignmentRemoveRegion(
 
 	}
 
-	return dest;
+	return;
 		}
 //-----------------------------------------------------------------------------------------------
 /** convert one type of Alignment-object into another using functions from the public interface. 
  Residues are skipped, which are part of filter */
-HAlignment & copyAlignment( HAlignment & dest, 
+void copyAlignment( HAlignment & dest, 
 		const HAlignment & src,
 		const HAlignment & filter, 
 		const CombinationMode mode ) 
@@ -327,13 +305,13 @@ HAlignment & copyAlignment( HAlignment & dest,
 			dest->addPair( new ResiduePAIR(p) );
 	}
 
-	return dest;
+	return;
 		}
 
 //----------------------------------------------------------------------------------
 /** add one alignment to another
  */
-HAlignment & addAlignment2Alignment( 
+void addAlignment2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src ) 
 		{
@@ -348,12 +326,12 @@ HAlignment & addAlignment2Alignment(
 
 	dest->setScore( dest->getScore() + src->getScore());
 
-	return dest;
+	return;
 		}
 //----------------------------------------------------------------------------------
 /** add one alignment to another. Map src using map_src2new.
  */
-HAlignment & addMappedAlignment2Alignment( 
+void addMappedAlignment2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src, 
 		const HAlignment & map_src2new,
@@ -383,14 +361,14 @@ HAlignment & addMappedAlignment2Alignment(
 
 	dest->setScore( dest->getScore() + src->getScore());
 
-	return dest;
+	return;
 		}
 
 //----------------------------------------------------------------------------------
 /** add one alignment to another. Map both row and column.
  */
 
-HAlignment & addMappedAlignments2Alignment( 
+void addMappedAlignments2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src, 
 		const HAlignment & map_src_row2dest_row, 
@@ -413,7 +391,7 @@ HAlignment & addMappedAlignments2Alignment(
 
 	dest->setScore( dest->getScore() + src->getScore());
 
-	return dest;
+	return;
 		}
 
 //-----------------------------------------------------------------------------------------
@@ -421,7 +399,7 @@ HAlignment & addMappedAlignments2Alignment(
     method, that's why I can not put it into a constructor, the virtual mechanism is not 
     guaranteed to work in constructors 
  */
-HAlignment & combineAlignment( 
+void combineAlignment( 
 		HAlignment & dest, 
 		const HAlignment & src1, 
 		const HAlignment & src2, 
@@ -490,7 +468,7 @@ HAlignment & combineAlignment(
 
 	}
 
-	return dest;
+	return;
 		}
 
 //------------------------------------------------------------------------------------------------------------
@@ -845,7 +823,7 @@ void writeAlignmentCompressedDiagonal(
     @param	 diagonal_to	only look at diagonals smaller than diagonal_to
 
  */
-HAlignment & fillAlignmentCompressedDiagonal( 
+void fillAlignmentCompressedDiagonal( 
 		HAlignment & dest, 
 		const std::string & ali,
 		bool reverse) 
@@ -910,12 +888,12 @@ HAlignment & fillAlignmentCompressedDiagonal(
 		is_ali.ignore();		// skip semicolon
 	}   
 
-	return dest;
+	return;
 		}
 
 //----------------------------------------------------------------------------------------------------
 //** the same as above, but use filter. duplication for speed resaons */
-HAlignment & fillAlignmentCompressedDiagonal( 
+void fillAlignmentCompressedDiagonal( 
 		HAlignment & dest, 
 		const std::string & ali,
 		Position filter_row_from,
@@ -1002,7 +980,7 @@ HAlignment & fillAlignmentCompressedDiagonal(
 		is_ali.ignore();		// skip semicolon
 	}   
 
-	return dest;
+	return;
 }
 
 
@@ -1012,7 +990,7 @@ HAlignment & fillAlignmentCompressedDiagonal(
 	where the row is also present as a row-residue in filter.
 
  */
-HAlignment & filterAlignmentRemovePairs( 
+void filterAlignmentRemovePairs( 
 		HAlignment & dest, 
 		const HAlignment & filter, 
 		const CombinationMode mode ) 
@@ -1055,12 +1033,12 @@ HAlignment & filterAlignmentRemovePairs(
 		it1++;
 	}
 
-	return dest;
+	return;
 }
 
 //-------------------------------------------------------------------------------------------------
 // this works only for pairswise alignments, where both alignments are sorted by row.
-HAlignment & filterAlignmentRemovePairwiseSorted( 
+void filterAlignmentRemovePairwiseSorted( 
 		HAlignment & dest, 
 		const HAlignment & filter, 
 		const CombinationMode mode ) 
@@ -1126,13 +1104,13 @@ HAlignment & filterAlignmentRemovePairwiseSorted(
 
 	}
 
-	return dest;
+	return;
 		}
 
 /*--------------------------------------------------------------------------------------------------------------
   create an identity alignment between residues from and to in row using an offset for col
  */
-HAlignment & fillAlignmentIdentity( 
+void fillAlignmentIdentity( 
 		HAlignment & dest, 
 		Position row_from, 
 		Position row_to, 
@@ -1144,7 +1122,7 @@ HAlignment & fillAlignmentIdentity(
 	for (i = row_from; i < row_to; i++) 
 		dest->addPair( new ResiduePAIR( i, i + col_offset, 0));
 
-	return dest;
+	return;
 		}
 
 //-------------------------------------------------------------------------------------------------
@@ -1154,14 +1132,14 @@ HAlignment & fillAlignmentIdentity(
      Note: it does conserve ranges in row/col!
  */
 
-HAlignment & fillAlignmentGaps( 
+void fillAlignmentGaps( 
 		HAlignment & dest,
 		const HAlignator &  alignator,
 		const HAlignandum & row,
 		const HAlignandum & col )
 		{
 	
-	if ( dest->getLength() == 0) return dest;
+	if ( dest->getLength() == 0) return;
 
 	HAlignment copy = dest->getClone();
 	HAlignment temp_map_row2col = makeAlignmentVector();
@@ -1191,7 +1169,7 @@ HAlignment & fillAlignmentGaps(
 	row->useSegment();
 	col->useSegment();
 
-	return dest;
+	return;
 		}
 
 
@@ -1250,7 +1228,7 @@ double calculatePercentSimilarity( const HAlignment & src)
 	gaps in the beginning of an alignment
 	gaps in the middle of an alignment
  */
-HAlignment & fillAlignmentCompressed( 
+void fillAlignmentCompressed( 
 		HAlignment & dest, 
 		Position row_from, 
 		const std::string & row_ali,
@@ -1274,8 +1252,8 @@ HAlignment & fillAlignmentCompressed(
 cout << row_ali << " " << col_ali << endl;
 #endif
 
-	if (!(is_row >> d_row)) return dest;
-	if (!(is_col >> d_col)) return dest;
+	if (!(is_row >> d_row)) return;
+	if (!(is_col >> d_col)) return;
 
 	while (true) 
 	{
@@ -1363,11 +1341,11 @@ cout << row_ali << " " << col_ali << endl;
 
 }	  
 
-return dest;
+return;
 }    
 
 //--------------------------------------------------------------------------------------------------------------
-HAlignment & fillAlignmentExplicit( 
+void fillAlignmentExplicit( 
 		HAlignment & dest, 
 		Position row_from, 
 		const std::string & row_ali,
@@ -1394,11 +1372,11 @@ HAlignment & fillAlignmentExplicit(
 			col++;
 	}
 
-	return dest;
+	return;
 }    
 
 //----------------------------------------------------------------------------------------------------
-HAlignment & rescoreAlignment( 
+void rescoreAlignment( 
 		HAlignment & dest,
 		const HAlignandum & row,
 		const HAlignandum & col, 
@@ -1414,11 +1392,11 @@ HAlignment & rescoreAlignment(
 		it->mScore = scorer->getScore( it->mRow, it->mCol ); 
 	}	
 
-	return dest;
+	return;
 	}
 
 //----------------------------------------------------------------------------------------------------
-HAlignment & rescoreAlignment( 
+void rescoreAlignment( 
 		HAlignment & dest,
 		const Score score ) 
 		{
@@ -1430,12 +1408,12 @@ HAlignment & rescoreAlignment(
 	for (; it != it_end; ++it)
 		it->mScore = score;
 
-	return dest;
+	return;
 		}
 
 
 //----------------------------------------------------------------------------------------------------
-HAlignment & calculateAffineScore( 
+void calculateAffineScore( 
 		HAlignment & dest,
 		const Score gop, 
 		const Score gep) 
@@ -1468,13 +1446,13 @@ HAlignment & calculateAffineScore(
 	}
 
 	dest->setScore(score);
-	return dest;
+	return;
 }
 
 //----------------------------------------------------------------------------------------------------
 /** fill an alignment with a repeat unit from a wrap-around alignment */
 /* code still broken with the skip_negative_ends */
-HAlignment & fillAlignmentRepeatUnit( 
+void fillAlignmentRepeatUnit( 
 		HAlignment & dest, 
 		const HAlignment & src,
 		Position first_row_residue,
@@ -1490,7 +1468,7 @@ HAlignment & fillAlignmentRepeatUnit(
 	dest->clear();
 
 	while ( (it != it_end) && (it->mRow < first_row_residue)) ++it;
-	if (it == it_end) return dest;
+	if (it == it_end) return;
 
 	Position last_col = it->mCol - 1;
 
@@ -1514,7 +1492,7 @@ HAlignment & fillAlignmentRepeatUnit(
 	if (skip_negative_ends)
 		dest->removeRowRegion( last_positive + 1, dest->getRowTo());
 
-	return dest;
+	return;
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -1655,7 +1633,7 @@ void fillAlignmentSummation( HAlignment & dest1,
      Only use with AlignmentVector
 
  */
-HAlignment & flattenAlignment( HAlignment & dest ) 
+void flattenAlignment( HAlignment & dest ) 
 {
 
 	AlignmentIterator it(dest->begin());
@@ -1687,7 +1665,7 @@ HAlignment & flattenAlignment( HAlignment & dest )
 
 	}
 
-	return dest;
+	return;
 }
 
 
@@ -1811,7 +1789,7 @@ HFragmentVector splitAlignment(
 /** complement a pairwise alignment. If there is a gap of the same length in both row and
     col, the corresponding residues are added to the alignment.
  */
-HAlignment & complementAlignment( 
+void complementAlignment( 
 		HAlignment & dest, 
 		const Position max_length ) 
 		{
@@ -1844,7 +1822,7 @@ HAlignment & complementAlignment(
 		last_col = this_col;
 	}
 
-	return dest;
+	return;
 		}
 
 /** remove small fragments from alignment.

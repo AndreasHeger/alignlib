@@ -125,7 +125,7 @@ Score ImplAlignatorDP::getColGop() { return mColGop; }
 Score ImplAlignatorDP::getColGep() { return mColGep; }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
-HAlignment & ImplAlignatorDP::align(
+void ImplAlignatorDP::align(
 		HAlignment & result,
 		const HAlignandum & row, 
 		const HAlignandum & col ) 
@@ -150,7 +150,6 @@ HAlignment & ImplAlignatorDP::align(
 
 	cleanUp(result, row, col );
 
-	return result;
 }
 
 //------------------------------------------------------------------------------------------

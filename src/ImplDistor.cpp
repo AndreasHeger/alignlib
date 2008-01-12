@@ -35,7 +35,7 @@ ImplDistor::ImplDistor (const ImplDistor & src ) :
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-HPhyloMatrix & ImplDistor::calculateMatrix( 
+void ImplDistor::calculateMatrix( 
 		HPhyloMatrix & matrix, 
 		const HMultipleAlignment & multali) const 
 		{
@@ -51,7 +51,6 @@ HPhyloMatrix & ImplDistor::calculateMatrix(
       for (j = i + 1; j < width; j++) 
 	(*matrix)(i, j) = calculateDistance( (*multali)[i], (*multali)[j] );
 
-    return matrix;
 } 
     
 
