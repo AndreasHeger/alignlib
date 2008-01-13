@@ -110,16 +110,16 @@ ImplRegularizorTatusov::ImplRegularizorTatusov (const ImplRegularizorTatusov & s
 /** 
  *  */      
 void ImplRegularizorTatusov::fillFrequencies( 
-		FrequencyMatrix * frequencies, 
-		const CountMatrix * counts ) const
+		FrequencyMatrix & frequencies, 
+		const CountMatrix & counts ) const
 {
 	debug_func_cerr(5);
-
+	
 	/// fill frequencies with raw frequencies
 	ImplRegularizor::fillFrequencies( frequencies, counts );
 	
-	Position width = counts->getNumCols();
-	Position length = counts->getNumRows();
+	Position width = counts.getNumCols();
+	Position length = counts.getNumRows();
 
 	if (width != 20)
 		throw AlignException( "ImplRegularizorTatusov.cpp: width of profile has to be 20" );
@@ -141,7 +141,7 @@ void ImplRegularizorTatusov::fillFrequencies(
 	
 	for (Position column = 0; column < length; column++) 
 	{
-		Frequency * f = frequencies->getRow( column );
+		Frequency * f = frequencies.getRow( column );
 		
 		// compute the pseudocounts gi
 		for (Residue i = 0; i < width; ++i)

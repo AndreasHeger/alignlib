@@ -88,15 +88,15 @@ void ImplWeightor::rescaleWeights(
 
 //--------------------------------------------------------------------------------------------------------------------------------
 void ImplWeightor::fillCounts(
-		CountMatrix * dest,
+		CountMatrix & dest,
 		const HMultipleAlignment & src,
 		const HTranslator & translator) const 
 {
 	debug_func_cerr(5);
 
-	if (translator->getAlphabetSize() != dest->getNumCols())
+	if (translator->getAlphabetSize() != dest.getNumCols())
 		throw AlignException( "count matrix and alphabet have different size.");
-	if (src->getLength() != dest->getNumRows())
+	if (src->getLength() != dest.getNumRows())
 		throw AlignException( "count matrix and multiple alignment have different size.");
 	
 	int nsequences = src->getWidth();
@@ -128,7 +128,7 @@ void ImplWeightor::fillCounts(
 			if (code >= width) continue;
 			
 			debug_cerr(5, "width=" << width << " char=" << seq[x] << " code=" << (int)code << " weight=" << weight );
-			dest->setValue( x, code, dest->getValue( x, code) + weight );
+			dest.setValue( x, code, dest.getValue( x, code) + weight );
 		}
 	}
 }

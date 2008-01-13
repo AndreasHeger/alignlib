@@ -58,13 +58,15 @@ class ImplRegularizor : public Regularizor
     virtual ~ImplRegularizor ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( FrequencyMatrix * frequencies, 
-				  const CountMatrix * counts ) const;
+    virtual void fillFrequencies( 
+    		FrequencyMatrix & frequencies, 
+    		const CountMatrix & counts ) const;
     
  protected:
 	 /** return alignment diversity (average number of different characters) 
 	  * */
-	 virtual double calculateDiversity( const CountMatrix * counts ) const;
+	 virtual double calculateDiversity( 
+			 const CountMatrix & counts ) const;
 
 };
 

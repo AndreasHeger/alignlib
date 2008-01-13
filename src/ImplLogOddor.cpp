@@ -62,21 +62,24 @@ ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) :
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddor::fillProfile( ScoreMatrix * profile ,
-		const FrequencyMatrix * frequencies ) const 
+void ImplLogOddor::fillProfile( ScoreMatrix & profile ,
+		const FrequencyMatrix & frequencies ) const 
 		{
 	debug_func_cerr(5);
 
+	assert( profile.getNumRows() == frequencies.getNumRows() );
+	assert( profile.getNumCols() == frequencies.getNumCols() );
+	
 	// simply take the frequencies and use them as scores.
 	// For frequencies of 0, mMaskValue is used.
 
-	Position length = frequencies->getNumRows();
-	Residue width  = frequencies->getNumCols();
+	Position length = frequencies.getNumRows();
+	Residue width  = frequencies.getNumCols();
 
 	for (Position column = 0; column < length; column++) 
 	{
-		const Frequency * fcolumn = frequencies->getRow(column);
-		Score * pcolumn = profile->getRow(column);
+		const Frequency * fcolumn = frequencies.getRow(column);
+		Score * pcolumn = profile.getRow(column);
 
 		for (Residue i = 0; i < width; ++i)
 		{

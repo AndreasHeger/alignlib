@@ -69,7 +69,7 @@ class Weightor
     /** fill a counts matrix from a multiple alignment 
      */
     virtual void fillCounts(
-    		CountMatrix * counts,  		
+    		CountMatrix & counts,  		
     		const HMultipleAlignment & src,
     		const HTranslator & translator ) const = 0;
 

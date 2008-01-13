@@ -148,6 +148,7 @@ def exportLoad( mb, classes, options ):
         fun.exclude()
         mb.add_declaration_code( declaration_code, tail = True )
         mb.add_registration_code( registration_code )
+        # TODO: return None if istream is empty
 
 def export_writePairAlignment( mb ):
     """export writePairAlignment.

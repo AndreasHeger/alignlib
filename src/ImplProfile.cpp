@@ -282,7 +282,7 @@ void ImplProfile::fillCounts( const HMultipleAlignment &  src )
 	setTrueLength( src->getLength() );
 	allocateCounts();
 
-	mWeightor->fillCounts( mCountMatrix, src, mTranslator );
+	mWeightor->fillCounts( *mCountMatrix, src, mTranslator );
 
 	setPrepared( false );  
 }
@@ -411,13 +411,13 @@ void ImplProfile::prepare() const
 	if (mFrequencyMatrix == NULL) 
 	{
 		allocateFrequencies();
-		// mRegularizor->fillFrequencies( mFrequencyMatrix, mCountMatrix ); 
+		mRegularizor->fillFrequencies( *mFrequencyMatrix, *mCountMatrix ); 
 	}
 
 	if (!mScoreMatrix) 
 	{
 		allocateScores();
-		// mLogOddor->fillProfile( mScoreMatrix, mFrequencyMatrix );
+		mLogOddor->fillProfile( *mScoreMatrix, *mFrequencyMatrix );
 	}
 	setPrepared( true );
 }

@@ -61,7 +61,7 @@ class ImplWeightor : public Weightor
     /** return a vector of weights for a multiple alignment. The ordering in the result will be the same 
 	as in the multiple alignment. Note, that the caller has to delete the weights. */
     virtual void fillCounts( 
-    		CountMatrix * counts,
+    		CountMatrix & counts,
     		const HMultipleAlignment & src,
     		const HTranslator & translator ) const;
     

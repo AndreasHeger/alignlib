@@ -44,7 +44,8 @@ namespace alignlib {
 	
     */
 
-class ImplRegularizorDirichletInterpolate : public ImplRegularizorDirichlet {
+class ImplRegularizorDirichletInterpolate : public ImplRegularizorDirichlet 
+{
  public:
     // constructors and desctructors
 
@@ -58,6 +59,7 @@ class ImplRegularizorDirichletInterpolate : public ImplRegularizorDirichlet {
     virtual ~ImplRegularizorDirichletInterpolate ();
     
  protected:
+	 
     /** This function encapsulates that part of the algorithm, that needs to access the lgamma-function. It
 	has been externalized, so that it can be overloaded to implement different speed-ups.
 	
@@ -65,7 +67,10 @@ class ImplRegularizorDirichletInterpolate : public ImplRegularizorDirichlet {
 
 	The implemention here hashes the calls to the lgamma-function
     */
-    virtual double calculateBetaDifferences(  TYPE_BETA_DIFFERENCES beta_differences, const Count * n, Count ntotal ) const;
+    virtual double calculateBetaDifferences(  
+    		TYPE_BETA_DIFFERENCES beta_differences, 
+    		const Count * n, 
+    		Count ntotal ) const;
 
 
  private:

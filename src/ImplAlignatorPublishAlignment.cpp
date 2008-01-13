@@ -42,9 +42,9 @@ using namespace std;
 namespace alignlib
 {
   
-  {
   HAlignator makeAlignatorPublishAlignment( HAlignment & ali) 
-    return HAlignator( new ImplAlignatorPublishAlignment( ali ) );
+  {
+	  return HAlignator( new ImplAlignatorPublishAlignment( ali ) );
   }
   
   //---------------------------------------------------------< constructors and destructors >--------------------------------------

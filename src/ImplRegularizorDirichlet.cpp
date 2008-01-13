@@ -191,7 +191,11 @@ inline static double lBetaSum ( const Count * vector1,
 
     This function uses the lgamma-function directly.
  */
-double ImplRegularizorDirichlet::calculateBetaDifferences( TYPE_BETA_DIFFERENCES beta_differences, const Count * n, Count ntotal ) const {     
+double ImplRegularizorDirichlet::calculateBetaDifferences( 
+		TYPE_BETA_DIFFERENCES beta_differences, 
+		const Count * n, 
+		Count ntotal ) const 
+		{     
 
 	double max_log_difference = 0;
 	int j;
@@ -261,13 +265,13 @@ void ImplRegularizorDirichlet::fillColumn(  Frequency * frequencies,
       to call NormalizeColumn to get the correct estimated probabilites.
  */      
 void ImplRegularizorDirichlet::fillFrequencies( 
-		FrequencyMatrix * frequencies, 
-		const CountMatrix * counts ) const
+		FrequencyMatrix & frequencies, 
+		const CountMatrix & counts ) const
 {
 	debug_func_cerr(5);
 
-	Position width = counts->getNumCols();
-	Position length = counts->getNumRows();
+	Position width = counts.getNumCols();
+	Position length = counts.getNumRows();
 
 	if (width != PROFILEWIDTH)
 		throw AlignException( "ImplRegularizorDirichlet.cpp: width of profile has to be 20" );
@@ -282,7 +286,7 @@ void ImplRegularizorDirichlet::fillFrequencies(
 
 	for (column = 0; column < length; column++) 
 	{
-		const Count * n = counts->getRow( column );
+		const Count * n = counts.getRow( column );
 
 		ntotal = 0;
 
@@ -293,7 +297,7 @@ void ImplRegularizorDirichlet::fillFrequencies(
 		if (ntotal < mFadeCutoff ) 
 		{
 			// use Dirichlet-Mixture
-			fillColumn( frequencies->getRow( column ), 
+			fillColumn( frequencies.getRow( column ), 
 					beta_differences, 
 					n, 
 					ntotal );
@@ -301,7 +305,7 @@ void ImplRegularizorDirichlet::fillFrequencies(
 		} 
 		else 
 		{
-			Frequency * col = frequencies->getRow( column );
+			Frequency * col = frequencies.getRow( column );
 			// calculate raw frequencies:
 			for (i = 0; i < width; i++)
 				col[i] = (Frequency)(n[i] / ntotal);

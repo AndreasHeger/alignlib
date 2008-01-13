@@ -66,8 +66,8 @@ class ImplRegularizorDirichlet : public Regularizor
     virtual ~ImplRegularizorDirichlet ();
     
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( FrequencyMatrix * frequencies, 
-				  				  const CountMatrix * counts ) const; 
+    virtual void fillFrequencies( FrequencyMatrix & frequencies, 
+				  				  const CountMatrix & counts ) const; 
 
  private:
 

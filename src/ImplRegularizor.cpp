@@ -55,17 +55,17 @@ ImplRegularizor::ImplRegularizor (const ImplRegularizor & src )
 }
 
 //-------------------------------------------------------------------------------------------------------
-double ImplRegularizor::calculateDiversity( const CountMatrix * counts ) const
+double ImplRegularizor::calculateDiversity( const CountMatrix & counts ) const
 {
 	// diversity is the average number of different charactesr per column
-	Position width = counts->getNumCols();
-	Position length = counts->getNumRows();
+	Position width = counts.getNumCols();
+	Position length = counts.getNumRows();
 
 	double total = 0;
 	for (Position p = 0; p < length; ++p)
 	{
 		Residue n = 0;
-		Count * count_column = counts->getRow( p );
+		Count * count_column = counts.getRow( p );
 		for (Residue r = 0; r < width; ++r)
 			if (count_column[r] > 0)
 				++n;
@@ -78,26 +78,29 @@ double ImplRegularizor::calculateDiversity( const CountMatrix * counts ) const
 /** fill frequencies from counts without regularization.
  *  */      
 void ImplRegularizor::fillFrequencies( 
-		FrequencyMatrix * frequencies, 
-		const CountMatrix * counts ) const
+		FrequencyMatrix & frequencies, 
+		const CountMatrix & counts ) const
 		{
 	debug_func_cerr(5);
 
+	assert( frequencies.getNumRows() == counts.getNumRows() );
+	assert( frequencies.getNumCols() == counts.getNumCols() );
+	
 	// simply calculate frequencies
 
 	Position column;
 	Count ntotal;
 	int i;
 
-	Position width = frequencies->getNumCols();
-	Position length = frequencies->getNumRows();
+	Position width = frequencies.getNumCols();
+	Position length = frequencies.getNumRows();
 
 	for (column = 0; column < length; ++column) 
 	{
 		ntotal = 0;
 
-		const Count * counts_column = counts->getRow(column);
-		Frequency * frequency_column = frequencies->getRow(column);
+		const Count * counts_column = counts.getRow(column);
+		Frequency * frequency_column = frequencies.getRow(column);
 
 		for (i = 0; i < width; i ++)
 			ntotal += counts_column[i];
