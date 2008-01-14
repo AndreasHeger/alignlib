@@ -122,7 +122,12 @@ def exportSave( mb, options):
     cls.add_registration_code( registration_code )
 
 def exportLoad( mb, classes, options ):
-
+    """export load functions.
+    
+    The load functions returns and empty smart pointer. This
+    is then translated to the None object.
+    """
+    
     for c in classes:
         
         params = { 'class' : c }
@@ -137,7 +142,10 @@ def exportLoad( mb, classes, options ):
          std::FILE * f = PyFile_AsFile(fp);   
          std_ibuf buf(f);
          std::istream is(&buf);
-         return alignlib::H%(class)s (alignlib::load%(class)s( is ));
+         if (is.peek() == EOF)
+             return alignlib::H%(class)s();
+         else
+             return alignlib::H%(class)s (alignlib::load%(class)s( is ));
       } 
 """ % params
 

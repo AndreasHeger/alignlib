@@ -69,6 +69,22 @@ class AlignandumTestCase( unittest.TestCase ):
         self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAAXXXXAAA", self.renderSeq() )
 
+    def testSave(self):
+        
+        outfile = open("test.out", "wb" )
+        self.mAlignandum.save(outfile)
+        self.mAlignandum.save(outfile)
+        outfile.close()
+    
+        infile = open("test.out", "rb" )
+        alignanda = []
+        while 1:
+            a = loadAlignandum( infile )
+            if not a: break
+            alignanda.append( a )
+            
+        assert( len(alignanda) == 2)
+
 class ProfileTestCase( AlignandumTestCase ):
 
     def setUp( self ):
@@ -92,22 +108,6 @@ class ProfileTestCase( AlignandumTestCase ):
         ## TODO: make this test and the code conforming to use X as mask char
         self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAAXXXXAAA", self.renderSeq() )
-
-    def testSave(self):
-        
-        outfile = open("test.out", "wb" )
-        self.mAlignandum.save(outfile)
-        self.mAlignandum.save(outfile)
-        outfile.close()
-    
-        infile = open("test.out", "rb" )
-        alignanda = []
-        while 1:
-            a = loadAlignandum( infile )
-            if not a: break
-            alignanda.append( a )
-            
-        assert( len(alignanda) == 2)
 
 def suite():
     suite = unittest.TestSuite()

@@ -87,54 +87,6 @@ void writeAlignmentTable(
 		unsigned int ncols = 8,
 		bool with_scores = true);
 
-/** write compressed alignment into stream. The alignment can be restricted to
-     a region specifying the columns. If you want to restrict it to row-residues,
-     you can get those boundaries by calling mapRowToCol
-
-	 @param output 		output stream
-     @param src	Alignment
-     @param col_from	beginning of segment to use
-     @param col_to		end of segment to use
- */
-void writeAlignmentCompressed(
-		std::ostream & output,
-		const HAlignment & src, 
-		Position col_from = NO_POS,
-		Position col_to = NO_POS
-);
-
-/** write compressed alignment into streams. The alignment can be restricted to
-     a region specifying the columns. A further filter can be
-     applied, that only saves a tube. 
-
-     If diagonal_from is larger than diagonal_to, then the whole range is used.
-
-	 @param output 		output stream
-     @param src	Alignment
-     @param reverse  whether to reverse row and column
-     @param row_from	beginning of segment to use
-     @param row_to	end of segment to use
-     @param col_from	beginning of segment to use
-     @param col_to	end of segment to use
-     @param diagonal_form beginning of tube to use
-     @param diagonal_to end of tube to use
- */
-void writeAlignmentCompressedDiagonal(
-		std::ostream & output,
-		const HAlignment & src, 
-		bool reverse = false,
-		Position row_from = NO_POS,
-		Position row_to = NO_POS,
-		Position col_from = NO_POS,
-		Position col_to = NO_POS,
-		Diagonal diagonal_from = MAX_DIAGONAL,
-		Diagonal diagonal_to = -MAX_DIAGONAL
-);
-
-/** write an alignment in rsdb-format */
-void writeAlignmentRSDB( std::ostream & output, 
-		const HAlignment & src );
-
 /** enum describing the ways that two alignments can be combined
  * R: row
  * C: col
@@ -211,12 +163,6 @@ void addMappedAlignments2Alignment( HAlignment & dest,
 		const HAlignment & map_src_row2dest_row, 
 		const HAlignment & map_src_col2dest_col );
 
-
-/** print a nice pairwise alignment */
-void writePairAlignment( std::ostream & output, 
-		const HAlignandum & row, 
-		const HAlignandum & col, 
-		const HAlignment & ali );
 
 /** write a nice pairwise alignment, allowing for wrapping around of the alignment */
 void writeWraparoundAlignment( std::ostream & output, 

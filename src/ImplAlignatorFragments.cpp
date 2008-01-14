@@ -177,7 +177,8 @@ ImplAlignatorFragments::ImplAlignatorFragments(
 
 #ifdef DEBUG
 				cout << "Traceback: fragment " << ifragment << " with score " << (*mFragments)[ifragment]->getScore() << endl;
-				writePairAlignment( cout, row, col, (*mFragments)[ifragment] );
+				// TODO: change to new output
+				// writePairAlignment( cout, row, col, (*mFragments)[ifragment] );
 #endif
 
 				ifragment = mTrace[ifragment];

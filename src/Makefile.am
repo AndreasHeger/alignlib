@@ -53,7 +53,7 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersP
 			ImplLogOddor.h ImplLogOddorUniform.h ImplLogOddorGribskov.h ImplLogOddorBackground.h
 
 HEADERS_ALIGNMENT =	Alignment.h HelpersAlignment.h \
-			AlignmentIterator.h \
+			AlignmentIterator.h AlignmentFormat.h \
 			AlignedBlocks.h \
 			ImplAlignment.h \
 			ImplAlignmentVector.h ImplAlignmentSorted.h \
@@ -138,7 +138,7 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 
 PARTS_ALIGNMENT = Alignment.cpp \
 			HelpersAlignment.cpp \
-			AlignedBlocks.cpp \
+			AlignmentFormat.cpp \
 			ImplAlignment.cpp \
 			ImplAlignmentVector.cpp \
 			ImplAlignmentSorted.cpp \
