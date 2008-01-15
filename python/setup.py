@@ -190,6 +190,7 @@ def exportClasses( mb ):
     These classes can be instantiated directly from python.
     """
     classes_to_export = set( ['Coordinate', 
+                              'AlignmentFormat',
                               'AlignmentFormatBlocks',
                               'AlignmentFormatExplicit',
                               'AlignmentFormatDiagonals',
@@ -198,8 +199,13 @@ def exportClasses( mb ):
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
 
-    mb.member_functions( lambda x: x.name == "copy" ).call_policies = \
-        return_value_policy( reference_existing_object )
+    # mb.member_functions( lambda x: x.name == "copy" ).call_policies = \
+    #    return_value_policy( reference_existing_object )
+
+    ## add __str__ function for functions having defined the '<<' operator
+    ## This automatically maps std::ostream to a string
+    mb.free_operators( lambda x: x.name == "operator<<" ).include()    
+
         
 def exportInterfaceClasses( mb ):
     """export virtual classes.
@@ -235,10 +241,6 @@ def exportInterfaceClasses( mb ):
 
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
-
-    ## add __str__ function for functions having defined the '<<' operator
-    ## This automatically maps std::ostream to a string
-    mb.free_operators( lambda x: x.name == "operator<<" ).include()    
 
     ## exclude the following because of unhandled arguments/return types
 #    exclude_functions = ( "decode", "encode", "col_begin", "col_end", "row_begin", "row_end" )

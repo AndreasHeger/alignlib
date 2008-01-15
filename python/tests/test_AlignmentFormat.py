@@ -32,11 +32,25 @@ class AlignmentFormatTestCase( unittest.TestCase ):
 class AlignmentFormatBlocksTestCase( AlignmentFormatTestCase ):
     
     def testOutput(self):
+        print "blocks"
         print str(AlignmentFormatBlocks( self.mAlignment ));
+        print str(self.mAlignment)
+        
+    def testInput(self):
+        
+        output = str(AlignmentFormatBlocks( self.mAlignment ));
+        print output        
+        alignment = makeAlignmentVector()
+        
+        b = AlignmentFormatBlocks( output )
+        print str(b)
+        b.copy( alignment )
+        print str(alignment)
 
 class AlignmentFormatEmissionsTestCase( AlignmentFormatTestCase ):
     
     def testOutput(self):
+        print "emissions"
         print str(AlignmentFormatEmissions( self.mAlignment ));
 
                 

@@ -68,12 +68,49 @@ void AlignmentFormat::copy( HAlignment & dest ) const
 	dest->clear();
 }
 
+void AlignmentFormat::load( std::istream & input)
+{
+	input >> mRowFrom >> mRowTo >> mColFrom >> mColTo;
+}
+
+void AlignmentFormat::save( std::ostream & output) const
+{
+	output << mRowFrom << "\t" << mRowTo << "\t" << mColFrom << "\t" << mColTo;
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+std::ostream & operator<< (std::ostream & output, const AlignmentFormat & src)
+{
+	src.save( output );
+	return output;
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------
+std::istream & operator>> (std::istream & input, AlignmentFormatBlocks & dest) 
+{
+	dest.load( input );
+	return input;
+}
+
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 AlignmentFormatBlocks::AlignmentFormatBlocks() : 
 	AlignmentFormat()
 	{
+	}
+
+AlignmentFormatBlocks::AlignmentFormatBlocks( std::istream & input ) : 
+	AlignmentFormat()
+	{
+		load( input );
+	}
+
+AlignmentFormatBlocks::AlignmentFormatBlocks( const std::string & src) : 
+	AlignmentFormat()
+	{
+	std::istringstream i(src.c_str());
+	load( i );
 	}
 
 AlignmentFormatBlocks::AlignmentFormatBlocks( const HAlignment & src) : 
@@ -159,15 +196,14 @@ void AlignmentFormatBlocks::copy( HAlignment & dest ) const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::ostream & operator<< (std::ostream & output, const AlignmentFormatBlocks & src) 
+void AlignmentFormatBlocks::save(std::ostream & output ) const
 {
-	output << src.mRowFrom << "\t" << src.mRowTo << "\t" << src.mColFrom << "\t" << src.mColTo << "\t";
-	std::copy( src.mRowStarts.begin(), src.mRowStarts.end(), std::ostream_iterator<Position>(output, ","));
+	output << mRowFrom << "\t" << mRowTo << "\t" << mColFrom << "\t" << mColTo << "\t";
+	std::copy( mRowStarts.begin(), mRowStarts.end(), std::ostream_iterator<Position>(output, ","));
 	output << "\t";
-	std::copy( src.mColStarts.begin(), src.mColStarts.end(), std::ostream_iterator<Position>(output, ","));
+	std::copy( mColStarts.begin(), mColStarts.end(), std::ostream_iterator<Position>(output, ","));
 	output << "\t";
-	std::copy( src.mBlockSizes.begin(), src.mBlockSizes.end(), std::ostream_iterator<Position>(output, ","));
-	return output;
+	std::copy( mBlockSizes.begin(), mBlockSizes.end(), std::ostream_iterator<Position>(output, ","));
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -188,14 +224,13 @@ inline void parseList( std::istream & input, PositionVector & dest )
 	}	
 }
 
-std::istream & operator>> (std::istream & input, AlignmentFormatBlocks & dest) 
+void AlignmentFormatBlocks::load(std::istream & input) 
 {
-	input >> dest.mRowFrom >> dest.mRowTo >> dest.mColFrom >> dest.mColTo;
+	input >> mRowFrom >> mRowTo >> mColFrom >> mColTo;
 
-	parseList( input, dest.mRowStarts );
-	parseList( input, dest.mColStarts );
-	parseList( input, dest.mBlockSizes );
-	return input;
+	parseList( input, mRowStarts );
+	parseList( input, mColStarts );
+	parseList( input, mBlockSizes );
 }
 
 //-----------------------------------------------------------------------
@@ -212,6 +247,19 @@ AlignmentFormatEmissions::AlignmentFormatEmissions( const HAlignment & src) :
 	AlignmentFormat()
 	{
 	fill( src );
+	}
+
+AlignmentFormatEmissions::AlignmentFormatEmissions( std::istream & src) : 
+	AlignmentFormat()
+	{
+	load( src );
+	}
+
+AlignmentFormatEmissions::AlignmentFormatEmissions( const std::string & src) : 
+	AlignmentFormat()
+	{
+	std::istringstream i(src.c_str());
+	load( i );
 	}
 
 
@@ -408,18 +456,16 @@ void AlignmentFormatEmissions::copy( HAlignment & dest ) const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::ostream & operator<< (std::ostream & output, const AlignmentFormatEmissions & src) 
+void AlignmentFormatEmissions::save(std::ostream & output ) const 
 {
 	output 
-		<< src.mRowFrom << "\t" << src.mRowTo << "\t" << src.mRowAlignment << "\t" 
-		<< src.mColFrom << "\t" << src.mColTo << "\t" << src.mColAlignment;
-	return output;
+		<< mRowFrom << "\t" << mRowTo << "\t" << mRowAlignment << "\t" 
+		<< mColFrom << "\t" << mColTo << "\t" << mColAlignment;
 }
 
-std::istream & operator>> (std::istream & input, AlignmentFormatEmissions & dest) 
+void AlignmentFormatEmissions::load(std::istream & input ) 
 {
-	input >> dest.mRowFrom >> dest.mRowTo >> dest.mRowAlignment >> dest.mColFrom >> dest.mColTo >> dest.mColAlignment;
-	return input;
+	input >> mRowFrom >> mRowTo >> mRowAlignment >> mColFrom >> mColTo >> mColAlignment;
 }
 
 //-----------------------------------------------------------------------
@@ -441,6 +487,19 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 			fill( src, row, col );
 	}
 
+AlignmentFormatExplicit::AlignmentFormatExplicit( 
+		std::istream & src ):
+			AlignmentFormat()
+			{
+			load( src );
+			}
+
+		AlignmentFormatExplicit::AlignmentFormatExplicit( const std::string & src) : 
+			AlignmentFormat()
+			{
+			std::istringstream i(src.c_str());
+			load( i );
+			}
 
 AlignmentFormatExplicit::~AlignmentFormatExplicit () 
 {
@@ -520,18 +579,16 @@ void AlignmentFormatExplicit::copy( HAlignment & dest ) const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::ostream & operator<< (std::ostream & output, const AlignmentFormatExplicit & src) 
+void AlignmentFormatExplicit::save(std::ostream & output ) const 
 {
 	output 
-		<< src.mRowFrom << "\t" << src.mRowTo << "\t" << src.mRowAlignment << "\n" 
-		<< src.mColFrom << "\t" << src.mColTo << "\t" << src.mColAlignment;
-	return output;
+		<< mRowFrom << "\t" << mRowTo << "\t" << mRowAlignment << "\n" 
+		<< mColFrom << "\t" << mColTo << "\t" << mColAlignment;
 }
 
-std::istream & operator>> (std::istream & input, AlignmentFormatExplicit & dest) 
+void AlignmentFormatExplicit::load(std::istream & input ) 
 {
-	input >> dest.mRowFrom >> dest.mRowTo >> dest.mRowAlignment >> dest.mColFrom >> dest.mColTo >> dest.mColAlignment;
-	return input;
+	input >> mRowFrom >> mRowTo >> mRowAlignment >> mColFrom >> mColTo >> mColAlignment;
 }
 
 //-----------------------------------------------------------------------
@@ -549,6 +606,19 @@ AlignmentFormatDiagonals::AlignmentFormatDiagonals(
 			fill( src);
 	}
 
+AlignmentFormatDiagonals::AlignmentFormatDiagonals( 
+		std::istream & src) : 
+			AlignmentFormat()	
+{
+	load(src);
+}
+
+		AlignmentFormatDiagonals::AlignmentFormatDiagonals( const std::string & src) : 
+			AlignmentFormat()
+			{
+			std::istringstream i(src.c_str());
+			load( i );
+			}
 
 AlignmentFormatDiagonals::~AlignmentFormatDiagonals () 
 {
@@ -770,19 +840,17 @@ void AlignmentFormatDiagonals::copy(
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::ostream & operator<< (std::ostream & output, const AlignmentFormatDiagonals & src) 
+void AlignmentFormatDiagonals::save(std::ostream & output ) const 
 {
 	output 
-		<< src.mRowFrom << "\t" << src.mRowTo << "\t" 
-		<< src.mColFrom << "\t" << src.mColTo << "\t" 
-		<< src.mAlignment;
-	return output;
+		<< mRowFrom << "\t" << mRowTo << "\t" 
+		<< mColFrom << "\t" << mColTo << "\t" 
+		<< mAlignment;
 }
 
-std::istream & operator>> (std::istream & input, AlignmentFormatDiagonals & dest) 
+void AlignmentFormatDiagonals::load(std::istream & input ) 
 {
-	input >> dest.mRowFrom >> dest.mRowTo >> dest.mColFrom >> dest.mColTo >> dest.mAlignment;
-	return input;
+	input >> mRowFrom >> mRowTo >> mColFrom >> mColTo >> mAlignment;
 }
 
 } // namespace alignlib

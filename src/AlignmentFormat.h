@@ -48,7 +48,10 @@ namespace alignlib
  */
 struct AlignmentFormat
 {
-	
+	// class member functions
+	friend std::ostream & operator<<( std::ostream &, const AlignmentFormat &);
+	friend std::istream & operator>>( std::istream &, AlignmentFormat &);
+		
 	// constructors and desctructors
 	AlignmentFormat ();
 
@@ -65,6 +68,14 @@ struct AlignmentFormat
 	 * 	@param dest Alignment 
 	 */
 	virtual void copy( HAlignment & dest ) const;
+	
+	/** save alignment to stream
+	 */
+	virtual void save( std::ostream & ) const;
+	
+	/** load alignment from stream
+	 */
+	virtual void load( std::istream &);
 	
 	/** start of aligned blocks in row*/
 	Position mRowFrom;
@@ -95,14 +106,14 @@ struct AlignmentFormat
 */ 
 struct AlignmentFormatBlocks : public AlignmentFormat
 {
-	// class member functions
-	friend std::ostream & operator<<( std::ostream &, const AlignmentFormatBlocks &);
-	friend std::istream & operator>>( std::istream &, AlignmentFormatBlocks &);
-	
 	// constructors and desctructors
 	AlignmentFormatBlocks ();
 
 	AlignmentFormatBlocks( const HAlignment & src);
+	
+	AlignmentFormatBlocks( std::istream & src);
+
+	AlignmentFormatBlocks( const std::string & src);
 	
 	AlignmentFormatBlocks (const AlignmentFormatBlocks &);
 
@@ -117,6 +128,14 @@ struct AlignmentFormatBlocks : public AlignmentFormat
 	 * 	@param dest Alignment 
 	 */
 	virtual void copy( HAlignment & dest ) const;
+
+	/** save alignment to stream
+	 */
+	virtual void save( std::ostream & ) const;
+	
+	/** load alignment from stream
+	 */
+	virtual void load( std::istream &);
 	
 	/** vector with starts of aligned blocks. 
 	 * 
@@ -152,14 +171,14 @@ struct AlignmentFormatBlocks : public AlignmentFormat
 
 struct AlignmentFormatEmissions : public AlignmentFormat
 {
-	// class member functions
-	friend std::ostream & operator<<( std::ostream &, const AlignmentFormatEmissions &);
-	friend std::istream & operator>>( std::istream &, AlignmentFormatEmissions &);
-	
 	// constructors and desctructors
 	AlignmentFormatEmissions ();
 
 	AlignmentFormatEmissions( const HAlignment & src);
+
+	AlignmentFormatEmissions( std::istream & src);
+
+	AlignmentFormatEmissions( const std::string & src);
 	
 	AlignmentFormatEmissions (const AlignmentFormatEmissions &);
 
@@ -175,6 +194,14 @@ struct AlignmentFormatEmissions : public AlignmentFormat
 	 */
 	virtual void copy( HAlignment & dest ) const;
 	
+	/** save alignment to stream
+	 */
+	virtual void save( std::ostream & ) const;
+	
+	/** load alignment from stream
+	 */
+	virtual void load( std::istream &);
+
 	/** the alignment for row 
 	 * 
 	 */
@@ -205,16 +232,16 @@ struct AlignmentFormatEmissions : public AlignmentFormat
 
 struct AlignmentFormatExplicit : public AlignmentFormat
 {
-	// class member functions
-	friend std::ostream & operator<<( std::ostream &, const AlignmentFormatExplicit &);
-	friend std::istream & operator>>( std::istream &, AlignmentFormatExplicit &);
-	
 	// constructors and desctructors
 	AlignmentFormatExplicit ();
 
 	AlignmentFormatExplicit( const HAlignment & src,
 			const HAlignandum & row,
 			const HAlignandum & col);
+	
+	AlignmentFormatExplicit( std::istream & src);
+
+	AlignmentFormatExplicit( const std::string & src);
 	
 	AlignmentFormatExplicit (const AlignmentFormatExplicit &);
 
@@ -232,6 +259,14 @@ struct AlignmentFormatExplicit : public AlignmentFormat
 	 */
 	virtual void copy( HAlignment & dest) const;
 	
+	/** save alignment to stream
+	 */
+	virtual void save( std::ostream & ) const;
+	
+	/** load alignment from stream
+	 */
+	virtual void load( std::istream &);
+
 	/** the alignment for row 
 	 * 
 	 */
@@ -267,14 +302,14 @@ struct AlignmentFormatExplicit : public AlignmentFormat
 
 struct AlignmentFormatDiagonals : public AlignmentFormat
 {
-	// class member functions
-	friend std::ostream & operator<<( std::ostream &, const AlignmentFormatDiagonals &);
-	friend std::istream & operator>>( std::istream &, AlignmentFormatDiagonals &);
-	
 	// constructors and desctructors
 	AlignmentFormatDiagonals ();
 
 	AlignmentFormatDiagonals( const HAlignment & src);
+	
+	AlignmentFormatDiagonals( std::istream & src);
+	
+	AlignmentFormatDiagonals( const std::string & src);
 	
 	AlignmentFormatDiagonals (const AlignmentFormatDiagonals &);
 
@@ -325,6 +360,14 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 
 	virtual void copy( HAlignment & dest ) const;
 		
+	/** save alignment to stream
+	 */
+	virtual void save( std::ostream & ) const;
+	
+	/** load alignment from stream
+	 */
+	virtual void load( std::istream &);
+
 	/** the alignment 
 	 * 
 	 */
