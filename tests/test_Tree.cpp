@@ -72,11 +72,6 @@ int main ()
 	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
 	cout << endl;
   
-	v = tree->getNodesBreadthFirstFinish();
-	cout << "BFS-traversal finish:" << endl;
-	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
-	cout << endl;
-
 	{
 		std::cout << "copying" << std::endl;
 		HTree t2 = tree->getClone();

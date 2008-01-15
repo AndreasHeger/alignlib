@@ -19,7 +19,6 @@
 #include <string>
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "Tree.h"
 
 // define new tags for our graphs attributes
@@ -131,16 +130,16 @@ class ImplTree : public Tree
   /** returns a vector of leaves nodes */
   virtual HNodeVector getNodesLeaves() const;
 
-  /** returns a vector of nodes sorted according to breadth-first-traversal, first encounter */
-  virtual HNodeVector getNodesBreadthFirstFinish() const;
-
-  /** returns a vector of nodes sorted according to breadth-first-traversal, last encounter */
+  /** returns a vector of nodes sorted according to breadth-first-traversal, 
+   * first encounter */
   virtual HNodeVector getNodesBreadthFirstVisit() const;
 
-  /** returns a vector of nodes sorted according to depth-first-traversal, first encounter */
+  /** returns a vector of nodes sorted according to depth-first-traversal, 
+   * first encounter */
   virtual HNodeVector getNodesDepthFirstVisit() const;
 
-  /** returns a vector of nodes sorted according to depth-first-traversal, last encounter */
+  /** returns a vector of nodes sorted according to depth-first-traversal, 
+   * last encounter */
   virtual HNodeVector getNodesDepthFirstFinish() const;
 
   /* ---------------------------------------------------------------------------------------- */

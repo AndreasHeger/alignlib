@@ -19,7 +19,6 @@
 #include <string>
 #include <vector>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 /** 
     Base class for trees.
@@ -141,16 +140,16 @@ class Tree
   /** returns a vector of leaves nodes */
   virtual HNodeVector getNodesLeaves() const = 0;
 
-  /** returns a vector of nodes sorted according to breadth-first-traversal, first encounter */
-  virtual HNodeVector getNodesBreadthFirstFinish() const = 0;
-
-  /** returns a vector of nodes sorted according to breadth-first-traversal, last encounter */
+  /** returns a vector of nodes sorted according to breadth-first-traversal, 
+   * first encounter */
   virtual HNodeVector getNodesBreadthFirstVisit() const = 0;
 
-  /** returns a vector of nodes sorted according to depth-first-traversal, first encounter */
+  /** returns a vector of nodes sorted according to depth-first-traversal, 
+   * first encounter */
   virtual HNodeVector getNodesDepthFirstVisit() const = 0;
 
-  /** returns a vector of nodes sorted according to depth-first-traversal, last encounter */
+  /** returns a vector of nodes sorted according to depth-first-traversal, 
+   * last encounter */
   virtual HNodeVector getNodesDepthFirstFinish() const = 0;
 
   /* ---------------------------------------------------------------------------------------- */

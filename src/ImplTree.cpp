@@ -329,44 +329,6 @@ HNodeVector ImplTree::getNodesBreadthFirstVisit() const
 	return nodes;
 }
 
-//--------------------------------------------------------------------------------------------------------------------
-HNodeVector ImplTree::getNodesBreadthFirstFinish() const 
-{
-	debug_func_cerr( 5 );
-
-	std::queue<Node> q;
-	std::vector<bool>visited( mNumLeaves, false ); 
-	HNodeVector nodes( new std::vector<Node>() );
-
-	// TODO: fix this function, currently incorrect.
-	
-	q.push( getRoot() );
-
-	while (!q.empty()) 
-	{
-
-		Node node = q.front();
-		std::cout << "node=" << node << " " << visited[node] << std::endl;
-		
-		if (visited[node])
-		{
-			q.pop();
-			nodes->push_back( node );
-		}
-		else
-		{
-			Node c;
-			if ((c = getLeftChild(node)) != NO_NODE)
-				q.push( c );
-			if ((c = getRightChild(node)) != NO_NODE)
-				q.push( c );
-			visited[node] = true;
-		}
-	}
-
-	return nodes;
-}
-
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
 void ImplTree::write( std::ostream& output ) const 
 {
