@@ -49,6 +49,22 @@ AlignmentFormat::AlignmentFormat( const AlignmentFormat & src) :
 	{
 	}
 
+AlignmentFormat::AlignmentFormat( std::istream & input ) 
+	{
+		load( input );
+	}
+
+AlignmentFormat::AlignmentFormat( const std::string & src) 
+	{
+		std::istringstream i(src.c_str());
+		load( i );
+	}
+
+AlignmentFormat::AlignmentFormat( const HAlignment & src) 
+	{
+		fill( src );
+	}
+
 AlignmentFormat::~AlignmentFormat()
 {
 }
@@ -70,11 +86,13 @@ void AlignmentFormat::copy( HAlignment & dest ) const
 
 void AlignmentFormat::load( std::istream & input)
 {
+	debug_func_cerr( 5 );
 	input >> mRowFrom >> mRowTo >> mColFrom >> mColTo;
 }
 
 void AlignmentFormat::save( std::ostream & output) const
 {
+	debug_func_cerr( 5 );
 	output << mRowFrom << "\t" << mRowTo << "\t" << mColFrom << "\t" << mColTo;
 }
 
@@ -86,7 +104,7 @@ std::ostream & operator<< (std::ostream & output, const AlignmentFormat & src)
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::istream & operator>> (std::istream & input, AlignmentFormatBlocks & dest) 
+std::istream & operator>> (std::istream & input, AlignmentFormat & dest) 
 {
 	dest.load( input );
 	return input;
@@ -101,22 +119,22 @@ AlignmentFormatBlocks::AlignmentFormatBlocks() :
 	}
 
 AlignmentFormatBlocks::AlignmentFormatBlocks( std::istream & input ) : 
-	AlignmentFormat()
+	AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
 	{
 		load( input );
 	}
 
 AlignmentFormatBlocks::AlignmentFormatBlocks( const std::string & src) : 
-	AlignmentFormat()
+	AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
 	{
-	std::istringstream i(src.c_str());
-	load( i );
+		std::istringstream i(src.c_str());
+		load( i );
 	}
 
 AlignmentFormatBlocks::AlignmentFormatBlocks( const HAlignment & src) : 
-	AlignmentFormat()
+	AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
 	{
-	fill( src );
+		fill( src );
 	}
 
 
@@ -130,6 +148,20 @@ AlignmentFormatBlocks::~AlignmentFormatBlocks ()
 AlignmentFormatBlocks::AlignmentFormatBlocks (const AlignmentFormatBlocks & src ) :
 	AlignmentFormat( src )
 {
+	mRowStarts.clear();
+	mColStarts.clear();
+	mBlockSizes.clear();
+	
+	std::copy( src.mRowStarts.begin(), 
+			src.mRowStarts.end(), 
+			std::back_inserter< PositionVector>(mRowStarts) );
+	std::copy( src.mColStarts.begin(), 
+			src.mColStarts.end(), std::
+			back_inserter< PositionVector>(mColStarts) );
+	std::copy( src.mBlockSizes.begin(), 
+			src.mBlockSizes.end(), 
+			std::back_inserter< PositionVector>(mBlockSizes)) ;
+	
 }
 
 void AlignmentFormatBlocks::fill( const HAlignment & src)
@@ -152,7 +184,7 @@ void AlignmentFormatBlocks::fill( const HAlignment & src)
 	Position last_row = it->mRow; 
 
 	Position d_row, d_col;
-
+	
 	// start iteration at col_from + 1
 	mRowStarts.push_back( it->mRow - mRowFrom );
 	mColStarts.push_back( it->mCol - mColFrom );
@@ -162,6 +194,7 @@ void AlignmentFormatBlocks::fill( const HAlignment & src)
 
 	for (; it != it_end; ++it)
 	{
+		debug_cerr(5, "adding pair\t" << *it );
 		Position current_row = it->mRow;
 		Position current_col = it->mCol;
 
@@ -177,12 +210,16 @@ void AlignmentFormatBlocks::fill( const HAlignment & src)
 		last_col = current_col;
 	}
 	mBlockSizes.push_back( block_size );
+	
+	debug_cerr(5, "number of blocks=" << mBlockSizes.size() );
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 void AlignmentFormatBlocks::copy( HAlignment & dest ) const 
 {
 	debug_func_cerr(5);
+
+	debug_cerr(5, "number of blocks=" << mBlockSizes.size() << " " << this);
 
 	AlignmentFormat::copy( dest );
 	
@@ -198,9 +235,12 @@ void AlignmentFormatBlocks::copy( HAlignment & dest ) const
 //--------------------------------------------------------------------------------------------------------------------------------
 void AlignmentFormatBlocks::save(std::ostream & output ) const
 {
+	debug_func_cerr(5);
+	debug_cerr(5, "number of blocks to output=" << mBlockSizes.size() );
+
 	output << mRowFrom << "\t" << mRowTo << "\t" << mColFrom << "\t" << mColTo << "\t";
 	std::copy( mRowStarts.begin(), mRowStarts.end(), std::ostream_iterator<Position>(output, ","));
-	output << "\t";
+	output << "\t" ;
 	std::copy( mColStarts.begin(), mColStarts.end(), std::ostream_iterator<Position>(output, ","));
 	output << "\t";
 	std::copy( mBlockSizes.begin(), mBlockSizes.end(), std::ostream_iterator<Position>(output, ","));
@@ -226,6 +266,7 @@ inline void parseList( std::istream & input, PositionVector & dest )
 
 void AlignmentFormatBlocks::load(std::istream & input) 
 {
+	debug_func_cerr(5);
 	input >> mRowFrom >> mRowTo >> mColFrom >> mColTo;
 
 	parseList( input, mRowStarts );

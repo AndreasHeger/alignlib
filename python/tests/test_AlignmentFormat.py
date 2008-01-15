@@ -28,36 +28,40 @@ class AlignmentFormatTestCase( unittest.TestCase ):
         fillAlignmentIdentity( self.mAlignment, 5, 10, 0)
         fillAlignmentIdentity( self.mAlignment, 10, 15, 5)
         fillAlignmentIdentity( self.mAlignment, 25, 30, -5)
+        self.mFormat = AlignmentFormat
 
-class AlignmentFormatBlocksTestCase( AlignmentFormatTestCase ):
-    
-    def testOutput(self):
-        print "blocks"
-        print str(AlignmentFormatBlocks( self.mAlignment ));
-        print str(self.mAlignment)
-        
     def testInput(self):
         
-        output = str(AlignmentFormatBlocks( self.mAlignment ));
-        print output        
+        a = str(self.mFormat( self.mAlignment ))
         alignment = makeAlignmentVector()
-        
-        b = AlignmentFormatBlocks( output )
-        print str(b)
-        b.copy( alignment )
-        print str(alignment)
+        self.mFormat(a).copy( alignment )
+        b = str(self.mFormat( alignment ))
+        self.assertEqual( a, b )
 
+class AlignmentFormatBlocksTestCase( AlignmentFormatTestCase ):
+
+    def setUp(self):
+        AlignmentFormatTestCase.setUp( self )
+        self.mFormat = AlignmentFormatBlocks
+
+        
 class AlignmentFormatEmissionsTestCase( AlignmentFormatTestCase ):
     
-    def testOutput(self):
-        print "emissions"
-        print str(AlignmentFormatEmissions( self.mAlignment ));
+    def setUp(self):
+        AlignmentFormatTestCase.setUp( self )
+        self.mFormat = AlignmentFormatEmissions
 
+class AlignmentFormatDiagonalsTestCase( AlignmentFormatTestCase ):
+    
+    def setUp(self):
+        AlignmentFormatTestCase.setUp( self )
+        self.mFormat = AlignmentFormatDiagonals
                 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(AlignmentFormatBlocksTestCase)
     suite.addTest(AlignmentFormatEmissionsTestCase)    
+    suite.addTest(AlignmentFormatDiagonalsTestCase)    
     return suite
 
 if __name__ == "__main__":

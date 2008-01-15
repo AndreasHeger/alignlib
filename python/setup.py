@@ -199,9 +199,6 @@ def exportClasses( mb ):
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
 
-    # mb.member_functions( lambda x: x.name == "copy" ).call_policies = \
-    #    return_value_policy( reference_existing_object )
-
     ## add __str__ function for functions having defined the '<<' operator
     ## This automatically maps std::ostream to a string
     mb.free_operators( lambda x: x.name == "operator<<" ).include()    
@@ -242,14 +239,6 @@ def exportInterfaceClasses( mb ):
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
 
-    ## exclude the following because of unhandled arguments/return types
-#    exclude_functions = ( "decode", "encode", "col_begin", "col_end", "row_begin", "row_end" )
-#    for f in exclude_functions:
-#        try:
-#            mb.member_functions(f).exclude()
-#        except RuntimeError:
-#            print "could not find function %s to exclude" % f
-
     ## do not include the increment/decrement and dereference operators, because there is no equivalent in python
     ## exlude functions while testing. Need to map return types later.
     ## default: exclude most operators
@@ -280,9 +269,6 @@ def exportInterfaceClasses( mb ):
         ## abstract classes.
         cls.constructors().exclude()
 
-    ## TODO: export substitution matrix
-    exportHandles( mb )
-           
     ## export load/save functionality
     classes_with_load_save = ("Alignandum", "Translator")         
     exportSave( mb, 
@@ -296,7 +282,7 @@ def exportInterfaceClasses( mb ):
 def exportHandles( mb ):
     """include handle classes. 
     
-    These are shared_ptr<> typedefs.
+    These are shared_ptr<> typedefs.     
     """
     handles_to_export = ['HAlignandum',
                               'HMultipleAlignment',
@@ -414,6 +400,8 @@ def buildModule( include_paths, dest, options) :
     exportClasses( mb )
     
     exportInterfaceClasses( mb )
+
+    exportHandles( mb )
     
     ## Every declaration will be exposed at its own line
     mb.classes().always_expose_using_scope = True

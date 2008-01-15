@@ -55,6 +55,12 @@ struct AlignmentFormat
 	// constructors and desctructors
 	AlignmentFormat ();
 
+	AlignmentFormat( const HAlignment & src);
+	
+	AlignmentFormat( std::istream & src);
+
+	AlignmentFormat( const std::string & src);
+
 	AlignmentFormat( const AlignmentFormat &);
 
 	virtual ~AlignmentFormat();
