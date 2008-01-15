@@ -16,7 +16,7 @@
 #define PHYLOMATRIX_H 1
 
 #include <iostream>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {

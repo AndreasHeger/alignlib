@@ -28,7 +28,7 @@
 #ifndef HELPERS_ALIGNATUM_H
 #define HELPERS_ALIGNATUM_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 namespace alignlib 

@@ -28,7 +28,7 @@
 #ifndef ITERATOR2DFULL_H
 #define ITERATOR2DFULL_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplIterator2D.h"
 namespace alignlib {
 

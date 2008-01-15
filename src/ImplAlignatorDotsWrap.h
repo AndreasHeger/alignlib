@@ -27,7 +27,7 @@
 #ifndef IMPL_ALIGNATOR_DOTS_WRAP_H
 #define IMPL_ALIGNATOR_DOTS_WRAP_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignatorDots.h"
 
 namespace alignlib {

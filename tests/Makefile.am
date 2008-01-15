@@ -14,12 +14,13 @@ programs=test_Fragmentor test_AlignatorDots test_Alignment  test_Alignator \
 		test_MultipleAlignment test_Alignandum test_HelpersAlignment test_Statistics \
 		test_SubstitutionMatrix test_Iterator test_Alignatum \
 		test_Tree test_Treetor test_PhyloMatrix test_Distor \
-		test_AlignedBlocks test_Weightor \
+		test_Weightor \
 		test_Translator \
 		test_LogOddor \
 		test_Regularizor \
 		test_Matrix \
-		test_Defaults
+		test_Defaults \
+		test_AlignmentFormat
 
 check_PROGRAMS = ${programs}
 
@@ -39,7 +40,6 @@ test_MultipleAlignment_SOURCES = test_MultipleAlignment.cpp
 test_Alignandum_SOURCES = test_Alignandum.cpp 
 test_Statistics_SOURCES = test_Statistics.cpp
 test_HelpersAlignment_SOURCES = test_HelpersAlignment.cpp
-test_AlignedBlocks_SOURCES = test_AlignedBlocks.cpp
 test_SubstitutionMatrix_SOURCES = test_SubstitutionMatrix.cpp
 test_Iterator_SOURCES = test_Iterator.cpp
 test_Treetor_SOURCES = test_Treetor.cpp
@@ -52,3 +52,4 @@ test_LogOddor_SOURCES = test_LogOddor.cpp
 test_Regularizor_SOURCES = test_Regularizor.cpp
 test_Matrix_SOURCES = test_Matrix.cpp
 test_Defaults_SOURCES = test_Defaults.cpp
+test_AlignmentFormat_SOURCES = test_AlignmentFormat.cpp

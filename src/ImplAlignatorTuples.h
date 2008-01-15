@@ -28,7 +28,7 @@
 #ifndef IMPL_ALIGNATOR_TUPLES_H
 #define IMPL_ALIGNATOR_TUPLES_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplAlignator.h"
 

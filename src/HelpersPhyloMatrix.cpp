@@ -11,7 +11,8 @@
 #include <iostream>
 #include <string>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
@@ -24,7 +25,8 @@ namespace alignlib
 {
 
   /** copy the contents of source element wise into the PhyloMatrix */
-  HPhyloMatrix & fillPhyloMatrix( HPhyloMatrix & dest, 
+  void fillPhyloMatrix( 
+		  HPhyloMatrix & dest, 
 		  PhyloMatrixValue * source) 
   {
 	  debug_func_cerr( 5 );
@@ -40,7 +42,7 @@ namespace alignlib
     	  }
 
       cout << *dest << endl;
-      return dest;
+      return;
   }
   
 } // namespace alignlib

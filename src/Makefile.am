@@ -54,7 +54,6 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h HelpersSequence.h HelpersP
 
 HEADERS_ALIGNMENT =	Alignment.h HelpersAlignment.h \
 			AlignmentIterator.h AlignmentFormat.h \
-			AlignedBlocks.h \
 			ImplAlignment.h \
 			ImplAlignmentVector.h ImplAlignmentSorted.h \
 			ImplAlignmentMatrix.h ImplAlignmentMatrixRow.h ImplAlignmentMatrixDiagonal.h \

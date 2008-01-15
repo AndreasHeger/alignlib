@@ -20,7 +20,8 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 
 namespace alignlib

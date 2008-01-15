@@ -24,13 +24,15 @@
 #include <iostream>
 #include <iomanip>
 #include <math.h>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 
 #include "AlignmentIterator.h"
 #include "Alignment.h"
 #include "HelpersAlignment.h"
+#include "AlignmentFormat.h"
 
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersFragmentor.h"
@@ -41,15 +43,18 @@ namespace alignlib
 { 
 
   //-----------------------------------------------------------------------------------
-  void writeFragments( std::ostream & output, const HFragmentVector & fragments) 
+  void writeFragments( 
+		  std::ostream & output, 
+		  const HFragmentVector & fragments) 
   {
 
     FragmentVector::const_iterator it(fragments->begin()), it_end(fragments->end());
     
     int i = 0;
-    for (; it != it_end; ++it) {
+    for (; it != it_end; ++it) 
+    {
       output << "Fragment " << i++ << ": ";
-      writeAlignmentTable( output, *it );
+      output << AlignmentFormatEmissions( *it ) << std::endl;
       output << endl;
     }
   }

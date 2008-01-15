@@ -64,18 +64,20 @@ void test()
         // build alignment
     
     HAlignment dotplot( makeAlignmentMatrixRow() );
-    fillAlignmentCompressedDiagonal( 
-    		dotplot,
-    		std::string("-321:-89+10;-320:-78+11-11+13;-315:-75+3;-311:-70+5;-310:-47+23;-309:-40+7;-305:-28+12;-304:-27+1;-303:-13+5;-302:-4+9;-301:-20+7;-169:-98+2;-167:-95+3-4+8;-166:-94+1;-164:-60+15;-163:-76+18;-156:-35+25;-155:-5+10;-154:-16+19;-24:-53+2;-23:-92+7;-22:-31+4-57+5;-21:-31+81;-20:-30+6-23+1;-19:-30+6;-18:-33+3;-17:-0+1-32+3;-16:-0+36;-15:-37+1")
-    		);
-  
+    
+    AlignmentFormatDiagonals f;
+    f.mAlignment = std::string("-321:-89+10;-320:-78+11-11+13;-315:-75+3;-311:-70+5;-310:-47+23;-309:-40+7;-305:-28+12;-304:-27+1;-303:-13+5;-302:-4+9;-301:-20+7;-169:-98+2;-167:-95+3-4+8;-166:-94+1;-164:-60+15;-163:-76+18;-156:-35+25;-155:-5+10;-154:-16+19;-24:-53+2;-23:-92+7;-22:-31+4-57+5;-21:-31+81;-20:-30+6-23+1;-19:-30+6;-18:-33+3;-17:-0+1-32+3;-16:-0+36;-15:-37+1");
+    f.mRowFrom = 0;
+    f.mColFrom = 0;
+    f.copy( dotplot );
+    
 	HAlignandum seq2 (makeSequence( "VVRCDIQMTQSPASLSASVGETVTITCGASENIYGALNWYQRKQGKSPQLLIYGATNLADGMSSRFSGSGSGRQYSLKISSLHPDDVATYYCQNVLSAPWTFGGGTKLEIKRAD",
 			getDefaultTranslator()));
 	HAlignandum seq1 (makeSequence( "MSVPTQVLGLLLLWLTDARCDIQMTQSPSTLSASVGDRVTITCRSSKSLLHSNGDTFLYWFQQKPGKAPKLLMYRMSNLASGVPSRFSGSGSGTEFTLTISSLQPDDFATYYCMQHLEYPFTFGQGTKVEVKRTGGGGSGGGGSGGGGSGGGGSGGGGSQIQLVQSGAEVKKPGSSVKVSCKASGYTFTDYYINWMRQAPGQGLEWIGWIDPGSGNTKYNEKFKGRATLTVDTSTNTAYMELSSLRSEDTAFYFCAREKTTYYYAMDYWGQGTLVTVSSASTKGPTSDKTHTCPPCPAPELLGGPSVFLFPPKPKDTLMISRTPEVTCVVVDVSHEDPEVKFNWYVDGVEVHNAKTKPREEQYNSTYRVVSVLTVLHQDWLNGKEYKCKVSNKALPAPIEKTISKAKGQPREPQVYTLPPSREEMTKNQVSLTCLVKGFYPSDIAVEWESNGQPENNYKTTPPVLDSDGSFFLYSKLTVDKSRWQQGNVFSCSVMHEALHNHYTQKSLSLSPGKLDPKLCYLLDGILFIYGVILTALFLRVKFSRSADAPAYQQGQNQLYNELNLGRREEYDVLDKRRGRDPEMGGKPRRKNPQEGLYNELQKDKMAEAYSEIGMKGERRRGKGHDGLYQGLSTATKDTYDALHMQALPPRRSKRSRLLHSDYMNMTPRRPGPTRKHYQPYAPPRDFAAYRS",
 			getDefaultTranslator()));
 
   	rescoreAlignment( dotplot, seq1, seq2, makeScorer( seq1, seq2 ) );
-  	// cout << *dotplot << endl;
+  	// std::cout << *dotplot << endl;
 	
 	// make a Dottor
 	HAlignator dottor(makeAlignatorPublishAlignment( dotplot ));
@@ -88,10 +90,9 @@ void test()
 
 	alignator->align( map_source2dest, seq1, seq2 );
 	
-	// cout << *map_source2dest << endl;
+	// std::cout << *map_source2dest << endl;
 	
-	writePairAlignment( cout, seq1, seq2, map_source2dest );
-
+	std::cout << AlignmentFormatExplicit( map_source2dest, seq1, seq2 ) << std::endl;
   }
   
 }

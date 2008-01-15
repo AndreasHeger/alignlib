@@ -28,7 +28,8 @@
 #include <vector>
 #include <set>
 #include <math.h>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"

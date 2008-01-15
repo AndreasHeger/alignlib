@@ -24,7 +24,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 
 #include "HelpersAlignandum.h"
@@ -83,7 +84,9 @@ ImplSequence::ImplSequence( const std::string & src,
 	Position length = src.size();
 
 	setTrueLength( length );
-	mSequence = translator->encode( src );
+	for (int i = 0; i < length; ++i)
+		mSequence[i] = translator->encode( src[i] );
+	
 	setPrepared(true );
 	}
 

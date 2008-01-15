@@ -16,7 +16,7 @@
 #define IMPL_TREETOR_DISTANCE_LINKAGE_H 1
 
 #include <iostream>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 #include "ImplTreetorDistance.h"

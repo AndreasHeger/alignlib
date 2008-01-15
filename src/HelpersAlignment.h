@@ -30,7 +30,7 @@
 
 #include <iosfwd>
 #include <string>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 namespace alignlib 
@@ -79,13 +79,16 @@ HAlignment makeAlignmentMatrixDiagonal( long ndots = 0);
 /* -------------------------------------------------------------------------------------------------------------------- */
 /* 3. convenience functions */
 
-
-/** Print aligment in table format */
-void writeAlignmentTable( 
-		std::ostream & output, 
-		const HAlignment & src,
-		unsigned int ncols = 8,
-		bool with_scores = true);
+/** check if two alignmetns are identical
+ * 
+ * This method iterates over both alignments and checks if the
+ * the same coordinates are returned. Thus, alignments that are 
+ * sorted differently are not identical.
+ */
+bool checkAlignmentIdentity( 
+		const HAlignment &,
+		const HAlignment &,
+		const bool invert = false );
 
 /** enum describing the ways that two alignments can be combined
  * R: row
@@ -94,7 +97,8 @@ void writeAlignmentTable(
 typedef enum { RR, RC, CR, CC } CombinationMode;
 
 /** return a pointer to an Alignment-object, that has been created by combining two others */
-void combineAlignment( HAlignment & dest, 
+void combineAlignment( 
+		HAlignment & dest, 
 		const HAlignment & src1, 
 		const HAlignment & src2, 
 		const CombinationMode mode);
@@ -164,15 +168,9 @@ void addMappedAlignments2Alignment( HAlignment & dest,
 		const HAlignment & map_src_col2dest_col );
 
 
-/** write a nice pairwise alignment, allowing for wrapping around of the alignment */
-void writeWraparoundAlignment( std::ostream & output, 
-		const HAlignandum & row, 
-		const HAlignandum & col, 
-		const HAlignment & ali,
-		size_t max_insert_length = 30);
-
 /** create an identity alignment between residues from and to in row using an offset for col */
-void fillAlignmentIdentity( HAlignment & dest, 
+void fillAlignmentIdentity( 
+		HAlignment & dest, 
 		Position row_from, 
 		Position row_to, 
 		Position col_offset = 0);
@@ -180,7 +178,8 @@ void fillAlignmentIdentity( HAlignment & dest,
 /** fill gaps in an alignment by doing a local alignment in each
      region.
  */
-void fillAlignmentGaps( HAlignment & dest,
+void fillAlignmentGaps( 
+		HAlignment & dest,
 		const HAlignator & alignator,
 		const HAlignandum & row,
 		const HAlignandum & col );
@@ -201,69 +200,18 @@ void filterAlignmentRemovePairwiseSorted( HAlignment & dest,
 		const HAlignment & filter, 
 		const CombinationMode mode );
 
-/** fill a alignment given an explicit alignment 
-     for example	row_ali = "AAA---CCCKKKAAA"
-     col_ali = "AAAKKKCCCKKK--A"
-     gaps are skipped, residue numbering starts at
-     the first residue. Note that you will run into problems,
-     if residues have been skipped in the explicit alignment.
+/** rescore residues in an alignment. 
  */
-void fillAlignmentExplicit( HAlignment & dest,
-		const Position row_from, 
-		const std::string & row_ali,
-		const Position col_from, 
-		const std::string & col_ali
-);
-
-
-/** fill a multiple alignment given compressed strings */
-void fillAlignmentCompressed( HAlignment & dest, 
-		const Position row_from, 
-		const std::string & row_ali,
-		const Position col_from, 
-		const std::string & col_ali
-);
-
-
-/** fill a multiple alignment given a compressed string in diagonal format. If 
-     reverse is true, then row and column will be reversed while building alignment.
- */
-void fillAlignmentCompressedDiagonal( HAlignment & dest, 
-		const std::string & ali,
-		const bool reverse = false
-);
-
-
-/** fill a multiple alignment from a stream. The format is a simple pairlist.
- */
-void readAlignmentPairs( HAlignment & dest, 
-		std::istream & input,
-		const bool reverse = false
-);
-
-
-/** fill a multiple alignment given a compressed string in diagonal format but apply filter */
-void fillAlignmentCompressedDiagonal( HAlignment & dest, 
-		const std::string & ali,
-		const Position row_from,
-		const Position row_to = NO_POS,
-		const Position col_from = NO_POS,
-		const Position col_to = NO_POS,
-		const Diagonal diagonal_from = -MAX_DIAGONAL,
-		const Diagonal diagonal_to = MAX_DIAGONAL
-);
-
-/** rescore alignment. This routine is generic as it uses the residue
-     representation of row and col to calculate a score using a SubstitutionMatrix.
- */
-void rescoreAlignment( HAlignment & dest,
+void rescoreAlignment( 
+		HAlignment & dest,
 		const HAlignandum & row,
 		const HAlignandum & col,
 		const HScorer & scorer );
 
-/** rescore alignment setting each pair to the same score 
+/** rescore residues in an alignment setting them all to the same score. 
  */
-void rescoreAlignment( HAlignment & dest,
+void rescoreAlignment( 
+		HAlignment & dest,
 		const Score score = 0);
 
 /** calculate Alignment score given gap-penalties for row and column */
@@ -273,16 +221,15 @@ void calculateAffineScore( HAlignment & dest,
 
 
 /** fill an alignment with a repeat unit from a wrap-around alignment */
-void fillAlignmentRepeatUnit( HAlignment & dest, 
+void fillAlignmentRepeatUnit( 
+		HAlignment & dest, 
 		const HAlignment & source,
 		const Position first_row_residue = NO_POS,
 		const bool skip_negative_ends = false);
 
-
 /** 
     return the maps of row/col of an alignment to the summation of the alignment. This is useful for 
     building multiple alignemnts.
-
 
     @param	map_row2combined     
     @param	map_col2combined
@@ -310,53 +257,62 @@ void fillAlignmentSummation( HAlignment & dest1,
 /** complement a pairwise alignment. If there is a gap of the same length in both row and
      col, the corresponding residues are added to the alignment.
  */
-void complementAlignment( HAlignment & dest, 
+void complementAlignment( 
+		HAlignment & dest, 
 		const Position max_length );
 
 /** remove all those residues from an alignmnent, which are not
-     in sequence. This ensures, that col_i < col_i+1 and row < row_i+1
-     Only use with AlignmentVector
-
+     in sequential. 
+     
+     This ensures, that col_i < col_i+1 and row < row_i+1
+     
+     Useful with AlignmentVector.
  */
 void flattenAlignment( HAlignment & dest );
 
-/** split an alignment, if there are gaps larger than a certain threshold either in row or
-     col or both.
+/** split an alignment, if there are gaps larger than a certain 
+ * 	threshold either in row or col or both.
  */
-HFragmentVector splitAlignment( const HAlignment & src, 
+HFragmentVector splitAlignment( 
+		const HAlignment & src, 
 		const int max_gap_width,
 		bool split_row = true,
 		bool split_col = true);
 
 /** split an alignment at points of intersection with another alignment.
  */ 
-HFragmentVector splitAlignment( const HAlignment & src1, 
+HFragmentVector splitAlignment( 
+		const HAlignment & src1, 
 		const HAlignment & src2, 
 		const CombinationMode mode );
 
 /** starting from the ends of an alignment, remove 
     residues which do not contribute to a positive score.
  */
-void pruneAlignment( HAlignment & src,
+void pruneAlignment( 
+		HAlignment & src,
 		const Score gop,
 		const Score gep);
 
 /** calculate percent similarity of alignment */
-double calculatePercentSimilarity( const HAlignment & src);  
+double calculatePercentSimilarity( 
+		const HAlignment & src);  
 
-/** calculate percent identity of alignment. Since this depends on the objects mapped on the alignment, 
-    you have to supply them. */
-double calculatePercentIdentity (const HAlignment & src, 
+/** calculate percent identity of alignment. 
+ */
+double calculatePercentIdentity (
+		const HAlignment & src, 
 		const HAlignandum & row, 
 		const HAlignandum & col); 
 
-
 /** remove small fragments from alignment.
-    This method removes fragments from an alignment. A fragment
-    is a part of an alignment, that is short (max_fragment_length)
-    and surrounded by large gaps (min_gap_length).
+ * 
+ * This method removes fragments from an alignment. A fragment
+ * is a part of an alignment that is short (max_fragment_length)
+ * and surrounded by large gaps (min_gap_length).
  */
-void removeFragments( HAlignment & dest,
+void removeFragments( 
+		HAlignment & dest,
 		const unsigned int window_length,
 		const unsigned int min_gap_length,
 		const Position row_length = NO_POS);

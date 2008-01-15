@@ -28,7 +28,7 @@
 #ifndef IMPL_RENDERER_COLUMN_H
 #define IMPL_RENDERER_COLUMN_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplRendererPalette.h"
 
 namespace alignlib 

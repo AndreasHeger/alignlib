@@ -28,7 +28,7 @@
 #ifndef IMPL_WEIGHTOR_HENIKOFF_H
 #define IMPL_WEIGHTOR_HENIKOFF_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplWeightor.h"
 

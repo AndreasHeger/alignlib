@@ -23,7 +23,8 @@
 
 #include <string.h>
 #include <iostream>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "ImplTranslator.h"
@@ -194,14 +195,12 @@ Residue ImplTranslator::encode( const char residue) const
 }  
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue * ImplTranslator::encode( const std::string & src ) const 
+HResidueVector ImplTranslator::encode( const std::string & src ) const 
 {
 
-	Residue * result = new Residue[src.size()];
-
-	int i;
-	for (i = 0; i < src.size(); i++)
-		result[i] = mEncodingTable[src[i]];
+	HResidueVector result(new ResidueVector( src.size() ));
+	for ( int i = 0; i < src.size(); i++)
+		(*result)[i] = mEncodingTable[src[i]];
 
 	return result;
 }

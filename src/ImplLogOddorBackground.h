@@ -28,7 +28,7 @@
 #ifndef IMPL_LOGODDOR_BACKGROUND_H
 #define IMPL_LOGODDOR_BACKGROUND_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplLogOddor.h"
 

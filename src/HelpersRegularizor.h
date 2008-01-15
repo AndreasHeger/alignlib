@@ -28,7 +28,7 @@
 #ifndef HELPERS_REGULARIZOR_H
 #define HELPERS_REGULARIZOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
 

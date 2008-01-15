@@ -15,7 +15,8 @@
 #include <stack>
 #include <queue>
 #include <cassert>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "ImplTree.h"
 #include "AlignlibDebug.h"
@@ -337,6 +338,8 @@ HNodeVector ImplTree::getNodesBreadthFirstFinish() const
 	std::vector<bool>visited( mNumLeaves, false ); 
 	HNodeVector nodes( new std::vector<Node>() );
 
+	// TODO: fix this function, currently incorrect.
+	
 	q.push( getRoot() );
 
 	while (!q.empty()) 

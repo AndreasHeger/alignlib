@@ -28,7 +28,7 @@
 #ifndef LOGODDOR_H
 #define LOGODDOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {

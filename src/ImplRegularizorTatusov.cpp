@@ -23,10 +23,12 @@
 #include <math.h>
 #include <iostream>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "ImplRegularizorTatusov.h"
+#include "HelpersSubstitutionMatrix.h"
 
 using namespace std;
 

@@ -28,7 +28,7 @@
 #ifndef IMPLITERATOR2D_H
 #define IMPLITERATOR2D_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 #include "Iterator2D.h"

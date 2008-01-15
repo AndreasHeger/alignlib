@@ -28,7 +28,7 @@
 #ifndef HELPERS_WEIGHTOR_H
 #define HELPERS_WEIGHTOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
 

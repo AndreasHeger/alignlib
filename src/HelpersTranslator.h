@@ -30,7 +30,7 @@
 
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {

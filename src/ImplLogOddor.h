@@ -28,7 +28,7 @@
 #ifndef IMPL_LOGODDOR_H
 #define IMPL_LOGODDOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "LogOddor.h"
 

@@ -13,7 +13,8 @@
 #include <fstream>
 #include <iomanip>
 #include <stdlib.h>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "ImplPhyloMatrixSymmetric.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"

@@ -28,7 +28,7 @@
 #ifndef IMPL_SCORER_SEQUENCE_SEQUENCE_H
 #define IMPL_SCORER_SEQUENCE_SEQUENCE_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplScorer.h"
 #include "ImplSequence.h"

@@ -28,7 +28,7 @@
 #define IMPL_TRANSLATOR_H 1
 
 #include <string>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "Translator.h"
 
@@ -91,7 +91,7 @@ class ImplTranslator : public Translator
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual Residue * encode( const std::string & src) const;
+    virtual HResidueVector encode( const std::string & src) const;
 
     /** translate a single residue from real world to internal representation.
      */

@@ -32,7 +32,7 @@
 #include <string>
 #include <list>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "MultipleAlignment.h"
 

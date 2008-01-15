@@ -19,7 +19,7 @@
 #include <iosfwd>
 #include <string>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 /**

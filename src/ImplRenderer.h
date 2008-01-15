@@ -28,7 +28,7 @@
 #ifndef IMPL_RENDERER_H
 #define IMPL_RENDERER_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Renderer.h"
 
 namespace alignlib 

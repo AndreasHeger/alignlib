@@ -15,7 +15,8 @@
 #include <stdlib.h>
 #include <cstring> // for memcpy
 #include <cassert>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "ImplPhyloMatrix.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"

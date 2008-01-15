@@ -84,7 +84,7 @@ HMultipleAlignment extractMultipleAlignmentFasta( HMultipleAlignment dest,
   return dest;
 }
  */
-HMultipleAlignment & fillMultipleAlignment( 
+void fillMultipleAlignment( 
 		HMultipleAlignment & ali, 
 		const std::string & sequences, 
 		int nsequences ) 
@@ -111,7 +111,7 @@ HMultipleAlignment & fillMultipleAlignment(
 
 	delete [] buffer;
 
-	return ali;
+	return;
 }
 
 /*
@@ -179,7 +179,7 @@ HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali,
 //----------------------------------------------------------------------
 /** split a multiple alignment in two groups 
  */
-HMultipleAlignment & copyMultipleAlignment( 
+void copyMultipleAlignment( 
 		HMultipleAlignment & dest, 
 		const HMultipleAlignment & src,
 		unsigned int start_row,
@@ -199,7 +199,7 @@ HMultipleAlignment & copyMultipleAlignment(
 		dest->add( src->getRow(row)->getClone() );
 			
 
-	return dest;
+	return;
 }
 
 

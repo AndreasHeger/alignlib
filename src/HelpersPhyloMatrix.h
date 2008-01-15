@@ -17,7 +17,7 @@
 #define HELPERS_PHYLOMATRIX_H 1
 
 #include <iosfwd>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 namespace alignlib 
@@ -47,7 +47,7 @@ namespace alignlib
     /* 3. convenience functions */
     
     /** fill matrix with values from source */
-    HPhyloMatrix & fillPhyloMatrix( 
+    void fillPhyloMatrix( 
     		HPhyloMatrix & dest, 
     		PhyloMatrixValue * source );
 

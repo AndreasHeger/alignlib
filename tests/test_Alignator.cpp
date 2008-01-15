@@ -59,6 +59,7 @@ bool testPairwiseAlignment(int test_id,
 {
 
 	std::cout << "======== test " << test_id << " =========" << std::endl;
+
 	std::cout << *benchmark_row << std::endl;
 	std::cout << *benchmark_col << std::endl;
 
@@ -69,26 +70,19 @@ bool testPairwiseAlignment(int test_id,
 	std::string r_row(row);
 	std::string r_col(col);
 
-	writePairAlignment( std::cout, benchmark_row, benchmark_col, result );
+	std::cout << AlignmentFormatExplicit( result, benchmark_row, benchmark_col );
 
 	std::cout << "result=" << *result << std::endl;
 	
-	std::string b_row;
-	std::string b_col;
-	std::stringstream output;
-	
-	writeAlignmentCompressed( output, result );
-
-	output.seekp(0);
-	output >> b_row >> b_col;
+	AlignmentFormatEmissions format( result );
 	
 	if ( result->getScore() == score &&
 			row_from == result->getRowFrom() &&
 			row_to == result->getRowTo() &&
 			col_from == result->getColFrom() &&
 			col_to == result->getColTo() &&
-			b_row == r_row &&
-			b_col == r_col )
+			format.mRowAlignment == r_row &&
+			format.mColAlignment == r_col )
 	{
 		std::cout << "test " << test_id << " success" << std::endl;
 		return true;
@@ -96,11 +90,11 @@ bool testPairwiseAlignment(int test_id,
 	else
 	{
 		std::cout << row_from << "-" << row_to << ":" << r_row
-		<< (( b_row == r_row && row_from == result->getRowFrom() && row_to == result->getRowTo() ) ? " == " : " != ")
-		<< result->getRowFrom() << "-" << result->getRowTo() << ":" << b_row << "\t"
+		<< (( format.mRowAlignment == r_row && row_from == result->getRowFrom() && row_to == result->getRowTo() ) ? " == " : " != ")
+		<< result->getRowFrom() << "-" << result->getRowTo() << ":" << format.mRowAlignment << "\t"
 		<< col_from << "-" << col_to << ":" << r_col
-		<< (( b_col == r_col && col_from == result->getColFrom() && col_to == result->getColTo() ) ? " == " : " != ") 
-		<< result->getColFrom() << "-" << result->getColTo() << ":" << b_col << "\t"
+		<< (( format.mColAlignment == r_col && col_from == result->getColFrom() && col_to == result->getColTo() ) ? " == " : " != ") 
+		<< result->getColFrom() << "-" << result->getColTo() << ":" << format.mColAlignment << "\t"
 		<< score << (( score == result->getScore() ) ? " == " : " != ") << result->getScore()
 		<< std::endl;
 		std::cout << "test " << test_id << " failure" << std::endl;      
@@ -126,15 +120,12 @@ bool testWrappedAlignment(int test_id,
 	a->align( result, benchmark_row, benchmark_col );
 
 	std::string r_row(r_ali);
-	std::stringstream output;
-	
-	writeAlignmentCompressedDiagonal( output, result );
 
-	output.seekp(0);
-	std::string b_ali( output.str() );
+	AlignmentFormatDiagonals format( result );
+	
 	
 	if ( result->getScore() == score &&
-			b_ali == r_ali )
+			format.mAlignment == r_ali )
 	{
 		std::cout << "test " << test_id << " success" << std::endl;
 		return true;
@@ -142,8 +133,8 @@ bool testWrappedAlignment(int test_id,
 	else
 	{
 		std::cout << r_ali
-		<< (( b_ali == r_ali ) ? " == " : " != ")
-		<< b_ali
+		<< (( format.mAlignment == r_ali ) ? " == " : " != ")
+		<< format.mAlignment
 		<< std::endl;
 		std::cout << "test " << test_id << " failure" << std::endl;      
 
@@ -373,7 +364,7 @@ int main () {
 			alignator->align( result, row, col );		
 		
 			std::cout << *result << std::endl;
-			writePairAlignment( std::cout, row, col, result );
+			std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
 		}
 		{
 			HAlignandum row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2,
@@ -390,8 +381,7 @@ int main () {
 			alignator->align( result, row, col );		
 		
 			std::cout << *result << std::endl;
-			writePairAlignment( std::cout, row, col, result );
-			
+			std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;			
 		}
 	}
 	

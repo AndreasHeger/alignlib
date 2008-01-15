@@ -24,7 +24,8 @@
 #include <iostream>
 #include <map>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "Regularizor.h"
 #include "ImplRegularizorDirichletInterpolate.h"

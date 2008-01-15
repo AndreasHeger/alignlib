@@ -14,16 +14,26 @@
 #include <iterator>
 #include <cstring>
 #include <string>
+#include <sstream>
 
-#include "alignlib.h"
+#include "alignlib_types.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "AlignmentFormatBlocks.h"
+#include "AlignmentFormat.h"
+#include "HelpersTranslator.h"
+#include "HelpersAlignment.h"
+#include "HelpersAlignatum.h"
 
 using namespace std;
 
 namespace alignlib 
 {
+
+inline Diagonal calculateDiagonal( const ResiduePAIR & p) 
+{ 
+	return (p.mCol - p.mRow); 
+}
 
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
@@ -45,14 +55,16 @@ AlignmentFormat::~AlignmentFormat()
 
 void AlignmentFormat::fill( const HAlignment & src )
 {
+	debug_func_cerr( 5 );
 	mRowFrom = src->getRowFrom();
 	mRowTo = src->getRowTo();
 	mColFrom = src->getColFrom();
 	mColTo = src->getColTo();
 }
 
-void AlignmentFormat::copy( HAlignment & dest )
+void AlignmentFormat::copy( HAlignment & dest ) const
 {
+	debug_func_cerr( 5 );
 	dest->clear();
 }
 
@@ -232,7 +244,7 @@ void AlignmentFormatEmissions::fill( const HAlignment & src)
 	Position last_col = it->mCol; 
 	Position len_col = 0;
 	
-	while (last_col < col_from) 
+	while (last_col < mColFrom) 
 	{
 		++it;
 		last_col = it->mCol;
@@ -252,7 +264,7 @@ void AlignmentFormatEmissions::fill( const HAlignment & src)
 
 		debug_cerr( 5, "current_row: " << current_row << " " << "current_col: " << current_col);
 
-		if (current_col > col_to)
+		if (current_col > mColTo)
 			break;
 
 		if ((d_row = current_row - last_row - 1) > 0) 
@@ -281,8 +293,8 @@ void AlignmentFormatEmissions::fill( const HAlignment & src)
 	os_col << "+" << len_col;
 	os_row << "+" << len_row;
 	
-	mRowAlignment = os_row;
-	mColAlignment = os_col;
+	mRowAlignment = os_row.str();
+	mColAlignment = os_col.str();
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -399,8 +411,8 @@ void AlignmentFormatEmissions::copy( HAlignment & dest ) const
 std::ostream & operator<< (std::ostream & output, const AlignmentFormatEmissions & src) 
 {
 	output 
-		<< src.mRowFrom << "\t" << src.mRowTo << "\t" << mRowAlignment << "\t" 
-		<< src.mColFrom << "\t" << src.mColTo << "\t" << mColAlignment << "\t"
+		<< src.mRowFrom << "\t" << src.mRowTo << "\t" << src.mRowAlignment << "\t" 
+		<< src.mColFrom << "\t" << src.mColTo << "\t" << src.mColAlignment;
 	return output;
 }
 
@@ -491,16 +503,16 @@ void AlignmentFormatExplicit::copy( HAlignment & dest ) const
 	Position row = mRowFrom;   
 	Position col = mColFrom;   
 
-	for (unsigned int i = 0; i < row_ali.size(); i++) 
+	for (unsigned int i = 0; i < mRowAlignment.size(); i++) 
 	{
 
-		if (row_ali[i] != gap_char && col_ali[i] != gap_char) 
+		if (mRowAlignment[i] != gap_char && mColAlignment[i] != gap_char) 
 			dest->addPair( new ResiduePAIR (row, col) );         
 
-		if (row_ali[i] != gap_char) 
+		if (mRowAlignment[i] != gap_char) 
 			row++;
 
-		if (col_ali[i] != gap_char) 
+		if (mColAlignment[i] != gap_char) 
 			col++;
 	}
 
@@ -511,8 +523,8 @@ void AlignmentFormatExplicit::copy( HAlignment & dest ) const
 std::ostream & operator<< (std::ostream & output, const AlignmentFormatExplicit & src) 
 {
 	output 
-		<< src.mRowFrom << "\t" << src.mRowTo << "\t" << mRowAlignment << "\t" 
-		<< src.mColFrom << "\t" << src.mColTo << "\t" << mColAlignment << "\t"
+		<< src.mRowFrom << "\t" << src.mRowTo << "\t" << src.mRowAlignment << "\n" 
+		<< src.mColFrom << "\t" << src.mColTo << "\t" << src.mColAlignment;
 	return output;
 }
 
@@ -544,19 +556,25 @@ AlignmentFormatDiagonals::~AlignmentFormatDiagonals ()
 
 AlignmentFormatDiagonals::AlignmentFormatDiagonals (const AlignmentFormatDiagonals & src ) :
 	AlignmentFormat( src ), 
-	mAlignment( src.mAlignment ), 
+	mAlignment( src.mAlignment ) 
 {
+}
+
+void AlignmentFormatDiagonals::fill( 
+		const HAlignment & src )
+{
+	fill(src, false);
 }
 
 void AlignmentFormatDiagonals::fill( 
 		const HAlignment & src,
 		const bool reverse,
-		const Position row_from,
-		const Position row_to,
-		const Position col_from,
-		const Position col_to,
-		const Diagonal diagonal_from,
-		const Diagonal diagonal_to )
+		const Position xrow_from,
+		const Position xrow_to,
+		const Position xcol_from,
+		const Position xcol_to,
+		const Diagonal xdiagonal_from,
+		const Diagonal xdiagonal_to )
 {
 	debug_func_cerr(5);
 
@@ -565,6 +583,13 @@ void AlignmentFormatDiagonals::fill(
 	// sanity checks
 	if (src->isEmpty()) return;
 
+	Position row_from = xrow_from;
+	Position row_to = xrow_to;
+	Position col_from = xcol_from;
+	Position col_to = xcol_to;
+	Position diagonal_from = xdiagonal_from;
+	Position diagonal_to = xdiagonal_to;
+	
 	// check parameters for filters and set them to sensible values
 	if (col_from < src->getColFrom() || col_from == NO_POS)
 		col_from = src->getColFrom();
@@ -596,8 +621,11 @@ void AlignmentFormatDiagonals::fill(
 
 	bool first = true;
 
+	std::ostringstream output;
+	
 	// now iterate over all pairs in the alignment
-	for (;it!= it_end; ++it) {
+	for (;it!= it_end; ++it) 
+	{
 
 		this_diagonal = calculateDiagonal(*it);
 		this_row      = it->mRow;
@@ -657,13 +685,21 @@ void AlignmentFormatDiagonals::fill(
 
 	output << "+" << emissions;
 	
-	mAlignment = output;
+	mAlignment = output.str();
 	
 	return;
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------
-void AlignmentFormatDiagonals::copy( HAlignment & dest ) const 
+//------------------------------------------------------------------------------------------------------
+void AlignmentFormatDiagonals::copy( 
+		HAlignment & dest ) const
+{
+	copy( dest, false );
+}
+
+void AlignmentFormatDiagonals::copy( 
+		HAlignment & dest,
+		const bool reverse) const 
 {
 	debug_func_cerr(5);
 
@@ -672,7 +708,7 @@ void AlignmentFormatDiagonals::copy( HAlignment & dest ) const
 	if (mRowFrom == NO_POS || mColFrom == NO_POS)
 		throw AlignException( "AlignmentFormat.cpp: alignment ranges not defined." );
 
-	std::istringstream is_ali( ali.c_str() );   
+	std::istringstream is_ali( mAlignment.c_str() );   
 
 	// set these/use these parameters to shift alignment
 	Position row_from = mRowFrom;
@@ -691,6 +727,8 @@ void AlignmentFormatDiagonals::copy( HAlignment & dest ) const
 		is_ali >> diagonal;
 		is_ali.ignore();		// skip colon
 
+		debug_cerr(5, "processing diagonal " << diagonal );
+		
 		// for a new diagonal, position yourself at the first residue 
 		// on the diagonal
 		if (diagonal < 0) 
@@ -735,8 +773,9 @@ void AlignmentFormatDiagonals::copy( HAlignment & dest ) const
 std::ostream & operator<< (std::ostream & output, const AlignmentFormatDiagonals & src) 
 {
 	output 
-		<< src.mRowFrom << "\t" << src.mRowTo << "\t" << "\t" 
-		<< src.mColFrom << "\t" << src.mColTo << "\t" << mAlignment << "\t"
+		<< src.mRowFrom << "\t" << src.mRowTo << "\t" 
+		<< src.mColFrom << "\t" << src.mColTo << "\t" 
+		<< src.mAlignment;
 	return output;
 }
 
@@ -745,19 +784,5 @@ std::istream & operator>> (std::istream & input, AlignmentFormatDiagonals & dest
 	input >> dest.mRowFrom >> dest.mRowTo >> dest.mColFrom >> dest.mColTo >> dest.mAlignment;
 	return input;
 }
-
-//----------------------------------------------------------------------------------------------------------------------
-/** writes a compressed alignment in diagonal format to string out.
-
-    Although other alignment types can be written in this format, it makes most sense
-    to use it for ImplAlignmentMatrixDiagonal, because then most compression is achieved.
-    In ImplAlignmentMatrixDiagonal the aligned pairs are sorted first by diagonal and then
-    by row.
-
-    @param src		alignment that is to be written
-    @param	 diagonal_from	only look at diagonals larger than diagonal_from
-    @param	 diagonal_to	only look at diagonals smaller than diagonal_to
-
- */
 
 } // namespace alignlib

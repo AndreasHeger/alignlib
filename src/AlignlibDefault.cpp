@@ -23,8 +23,21 @@
 
 #include <iostream>
 #include <iomanip>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "alignlib_default.h"
+
+#include "HelpersTranslator.h"
+#include "HelpersDistor.h"
+#include "HelpersRegularizor.h"
+#include "HelpersRenderer.h"
+#include "HelpersIterator2D.h"
+#include "HelpersScorer.h"
+#include "HelpersLogOddor.h"
+#include "HelpersDistor.h"
+#include "HelpersWeightor.h"
+#include "HelpersSubstitutionMatrix.h"
+#include "HelpersTreetor.h"
 
 using namespace std;
 

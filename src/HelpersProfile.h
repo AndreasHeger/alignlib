@@ -28,7 +28,7 @@
 #define HELPERS_PROFILE_H 1
 
 #include <string>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 #include "HelpersRegularizor.h"

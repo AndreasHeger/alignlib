@@ -28,7 +28,7 @@
 #ifndef IMPL_REGULARIZOR_DIRICHLET_H
 #define IMPL_REGULARIZOR_DIRICHLET_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Regularizor.h"
 
 namespace alignlib 

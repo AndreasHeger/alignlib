@@ -29,7 +29,7 @@
 #define HELPERS_RENDERER_H 1
 
 #include <string>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
 #include "Renderer.h"

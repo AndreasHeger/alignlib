@@ -27,7 +27,6 @@
 #ifndef TRANSLATOR_H
 #define TRANSLATOR_H 1
 
-#include "alignlib.h"
 #include "alignlib_fwd.h"
 
 namespace alignlib 
@@ -76,7 +75,7 @@ class Translator
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual Residue * encode( const std::string & src ) const = 0;
+    virtual HResidueVector encode( const std::string & src ) const = 0;
 
     /** translate a single residue from real-world to internal representation.
      */

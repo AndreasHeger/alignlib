@@ -28,7 +28,7 @@
 #ifndef IMPL_ALIGNATOR_DUMMY_H
 #define IMPL_ALIGNATOR_DUMMY_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignator.h"
 
 namespace alignlib {

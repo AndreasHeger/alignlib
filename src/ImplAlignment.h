@@ -28,7 +28,7 @@
 #define IMPL_ALIGNATA_H 1
 
 #include <iosfwd>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "Alignment.h"
 
 namespace alignlib

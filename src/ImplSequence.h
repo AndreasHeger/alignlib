@@ -27,7 +27,7 @@
 #ifndef IMPL_SEQUENCE_H
 #define IMPL_SEQUENCE_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplAlignandum.h"
 #include <iosfwd>

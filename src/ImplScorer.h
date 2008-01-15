@@ -28,7 +28,7 @@
 #ifndef IMPL_SCORER_H
 #define IMPL_SCORER_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "Scorer.h"
 namespace alignlib

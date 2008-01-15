@@ -27,7 +27,7 @@
 #ifndef IMPL_ALIGNATOR_DOTS_H
 #define IMPL_ALIGNATOR_DOTS_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplAlignator.h"
 #include "ImplAlignmentMatrix.h"

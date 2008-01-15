@@ -28,7 +28,7 @@
 #ifndef DOTTOR_H
 #define DOTTOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {

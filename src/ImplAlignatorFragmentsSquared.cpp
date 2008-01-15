@@ -29,7 +29,8 @@
 #include <vector>
 #include <algorithm>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"

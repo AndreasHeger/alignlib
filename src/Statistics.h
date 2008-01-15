@@ -29,7 +29,7 @@
 #define STATISTICS_H 1
 
 #include <vector>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 namespace alignlib 

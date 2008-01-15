@@ -48,33 +48,7 @@ using namespace std;
 
 using namespace alignlib;
 
-bool isIdentical( 
-		const HAlignment & a, 
-		const HAlignment & b, 
-		bool inverse = false) 
-{
-
-	AlignmentIterator it1(a->begin());
-	AlignmentIterator it1_end(a->end());
-
-	AlignmentIterator it2(b->begin());
-	AlignmentIterator it2_end(b->end());
-
-	bool is_identical = true;
-
-	for (; it1 != it1_end; ++it1, ++it2) {
-		if (!inverse) {
-			if (it1->mRow != it2->mRow && it1->mCol != it2->mCol) 
-				is_identical = false;
-		} else {
-			if (it1->mRow != it2->mCol && it1->mCol != it2->mRow) 
-				is_identical = false;
-		}
-	}
-
-	return is_identical;
-}
-
+/*
 bool TestCompressionMonotone( HAlignment & a, 
 		const char *xrow, 
 		const char *xcol,
@@ -87,6 +61,7 @@ bool TestCompressionMonotone( HAlignment & a,
 	std::string row (xrow);
 	std::string col (xcol);
 
+	
 	fillAlignmentCompressed( a, 3, row, 3, col);
 
 	std::stringstream output;
@@ -138,60 +113,7 @@ bool TestCompressionDiagonal( HAlignment & a,
 		return false;
 	}
 }
-
-
-// tests for diagonal alignments
-void TestDiagonal(HAlignment & a) 
-{
-
-	{ 
-		cout << "testing...fill/writeAlignmentCompressedDiagonal()...";
-
-		if (TestCompressionDiagonal( a, "-1:-5+2" ) &&				
-				TestCompressionDiagonal( a, "-3:-5+2-2+2;5:-2+3" ) &&				
-				TestCompressionDiagonal( a, "3:-5+2" ) &&
-				TestCompressionDiagonal( a, "-3:-5+2;0:-5+4" )
-		) 
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;      
-	}
-
-}
-
-
-// tests for monotone alignments
-void TestMonotone( HAlignment & a) 
-{
-
-	{ 
-		cout << "testing...fill/writeAlignmentCompressed()...";
-
-		if (TestCompressionMonotone( a, "+5-5+5", "+15") &&				// treat gaps in one sequence correctly
-				TestCompressionMonotone( a, "+15", "+5-5+5") &&				// treat gaps in one sequence correctly
-				TestCompressionMonotone( a, "+5-5+5", "+5-5+5", "+10", "+10") &&	// skip a gap in both sequences
-				TestCompressionMonotone( a, "-5+10", "+10-5", "+5", "+5") &&		// skip end gaps
-				TestCompressionMonotone( a, "+10-5", "-5+10", "+5", "+5") &&		// skip end gaps
-				TestCompressionMonotone( a, "-5+5-5+10", "-5+5-5+5-5", "+10", "+10") )	// skip end and middle gaps gaps
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;      
-	}
-
-	{
-		cout << "testing fillAlignmentSummation()...";
-		a->clear();
-		a->addPair( new ResiduePAIR( 3, 4, 0));
-		a->addPair( new ResiduePAIR( 4, 5, 0));         
-		a->addPair( new ResiduePAIR( 5, 7, 0));                  
-		a->addPair( new ResiduePAIR( 9, 9, 0));                           
-
-		HAlignment b = a->getNew();
-		HAlignment c = a->getNew();
-
-		fillAlignmentSummation( b, c, a, true, true, true, true, 11, 11);
-	}
-}
+*/
 
 // tests for both
 void Test( HAlignment & a) 
@@ -234,13 +156,6 @@ void Test( HAlignment & a)
 	}
 
 	{ 
-		cout << "testing...writeAlignmentTable()...";
-		ostringstream out;
-		writeAlignmentTable( out, a);
-		cout << "passed" << endl;
-	}
-
-	{ 
 		cout << "testing...addAlignment2Alignment()...";
 		HAlignment b = makeAlignmentVector();
 		addAlignment2Alignment( b, a );
@@ -256,6 +171,61 @@ void Test( HAlignment & a)
 
 }
 
+// tests for diagonal alignments
+void TestDiagonal(HAlignment & a) 
+{
+
+	/*
+	{ 
+		cout << "testing...fill/writeAlignmentCompressedDiagonal()...";
+
+		if (TestCompressionDiagonal( a, "-1:-5+2" ) &&				
+				TestCompressionDiagonal( a, "-3:-5+2-2+2;5:-2+3" ) &&				
+				TestCompressionDiagonal( a, "3:-5+2" ) &&
+				TestCompressionDiagonal( a, "-3:-5+2;0:-5+4" )
+		) 
+			cout << "passed" << endl;
+		else
+			cout << "failed" << endl;      
+	}
+	*/
+	Test( a );
+}
+
+// tests for monotone alignments
+void TestMonotone( HAlignment & a) 
+{
+
+	/*
+	{ 
+		cout << "testing...fill/writeAlignmentCompressed()...";
+
+		if (TestCompressionMonotone( a, "+5-5+5", "+15") &&				// treat gaps in one sequence correctly
+				TestCompressionMonotone( a, "+15", "+5-5+5") &&				// treat gaps in one sequence correctly
+				TestCompressionMonotone( a, "+5-5+5", "+5-5+5", "+10", "+10") &&	// skip a gap in both sequences
+				TestCompressionMonotone( a, "-5+10", "+10-5", "+5", "+5") &&		// skip end gaps
+				TestCompressionMonotone( a, "+10-5", "-5+10", "+5", "+5") &&		// skip end gaps
+				TestCompressionMonotone( a, "-5+5-5+10", "-5+5-5+5-5", "+10", "+10") )	// skip end and middle gaps gaps
+			cout << "passed" << endl;
+		else
+			cout << "failed" << endl;      
+	}
+	 */
+	{
+		cout << "testing fillAlignmentSummation()...";
+		a->clear();
+		a->addPair( new ResiduePAIR( 3, 4, 0));
+		a->addPair( new ResiduePAIR( 4, 5, 0));         
+		a->addPair( new ResiduePAIR( 5, 7, 0));                  
+		a->addPair( new ResiduePAIR( 9, 9, 0));                           
+
+		HAlignment b = a->getNew();
+		HAlignment c = a->getNew();
+
+		fillAlignmentSummation( b, c, a, true, true, true, true, 11, 11);
+	}
+	Test( a );
+}
 
 
 int main () {
@@ -265,50 +235,34 @@ int main () {
 	cout << "---------------------Testing AlignmentVector-------------------------------" << endl;
 	a = makeAlignmentVector();
 	TestMonotone( a );
-	Test( a );
-	
 
 	cout << "---------------------Testing AlignmentSet----------------------------------" << endl;
 	a = makeAlignmentSet();
 	TestMonotone( a );
-	Test( a );
-	
 
 	cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
 	a = makeAlignmentHash();
 	TestMonotone( a );
-	Test( a );
-	
 
 	cout << "---------------------Testing AlignmentSetCol------------------------------" << endl;
 	a = makeAlignmentSetCol();
-	TestMonotone( a );
-	Test( a );
-	
+	TestMonotone( a );	
 
 	cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
 	a = makeAlignmentMatrixRow();
 	TestMonotone( a );
-	Test( a );
-	
 
 	cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
 	a = makeAlignmentMatrixDiagonal();
 	TestDiagonal( a );
-	Test( a );
-	
 
 	cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
 	a = makeAlignmentHashDiagonal();
 	TestDiagonal( a );
-	Test( a );
-	
 
 	cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
 	a = makeAlignmentMatrixUnsorted();
 	TestDiagonal( a );
-	Test( a );
-	
 
 }
 

@@ -24,7 +24,8 @@
 #include <iostream> 
 #include <algorithm>
 #include <set>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "ImplAlignmentSorted.h"
 #include "AlignmentIterator.h"

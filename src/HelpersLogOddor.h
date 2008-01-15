@@ -28,7 +28,7 @@
 #ifndef HELPERS_LOGODDOR_H
 #define HELPERS_LOGODDOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
 #include "LogOddor.h"

@@ -24,7 +24,10 @@
 #include <iostream>
 #include <iomanip>
 #include <math.h>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
+#include "AlignlibDebug.h"
+#include "HelpersTranslator.h"
 #include "ImplAlignatorIdentity.h"
 
 using namespace std;

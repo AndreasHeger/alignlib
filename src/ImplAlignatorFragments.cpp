@@ -25,30 +25,20 @@
 #include <iomanip>
 #include <stdio.h>
 
-#include "alignlib.h"
 #include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
-#include "Alignandum.h"
-
 #include "ImplAlignatorFragments.h"
-
-#include "Fragmentor.h"
-
-#include "Alignment.h"
 #include "HelpersAlignment.h"
+#include "AlignmentFormat.h"
 
-#include "Iterator2D.h"
 
 using namespace std;
 
 namespace alignlib 
 {
-
-#define NOFRAGMENT -1
-
-/*---------------------factory functions ---------------------------------- */
 
 //--------------------------------------------------------------------------------------------------------
 /** constructors and destructors */
@@ -166,21 +156,18 @@ ImplAlignatorFragments::ImplAlignatorFragments(
 			debug_func_cerr(5);
 
 
-			/* trace back along the fragments that are part of
-       the optimum trace. Add pairwise alignments to 
-       result */
+			// trace back along the fragments that are part of
+       		//	the optimum trace. Add pairwise alignments to 
+       		//	result
 
 			Fragment ifragment = mLastFragment;
 
 			while ( ifragment >= 0) {
 				addAlignment2Alignment( result, (*mFragments)[ifragment] );
-
 #ifdef DEBUG
-				cout << "Traceback: fragment " << ifragment << " with score " << (*mFragments)[ifragment]->getScore() << endl;
-				// TODO: change to new output
-				// writePairAlignment( cout, row, col, (*mFragments)[ifragment] );
+				std::cout << "Traceback: fragment " << ifragment << " with score " << (*mFragments)[ifragment]->getScore() << endl;
+				std::cout << AlignmentFormatExplicit( (*mFragments)[ifragment], row, col );
 #endif
-
 				ifragment = mTrace[ifragment];
 
 			}

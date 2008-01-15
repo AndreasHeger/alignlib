@@ -21,22 +21,29 @@
 import unittest, sys
 from alignlib import *
 
-class AlignedBlocksCase( unittest.TestCase ):
+class AlignmentFormatTestCase( unittest.TestCase ):
 
     def setUp( self ):
-        pass
+        self.mAlignment = makeAlignmentVector()
+        fillAlignmentIdentity( self.mAlignment, 5, 10, 0)
+        fillAlignmentIdentity( self.mAlignment, 10, 15, 5)
+        fillAlignmentIdentity( self.mAlignment, 25, 30, -5)
+
+class AlignmentFormatBlocksTestCase( AlignmentFormatTestCase ):
     
-    def testBlocks(self):
-        a = makeAlignmentVector()
-        fillAlignmentIdentity( a, 5, 10, 0)
-        fillAlignmentIdentity( a, 10, 15, 5)
-        fillAlignmentIdentity( a, 25, 30, -5)
+    def testOutput(self):
+        print str(AlignmentFormatBlocks( self.mAlignment ));
+
+class AlignmentFormatEmissionsTestCase( AlignmentFormatTestCase ):
     
-        blocks_out = AlignedBlocks( a );
+    def testOutput(self):
+        print str(AlignmentFormatEmissions( self.mAlignment ));
+
                 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(AlignedBlocksTestCase)
+    suite.addTest(AlignmentFormatBlocksTestCase)
+    suite.addTest(AlignmentFormatEmissionsTestCase)    
     return suite
 
 if __name__ == "__main__":

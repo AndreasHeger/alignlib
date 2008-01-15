@@ -28,7 +28,7 @@
 #define ALIGNATA_ITERATOR_H 1
 
 #include <iosfwd>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {

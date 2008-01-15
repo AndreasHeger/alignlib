@@ -28,7 +28,7 @@
 #ifndef IMPL_DOTTOR_SIMILARITY_TUPLES_H
 #define IMPL_DOTTOR_SIMILARITY_TUPLES_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplDottorSimilarity.h"
 
 namespace alignlib {

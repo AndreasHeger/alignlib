@@ -24,7 +24,7 @@
 #ifndef ALIGNLIB_FWD_H_
 #define ALIGNLIB_FWD_H_
 
-#include "alignlib.h"
+#include "alignlib_types.h"
 #include <vector>
 #include <boost/shared_ptr.hpp>
 

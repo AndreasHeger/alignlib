@@ -17,7 +17,7 @@
 
 #include <iosfwd>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplTreetor.h"
 

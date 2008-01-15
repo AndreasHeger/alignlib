@@ -28,7 +28,7 @@
 #ifndef IMPL_REGULARIZOR_Tatusov_H
 #define IMPL_REGULARIZOR_Tatusov_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplRegularizor.h"
 
 namespace alignlib 

@@ -51,7 +51,7 @@
 #include "HelpersPhyloMatrix.h"
 #include "HelpersTree.h"
 
-#include "AlignedBlocks.h"
+#include "AlignmentFormat.h"
 #include "Statistics.h"
 
 #endif /*ALIGNLIB_FUNCTIONS_H_*/

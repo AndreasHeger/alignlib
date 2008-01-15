@@ -13,7 +13,8 @@
 #include <iomanip>
 
 #include "MultipleAlignment.h"
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "ImplDistor.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"

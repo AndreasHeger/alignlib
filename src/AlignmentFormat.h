@@ -13,7 +13,23 @@
 
 /** 
  * Alignment data structures. These classes convert various alignment formats
- * to/from alignment objects. 
+ * to/from alignment objects. Member data is publich for easy access to your
+ * own formatting functions.
+ * 
+ * Usage example:
+ * 
+ * HAligment ali = makeAlignmentVector();
+ * ali->fill(...);
+ * 
+ * // write blocks
+ * AlignmentFormatBlocks blocks_out(ali);
+ * 
+ * std::cout << ali << std::endl; 
+ * // read blocks
+ * AlignmentFormatBlocks blocks_in;
+ * std::cin >> blocks_in >> std::endl;
+ * blocks_in.copy( ali );
+ * 
  */
 
 #if HAVE_CONFIG_H
@@ -23,18 +39,20 @@
 #include <iosfwd>
 #include <string>
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
 
+/** base class - keeps track of alignment coordinates
+ */
 struct AlignmentFormat
 {
 	
 	// constructors and desctructors
 	AlignmentFormat ();
 
-	AlignmentFormat( const AlignmentFormatBlocks &);
+	AlignmentFormat( const AlignmentFormat &);
 
 	virtual ~AlignmentFormat();
 
@@ -181,7 +199,7 @@ struct AlignmentFormatEmissions : public AlignmentFormat
 	
    	@author Andreas Heger
    	@version $Id$
-   	@short Data structure of emissions alignment format.
+   	@short Data structure of explicit alignment format.
  
 */ 
 
@@ -234,11 +252,16 @@ struct AlignmentFormatExplicit : public AlignmentFormat
 	
 	The diagonals alignment stores the alignment a single
 	string. The string records emissions and insertions
-	along each digaonal.
-	
+	along each digaonal. This alignment format is useful for
+	storing dotplots.
+
+    Although any alignment class can be written in this format, 
+    it is best to use for those that are sorted by diagonal, for
+    example, MatrixDiagonal. This achieves the highest compression.
+     	
    	@author Andreas Heger
    	@version $Id$
-   	@short Data structure of emissions alignment format.
+   	@short Data structure of "Diagonals" alignment format.
  
 */ 
 
@@ -257,7 +280,8 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 
 	virtual ~AlignmentFormatDiagonals ();
 
-	/** fill blocks from alignment
+	/** fill format from alignment
+
 	 	 @param src Alignment to parse
 	 	 @param reverse		reverse column and row 
 	 	 @param row_from	beginning of segment to use
@@ -276,10 +300,6 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 
     diagonal:-n1+n2-n3+n4;diagonal;...
 	     
-    Although other alignment types can be written in this format, it makes most sense
-    to use it for ImplAlignmentMatrixDiagonal, because then most compression is achieved.
-    In ImplAlignmentMatrixDiagonal the aligned pairs are sorted first by diagonal and then
-    by row.	     
 	 */
 	virtual void fill( 
 			const HAlignment & src,
@@ -291,10 +311,18 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 			const Diagonal diagonal_from = MAX_DIAGONAL,
 			const Diagonal diagonal_to = -MAX_DIAGONAL
 	);
+
+	virtual void fill( 
+			const HAlignment & src );
 	
-	/** fill Alignment object with blocks
-	 * 	@param dest Alignment 
+	/** fill Alignment object from format
+		@param dest 	Alignment to fill
+		@param reverse 	reverse column and row. 
 	 */
+	virtual void copy(
+			HAlignment & dest,
+			const bool reverse) const;	
+
 	virtual void copy( HAlignment & dest ) const;
 		
 	/** the alignment 

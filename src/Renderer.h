@@ -29,7 +29,7 @@
 #define RENDERER_H 1
 
 #include <string>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 
 namespace alignlib 
 {

@@ -25,7 +25,8 @@
 #include <iomanip>
 #include <algorithm>
 #include <assert.h>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "ImplIterator2DBanded.h"

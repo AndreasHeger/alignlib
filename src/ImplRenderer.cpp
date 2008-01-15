@@ -21,7 +21,8 @@
  */
 
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
+#include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "ImplRenderer.h"
@@ -50,12 +51,12 @@ ImplRenderer::ImplRenderer (const ImplRenderer & src )
 {
 }
 
-std::string ImplRenderer::render( const std::string & representation, 			      
+std::string ImplRenderer::render( 
+		const std::string & representation, 			      
 		Position segment_start, 
 		Position segment_end ) const 
 		{
-	// TODO: return substring
-	return representation;
+	return representation.substr( segment_start, segment_end - segment_start);
 		}
 
 } // namespace alignlib

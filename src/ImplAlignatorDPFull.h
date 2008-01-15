@@ -27,7 +27,7 @@
 #ifndef IMPL_ALIGNATOR_DP_FULL_H
 #define IMPL_ALIGNATOR_DP_FULL_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplAlignatorDP.h"
 #include "Iterator2D.h"

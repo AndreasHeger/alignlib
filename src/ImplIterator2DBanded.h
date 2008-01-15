@@ -28,7 +28,7 @@
 #ifndef ITERATOR2DBAND_H
 #define ITERATOR2DBAND_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplIterator2D.h"
 

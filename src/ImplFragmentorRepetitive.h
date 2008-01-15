@@ -28,7 +28,7 @@
 #ifndef IMPL_FRAGMENTOR_REPETITIVE_H
 #define IMPL_FRAGMENTOR_REPETITIVE_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplFragmentor.h"
 #include "Alignment.h"

@@ -25,9 +25,11 @@
 #include <stdio.h>
 #include <sstream>
 #include <iomanip>
-#include "alignlib.h"
+#include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
+#include "HelpersAlignment.h"
 #include "AlignlibDebug.h"
+#include "HelpersTranslator.h"
 
 using namespace std;
 
@@ -36,6 +38,36 @@ namespace alignlib
 
 //---------------------------------------------------------------------------------------------------
 inline Diagonal calculateDiagonal( const ResiduePAIR & p) { return (p.mCol - p.mRow); }
+
+bool checkAlignmentIdentity( 
+		const HAlignment & a, 
+		const HAlignment & b, 
+		const bool invert) 
+{
+
+	AlignmentIterator it1(a->begin());
+	AlignmentIterator it1_end(a->end());
+
+	AlignmentIterator it2(b->begin());
+	AlignmentIterator it2_end(b->end());
+
+	bool is_identical = true;
+
+	for (; it1 != it1_end && is_identical; ++it1, ++it2) 
+	{
+		if (!invert) 
+		{
+			if (it1->mRow != it2->mRow && it1->mCol != it2->mCol) 
+				is_identical = false;
+		} else 
+		{
+			if (it1->mRow != it2->mCol && it1->mCol != it2->mRow) 
+				is_identical = false;
+		}
+	}
+
+	return is_identical;
+}
 
 //---------------------------------------------------------------------------------------------------------
 /** write an alignment in rsdb-format */

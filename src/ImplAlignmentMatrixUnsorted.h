@@ -28,7 +28,7 @@
 #define IMPL_ALIGNATA_MATRIX_UNSORTED_H 1
 
 #include <iosfwd>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignmentMatrix.h"
 
 namespace alignlib {

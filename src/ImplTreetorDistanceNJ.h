@@ -16,7 +16,7 @@
 #define IMPL_TREETOR_DISTANCE_NJ_H 1
 
 #include <iostream>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplTreetorDistance.h"
 

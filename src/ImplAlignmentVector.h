@@ -30,7 +30,7 @@
 #include <iosfwd>
 #include <vector>
 #include <cassert>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplAlignment.h"
 
 namespace alignlib {

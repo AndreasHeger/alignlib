@@ -95,7 +95,7 @@ def addStreamBufClasses( mb ):
     """
     mb.add_declaration_code ( declaration_code, tail=True )
 
-def exportSave( mb, options):
+def exportSave( mb, classes, options):
     """export save method in classes Alignandum."""
     
     declaration_code = \
@@ -113,13 +113,16 @@ def exportSave( mb, options):
         a.save( os );
       }
     """
-    
-    cls = mb.class_("Alignandum")
-    cls.include_files.append( "streambuf" )
-    registration_code = 'def( "save", wrapper_for_save<alignlib::%s> )' % cls.name
-    cls.member_function( "save" ).exclude()
+
+    ## add declaration code only once, as it is templated
     mb.add_declaration_code( declaration_code, tail=True )
-    cls.add_registration_code( registration_code )
+
+    for c in classes:
+        cls = mb.class_(c)
+        cls.include_files.append( "streambuf" )
+        registration_code = 'def( "save", wrapper_for_save<alignlib::%s> )' % cls.name
+        cls.member_function( "save" ).exclude()
+        cls.add_registration_code( registration_code )
 
 def exportLoad( mb, classes, options ):
     """export load functions.
@@ -156,128 +159,6 @@ def exportLoad( mb, classes, options ):
         fun.exclude()
         mb.add_declaration_code( declaration_code, tail = True )
         mb.add_registration_code( registration_code )
-        # TODO: return None if istream is empty
-
-def export_writePairAlignment( mb ):
-    """export writePairAlignment.
-    
-    This function has to map ostream to a python file.
-    """
-    declaration_code = \
-"""
-      void wrapper_for_writePairAlignment( PyObject* fp, 
-          const alignlib::HAlignandum & row, 
-          const alignlib::HAlignandum & col,
-          const alignlib::HAlignment & alignment ) 
-      {
-        if (!PyFile_Check(fp)) 
-        {
-          throw boost::python::error_already_set();
-        }
-        std::FILE* f = PyFile_AsFile(fp);
-        std_obuf buf(f);
-        std::ostream os(&buf);
-        writePairAlignment( os, row, col, alignment );
-      }
-    """
-    
-    fun = mb.free_function("writePairAlignment")
-    fun.include_files.append( "streambuf" )
-    fun.exclude()
-    registration_code = """bp::def( "writePairAlignment", 
-        wrapper_for_writePairAlignment, 
-        (bp::arg("output"), bp::arg("row"), bp::arg("col"), bp::arg("ali") ));"""
-         
-    mb.add_declaration_code( declaration_code, tail = True )
-    mb.add_registration_code( registration_code )
-
-def export_writeAlignmentCompressed( mb ):
-    """export writePairAlignment.
-    
-    This function has to map ostream to a python file.
-    """
-    declaration_code = \
-"""
-      void wrapper_for_writeAlignmentCompressed( PyObject* fp, 
-          const alignlib::HAlignment & alignment )
-      {
-        if (!PyFile_Check(fp)) 
-        {
-          throw boost::python::error_already_set();
-        }
-        std::FILE* f = PyFile_AsFile(fp);
-        std_obuf buf(f);
-        std::ostream os(&buf);
-        writeAlignmentCompressed( os, alignment );
-      }
-    """
-    
-    fun = mb.free_function("writeAlignmentCompressed")
-    fun.include_files.append( "streambuf" )
-    fun.exclude()
-    registration_code = """bp::def( "writeAlignmentCompressed", 
-        wrapper_for_writeAlignmentCompressed, 
-        (bp::arg("output"), bp::arg("ali") ));"""
-         
-    mb.add_declaration_code( declaration_code, tail = True )
-    mb.add_registration_code( registration_code )
-
-def exportDefaultSetters( mb ):
-    """export get/set functions of default objects"""
-    pass
-    # set call policies for functions that return get a default object
-    # in this case the caller is not a new object.
-#    for prefix in ("getDefault", ):
-#        mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
-#                           return_value_policy( manage_new_object )
-
-
-
-#    def set_default( fun, cpointee, name = None):
-#        
-#        cls_pointee = None
-#        if cpointee == "SubstitutionMatrix": return
-#        try:
-#            cls_pointee = mb.class_( cpointee )
-#        except RuntimeError:
-#            pass
-#                        
-#        if cls_pointee == None:
-#            print "could not find class %s for set/getDefault" % cpointee
-#            return
-#        
-#        cls_pointee.held_type = 'std::auto_ptr< %s >' % cls_pointee.decl_string
-#                     
-#        fname = fun.name
-#        if type(fname) != StringType:
-#            if not name:
-#                print "undefined name to map for ambiguous type %s" % cpointee
-#                return
-#            fname = "setDefault%s" % name
-#            
-#        # set alias to original function name, otherwise ugly names will be created
-#        fun.add_transformation( function_transformers.transfer_ownership( 0 ), 
-#                                alias = fname )
-#
-#        # the following did not work, thus changed setDefault to return void
-#        # fun.call_policies = return_value_policy( manage_new_object )
-#        
-#
-#    # Set call policies for functions that set a default object
-#    # The caller takes ownership of the old default object and
-#    # and passes control of the new default object to the library
-#    # This only worked for non-const argument types and not returning
-#    # an new object.
-#    for prefix in ("setDefault", ):
-#        
-#        for fun in mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix ) ):
-#            
-#            cpointee = fun.name[len(prefix):]
-#            set_default( fun, cpointee )
-
-    ## treat SubstitutionMatrix extra, as it is an alias
-    # set_default( mb.free_functions( "setDefaultSubstitutionMatrix" ), "Matrix<double>", "SubstitutionMatrix")
-
 
 def exportFunctions( mb ):
     """export utility functions."""
@@ -285,48 +166,13 @@ def exportFunctions( mb ):
     ## include all free functions
     mb.namespace("alignlib").free_functions().include()
 
-    # set call policies for functions that return the same object
-    # from the first argument
-    for prefix in ("fill",
-                   "add",
-                   "substitute",
-                   "reset",
-                   "copy",
-                   "combine",
-                   "complement",
-                   "rescore",
-                   "flatten",
-                   "filter",
-                   "readAlignmentPairs",
-                   "calculateAffineScore",
-                   "extractMultipleAlignment",                       
-                   "rescaleProfileCounts",
-                   "normalizeProfileCounts",
-                   ):
-        try:
-            mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = return_self()
-        except RuntimeError:
-            sys.stderr.write("# could not find free function starting with %s\n" % prefix )
-
-    # exportDefaultSetters( mb )    
-
-    # functions that return new objects
-    for prefix in ( "readAlignmentPairs", ): 
-        try:
-            mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
-                               return_value_policy( reference_existing_object )
-        except RuntimeError:
-            print "could not find any function with prefix %s" % prefix
-
     # change these functions to use handles.
     for prefix in ( "makeEVDParameters", "makeNormalDistributionParameters", "makeEntropyVector" ): 
         try:
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
-                               return_value_policy( manage_new_object )
+            return_value_policy( manage_new_object )
         except RuntimeError:
             print "could not find any function with prefix %s" % prefix
-
-
 
     #######################################################################################
     #######################################################################################
@@ -337,23 +183,17 @@ def exportFunctions( mb ):
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).exclude()
         except RuntimeError:
             print "could not find declaration for %s" % prefix
-            
-    ## can't export makeProfile(const std::string &, int)
-    ## couldn't figure out what to mach const std::string & with
-    ## tried: const std::string &, std::string const &, and more
-    # mb.free_functions( name='makeProfile', arg_types=[None, "int"] ).exclude()
-    
-    ## deal with functions that work on streams
-    # export_writePairAlignment( mb )
-    # export_writeAlignmentCompressed( mb )
-
    
 def exportClasses( mb ):
     """export classes.
     
     These classes can be instantiated directly from python.
     """
-    classes_to_export = set( ['AlignedBlocks', 'Coordinate' ] )
+    classes_to_export = set( ['Coordinate', 
+                              'AlignmentFormatBlocks',
+                              'AlignmentFormatExplicit',
+                              'AlignmentFormatDiagonals',
+                              'AlignmentFormatEmissions', ] )
     
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
@@ -396,59 +236,24 @@ def exportInterfaceClasses( mb ):
     ## include all classes
     mb.classes( lambda x: x.name in classes_to_export ).include()
 
-#    ## deal with copying/cloning members functions
-#    mb.member_functions( lambda x: x.name == "getClone" ).call_policies = \
-#                         return_value_policy( manage_new_object )
-#    mb.member_functions( lambda x: x.name == "getNew" ).call_policies = \
-#                         return_value_policy( manage_new_object )
-#
     ## add __str__ function for functions having defined the '<<' operator
     ## This automatically maps std::ostream to a string
     mb.free_operators( lambda x: x.name == "operator<<" ).include()    
-#    
-#    ## used for dottor objects
-#    ## mb.member_functions( lambda x: x.name == "getPairs" ).call_policies = \
-#    ##                      return_value_policy( manage_new_object )
-#    # return reference to existing values - look at managing this better later
-#    mb.member_functions( lambda x: x.name == "getPointer" ).call_policies = \
-#                         return_value_policy( reference_existing_object )
-#    mb.member_functions( lambda x: x.name == "getReference" ).call_policies = \
-#                         return_value_policy( reference_existing_object )
-#    mb.member_functions( lambda x: x.name == "getRow" ).call_policies = \
-#                         return_value_policy( reference_existing_object )
-#    mb.member_functions( lambda x: x.name == "getTranslator" ).call_policies = \
-#                         return_value_policy( reference_existing_object )
-#    mb.member_functions( lambda x: x.name == "align" ).call_policies = \
-#        return_value_policy( reference_existing_object )
-#    mb.member_functions( lambda x: x.name == "fragment" ).call_policies = \
-#        return_value_policy( reference_existing_object )
-#    mb.member_functions( lambda x: x.name == "calculateTree" ).call_policies = \
-#        return_value_policy( reference_existing_object )
-#    mb.member_functions( lambda x: x.name == "calculateMatrix" ).call_policies = \
-#        return_value_policy( reference_existing_object )
-#    mb.member_functions( "calculateMatrix" ).call_policies = \
-#        return_value_policy( manage_new_object )                             
-#    mb.member_functions( "calculateTree" ).call_policies = \
-#        return_value_policy( manage_new_object )                             
-#    mb.member_functions( lambda mem_fun: mem_fun.name.startswith( "getNodes" ) ).call_policies = \
-#                         return_value_policy( manage_new_object )
 
     ## exclude the following because of unhandled arguments/return types
-    exclude_functions = ("fillProfile", "fillFrequencies", "decode", "encode", "col_begin", "col_end", "row_begin", "row_end" )
-    for f in exclude_functions:
-        try:
-            mb.member_functions(f).exclude()
-        except RuntimeError:
-            print "could not find function %s to exclude" % f
-            
-
-    ## get an error for this. For Dottor, now obsolete.
-    ## mb.member_functions( lambda x: x.name in ("getRowIndices",) ).exclude()
+#    exclude_functions = ( "decode", "encode", "col_begin", "col_end", "row_begin", "row_end" )
+#    for f in exclude_functions:
+#        try:
+#            mb.member_functions(f).exclude()
+#        except RuntimeError:
+#            print "could not find function %s to exclude" % f
 
     ## do not include the increment/decrement and dereference operators, because there is no equivalent in python
     ## exlude functions while testing. Need to map return types later.
     ## default: exclude most operators
-    mb.member_operators( lambda x: x.name in ("operator++", "operator--", "operator*", "operator->", "operator()", "operator[]") ).exclude()
+    mb.member_operators( lambda x: x.name in ("operator++", "operator--", 
+                                              "operator*", "operator->", 
+                                              "operator()", "operator[]") ).exclude()
 
     ## do not export the internal iterator interfaces. This makes Alignment
     ## virtual and the wrapper will cause compilation to fail.
@@ -473,36 +278,17 @@ def exportInterfaceClasses( mb ):
         ## abstract classes.
         cls.constructors().exclude()
 
-    ## deal with methods that transfer ownership of the first argument
-    ## supplied to the method.
-    ## The list contains 
-    ## 1: the class with the member function
-    ## 2: the function prefix that needs to wrapped
-    ## 3: the class of the pointee
-#    classes_with_ownership_transfer = [ ("MultipleAlignment", "add", "Alignatum") , ]
-#    # TODO: add others, in particular addPair, but check for argument types 
-#                                         ("Alignment", "addPair", "ResiduePAIR" ) ]
-#    
-#    for ccontainer, fname, cpointee in classes_with_ownership_transfer:
-#        cls_pointee = mb.class_( cpointee )
-#        cls_pointee.held_type = 'std::auto_ptr< %s >' % cls_pointee.decl_string
-#                    
-#        cls_container= mb.class_( ccontainer )
-#        mem_funs = cls_container.member_functions( fname ) 
-#        for f in mem_funs:
-#             set alias to original function name, otherwise ugly names will be created
-#             a call for rename() had no effect.
-#            f.add_transformation( function_transformers.transfer_ownership( 0 ), 
-#                                  alias = fname )
-                       
-
-    ## TODO export substitution matrix
-
+    ## TODO: export substitution matrix
     exportHandles( mb )
            
-    ## export load/save functionality        
-    exportSave( mb, options )        
-    exportLoad( mb, ("Alignandum", "Translator"),
+    ## export load/save functionality
+    classes_with_load_save = ("Alignandum", "Translator")         
+    exportSave( mb, 
+                classes_with_load_save,
+                options )        
+    
+    exportLoad( mb, 
+                classes_with_load_save,
                 options )
 
 def exportHandles( mb ):
@@ -531,11 +317,10 @@ def exportHandles( mb ):
 
     for handle in handles_to_export:
         
-        for c in mb.classes( lambda x: handle[1:]in x.name ):
-            print "class=", c.name
-        
-        for c in mb.decls( lambda x: handle[1:] in x.name):
-            print "decl=", c.name
+        # for c in mb.classes( lambda x: handle[1:]in x.name ):
+        #     print "class=", c.name 
+        # for c in mb.decls( lambda x: handle[1:] in x.name):
+        #    print "decl=", c.name
             
         pointer = "boost::shared_ptr<alignlib::%s>" % handle[1:]
         try:
@@ -544,7 +329,7 @@ def exportHandles( mb ):
             print "could not find handle class %s, searching with %s" % (handle, pointer)
             continue
         
-        print "exporting %s" % handle
+        # print "exporting %s" % handle
         
         d.include()
         # d.rename( handle )
@@ -554,11 +339,11 @@ def exportTemplates( mb ):
     """include templated classes.
     """
     
-    export_templates = ("SubstitutionMatrix", )
-    
-    for name in export_templates:
-        continue
-        mb.typedef( name ).include()
+    # export_templates = ("SubstitutionMatrix", )
+    # 
+    # for name in export_templates:
+    #     continue
+    #    mb.typedef( name ).include()
                 
     ## Deal with templated matrix class
     template_translations = { 'Matrix<double>' : 'MatrixDouble',
@@ -595,7 +380,6 @@ def exportEnums( mb ):
     enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 'LinkageType', 'AlphabetType' ] )
     
     mb.enumerations( lambda x: x.name in enumerations_to_export ).include()
-
     
 def buildModule( include_paths, dest, options) :
     """build module using py++."""

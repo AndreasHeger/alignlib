@@ -28,7 +28,7 @@
 #ifndef FRAGMENTOR_H
 #define FRAGMENTOR_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 namespace alignlib 

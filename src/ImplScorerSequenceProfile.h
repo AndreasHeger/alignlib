@@ -28,7 +28,7 @@
 #ifndef IMPL_SCORER_SEQUENCE_PROFILE_H
 #define IMPL_SCORER_SEQUENCE_PROFILE_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplScorer.h"
 #include "ImplProfile.h"

@@ -105,11 +105,11 @@ HAlignandum extractSequenceFasta( std::istream & input,
 		}
 */
 
-/* this routine should be replace by something, that
+/* TODO: This routine should be replaced by something, that
      a. uses a different random generator
      b. is more efficient.
      c. is portable
- */
+*/
 
 const double max_rand = pow(2.0,31) -1;
 
@@ -154,11 +154,12 @@ HAlignandum makeMutatedSequence(
 	}
 
 	HAlignandum sequence = makeSequence(buffer, translator );
+	
 	delete [] buffer;
 
 	return sequence;
 
-		}
+}
 
 
 } // namespace alignlib

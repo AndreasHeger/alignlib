@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include "AlignlibDebug.h"
 #include "ImplTreetor.h"
 #include "Tree.h"
 

@@ -29,7 +29,7 @@
 #define HELPERS_MULTIPLE_ALIGNMENT_H 1
 
 #include <vector>
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "MultipleAlignment.h"
 
 namespace alignlib 
@@ -77,7 +77,7 @@ namespace alignlib
 	@param sequences	concatenated sequences to use
 	@param nsequences	number of sequences.
     */
-    HMultipleAlignment & fillMultipleAlignment( 
+    void fillMultipleAlignment( 
     		HMultipleAlignment & ali,
     		const std::string & sequences,
     		int nsequences);
@@ -138,12 +138,11 @@ namespace alignlib
 
     /** copy a multiple alignment
      */
-    HMultipleAlignment & copyMultipleAlignment( HMultipleAlignment & dest, 
-					       const HMultipleAlignment & src,
-					       unsigned int first_row = 0,
-					       unsigned int last_row = 0 );
-
-
+    void copyMultipleAlignment( 
+    		HMultipleAlignment & dest, 
+    		const HMultipleAlignment & src,
+    		unsigned int first_row = 0,
+    		unsigned int last_row = 0 );
 }
 
 #endif	/* HELPERS_MULTIPLE_ALIGNMENT_H */

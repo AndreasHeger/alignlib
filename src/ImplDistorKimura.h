@@ -16,7 +16,7 @@
 #ifndef IMPL_DISTOR_KIMURA_H
 #define IMPL_DISTOR_KIMURA_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "ImplDistor.h"
 
 /**

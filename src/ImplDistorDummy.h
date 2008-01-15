@@ -16,7 +16,7 @@
 #ifndef IMPL_DISTOR_DUMMY_H
 #define IMPL_DISTOR_DUMMY_H 1
 
-#include "alignlib.h"
+#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 #include "ImplDistor.h"
 
