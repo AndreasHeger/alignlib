@@ -57,7 +57,8 @@ HAlignandum makeSequence( const char * sequence )
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a string */
-HAlignandum makeSequence( const std::string & sequence,
+HAlignandum makeSequence( 
+		const std::string & sequence,
 		const HTranslator & translator ) 
 		{
 		return HAlignandum( new ImplSequence( sequence, translator ) );
@@ -70,20 +71,25 @@ HAlignandum makeSequence( const std::string & sequence )
 
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( const HTranslator & translator ) :
+ImplSequence::ImplSequence( 
+		const HTranslator & translator ) :
 	ImplAlignandum( translator ),
 	mSequence(NULL) 
 {
 }
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( const std::string & src, 
+ImplSequence::ImplSequence( 
+		const std::string & src, 
 		const HTranslator & translator  ) : 
-	ImplAlignandum( translator ), mSequence(NULL) 
+	ImplAlignandum( translator ), 
+	mSequence(NULL) 
 	{
 	Position length = src.size();
 
 	setTrueLength( length );
+	mSequence = new Residue[length];
+	
 	for (int i = 0; i < length; ++i)
 		mSequence[i] = translator->encode( src[i] );
 	
@@ -97,7 +103,6 @@ ImplSequence::ImplSequence( const ImplSequence & src ) :
 	debug_func_cerr(5);
 
 	if (mSequence != NULL) delete [] mSequence;
-	//!! make exception safe
 	mSequence = new Residue[src.getFullLength()];
 	memcpy( mSequence, src.mSequence, src.getFullLength());
 }
