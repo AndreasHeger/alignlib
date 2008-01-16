@@ -45,7 +45,9 @@ using boost::unit_test::test_suite;
 
 BOOST_AUTO_TEST_CASE( test_LogOddorUniform )
 {
-	HAlignator a = makeFullDP( -10.0, -2.0);
+	HAlignator a = makeAlignatorDPFull( 
+			ALIGNMENT_GLOBAL,
+			-10.0, -2.0);
 	HAlignandum s1 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
 	HAlignandum s2 = makeSequence( "AAACCCAAAAACCCAAAAAAA");
 	    

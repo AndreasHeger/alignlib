@@ -29,7 +29,6 @@
 #define HELPERS_ALIGNATOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
@@ -102,19 +101,37 @@ namespace alignlib
     HAlignator makeAlignatorIterative( 
     		const HAlignator & alignator, 
     		Score min_score);
-    
-    // compatibility functions
-    inline HAlignator makeFullDP( 
-    		Score gop, Score gep, 
-    		bool penalize_left = false, 
-    		bool penalize_right = false )
-      {
-    	return makeAlignatorDPFull( ALIGNMENT_LOCAL,
-    			gop, gep, false, false);
-      }
-    
 
-    /* 2. accessor functions for default objects */
+	/** Alignator object for groupie alignment. 
+	 * 
+	 * See @ref ImplAligantorGroupies for an explanation of the
+	 * algorithm. 
+	 * 
+	 * @param tube_size 		size of the tube in which alignment is performed
+     * @param alignator_dots	@ref Alignator to build dots.
+     * @param alignator_gaps	@ref Alignator to use to fill in gaps.
+     * @param gop				gap opening penalty.
+     * @param gep				gap extension penalty.
+	 */
+    
+	HAlignator makeAlignatorGroupies(
+			const Position tube_size,
+			const HAlignator & alignator_dots,
+			const HAlignator & alignator_gaps,
+			const Score & gop,
+			const Score & gep);
+
+	/** Alignator object for groupie alignment.
+	 *
+	 * See @ref ImplAligantorGroupies for an explanation of the
+	 * algorithm. 
+	 *  
+	 * This alignator is parameterized as for the pairsdb
+	 * database.
+	 */
+	HAlignator makeAlignatorGroupies();
+
+	/* 2. accessor functions for default objects */
     
 
     /* 3. convenience functions */
