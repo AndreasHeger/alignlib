@@ -144,7 +144,7 @@ HAlignandum extractProfileBinaryCountsAsInt( std::istream & input,
 
 	ImplProfile * p = new ImplProfile( regularizor, logoddor );
 
-	p->setTrueLength(col);
+	p->resize(col);
 	p->useSegment();
 	p->allocateCounts();
 	Count * counts = p->mCounts;
@@ -196,7 +196,7 @@ HAlignandum extractProfileBinaryCounts( std::istream & input,
 
 	ImplProfile * p = new ImplProfile( regularizor, logoddor );
 
-	p->setTrueLength(col);
+	p->resize(col);
 	p->useSegment();
 	p->allocateCounts();
 
@@ -363,7 +363,7 @@ HAlignandum resetProfile( HAlignandum dest, Position new_length ) {
 	ImplProfile * profile = dynamic_cast<ImplProfile*>(dest);
 
 	profile->release();
-	profile->setTrueLength( new_length );
+	profile->resize( new_length );
 	profile->useSegment();
 	profile->allocateCounts();
 
@@ -424,7 +424,7 @@ HAlignandum makeProfile( const CountsMatrix * src) {
 
   // delete old counts and set new length
   p_dest->release();
-  p_dest->setTrueLength( src->getNumRows() -1 );
+  p_dest->resize( src->getNumRows() -1 );
   p_dest->allocateCounts();
 
   // retrieve pointer to member data

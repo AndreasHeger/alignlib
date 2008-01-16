@@ -157,8 +157,6 @@ HAlignandum makeProfile( const HMultipleAlignment & mali )
 			getDefaultLogOddor());
 }
 
-//TODO: setTrueLength re-allocates counts
-
 //---------------------------------------> constructors and destructors <--------------------------------------
 // The constructor is potentially empty, so that this object can be read from file.
 ImplProfile::ImplProfile( 
@@ -191,8 +189,7 @@ ImplProfile::ImplProfile(
 			mProfileWidth(0)
 {
 	debug_func_cerr(5);
-	setTrueLength( length );
-	allocateCounts();
+	resize( length );
 }
 
 
@@ -210,8 +207,7 @@ ImplProfile::ImplProfile(
 			mProfileWidth(0)
 {
 	debug_func_cerr(5);
-	setTrueLength( src->getLength() );
-	allocateCounts();
+	resize( src->getLength() );
 	fillCounts( src );
 }
 
@@ -275,14 +271,19 @@ ScoreMatrix * ImplProfile::getScoreMatrix() const
 	return mScoreMatrix;
 }
 
+//--------------------------------------------------------------------------------------
+void ImplProfile::resize( Position length )
+{
+	ImplAlignandum::resize( length );
+	allocateCounts();
+}
+
 //---------------------------------------------------------------------------------------------------------------
 void ImplProfile::fillCounts( const HMultipleAlignment &  src )
 {
 	debug_func_cerr(5);
 
-	setTrueLength( src->getLength() );
-	allocateCounts();
-
+	resize( src->getLength() );
 	mWeightor->fillCounts( *mCountMatrix, src, mTranslator );
 
 	setPrepared( false );  
@@ -294,9 +295,9 @@ Matrix<T> * ImplProfile::allocateSegment( Matrix<T> * data ) const
 {
 	debug_func_cerr(5);
 
-	if (data != NULL)
-		delete data;
+	if (data != NULL) delete data;
 	data = new Matrix<T>( getFullLength(), mProfileWidth, 0 );
+	
 	return data;
 }
 

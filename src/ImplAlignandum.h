@@ -120,8 +120,13 @@ class ImplAlignandum : public Alignandum
     /** the member functions below are protected, because they have to be only accessible for
 	derived classes. They should know, what they are doing. */
     
-    /** set true length - calling this method resets the segment coordinates. */
-    virtual void setTrueLength(Position length);
+    /** re-set the length of this object. 
+     * 
+     * This results in erasing the current contents of the object
+     * and allocates memory.
+     * 
+     * Calling this method resets the segment coordinates. */
+    virtual void resize(Position length);
 
     /** get true length*/
     virtual Position getFullLength() const;

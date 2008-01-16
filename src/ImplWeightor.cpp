@@ -128,7 +128,7 @@ void ImplWeightor::fillCounts(
 			// continue for out-of-range characters (gaps)
 			if (code >= width) continue;
 			
-			debug_cerr(5, "width=" << width << " char=" << seq[x] << " code=" << (int)code << " weight=" << weight );
+			debug_cerr(5, "width=" << (int)width << " char=" << seq[x] << " code=" << (int)code << " weight=" << weight );
 			dest.setValue( x, code, dest.getValue( x, code) + weight );
 		}
 	}

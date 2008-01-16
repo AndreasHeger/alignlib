@@ -125,8 +125,9 @@ Position ImplAlignandum::getTo() const
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::setTrueLength( Position length)
+void ImplAlignandum::resize( Position length)
 {
+	release();	
 	mFrom = 0;
 	mTo = mLength = length;
 	mMasked.resize( length, false );
@@ -253,7 +254,7 @@ void ImplAlignandum::load( std::istream & input)
 	
 	mMasked.clear();
 	mMasked.resize( mLength, false);
-	
+		
 }
 
 

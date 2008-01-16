@@ -76,8 +76,6 @@ ImplTranslator::ImplTranslator (const ImplTranslator & src ) :
 		
 		
 	}
-	// this might confuse built-in versus non-builtin objects
-	// TODO: check built-in versus non-built-in behaviour
 	mAlphabetType = src.mAlphabetType;
 }
 

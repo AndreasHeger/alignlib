@@ -205,6 +205,12 @@ protected:
 
 	/** fill count matrix */
 	virtual void fillCounts( const HMultipleAlignment & src );
+
+	 /** re-set the length of the object
+	  * 
+	  * This method allocates the memory needed. 
+	  */
+	 virtual void resize( Position length );
 	
 	/** save state of object into stream
 	 */

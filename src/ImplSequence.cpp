@@ -87,8 +87,7 @@ ImplSequence::ImplSequence(
 	{
 	Position length = src.size();
 
-	setTrueLength( length );
-	mSequence = new Residue[length];
+	resize( length );
 	
 	for (int i = 0; i < length; ++i)
 		mSequence[i] = translator->encode( src[i] );
@@ -102,8 +101,7 @@ ImplSequence::ImplSequence( const ImplSequence & src ) :
 {
 	debug_func_cerr(5);
 
-	if (mSequence != NULL) delete [] mSequence;
-	mSequence = new Residue[src.getFullLength()];
+	resize( src.getFullLength() );
 	memcpy( mSequence, src.mSequence, src.getFullLength());
 }
 
@@ -115,6 +113,19 @@ ImplSequence::~ImplSequence()
 
 	if (mSequence != NULL) 
 		delete [] mSequence;
+}
+
+//--------------------------------------------------------------------------------------
+void ImplSequence::resize( Position length )
+{
+	ImplAlignandum::resize(length);
+	if (mSequence != NULL) 
+		delete [] mSequence;
+	mSequence = new Residue[length];
+	Residue gap_code = mTranslator->getGapCode();
+	
+	for (Position i = 0; i < length; ++i)
+		mSequence[i] = gap_code;
 }
 
 //--------------------------------------------------------------------------------------

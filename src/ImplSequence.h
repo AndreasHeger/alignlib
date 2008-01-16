@@ -104,6 +104,12 @@ class ImplSequence : public ImplAlignandum
 	 /** save state of object into stream
 	  */
 	 virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
+	 
+	 /** re-set the length of the object
+	  * 
+	  * This method re-allocates memory and sets the sequence to all gap.
+	  */
+	 virtual void resize( Position length );
 
  private:
 
