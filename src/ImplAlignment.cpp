@@ -361,7 +361,8 @@ namespace alignlib
     AlignmentConstIterator it = begin();
     AlignmentConstIterator it_end = end();
 
-    while (it != it_end) {
+    while (it != it_end) 
+    {
       if ((*it).mCol == pos)
         return (*it).mRow;
       ++it;

@@ -29,14 +29,25 @@
 #define SCORER_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib
 {
 
-  class Alignandum;
+	/** @short Protocol class for objects that compute match scores.
+   
+    Scores compute the score of matching two positions between
+    two @ref Alignandum objects. This class is a helper class for
+    @ref Alignator objects. @ref Scorer objects abstract the way a score 
+    is computed from the task of finding the optimal alignment done 
+    by @ref Alignator objects.
+    
+    This class is a protocol class and as such defines only the general interface.
+    
+    @author Andreas Heger
+    @version $Id$
+	*/
 
-  //----------------------------------------------------------------
+	//----------------------------------------------------------------
   class Scorer
   {
     public:
@@ -54,7 +65,11 @@ namespace alignlib
        */
       virtual HScorer getClone() const = 0;
       
-      /** return a new iterator of same type initializes with for row and col
+      /** return a new scorer of same type but initialized
+       *  for the two @ref Alignandum objects row and col.
+       * 
+       * @param row	@ref Alignandum object to be aligned.
+       * @param col @ref Alignandum object to be aligned.
        */
       virtual HScorer getNew( 
     		  const HAlignandum & row, 

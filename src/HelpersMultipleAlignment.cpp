@@ -54,18 +54,6 @@ namespace alignlib
 
 /** factory functions */
 
-/** create an empty multiple alignment */
-HMultipleAlignment makeMultipleAlignment() 
-{
-	return HMultipleAlignment( new ImplMultipleAlignment() );
-}
-
-HMultipleAlignment makeMultipleAlignmentDots( bool compress_unaligned_columns,
-		int max_insertion_length) 
-{
-	return HMultipleAlignment( new ImplMultipleAlignmentDots( compress_unaligned_columns, max_insertion_length ) );
-}
-
 //---------------------------------------------------------------------
 /** extract a multiple Alignment object from a stream in FASTA format 
     uses the extraction routine from ImplSequence objects

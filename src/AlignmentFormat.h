@@ -248,6 +248,14 @@ struct AlignmentFormatExplicit : public AlignmentFormat
 	AlignmentFormatExplicit( std::istream & src);
 
 	AlignmentFormatExplicit( const std::string & src);
+
+	/** build formatted alignment from two strings
+	 */
+	AlignmentFormatExplicit( 
+			const Position row_from,
+			const std::string & row,
+			const Position col_from,
+			const std::string & col);
 	
 	AlignmentFormatExplicit (const AlignmentFormatExplicit &);
 

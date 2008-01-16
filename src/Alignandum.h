@@ -36,22 +36,14 @@
 namespace alignlib 
 {
 
-/** this is an empty class definition, that will be subclassed by other descendents
-    of Alignandum. I have to do this, so that there will be no warning messages. This
-    class contains handles (const pointers) to the member data of Alignandum objects.
- */
-
 /** 
     Base class for objects that are to be aligned, typically sequences or profiles.
 
-    The class can restrict access to a sequence to a sequene range. Ranges are given
-    in open/closed notation starting from 0. Thus, the segment 0..5 includes residues
-    0,1,2,3,4.
+    Objects can restrict access to a sequence range. Ranges are given in open/closed 
+    notation starting from 0. Thus, the segment 0..5 includes residues 0,1,2,3,4.
+    Positions are given in 0-based coordinates.
 
-    This class is a protocol class and as such defines only the general interface
-
-    On request, they export const pointers to their member data for aligning. This
-    is taken care of behind the scences.
+    This class is a protocol class and as such defines only the general interface.
 
     @author Andreas Heger
     @version $Id: Alignandum.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
@@ -72,90 +64,123 @@ public:
 	/** copy constructor */
 	Alignandum( const Alignandum &);
 
-	/** desctructor */
+	/** destructor */
 	virtual ~Alignandum();
 
-	/** accessors ------------------------------------------------------------------------- */
+	/* accessors ------------------------------------------------------------------------- */
 
 	/** return an identical copy of this object */
 	virtual HAlignandum getClone() const = 0;
 
-	/** get the translator object associated with this object */
+	/** get the @ref Translator object associated with this object */
 	virtual const HTranslator & getTranslator() const = 0;
 	
-	/** get length of sequence. 
+	/** get the length of the active segment. 
 	 * 
-	 * This is the length of the active segment. 
 	 * */
 	virtual Position getLength() const = 0;
 
-	/** get the full length of the sequence
+	/** get the length of the full sequence.
 	 * 
 	 */
 	virtual Position getFullLength() const = 0;
 
-	/** restrict the use of the sequence to a segment. If no coordinates are given,
-	 * the full sequence is used.
+	/** restrict the sequence to a segment. 
+	 * 
+	 * If no coordinates are given, the full sequence is used.
 	 *  
-        @param from     where segment starts
-        @param to       where segment ends
+     *   @param from     where segment starts
+     *   @param to       where segment ends
 	 */
 	virtual void useSegment( Position from = NO_POS, Position to = NO_POS) = 0;
 
-	/** return first residue number in segment */
+	/** return the index of the first residue in active segment
+	 */
 	virtual Position getFrom() const = 0;
 
-	/** return last residue number in segment */
+	/** return the index plus one of the last residue in active segment 
+	 */
 	virtual Position getTo() const = 0;
 
-	/** return true if object is prepared for alignment (for cacheable types ) 
-	 * This function permits lazy evaluation of of some alignable types like 
-	 * profiles. */
+	/** return true if object is prepared for alignment
+	 *  
+	 * This function permits lazy evaluation of of some 
+	 * alignable types like profiles.
+	 */
 	virtual bool isPrepared() const = 0;	
 
-	/** get internal representation of residue in position pos 
+	/** get residue at position.
+	 * 
+	 * @param pos	position
+	 * 
+	 * Residues are numerical types and are mapped from alpha-
+	 * numeric types through @ref Translator objects. 
 	 */
 	virtual Residue asResidue( Position pos ) const = 0;
 
-	/** get character representation of residue in position pos
-	 * using the default translator. 
+	/** get character at position.
+	 *
+	 * @param pos	position
+	 * 
+	 * This applies the @ref Translator associated with
+	 * this object to translate from the numeric residue
+	 * represntation.
 	 */
 	virtual char asChar( Position pos ) const = 0;
 
-	/** returns a string representation of the object 
+	/** returns a string of the object. 
+	 * 
+	 * The string has exactly the same length as the object.  
 	 */
 	virtual std::string asString() const = 0;
 
-	/** mask column at position x or, if y is not omitted,
-	 * in a range.
+	/** mask positions in segment from from to to.
+	 * 
+	 * @param from  first residue in segment.
+	 * @param to 	last residue in segment + 1. If to is omitted, only 
+	 * 				position from is masked.
 	 */
 	virtual void mask( const Position & from, const Position & to = NO_POS) = 0;
 
-	/** returns true if a position is masked
+	/** returns true if position pos is masked.
+	 * 
+	 * @param pos 	position
 	 */
 	virtual bool isMasked( const Position & pos ) const = 0;
 	
-	/** shuffle object 
-	 * */
-	virtual void shuffle( unsigned int num_iterations = 1,
+	/** shuffle object.
+	 * 
+	 * @param num_iterations number of iterations to shuffle
+	 * @param window_size	shuffle within windows of size window_size.
+	 * 						If @param window_size is 0, the whole sequence is used
+	 * 					    fo shuffling.
+	 */
+	virtual void shuffle( 
+			unsigned int num_iterations = 1,
 			Position window_size = 0 ) = 0;
 
-    /** swap two positions */
+    /** swap two positions.
+     * 
+     * @param x 	position to swap
+     * @param y		position to swap
+    */
     virtual void swap( const Position & x, const Position & y ) = 0;
 	
 	/* Mutators ------------------------------------------------------------------------------ */
 
-	/** load data into cache, if cacheable type */
+	/** prepare object for alignment.
+	*/
 	virtual void prepare() const = 0;						
 
-	/** discard cache, if cacheable type */
+	/** release memory need for alignment. 
+	*/
 	virtual void release() const = 0;					       
 
 	/** write human readable output to stream.
 	 */
 	virtual void write( std::ostream & output ) const = 0;
 
-	/** save state of object into stream
+	/** save object to stream.
 	 */
 	virtual void save( std::ostream & input ) const = 0;
 

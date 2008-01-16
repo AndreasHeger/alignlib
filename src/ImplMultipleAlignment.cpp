@@ -48,7 +48,15 @@ using namespace std;
 namespace alignlib 
 {
 
-/** factory functions */
+/* factory functions */
+
+/** create an empty multiple alignment */
+HMultipleAlignment makeMultipleAlignment() 
+{
+	return HMultipleAlignment( new ImplMultipleAlignment() );
+}
+
+
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplMultipleAlignment::ImplMultipleAlignment () : 
 	mLength(0), mRenderer(getDefaultRenderer())
@@ -102,7 +110,7 @@ int ImplMultipleAlignment::getWidth() const
 
 //-----------------------------------------------------------------------------------------------------------
 const std::string & ImplMultipleAlignment::operator[]( int row ) const {
-	return mRows[row]->getStringReference();
+	return mRows[row]->getString();
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -370,15 +378,13 @@ void ImplMultipleAlignment::registerRenderer( const HRenderer & renderer)
 //---------------------------------------------------------< Input/Output routines >--------
 
 //------------------------------------------------------------------------------------
-void ImplMultipleAlignment::write( std::ostream & output,
-		Position segment_from, 
-		Position segment_to) const 
-		{
+void ImplMultipleAlignment::write( std::ostream & output ) const 
+{
 	debug_func_cerr(5);
 
 	for (unsigned int row = 0; row < mRows.size(); ++row) 
 	{
-		mRows[row]->writeRow( output, mRenderer, segment_from, segment_to );    
+		mRows[row]->write( output );    
 		output << std::endl;
 	}
 

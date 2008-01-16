@@ -230,7 +230,7 @@ std::string ImplAlignatum::getString() const {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-const std::string & ImplAlignatum::getStringReference() const {
+const std::string & ImplAlignatum::getString() const {
     return mRepresentation;
 }
        
@@ -245,7 +245,7 @@ Position ImplAlignatum::getTo() const {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplAlignatum::writeRow( std::ostream & output, 
+void ImplAlignatum::write( std::ostream & output, 
 			      Position segment_start, 
 			      Position segment_end) const {
 
@@ -366,7 +366,7 @@ Position ImplAlignatum::getResidueNumberprevious( Position pos ) const {
 
 /** write into stream */
 void ImplAlignatum::write( std::ostream & output ) const {
-  writeRow( output );
+  write( output );
 }
 
 /** read from stream */

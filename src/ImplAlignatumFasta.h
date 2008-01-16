@@ -85,7 +85,7 @@ class ImplAlignatumFasta : public ImplAlignatum
       @param segment_start beginning of segment 
       @param segment_end end of segment 
   */
-  virtual void writeRow( std::ostream & output,
+  virtual void write( std::ostream & output,
 		  const HRenderer & renderer,
 		  Position segment_start = 0, 
 		  Position segment_end = 0 ) const;

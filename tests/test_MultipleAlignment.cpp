@@ -90,15 +90,6 @@ int main ()
 
 		std::cout << "testing ouptut" << std::endl;
 		cout << *m1 << endl;
-		// write segments of the alignment and check numbering
-		// no change
-		m1->write( cout, 0, 13 ); cout << endl;
-		// truncated
-		m1->write( cout, 1, 12 ); cout << endl;
-		// truncated
-		m1->write( cout, 2, 11 ); cout << endl;
-		//truncated
-		m1->write( cout, 3, 10 ); cout << endl;
 	}
 
 	{

@@ -109,7 +109,7 @@ HAlignatum ImplAlignatumFasta::getNew() const
 
 
 //-------------------------------------------------------------------------------------------------------
-void ImplAlignatumFasta::writeRow( std::ostream & output,
+void ImplAlignatumFasta::write( std::ostream & output,
 		const HRenderer & renderer,
 		Position segment_start, 
 		Position segment_end ) const 
@@ -117,7 +117,7 @@ void ImplAlignatumFasta::writeRow( std::ostream & output,
   
   output << setw(30) << mDescription;
 
-  ImplAlignatum::writeRow( output, renderer, segment_start, segment_end );
+  ImplAlignatum::write( output, renderer, segment_start, segment_end );
 }
 
 /** write into stream */

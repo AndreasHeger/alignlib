@@ -35,24 +35,33 @@ namespace alignlib
 {
 
   /**  
-       @short protocol class for Alignator objects.
+       @short Protocol class for objects that align.
        
        Alignator objects align two objects. The default way to use it
        
-       Alignator * a;
-       HAlignment r;
+       @code
+       HAlignandum row( makeSomeAlignandumObject(...));
+       HAlignandum col( makeSomeAlignandumObject(...));       
+       HAlignator a( makeSomeAlignator(...) );
+       HAlignment r( makeSomeAlignment(...) );
        
-       a->align( row, col, &r );
-
+       a->align( r, row, col);
+	   @endcode
+	   
        The two objects to be aligned to each other are called row and col. This 
        is inspired by the dynamic programming matrix where you have one sequence 
-       along the rows and the other along the columns.
+       along the rows and the other along the columns of the matrix. Alignator objects 
+       need not necessarily perform dynamic programming.
 
-	   The range of the sequences to be aligned can be restricted by Iterator2D
-	   objects and using the useSegment() method in the Alignandum objects.
+	   The range of the sequences to be aligned is given by the  
+	   @ref Iterator2D object and the @ref Alignandum objects. The @Iterator2D
+	   object determines the shape of the "alignment space", while the
+	   @ref Alignandum objects determine the size of the "alignment space".
+	   (In terms of dynamic programming, the "alignment space" is the size and
+	   shape of the dynamic programming matrix.)
 	   
-	   The scorer class takes care of computing alignment scores between proposed
-	   residue pairs.
+	   The @ref Scorer object takes care of computing alignment scores between 
+	   the positions in the two @ref Alignandum objects
 	  
        This class is a protocol class and as such defines only the interface.
       
@@ -68,6 +77,7 @@ namespace alignlib
       
     public:
       /* constructors and desctructors------------------------------------------------------- */
+    	
       /** empty constructor */
       Alignator(); 
       
@@ -82,20 +92,28 @@ namespace alignlib
        */
       virtual HAlignator getClone() const = 0;
             
-      /** align two alignandum objects 
-       * */
+      /** align two @ref Alignandum objects and store result in @ref Alignment
+       * 
+       * @param dest	@ref Aligment object to store the alignment result. 
+       * @param row		@ref Alignandum object to align.
+       * @param col		@ref Alignandum object to align. 
+      */
       virtual void align(HAlignment & dest, 
     		  const HAlignandum & row, 
     		  const HAlignandum & col) = 0;		
 
-      /** accessors */
+      /* accessors */
 
-      /** set iterator object 
-       * */
+      /** set @ref Iterator2D object.
+       * 
+       * @param	iterator @ref Iterator2D object to use. 
+      */
       virtual void setIterator2D( const HIterator2D & iterator) = 0;    
 
-      /** set scoring object 
-       * */
+      /** set @ref Scorer object.
+       * 
+       * @param scorer @ref Scorer object to use. 
+      */
       virtual void setScorer( const HScorer & scorer ) = 0;    
       
     };

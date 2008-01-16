@@ -78,7 +78,14 @@ MaliRow::~MaliRow()
 	debug_func_cerr(5);	
 }
 
-/** factory functions */
+/* factory functions */
+HMultipleAlignment makeMultipleAlignmentDots( bool compress_unaligned_columns,
+		int max_insertion_length) 
+{
+	return HMultipleAlignment( new ImplMultipleAlignmentDots( compress_unaligned_columns, max_insertion_length ) );
+}
+
+
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplMultipleAlignmentDots::ImplMultipleAlignmentDots ( bool compress_unaligned_columns,
 		int max_insertion_length) : 
@@ -147,7 +154,7 @@ int ImplMultipleAlignmentDots::getWidth() const
 const std::string & ImplMultipleAlignmentDots::operator[]( int row ) const 
 {
 	updateRows();
-	return mRows[row]->mAlignatumOutput->getStringReference();
+	return mRows[row]->mAlignatumOutput->getString();
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -293,18 +300,16 @@ void ImplMultipleAlignmentDots::registerRenderer( const HRenderer & renderer)
 //---------------------------------------------------------< Input/Output routines >--------
 
 //------------------------------------------------------------------------------------
-void ImplMultipleAlignmentDots::write( std::ostream & output,
-		Position segment_from, 
-		Position segment_to) const 
-		{
+void ImplMultipleAlignmentDots::write( std::ostream & output ) const
+{
 	debug_func_cerr(5);
 
 	updateRows();
 
 	for (unsigned int row = 0; row < mRows.size(); row++) 
 	{
-		mRows[row]->mAlignatumOutput->writeRow( output, mRenderer, segment_from, segment_to );
-		output << endl;
+		mRows[row]->mAlignatumOutput->write( output );
+		output << std::endl;
 	}
 }		
 

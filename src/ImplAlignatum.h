@@ -62,24 +62,9 @@ class ImplAlignatum : public Alignatum
     		Position to = NO_POS);
 
     /*-----> accessors <----------------------------------------------------- */
-    /** write object into stream nicely formatted. Segments are addressed by [from,to)
-	@param output stream for result
-	@param segment_start beginning of segment 
-	@param segment_end end of segment 
-    */
-    virtual void writeRow( std::ostream & output,
-    		const HRenderer & renderer,
-			Position segment_start = NO_POS, 
-			Position segment_end = NO_POS ) const;
-
-    /** readline */
-    virtual void readRow( std::istream & input );
-
-    /** return a copy of the string representation */
-    virtual std::string getString() const;
 
     /** return a reference to the string representation */
-    virtual const std::string & getStringReference() const;
+    virtual const std::string & getString() const;
 
     /** return the length of the line */
     virtual Position getAlignedLength() const;
@@ -108,6 +93,25 @@ class ImplAlignatum : public Alignatum
     /** remove one or more positions from the aligned object */
     virtual void removeColumns( int position, Position count = 1); 
 
+    /** check for consistency.
+     * 
+     * Check if the number of aligned characters matches
+     * the residue boundaries.
+     */
+    virtual bool isConsistent() const;
+    
+    /** return residue number of a position
+     * 
+     * This functions returns NO_POS if residue number if out of bounds.
+     * 
+     * @param pos		position.
+     * @param search	if position maps to a gap, optionally do search for
+     * 					next residue number.
+     */
+    virtual Position getResidueNumber( 
+    		const Position pos,
+    		const SearchType search = NO_SEARCH) const;    
+    
     /** remap the current alignatum object using ali. 
 	If unaligned chars is true, lower case unaligned characters will be
 	put before the next aligned character (as much as fit) 
@@ -134,14 +138,6 @@ class ImplAlignatum : public Alignatum
 
     /** calculate number of gaps in sequence */
     virtual int countGaps();
-
-    /** calculate residue number of residue in position pos, or, if this is a gap, the residue number
-	of the next non-gap character. */
-    virtual Position getResidueNumberNext( Position pos ) const;
-
-    /** calculate residue number of residue in pos, or, if this is a gap, the residue number
-	of the previous non-gap character. */
-    virtual Position getResidueNumberPrevious( Position pos ) const;
 
     /** accessor functions */
     

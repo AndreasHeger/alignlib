@@ -164,25 +164,28 @@ namespace alignlib
 
       // get alignment start positions
       int row_from = map_old2new->getRowFrom();
-      int row_to = map_old2new->getRowTo();
+      int row_to   = map_old2new->getRowTo();
 
       // get residue numbers of terminal residues and save them in from/to
-      mFrom = getResidueNumberNext(row_from); 
-      mTo   = getResidueNumberPrevious(row_to-1); 
+      mFrom = getResidueNumber(row_from, RIGHT ); 
+      mTo   = getResidueNumber(row_to, LEFT); 
 
+      debug_cerr( 5, "mapping: " << row_from << "->" << mFrom << "; " << row_to << "->" << mTo );
+      
       // substitute new characters for aligned positions:
-        {
-          AlignmentIterator it = map_old2new->begin();
+      {
+    	  AlignmentIterator it = map_old2new->begin();
           AlignmentIterator it_end = map_old2new->end();
 
           for (; it != it_end; ++it) 
-            {
+          {
               new_representation[it->mCol] = mRepresentation[it->mRow];
-            }
-        }
+          }
+      }	
 
-        // add unaligned characters
-        if (unaligned_chars) {
+      // add unaligned characters
+      if (unaligned_chars) 
+      {
 
           AlignmentIterator it = map_old2new->begin();
           AlignmentIterator it_end = map_old2new->end();
@@ -192,7 +195,8 @@ namespace alignlib
 
           ++it;
           // substitute new characters for aligned positions:
-          for (; it != it_end; ++it) {
+          for (; it != it_end; ++it) 
+          {
             Position old = it ->mRow-1;
             Position nnew = it ->mCol-1;      
             while (old - last_old > 0 && nnew - last_new > 0) 
@@ -227,12 +231,7 @@ namespace alignlib
   }
 
   //-------------------------------------------------------------------------------------------------------
-  std::string ImplAlignatum::getString() const {
-    return mRepresentation;
-  }
-
-  //-------------------------------------------------------------------------------------------------------
-  const std::string & ImplAlignatum::getStringReference() const 
+  const std::string & ImplAlignatum::getString() const 
   {
     return mRepresentation;
   }
@@ -250,45 +249,22 @@ namespace alignlib
   }
 
   //-------------------------------------------------------------------------------------------------------
-  void ImplAlignatum::writeRow( std::ostream & output,
-		  const HRenderer & renderer,
-		  Position segment_start, 
-		  Position segment_end ) const 
+  void ImplAlignatum::write( std::ostream & output ) const
 {
-
-        if (segment_start == NO_POS)
-          segment_start = 0;
-
-        if (segment_end == NO_POS || segment_end > mLength || segment_end <= segment_start) 
-          segment_end = mLength;
-
-        Position left  = getResidueNumberNext( segment_start );
-        Position right = getResidueNumberPrevious( segment_end - 1);
-
-        if (renderer) 
-          output << left << getFieldSeparator() 
-          << renderer->render(mRepresentation, segment_start, segment_end ) << getFieldSeparator()
-          << right;
-        else
-          output << left << getFieldSeparator()
-          << mRepresentation.substr( segment_start, segment_end - segment_start) << getFieldSeparator()
-          << right;
-
-  }
-
-  //---------------------------------------------------------------------------------------------------
-  void ImplAlignatum::readRow( std::istream & input ) {
+	  output << mFrom << getFieldSeparator() << mRepresentation << getFieldSeparator() << mTo;
   }
 
   /** get represenation */
-  const std::string & ImplAlignatum::getRepresentation() const { 
+  const std::string & ImplAlignatum::getRepresentation() const 
+  { 
     return mRepresentation; 
   } 
 
   /** set representation */
   void ImplAlignatum::setRepresentation( std::string & representation, 
       Position first_res,
-      Position last_res) { 
+      Position last_res) 
+  { 
 
         // set first residue number to 0 if not given
         if (first_res == NO_POS) 
@@ -304,22 +280,24 @@ namespace alignlib
 
   }
 
-
   //---------------------------------------------------------------------------------------------------
   /** return the length of the line */
-  Position ImplAlignatum::getAlignedLength() const { 
+  Position ImplAlignatum::getAlignedLength() const 
+  { 
     return mLength;
   }
 
   //---------------------------------------------------------------------------------------------------
   /** return the length of the line without gaps */
-  Position ImplAlignatum::getFullLength() const {
+  Position ImplAlignatum::getFullLength() const 
+  {
     return mTo - mFrom;
   }
 
   //---------------------------------------------------------------------------------------------------
   /** add the specified number of gaps in the front and in the back */
-  void ImplAlignatum::addGaps(int before, int after) {
+  void ImplAlignatum::addGaps(int before, int after) 
+  {
     int i = 0;
     std::string x  = "";
 
@@ -334,7 +312,8 @@ namespace alignlib
 
   //---------------------------------------------------------------------------------------------------
   /** add one or more gaps in the middle */
-  void ImplAlignatum::insertGaps( int position, Position count ) {
+  void ImplAlignatum::insertGaps( int position, Position count ) 
+  {
 
     std::string insertion = "";
     for (int i = 0; i < count; i++) 
@@ -346,7 +325,8 @@ namespace alignlib
 
   //------------------------------------------------------------------------------------------------
   /** remove leading/or trailing gaps */
-  void ImplAlignatum::removeEndGaps() {
+  void ImplAlignatum::removeEndGaps() 
+  {
     mRepresentation.erase( 0, mRepresentation.find_first_not_of( mGapChar ));
     mRepresentation.erase( mRepresentation.find_last_not_of( mGapChar ) + 1, mRepresentation.length());
     mLength = mRepresentation.length();
@@ -355,12 +335,14 @@ namespace alignlib
 
   //------------------------------------------------------------------------------------------------
   /** remove one or more positions from the aligned object */
-  void ImplAlignatum::removeColumns( int position, Position count ) {
+  void ImplAlignatum::removeColumns( int position, Position count ) 
+  {
     mRepresentation.erase( position, position + count );
   }
 
   //---------------------------------------------------------------------------------------
-  int ImplAlignatum::countGaps() {
+  int ImplAlignatum::countGaps() 
+  {
     int ngaps = 0;
     Position length = mRepresentation.length();
     Position i = 0;
@@ -373,57 +355,68 @@ namespace alignlib
   }
 
   //------------------------------------------------------------------------------------------
-  // Calculate the amino acid residue number of residue in string-position pos. Start counting
-  // from the left
-  Position ImplAlignatum::getResidueNumberNext( Position pos ) const {
-
-    if (pos == NO_POS || pos < 0 || pos >= mRepresentation.length() ) return NO_POS;
-
-    Position i = 0;
-    // skip over terminal gaps
-    while (i < pos && mRepresentation[i] == mGapChar) i++;
-
-    Position result = mFrom;	
-    for (; i < pos; i++) 
-      if (mRepresentation[i] != mGapChar) 
-        ++result;
-
-    return (result);
-  }
-  //------------------------------------------------------------------------------------------
-  // Calculate the amino acid residue number of residue in string-position pos. Start counting
-  // from the right
-  Position ImplAlignatum::getResidueNumberPrevious( Position pos ) const {
-
-    if (pos == NO_POS || pos < 0 || pos >= mRepresentation.length() ) return NO_POS;
-
-    Position i = mRepresentation.length() - 1;
-    // skip over terminal gaps
-    while (i >= pos && mRepresentation[i] == mGapChar) i--;
-
-    Position result = mTo;
-    for (; i > pos; --i) 
-      if (mRepresentation[i] != mGapChar) 
-        result--;
-
-    return (result);
-  }
-
-  /** write into stream */
-  void ImplAlignatum::write( std::ostream & output ) const 
+  bool ImplAlignatum::isConsistent( void ) const 
   {
-	  writeRow( output, getDefaultRenderer() );
+	  int nchars = 0;
+	  for (Position pos = 0; pos < mRepresentation.length(); ++pos)
+		  if (mRepresentation[pos] != mGapChar) ++nchars;
+	  
+	  return nchars == (mTo - mFrom);
   }
+  
+  //------------------------------------------------------------------------------------------
+  // The current implemenation is inefficient as it always
+  // starts counting from the start. For long sequences
+  // implement indices to short-cut the search.
+  Position ImplAlignatum::getResidueNumber( 
+		  const Position pos,
+		  const SearchType search) const 
+  {
+	
+	  debug_func_cerr( 5 );
+	  
+	  Position length = mRepresentation.length();
+	  
+	  debug_cerr( 5, "mapping position " << pos << " in " << mFrom << "-" << mTo << " of size " << length );
+	  
+	  if (mFrom == NO_POS || pos == NO_POS || pos < 0 || pos > length ) return NO_POS;
+	  
+	  // short cuts
+	  if (pos == 0) return mFrom;
+	  if (pos == length) return mTo;
+	  
+	  Position i = 0;
+	  // skip over terminal gaps
+	  while (i < pos && mRepresentation[i] == mGapChar) ++i;
 
+	  Position result = mFrom;	
+	  for (; i < pos; i++) 
+		  if (mRepresentation[i] != mGapChar) 
+			  ++result;
+    	
+	  if (mRepresentation[i] != mGapChar)
+		  return result;	
+	  
+	  switch (search)
+	  {
+	  case NO_SEARCH:
+		  return NO_POS;
+	  case LEFT:
+		  // the previous residue is the one we return.
+		  return result;
+	  case RIGHT:
+		  return std::min( result + 1, mTo );
+	  }
+    	
+	  return (result);
+  	}
+  
+  //-------------------------------------------------------------------------------------------
   /** read from stream */
-  void ImplAlignatum::read( std::istream & input ) {
-
-    input >> mFrom;
-    input >> mRepresentation;
-    input >> mTo;
-
+  void ImplAlignatum::read( std::istream & input ) 
+  {
+    input >> mFrom >> mRepresentation >> mTo;
     mLength = mRepresentation.length();
-
   }
 
   //-------------------------------------------------------------------------------------------

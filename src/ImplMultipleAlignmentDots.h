@@ -204,9 +204,7 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
 
     /** Write the multiple alignment to a stream
      */
-    virtual void write( std::ostream & output, 
-			Position segment_from = 0, 
-			Position segment_to = 0) const ;
+    virtual void write( std::ostream & output ) const; 
     
  protected:
     /** render the multiple alignment */

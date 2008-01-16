@@ -51,7 +51,7 @@ void testAlignatum( HAlignatum & a, const std::string & sample )
 	
 	Position first_pos = (sample.size() > 0) ? 0 : NO_POS;
 	Position last_pos = (sample.size() > 0) ? (int)sample.size() : NO_POS;	
-	
+
 	assert( a->getString() == sample );
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
@@ -60,24 +60,25 @@ void testAlignatum( HAlignatum & a, const std::string & sample )
 	
 	// add two terminal gaps on either side
 	a->addGaps( 2,2 );
+
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
 	assert( a->getFullLength() == sample.size() );
 	assert( a->getAlignedLength() == sample.size() + 4);	
 	
-	// wrap on alignment - add one gaps into the middle
+	// wrap on alignment - add one gap into the middle
 	HAlignment ali(makeAlignmentVector());
 	Position pos = a->getAlignedLength() / 2;
 	fillAlignmentIdentity( ali, 0, pos);
 	fillAlignmentIdentity( ali, pos, a->getAlignedLength(), 1);
 	
 	a->mapOnAlignment( ali );
-		
+
 	assert( a->getFrom() == first_pos);
 	assert( a->getTo() == last_pos );
 	assert( a->getFullLength() == sample.size() );
 	assert( a->getAlignedLength() == sample.size() + 5);	
-	assert( a->getStringReference()[pos] == '-' );
+	assert( a->getString()[pos] == '-' );
 	
 	cout << "passed" << endl;	
 }

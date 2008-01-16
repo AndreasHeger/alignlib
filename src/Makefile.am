@@ -92,7 +92,7 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 			ImplMultipleAlignment.h \
 			ImplMultipleAlignmentDots.h \
 			ImplRenderer.h ImplRendererPalette.h ImplRendererMView.h ImplRendererColumn.h \
-			ImplAlignatum.h ImplAlignatumFasta.h 
+			ImplAlignatum.h  
 
 HEADERS_TRANSLATOR= Translator.h HelpersTranslator.h \
 			ImplTranslator.h
@@ -175,7 +175,7 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 			ImplMultipleAlignmentDots.cpp \
 			ImplRenderer.cpp ImplRendererPalette.cpp \
 			ImplRendererMView.cpp ImplRendererColumn.cpp \
-			ImplAlignatum.cpp ImplAlignatumFasta.cpp 
+			ImplAlignatum.cpp 
 
 PARTS_STATISTICS =    Statistics.cpp
 

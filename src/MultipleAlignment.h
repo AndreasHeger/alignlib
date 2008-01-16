@@ -195,19 +195,9 @@ class MultipleAlignment
     /** returns an empty version of this object */
     virtual HMultipleAlignment getNew() const = 0;
     
-    /** Write the multiple alignment to a stream
-
-        @param segment_from
-	@param segment_to
-    
-	Restrict output to a particular segment, if you wish so. Ranges
-	start from 0 and are like Python-ranges, i.e., segment_to
-	is not part of the range any more.
+    /** write the multiple alignment to a stream
     */
-    virtual void write( std::ostream & output, 
-			Position segment_from = 0, 
-			Position segment_to = 0) const = 0;
-
+    virtual void write( std::ostream & output ) const = 0; 
 };
 
 }

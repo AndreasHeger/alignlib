@@ -33,7 +33,6 @@
 #include <list>
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "MultipleAlignment.h"
 
 namespace alignlib 
@@ -154,14 +153,13 @@ class ImplMultipleAlignment : public MultipleAlignment
     /** returns a clone of this object */
     virtual HMultipleAlignment getClone() const;
     
-    /** returns an empty version of this object */
+    /** returns an empty version of this object 
+    */
     virtual HMultipleAlignment getNew() const;
 
-    /** Write the multiple alignment to a stream
+    /** write the multiple alignment to a stream.
      */
-    virtual void write( std::ostream & output, 
-			Position segment_from = 0, 
-			Position segment_to = 0) const ;
+    virtual void write( std::ostream & output ) const; 
     
  protected:
     /** free all memory. Tell all stored objects to destruct themselves */

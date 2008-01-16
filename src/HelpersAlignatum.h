@@ -29,7 +29,6 @@
 #define HELPERS_ALIGNATUM_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
@@ -45,33 +44,30 @@ namespace alignlib
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
+
+	/** return a new @ref Alignatum object 
+	*/
     HAlignatum makeAlignatum( 
     		const std::string & src, 
     		const Position from = NO_POS, 
     		const Position to = NO_POS);
-    
+
+	/** return a new @ref Alignatum object 
+	*/
     HAlignatum makeAlignatum(
     		const HAlignandum & src, 
     		const HAlignment & map_this2new,
     		const Position max_length = 0);
-
+    
+	/** return a new @ref Alignatum object 
+	 */
     HAlignatum makeAlignatum(
     		const HAlignandum & src,
     		const Position from = NO_POS,
     		const Position to = NO_POS);
 
-    HAlignatum makeAlignatumFasta(
-    		const std::string & description,
-    		const std::string & src,
-    		const Position from = 0, 
-    		const Position to = NO_POS);
-    
-    /** return an empty Alignatum object, that 
-	can store a description */
-    HAlignatum makeAlignatumFasta();
-
-    /** return an empty Alignatum object, that 
-	can be filled for example by the function Read */
+    /** return a new @ref @Alignatum object.
+     */ 
     HAlignatum makeAlignatum();
 
     /* -------------------------------------------------------------------------------------------------------------------- */

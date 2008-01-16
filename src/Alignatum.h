@@ -30,19 +30,13 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
 
-/** @short interface definition of Alignatum objects.
+/** @short Protocol class for aligned objects.
 
-    Objects of this type represent an aligned object. This class is responsible for
-    producing a nice, real-world representation of the aligned object. To this end, 
-    this class provides several methods for modifying an aligned string.
-
-    There is no method for inserting residues here. Do this, by modifying alignments
-    before creating an Alignatum-object.
+    Objects of this type represent an aligned object.
     
     @author Andreas Heger
     @version $Id: Alignatum.h,v 1.5 2004/03/19 18:23:39 aheger Exp $
@@ -69,18 +63,8 @@ class Alignatum
 
     /*-----> accessors <----------------------------------------------------- */
 
-    /** write object into stream nicely formatted */
-    virtual void writeRow( 
-    		std::ostream & output, 
-    		const HRenderer & renderer,
-    		Position segment_start = 0, 
-    		Position segment_end = 0 ) const = 0;
-
-    /** return a copy of the string representation */
-    virtual std::string getString() const = 0;
-
     /** return the string representation */
-    virtual const std::string & getStringReference() const = 0;
+    virtual const std::string & getString() const = 0;
     
     /** return the number of the first residue */
     virtual Position getFrom() const = 0;
@@ -88,45 +72,79 @@ class Alignatum
     /** return the number of the last residue */
     virtual Position getTo() const = 0;
 
-    /** return the length of the line */
+    /** return the aligned length 
+     */
     virtual Position getAlignedLength() const = 0;
 
-    /** return the length of the line without gaps */
+    /** return the length of the object
+    */
     virtual Position getFullLength() const = 0;
 
-    /** add the specified number of gaps in the front and in the back */
-    virtual void addGaps(int before, int after)	= 0;		
+    /** add gaps in the front and in the back 
+     * @param before 	number of gaps to add in front.
+     * @param back		number of gaps to add at the back.
+     * */
+    virtual void addGaps(int front, int back) = 0;		
     
-    /** add one or more gaps in the middle 
-	@param position where gap(s) should be inserted 
-	@param count the number of gaps to be inserted
+    /** check for consistency.
+     * 
+     * Check if the number of aligned characters matches
+     * the residue boundaries.
+     */
+    virtual bool isConsistent() const = 0;
+    
+    /** return residue number of a position
+     * 
+     * This functions returns NO_POS if residue number if out of bounds.
+     * 
+     * @param pos		position.
+     * @param search	if position maps to a gap, optionally do search for
+     * 					next residue number.
+     */
+    virtual Position getResidueNumber( 
+    		const Position pos,
+    		const SearchType search = NO_SEARCH) const = 0;
+    
+    /** add gaps in the middle of the aligned object.
+    *  
+	*	@param position where gap(s) should be inserted 
+	*	@param count the number of gaps to be inserted
     */
-    virtual void insertGaps( int position, Position count = 1) = 0;
+    virtual void insertGaps( 
+    		int position, 
+    		Position count = 1) = 0;
     
-    /** remove leading/or trailing gaps */
+    /** remove leading/or trailing gaps 
+     */
     virtual void removeEndGaps() = 0;
 
-    /** remove one or more positions from the aligned object */
+    /** remove one or more positions from the aligned object 
+     */
     virtual void removeColumns( int position, Position count = 1) = 0; 
 
-    /** remap the current alignatum object using ali 
-	If unaligned chars is true, lower case unaligned characters will be
-	put before the next aligned character (as much as fit) 
+    /** map the object using an alignment
+     * 
+     * @param map_old2new	@ref Alignment mapping previous positions to new positions.
+     * @param new_length	@ref add gaps at the end so that the aligned length is new_length.
+     * @param unaligned_chars	If true, lower case unaligned characters will be
+								put before the next aligned character (as much as can be fit) 
     */
     virtual void mapOnAlignment(const HAlignment & map_old2new,
 				const Position new_length = 0,
 				const bool unaligned_chars = false ) = 0;
 
-    /** @short return an identical copy. */
+    /** return an identical copy of this object. 
+     */
     virtual HAlignatum getClone() const = 0;
 
-    /** return an empty copy of this object */
+    /** return an empty copy of this object.
+     */
     virtual HAlignatum getNew() const = 0;
 
-    /** write into stream */
+    /** write obejct to stream */
     virtual void  write( std::ostream & output ) const = 0;
 
-    /** read from stream */
+    /** read obejct from stream */
     virtual void  read( std::istream & input ) = 0;
     
 };
