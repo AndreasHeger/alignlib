@@ -154,8 +154,8 @@ PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
 			ImplAlignatorIdentity.cpp ImplAlignatorSimilarity.cpp ImplAlignatorTuples.cpp \
 			ImplAlignatorDummy.cpp \
 			ImplAlignatorFragments.cpp ImplAlignatorFragmentsSquared.cpp \
-			ImplAlignatorPublishAlignment.cpp \
-			ImplAlignatorGroupies.cpp
+			ImplAlignatorPublishAlignment.cpp 
+#			ImplAlignatorGroupies.cpp
 
 PARTS_ITERATOR=		Iterator2D.cpp HelpersIterator2D.cpp \
 			ImplIterator2D.cpp \

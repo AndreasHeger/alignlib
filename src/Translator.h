@@ -122,6 +122,15 @@ class Translator
      */
     virtual HResidueVector map( const HTranslator & other ) const = 0;
     
+    /** count characters in string. 
+     * 
+     * @param src 	string
+     * 
+     * This method counts all characters in a string excluding
+     * gap characters.
+     */
+    virtual Position countChars( const std::string & src ) const = 0;
+    
     /** write translator to stream */
     virtual void write( std::ostream &) const = 0;
     

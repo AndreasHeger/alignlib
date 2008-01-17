@@ -221,7 +221,7 @@ struct AlignmentFormatEmissions : public AlignmentFormat
 };
 
 /**
-	Data structures for "Explicit" alignment format
+	Data structure for "Explicit" alignment format.
 	
 	This is a convenience structure for importing/exporting
 	pairwise alignments.
@@ -241,15 +241,34 @@ struct AlignmentFormatExplicit : public AlignmentFormat
 	// constructors and desctructors
 	AlignmentFormatExplicit ();
 
-	AlignmentFormatExplicit( const HAlignment & src,
+	AlignmentFormatExplicit( 
+			const HAlignment & src,
 			const HAlignandum & row,
 			const HAlignandum & col);
 	
 	AlignmentFormatExplicit( std::istream & src);
 
+	/** build formatted alignment from one string.
+	 * 
+	 * @param src Alignment string
+	 * The alignment format is 
+	 *    - row_from
+	 *    - row_to
+	 *    - row_ali
+	 *    - col_from
+	 *    - col_to
+	 *    - col_ali
+	 * 
+	 * The fields are separated by whitespace characters.
+	 */
 	AlignmentFormatExplicit( const std::string & src);
 
-	/** build formatted alignment from two strings
+	/** build alignment from two aligned strings
+	 * 
+	 * @param row_from	residue number of first aligned residue in row
+	 * @param row       aligned string for row
+	 * @param col_from	residue number of first aligned residue in col
+	 * @param col		aligned string for col
 	 */
 	AlignmentFormatExplicit( 
 			const Position row_from,
@@ -280,7 +299,7 @@ struct AlignmentFormatExplicit : public AlignmentFormat
 	/** load alignment from stream
 	 */
 	virtual void load( std::istream &);
-
+	
 	/** the alignment for row 
 	 * 
 	 */
@@ -294,7 +313,7 @@ struct AlignmentFormatExplicit : public AlignmentFormat
 };
 
 /**
-	Data structures for "Diagonals" alignment format
+	Data structure for "Diagonals" alignment format
 	
 	This is a convenience structure for importing/exporting
 	pairwise alignments.

@@ -149,6 +149,9 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 	for ( Residue x = 0; x < mGapChars.size(); ++x)
 		mEncodingTable[(unsigned int)mGapChars[x]] = mTableSize;
 	mDecodingTable[mTableSize] = mGapChars[0];
+	
+	mGapCode = encode( mGapChars[0] );
+	mMaskCode = encode( mMaskChars[0] );
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -168,6 +171,18 @@ char ImplTranslator::decode( const Residue residue) const
 { 
 	return mDecodingTable[residue]; 
 }
+
+//--------------------------------------------------------------------------------------------------------------------------------
+Position ImplTranslator::countChars( const std::string & ali ) const
+{
+
+	Position nchars = 0;
+	for (unsigned int i = 0; i < ali.size(); i++) 
+		if (encode(ali[i]) != mGapCode)
+			++nchars;
+	return nchars;
+}
+
 
 //--------------------------------------------------------------------------------------------------------------------------------
 std::string ImplTranslator::decode( const Residue * src, int length ) const 
@@ -231,13 +246,13 @@ AlphabetType ImplTranslator::getAlphabetType() const
 //--------------------------------------------------------------------------------------------------------------------------------
 Residue ImplTranslator::getMaskCode() const 
 {
-	return encode( mMaskChars[0] );
+	return mMaskCode;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 Residue ImplTranslator::getGapCode() const 
 {
-	return encode( mGapChars[0] );
+	return mGapCode;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------

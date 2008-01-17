@@ -145,6 +145,15 @@ class ImplTranslator : public Translator
      */
     virtual HResidueVector map( const HTranslator & other ) const;
     
+    /** count characters in string. 
+     * 
+     * @param src 	string
+     * 
+     * This method counts all characters in a string excluding
+     * gap characters.
+     */
+    virtual Position countChars( const std::string & src ) const;
+    
  private:
 
 	/** necessary to distinguish between built-in and custom alphabets */
@@ -159,6 +168,12 @@ class ImplTranslator : public Translator
     /** mask characters */
     std::string mMaskChars;
 	
+    /** code signifying a gap */
+    Residue mGapCode;
+    
+    /** code signifying a masked character */
+    Residue mMaskCode;
+    
     /** the table size */
     int mTableSize;
     

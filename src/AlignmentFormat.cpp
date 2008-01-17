@@ -541,7 +541,7 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 					std::istringstream i(src.c_str());
 					load( i );
 					}
-
+				
 				AlignmentFormatExplicit::AlignmentFormatExplicit(
 						const Position row_from,
 						const std::string & row,
@@ -551,6 +551,9 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 					{
 							mRowFrom = row_from;
 							mColFrom = col_from;
+							mRowTo = row_from + getDefaultTranslator()->countChars( mRowAlignment );
+							mColTo = col_from + getDefaultTranslator()->countChars( mColAlignment );
+							
 					}
 
 				AlignmentFormatExplicit::~AlignmentFormatExplicit () 
@@ -599,6 +602,7 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 					return;
 				}
 
+				
 				//--------------------------------------------------------------------------------------------------------------------------------
 				void AlignmentFormatExplicit::copy( HAlignment & dest ) const 
 				{
