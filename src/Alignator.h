@@ -29,7 +29,6 @@
 #define ALIGNATOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib
 {
@@ -61,7 +60,11 @@ namespace alignlib
 	   shape of the dynamic programming matrix.)
 	   
 	   The @ref Scorer object takes care of computing alignment scores between 
-	   the positions in the two @ref Alignandum objects
+	   the positions in the two @ref Alignandum objects. The scorer object is
+	   instantiated from a template with the two @ref Alignandum objects as paramters.
+	   Based on the type of these objects the @ref Scorer object configures itself.
+	   As a side effect, the default @ref SubstitutionMatrix will be used for sequence-
+	   sequence alignment.
 	  
        This class is a protocol class and as such defines only the interface.
       

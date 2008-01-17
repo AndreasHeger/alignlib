@@ -62,7 +62,10 @@ namespace alignlib
   dynamics_cast - way.
  */
 
-HScorer makeScorer( const HAlignandum & row, const HAlignandum & col )
+HScorer makeScorer( 
+		const HAlignandum & row, 
+		const HAlignandum & col, 
+		const HSubstitutionMatrix & matrix)
 {
 	const HImplSequence s1(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(row));  
 	const HImplProfile p1(boost::dynamic_pointer_cast< ImplProfile, Alignandum>(row));  
@@ -71,8 +74,7 @@ HScorer makeScorer( const HAlignandum & row, const HAlignandum & col )
 
 	// setup static pointers to the data locations
 	if (s1 && s2)
-		return HScorer( new ImplScorerSequenceSequence( s1, s2, 
-				getDefaultSubstitutionMatrix() ) );
+		return HScorer( new ImplScorerSequenceSequence( s1, s2, matrix ) ); 
 
 	if (p1 && p2)
 		return HScorer( new ImplScorerProfileProfile( p1, p2 ) );
@@ -84,6 +86,11 @@ HScorer makeScorer( const HAlignandum & row, const HAlignandum & col )
 		return HScorer( new ImplScorerProfileSequence( p1, s2 ) );
 
 	throw AlignException("HelpersScorer.cpp: Could not guess scoring method");
+}
+
+HScorer makeScorer( const HAlignandum & row, const HAlignandum & col )
+{
+	return makeScorer( row, col, getDefaultSubstitutionMatrix() );
 }
 
 }

@@ -29,25 +29,22 @@
 #define HELPERS_SUBSTITUTION_MATRIX_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "alignlib_default.h"
 
 namespace alignlib 
 {
     
-    /** Helper functions for class Alignment:
+    /* Helper functions for class Alignment:
 	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
-    
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
 
-    /** create a Substitution Matrix */
+    /** create a Substitution Matrix with uniform match and mismatch scores. 
+     * 
+     * @param alphabet_size		size of the alphabet. The returned substitution matrix is symmetric for this alphabet.
+     * @param match				score of a match.
+     * @param mismatch			score of a mismatch.
+     * */
     HSubstitutionMatrix makeSubstitutionMatrix( 
     			int alphabet_size,
     			const Score match = 1,
@@ -61,12 +58,19 @@ namespace alignlib
 		setDefaultSubstitutionMatrix );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 3. convenience functions */
-    /** create a substituion matrix from a vector of scores. The scores
-     * are given in row/column order.
+    /** create a substituion matrix from a vector of scores. 
+     * 
+     * @param scores	vector of substitution scores. The scores are given in row/column order.
+     * @param nrows		number of rows in substitution matrix.
+     * @param ncols		number of cols in substiutitution matrix.
+     * 
+     * The size of the vector scores should be nrows * ncols.
+     * 
      */
-    HSubstitutionMatrix makeSubstitutionMatrix( const ScoreVector & scores,
-    		int nrows, int ncols);
+    HSubstitutionMatrix makeSubstitutionMatrix( 
+    		const ScoreVector & scores,
+    		int nrows, 
+    		int ncols);
     
     /** The blosum62 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixBlosum62();
@@ -83,6 +87,23 @@ namespace alignlib
     /** The pam120 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixPam120();
     HSubstitutionMatrix makeSubstitutionMatrixPam120( const HTranslator & );    
+
+    /** The pam30 scoring matrix */
+    HSubstitutionMatrix makeSubstitutionMatrixPam30();
+    HSubstitutionMatrix makeSubstitutionMatrixPam30( const HTranslator & );    
+
+    /** return a new matrix read from stream.
+     * 
+     * @param input			stream to read from.
+     * @param translator	@ref Translator
+     * 
+     * The format is the output of the 'pam' or 'matblas' programs.
+     * 
+     */
+    HSubstitutionMatrix loadSubstitutionMatrix(
+    		std::istream & input,
+    		const HTranslator & translator );
+    
     
 }
 

@@ -105,7 +105,7 @@ namespace alignlib
       mColLength = mIterator->col_size();
 
       mMatrix = makeAlignmentMatrixRow();
-      
+     
       // 
       // setup matrix of dots
 

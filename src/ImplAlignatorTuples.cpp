@@ -122,13 +122,15 @@ void ImplAlignatorTuples::align(
 		std::string tuple = col_sequence.substr( xcol, mKtuple);
 
 		// look up tuple
-		if ( tuples.find(tuple) != tuples.end() ) {
+		if ( tuples.find(tuple) != tuples.end() ) 
+		{
 			// if tuple was there, iterate through all rows and add aligned residues
 			vector<Position>& rows = tuples[tuple];
 
-			for (vector<Position>::iterator it = rows.begin(); it != rows.end(); ++it) {
-
-				for (Position i = 0; i < mKtuple; i++) {
+			for (vector<Position>::iterator it = rows.begin(); it != rows.end(); ++it) 
+			{
+				for (Position i = 0; i < mKtuple; i++) 
+				{
 					Position code = ((*it) + i) * col_len + xcol + i;
 					newdots.insert( code );
 				}
@@ -140,9 +142,10 @@ void ImplAlignatorTuples::align(
 	// the dots are already sorted by row and then by column !!
 
 	Score total_score = 0;
-	for (set<int>::iterator it = newdots.begin(); it != newdots.end(); ++it) {
-		int xrow = (*it) / col_len + 1;
-		int xcol = (*it) % col_len + 1;
+	for (set<int>::iterator it = newdots.begin(); it != newdots.end(); ++it) 
+	{
+		int xrow = (*it) / col_len;
+		int xcol = (*it) % col_len;
 		Score score =  mScorer->getScore( xrow, xcol);
 
 		total_score += score;

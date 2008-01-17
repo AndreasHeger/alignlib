@@ -31,28 +31,36 @@
 #include <iosfwd>
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "alignlib_default.h"
 #include "Scorer.h"
 
 namespace alignlib 
 {
     
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
-
-
   /* 1. factory functions */
-	HScorer makeScorer( const HAlignandum & row,
+
+	/** return a new @ref Scorer initialized with two @ref Alignandum objects.
+	 * 
+	 * @param  	row	@ref Alignandum object to align.
+	 * @param 	col @ref Alignandum object to align.
+	 */ 
+	HScorer makeScorer( 
+			const HAlignandum & row,
 			const HAlignandum & col );
+
+	/** return a new @ref Scorer initialized with two @ref Alignandum objects.
+	 * 
+	 * @param  	row	@ref Alignandum object to align.
+ 	 * @param 	col @ref Alignandum object to align.
+ 	 * @param	matrix SubstitutionMatrix to use (if appropriate).
+ 	 */ 
+	HScorer makeScorer( 
+		const HAlignandum & row,
+		const HAlignandum & col,
+		const HSubstitutionMatrix & matrix);
   
-	/** return a placeholder scorer */
+	/** return a new, uninitialized @ref Scorer.
+	 * */
 	HScorer makeScorer();
 	
   /* 2. accessor functions for default objects */

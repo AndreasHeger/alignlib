@@ -53,6 +53,7 @@ HAlignator makeAlignatorGroupies(
 	return HAlignator( new ImplAlignatorGroupies(
 			tube_size, alignator_dots, alignator_gaps, gop, gep ) );
 }
+
 HAlignator makeAlignatorGroupies()
 {
 	HAlignator alignator_gaps( makeAlignatorDPFull( ALIGNMENT_GLOBAL, -10, -2 ) );
@@ -110,7 +111,7 @@ HAlignator makeAlignatorGroupies()
     Position lrow = row->getLength();
     Position lcol = col->getLength();
 
-    // collect dots
+    // collect dots (with score)
     HAlignment dots(makeAlignmentMatrixUnsorted());
     mAlignatorDots->align( dots, row, col);
 
@@ -120,33 +121,36 @@ HAlignator makeAlignatorGroupies()
     AlignmentIterator it(dots->begin());
     AlignmentIterator it_end(dots->end());
 
-    std::vector<int> diagonals(lrow*2,0);
+    Position max_diag = lrow * lcol + 1;
+    std::vector<int> diagonals( max_diag,0);
     for (; it != it_end; ++it)
     {	
     	Position diagonal = it->mCol - it->mRow + lrow;
+    	assert( diagonal < max_diag);
+    	assert( diagonal >= 0);
     	diagonals[diagonal] += 1;
     }	
 
-    Position max_diag = 0;
-    for (Position x = 0; x < lrow*2; x++)
+    Position best_diag = 0;
+    for (Position x = 0; x < max_diag; x++)
     {
-    	if (diagonals[max_diag] < diagonals[x])
+    	if (diagonals[best_diag] < diagonals[x])
     		max_diag = x;
     }
 
-    max_diag -= lrow;
+    best_diag -= lrow;
 
     HAlignment new_dots( makeAlignmentMatrixRow() );
 
     copyAlignment( new_dots, dots, 
     		NO_POS, NO_POS, NO_POS, NO_POS,
-    		max_diag - mTubeSize,
-    		max_diag + mTubeSize );
+    		best_diag - mTubeSize,
+    		best_diag + mTubeSize );
 
     debug_cerr( 5, "-> there are " << new_dots->getLength() << " dots after filtering" );
-    debug_cerr( 5, "-> tube used: " << max_diag - mTubeSize << "-" <<  max_diag + mTubeSize );
+    debug_cerr( 5, "-> tube used: " << best_diag - mTubeSize << " to " <<  best_diag + mTubeSize );
 
-    HAlignator p(makeAlignatorPublishAlignment( new_dots ));
+    HAlignator p(makeAlignatorDummy( new_dots ));
       
     HAlignator alignator( makeAlignatorDotsSquared( p, mGop, mGep) );
 

@@ -49,13 +49,16 @@ HAlignator makeAlignatorPublishAlignment( HAlignment ali) {
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment ( HAlignment ali) : 
   ImplAlignator( getDefaultSubstitutionMatrix(), 0, 0 ), 
-  mAlignment ( ali ) {
+  mAlignment ( ali ) 
+  {
 }
 		       
-ImplAlignatorPublishAlignment::~ImplAlignatorPublishAlignment () {
+ImplAlignatorPublishAlignment::~ImplAlignatorPublishAlignment () 
+{
 }
 
-ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment (const ImplAlignatorPublishAlignment & src ) : ImplAlignator(src) {
+ImplAlignatorPublishAlignment::ImplAlignatorPublishAlignment (const ImplAlignatorPublishAlignment & src ) : ImplAlignator(src) 
+{
 }
 
 //--------------------------------------------------------------------------------------------------------
@@ -65,8 +68,8 @@ ImplAlignatorPublishDots * ImplAlignatorPublishDots::getClone() const
 }
 
 
-void ImplAlignatorPublishAlignment::align( const HAlignandum row, const HAlignandum col, HAlignment result) {
-
+void ImplAlignatorPublishAlignment::align( const HAlignandum row, const HAlignandum col, HAlignment result) 
+{
   startUp(row, col, result );
   
   cleanUp( row, col, results );

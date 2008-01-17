@@ -29,7 +29,6 @@
 #define IMPL_SCORER_SEQUENCE_SEQUENCE_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplScorer.h"
 #include "ImplSequence.h"
 
@@ -59,10 +58,13 @@ namespace alignlib
       
       /** return a new score of same type initialized with row and col
        */
-      virtual HScorer getNew( const HAlignandum & row, const HAlignandum & col) const;
+      virtual HScorer getNew( 
+    		  const HAlignandum & row, 
+    		  const HAlignandum & col) const;
     
-      virtual Score getScore( Position row,
-				 Position col ) const;
+      virtual Score getScore( 
+    		  Position row,
+    		  Position col ) const;
 
   protected:
       /** pointer to member data of row/col : AlignandumSequence */

@@ -76,16 +76,56 @@ BOOST_AUTO_TEST_CASE( test2 )
 							t2->encode(t1->decode(y)) ) );			
 }	
 
+
 // automatic mapping to 23 residue letter alphabet (no effect mapping).
 BOOST_AUTO_TEST_CASE( test3 )
 {
+        const HTranslator t(getTranslator( Protein23 ));
+        const HSubstitutionMatrix matrix1( makeSubstitutionMatrixBlosum62( t) );
+        const HSubstitutionMatrix matrix2( makeSubstitutionMatrixBlosum62() );
+        BOOST_CHECK_EQUAL( matrix1->getNumRows(), matrix2->getNumRows() );
+        BOOST_CHECK_EQUAL( matrix1->getNumCols(), matrix2->getNumCols() );
+        for (int x = 0; x < matrix1->getNumRows(); ++x )
+                for (int y = 0; y < matrix1->getNumCols(); ++y )
+                        BOOST_CHECK_EQUAL( matrix1->getValue(x,y), matrix2->getValue(x,y) );
+}
+
+// load substitution matrix from a file and compare to built-in
+// This test only uses the twenty residue letter alphabet, because
+// the blosum matrices are only defined for this alphabet and published
+// matrices differ between scores to B/Z
+BOOST_AUTO_TEST_CASE( test4 )
+{
+	const HTranslator t(getTranslator( Protein20 ));	  
+	std::ifstream infile( "data/BLOSUM62");
+	const HSubstitutionMatrix matrix_load( loadSubstitutionMatrix( infile, t ));
+	const HSubstitutionMatrix matrix_ref( makeSubstitutionMatrixBlosum62(t) );
+	BOOST_CHECK_EQUAL( matrix_load->getNumRows(), matrix_ref->getNumRows() );	
+	BOOST_CHECK_EQUAL( matrix_load->getNumCols(), matrix_ref->getNumCols() );		
+	for (int x = 0; x < matrix_load->getNumRows(); ++x )
+		for (int y = 0; y < matrix_load->getNumCols(); ++y )
+		{
+			if ( matrix_load->getValue(x,y) != matrix_ref->getValue(x,y) )
+				std::cout << "mismatch of scores: " << int(x) << " " << int(y) << " " << t->decode(x) << " " << t->decode(y) << std::endl;
+			BOOST_CHECK_EQUAL( matrix_load->getValue(x,y), matrix_ref->getValue(x,y) );
+		}
+}	
+
+// load substitution matrix from a file
+BOOST_AUTO_TEST_CASE( test5 )
+{
 	const HTranslator t(getTranslator( Protein23 ));	  
-	const HSubstitutionMatrix matrix1( makeSubstitutionMatrixBlosum62( t) );
-	const HSubstitutionMatrix matrix2( makeSubstitutionMatrixBlosum62() );
-	BOOST_CHECK_EQUAL( matrix1->getNumRows(), matrix2->getNumRows() );	
-	BOOST_CHECK_EQUAL( matrix1->getNumCols(), matrix2->getNumCols() );		
-	for (int x = 0; x < matrix1->getNumRows(); ++x )
-		for (int y = 0; y < matrix1->getNumCols(); ++y )
-			BOOST_CHECK_EQUAL( matrix1->getValue(x,y), matrix2->getValue(x,y) );
+	std::ifstream infile( "data/PAM30");
+	const HSubstitutionMatrix matrix_load( loadSubstitutionMatrix( infile, t ));
+	const HSubstitutionMatrix matrix_ref( makeSubstitutionMatrixPam30(t) );
+	BOOST_CHECK_EQUAL( matrix_load->getNumRows(), matrix_ref->getNumRows() );	
+	BOOST_CHECK_EQUAL( matrix_load->getNumCols(), matrix_ref->getNumCols() );		
+	for (int x = 0; x < matrix_load->getNumRows(); ++x )
+		for (int y = 0; y < matrix_load->getNumCols(); ++y )
+		{
+			if ( matrix_load->getValue(x,y) != matrix_ref->getValue(x,y) )
+				std::cout << "mismatch of scores: " << int(x) << " " << int(y) << " " << t->decode(x) << " " << t->decode(y) << std::endl;
+			BOOST_CHECK_EQUAL( matrix_load->getValue(x,y), matrix_ref->getValue(x,y) );
+		}	
 }	
 
