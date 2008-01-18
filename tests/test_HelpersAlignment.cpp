@@ -214,10 +214,10 @@ void TestMonotone( HAlignment & a)
 	{
 		cout << "testing fillAlignmentSummation()...";
 		a->clear();
-		a->addPair( new ResiduePAIR( 3, 4, 0));
-		a->addPair( new ResiduePAIR( 4, 5, 0));         
-		a->addPair( new ResiduePAIR( 5, 7, 0));                  
-		a->addPair( new ResiduePAIR( 9, 9, 0));                           
+		a->addPair( ResiduePair( 3, 4, 0));
+		a->addPair( ResiduePair( 4, 5, 0));         
+		a->addPair( ResiduePair( 5, 7, 0));                  
+		a->addPair( ResiduePair( 9, 9, 0));                           
 
 		HAlignment b = a->getNew();
 		HAlignment c = a->getNew();

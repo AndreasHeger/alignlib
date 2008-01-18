@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: HelpersTranslator.cpp,v 1.2 2004/01/07 14:35:33 aheger Exp $
+  $Id: HelpersEncoder.cpp,v 1.2 2004/01/07 14:35:33 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -27,51 +27,51 @@
 #include "alignlib_default.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "Translator.h"
-#include "ImplTranslator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "ImplEncoder.h"
+#include "HelpersEncoder.h"
 
 namespace alignlib 
 {
 
 //-------------------------------------------------------------------------------
 
-const HTranslator makeTranslator( const AlphabetType & alphabet_type )
+const HEncoder makeEncoder( const AlphabetType & alphabet_type )
 {
 	debug_func_cerr( 5 );
-	ImplTranslator * t;
+	ImplEncoder * t;
 	switch (alphabet_type) 
 	{
 	case Protein20: 
-		t = new ImplTranslator( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" ); 
+		t = new ImplEncoder( Protein20, "ACDEFGHIKLMNPQRSTVWY", "-.", "X" ); 
 		break;
 	case Protein23:
-		t = new ImplTranslator( Protein23, "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" );
+		t = new ImplEncoder( Protein23, "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X" );
 		break;
 	case DNA4: 
-		t = new ImplTranslator( DNA4, "ACGT", "-.", "N" );
+		t = new ImplEncoder( DNA4, "ACGT", "-.", "N" );
 		break;
 	default:
 		throw AlignException( "unknown alphabet" );
 	}
-	return HTranslator( t );
+	return HEncoder( t );
 }
 
 /** get a built-in translator object 
  * */
-const HTranslator getTranslator( const AlphabetType & alphabet_type )
+const HEncoder getEncoder( const AlphabetType & alphabet_type )
 {
 	// The static variables are initialized the first time this function is
 	// called and then retain their values.
 	
 	// 20-letter alphabet plus X
-	static const HTranslator translator_protein_20(makeTranslator( Protein20)); 
+	static const HEncoder translator_protein_20(makeEncoder( Protein20)); 
 
 	// encoding table compatible with BLOSUM and PAML matrices
-	static const HTranslator translator_protein_23(makeTranslator( Protein23));
+	static const HEncoder translator_protein_23(makeEncoder( Protein23));
 
 	// 4-letter DNA alphabet
-	static const HTranslator translator_dna_4(makeTranslator( DNA4));
+	static const HEncoder translator_dna_4(makeEncoder( DNA4));
 	
 	debug_func_cerr( 5 );
 	switch (alphabet_type) 
@@ -89,20 +89,20 @@ const HTranslator getTranslator( const AlphabetType & alphabet_type )
 
 /** load a translator object from stream
  */
-const HTranslator loadTranslator( std::istream & input )
+const HEncoder loadEncoder( std::istream & input )
 {
 	// read Alignandum type
 	AlphabetType alphabet_type;
 
 	if (input.eof()) 
-		throw AlignException("HelpersTranslator.cpp: incomplete translator.");
+		throw AlignException("HelpersEncoder.cpp: incomplete translator.");
 
 	input.read( (char*)&alphabet_type, sizeof(AlphabetType) );
 
 	if (input.eof()) 
-		throw AlignException("HelpersTranslator.cpp: incomplete translator - could not read alphabet type.");
+		throw AlignException("HelpersEncoder.cpp: incomplete translator - could not read alphabet type.");
 
-	HTranslator result;
+	HEncoder result;
 
 	switch (alphabet_type)
 	{
@@ -123,9 +123,9 @@ const HTranslator loadTranslator( std::istream & input )
 		input.read( mask_chars, sizeof(char) * size);
 
 		if (input.eof())
-			throw AlignException( "HelpersTranslator.cpp: incomplete translator ");
+			throw AlignException( "HelpersEncoder.cpp: incomplete translator ");
 
-		result = HTranslator( new ImplTranslator( alphabet_type, alphabet, gap_chars, mask_chars ) );
+		result = HEncoder( new ImplEncoder( alphabet_type, alphabet, gap_chars, mask_chars ) );
 
 		delete [] alphabet;
 		delete [] gap_chars;
@@ -134,16 +134,16 @@ const HTranslator loadTranslator( std::istream & input )
 		break;
 	}
 	case Protein20 :
-		result = getTranslator( Protein20 );
+		result = getEncoder( Protein20 );
 		break;
 	case Protein23:
-		result = getTranslator( Protein23 );
+		result = getEncoder( Protein23 );
 		break;
 	case DNA4:
-		result = getTranslator( DNA4 );
+		result = getEncoder( DNA4 );
 		break;
 	default:
-		throw AlignException( "HelpersTranslator: unknown object found in stream" );
+		throw AlignException( "HelpersEncoder: unknown object found in stream" );
 	}	
 	return result;
 }	

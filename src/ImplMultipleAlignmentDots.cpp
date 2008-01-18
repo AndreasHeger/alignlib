@@ -39,7 +39,7 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 #include "AlignmentIterator.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersRenderer.h"
 
 using namespace std;

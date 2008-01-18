@@ -93,10 +93,10 @@ HAlignator ImplAlignatorDotsSquared::getClone() const
 Score ImplAlignatorDotsSquared::getGapCost( Dot x1, Dot x2 ) const 
 {
 
-  Position c1 = (*mPairs)[x1]->mCol;
-  Position c2 = (*mPairs)[x2]->mCol;  
-  Position r1 = (*mPairs)[x1]->mRow;
-  Position r2 = (*mPairs)[x2]->mRow;  
+  Position c1 = (*mPairs)[x1].mCol;
+  Position c2 = (*mPairs)[x2].mCol;  
+  Position r1 = (*mPairs)[x1].mRow;
+  Position r2 = (*mPairs)[x2].mRow;  
 
   Score gap_cost = 0;
   Position d;
@@ -166,8 +166,8 @@ void ImplAlignatorDotsSquared::performAlignment(
 	for ( Dot current_dot = 0; current_dot < mNDots; ++current_dot) 
 	{	   
 
-		Position current_row = (*mPairs)[current_dot]->mRow;                         
-		Position current_col = (*mPairs)[current_dot]->mCol;                         
+		Position current_row = (*mPairs)[current_dot].mRow;                         
+		Position current_col = (*mPairs)[current_dot].mCol;                         
 
 		debug_cerr( 6, "working on: dot=" << current_dot << " row=" << current_row << " col=" << current_col );
 		
@@ -177,7 +177,7 @@ void ImplAlignatorDotsSquared::performAlignment(
 			while (num_row_dots > 0) 
 			{
 				Dot dot = dot_stack[--num_row_dots];
-				search_region.insert(pair<Position, Dot>((*mPairs)[dot]->mCol, dot));
+				search_region.insert(pair<Position, Dot>((*mPairs)[dot].mCol, dot));
 			}
 			last_row = current_row;
 		}
@@ -216,9 +216,9 @@ void ImplAlignatorDotsSquared::performAlignment(
 
 		// no positive trace found, new trace starts at current dot
 		if (search_best_dot == NO_POS)
-			search_best_score = (*mPairs)[current_dot]->mScore;
+			search_best_score = (*mPairs)[current_dot].mScore;
 		else
-			search_best_score += (*mPairs)[current_dot]->mScore;
+			search_best_score += (*mPairs)[current_dot].mScore;
 
 		debug_cerr( 5, "current_dot=" << current_dot << " current_row=" << current_row << " current_col=" << current_col );
 		debug_cerr( 5, "search_best_dot=" << search_best_dot << " search_best_score=" << search_best_score );

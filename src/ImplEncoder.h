@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplTranslator.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
+  $Id: ImplEncoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -30,7 +30,7 @@
 #include <string>
 #include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
-#include "Translator.h"
+#include "Encoder.h"
 
 namespace alignlib 
 {
@@ -45,15 +45,15 @@ namespace alignlib
     the same index.
    
     @author Andreas Heger
-    @version $Id: ImplTranslator.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
+    @version $Id: ImplEncoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplTranslator : public Translator 
+class ImplEncoder : public Encoder 
 {
 	
 	// class member functions
  public:
     /** constructor */
-    ImplTranslator();
+    ImplEncoder();
 
     /** create a translator with two pointers to the translation tables 
 	@param alphabet_type	the alphabet type (used to identify user alphabets
@@ -61,16 +61,16 @@ class ImplTranslator : public Translator
 	@param gap_chars		permitted mask characters. These will all be mapped to a unique code.
 	@param mask_chars		permitted gap characters. These will all be mapped to a unique code.
     */
-    ImplTranslator( const AlphabetType & alphabet_type,
+    ImplEncoder( const AlphabetType & alphabet_type,
     		const std::string & alphabet, 
     		const std::string & gap_chars,
     		const std::string & mask_chars );
 
     /** copy constructor */
-    ImplTranslator(const ImplTranslator &);
+    ImplEncoder(const ImplEncoder &);
 
     /** destructor */
-    virtual ~ImplTranslator ();
+    virtual ~ImplEncoder ();
 
     /** mapping functions */
     virtual char operator[]( const Residue & residue ) const;
@@ -143,7 +143,7 @@ class ImplTranslator : public Translator
      * 
      * This function does not map gap characters.
      */
-    virtual HResidueVector map( const HTranslator & other ) const;
+    virtual HResidueVector map( const HEncoder & other ) const;
     
     /** count characters in string. 
      * 

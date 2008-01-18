@@ -39,7 +39,7 @@
 #include "Regularizor.h"
 #include "Renderer.h"
 #include "Scorer.h"
-#include "Translator.h"
+#include "Encoder.h"
 #include "Weightor.h"
 #include "Distor.h"
 #include "Treetor.h"

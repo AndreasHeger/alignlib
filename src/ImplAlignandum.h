@@ -42,8 +42,8 @@ namespace alignlib
     namely some basic behaviour for using segments and communicating its state (prepared/not prepared), 
     that is common to all its derived classes.
 
-    Translator: There is one translator-object in the whole class library. If an object needs a different
-    translator, then the default translator has to be changed. See Translator for more information.
+    Encoder: There is one translator-object in the whole class library. If an object needs a different
+    translator, then the default translator has to be changed. See Encoder for more information.
 
     @author Andreas Heger
     @version $Id: ImplAlignandum.h,v 1.2 2004/01/07 14:35:33 aheger Exp $
@@ -59,7 +59,7 @@ class ImplAlignandum : public Alignandum
     /* constructors and desctructors------------------------------------------------------- */
   
     /** constructor */
-    ImplAlignandum( const HTranslator & translator );
+    ImplAlignandum( const HEncoder & translator );
     
     /** copy constructor */
     ImplAlignandum( const ImplAlignandum &);
@@ -72,7 +72,7 @@ class ImplAlignandum : public Alignandum
     virtual Position getLength() const;
 
     /** get translator associated with this object */
-    virtual const HTranslator & getTranslator() const;
+    virtual const HEncoder & getEncoder() const;
     
     /** use a segment for exporting and set segment to from and to 
 	@param from	where segment starts
@@ -139,7 +139,7 @@ class ImplAlignandum : public Alignandum
     virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
     
     /** translator */
-    HTranslator mTranslator ;
+    HEncoder mEncoder ;
     
     /** bitvector keeping track of masked positions */
     std::vector< bool > mMasked;

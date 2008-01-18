@@ -25,7 +25,7 @@
 #include <iomanip>
 #include "AlignException.h"
 #include "Alignandum.h"
-#include "Translator.h"
+#include "Encoder.h"
 #include "ImplSequence.h"
 #include "ImplProfile.h"
 #include "ImplScorerProfileSequence.h"
@@ -55,9 +55,9 @@ namespace alignlib
     mRowProfile  = s1->getScoreMatrix();
     mColSequence = s2->getSequence();
 
-    mProfileWidth = s1->getTranslator()->getAlphabetSize();
+    mProfileWidth = s1->getEncoder()->getAlphabetSize();
     
-    if ( mProfileWidth != s2->getTranslator()->getAlphabetSize() )
+    if ( mProfileWidth != s2->getEncoder()->getAlphabetSize() )
     	throw AlignException( "ImplScorerProfileSequence.cpp: alphabet size different in row and col");
     
   }    

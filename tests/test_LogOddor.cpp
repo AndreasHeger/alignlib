@@ -36,9 +36,9 @@
 #include "alignlib_fwd.h"
 
 #include "Alignandum.h"
-#include "Translator.h"
+#include "Encoder.h"
 #include "Matrix.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersAlignandum.h"
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersProfile.h"
@@ -56,7 +56,7 @@ std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 void test_GenericLogOddor( HLogOddor & logoddor )
 {
 	HAlignandum a(makeProfile( ref_protein20x3, 3,
-			getDefaultTranslator(), 
+			getDefaultEncoder(), 
 			getDefaultWeightor(), 
 			getDefaultRegularizor(), 
 			logoddor ));
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE( test_LogOddorUniform )
 
 BOOST_AUTO_TEST_CASE( test_LogOddorGribskov )
 {
-	setDefaultTranslator( getTranslator( Protein23 ) );
+	setDefaultEncoder( getEncoder( Protein23 ) );
 	HSubstitutionMatrix m( makeSubstitutionMatrixBlosum62() );
 	HLogOddor l = makeLogOddorGribskov( m );
 	test_GenericLogOddor( l ); 

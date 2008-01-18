@@ -32,8 +32,8 @@
 #include "HelpersSequence.h"
 #include "ImplSequence.h" 
 #include "AlignException.h"
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 
 using namespace std;
 
@@ -45,7 +45,7 @@ namespace alignlib
 //----------------------------------------------------------------------------------
 /** create a sequence from a NULL-terminated string */
 HAlignandum makeSequence( const char * sequence, 
-		const HTranslator & translator ) 
+		const HEncoder & translator ) 
 		{
 		return makeSequence( std::string(sequence), translator );
 		}
@@ -59,20 +59,20 @@ HAlignandum makeSequence( const char * sequence )
 /** create a sequence from a string */
 HAlignandum makeSequence( 
 		const std::string & sequence,
-		const HTranslator & translator ) 
+		const HEncoder & translator ) 
 		{
 		return HAlignandum( new ImplSequence( sequence, translator ) );
 		}
 
 HAlignandum makeSequence( const std::string & sequence )
 		{
-	return HAlignandum( new ImplSequence( sequence, getDefaultTranslator() ) );
+	return HAlignandum( new ImplSequence( sequence, getDefaultEncoder() ) );
 		}
 
 
 //--------------------------------------------------------------------------------------
 ImplSequence::ImplSequence( 
-		const HTranslator & translator ) :
+		const HEncoder & translator ) :
 	ImplAlignandum( translator ),
 	mSequence(NULL) 
 {
@@ -81,7 +81,7 @@ ImplSequence::ImplSequence(
 //--------------------------------------------------------------------------------------
 ImplSequence::ImplSequence( 
 		const std::string & src, 
-		const HTranslator & translator  ) : 
+		const HEncoder & translator  ) : 
 	ImplAlignandum( translator ), 
 	mSequence(NULL) 
 	{
@@ -122,7 +122,7 @@ void ImplSequence::resize( Position length )
 	if (mSequence != NULL) 
 		delete [] mSequence;
 	mSequence = new Residue[length];
-	Residue gap_code = mTranslator->getGapCode();
+	Residue gap_code = mEncoder->getGapCode();
 	
 	for (Position i = 0; i < length; ++i)
 		mSequence[i] = gap_code;
@@ -154,7 +154,7 @@ void ImplSequence::release() const
 //--------------------------------------------------------------------------------------
 void ImplSequence::mask( const Position & x) 
 {
-	mSequence[ x ] = mTranslator->getMaskCode();
+	mSequence[ x ] = mEncoder->getMaskCode();
 	ImplAlignandum::mask( x );
 }
 
@@ -177,7 +177,7 @@ void ImplSequence::swap( const Position & x, const Position & y )
 //--------------------------------------------------------------------------------------
 void ImplSequence::write( std::ostream & output ) const 
 {
-	std::string s = mTranslator->decode( mSequence, getFullLength() );
+	std::string s = mEncoder->decode( mSequence, getFullLength() );
 	output << s;
 }
 

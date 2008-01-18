@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: Translator.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
+  $Id: Encoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -34,29 +34,29 @@ namespace alignlib
   
 /** @short Interface definition for translators, that translate sequence to internal representation.
     
-    Base class for Translators. These objects are responsible for translating a residue or
+    Base class for Encoders. These objects are responsible for translating a residue or
     a string of residues between real world-representation (e.g. ACVD) and the internal representation
     used in this library.
 
    @author Andreas Heger
-   @version $Id: Translator.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
+   @version $Id: Encoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class Translator 
+class Encoder 
 {
-	friend std::ostream & operator<<(std::ostream &output, const Translator &);
+	friend std::ostream & operator<<(std::ostream &output, const Encoder &);
 	
     // class member functions
  public:
     // constructors and destructors
 
     /** constructor */
-    Translator();
+    Encoder();
 
     /** copy constructor */
-    // Translator(const Translator &);
+    // Encoder(const Encoder &);
 
     /** destructor */
-    virtual ~Translator ();
+    virtual ~Encoder ();
 
     /** translate a string of residues from internal to real-world representation. A copy
 	of the translated (null-terminated) string is returned.
@@ -120,7 +120,7 @@ class Translator
      * 
      * This function will not map gap characters.
      */
-    virtual HResidueVector map( const HTranslator & other ) const = 0;
+    virtual HResidueVector map( const HEncoder & other ) const = 0;
     
     /** count characters in string. 
      * 

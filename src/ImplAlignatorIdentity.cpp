@@ -27,7 +27,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "ImplAlignatorIdentity.h"
 
 using namespace std;
@@ -74,7 +74,7 @@ void ImplAlignatorIdentity::align(
 
 	Score total_score = 0;
 
-	Residue mask_code = getDefaultTranslator()->getMaskCode();
+	Residue mask_code = getDefaultEncoder()->getMaskCode();
 
 	HIterator2D it2d(mIterator->getNew( row, col ));
 
@@ -92,7 +92,7 @@ void ImplAlignatorIdentity::align(
 				Position c = *cit;
 				if (row->asResidue(r) == col->asResidue(c))
 				{
-					result->addPair( new ResiduePAIR( r, c, 1) );
+					result->addPair( ResiduePair( r, c, 1) );
 					total_score += 1;
 				}
 			}

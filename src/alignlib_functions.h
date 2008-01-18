@@ -44,7 +44,7 @@
 #include "HelpersRenderer.h"
 #include "HelpersScorer.h"
 #include "HelpersSubstitutionMatrix.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersWeightor.h"
 #include "HelpersDistor.h"
 #include "HelpersTreetor.h"

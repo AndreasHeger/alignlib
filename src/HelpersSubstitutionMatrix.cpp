@@ -32,8 +32,8 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 #include "Matrix.h"
 #include "HelpersSubstitutionMatrix.h"
 
@@ -203,11 +203,11 @@ HSubstitutionMatrix makeSubstitutionMatrix(
 		HSubstitutionMatrix matrix(makeSubstitutionMatrix(size)); \
 		matrix->copyData(data); \
 		return matrix; } \
-	HSubstitutionMatrix name ( const HTranslator & translator ) \
+	HSubstitutionMatrix name ( const HEncoder & translator ) \
 	{ debug_func_cerr(5); \
 		HSubstitutionMatrix matrix(makeSubstitutionMatrix(size)); \
 		matrix->copyData(data); \
-		HTranslator t(getTranslator( Protein23 ) ); \
+		HEncoder t(getEncoder( Protein23 ) ); \
 		HResidueVector map_new2old ( t->map(translator) ); \
 		std::vector<unsigned int>m; \
 		std::copy( map_new2old->begin(), map_new2old->end(), back_inserter( m )); \
@@ -249,7 +249,7 @@ HSubstitutionMatrix makeSubstitutionMatrix(
  */
 HSubstitutionMatrix loadSubstitutionMatrix( 
 		std::istream & input,
-		const HTranslator & translator )
+		const HEncoder & translator )
 {
 	debug_func_cerr( 5 );
 	

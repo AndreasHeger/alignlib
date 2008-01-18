@@ -40,29 +40,29 @@ namespace alignlib
 /** residues are sorted by row only */
 struct ComparatorRow
 {
-  bool operator()( const ResiduePAIR * x, const ResiduePAIR * y) const 
+  bool operator()( const ResiduePair & x, const ResiduePair & y) const 
   { 
-    return x->mRow < y->mRow; 
+    return x.mRow < y.mRow; 
   } 
 };
 
 /** residues are sorted by col only */
 struct ComparatorCol
 {
-  bool operator()( const ResiduePAIR * x, const ResiduePAIR * y) const 
+  bool operator()( const ResiduePair & x, const ResiduePair & y) const 
   { 
-    return x->mCol < y->mCol; 
+    return x.mCol < y.mCol; 
   } 
 };
 
 /** residues are sorted by row and then by column */
 struct ComparatorRowCol
 {
-  bool operator() ( const ResiduePAIR * x, const ResiduePAIR * y) const 
+  bool operator() ( const ResiduePair & x, const ResiduePair & y) const 
   { 
-    if (x->mRow < y->mRow) return 1;
-    if (x->mRow > y->mRow) return 0;
-    if (x->mCol < y->mCol) 
+    if (x.mRow < y.mRow) return 1;
+    if (x.mRow > y.mRow) return 0;
+    if (x.mCol < y.mCol) 
       return 1;
     else
       return 0;
@@ -70,13 +70,15 @@ struct ComparatorRowCol
 };  
 
  /** residues are sorted by diagonal and then by column */
-struct ComparatorDiagonalCol {
-     bool operator() ( const ResiduePAIR * x, const ResiduePAIR * y) const { 
-	  Diagonal d1 = x->mCol - x->mRow;
-	  Diagonal d2 = y->mCol - y->mRow;
+struct ComparatorDiagonalCol 
+{
+     bool operator() ( const ResiduePair & x, const ResiduePair & y) const 
+     { 
+	  Diagonal d1 = x.mCol - x.mRow;
+	  Diagonal d2 = y.mCol - y.mRow;
 	  if (d1 < d2) return 1;
 	  if (d1 > d2) return 0;
-	  if (x->mCol < y->mCol) 
+	  if (x.mCol < y.mCol) 
 	      return 1;
 	  else
 	      return 0;
@@ -84,10 +86,10 @@ struct ComparatorDiagonalCol {
  };  
 
 
-typedef std::set<ResiduePAIR *, ComparatorRow> AlignmentSetRow;
-typedef std::set<ResiduePAIR *, ComparatorCol> AlignmentSetCol;
-typedef std::set<ResiduePAIR *, ComparatorRowCol> AlignmentSetRowCol;
-typedef std::set<ResiduePAIR *, ComparatorDiagonalCol> AlignmentSetDiagonalCol;  
+typedef std::set<ResiduePair, ComparatorRow> AlignmentSetRow;
+typedef std::set<ResiduePair, ComparatorCol> AlignmentSetCol;
+typedef std::set<ResiduePair, ComparatorRowCol> AlignmentSetRowCol;
+typedef std::set<ResiduePair, ComparatorDiagonalCol> AlignmentSetDiagonalCol;  
 
 //------------------------------factory functions -----------------------------
 HAlignment makeAlignmentSet()
@@ -131,7 +133,7 @@ ImplAlignmentSorted<T>::ImplAlignmentSorted( const ImplAlignmentSorted& src) :
 
 	PairIterator it(src.mPairs.begin()), it_end(src.mPairs.end());
 	for (;it != it_end; ++it) 
-		mPairs.insert( new ResiduePAIR(**it) );
+		mPairs.insert( *it );
 }
 
 template <class T>  
@@ -160,7 +162,6 @@ template <class T>
 void ImplAlignmentSorted<T>::clearContainer()
 { 
 	PairIterator it(mPairs.begin()), it_end(mPairs.end());
-	for (;it != it_end; ++it) delete *it;
 	mPairs.clear(); 
 }
 
@@ -172,27 +173,14 @@ void ImplAlignmentSorted<T>::clear()
 	clearContainer();
 }
 
-//-----------------------------------------------------------------------------------------------------------   
 template <class T>
-AlignmentConstIterator ImplAlignmentSorted<T>::begin() const
-{ 
-	return AlignmentConstIterator( new ImplAlignmentSorted_ConstIterator(mPairs.begin()));
-}
-
-template <class T>  
-AlignmentConstIterator ImplAlignmentSorted<T>::end()   const
-{ 
-	return AlignmentConstIterator( new ImplAlignmentSorted_ConstIterator(mPairs.end())); 
-}
-
-template <class T>
-AlignmentIterator ImplAlignmentSorted<T>::begin()
+AlignmentIterator ImplAlignmentSorted<T>::begin() const
 { 
 	return AlignmentIterator( new ImplAlignmentSorted_Iterator(mPairs.begin()));
 }
 
 template <class T>
-AlignmentIterator ImplAlignmentSorted<T>::end()
+AlignmentIterator ImplAlignmentSorted<T>::end() const
 { 
 	return AlignmentIterator( new ImplAlignmentSorted_Iterator(mPairs.end())); 
 }
@@ -201,37 +189,30 @@ AlignmentIterator ImplAlignmentSorted<T>::end()
 //----------------> accessors <------------------------------------------------------------------------------
 
 template <class T>
-ResiduePAIR ImplAlignmentSorted<T>::front() const { return **(mPairs.begin()); }
+ResiduePair ImplAlignmentSorted<T>::front() const { return *(mPairs.begin()); }
 template <class T>  
-ResiduePAIR ImplAlignmentSorted<T>::back()  const { return **(mPairs.rbegin()); }
+ResiduePair ImplAlignmentSorted<T>::back()  const { return *(mPairs.rbegin()); }
 
 template <class T>
-void ImplAlignmentSorted<T>::addPair( ResiduePAIR * new_pair ) 
+void ImplAlignmentSorted<T>::addPair( const ResiduePair & new_pair ) 
 {
 	debug_func_cerr(5);
 
 	ImplAlignment::addPair( new_pair );
-	
-	if (mPairs.find( new_pair) != mPairs.end()) 
-	{
-		delete new_pair;
-	} else 
-	{
-		setChangedLength(); 
-		mPairs.insert( new_pair ); 
-	} 
+	setChangedLength(); 
+	mPairs.insert( new_pair ); 
 } 
 
 //----------------------------------------------------------------------------------------------------------
 /** retrieves a pair of residues from the alignment */
 template <class T>  
-ResiduePAIR ImplAlignmentSorted<T>::getPair( const ResiduePAIR & p) const 
+ResiduePair ImplAlignmentSorted<T>::getPair( const ResiduePair & p) const 
 {
-	PairIterator it = mPairs.find( const_cast< ResiduePAIR* > (&p) );
+	PairIterator it = mPairs.find( p );
 	if (it != mPairs.end())
-		return **it;
+		return *it;
 	else
-		return ResiduePAIR();
+		return ResiduePair();
 } 
 
 //-----------------------------------------------------------------------------------------------------------   
@@ -255,8 +236,8 @@ void ImplAlignmentSorted<T>::updateBoundaries() const
 	PairConstIterator it(mPairs.begin()), it_end(mPairs.end());
 	for (; it != it_end; ++it )
 	{
-    	const Position row = (*it)->mRow;
-    	const Position col = (*it)->mCol;
+    	const Position row = (*it).mRow;
+    	const Position col = (*it).mCol;
     	
 		// get maximum boundaries
     	if (row < mRowFrom) mRowFrom = row;
@@ -271,16 +252,15 @@ void ImplAlignmentSorted<T>::updateBoundaries() const
 //----------------------------------------------------------------------------------------------------------
 /** remove a pair from an alignment */
 template <class T>  
-void ImplAlignmentSorted<T>::removePair( const ResiduePAIR & p ) 
+void ImplAlignmentSorted<T>::removePair( const ResiduePair & p ) 
 {
 	debug_func_cerr(5);
 	
-	PairIterator it(mPairs.find( const_cast< ResiduePAIR*> (&p)) );
+	PairIterator it(mPairs.find(p) );
 
 	if (it != mPairs.end()) 
 	{
 		setChangedLength(); 
-		delete *it;
 		mPairs.erase(it);
 	}
 	
@@ -303,9 +283,8 @@ void ImplAlignmentSorted<T>::removeRowRegion( Position from, Position to)
 	// thus this complicated loop structure. Did not complain 
 	while (it != it_end) 
 	{
-		if ( (*it)->mRow >= from && (*it)->mRow < to) 
+		if ( it->mRow >= from && it->mRow < to) 
 		{
-			delete *it;
 			PairIterator it2 = it;
 			++it;              
 			mPairs.erase(it2);
@@ -329,7 +308,7 @@ void ImplAlignmentSorted<T>::removeRowRegion( Position from, Position to)
 	bool deleted = false;
 	for (Position pos = from; pos < to; pos++) 
 	{
-		ResiduePAIR p(pos, NO_POS, 0);
+		ResiduePair p(pos, NO_POS, 0);
 		PairIterator it(mPairs.find( &p ));
 
 		if (it != mPairs.end()) 
@@ -362,9 +341,8 @@ void ImplAlignmentSorted<T>::removeColRegion( Position from, Position to)
 	// thus this complicated loop structure. Did not complain 
 	while (it != it_end) 
 	{
-		if ( (*it)->mCol >= from && (*it)->mCol < to) 
+		if ( it->mCol >= from && it->mCol < to) 
 		{
-			delete *it;
 			PairIterator it2 = it;
 			++it;              
 			mPairs.erase(it2);

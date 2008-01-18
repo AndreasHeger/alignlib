@@ -72,8 +72,8 @@ public:
 	/** return an identical copy of this object */
 	virtual HAlignandum getClone() const = 0;
 
-	/** get the @ref Translator object associated with this object */
-	virtual const HTranslator & getTranslator() const = 0;
+	/** get the @ref Encoder object associated with this object */
+	virtual const HEncoder & getEncoder() const = 0;
 	
 	/** get the length of the active segment. 
 	 * 
@@ -114,7 +114,7 @@ public:
 	 * @param pos	position
 	 * 
 	 * Residues are numerical types and are mapped from alpha-
-	 * numeric types through @ref Translator objects. 
+	 * numeric types through @ref Encoder objects. 
 	 */
 	virtual Residue asResidue( Position pos ) const = 0;
 
@@ -122,7 +122,7 @@ public:
 	 *
 	 * @param pos	position
 	 * 
-	 * This applies the @ref Translator associated with
+	 * This applies the @ref Encoder associated with
 	 * this object to translate from the numeric residue
 	 * represntation.
 	 */

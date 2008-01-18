@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplTranslator.cpp,v 1.4 2004/09/16 16:02:38 aheger Exp $
+  $Id: ImplEncoder.cpp,v 1.4 2004/09/16 16:02:38 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -27,7 +27,7 @@
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "ImplTranslator.h"
+#include "ImplEncoder.h"
 
 using namespace std;
 
@@ -35,7 +35,7 @@ namespace alignlib
 {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplTranslator::ImplTranslator () : 
+ImplEncoder::ImplEncoder () : 
 	mAlphabetType( User ), mAlphabet( ""), mGapChars( "" ), mMaskChars(""), 
 	mTableSize(0), mEncodingTable(0), mDecodingTable(0), mAlphabetSize( 0 ) 
 	{
@@ -43,7 +43,7 @@ ImplTranslator::ImplTranslator () :
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplTranslator::~ImplTranslator () 
+ImplEncoder::~ImplEncoder () 
 {
 	debug_func_cerr( 5 );
 	if ( mEncodingTable != NULL )
@@ -54,7 +54,7 @@ ImplTranslator::~ImplTranslator ()
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplTranslator::ImplTranslator (const ImplTranslator & src ) :
+ImplEncoder::ImplEncoder (const ImplEncoder & src ) :
 	mAlphabet( src.mAlphabet ),
 	mTableSize( src.mTableSize ),
 	mEncodingTable( NULL ),
@@ -80,7 +80,7 @@ ImplTranslator::ImplTranslator (const ImplTranslator & src ) :
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
+ImplEncoder::ImplEncoder ( const AlphabetType & alphabet_type,
 								 const std::string & alphabet,
 								 const std::string & gap_chars,
 								 const std::string & mask_chars ) :
@@ -96,13 +96,13 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 	
 	// assertions to check for empty input
 	if (mGapChars.size() == 0)
-		throw AlignException( "ImplTranslator.cpp: no gap characters specified.");
+		throw AlignException( "ImplEncoder.cpp: no gap characters specified.");
 	
 	if (mMaskChars.size() == 0)
-		throw AlignException( "ImplTranslator.cpp: no mask characters specified.");
+		throw AlignException( "ImplEncoder.cpp: no mask characters specified.");
 	
 	if (mAlphabet.size() == 0 )
-		throw AlignException( "ImplTranslator.cpp: alphabet is empty.");
+		throw AlignException( "ImplEncoder.cpp: alphabet is empty.");
 	
 	// build encoding and decoding table
 	mTableSize = std::numeric_limits<char>::max();
@@ -155,25 +155,25 @@ ImplTranslator::ImplTranslator ( const AlphabetType & alphabet_type,
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-char ImplTranslator::operator[]( const Residue & residue ) const
+char ImplEncoder::operator[]( const Residue & residue ) const
 {
 	return mDecodingTable[residue]; 
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue ImplTranslator::operator[]( const char & c ) const
+Residue ImplEncoder::operator[]( const char & c ) const
 {
 	return mEncodingTable[(unsigned int)c]; 	
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-char ImplTranslator::decode( const Residue residue) const 
+char ImplEncoder::decode( const Residue residue) const 
 { 
 	return mDecodingTable[residue]; 
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Position ImplTranslator::countChars( const std::string & ali ) const
+Position ImplEncoder::countChars( const std::string & ali ) const
 {
 
 	Position nchars = 0;
@@ -185,7 +185,7 @@ Position ImplTranslator::countChars( const std::string & ali ) const
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplTranslator::decode( const Residue * src, int length ) const 
+std::string ImplEncoder::decode( const Residue * src, int length ) const 
 {
 	debug_func_cerr(5);
 
@@ -202,13 +202,13 @@ std::string ImplTranslator::decode( const Residue * src, int length ) const
 }    
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue ImplTranslator::encode( const char residue) const 
+Residue ImplEncoder::encode( const char residue) const 
 { 
 	return mEncodingTable[(unsigned int)residue]; 
 }  
 
 //--------------------------------------------------------------------------------------------------------------------------------
-HResidueVector ImplTranslator::encode( const std::string & src ) const 
+HResidueVector ImplEncoder::encode( const std::string & src ) const 
 {
 
 	HResidueVector result(new ResidueVector( src.size() ));
@@ -219,68 +219,68 @@ HResidueVector ImplTranslator::encode( const std::string & src ) const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-bool ImplTranslator::isValidChar( const char query ) const 
+bool ImplEncoder::isValidChar( const char query ) const 
 {
 	return ( mAlphabet.find( query ) != std::string::npos ||
 			mMaskChars.find( query ) != std::string::npos );
 }    
 
 //--------------------------------------------------------------------------------------------------------------------------------
-int ImplTranslator::getAlphabetSize() const
+int ImplEncoder::getAlphabetSize() const
 {
 	return mAlphabetSize ;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplTranslator::getAlphabet() const
+std::string ImplEncoder::getAlphabet() const
 {
 	return mAlphabet;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-AlphabetType ImplTranslator::getAlphabetType() const
+AlphabetType ImplEncoder::getAlphabetType() const
 {
 	return mAlphabetType;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue ImplTranslator::getMaskCode() const 
+Residue ImplEncoder::getMaskCode() const 
 {
 	return mMaskCode;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue ImplTranslator::getGapCode() const 
+Residue ImplEncoder::getGapCode() const 
 {
 	return mGapCode;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplTranslator::getMaskChars() const 
+std::string ImplEncoder::getMaskChars() const 
 {
 	return mMaskChars;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplTranslator::getGapChars() const 
+std::string ImplEncoder::getGapChars() const 
 {
 	return mGapChars;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-char ImplTranslator::getMaskChar() const 
+char ImplEncoder::getMaskChar() const 
 {
 	return mMaskChars[0];
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-char ImplTranslator::getGapChar() const 
+char ImplEncoder::getGapChar() const 
 {
 	return mGapChars[0];
 }
 
 //--------------------------------------------------------------------------------------
-void ImplTranslator::write( std::ostream & output ) const 
+void ImplEncoder::write( std::ostream & output ) const 
 {
 	for ( Residue x = 0; x < mAlphabet.size(); ++x )
 		output << (int)x << '\t' << mAlphabet[x] << '\t' << (int)encode(mAlphabet[x]) << '\t' << decode(encode(mAlphabet[x]))<< std::endl;
@@ -290,7 +290,7 @@ void ImplTranslator::write( std::ostream & output ) const
 }
 	
 //--------------------------------------------------------------------------------------
-void ImplTranslator::save( std::ostream & output ) const 
+void ImplEncoder::save( std::ostream & output ) const 
 {
 	debug_func_cerr( 5 );
 	output.write( (char *)&mAlphabetType, sizeof( AlphabetType) );
@@ -309,7 +309,7 @@ void ImplTranslator::save( std::ostream & output ) const
 //--------------------------------------------------------------------------------------
 // This will map alphabet and mask characters, but not gap characters.
 //
-HResidueVector ImplTranslator::map( const HTranslator & other ) const
+HResidueVector ImplEncoder::map( const HEncoder & other ) const
 {
 	debug_func_cerr( 5 );
 	HResidueVector map_other2this( new ResidueVector( other->getAlphabetSize(), getMaskCode()) );

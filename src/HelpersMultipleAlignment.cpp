@@ -41,8 +41,8 @@
 #include "Regularizor.h"
 #include "HelpersRegularizor.h"
 
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 
 #include "Matrix.h"
 #include <math.h>

@@ -31,8 +31,8 @@
 namespace alignlib
 {
 	/** actor objects and their handles */
-	class Translator;
-	typedef boost::shared_ptr<Translator>HTranslator;
+	class Encoder;
+	typedef boost::shared_ptr<Encoder>HEncoder;
 	
 	class Weightor;
 	typedef boost::shared_ptr<Weightor>HWeightor;
@@ -55,9 +55,6 @@ namespace alignlib
 	class AlignmentIterator;
 	typedef boost::shared_ptr<AlignmentIterator>HAlignmentIterator;
 	
-	class AlignmentConstIterator;
-	typedef boost::shared_ptr<AlignmentConstIterator>HAlignmentConstIterator;
-
 	class Alignatum;
 	typedef boost::shared_ptr<Alignatum>HAlignatum;
 	

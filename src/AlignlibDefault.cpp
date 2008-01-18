@@ -27,7 +27,7 @@
 #include "alignlib_interfaces.h"
 #include "alignlib_default.h"
 
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersDistor.h"
 #include "HelpersRegularizor.h"
 #include "HelpersRenderer.h"
@@ -54,13 +54,13 @@ IMPLEMENT_DEFAULT( HScorer, makeScorer(), getDefaultScorer, setDefaultScorer, de
 IMPLEMENT_DEFAULT( HDistor, makeDistorClustal(), getDefaultDistor, setDefaultDistor, default_distor );
 
 // this depends on the default alphabets already being contstructed
-// If problems, switch to makeTranslator idiom like for other objects.
-IMPLEMENT_DEFAULT( HTranslator, getTranslator( Protein20 ), 
-		getDefaultTranslator, setDefaultTranslator, default_translator );
+// If problems, switch to makeEncoder idiom like for other objects.
+IMPLEMENT_DEFAULT( HEncoder, getEncoder( Protein20 ), 
+		getDefaultEncoder, setDefaultEncoder, default_translator );
 
 // default objects with dependencies
 IMPLEMENT_DEFAULT( HSubstitutionMatrix, 
-		makeSubstitutionMatrixBlosum62( getDefaultTranslator() ), 
+		makeSubstitutionMatrixBlosum62( getDefaultEncoder() ), 
 		getDefaultSubstitutionMatrix,
 		setDefaultSubstitutionMatrix,
 		default_matrix )

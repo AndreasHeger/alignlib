@@ -50,7 +50,7 @@
 #include "HelpersFragmentor.h"
 #include "Alignment.h"
 #include "HelpersAlignment.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 
 using namespace std;
 using namespace alignlib;
@@ -60,9 +60,9 @@ int main ()
 
   HAlignment dots(makeAlignmentMatrixRow());
 
-  HAlignandum s2(makeSequence("AAAA", getDefaultTranslator() ) );
+  HAlignandum s2(makeSequence("AAAA", getDefaultEncoder() ) );
   HAlignandum s1(makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 
-		  getDefaultTranslator() ) );
+		  getDefaultEncoder() ) );
 
   //  std::ifstream fin("test.dots");
   // readAlignmentPairs( dots, fin );

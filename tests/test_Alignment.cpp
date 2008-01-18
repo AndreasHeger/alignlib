@@ -89,7 +89,10 @@ void TestAlignment( HAlignment & a)
 
 		AlignmentIterator it(a->begin());
 		AlignmentIterator it_end(a->end());
-		for (; it != it_end; it++) { ResiduePAIR p = *it; p.mRow+=1;}
+		for (; it != it_end; it++) 
+		{ 	ResiduePair p = *it; 
+			p.mRow+=1;
+			}
 		cout << "passed" << endl;
 	}
 
@@ -98,7 +101,11 @@ void TestAlignment( HAlignment & a)
 
 		AlignmentIterator it(a->begin());
 		AlignmentIterator it_end(a->end());
-		for (; it != it_end; ++it) { ResiduePAIR p = *it; p.mRow+=1;}
+		for (; it != it_end; ++it) 
+		{ 
+			ResiduePair p = *it; 
+			p.mRow +=1;
+		}
 		cout << "passed" << endl;
 	}
 
@@ -344,16 +351,16 @@ void Test( HAlignment & a )
 		unsigned int i;
 
 		for (i = 3; i < 5; i++) 
-			a->addPair(new ResiduePAIR( i, i, 1.0));
+			a->addPair(ResiduePair( i, i, 1.0));
 
-		a->addPair( new ResiduePAIR(5,6, 1.0));
-		a->addPair( new ResiduePAIR(6,7, 1.0));
-		a->addPair( new ResiduePAIR(7,8, 1.0));
-		a->addPair( new ResiduePAIR(9,9, 1.0));
-		a->addPair( new ResiduePAIR(10,10, 1.0));
+		a->addPair( ResiduePair(5,6, 1.0));
+		a->addPair( ResiduePair(6,7, 1.0));
+		a->addPair( ResiduePair(7,8, 1.0));
+		a->addPair( ResiduePair(9,9, 1.0));
+		a->addPair( ResiduePair(10,10, 1.0));
 
 		for (i = 12; i < 15; i++) 
-			a->addPair(new ResiduePAIR( i, i, 1.0));
+			a->addPair(ResiduePair( i, i, 1.0));
 
 		cout << "passed" << endl;
 	}

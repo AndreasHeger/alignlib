@@ -80,13 +80,13 @@ void ImplDottor::calculatePairs( const HAlignandum row, const HAlignandum col) c
 };
     
 /** get array of residue pairs */
-ResiduePAIR * ImplDottor::getPairs() const {
+ResiduePair * ImplDottor::getPairs() const {
   return mMatrix->mPairs;
 }
 
 /** get location of array for row-indices */
 Position * ImplDottor::getRowIndices() const {
-  return mMatrix->mRowIndices;
+  return mMatrix.mRowIndices;
 }
 
 } // namespace alignlib

@@ -63,7 +63,7 @@ class ImplWeightorHenikoff : public ImplWeightor
 	as in the multiple alignment. Note, that the caller has to delete the weights. */
     virtual HSequenceWeights calculateWeights( 
     		const HMultipleAlignment & src,
-    		const HTranslator & translator ) const;
+    		const HEncoder & translator ) const;
 	 
 };
 

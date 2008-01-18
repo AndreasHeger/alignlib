@@ -111,8 +111,8 @@ void ImplAlignmentMatrixUnsorted::eliminateDuplicates() const
   
   for (; it != it_end; ++it) {
     
-    Position row = (*it)->mRow;
-    Position col = (*it)->mCol;
+    Position row = (*it).mRow;
+    Position col = (*it).mCol;
     
     // get maximum boundaries
     if (row < mRowFrom) mRowFrom = row;

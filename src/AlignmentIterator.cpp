@@ -73,15 +73,15 @@ AlignmentConstIterator & AlignmentConstIterator::operator=( const AlignmentConst
 }
 
 
-const ResiduePAIR & AlignmentConstIterator::operator*() const { return mIterator->getReference(); }
+const ResiduePair & AlignmentConstIterator::operator*() const { return mIterator->getReference(); }
 
 
-const ResiduePAIR * AlignmentConstIterator::operator->() const { return &(mIterator->getReference()); }
+const ResiduePair * AlignmentConstIterator::operator->() const { return &(mIterator->getReference()); }
 
   /* How to compare two iterators?
      1.Comparing the two mIterators would result in simply comparing the
      two memory locations of the iterators, which would not be valid. 
-     2. use the operator == of ResiduePAIR. This seems to be the best choice, two iterators being equivalent, when they
+     2. use the operator == of ResiduePair. This seems to be the best choice, two iterators being equivalent, when they
      point to the same pair. Comparing the two residue pairs is straight-forward, however accessing them via reference breaks, 
      when the iterator points to nothing (for example, the iterator obtained by end()). Also, this is logically not correct.
      Two iterators working on different containers, but being on the same pair, would then be equal.
@@ -145,15 +145,15 @@ AlignmentIterator & AlignmentIterator::operator=( const AlignmentIterator & othe
 }
 
 
-ResiduePAIR & AlignmentIterator::operator*() const { return mIterator->getReference(); }
+ResiduePair & AlignmentIterator::operator*() const { return mIterator->getReference(); }
 
 
-ResiduePAIR * AlignmentIterator::operator->() const { return &(mIterator->getReference()); }
+ResiduePair * AlignmentIterator::operator->() const { return &(mIterator->getReference()); }
 
   /* How to compare two iterators?
      1.Comparing the two mIterators would result in simply comparing the
      two memory locations of the iterators, which would not be valid. 
-     2. use the operator == of ResiduePAIR. This seems to be the best choice, two iterators being equivalent, when they
+     2. use the operator == of ResiduePair. This seems to be the best choice, two iterators being equivalent, when they
      point to the same pair. Comparing the two residue pairs is straight-forward, however accessing them via reference breaks, 
      when the iterator points to nothing (for example, the iterator obtained by end()). Also, this is logically not correct.
      Two iterators working on different containers, but being on the same pair, would then be equal.

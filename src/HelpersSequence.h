@@ -51,13 +51,13 @@ namespace alignlib
 	HAlignandum makeSequence( const char * sequence ); 
 	
     HAlignandum makeSequence( const char * sequence, 
-    		const HTranslator & translator );
+    		const HEncoder & translator );
 
     /** create a sequence from a string */
     HAlignandum makeSequence( const std::string & sequence );
    
     HAlignandum makeSequence( const std::string & sequence,
-    		const HTranslator & translator );
+    		const HEncoder & translator );
 
     /** mutate a sequence according to a substitution matrix 
      * 

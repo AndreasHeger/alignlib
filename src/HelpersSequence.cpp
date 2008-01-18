@@ -31,8 +31,8 @@
 #include "HelpersSequence.h" 
 #include "AlignException.h"
 
-#include "Translator.h"
-#include "HelpersTranslator.h" 
+#include "Encoder.h"
+#include "HelpersEncoder.h" 
 
 #include "Alignandum.h"
 #include "ImplSequence.h"
@@ -49,7 +49,7 @@ namespace alignlib
 //----------------------------------------------------------------------------------
 /** create a sequence from a stream */
 /*
-HAlignandum extractSequence( std::istream & input, const HTranslator & translator ) 
+HAlignandum extractSequence( std::istream & input, const HEncoder & translator ) 
 {
 	// TODO to be implemented
 	return NULL;
@@ -61,7 +61,7 @@ HAlignandum extractSequence( std::istream & input, const HTranslator & translato
 /*
 HAlignandum extractSequenceFasta( std::istream & input, 
 		std::string & description,
-		const HTranslator & translator ) 
+		const HEncoder & translator ) 
 		{
 
 #define MAX_CHUNK 10000
@@ -142,7 +142,7 @@ HAlignandum makeMutatedSequence(
 	char * buffer = new char[src->getLength() + 1];
 	buffer[src->getLength()] = '\0';
 
-	const HTranslator & translator = src->getTranslator();
+	const HEncoder & translator = src->getEncoder();
 
 	for (Position i = 0; i < src->getLength(); ++i) 
 	{

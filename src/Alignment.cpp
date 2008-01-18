@@ -53,10 +53,10 @@ std::ostream & operator<<( std::ostream & output, const Alignment & src)
   return output;
 }
 
-bool operator==( const ResiduePAIR & x, const ResiduePAIR & y) { return (x.mRow == y.mRow) && (x.mCol == y.mCol);}
-bool operator!=( const ResiduePAIR & x, const ResiduePAIR & y) { return (x.mRow != y.mRow) || (x.mCol != y.mCol);}
+bool operator==( const ResiduePair & x, const ResiduePair & y) { return (x.mRow == y.mRow) && (x.mCol == y.mCol);}
+bool operator!=( const ResiduePair & x, const ResiduePair & y) { return (x.mRow != y.mRow) || (x.mCol != y.mCol);}
 
-std::ostream & operator<< (std::ostream & output, const ResiduePAIR & src) 
+std::ostream & operator<< (std::ostream & output, const ResiduePair & src) 
 {
   output << src.mRow << "\t" << setw(5) << src.mCol << "\t" << setprecision(4) << src.mScore;
   return output;

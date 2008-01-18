@@ -24,7 +24,7 @@
 #include <iostream>
 #include <iomanip>
 #include "ImplAlignatum.h"
-#include "ImplTranslator.h"
+#include "ImplEncoder.h"
 #include "Alignment.h"
 #include "AlignmentIterator.h"
 #include "Alignandum.h"
@@ -45,7 +45,7 @@ namespace alignlib {
     return new ImplAlignatum( src, ali, skip_gaps, is_in_row);
   }
 
-  extern const alignlib::ImplTranslator DEFAULT_TRANSLATOR; // defined in ImplTranslatorBlosum.cpp
+  extern const alignlib::ImplEncoder DEFAULT_TRANSLATOR; // defined in ImplEncoderBlosum.cpp
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplAlignatum::ImplAlignatum() :   
@@ -174,7 +174,7 @@ void ImplAlignatum::mapOnAlignment(const HAlignment ali, bool skip_gaps, bool is
 
   //--> iterate over aligned pairs 
   for (; it != it_end; ++it) {
-    ResiduePAIR pair = *it;
+    ResiduePair pair = *it;
     
     // if no difference in either sequence
     current_row = pair.mRow;

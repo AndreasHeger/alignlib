@@ -75,7 +75,7 @@ class ImplFragmentorDiagonals : public ImplFragmentor
     /** the alignator used to create dot-plots */
     HAlignator mDottor;
 
-    virtual Score getGapCost( const ResiduePAIR & p1, const ResiduePAIR & p2 ) const ;
+    virtual Score getGapCost( const ResiduePair & p1, const ResiduePair & p2 ) const ;
 
     /** perform the actual alignment */
     virtual void performFragmentation(

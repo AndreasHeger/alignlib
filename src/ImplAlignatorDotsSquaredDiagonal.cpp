@@ -92,16 +92,15 @@ HAlignator ImplAlignatorDotsSquaredDiagonal::getClone() const
 Score ImplAlignatorDotsSquaredDiagonal::getGapCost( Dot x1, Dot x2 ) const 
 {
 
-    ResiduePAIR & p1 = *((*mPairs)[x1]);
-    ResiduePAIR & p2 = *((*mPairs)[x2]);
+    const ResiduePair & p1 = (*mPairs)[x1];
+    const ResiduePair & p2 = (*mPairs)[x2];
 
     Diagonal diagonal_difference = (p2.mRow - p2.mCol) - (p1.mRow - p1.mCol);
     
     if (diagonal_difference == 0)
-	return mRowGop + (p2.mRow - p1.mRow) * mRowGep; 
+    	return mRowGop + (p2.mRow - p1.mRow) * mRowGep; 
     else
-	return mColGop + mColGep * abs(diagonal_difference);
-
+    	return mColGop + mColGep * abs(diagonal_difference);
     
 }
 

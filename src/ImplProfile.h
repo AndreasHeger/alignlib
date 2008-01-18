@@ -86,7 +86,7 @@ class ImplProfile : public ImplAlignandum
 	friend HAlignandum resetProfile( HAlignandum dest, Position length );
 
 	friend HAlignandum makeProfile( const Position & length,
-			const HTranslator &,
+			const HEncoder &,
 			const HRegularizor &,
 			const HLogOddor &);
 
@@ -97,21 +97,21 @@ public:
 
 	/** constructor */
 	ImplProfile( 
-			const HTranslator & translator,
+			const HEncoder & translator,
 			const HWeightor & weightor,
 			const HRegularizor & regularizor, 
 			const HLogOddor & logoddor );	
 
 	ImplProfile( 
 			const HMultipleAlignment & src,
-			const HTranslator & translator,
+			const HEncoder & translator,
 			const HWeightor & weightor,
 			const HRegularizor & regularizor, 
 			const HLogOddor & logoddor );	
 
 	ImplProfile( 
 			const Position & length,
-			const HTranslator & translator,
+			const HEncoder & translator,
 			const HWeightor & weightor,
 			const HRegularizor & regularizor, 
 			const HLogOddor & logoddor );	

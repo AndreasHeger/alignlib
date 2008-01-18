@@ -34,7 +34,7 @@
 #include "HelpersProfile.h"
 #include "ImplMultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersRenderer.h"
 #include "AlignException.h"
 #include "Alignatum.h"

@@ -101,10 +101,10 @@ ImplAlignatorDiagonalDotsSquared * ImplAlignatorDiagonalDotsSquared::getClone() 
 //------------------------------------------------------------------------------------------
 Score ImplAlignatorDiagonalDotsSquared::getGapCost( Dot x1, Dot x2 ) const {
 
-  Position c1 = (*mPairs)[x1]->mCol;
-  Position c2 = (*mPairs)[x2]->mCol;  
-  Position r1 = (*mPairs)[x1]->mRow;
-  Position r2 = (*mPairs)[x2]->mRow;  
+  Position c1 = (*mPairs)[x1].mCol;
+  Position c2 = (*mPairs)[x2].mCol;  
+  Position r1 = (*mPairs)[x1].mRow;
+  Position r2 = (*mPairs)[x2].mRow;  
 
   Score gap_cost = 0;
   Position d;
@@ -167,14 +167,14 @@ void ImplAlignatorDiagonalDotsSquared::performAlignment( const HAlignandum prow,
   //----------------------------------> main alignment loop <----------------------------------------------------
   for ( Dot current_dot = 0; current_dot < mNDots; current_dot++ ) {	   
 
-    Position current_row = (*mPairs)[current_dot]->mRow;                         
-    Position current_col = (*mPairs)[current_dot]->mCol;                         
+    Position current_row = (*mPairs)[current_dot].mRow;                         
+    Position current_col = (*mPairs)[current_dot].mCol;                         
 
     /* if a new row is entered, enter dots from stack to search-area */
     if (current_row != last_row) {
       while (num_row_dots > 0) {
 	Dot dot = dot_stack[--num_row_dots];
-	search_region.insert(pair<Position, Dot>((*mPairs)[dot]->mCol, dot));
+	search_region.insert(pair<Position, Dot>((*mPairs)[dot].mCol, dot));
       }
       last_row = current_row;
     }

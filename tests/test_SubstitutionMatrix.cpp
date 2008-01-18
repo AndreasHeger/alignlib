@@ -40,7 +40,7 @@ using boost::unit_test::test_suite;
 
 BOOST_AUTO_TEST_CASE( test1 )
 {
-  const HTranslator translator = getDefaultTranslator();
+  const HEncoder translator = getDefaultEncoder();
   {
 	  const HSubstitutionMatrix matrix = getDefaultSubstitutionMatrix();
     
@@ -61,8 +61,8 @@ BOOST_AUTO_TEST_CASE( test1 )
 // automatic mapping to 20 residue letter alphabet
 BOOST_AUTO_TEST_CASE( test2 )
 {
-	const HTranslator t1(getTranslator( Protein20 ));
-	const HTranslator t2(getTranslator( Protein23 ));	
+	const HEncoder t1(getEncoder( Protein20 ));
+	const HEncoder t2(getEncoder( Protein23 ));	
 	const HSubstitutionMatrix matrix1( makeSubstitutionMatrixBlosum62(t1) );
 	const HSubstitutionMatrix matrix2( makeSubstitutionMatrixBlosum62() );
 	BOOST_CHECK_EQUAL( matrix1->getNumRows(), t1->getAlphabetSize() );	
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE( test2 )
 // automatic mapping to 23 residue letter alphabet (no effect mapping).
 BOOST_AUTO_TEST_CASE( test3 )
 {
-        const HTranslator t(getTranslator( Protein23 ));
+        const HEncoder t(getEncoder( Protein23 ));
         const HSubstitutionMatrix matrix1( makeSubstitutionMatrixBlosum62( t) );
         const HSubstitutionMatrix matrix2( makeSubstitutionMatrixBlosum62() );
         BOOST_CHECK_EQUAL( matrix1->getNumRows(), matrix2->getNumRows() );
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE( test3 )
 // matrices differ between scores to B/Z
 BOOST_AUTO_TEST_CASE( test4 )
 {
-	const HTranslator t(getTranslator( Protein20 ));	  
+	const HEncoder t(getEncoder( Protein20 ));	  
 	std::ifstream infile( "data/BLOSUM62");
 	const HSubstitutionMatrix matrix_load( loadSubstitutionMatrix( infile, t ));
 	const HSubstitutionMatrix matrix_ref( makeSubstitutionMatrixBlosum62(t) );
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE( test4 )
 // load substitution matrix from a file
 BOOST_AUTO_TEST_CASE( test5 )
 {
-	const HTranslator t(getTranslator( Protein23 ));	  
+	const HEncoder t(getEncoder( Protein23 ));	  
 	std::ifstream infile( "data/PAM30");
 	const HSubstitutionMatrix matrix_load( loadSubstitutionMatrix( infile, t ));
 	const HSubstitutionMatrix matrix_ref( makeSubstitutionMatrixPam30(t) );

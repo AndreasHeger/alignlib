@@ -149,7 +149,7 @@ void ImplAlignatorTuples::align(
 		Score score =  mScorer->getScore( xrow, xcol);
 
 		total_score += score;
-		result->addPair( new ResiduePAIR( xrow, xcol, score));
+		result->addPair( ResiduePair( xrow, xcol, score));
 	}
 
 	result->setScore( total_score );

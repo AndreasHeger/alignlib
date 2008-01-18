@@ -27,12 +27,12 @@
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "ImplAlignatumFasta.h"
-#include "ImplTranslator.h"
+#include "ImplEncoder.h"
 #include "Alignment.h"
 #include "AlignmentIterator.h"
 #include "Alignandum.h"
 #include "Renderer.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 
 #ifdef WITH_DMALLOC
 #include <dmalloc.h>
@@ -159,7 +159,7 @@ void ImplAlignatumFasta::read( std::istream & input )
     input.getline( buffer, MAX_CHUNK);
       
     for (unsigned int i = 0; i < strlen(buffer); i++) 
-      if (getDefaultTranslator()->isValidChar( buffer[i] )) 
+      if (getDefaultEncoder()->isValidChar( buffer[i] )) 
 	representation += buffer[i];
   }
   

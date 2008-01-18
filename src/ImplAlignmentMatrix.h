@@ -30,26 +30,22 @@
 #include <iosfwd>
 #include <vector>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplAlignment.h"
 
 namespace alignlib 
 {
 
-
-class Alignandum;
-
-
 //----------------------------------------------------------------------------------------------------------------------
 /** @brief calculate the diagonal for a residue pair.
  */
-inline Diagonal calculateDiagonal( const ResiduePAIR & p) { 
+inline Diagonal calculateDiagonal( const ResiduePair & p) 
+{ 
   return (p.mCol - p.mRow); 
 }
 //----------------------------------------------------------------------------------------------------------------------
 /** @brief calculates the diagonal, so that (1,1) is (row_from, col_from)
  */
-inline Diagonal calculateNormalizedDiagonal( const ResiduePAIR & p, 
+inline Diagonal calculateNormalizedDiagonal( const ResiduePair & p, 
 						  Position row_from, 
 						  Position col_from) { 
   return ( (p.mCol - col_from +1 ) - (p.mRow - row_from + 1)); 
@@ -88,7 +84,7 @@ class ImplAlignmentMatrix : public ImplAlignment
 
  public:
 
-    typedef std::vector<ResiduePAIR *> PAIRVECTOR;
+    typedef std::vector<ResiduePair> PAIRVECTOR;
     typedef PAIRVECTOR::iterator PairIterator;
     typedef PAIRVECTOR::const_iterator PairConstIterator;
 
@@ -103,58 +99,12 @@ class ImplAlignmentMatrix : public ImplAlignment
     virtual ~ImplAlignmentMatrix();
 
     //------------------------------------------------------------------------------------------------------------
-    //------------------------------------------------------------------------------------------------------------
-    // this iterator iterates over all dots. 
-    //!! to be implemented: another iterator, that iterates over rows
-    // valid values for index are 0 to max_index - 1
-    class ImplAlignmentMatrix_ConstIterator : public Alignment::ConstIterator
-    {
-    public:
-	
-      ImplAlignmentMatrix_ConstIterator( const PAIRVECTOR & pairs, 
-					 Position index, 
-					 Position max_index ) :
-	mPairs( pairs ), mCurrentIndex(index), mMaximumIndex( max_index) {
-      };
-	
-      ImplAlignmentMatrix_ConstIterator( const ImplAlignmentMatrix_ConstIterator & src ) : 
-	mPairs( src.mPairs ), mCurrentIndex( src.mCurrentIndex ), mMaximumIndex( src.mMaximumIndex ) {};
-      
-      virtual ~ImplAlignmentMatrix_ConstIterator() {};
-      
-      virtual ConstIterator * getClone() const {return new ImplAlignmentMatrix_ConstIterator( *this );}
-      
-      /** dereference operator: runtime error, if out of bounds? */
-      virtual const ResiduePAIR & getReference() const { 
-	return (*mPairs[mCurrentIndex]);
-      }
-      
-      /** for indirection */
-      virtual const ResiduePAIR * getPointer() const { 
-	  if (mCurrentIndex >= 0 && mCurrentIndex < mMaximumIndex)
-	    return mPairs[mCurrentIndex]; 
-	  else 
-	    return NULL;
-      }
-      
-      /** advance one position, until you find an aligned pair */
-      virtual void next() { mCurrentIndex++; if (mCurrentIndex > mMaximumIndex) mCurrentIndex = mMaximumIndex; }
-      
-      /** step back one position, until you find an aligned pair */
-      virtual void previous() { mCurrentIndex--; if (mCurrentIndex < -1) mCurrentIndex = -1; }
-	
-    private:
-      const PAIRVECTOR & mPairs;
-      Position mCurrentIndex;
-      Position mMaximumIndex;
-      
-    };
 
     class ImplAlignmentMatrix_Iterator : public Alignment::Iterator 
     {
     public:
 	
-      ImplAlignmentMatrix_Iterator( PAIRVECTOR & pairs, 
+      ImplAlignmentMatrix_Iterator( const PAIRVECTOR & pairs, 
 				   Position index, 
 				   Position max_index ) :
 	mPairs( pairs ), mCurrentIndex(index), mMaximumIndex( max_index) {
@@ -168,16 +118,18 @@ class ImplAlignmentMatrix : public ImplAlignment
 	virtual Iterator * getClone() const {return new ImplAlignmentMatrix_Iterator( *this );}
 	
 	/** dereference operator: runtime error, if out of bounds? */
-	virtual ResiduePAIR & getReference() const { 
-	  return (*mPairs[mCurrentIndex]);
+	virtual const ResiduePair & getReference() const 
+	{ 
+		return (mPairs[mCurrentIndex]);
 	}
  
 	/** for indirection */
-	virtual ResiduePAIR * getPointer() const { 
-	  if (mCurrentIndex >= 0 && mCurrentIndex < mMaximumIndex)
-	    return mPairs[mCurrentIndex]; 
-	  else 
-	    return NULL;
+	virtual const ResiduePair * getPointer() const 
+	{ 
+		if (mCurrentIndex >= 0 && mCurrentIndex < mMaximumIndex)
+			return &mPairs[mCurrentIndex]; 
+		else 
+			return NULL;
 	}
       
 	/** advance one position, until you find an aligned pair */
@@ -187,41 +139,35 @@ class ImplAlignmentMatrix : public ImplAlignment
 	virtual void previous() { mCurrentIndex--; if (mCurrentIndex < -1) mCurrentIndex = -1; }
 	
     private:
-	PAIRVECTOR & mPairs;
+	const PAIRVECTOR & mPairs;
 	Position mCurrentIndex;
 	Position mMaximumIndex;
 	
     };
     
     /** return const iterator */
-    virtual AlignmentConstIterator begin() const; 
+    virtual AlignmentIterator begin() const; 
     
     /** return const iterator */
-    virtual AlignmentConstIterator end() const; 
-
-    /** return const iterator */
-    virtual AlignmentIterator begin(); 
-    
-    /** return const iterator */
-    virtual AlignmentIterator end(); 
+    virtual AlignmentIterator end() const; 
 
     //----------------> accessors <------------------------------------------------------------------------------
 
     /** returns the first aligned pair. Have to create a copy not a reference, because not all alignments will have
 	a list of pairs ready */
-    virtual ResiduePAIR front() const;
+    virtual ResiduePair front() const;
     
     /** returns the last aligned pair */
-    virtual ResiduePAIR back() const;
+    virtual ResiduePair back() const;
 
     /** adds a pair of residue to the alignment */
-    virtual void addPair( ResiduePAIR * new_pair ); 
+    virtual void addPair( const ResiduePair & new_pair ); 
 
     /** removes a pair of residues from the alignment */
-    virtual void removePair( const ResiduePAIR & old_pair );
+    virtual void removePair( const ResiduePair & old_pair );
 
     /** retrieves a pair of residues from the alignment */
-    virtual ResiduePAIR getPair( const ResiduePAIR & p) const;
+    virtual ResiduePair getPair( const ResiduePair & p) const;
 
     /** clear the current alignemnt */
     virtual void clear();

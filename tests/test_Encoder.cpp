@@ -20,7 +20,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/** Test the Translator object
+/** Test the Encoder object
  */
 
 #if HAVE_CONFIG_H
@@ -32,13 +32,13 @@
 #include <sstream>
 #include <cassert>
 
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 
 using namespace std;
 using namespace alignlib;
 
-void testTranslator( const HTranslator & translator, 
+void testEncoder( const HEncoder & translator, 
 		const std::string & alphabet,
 		const std::string & gap_chars,
 		const std::string & mask_chars,
@@ -66,20 +66,20 @@ void testTranslator( const HTranslator & translator,
 
 	// check saving/loading from stream.
 	{
-		ofstream file("test_Translator.tmp", ios::binary);
+		ofstream file("test_Encoder.tmp", ios::binary);
 		translator->save( file );
 		translator->save( file );		
 		file.close();
 	}
 	
 	{
-		ifstream file("test_Translator.tmp", ios::binary) ;
+		ifstream file("test_Encoder.tmp", ios::binary) ;
 		
-		HTranslator b;
+		HEncoder b;
 		int n = 0;
 		while ( file.peek() != EOF )
 		{
-			b = loadTranslator( file ) ;
+			b = loadEncoder( file ) ;
 			if (b->getAlphabetType() != User )
 				assert( translator == b );
 			++n; 
@@ -88,14 +88,14 @@ void testTranslator( const HTranslator & translator,
 	}	
 	
 	{
-		HTranslator n( getTranslator( Protein20 ));
+		HEncoder n( getEncoder( Protein20 ));
 		HResidueVector map_new2old( n->map( translator ) );
 		for (Residue x = 0; x < map_new2old->size(); ++x)
 			std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
 	}
 
 	{
-		HTranslator n( getTranslator( Protein20 ));
+		HEncoder n( getEncoder( Protein20 ));
 		HResidueVector map_new2old( translator->map( n ) );
 		for (Residue x = 0; x < map_new2old->size(); ++x)
 			std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
@@ -108,17 +108,17 @@ int main ()
 {
 	std::cout << "----- testing Protein23 ---------" << std::endl;
 	{
-		testTranslator( getTranslator( Protein23 ), "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X", 23 );
+		testEncoder( getEncoder( Protein23 ), "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X", 23 );
 	}
 
 	std::cout << "----- testing Protein20 ---------" << std::endl;
 	{
-		testTranslator( getTranslator( Protein20 ), "ACDEFGHIKLMNPQRSTVWY", "-.", "X", 21 );
+		testEncoder( getEncoder( Protein20 ), "ACDEFGHIKLMNPQRSTVWY", "-.", "X", 21 );
 	}
 
 	std::cout << "----- testing DNA4 ---------" << std::endl;
 	{
-		testTranslator( getTranslator( DNA4 ), "ACGT", "-.", "N", 5 );
+		testEncoder( getEncoder( DNA4 ), "ACGT", "-.", "N", 5 );
 	}
 	
 	

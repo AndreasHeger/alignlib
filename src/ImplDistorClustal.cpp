@@ -14,8 +14,8 @@
 #include <string>
 #include <math.h>
 
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 #include "MultipleAlignment.h"
 #include "AlignlibDebug.h"
 #include "ImplDistorClustal.h"
@@ -112,7 +112,7 @@ PhyloMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_row
 
 	debug_func_cerr( 5 );
 
-  unsigned char gap_char  = alignlib::getDefaultTranslator()->getGapChar();
+  unsigned char gap_char  = alignlib::getDefaultEncoder()->getGapChar();
 
   unsigned int i;
   PhyloMatrixSize identities = 0;

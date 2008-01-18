@@ -95,23 +95,25 @@ Position ImplAlignmentMatrixDiagonal::mapRowToCol( Position pos, SearchType sear
 
     Dot ndots = mPairs.size(); 
 
-    for (diagonal = 0; diagonal < mNumDiagonals; diagonal++, next_diagonal++) {
-        dot = mIndex[diagonal];
+    for (diagonal = 0; diagonal < mNumDiagonals; diagonal++, next_diagonal++) 
+    {
+    	dot = mIndex[diagonal];
       
 	if (next_diagonal < mNumDiagonals)
 	  next_dot = mIndex[next_diagonal];
 	else
 	  next_dot = ndots;
 	
-	if (dot != NODOT) {
+	if (dot != NODOT) 
+	{
 	    // go along one diagonal
-	    while ( dot < next_dot && 
-		    mPairs[dot]->mRow < pos && 
+		while ( dot < next_dot && 
+		    mPairs[dot].mRow < pos && 
 		    dot < ndots) 
 		dot++;
 	    
-	    if (dot < ndots && mPairs[dot]->mRow == pos) 
-		return mPairs[dot]->mCol;
+	    if (dot < ndots && mPairs[dot].mRow == pos) 
+		return mPairs[dot].mCol;
 	}
     }
 
@@ -123,7 +125,8 @@ Position ImplAlignmentMatrixDiagonal::mapRowToCol( Position pos, SearchType sear
    faster to only sort the indices (as I did in the old version) and then copy it into a new memory location
 */
 
-void ImplAlignmentMatrixDiagonal::sortDots() const {
+void ImplAlignmentMatrixDiagonal::sortDots() const 
+{
     
   Position x, from, to;
   Dot ndots = mPairs.size(); 
@@ -133,12 +136,14 @@ void ImplAlignmentMatrixDiagonal::sortDots() const {
   
   /* sort indices in diagonal */
   from = 0;
-  while ( from < ndots ) {
-    x    = calculateDiagonal(*mPairs[from]);
+  while ( from < ndots ) 
+  {
+    x    = calculateDiagonal(mPairs[from]);
     to   = from + 1;
 
     /* find end of row */
-    while ( (to < ndots) && (x == calculateDiagonal(*mPairs[to])) ) { to++; } 
+    while ( (to < ndots) && (x == calculateDiagonal(mPairs[to])) ) 
+    { to++; } 
 
     /* and sort per column */
     sortDotsByRow( from, to - 1 );
@@ -149,7 +154,8 @@ void ImplAlignmentMatrixDiagonal::sortDots() const {
 
 //--------------------------------------------------------------------------------------------------------------
 // build the index
-void ImplAlignmentMatrixDiagonal::buildIndex() const {
+void ImplAlignmentMatrixDiagonal::buildIndex() const 
+{
   Position i;
 
   mNumDiagonals = (mColTo - mColFrom) + (mRowTo - mRowFrom) + 1;
@@ -160,16 +166,17 @@ void ImplAlignmentMatrixDiagonal::buildIndex() const {
   for (i = 0; i < mNumDiagonals; i++) { mIndex[i] = NODOT; }   
   
   Dot first_dot = 0;
-  Diagonal diagonal = calculateNormalizedDiagonal( *mPairs[0], mRowFrom, mColFrom);
+  Diagonal diagonal = calculateNormalizedDiagonal( mPairs[0], mRowFrom, mColFrom);
   Diagonal min_diagonal = -(mRowTo - mRowFrom);
 
   // update mIndex
   for (i = 0; i < ndots; i++) {
-    if(diagonal != calculateNormalizedDiagonal(*mPairs[i], mRowFrom, mColFrom)) {
+    if(diagonal != calculateNormalizedDiagonal(mPairs[i], mRowFrom, mColFrom)) 
+    {
       
       mIndex[diagonal - min_diagonal] = first_dot;
       first_dot	= i;
-      diagonal = calculateNormalizedDiagonal(*mPairs[i], mRowFrom, mColFrom);
+      diagonal = calculateNormalizedDiagonal(mPairs[i], mRowFrom, mColFrom);
     }
   }
 

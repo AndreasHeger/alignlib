@@ -65,12 +65,12 @@ int main ()
 
 	HAlignment ali(makeAlignmentSet());
 	{
-		ali->addPair( new ResiduePAIR( 2,2, 1));
-		ali->addPair( new ResiduePAIR( 3,3, 1));
-		ali->addPair( new ResiduePAIR( 5,4, 1));
-		ali->addPair( new ResiduePAIR( 6,5, 1));
-		ali->addPair( new ResiduePAIR( 7,7, 1));
-		ali->addPair( new ResiduePAIR( 8,8, 1));
+		ali->addPair( ResiduePair( 2,2, 1));
+		ali->addPair( ResiduePair( 3,3, 1));
+		ali->addPair( ResiduePair( 5,4, 1));
+		ali->addPair( ResiduePair( 6,5, 1));
+		ali->addPair( ResiduePair( 7,7, 1));
+		ali->addPair( ResiduePair( 8,8, 1));
 
 		cout << *ali << endl;
 

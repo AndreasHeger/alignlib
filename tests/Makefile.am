@@ -15,7 +15,7 @@ programs=test_Fragmentor test_AlignatorDots test_Alignment  test_Alignator \
 		test_SubstitutionMatrix test_Iterator test_Alignatum \
 		test_Tree test_Treetor test_PhyloMatrix test_Distor \
 		test_Weightor \
-		test_Translator \
+		test_Encoder \
 		test_LogOddor \
 		test_Regularizor \
 		test_Matrix \
@@ -47,7 +47,7 @@ test_Tree_SOURCES = test_Tree.cpp
 test_PhyloMatrix_SOURCES = test_PhyloMatrix.cpp
 test_Distor_SOURCES = test_Distor.cpp
 test_Weightor_SOURCES = test_Weightor.cpp
-test_Translator_SOURCES = test_Translator.cpp
+test_Encoder_SOURCES = test_Encoder.cpp
 test_LogOddor_SOURCES = test_LogOddor.cpp
 test_Regularizor_SOURCES = test_Regularizor.cpp
 test_Matrix_SOURCES = test_Matrix.cpp

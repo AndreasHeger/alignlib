@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: HelpersTranslator.h,v 1.2 2004/01/07 14:35:33 aheger Exp $
+  $Id: HelpersEncoder.h,v 1.2 2004/01/07 14:35:33 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -43,27 +43,27 @@ namespace alignlib
 	
 	3. convenience functions
     */
-    class Translator;
+    class Encoder;
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 1. factory functions */
-    const HTranslator getTranslator( const AlphabetType & alphabet );
+    const HEncoder getEncoder( const AlphabetType & alphabet );
 
-    const HTranslator makeTranslator( const AlphabetType & alphabet );
+    const HEncoder makeEncoder( const AlphabetType & alphabet );
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
     /** return the library wide translator */
-    DEFINE_DEFAULT( HTranslator, getDefaultTranslator, setDefaultTranslator );
+    DEFINE_DEFAULT( HEncoder, getDefaultEncoder, setDefaultEncoder );
     
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 3. convenience functions */
 
-    /** load a Translator object from stream. 
+    /** load a Encoder object from stream. 
      * 
      * Returns NULL on EOF.
      */	
-    const HTranslator loadTranslator( std::istream & stream );
+    const HEncoder loadEncoder( std::istream & stream );
 
 }
 

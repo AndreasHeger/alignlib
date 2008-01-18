@@ -36,8 +36,8 @@
 #include "alignlib_fwd.h"
 
 #include "Alignandum.h"
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 #include "HelpersAlignandum.h"
 #include "HelpersSequence.h"
 #include "HelpersProfile.h"
@@ -62,7 +62,7 @@ void checkingEnd( bool passed = true)
 void runTests( HAlignandum & a, const std::string & sample )
 {
 	
-	const HTranslator translator = a->getTranslator();
+	const HEncoder translator = a->getEncoder();
 	
 	checkingStart( "translation and range" );
 	{

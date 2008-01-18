@@ -63,7 +63,7 @@ class ImplWeightor : public Weightor
     virtual void fillCounts( 
     		CountMatrix & counts,
     		const HMultipleAlignment & src,
-    		const HTranslator & translator ) const;
+    		const HEncoder & translator ) const;
     
  protected:
 
@@ -75,7 +75,7 @@ class ImplWeightor : public Weightor
     /** calculate weights per sequence */
     virtual HSequenceWeights calculateWeights( 
     		const HMultipleAlignment & src,
-    		const HTranslator & translator ) const;
+    		const HEncoder & translator ) const;
 };
 
 

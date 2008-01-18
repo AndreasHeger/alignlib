@@ -31,13 +31,10 @@
 #include "AlignException.h"
 #include "ImplAlignmentMatrixRow.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
   /** Note: There are two arrays that have to be taken care of: mPairs and mIndex. If you
       need to copy one, you have to copy the other one as well. The same applies to deletion.
@@ -97,12 +94,13 @@ HAlignment ImplAlignmentMatrixRow::getClone() const
 
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignmentMatrixRow::mapRowToCol( Position pos, SearchType search ) const {
+Position ImplAlignmentMatrixRow::mapRowToCol( Position pos, SearchType search ) const 
+{
 	if (mChangedLength) calculateLength();
     Position index;
     if (pos >= mRowFrom && pos < mRowTo)
     	if ( (index = mIndex[pos]) != NO_POS )
-    		return mPairs[index]->mCol;
+    		return mPairs[index].mCol;
 
     return NO_POS;
 }
@@ -112,7 +110,8 @@ Position ImplAlignmentMatrixRow::mapRowToCol( Position pos, SearchType search ) 
    faster to only sort the indices (as I did in the old version) and then copy it into a new memory location
 */
 
-void ImplAlignmentMatrixRow::sortDots() const {
+void ImplAlignmentMatrixRow::sortDots() const 
+{
     
   /* sort indices on row */
   sortDotsByRow( 0, mPairs.size() - 1);
@@ -138,10 +137,10 @@ void ImplAlignmentMatrixRow::buildIndex() const {
   Dot first_dot = 0;
 
   for (unsigned int i = 0; i < mPairs.size(); i++) {
-    if(last_row != mPairs[i]->mRow) {
+    if(last_row != mPairs[i].mRow) {
       mIndex[last_row] = first_dot;
       first_dot = i;
-      last_row = mPairs[i]->mRow;
+      last_row = mPairs[i].mRow;
     }
   }
 

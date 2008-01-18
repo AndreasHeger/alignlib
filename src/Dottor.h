@@ -35,7 +35,7 @@ namespace alignlib
   
 class Alignandum;
 class SubstitutionMatrix;
-struct ResiduePAIR;
+struct ResiduePair;
 
 /** Protocoll class for objects that calculate aligned residue pairs (dots) for two
     sequences
@@ -71,7 +71,7 @@ class Dottor
     virtual void calculatePairs( const HAlignandum row, const HAlignandum col) const = 0;
     
     /** get array of residue pairs */
-    virtual ResiduePAIR * getPairs() const = 0;
+    virtual ResiduePair * getPairs() const = 0;
 
     /** get location of array for row-indices */
     virtual Position * getRowIndices() const = 0;

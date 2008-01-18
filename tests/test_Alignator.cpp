@@ -274,7 +274,7 @@ void testPairAlignator( Alignator * a,
 int main () {
 
 	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
-			getDefaultTranslator()->getAlphabetSize(), 
+			getDefaultEncoder()->getAlphabetSize(), 
 			10, -1);
 	
 	setDefaultSubstitutionMatrix( matrix );
@@ -362,7 +362,7 @@ int main () {
 	{ 
 		
 		HSubstitutionMatrix new_matrix(makeSubstitutionMatrix( 
-				getDefaultTranslator()->getAlphabetSize(), 10, -10));
+				getDefaultEncoder()->getAlphabetSize(), 10, -10));
 		setDefaultSubstitutionMatrix( new_matrix );
 
 		std::cout << "--- testing iterative alignment ---" << std::endl;
@@ -381,12 +381,12 @@ int main () {
 		}
 		{
 			HAlignandum row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2,
-					getDefaultTranslator(),
+					getDefaultEncoder(),
 					makeWeightor(),
 					makeRegularizor(),
 					makeLogOddor());
 			HAlignandum col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2,
-					getDefaultTranslator(),
+					getDefaultEncoder(),
 					makeWeightor(),
 					makeRegularizor(),
 					makeLogOddor());

@@ -30,13 +30,13 @@
 
 #include "Alignatum.h"
 #include "ImplAlignatum.h"
-#include "ImplTranslator.h"
+#include "ImplEncoder.h"
 #include "Alignment.h"
 #include "AlignmentIterator.h"
 #include "Alignandum.h"
 #include "Renderer.h"
 #include "HelpersAlignatum.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersRenderer.h"
 #include "AlignException.h"
 
@@ -96,7 +96,7 @@ namespace alignlib
     mFrom(NO_POS), 
     mTo (NO_POS),
     mLength(0), 
-    mGapChar (getDefaultTranslator()->getGapChar()),
+    mGapChar (getDefaultEncoder()->getGapChar()),
     mSeparator('\t') {
   }
 
@@ -106,7 +106,7 @@ namespace alignlib
       Position to) : 
         mRepresentation(representation), 
         mFrom( from), mTo( to ),
-        mGapChar (getDefaultTranslator()->getGapChar()),
+        mGapChar (getDefaultEncoder()->getGapChar()),
         mSeparator('\t') {
 
           mLength = mRepresentation.length();
@@ -128,7 +128,7 @@ namespace alignlib
     mFrom( src.mFrom), 
     mTo ( src.mTo ),
     mLength( src.mLength), 
-    mGapChar (getDefaultTranslator()->getGapChar()),
+    mGapChar (getDefaultEncoder()->getGapChar()),
     mSeparator( src.mSeparator ) 
     {
       debug_func_cerr(5);
@@ -197,8 +197,8 @@ namespace alignlib
           // substitute new characters for aligned positions:
           for (; it != it_end; ++it) 
           {
-            Position old = it ->mRow-1;
-            Position nnew = it ->mCol-1;      
+            Position old = it->mRow-1;
+            Position nnew = it->mCol-1;      
             while (old - last_old > 0 && nnew - last_new > 0) 
             {
               old--;

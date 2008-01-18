@@ -36,8 +36,8 @@
 #include "alignlib_fwd.h"
 
 #include "Alignandum.h"
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 #include "HelpersAlignandum.h"
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersProfile.h"
@@ -53,12 +53,12 @@ std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY";
 std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
 
 // most profilers only work with the twenty amino acid alphabet
-// setDefaultTranslator( getTranslator(Protein20) );
+// setDefaultEncoder( getEncoder(Protein20) );
 
 void test_GenericRegularizor( const HRegularizor & r )
 {	
 	HAlignandum a(makeProfile( ref_protein20x3, 3,
-			getDefaultTranslator(), 
+			getDefaultEncoder(), 
 			getDefaultWeightor(), 
 			makeRegularizor(), 
 			getDefaultLogOddor() ));	

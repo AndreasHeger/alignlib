@@ -141,8 +141,8 @@ namespace alignlib
     output << "Length: " << getLength() << "\tScore: " << getScore() << "\tGaps: " << getNumGaps() << endl;
     output << "Row\tColumn\tScore\t" << endl;
 
-    AlignmentConstIterator it(begin());
-    AlignmentConstIterator it_end(end());
+    AlignmentIterator it(begin());
+    AlignmentIterator it_end(end());
 
     for (; it != it_end; ++it)
       output << *it << endl;
@@ -150,33 +150,25 @@ namespace alignlib
   }
   
   //--------------------------------------------------------------------------------------------------------------
-  /** Read data members from stream */
-  void ImplAlignment::read( std::istream & input) 
-  {
-  }
-
-  //--------------------------------------------------------------------------------------------------------------
+  // This implementation copies the alignment.
+  // 
   void ImplAlignment::moveAlignment( Position row_offset, Position col_offset) 
     {
       debug_func_cerr(5);
 
       if (mLength == 0) return;
-      
-      AlignmentIterator it     = begin();
-      AlignmentIterator it_end = end();
+    
+      HAlignment copy( this->getClone() );
+
+      clear();
+     
+      AlignmentIterator it     = copy->begin();
+      AlignmentIterator it_end = copy->end();
 
       for (;it != it_end; ++it) 
-      {
-        ResiduePAIR & p = (*it);
-        p.mRow += row_offset;
-        p.mCol += col_offset;
-      }
-      
-      mRowFrom += row_offset;
-      mRowTo += row_offset;
-      mColFrom += col_offset;
-      mColTo += col_offset;
-      
+    	  addPair( 	it->mRow + row_offset,
+    			  	it->mCol + col_offset,
+    			  	it->mScore );
     }
 
   //--------------------------------------------------------------------------------------------------------------
@@ -192,10 +184,10 @@ namespace alignlib
   }
 
   //--------------------------------------------------------------------------------------------------------------  
-  void ImplAlignment::addPair( ResiduePAIR * pair )
+  void ImplAlignment::addPair( const ResiduePair & pair )
   {
-	  Position row = pair->mRow;
-	  Position col = pair->mCol;
+	  Position row = pair.mRow;
+	  Position col = pair.mCol;
 	  
 	  if (mRowFrom == NO_POS)
 	  {
@@ -220,7 +212,7 @@ namespace alignlib
   }
 
   //--------------------------------------------------------------------------------------------------------------  
-  void ImplAlignment::removePair( const ResiduePAIR & pair )
+  void ImplAlignment::removePair( const ResiduePair & pair )
   {
 	  debug_func_cerr( 5 );
 	  if (pair.mRow == mRowFrom || pair.mRow == mRowTo || pair.mCol == mColFrom || pair.mCol == mColTo )
@@ -233,7 +225,7 @@ namespace alignlib
     {
       debug_func_cerr(5);
 
-      addPair(new ResiduePAIR( row,col,score) );
+      addPair(ResiduePair( row,col,score) );
     } 
 
   //--------------------------------------------------------------------------------------------------------------
@@ -241,8 +233,8 @@ namespace alignlib
   {
     debug_func_cerr(5);
 
-    AlignmentConstIterator it(begin());
-    AlignmentConstIterator it_end(end());
+    AlignmentIterator it(begin());
+    AlignmentIterator it_end(end());
 
     mLength = 0;
     mNumGaps = 0;
@@ -311,7 +303,7 @@ namespace alignlib
       for (;it != it_end; ++it) 
         {
           // copy over residue pairs from copy reversing row and column
-          addPair( new ResiduePAIR( it->mCol, it->mRow, it->mScore ) );
+          addPair( ResiduePair( it->mCol, it->mRow, it->mScore ) );
         }	
 
       std::swap( mRowFrom, mColFrom );
@@ -334,8 +326,8 @@ namespace alignlib
     if (getLength() == 0)
       return NO_POS;
 
-    AlignmentConstIterator it = begin();
-    AlignmentConstIterator it_end = end();
+    AlignmentIterator it = begin();
+    AlignmentIterator it_end = end();
 
     for (; it != it_end; ++it) 
       {
@@ -358,8 +350,8 @@ namespace alignlib
     if (getLength() == 0)
       return NO_POS;
 
-    AlignmentConstIterator it = begin();
-    AlignmentConstIterator it_end = end();
+    AlignmentIterator it(begin());
+    AlignmentIterator it_end(end());
 
     while (it != it_end) 
     {
@@ -389,7 +381,7 @@ namespace alignlib
     for (; it != it_end; ++it) 
       {
         if ( (*it).mRow < from || (*it).mRow >= to)
-          addPair( new ResiduePAIR(*it) );
+          addPair( ResiduePair(*it) );
       }
 
     updateBoundaries();
@@ -414,9 +406,9 @@ namespace alignlib
 
     for (; it != it_end; ++it) 
       {
-        const ResiduePAIR & p = (*it);
+        const ResiduePair & p = (*it);
         if (p.mCol < from || p.mCol >= to)
-          addPair( new ResiduePAIR(p) );
+          addPair( ResiduePair(p) );
       }     
 
     updateBoundaries();

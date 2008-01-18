@@ -35,12 +35,12 @@
 #include "MultipleAlignment.h"
 #include "Alignment.h"
 #include "AlignmentIterator.h"
-#include "Translator.h"
+#include "Encoder.h"
 #include "Weightor.h"
 #include "LogOddor.h"
 #include "Regularizor.h"
 
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersWeightor.h"
 #include "HelpersRegularizor.h"
 #include "HelpersLogOddor.h"
@@ -447,7 +447,7 @@ HAlignandum makeProfile( const CountsMatrix * src) {
 /*
 std::string calculateConservation( 
 		const HMultipleAlignment mali, 
-		const HTranslator & translator,
+		const HEncoder & translator,
 		Frequency min_frequency) 
 {
 	ImplProfile * profile = dynamic_cast<ImplProfile*>
@@ -500,7 +500,7 @@ std::string calculateConservation(
 //------------------------------------------------------------------------------------------------------
 CountsMatrix * makeCountsByCategory( 
 		const HMultipleAlignment mali, 
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const unsigned int * map_residue2category ) 
 		{
 

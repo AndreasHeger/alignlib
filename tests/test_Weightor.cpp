@@ -43,7 +43,7 @@
 #include "AlignlibDebug.h"
 #include "Weightor.h"
 #include "HelpersProfile.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 
 #define BOOST_TEST_MODULE
 #include <boost/test/included/unit_test.hpp>
@@ -58,7 +58,7 @@ std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 void test_GenericWeightor( HWeightor & weightor )
 {
 	HAlignandum a(makeProfile( ref_protein20x3, 3,
-			getDefaultTranslator(), 
+			getDefaultEncoder(), 
 			weightor, 
 			getDefaultRegularizor(), 
 			getDefaultLogOddor()));
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE( test_WeightorHenikoff )
 
 BOOST_AUTO_TEST_CASE( test_WeightorHenikoffKimmen )
 {
-	setDefaultTranslator( getTranslator( Protein23 ) );
+	setDefaultEncoder( getEncoder( Protein23 ) );
 	HWeightor l(makeWeightorHenikoffKimmen());
 	test_GenericWeightor( l ); 
 }

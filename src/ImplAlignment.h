@@ -123,18 +123,17 @@ class ImplAlignment : public Alignment
     /** @brief adds a pair of residues to the alignment 
 	(have to add this here, otherwise it won't compile!. It seems that overloaded
 	functions can not be separately implemented) */
-    virtual void addPair( ResiduePAIR * new_pair ); 
+    virtual void addPair( const ResiduePair & new_pair ); 
 
     /** adds a pair of residues to the alignment */
     virtual void addPair( Position row, Position col, Score score = 0); 
 
     /** removes a pair */
-    virtual void removePair( const ResiduePAIR & pair );
+    virtual void removePair( const ResiduePair & pair );
     
     /*-----------------> I/O <------------------------------------------------------------------------------ */
     virtual void write(std::ostream & output ) const;	       
 
-    virtual void read( std::istream & input);
 
  protected:
     /** the length has changed of the alignment */

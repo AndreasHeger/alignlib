@@ -175,19 +175,19 @@ namespace alignlib
         {
 
           debug_cerr( 5, "-->idot "     << setw(5) << idot      <<
-              " col[idot] "  << setw(5) << (*mPairs)[idot]->mCol <<
-              " row[idot] "  << setw(5) << (*mPairs)[idot]->mRow <<
+              " col[idot] "  << setw(5) << (*mPairs)[idot].mCol <<
+              " row[idot] "  << setw(5) << (*mPairs)[idot].mRow <<
               " mTrace[idot] "<< setw(5) << mTrace[idot] );
 
-          row_res = (*mPairs)[idot]->mRow;
-          col_res = (*mPairs)[idot]->mCol;
+          row_res = (*mPairs)[idot].mRow;
+          col_res = (*mPairs)[idot].mCol;
 
           if (row_res < 0) continue;
           if (col_res < 0) continue;                         
           if (row_res > jleft) break;
           jleft = row_res;                                   // just in case
 
-          result->addPair( new ResiduePAIR(row_res, col_res, (*mPairs)[idot]->mScore) );
+          result->addPair( ResiduePair(row_res, col_res, (*mPairs)[idot].mScore) );
 
           idot = mTrace[idot];
         }
@@ -204,9 +204,9 @@ namespace alignlib
     if ( x == NO_POS ) 
     	return NO_POS;  
 
-    while ((*mPairs)[x]->mRow == r ) 
+    while ((*mPairs)[x].mRow == r ) 
     {         
-    	if ((*mPairs)[x]->mCol == c) 
+    	if ((*mPairs)[x].mCol == c) 
     	{             
     		found = true;             
     		break;         
@@ -308,8 +308,8 @@ namespace alignlib
     	  // iterate through nextrow starting at first position
 
     	  if (current_dot < 0) continue;
-    	  row_res = (*mPairs)[current_dot]->mRow;                           /* row_res = row */
-    	  col_res = (*mPairs)[current_dot]->mCol;                           /* col_res = col, wrap around col */
+    	  row_res = (*mPairs)[current_dot].mRow;                           /* row_res = row */
+    	  col_res = (*mPairs)[current_dot].mCol;                           /* col_res = col, wrap around col */
 
     	  // some safety checks
     	  assert( row_res < mRowLength);
@@ -320,19 +320,19 @@ namespace alignlib
         std::cout << "current_dot=" << current_dot
         << " row_res=" << row_res
         << " col_res=" << col_res
-        << " score=" << (*mPairs)[current_dot]->mScore
+        << " score=" << (*mPairs)[current_dot].mScore
         << std::endl;
 #endif
         /* calculate top row */
 
         /*------------------------------------------------------------------------------*/
         if ( (last_dot < 0) ||				/* enter first time */
-            (row_res  > (*mPairs)[last_dot]->mRow) ) {		/* skip, if not in the same row as last time*/
+            (row_res  > (*mPairs)[last_dot].mRow) ) {		/* skip, if not in the same row as last time*/
 
               /* commit changes to bestpercol from bestpercolstack */
               while( bestpercolstackptr > STACKEMPTY ) {
                 xdot = bestpercolstack[--bestpercolstackptr];
-                xcol = (*mPairs)[xdot]->mCol;
+                xcol = (*mPairs)[xdot].mCol;
                 if ( (bestpercol[xcol] == -1) || best >= m[bestpercol[xcol]])
                   bestpercol[xcol] = xdot;
               }
@@ -353,8 +353,8 @@ namespace alignlib
         xdot = mRowIndices[row_res-1];
         sc = 0; 
         while ( (xdot > -1)  && 
-            ((*mPairs)[xdot]->mRow == row_res-1 ) &&  /* stop, if dot in previous row any more*/
-            ((*mPairs)[xdot]->mCol  < col_res-1 )     /* end, if direct contact to new dot*/
+            ((*mPairs)[xdot].mRow == row_res-1 ) &&  /* stop, if dot in previous row any more*/
+            ((*mPairs)[xdot].mCol  < col_res-1 )     /* end, if direct contact to new dot*/
         ) { 
 
           s = m[xdot] + getGapCost( xdot, current_dot);
@@ -424,7 +424,7 @@ namespace alignlib
         if( sc > best)  { best = sc; best_dot = prev_row_dot; }
 
         /* record mTraceback */
-        best += (*mPairs)[current_dot]->mScore; 
+        best += (*mPairs)[current_dot].mScore; 
 
         if (best < 0) { /* local alignment, reset to zero or start new mTrace with single match */
           best    = 0; 

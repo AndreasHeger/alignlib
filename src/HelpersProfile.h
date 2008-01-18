@@ -32,7 +32,7 @@
 #include "alignlib_fwd.h"
 
 #include "HelpersRegularizor.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersLogOddor.h"
 #include "HelpersWeightor.h"
 
@@ -54,7 +54,7 @@ namespace alignlib
     /** create an empty profile. 
      */
     HAlignandum makeProfile(
-    		const HTranslator & translator,
+    		const HEncoder & translator,
     		const HWeightor & weightor,
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
@@ -63,7 +63,7 @@ namespace alignlib
     /** create an empty profile with a given length
      */
     HAlignandum makeProfile( const Position & length,
-    		const HTranslator & translator,
+    		const HEncoder & translator,
     		const HWeightor & weightor,    		
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
@@ -76,7 +76,7 @@ namespace alignlib
     HAlignandum makeProfile( 
     		const std::string & sequences, 
     		int nsequences,
-    		const HTranslator & translator, 
+    		const HEncoder & translator, 
     		const HWeightor & weightor, 
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor);
@@ -89,7 +89,7 @@ namespace alignlib
 
     HAlignandum makeProfile( 
     		const HMultipleAlignment & mali,
-    		const HTranslator & translator,
+    		const HEncoder & translator,
     		const HWeightor & weightor, 
     		const HRegularizor & regularizor,
     		const HLogOddor & logoddor );

@@ -30,8 +30,8 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "ImplProfile.h"
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 #include "LogOddor.h"
 #include "Weightor.h"
 #include "Regularizor.h"
@@ -57,7 +57,7 @@ namespace alignlib
 /** create empty profile 
  * */
 HAlignandum makeProfile( 
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const HWeightor & weightor,
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
@@ -68,7 +68,7 @@ HAlignandum makeProfile(
 HAlignandum makeProfile()
 {
 	return makeProfile( 
-			getDefaultTranslator(),
+			getDefaultEncoder(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor() );
@@ -77,7 +77,7 @@ HAlignandum makeProfile()
 //------------------------------------------------------------------------------------------
 /** create empty profile with given length */
 HAlignandum makeProfile( const Position & length,
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const HWeightor & weightor,		
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
@@ -90,7 +90,7 @@ HAlignandum makeProfile( const Position & length,
 HAlignandum makeProfile( const Position & length )
 {
 	return makeProfile( length, 
-			getDefaultTranslator(),
+			getDefaultEncoder(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor() );
@@ -101,7 +101,7 @@ HAlignandum makeProfile( const Position & length )
 /** create profile from a string of sequences */
 HAlignandum makeProfile( const std::string & src, 
 		int nsequences,
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const HWeightor & weightor, 
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
@@ -124,7 +124,7 @@ HAlignandum makeProfile( const std::string & src,
 HAlignandum makeProfile( const std::string & src, int nsequences)
 {
 	return makeProfile( src, nsequences,
-			getDefaultTranslator(),
+			getDefaultEncoder(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor() );
@@ -135,7 +135,7 @@ HAlignandum makeProfile( const std::string & src, int nsequences)
 /** create a default profile from a multiple alignment */
 HAlignandum makeProfile( 
 		const HMultipleAlignment & mali, 
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const HWeightor & weightor, 
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
@@ -151,7 +151,7 @@ HAlignandum makeProfile(
 HAlignandum makeProfile( const HMultipleAlignment & mali )
 {
 	return makeProfile( mali,
-			getDefaultTranslator(), 
+			getDefaultEncoder(), 
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor());
@@ -160,7 +160,7 @@ HAlignandum makeProfile( const HMultipleAlignment & mali )
 //---------------------------------------> constructors and destructors <--------------------------------------
 // The constructor is potentially empty, so that this object can be read from file.
 ImplProfile::ImplProfile( 
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const HWeightor & weightor,
 		const HRegularizor & regularizor, 
 		const HLogOddor & logoddor ) :
@@ -177,7 +177,7 @@ ImplProfile::ImplProfile(
 
 ImplProfile::ImplProfile(
 		const Position & length,
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const HWeightor & weightor,
 		const HRegularizor & regularizor, 
 		const HLogOddor & logoddor ) :
@@ -195,7 +195,7 @@ ImplProfile::ImplProfile(
 
 ImplProfile::ImplProfile( 
 		const HMultipleAlignment & src,
-		const HTranslator & translator,
+		const HEncoder & translator,
 		const HWeightor & weightor,
 		const HRegularizor & regularizor, 
 		const HLogOddor & logoddor ) :
@@ -284,7 +284,7 @@ void ImplProfile::fillCounts( const HMultipleAlignment &  src )
 	debug_func_cerr(5);
 
 	resize( src->getLength() );
-	mWeightor->fillCounts( *mCountMatrix, src, mTranslator );
+	mWeightor->fillCounts( *mCountMatrix, src, mEncoder );
 
 	setPrepared( false );  
 }
@@ -308,7 +308,7 @@ void ImplProfile::allocateCounts() const
 	
 	debug_cerr( 5, "allocating counts for a profile of size " << getFullLength() << " x " << (int)mProfileWidth );
 	
-	mProfileWidth = mTranslator->getAlphabetSize();
+	mProfileWidth = mEncoder->getAlphabetSize();
 	mCountMatrix = allocateSegment<Count>( mCountMatrix );
 }              
 
@@ -348,7 +348,7 @@ Residue ImplProfile::getMaximumPerColumn( const Matrix<T> * data,
 	
 	// if no counts, return gap code
 	if (max == 0)
-		return mTranslator->getGapCode();
+		return mEncoder->getGapCode();
 	
 	return max_i;
 }
@@ -400,7 +400,7 @@ void ImplProfile::mask( const Position & column)
 Residue ImplProfile::asResidue( const Position column ) const 
 {
 	if (isMasked(column))
-		return mTranslator->getMaskCode();
+		return mEncoder->getMaskCode();
 	return getMaximumCount( column );
 }
 
@@ -460,7 +460,7 @@ void ImplProfile::writeSegment( std::ostream & output, const Matrix<T> * data ) 
 	
 	output << setw(5) << "#" << "  " << " ";
 	for (Residue j = 0; j < mProfileWidth; j++) 
-		output << setw(6) << mTranslator->decode( j );
+		output << setw(6) << mEncoder->decode( j );
 	output << std::endl;
 	for (int i = 0; i < getLength(); i++) 
 	{

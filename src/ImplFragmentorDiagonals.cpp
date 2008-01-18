@@ -49,7 +49,7 @@ HFragmentor makeFragmentorDiagonals(
 
 
 //---------------------------------------------------------------------------------------------------
-inline Diagonal calculateDiagonal( const ResiduePAIR & p) { return (p.mCol - p.mRow); }
+inline Diagonal calculateDiagonal( const ResiduePair & p) { return (p.mCol - p.mRow); }
 
 //----------------------------------------------------------------------------------------------------
   
@@ -95,7 +95,7 @@ void ImplFragmentorDiagonals::cleanUp(
 }
 
 //------------------------------------------------------------------------------------------
-Score ImplFragmentorDiagonals::getGapCost( const ResiduePAIR & p1, const ResiduePAIR & p2 ) const
+Score ImplFragmentorDiagonals::getGapCost( const ResiduePair & p1, const ResiduePair & p2 ) const
 {
 
   Position r1 = p1.mRow;
@@ -139,13 +139,13 @@ void ImplFragmentorDiagonals::performFragmentation(
     Score last_score = 0;
     HAlignment current_ali = makeAlignmentSet();
     
-    const ResiduePAIR * last_p = NULL;
+    const ResiduePair * last_p = NULL;
 
     unsigned int length = 0;
     
     for (; it != it_end; ++it) {
 	
-	const ResiduePAIR * p = &(*it);
+	const ResiduePair * p = &(*it);
 	
 	Diagonal current_diagonal = calculateDiagonal( *p );
 	
@@ -193,7 +193,7 @@ void ImplFragmentorDiagonals::performFragmentation(
 	  if (p->mScore > 0) {
 	    last_p = p;
 	    last_score = p->mScore;
-	    current_ali->addPair( new ResiduePAIR( *p ));
+	    current_ali->addPair( ResiduePair( *p ));
 	    length = 1;
 	  } else {
 	    last_p = NULL;
@@ -204,7 +204,7 @@ void ImplFragmentorDiagonals::performFragmentation(
 	  // continue existing alignment
 	  last_score = new_score;
 	  last_p = p;
-	  current_ali->addPair( new ResiduePAIR( *p ));
+	  current_ali->addPair( ResiduePair( *p ));
 	  length++;
 	}
     }

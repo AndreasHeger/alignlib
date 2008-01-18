@@ -26,7 +26,7 @@ pkginclude_HEADERS = 	alignlib.h \
 			$(HEADERS_ALIGNMENT) \
 			$(HEADERS_ALIGNANDUM) \
 			$(HEADERS_MALI) \
-			$(HEADERS_TRANSLATOR) \
+			$(HEADERS_Encoder) \
 			$(HEADERS_SUBSTMATRIX) \
 		    $(HEADERS_PHYLOLIB)
 
@@ -95,8 +95,8 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 			ImplRenderer.h ImplRendererPalette.h ImplRendererMView.h ImplRendererColumn.h \
 			ImplAlignatum.h  
 
-HEADERS_TRANSLATOR= Translator.h HelpersTranslator.h \
-			ImplTranslator.h
+HEADERS_Encoder= Encoder.h HelpersEncoder.h \
+			ImplEncoder.h
 
 HEADERS_SUBSTMATRIX= HelpersSubstitutionMatrix.h
 
@@ -110,7 +110,7 @@ PARTS = AlignException.cpp \
 			$(PARTS_ALIGNMENT) \
 			$(PARTS_ALIGNANDUM) \
 			$(PARTS_MALI) \
-			$(PARTS_TRANSLATOR) \
+			$(PARTS_Encoder) \
 			$(PARTS_SUBSTMATRIX) \
 			$(PARTS_PHYLOLIB) \
 			AlignlibDefault.cpp
@@ -180,8 +180,8 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 
 PARTS_STATISTICS =    Statistics.cpp
 
-PARTS_TRANSLATOR=	Translator.cpp \
-			HelpersTranslator.cpp ImplTranslator.cpp 
+PARTS_Encoder=	Encoder.cpp \
+			HelpersEncoder.cpp ImplEncoder.cpp 
 
 PARTS_SUBSTMATRIX=HelpersSubstitutionMatrix.cpp
 

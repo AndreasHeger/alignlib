@@ -253,7 +253,7 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 			row--;
 			break;
 		case TB_MATCH :
-			result->addPair( new ResiduePAIR( row, col, mScorer->getScore( row, col)));
+			result->addPair( ResiduePair( row, col, mScorer->getScore( row, col)));
 			row--;
 			col--;
 			break;

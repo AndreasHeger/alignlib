@@ -29,8 +29,8 @@
 #include "Weightor.h"
 #include "ImplWeightorHenikoff.h"
 #include "MultipleAlignment.h"
-#include "HelpersTranslator.h"
-#include "Translator.h"
+#include "HelpersEncoder.h"
+#include "Encoder.h"
 
 using namespace std;
 
@@ -61,7 +61,7 @@ ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) :
 //--------------------------------------------------------------------------------------------------------------------------------
 HSequenceWeights ImplWeightorHenikoff::calculateWeights( 
 			const HMultipleAlignment & src,
-			const HTranslator & translator ) const 
+			const HEncoder & translator ) const 
 {
 	debug_func_cerr(5);
 

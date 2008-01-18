@@ -91,7 +91,7 @@ namespace alignlib
 	    Position c = *cit;
 	    if ( (score = mScorer->getScore( r, c ) > 0) )
 	      {
-		result->addPair( new ResiduePAIR( r, c, score ));
+		result->addPair( ResiduePair( r, c, score ));
 		total_score += score;
 	      }
 	  }

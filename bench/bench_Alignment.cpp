@@ -52,7 +52,7 @@ using namespace alignlib;
 void InitCreate( HAlignment & a) 
 {
   for (int i = 1; i < 1000; i++) 
-    a->addPair(new ResiduePAIR( i, i, 1.0));
+    a->addPair(ResiduePair( i, i, 1.0));
 
   a->getLength();
 }
@@ -63,16 +63,16 @@ void InitCreateGaps( HAlignment & a)
 {
 
   for (int i = 1; i < 200; i++) 
-    a->addPair(new ResiduePAIR( i, i, 1.0));
+    a->addPair(ResiduePair( i, i, 1.0));
 
   for (int i = 300; i < 400; i++) 
-    a->addPair(new ResiduePAIR( i, i, 1.0));
+    a->addPair(ResiduePair( i, i, 1.0));
 
   for (int i = 500; i < 600; i++) 
-    a->addPair(new ResiduePAIR( i, i, 1.0));
+    a->addPair(ResiduePair( i, i, 1.0));
 
   for (int i = 800; i < 1000; i++) 
-    a->addPair(new ResiduePAIR( i, i, 1.0));
+    a->addPair(ResiduePair( i, i, 1.0));
 
   a->getLength();
 }
@@ -87,7 +87,7 @@ void PostClear( HAlignment & a)
 void BenchmarkAddPair( HAlignment & a) 
 {
   for (int i = 1; i < 1000; i++) 
-    a->addPair(new  ResiduePAIR( i, i, 1.0));
+    a->addPair(ResiduePair( i, i, 1.0));
   a->getLength();
 
 }
@@ -95,7 +95,7 @@ void BenchmarkAddPair( HAlignment & a)
 //-------------------------------------> Benchmarking functions <-----------------------------------
 void BenchmarkIterate( HAlignment & a) 
 {
-  ResiduePAIR p;
+  ResiduePair p;
 
   AlignmentIterator it(a->begin());
   AlignmentIterator it_end(a->end());

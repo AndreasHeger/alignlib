@@ -91,7 +91,7 @@ void ImplWeightor::rescaleWeights(
 void ImplWeightor::fillCounts(
 		CountMatrix & dest,
 		const HMultipleAlignment & src,
-		const HTranslator & translator) const 
+		const HEncoder & translator) const 
 {
 	debug_func_cerr(5);
 
@@ -136,7 +136,7 @@ void ImplWeightor::fillCounts(
   
 HSequenceWeights ImplWeightor::calculateWeights(
 		const HMultipleAlignment & src,
-		const HTranslator & translator ) const
+		const HEncoder & translator ) const
 {
 	int nsequences = src->getWidth();
 	

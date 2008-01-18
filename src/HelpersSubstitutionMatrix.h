@@ -74,35 +74,35 @@ namespace alignlib
     
     /** The blosum62 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixBlosum62();
-    HSubstitutionMatrix makeSubstitutionMatrixBlosum62( const HTranslator & );
+    HSubstitutionMatrix makeSubstitutionMatrixBlosum62( const HEncoder & );
     
     /** The blosum50 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixBlosum50();
-    HSubstitutionMatrix makeSubstitutionMatrixBlosum50( const HTranslator & );
+    HSubstitutionMatrix makeSubstitutionMatrixBlosum50( const HEncoder & );
     
     /** The pam250 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixPam250();
-    HSubstitutionMatrix makeSubstitutionMatrixPam250( const HTranslator & );    
+    HSubstitutionMatrix makeSubstitutionMatrixPam250( const HEncoder & );    
     
     /** The pam120 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixPam120();
-    HSubstitutionMatrix makeSubstitutionMatrixPam120( const HTranslator & );    
+    HSubstitutionMatrix makeSubstitutionMatrixPam120( const HEncoder & );    
 
     /** The pam30 scoring matrix */
     HSubstitutionMatrix makeSubstitutionMatrixPam30();
-    HSubstitutionMatrix makeSubstitutionMatrixPam30( const HTranslator & );    
+    HSubstitutionMatrix makeSubstitutionMatrixPam30( const HEncoder & );    
 
     /** return a new matrix read from stream.
      * 
      * @param input			stream to read from.
-     * @param translator	@ref Translator
+     * @param translator	@ref Encoder
      * 
      * The format is the output of the 'pam' or 'matblas' programs.
      * 
      */
     HSubstitutionMatrix loadSubstitutionMatrix(
     		std::istream & input,
-    		const HTranslator & translator );
+    		const HEncoder & translator );
     
     
 }

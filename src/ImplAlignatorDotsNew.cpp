@@ -169,7 +169,7 @@ namespace alignlib {
       int idot   = mLastDot;
       int jleft  = row->getLength();
 
-      ResiduePAIR p;
+      ResiduePair p;
 
       while ( idot >= 0) {
 
@@ -189,7 +189,7 @@ namespace alignlib {
         if (row_res > jleft) break;
         jleft = row_res;                                   // just in case
 
-        result->addPair( p = ResiduePAIR(row_res, col_res, mPairs[idot].mScore) );
+        result->addPair( p = ResiduePair(row_res, col_res, mPairs[idot].mScore) );
 
         idot = mTrace[idot];
       }

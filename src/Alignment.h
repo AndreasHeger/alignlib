@@ -34,33 +34,67 @@
 namespace alignlib 
 {
 
-/**
-   @short A residuepair containing row, column, and a score.
- */
-struct ResiduePAIR 
+	/**
+   	@short A residuepair containing row, column, and a score.
+   	
+   	This encapsulates the most basic information for an aligned residue pair.
+   	
+   	Use an @ref ResidueDecorator object to attach more information to
+   	a residue pair.
+	 */
+
+struct ResiduePair 
 {
 	/** Base class for residue aligned residues.
 	 */
 
-	friend std::ostream & operator<< (std::ostream &, const ResiduePAIR &);
+	friend std::ostream & operator<< (std::ostream &, const ResiduePair &);
 
-	ResiduePAIR() : mRow(NO_POS), mCol(NO_POS), mScore(0) {}
-	ResiduePAIR( Position a, Position b, Score c = 0) : mRow(a), mCol(b), mScore(c) {}
-	ResiduePAIR& operator=( const ResiduePAIR & src) 
+	/** empty constructor.
+	 * 
+	 * An empty residue pair has NO_POS as row and column and a score of 0.
+	 */
+	ResiduePair() : mRow(NO_POS), mCol(NO_POS), mScore(0) {}
+	
+	ResiduePair( Position a, Position b, Score c = 0) : mRow(a), mCol(b), mScore(c) {}
+		
+	/** copy constructor. 
+	 */
+	ResiduePair( const ResiduePair & src) : 
+		mRow(src.mRow), mCol(src.mCol), mScore(src.mScore) {}
+
+	/** assignment operator. 
+	*/
+	ResiduePair& operator=( const ResiduePair & src) 
 	{ 
 		mRow = src.mRow; 
 		mCol = src.mCol; 
 		mScore = src.mScore; 
 		return *this;
 	}
-	ResiduePAIR( const ResiduePAIR & src) : mRow(src.mRow), mCol(src.mCol), mScore(src.mScore) {}  
+	
+	/** return the diagonal of this residue pair.
+	 */
+	Position getDiagonal() const
+	{
+		return mCol - mRow;
+	}
+	
+	/** the row coordinate of this residue pair
+	 */
 	Position mRow;
+	
+	/** the col coordinates of this residue pair
+	 */
 	Position mCol;
+	
+	/** the score of this residue pair
+	 */
 	Score mScore;
 };
 
-bool operator==( const ResiduePAIR & x, const ResiduePAIR & y); 
-bool operator!=( const ResiduePAIR & x, const ResiduePAIR & y); 
+bool operator==( const ResiduePair & x, const ResiduePair & y); 
+bool operator!=( const ResiduePair & x, const ResiduePair & y); 
 
 /**     
     @short Protocol class for pairwise alignments.
@@ -82,7 +116,6 @@ bool operator!=( const ResiduePAIR & x, const ResiduePAIR & y);
 
     This class is a protocol class and as such defines only 
     the general interface.
-
 
  */
 
@@ -113,38 +146,13 @@ public:
 
 	//------------------------------------------------------------------------------------------------------------
 	/**
-       @short Const iterator over an alignment.
-
-       This iterator iterates over residues in the @ref Alignment
-       objects.
-	 */
-	class ConstIterator 
-	{
-	public:
-		ConstIterator() {};
-
-		ConstIterator( const ConstIterator & src ) {};
-
-		virtual ~ConstIterator() {};
-
-		virtual ConstIterator * getClone() const = 0;
-
-		/** dereference operator */
-		virtual const ResiduePAIR & getReference() const = 0;
-
-		/** for indirection */
-		virtual const ResiduePAIR * getPointer() const = 0;
-
-		/** advance one position */
-		virtual void next() = 0;
-
-		/** step back one position */
-		virtual void previous() = 0;
-	};
-
-	//------------------------------------------------------------------------------------------------------------
-	/**
-       @short Non-const iterator over an alignment.
+       @short Iterator over an alignment.
+       
+       Only const iterators are provide. Changing mRow or mCol would
+       leave the container in an undefined state.
+       
+       If you need to modify the score of a @ref ResiduePair returned
+       by an iterator, cast away the const-ness.
 	 */
 	class Iterator 
 	{
@@ -158,10 +166,10 @@ public:
 		virtual Iterator * getClone() const = 0;
 
 		/** dereference operator */
-		virtual ResiduePAIR & getReference() const = 0;
+		virtual const ResiduePair & getReference() const = 0;
 
 		/** for indirection */
-		virtual ResiduePAIR * getPointer() const = 0;
+		virtual const ResiduePair * getPointer() const = 0;
 
 		/** advance one position */
 		virtual void next() = 0;
@@ -170,25 +178,17 @@ public:
 		virtual void previous() = 0;
 	};
 
-	/** returns a const_iterator pointing to the first element in the container
-	 */
-	virtual AlignmentConstIterator begin() const = 0; 
-
-	/** returns a const_iterator pointing one past the last element in the container.
-	 */
-	virtual AlignmentConstIterator end() const = 0; 
-
 	/** returns an iterator pointing to the first element in the container
 	 */
-	virtual AlignmentIterator begin() = 0; 
+	virtual AlignmentIterator begin() const = 0; 
 
 	/** returns an iterator pointing one past the last element in the container.
 	 */
-	virtual AlignmentIterator end() = 0; 
+	virtual AlignmentIterator end() const = 0; 
 
 	//----------------> accessors <------------------------------------------------------------------------------
 
-	/** get the score of an alignment
+	/** get the score of the alignment
 	 */
 	virtual Score getScore() const = 0;
 
@@ -205,11 +205,13 @@ public:
 	 * */
 	virtual Position getNumGaps() const = 0;
 
-    /** get the number of aligned positions 
+    /** get the number of aligned positions in the alignment. 
      * */
     virtual Position getNumAligned() const = 0;
 	
 	/** set the alignment score. 
+	 * 
+	 * @param score score to set.
 	 * */
 	virtual void setScore( Score score ) = 0;
 
@@ -234,54 +236,92 @@ public:
 
 	/** returns a copy of the first aligned pair. 
 	 * */
-	virtual ResiduePAIR front() const = 0;
+	virtual ResiduePair front() const = 0;
 
 	/** returns a copy of the last aligned pair 
 	 * */
-	virtual ResiduePAIR back() const = 0;
+	virtual ResiduePair back() const = 0;
 
 	/** adds a pair of residues to the alignment 
 	 * 
-	 * The alignata object takes ownership of the residue pair.
+	 * @param pair The residue pair to be added.
 	 * */
-	virtual void addPair( ResiduePAIR * new_pair ) = 0; 
+	virtual void addPair( const ResiduePair & pair ) = 0; 
 
 	/** adds a pair of residues to the alignment */
 	virtual void addPair( Position row, Position col, Score score = 0) = 0; 
 
-	/** removes a pair of residues from the alignment */
-	virtual void removePair( const ResiduePAIR & old_pair ) = 0;
+	/** removes a residue pair from the alignment
+	 * 
+	 * @param pair @ref ResiduePair to be removed. 
+	*/
+	virtual void removePair( const ResiduePair & pair ) = 0;
 
-	/** retrieves a copy of a residue pair in row from the 
-	 * alignment
+	/** retrieves a copy of a residue pair. 
+	 * 
+	 * Different containers will match residue pairs differently
+	 * (by row, col, or diagonal).
 	 *  
 	 * @param row row of residue pair
 	 * */
-	virtual ResiduePAIR getPair( const ResiduePAIR & p) const = 0;
+	virtual ResiduePair getPair( const ResiduePair & p) const = 0;
 
-	/** move alignment */
+	/** move alignment 
+	 * 
+	 * @param row_offset	add row_offset to row coordinates.
+	 * @param col_offset	add col_offset to col coordinates.
+	 * */
 	virtual void moveAlignment( Position row_offset, Position col_offset) = 0;
 
-	/** maps a residue from row to column. returns 0, if not found */
+	/** maps a residue from row to column. 
+	 * 
+	 * @param pos 		Position to map. 
+	 * @param search 	If pos does not map to a residue directly, search
+	 * 					in direction given by search.
+	 * 
+	 * returns NO_POS if mapping failed.
+	 * */
 	virtual Position mapRowToCol( Position pos, SearchType search = NO_SEARCH ) const = 0;
 
-	/** maps a residue from row to column. returns 0, if not found */
+	/** maps a residue from row to column.
+	 * 
+	 * @param pos 		Position to map. 
+	 * @param search 	If pos does not map to a residue directly, search
+	 * 					in direction given by search.
+	 * 
+	 * returns NO_POS if mapping failed.
+	 */
 	virtual Position mapColToRow( Position pos, SearchType search = NO_SEARCH ) const = 0;
 
-	/** removes a row-region in an alignment */
+	/** removes a row-region in an alignment
+	 * 
+	 * @param from	start of region in row to remove
+	 * @param to 	end of region in row to remove
+	 */
+	
 	virtual void removeRowRegion( Position from, Position to ) = 0;
 
-	/** removes a column-region in an alignment */
+	/** removes a col-region in an alignment 
+	 * 
+	 * @param from	start of region in col to remove
+	 * @param to 	end of region in col to remove
+	 * */
 	virtual void removeColRegion( Position from, Position to) = 0;
 
-	/** switch row and column in the alignment */
+	/** switch row and column in the alignment 
+	 * */
 	virtual void switchRowCol() = 0;
 
-	/** clear the current alignemnt */
+	/** clear the current alignemnt 
+	*/
 	virtual void clear() = 0;
 
 	/*-----------------> I/O <------------------------------------------------------------------------------ */
 	/** write human readable representation of alignment to stream
+	 * 
+	 * @param output stream to output the alignment.
+	 * 
+	 * see @ref AlignmentFormat for formatted output of alignments.
 	 */
 	virtual void write(std::ostream & output ) const = 0;	       
 

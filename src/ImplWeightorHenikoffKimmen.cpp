@@ -30,8 +30,8 @@
 #include "Weightor.h"
 #include "ImplWeightorHenikoffKimmen.h"
 #include "MultipleAlignment.h"
-#include "HelpersTranslator.h"
-#include "Translator.h"
+#include "HelpersEncoder.h"
+#include "Encoder.h"
 
 using namespace std;
 
@@ -62,7 +62,7 @@ ImplWeightorHenikoffKimmen::ImplWeightorHenikoffKimmen (const ImplWeightorHeniko
 //--------------------------------------------------------------------------------------------------------------------------------
 HSequenceWeights ImplWeightorHenikoffKimmen::calculateWeights( 
 		const HMultipleAlignment & src,
-		const HTranslator & translator ) const 
+		const HEncoder & translator ) const 
 {
 	debug_func_cerr(5);
 

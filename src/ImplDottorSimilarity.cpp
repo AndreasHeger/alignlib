@@ -60,12 +60,12 @@ void ImplDottorSimilarity::calculateNewPairs( const HAlignandum row, const HAlig
     Position row_length = row->getLength();
     Position col_length = col->getLength();
     
-    ResiduePAIR p;
+    ResiduePair p;
 
     for (i = 1; i <= row_length; i++) 
       for (j = 1; j <= col_length; i++) 
 	  if (mSubstitutionMatrix->getScore(row->asResidue(i), row->asResidue(j)) > 0 )
-	      mMatrix->addPair( p = ResiduePAIR( i, j, 1 ));
+	      mMatrix->addPair( p = ResiduePair( i, j, 1 ));
     
 };
 

@@ -66,7 +66,7 @@ class ImplDottor : public Dottor {
     virtual void calculatePairs( const HAlignandum row, const HAlignandum col) const;
     
     /** get array of residue pairs */
-    virtual ResiduePAIR * getPairs() const;
+    virtual ResiduePair * getPairs() const;
 
     /** get location of array for row-indices */
     virtual Position * getRowIndices() const;

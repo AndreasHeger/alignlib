@@ -45,7 +45,7 @@
 #include "HelpersProfile.h"
 #include "Alignator.h"
 #include "HelpersAlignator.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersRegularizor.h"
 #include "HelpersLogOddor.h"
 #include "HelpersWeightor.h"
@@ -77,7 +77,7 @@ void InitSeqProf(
 	result = makeAlignmentVector();
 	row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" );
 	col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
-			getDefaultTranslator(),
+			getDefaultEncoder(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor());
@@ -91,13 +91,13 @@ void InitProfProf(
 {
 	result = makeAlignmentVector();
 	row = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
-			getDefaultTranslator(),
+			getDefaultEncoder(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor());
 			
 	col = makeProfile( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", 3,
-			getDefaultTranslator(),
+			getDefaultEncoder(),
 			getDefaultWeightor(),
 			getDefaultRegularizor(),
 			getDefaultLogOddor());			

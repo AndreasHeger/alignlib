@@ -46,9 +46,9 @@ BOOST_AUTO_TEST_CASE( test_LogOddor )
 	HLogOddor l = getDefaultLogOddor();	
 }
 
-BOOST_AUTO_TEST_CASE( test_Translator )
+BOOST_AUTO_TEST_CASE( test_Encoder )
 {
-	HTranslator l = getDefaultTranslator();
+	HEncoder l = getDefaultEncoder();
 }
 
 BOOST_AUTO_TEST_CASE( test_SubstitutionMatrix )

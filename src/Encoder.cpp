@@ -23,7 +23,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include "Translator.h"
+#include "Encoder.h"
 
 using namespace std;
 
@@ -31,18 +31,18 @@ namespace alignlib
 {
 
 //--------------------------------------------------------------------------------------
-Translator::Translator() 
+Encoder::Encoder() 
 {
 }    
 
 //--------------------------------------------------------------------------------------
-Translator::~Translator () 
+Encoder::~Encoder () 
 {
 }
 
 //--------------------------------------------------------------------------------------
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
-std::ostream & operator<<( std::ostream & output, const Translator & src) 
+std::ostream & operator<<( std::ostream & output, const Encoder & src) 
 {
   src.write( output );
   return output;

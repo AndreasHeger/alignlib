@@ -21,7 +21,7 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "AlignmentFormat.h"
-#include "HelpersTranslator.h"
+#include "HelpersEncoder.h"
 #include "HelpersAlignment.h"
 #include "HelpersAlignatum.h"
 
@@ -30,7 +30,7 @@ using namespace std;
 namespace alignlib 
 {
 
-inline Diagonal calculateDiagonal( const ResiduePAIR & p) 
+inline Diagonal calculateDiagonal( const ResiduePair & p) 
 { 
 	return (p.mCol - p.mRow); 
 }
@@ -415,7 +415,7 @@ void AlignmentFormatEmissions::copy( HAlignment & dest ) const
 		// emit pairs for aligned regions, i.e. d_row and d_col are positive
 		while (d_row > 0 && d_col > 0) 
 		{         
-			dest->addPair( new ResiduePAIR (row, col) );         
+			dest->addPair( ResiduePair (row, col) );         
 			d_row--; 
 			d_col--;         
 			row++; 
@@ -551,8 +551,8 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 					{
 							mRowFrom = row_from;
 							mColFrom = col_from;
-							mRowTo = row_from + getDefaultTranslator()->countChars( mRowAlignment );
-							mColTo = col_from + getDefaultTranslator()->countChars( mColAlignment );
+							mRowTo = row_from + getDefaultEncoder()->countChars( mRowAlignment );
+							mColTo = col_from + getDefaultEncoder()->countChars( mColAlignment );
 							
 					}
 
@@ -613,7 +613,7 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 					if (mRowFrom == NO_POS || mColFrom == NO_POS)
 						throw AlignException( "AlignmentFormat.cpp: alignment ranges not defined." );
 
-					char gap_char = getDefaultTranslator()->getGapChar();
+					char gap_char = getDefaultEncoder()->getGapChar();
 
 					Position row = mRowFrom;   
 					Position col = mColFrom;   
@@ -622,7 +622,7 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 					{
 
 						if (mRowAlignment[i] != gap_char && mColAlignment[i] != gap_char) 
-							dest->addPair( new ResiduePAIR (row, col) );         
+							dest->addPair( ResiduePair (row, col) );         
 
 						if (mRowAlignment[i] != gap_char) 
 							row++;

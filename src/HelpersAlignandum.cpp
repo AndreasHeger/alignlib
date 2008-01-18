@@ -30,7 +30,7 @@
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "Alignandum.h"
-#include "Translator.h"
+#include "Encoder.h"
 #include "HelpersSequence.h"
 #include "HelpersProfile.h"
 #include "ImplSequence.h"
@@ -59,7 +59,7 @@ namespace alignlib
 			case MNImplProfile : 
 			{
 				ImplProfile * result = new ImplProfile( 
-						getDefaultTranslator(),
+						getDefaultEncoder(),
 						getDefaultWeightor(),
 						getDefaultRegularizor(),
 						getDefaultLogOddor()
@@ -70,7 +70,7 @@ namespace alignlib
 			}
 			case MNImplSequence :
 			{
-				ImplSequence * result = new ImplSequence( getDefaultTranslator());
+				ImplSequence * result = new ImplSequence( getDefaultEncoder());
 				result->load( input );
 				return HAlignandum( result );
 				break;

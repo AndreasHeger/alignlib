@@ -45,7 +45,7 @@ namespace alignlib
     between calculations is stored. 
     
     Weighters have to know, what translation was used, because they have to be aware of
-    gaps and masked characters. They use the global Translator object for this.
+    gaps and masked characters. They use the global Encoder object for this.
     
     This class is a protocol class and as such defines only the general interface.
     
@@ -71,7 +71,7 @@ class Weightor
     virtual void fillCounts(
     		CountMatrix & counts,  		
     		const HMultipleAlignment & src,
-    		const HTranslator & translator ) const = 0;
+    		const HEncoder & translator ) const = 0;
 
 };
 

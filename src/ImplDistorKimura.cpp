@@ -14,8 +14,8 @@
 #include <string>
 #include <math.h>
 
-#include "Translator.h"
-#include "HelpersTranslator.h"
+#include "Encoder.h"
+#include "HelpersEncoder.h"
 #include "MultipleAlignment.h"
 #include "ImplDistorKimura.h"
 #include "AlignlibDebug.h"
@@ -66,7 +66,7 @@ PhyloMatrixValue ImplDistorKimura::calculateDistance(
   unsigned int identities = 0;		// number of identities
   unsigned int n_nongaps = 0;		// normalize over non-gap-positions
   
-  unsigned char gap_char = alignlib::getDefaultTranslator()->getGapChar();
+  unsigned char gap_char = alignlib::getDefaultEncoder()->getGapChar();
   
   for (i = 0; i < s_row_1.length(); i++) {
     if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char)) 
