@@ -254,7 +254,7 @@ class ImplAlignmentMatrix : public ImplAlignment
     /** sort dots in range from from to to by diagonal */
     void sortDotsByDiagonal(Position from, Position to) const;
 
-    /** List of residue pairs, mutatble, because they get sorted in-situ */
+    /** List of residue pairs, mutable, because they get sorted in-situ */
     mutable PAIRVECTOR mPairs;
 
     /** index of pairs for each row */

@@ -116,7 +116,8 @@ HAlignator makeAlignatorGroupies()
     mAlignatorDots->align( dots, row, col);
 
     debug_cerr( 5, "-> there are " << dots->getLength() << " dots " );
-
+    debug_cerr( 5, "-> dots\n" << *dots );
+    
     // calculate maximum diagonal
     AlignmentIterator it(dots->begin());
     AlignmentIterator it_end(dots->end());
@@ -149,8 +150,9 @@ HAlignator makeAlignatorGroupies()
 
     debug_cerr( 5, "-> there are " << new_dots->getLength() << " dots after filtering" );
     debug_cerr( 5, "-> tube used: " << best_diag - mTubeSize << " to " <<  best_diag + mTubeSize );
-
-    HAlignator p(makeAlignatorDummy( new_dots ));
+    debug_cerr( 5, "-> new dots\n" << *new_dots );
+    
+    HAlignator p(makeAlignatorPrebuilt( new_dots ));
       
     HAlignator alignator( makeAlignatorDotsSquared( p, mGop, mGep) );
 

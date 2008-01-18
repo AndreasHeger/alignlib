@@ -66,9 +66,9 @@ HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignatorDots.h ImplAlignatorDotsWrap.h \
 			ImplAlignatorDotsSquared.h ImplAlignatorDotsSquaredDiagonal.h\
 			ImplAlignatorIdentity.h ImplAlignatorSimilarity.h \
-			ImplAlignatorTuples.h ImplAlignatorDummy.h \
+			ImplAlignatorTuples.h \
+			ImplAlignatorPrebuilt.h \
 			ImplAlignatorFragments.h ImplAlignatorFragmentsSquared.h \
-			ImplAlignatorPublishAlignment.h \
 			ImplAlignatorGroupies.h
 
 HEADERS_ITERATOR=	Iterator2D.h \
@@ -152,9 +152,8 @@ PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
 			ImplAlignatorIterative.cpp \
 			ImplAlignatorDots.cpp ImplAlignatorDotsSquared.cpp ImplAlignatorDotsSquaredDiagonal.cpp \
 			ImplAlignatorIdentity.cpp ImplAlignatorSimilarity.cpp ImplAlignatorTuples.cpp \
-			ImplAlignatorDummy.cpp \
+			ImplAlignatorPrebuilt.cpp \
 			ImplAlignatorFragments.cpp ImplAlignatorFragmentsSquared.cpp \
-			ImplAlignatorPublishAlignment.cpp \
 			ImplAlignatorGroupies.cpp
 
 PARTS_ITERATOR=		Iterator2D.cpp HelpersIterator2D.cpp \

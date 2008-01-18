@@ -341,9 +341,8 @@ void combineAlignment(
 		const HAlignment & src1, 
 		const HAlignment & src2, 
 		const CombinationMode mode ) 
-		{
+{
 	debug_func_cerr(5);
-
 
 	dest->clear();
 
@@ -352,7 +351,8 @@ void combineAlignment(
 	AlignmentIterator it2(src2->begin());
 	AlignmentIterator it2_end(src2->end());
 
-	while ( it1 != it1_end && it2 != it2_end ) {
+	while ( it1 != it1_end && it2 != it2_end ) 
+	{
 
 		const ResiduePAIR & x_pair = *it1;
 		const ResiduePAIR & y_pair = *it2;
@@ -406,7 +406,7 @@ void combineAlignment(
 	}
 
 	return;
-		}
+}
 
 //------------------------------------------------------------------------------------------------------------
 /** Print pretty pairwise aligment */

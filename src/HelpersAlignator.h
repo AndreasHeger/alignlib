@@ -33,18 +33,27 @@
 namespace alignlib 
 {
     
-    /** Helper functions for class Alignment:
+    /** Helper functions for @ref class Alignator
+
+	Affine gap penalties are computed using the following
+	formula:
 	
-	1. factory functions
+	penalty = gop + gap_length * gep
 	
-	2. accessor functions for default objects
-	
-	3. convenience functions
+	Thus, the gap opening penalty does not include the penalty for
+	the first gap position. 
     */
 
-  /* 1. factory functions */
+  	/* factory functions */
 
-    /** Perform full dynamic programming  */
+    /** make an @ref Alignator object performing full dynamic programming  
+     * 
+     * @param alignment_type 	The @ref AlignmentType (global, local, wrapping)
+     * @param gop				Gap openening penalty.
+     * @param gep				Gap extension penalty.
+     * @param penalize_left		Penalize gaps on left side of sequences (global alignment)
+     * @param penalize_right	Penalize gaps on right side of sequences (global alignment).
+     * */
 	HAlignator makeAlignatorDPFull( 
 			AlignmentType alignment_type,
 			Score gop, Score gep, 
@@ -54,31 +63,44 @@ namespace alignlib
     /** make an alignator object, which aligns identical residues */
     HAlignator makeAlignatorIdentity();
 
-    /** make an alignator object, which aligns identical residues */
+    /** make an @ref Alignator object, which aligns similar residues 
+     * 
+     * Similar residues are defined as those that produce a positive
+     * alignment score.
+     */
     HAlignator makeAlignatorSimilarity();
 
-    /** make an alignator object, which aligns similar tuples */
+    /** make an @ref Alignator object, which aligns identical tuples 
+    */
     HAlignator makeAlignatorTuples(int ktuple = 3 );
 
-    /** make an alignator object, which returns a dummy alignments */
-    HAlignator makeAlignatorDummy( const HAlignment & ali );
+    /** make an @ref Alignator object that returns a pre-built alignment.
+     * @param ali	alignment to return on calling the align method.
+    */
+    HAlignator makeAlignatorPrebuilt( const HAlignment & ali );
 
-    /** make an alignator object, which returns a dummy alignment */
-    HAlignator makeAlignatorPublishAlignment( HAlignment & ali );
-    
-    /** make an alignator object, which does a dot-alignment with wrapping around. */
+    /** make an @ref Alignator object, which does a dot-alignment with wrapping around.
+     * @param alignator	@ref Alignator object to build the dot matrix.
+     * @param gop gap opening penalty.
+     * @param gep gap extension penalty. 
+     *  
+     */
     HAlignator makeAlignatorDotsWrap(
     		const HAlignator & alignator,    		
     		Score gop, 
     		Score gep );
 
-    /** make an alignator object, which does a dot-alignment with wrapping around. */
+    /** make an @ref Alignator object, which does a dot-alignment with wrapping around.
+     * @param alignator	@ref Alignator object to build the dot matrix.
+     * @param gop gap opening penalty.
+     * @param gep gap extension penalty. 
+     */
     HAlignator makeAlignatorDotsSquared(
     		const HAlignator & alignator,
     		Score gop, 
     		Score gep );
     
-    /** make an alignator object, which does a dot-alignment with wrapping around. */
+    /** make an @ref Alignator object, which does a dot-alignment with wrapping around. */
     HAlignator makeAlignatorDotsSquaredDiagonal(
     		const HAlignator & alignator,     		
     		Score gop, 
@@ -86,17 +108,20 @@ namespace alignlib
     		Score diagnal_gop = 0,
     		Score diagonal_gep = 0 );
 
-    /** make an alignator object, which aligns fragments. */
+    /** make an @ref Alignator object, which aligns fragments. */
     HAlignator makeAlignatorFragmentsSquared(
     		Score gop, 
     		Score gep, 
     		const HFragmentor & fragmentor );
 
-    /** alignator object for iterative alignment
+    /** make an @ref Alignator object for iterative alignment
      * 
      * Aligns two Alignandum objects iteratively using a template
-     * alignator object until the alignment score drops below @min_score. 
+     * alignator object until the alignment score drops below min_score. 
      * The template alignator object is copied.
+     * 
+     * @param alignator @ref Alignator object to perform alignments.
+     * @param min_score	Continue until score falls below this threshold.
      */
     HAlignator makeAlignatorIterative( 
     		const HAlignator & alignator, 
@@ -131,11 +156,6 @@ namespace alignlib
 	 */
 	HAlignator makeAlignatorGroupies();
 
-	/* 2. accessor functions for default objects */
-    
-
-    /* 3. convenience functions */
-        
 }
 
 #endif	/* HELPERS_ALIGNATOR_H */

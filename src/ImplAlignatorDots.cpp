@@ -104,29 +104,27 @@ namespace alignlib
       mRowLength = mIterator->row_size();
       mColLength = mIterator->col_size();
 
+      // the algorithms assume that dots are sorted by row, 
+      // so use AlignmentMatrixRow	
       mMatrix = makeAlignmentMatrixRow();
-     
-      // 
+      
       // setup matrix of dots
-
-      // TODO: check with AlignatorPublishDots
-      // create dots. This is a patch for AlignatorPublishDots, which
-      // does not copy into mMatrix, but returns another pointer.
       mDottor->align( mMatrix, row, col ); 
 
       // get the number of dots, which corresponds to the length of the
-      // alignment in this class. Tell the matrix to sort, etc., at the 
-      // same time.
+      // alignment in this class. This will tell the matrix to put itself
+      // in a defined state (sort, etc.), at the same time.
       mNDots = mMatrix->getLength();
 
-      debug_cerr( 5, *mMatrix );
+      debug_cerr( 5, "built dotplot for alignment with " << mNDots << " dots" );
 
+      debug_cerr( 10, "dots=\n" << *(mMatrix) );
+      
       // get pointers to location of dots(pairs)
-      const HAlignment test = makeAlignmentMatrixRow();
-      const HImplAlignmentMatrix t = boost::dynamic_pointer_cast< ImplAlignmentMatrix, Alignment>(test); 
+      const HImplAlignmentMatrix t = boost::dynamic_pointer_cast< ImplAlignmentMatrix, Alignment>(mMatrix); 
       mPairs	= &t->mPairs;
-      mRowIndices = t->mIndex;	// these have to be sorted by row, that's why I use AlignmentMatrixRow	
-
+      mRowIndices = t->mIndex;	
+      
       mTrace   = new int[mNDots];
       mLastDot = -1;
     }
@@ -204,47 +202,50 @@ namespace alignlib
     bool found = false;  
 
     if ( x == NO_POS ) 
-      return NO_POS;  
+    	return NO_POS;  
 
-    while ((*mPairs)[x]->mRow == r ) {         
-      if ((*mPairs)[x]->mCol == c) {             
-        found = true;             
-        break;         
-      }         
-      x++;     
+    while ((*mPairs)[x]->mRow == r ) 
+    {         
+    	if ((*mPairs)[x]->mCol == c) 
+    	{             
+    		found = true;             
+    		break;         
+    	}         
+    	x++;     
     }  
 
     if (found)         
-      return x;     
+    	return x;     
     else         
-      return NO_POS; 
+    	return NO_POS; 
   }
 
   //----------------------------------------------------------------------------------------------------------------------------------------
 
 
   //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-  void ImplAlignatorDots::performAlignment( HAlignment & ali,
+  void ImplAlignatorDots::performAlignment( 
+		  HAlignment & ali,
 		  const HAlignandum & prow, 
 		  const HAlignandum & pcol ) 
     {
 
       /**
-     Overview over the algorithm
+     	Overview over the algorithm
 
-     Dots are sorted by row and then by column. This is also the order or processing
-     during the algorithm.
+     	Dots are sorted by row and then by column. This is also the order or processing
+     	during the algorithm.
 
-     col ->
-     row
-     |
+     	col ->
+     	row
+     	|
 
-     ------------|
-     |           |
-     |           |
-     |           |
-     |           |
-     ------------x
+     	------------|
+     	|           |
+     	|           |
+     	|           |
+     	|           |
+     	------------x
 
      note: you do not have to consider dots in the same row or column, as it is
      not possible to match the same row to two different columns and vice versa.
@@ -268,8 +269,7 @@ namespace alignlib
      The array bestpercol has to be updated only after a full row has been processed,
      since its values are needed while the row is still active.
 
-
-
+	Note: this is very old code and has not been touched for a while.
        */
 
       Score globbest, best;
@@ -303,18 +303,17 @@ namespace alignlib
 
       // #define DEBUG
       //----------------------------------> main alignment loop <----------------------------------------------------
-      for ( current_dot = mRowIndices[1]; current_dot < mNDots; current_dot++ ) {	   /* iterate through nextrow starting at first position */
+      for ( current_dot = mRowIndices[1]; current_dot < mNDots; current_dot++ ) 
+      {	   
+    	  // iterate through nextrow starting at first position
 
-        if (current_dot < 0) continue;
-        row_res = (*mPairs)[current_dot]->mRow;                           /* row_res = row */
-        col_res = (*mPairs)[current_dot]->mCol;                           /* col_res = col, wrap around col */
+    	  if (current_dot < 0) continue;
+    	  row_res = (*mPairs)[current_dot]->mRow;                           /* row_res = row */
+    	  col_res = (*mPairs)[current_dot]->mCol;                           /* col_res = col, wrap around col */
 
-        // some safety checks
-#ifdef SAVE
-        if (row_res > mRowLength) break;                   /* checking boundaries */
-        if (col_res < 1) continue;                /* can be removed, if only dots in boundaries are supplied */
-        if (col_res > mColLength) continue;
-#endif
+    	  // some safety checks
+    	  assert( row_res < mRowLength);
+    	  assert( col_res < mColLength);
 
 #ifdef DEBUG
         std::cout << "--------------------------------------------" << std::endl;
@@ -398,7 +397,7 @@ namespace alignlib
             sa=0; 
 
           /* Search through area (row_res -2, col_res -2, but start in last_search_col, where
-	 we left of the search previously, while being in the same row */
+	 	we left of the search previously, while being in the same row */
 
           for (i = last_search_col; i <= col_res-2; i++) {
             xdot = bestpercol[i]; 

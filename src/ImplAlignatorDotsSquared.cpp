@@ -49,25 +49,25 @@ namespace alignlib
 
 /*---------------------factory functions ---------------------------------- */
 
-    /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
-	object */
-HAlignator makeAlignatorDotsSquared( 
-		const HAlignator & alignator, 
-		Score gop, 
-		Score gep )
-{
-  return HAlignator( new ImplAlignatorDotsSquared( alignator, gop, gep, gop ) );
-}
+    /** make an alignator object, which does a dot-alignment. 
+     */
+	HAlignator makeAlignatorDotsSquared( 
+			const HAlignator & alignator, 
+			Score gop, 
+			Score gep )
+	{
+		return HAlignator( new ImplAlignatorDotsSquared( alignator, gop, gep, gop, gep ) );
+	}
 
-//----------------------------------------------------------------------------------------------------------------------------------------
-    /** constructors and destructors */
-ImplAlignatorDotsSquared::ImplAlignatorDotsSquared( 
-	      const HAlignator & dots,		
-	      Score row_gop, Score row_gep, 
-	      Score col_gop, Score col_gep ) :
-    ImplAlignatorDots( dots, row_gop - row_gep, row_gep, col_gop - col_gep, col_gep ) 
-    {
-}
+	//----------------------------------------------------------------------------------------------------------------------------------------
+    /* constructors and destructors */
+	ImplAlignatorDotsSquared::ImplAlignatorDotsSquared( 
+			const HAlignator & dots,		
+			Score row_gop, Score row_gep, 
+			Score col_gop, Score col_gep ) :
+				ImplAlignatorDots( dots, row_gop, row_gep, col_gop, col_gep ) 
+				{
+				}
 
 //------------------------------------------------------------------------------------------
 ImplAlignatorDotsSquared::ImplAlignatorDotsSquared( const ImplAlignatorDotsSquared & src ) : 
@@ -111,7 +111,8 @@ Score ImplAlignatorDotsSquared::getGapCost( Dot x1, Dot x2 ) const
 }
 
 //-------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
+void ImplAlignatorDotsSquared::performAlignment( 
+		HAlignment & ali,
 		const HAlignandum & prow, 
 		const HAlignandum & pcol ) 
   {
@@ -137,109 +138,118 @@ void ImplAlignatorDotsSquared::performAlignment( HAlignment & ali,
 
   */
 
-    debug_func_cerr(5);
-    
-  Dot global_best_dot = NO_POS;
-  Score global_best_score = 0;
-
-  // create data structure for search region
-  // sort dots in search region by increasing column
-  typedef multimap <Position, Dot> MyDotSet;
-
-  MyDotSet search_region;
+	debug_func_cerr(5);
   
-  // array with scores of dots
-  vector<Score> scores(mNDots,0);
+	// check if number of dots and the size of the dotplot
+	// correspond.
+	assert( mNDots == mPairs->size() );
+	
+	Dot global_best_dot = NO_POS;
+	Score global_best_score = 0;
 
-  // array with dots in current row
-  vector<Dot> dot_stack(mColLength, NO_POS);
+	// create data structure for search region
+	// sort dots in search region by increasing column
+	typedef multimap <Position, Dot> MyDotSet;
 
-  unsigned int num_row_dots = 0;
-  Position last_row = 0;
-  //----------------------------------> main alignment loop <----------------------------------------------------
-  for ( Dot current_dot = 0; current_dot < mNDots; ++current_dot) 
-    {	   
+	MyDotSet search_region;
+  
+	// array with scores of dots
+	vector<Score> scores(mNDots,0);
 
-    Position current_row = (*mPairs)[current_dot]->mRow;                         
-    Position current_col = (*mPairs)[current_dot]->mCol;                         
+	// array with dots in current row
+	vector<Dot> dot_stack(mColLength, NO_POS);
 
-    /* if a new row is entered, enter dots from stack to search-area */
-    if (current_row != last_row) {
-      while (num_row_dots > 0) {
-	Dot dot = dot_stack[--num_row_dots];
-	search_region.insert(pair<Position, Dot>((*mPairs)[dot]->mCol, dot));
-      }
-      last_row = current_row;
-    }
+	unsigned int num_row_dots = 0;
+	Position last_row = 0;
+    
+	//----------------------------------> main alignment loop <----------------------------------------------------
+	for ( Dot current_dot = 0; current_dot < mNDots; ++current_dot) 
+	{	   
 
-    /* search search-area: always lookup starting at col 1 until current_col - 1. Try to find
-       a positive trace leading to current dot. If it were negative, it would not be part of
-       the optimum alignment up to current_dot. */
-    Dot search_best_dot   = NO_POS;
-    Score search_best_score = 0;
+		Position current_row = (*mPairs)[current_dot]->mRow;                         
+		Position current_col = (*mPairs)[current_dot]->mCol;                         
+
+		debug_cerr( 6, "working on: dot=" << current_dot << " row=" << current_row << " col=" << current_col );
+		
+		// if a new row is entered, enter dots from stack to search-area
+		if (current_row != last_row) 
+		{
+			while (num_row_dots > 0) 
+			{
+				Dot dot = dot_stack[--num_row_dots];
+				search_region.insert(pair<Position, Dot>((*mPairs)[dot]->mCol, dot));
+			}
+			last_row = current_row;
+		}
+
+		// search search-area: always lookup starting at col 1 until current_col - 1. Try to find
+       	// a positive trace leading to current dot. If it were negative, it would not be part of
+       	// the optimum alignment up to current_dot.
+		Dot search_best_dot   = NO_POS;
+		Score search_best_score = 0;
 
 #ifdef DEBUG
-    debug_cerr( 6, "SEARCH_AREA" );
+		debug_cerr( 6, "SEARCH_AREA" );
     
-    for (MyDotSet::iterator it = search_region.begin(); it != search_region.end(); ++it)
-      debug_cerr( 6, "  [" << (*it).first << ", " << (*it).second << "]" );
+		for (MyDotSet::iterator it = search_region.begin(); it != search_region.end(); ++it)
+			debug_cerr( 6, "  [" << (*it).first << ", " << (*it).second << "]" );
 #endif
     
-    MyDotSet::const_iterator it(search_region.begin()), it_end(search_region.end());
-    while (it != it_end && ((*it).first < current_col)) 
-      {
+		MyDotSet::const_iterator it(search_region.begin()), it_end(search_region.end());
+		while (it != it_end && ((*it).first < current_col)) 
+		{
       
-        Dot const search_dot = (*it).second;
-        Score search_score = scores[search_dot];
+			Dot const search_dot = (*it).second;
+			Score search_score = scores[search_dot];
       
-        if (search_score > 0) 
-          {
-            search_score += getGapCost( search_dot, current_dot);
-            if (search_score >= search_best_score) 
+			if (search_score > 0) 
+			{
+				search_score += getGapCost( search_dot, current_dot);
+				if (search_score >= search_best_score) 
                 {
-                  search_best_score = search_score;
-                  search_best_dot   = search_dot;
+					search_best_score = search_score;
+					search_best_dot   = search_dot;
                 }
-          }
-      ++it;
-      }
+			}
+			++it;
+		}
 
-    /* no positive trace found, new trace starts at current dot */
-    if (search_best_dot == NO_POS)
-      search_best_score = (*mPairs)[current_dot]->mScore;
-    else
-      search_best_score += (*mPairs)[current_dot]->mScore;
+		// no positive trace found, new trace starts at current dot
+		if (search_best_dot == NO_POS)
+			search_best_score = (*mPairs)[current_dot]->mScore;
+		else
+			search_best_score += (*mPairs)[current_dot]->mScore;
 
-    debug_cerr( 5, "current_dot=" << current_dot << " current_row=" << current_row << " current_col=" << current_col );
-    debug_cerr( 5, "search_best_dot=" << search_best_dot << " search_best_score=" << search_best_score );
+		debug_cerr( 5, "current_dot=" << current_dot << " current_row=" << current_row << " current_col=" << current_col );
+		debug_cerr( 5, "search_best_dot=" << search_best_dot << " search_best_score=" << search_best_score );
     
 #ifdef DEBUG
-    if (search_best_dot != NO_POS) 
-      debug_cerr( 5, "gap_cost=" << getGapCost(search_best_dot, current_dot) );
+		if (search_best_dot != NO_POS) 
+			debug_cerr( 5, "gap_cost=" << getGapCost(search_best_dot, current_dot) );
 #endif
     
-    /* do local alignment, traces with score <= 0 are skipped */
-    if (search_best_score < 0)
-      continue;
+		// do local alignment, traces with score <= 0 are skipped
+		if (search_best_score < 0)
+			continue;
     
-    scores[current_dot] = search_best_score;
-    mTrace[current_dot] = search_best_dot;
+		scores[current_dot] = search_best_score;
+		mTrace[current_dot] = search_best_dot;
 
-    dot_stack[num_row_dots++] = current_dot;    
+		dot_stack[num_row_dots++] = current_dot;    
 
-    /* remember end point of best trace */
-    if (search_best_score > global_best_score) 
-      {
-      global_best_score = search_best_score;
-      global_best_dot   = current_dot;
-    }
+		// remember end point of best trace
+		if (search_best_score > global_best_score) 
+		{
+			global_best_score = search_best_score;
+			global_best_dot   = current_dot;
+		}
     
-  } /* end of alignment loop */
+	} // end of alignment loop 
 
-  mLastDot= global_best_dot;
-  mScore  = global_best_score;
+	mLastDot= global_best_dot;
+	mScore  = global_best_score;
 
-  debug_cerr( 5, "global_best_dot=" << global_best_dot << " global_best_score=" << global_best_score )
+	debug_cerr( 5, "global_best_dot=" << global_best_dot << " global_best_score=" << global_best_score )
 
   //--------------> cleaning up <---------------------------------------------------------------
 

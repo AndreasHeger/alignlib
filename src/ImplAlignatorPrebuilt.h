@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignatorPublishAlignment.h,v 1.2 2004/01/07 14:35:34 aheger Exp $
+  $Id: ImplAlignatorDummy.h,v 1.2 2004/01/07 14:35:34 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -25,39 +25,44 @@
 #include <config.h>
 #endif
 
-#ifndef IMPL_ALIGNATOR_PUBLISHALIGNATA_H
-#define IMPL_ALIGNATOR_PUBLISHALIGNATA_H 1
+#ifndef IMPL_ALIGNATOR_DUMMY_H
+#define IMPL_ALIGNATOR_DUMMY_H 1
 
 #include "alignlib_fwd.h"
 #include "ImplAlignator.h"
 
-namespace alignlib {
+namespace alignlib 
+{
 
- /** This alignator object is initialized with an alignment. 
-     The alignment is returned after calling the method align.
-     Use this for storing premade dot-plots.
-     
-     @author Andreas Heger
-     @version $Id: ImplAlignatorPublishAlignment.h,v 1.2 2004/01/07 14:35:34 aheger Exp $
-     @short Return a non-const pre-built alignment
+  /** This alignator object is initialized with an alignment. No
+      matter what the alignable objects are, a copy of the alignment
+      is returned. 
+      
+      You can use this class for passing a pre-built alignment 
+      to an @ref Alignator, that relies on helper @ref Alignator
+      objects for computation. 
+      
+      @author Andreas Heger
+      @version $Id$
+      @short Return a pre-built alignment
       
   */
 
 class Alignandum;
 
-class ImplAlignatorPublishAlignment : public ImplAlignator 
+class ImplAlignatorPrebuilt : public ImplAlignator 
 {
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplAlignatorPublishAlignment  ( HAlignment & ali);
+    ImplAlignatorPrebuilt  ( const HAlignment & ali);
     
     /** copy constructor */
-    ImplAlignatorPublishAlignment  (const ImplAlignatorPublishAlignment &);
+    ImplAlignatorPrebuilt  (const ImplAlignatorPrebuilt &);
 
     /** destructor */
-    virtual ~ImplAlignatorPublishAlignment();
+    virtual ~ImplAlignatorPrebuilt();
 
     /** method for aligning two arbitrary objects */
     virtual void align(
@@ -70,7 +75,7 @@ class ImplAlignatorPublishAlignment : public ImplAlignator
     virtual HAlignator getClone() const;
     
  private:
-    HAlignment & mAlignment;
+    const HAlignment & mAlignment;
 
 };
 

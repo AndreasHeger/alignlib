@@ -106,7 +106,7 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 
 			while ( 1 ) 
 			{
-				HAlignator dottor(makeAlignatorPublishAlignment( mDots ));
+				HAlignator dottor(makeAlignatorPrebuilt( mDots ));
 				HAlignator alignator(makeAlignatorDotsSquared( dottor, mGop, mGep ));
 
 				HAlignment result = sample->getNew();

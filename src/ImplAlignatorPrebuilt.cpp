@@ -26,57 +26,60 @@
 #include <math.h>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 #include "HelpersAlignment.h"
 
-#include "ImplAlignatorDummy.h"
+#include "ImplAlignatorPrebuilt.h"
 
 using namespace std;
 
 namespace alignlib 
 {
 
-HAlignator makeAlignatorDummy( const HAlignment & ali)
+HAlignator makeAlignatorPrebuilt( const HAlignment & ali)
 {
-	return HAlignator( new ImplAlignatorDummy( ali ) );
+	return HAlignator( new ImplAlignatorPrebuilt( ali ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplAlignatorDummy::ImplAlignatorDummy ( const HAlignment & ali) : 
+ImplAlignatorPrebuilt::ImplAlignatorPrebuilt ( const HAlignment & ali) : 
 	ImplAlignator(), mAlignment ( ali )
 	{
 	}
 
-ImplAlignatorDummy::~ImplAlignatorDummy ()
+ImplAlignatorPrebuilt::~ImplAlignatorPrebuilt ()
 {
 }
 
-ImplAlignatorDummy::ImplAlignatorDummy (const ImplAlignatorDummy & src ) :
+ImplAlignatorPrebuilt::ImplAlignatorPrebuilt (const ImplAlignatorPrebuilt & src ) :
 	ImplAlignator(src), 
 	mAlignment(src.mAlignment)
 	{
 	}
 
 //----------------------------------------------------------------------------------------------------------
-HAlignator ImplAlignatorDummy::getClone() const 
+HAlignator ImplAlignatorPrebuilt::getClone() const 
 {
-	return HAlignator( new ImplAlignatorDummy( *this ) );
+	return HAlignator( new ImplAlignatorPrebuilt( *this ) );
 }
 
 //----------------------------------------------------------------------------------------------------------
-void ImplAlignatorDummy::align( HAlignment & result,
+void ImplAlignatorPrebuilt::align( HAlignment & result,
 		const HAlignandum & row, 
 		const HAlignandum & col ) 
 {
 
 	startUp(result, row, col );
 
-	// copy alignment only in region given and move to (1,1)
-	copyAlignment( result, mAlignment,
-			mIterator->row_front(), mIterator->row_back(),
-			mIterator->col_front(), mIterator->col_back() );
+	debug_cerr( 10, "input dots" << *mAlignment );
 
+	// copy alignment only in region given by iterator
+	copyAlignment( result, mAlignment,
+			mIterator->row_front(), mIterator->row_back() + 1,
+			mIterator->col_front(), mIterator->col_back() + 1);
+
+	debug_cerr( 10, "copied dots" << *result );
+	
 	cleanUp( result, row, col );
 }
 

@@ -70,7 +70,7 @@ bool testPairwiseAlignment(int test_id,
 	std::string r_row(row);
 	std::string r_col(col);
 
-	std::cout << AlignmentFormatExplicit( result, benchmark_row, benchmark_col );
+	std::cout << AlignmentFormatExplicit( result, benchmark_row, benchmark_col ) << std::endl ;
 
 	std::cout << "result=" << *result << std::endl;
 	
@@ -291,15 +291,14 @@ int main () {
 	Score gop = -12;
 	Score gep = -2;
 	
-	/*
 	{
 		std::cout << "--- testing AlignatorDPFull (global mode) " << std::endl;
-			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true );
-			testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-			testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 6 );
-			testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 6 );
-			testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+3-2+2", 0,  7,      "+7", 34 );
-			testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
+		HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true );
+		testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 6 );
+		testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 6 );
+		testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+3-2+2", 0,  7,      "+7", 34 );
+		testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 
 		HIterator2D i = makeIterator2DBanded( 0, 0);
 		a->setIterator2D( i );
@@ -327,7 +326,6 @@ int main () {
 		testPairwiseAlignment( 17, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
 		testPairwiseAlignment( 18, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 	}
-
 	{
 		std::cout << "--- testing AlignatorDPWrap (local mode)" << std::endl;
 		HAlignator a = makeAlignatorDPFull( ALIGNMENT_WRAP, gop, gep );
@@ -346,8 +344,21 @@ int main () {
 	{ 
 		std::cout << "--- testing sequence/profile alignment ---" << std::endl;
 		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
-		testPairwiseAlignment( 24, a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 42 );
+		testPairwiseAlignment( 24, a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 18 );
 	}
+
+	{
+		// here, gap costs are -10, -2
+		std::cout << "--- testing AlignatorGroupies " << std::endl;
+		HAlignator a = makeAlignatorGroupies();
+		testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
+		testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
+		testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+2-2+3", 0,  7,      "+7", 34 );
+		testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+8-1+7",0,  15,  "+7-1+8", 112 );
+	}
+	
+	
 	{ 
 		
 		HSubstitutionMatrix new_matrix(makeSubstitutionMatrix( 
@@ -386,18 +397,6 @@ int main () {
 			std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;			
 		}
 	}
-	*/
-	{
-		std::cout << "--- testing AlignatorGroupies " << std::endl;
-			HAlignator a = makeAlignatorGroupies();
-			testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-			testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 6 );
-			testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 6 );
-			testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+3-2+2", 0,  7,      "+7", 34 );
-			testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
-	}
-	
-	
 	
 	//   cout << "---------------------testing AlignatorFullDPWrap----------------------------------" << endl;
 	//   a1 = makeAlignatorFullDPWrap( -1, -0.1 );

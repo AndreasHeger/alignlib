@@ -80,7 +80,7 @@ void test()
   	// std::cout << *dotplot << endl;
 	
 	// make a Dottor
-	HAlignator dottor(makeAlignatorPublishAlignment( dotplot ));
+	HAlignator dottor(makeAlignatorPrebuilt( dotplot ));
 	// make the alignator
 	
 	HAlignator alignator(makeAlignatorDotsSquared( dottor, -10, -2 ));
