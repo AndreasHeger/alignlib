@@ -33,20 +33,20 @@
 namespace alignlib 
 {
 
-    /** Iterator interface for constant iterators over Alignment objects. 
+    /** @short Protocol class for constant iterators over Alignment objects. 
      * 
-     * The AlignmentConstIterator and AlignmentIterator classes take any of the 
-     * iterators of aligned pairs of alignata-objects
-	and converts it into an iterator that is STL-compatible in its syntax (i.e. 
-	no overloading, etc.). 
-	
-	The penalty for this universality in syntax is paid in performance. There are 
-	two additional indirections.
-
-	@author Andreas Heger
-	@version $Id: AlignmentIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
-	@short protocol class for iterators over Alignment objects
-	@ref Alignment
+     * The AlignmentIterator classes take any of the 
+     * iterators of aligned pairs of alignata-objects (see @ref Alignata::Iterator)
+	 * and converts it into an iterator that is STL-compatible in its syntax (i.e. 
+	 * no overloading, etc.). 
+	 *
+	 * There are two additional indirections:
+	 * @ref AlignmentIterator -> Alignment::Iterator -> container iterator
+	 * 
+	 *
+		@author Andreas Heger
+		@version $Id: AlignmentIterator.h,v 1.3 2004/03/19 18:23:39 aheger Exp $
+		@ref Alignment
     */
 
 class AlignmentIterator 
@@ -61,46 +61,70 @@ class AlignmentIterator
     ~AlignmentIterator() { delete mIterator; };
 
     /** assignment operator */
-    inline AlignmentIterator & operator=( const AlignmentIterator & other ) {
-      if (*this != other) {
-	/* mIterator = other.mIterator; does not work, I guess, because of shallow copying */
-	delete mIterator;
-	mIterator = other.mIterator->getClone();
-      }
-      
+    inline AlignmentIterator & operator=( const AlignmentIterator & other ) 
+    {
+    	if (this != &other) 
+    	{
+    		/* mIterator = other.mIterator; does not work, I guess, because of shallow copying */
+    		delete mIterator;
+    		mIterator = other.mIterator->getClone();
+    	}	
       return *this;
     }
 
     /** comparison operator */
-    inline bool operator==( const AlignmentIterator & other) {   
+    inline bool operator==( const AlignmentIterator & other) const
+    {   
+    	// according to STL the following invariant holds:
+    	// x == y if and only if &*x == &*y
       return ( (*mIterator).getPointer() == (*other.mIterator).getPointer() );
     }
     
     /** comparison operator */
-    inline bool operator!=( const AlignmentIterator & other) {
+    inline bool operator!=( const AlignmentIterator & other) const
+    {
       return ( (*mIterator).getPointer() != (*other.mIterator).getPointer() );
     }
       
     /** indirection operator */
-    inline const ResiduePair * operator->() const { return &(mIterator->getReference()); }
+    inline const ResiduePair * operator->() const 
+    { 
+    	return &(mIterator->getReference()); 
+    }
 
     /** dereference operator */
-    inline const ResiduePair & operator*() const { return mIterator->getReference(); }
+    inline const ResiduePair & operator*() const 
+    { 
+    	return mIterator->getReference(); 
+    }
  
-    /** prefix ++ */
-    inline AlignmentIterator & operator++() { mIterator->next(); return *this; }
+    /** prefix ++ operator */
+    inline AlignmentIterator & operator++() 
+    { 
+    	mIterator->next(); return *this; 
+    }
  
-    /** postfix ++ */
-    inline AlignmentIterator operator++(int) { AlignmentIterator tmp = *this; mIterator->next(); return tmp; }
+    /** postfix ++ operator */
+    inline AlignmentIterator operator++(int) 
+    { 
+    	AlignmentIterator tmp = *this; mIterator->next(); return tmp; 
+    }
  
-    /** prefix -- */
-    inline AlignmentIterator & operator--() { mIterator->previous(); return *this; }
+    /** prefix -- operator */
+    inline AlignmentIterator & operator--() 
+    { 
+    	mIterator->previous(); return *this; 
+    }
  
-    /** postfix -- */
-    inline AlignmentIterator  operator--(int) { 
-      AlignmentIterator tmp = *this; mIterator->previous(); return tmp; }
+    /** postfix -- operator */
+    inline AlignmentIterator  operator--(int) 
+    { 
+      AlignmentIterator tmp = *this; mIterator->previous(); return tmp; 
+    }
     
  private:
+	 
+	 // Todo: check if a reference will suffice.
     Alignment::Iterator * mIterator;
 };
 

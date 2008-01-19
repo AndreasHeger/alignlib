@@ -27,19 +27,20 @@
 #ifndef _ALIGNEXCEPTION_H
 #define _ALIGNEXCEPTION_H 1
 
-namespace alignlib {
+namespace alignlib 
+{
 
-// Project: LibAlign
 /**
-   
+   Base class for exceptions thrown by alignlib.
    
 
    @author Andreas Heger
    @version $Id: AlignException.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
-   @short ...
+   @short Base class for exceptions thrown by alignlib.
 
 */
-class AlignException {
+class AlignException 
+{
  public:
     AlignException( const char *);
 };

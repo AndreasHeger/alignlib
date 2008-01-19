@@ -196,9 +196,7 @@ void ImplAlignmentMatrix::removePair( const ResiduePair & p )
 	for ( ;it != mPairs.end(); )
 	{
 		if ( *it == p )
-		{
 			it = mPairs.erase( it );
-		}
 		else
 			++it;
 	}

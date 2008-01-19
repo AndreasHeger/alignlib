@@ -108,7 +108,7 @@ namespace alignlib
   {
     assert( row >= 0);
     assert( col >= 0);
-    return mSubstitutionMatrix->getValue(mRowSequence[row],mColSequence[col]);
+    return mSubstitutionMatrix->getValue((*mRowSequence)[row],(*mColSequence)[col]);
   }
   
 }

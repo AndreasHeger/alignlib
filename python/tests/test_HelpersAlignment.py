@@ -19,7 +19,6 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 import unittest, tempfile
-import StringIO, cStringIO
 from alignlib import *
 
 class HelpersAlignmentTestCase( unittest.TestCase ):
@@ -42,42 +41,7 @@ class HelpersAlignmentTestCase( unittest.TestCase ):
             (10,11,1),
             (12,12,1)):
             alignment.addPair( d[0], d[1], float(d[2]))
-                    
-    def testWritePairAlignment(self ):
-        
-        row = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" )
-        col = makeSequence( "AAAAAAAAAAAAAAAAAAAAAAAAAAAAA" )
-
-        self.buildAlignment( self.mAlignment )
-        
-        outfile = open("test.out", "wb" )
-        writePairAlignment(outfile, row, col, self.mAlignment )
-        outfile.close()
-        
-        outfile = tempfile.TemporaryFile( "w+b" )
-        result = writePairAlignment( outfile, row, col, self.mAlignment )
-        outfile.seek(0)
-        input = outfile.readlines()
-            
-    def testAlignmentCompressed( self ):
-
-        self.buildAlignment( self.mAlignment )
-
-        outfile = tempfile.TemporaryFile( "w+b" )
-        writeAlignmentCompressed( outfile, self.mAlignment )
-        outfile.seek(0)
-        row_ali, col_ali = outfile.readline().split("\t")
-        
-        alignment = self.mAlignment.getNew()
-        
-        fillAlignmentCompressed( alignment,
-                                self.mAlignment.getRowFrom(),
-                                row_ali, 
-                                self.mAlignment.getColFrom(),
-                                col_ali )
-        
-        self.assertTrue( self.compareResidueWise( self.mAlignment, alignment ) )
-    
+                        
     def compareResidueWise(self, a, b, inverse = False):
         """compare two alignments. Returns true if they are identical
         residuewise."""

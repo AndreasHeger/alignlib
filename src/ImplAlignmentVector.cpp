@@ -98,7 +98,11 @@ ResiduePair ImplAlignmentVector::back()  const { return mPairs[mRowTo-1]; }
 //----------------------------------------------------------------------------------------------------------------------
 void ImplAlignmentVector::addPair( const ResiduePair & new_pair ) 
 { 
+	debug_func_cerr( 5 );
 
+    debug_cerr( 5, "adding pair " <<  new_pair << " to container of size " 
+    		<< mPairs.size() << " coords=" << mRowFrom << "-" << mRowTo << ":" << mColFrom << "-" << mColTo );
+	
 	ImplAlignment::addPair( new_pair );
 	
 	Position new_row = new_pair.mRow;
@@ -106,7 +110,7 @@ void ImplAlignmentVector::addPair( const ResiduePair & new_pair )
 	size_t needed_size = std::max( mPairs.size(), (size_t)new_row + 1);
 	
 	if (mPairs.size() < needed_size) 
-		mPairs.resize( needed_size * GROWTH_FACTOR);
+		mPairs.resize( needed_size * GROWTH_FACTOR, ResiduePair() );
 
 	mPairs[new_row] = new_pair;
 	
@@ -127,7 +131,7 @@ void ImplAlignmentVector::moveAlignment( Position row_offset, Position col_offse
 
 	// delete old alignment and allocate needed size
 	mPairs.clear();
-	mPairs.resize( needed_size);
+	mPairs.resize( needed_size, ResiduePair() );
 
 	// copy pointers from copy into mPairs
 	for (; it != it_end; ++it) 
@@ -170,12 +174,14 @@ void ImplAlignmentVector::removePair( const ResiduePair & old_pair )
 //----------------------------------------------------------------------------------------------------------------
 void ImplAlignmentVector::clearContainer() 
 { 
+	debug_func_cerr( 5 );
 	mPairs.clear();
 }
 
 //----------------------------------------------------------------------------------------------------------------
 void ImplAlignmentVector::clear() 
-{ 
+{
+	debug_func_cerr( 5 );	
 	ImplAlignment::clear();
 	clearContainer();
 }
@@ -222,6 +228,8 @@ Position ImplAlignmentVector::mapRowToCol( Position pos, SearchType search ) con
 //-----------------------------------------------------------------------------------------------------------   
 void ImplAlignmentVector::updateBoundaries() const 
 {
+	debug_func_cerr( 5 );
+	
 	mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
 	
 	// ignore empty alignments
@@ -244,7 +252,7 @@ void ImplAlignmentVector::updateBoundaries() const
 	for (; it != it_end; ++it )
 	{
 		// vector can contain empty entries
-		if (it->mRow != NO_POS)
+		if (it->mRow == NO_POS)
 			continue;
 		
     	const Position row = it->mRow;
@@ -258,11 +266,15 @@ void ImplAlignmentVector::updateBoundaries() const
 	}
 	++mRowTo;
 	++mColTo;
+	
+	debug_cerr( 5, "new alignment coordinates: row=" << mRowFrom << "-" << mRowTo << " col=" << mColFrom << "-" << mColTo );
+	
 }
 
 //-----------------------------------------------------------------------------------------------------------   
 void ImplAlignmentVector::removeRowRegion( Position from, Position to) 
 {
+	debug_func_cerr(5);
 
 	Position pos;
 
@@ -272,6 +284,8 @@ void ImplAlignmentVector::removeRowRegion( Position from, Position to)
 	if (to > mRowTo)
 		to = mRowTo;
 
+	debug_cerr( 5, "deleting in row from " << from << " to " << to );
+	
 	// delete aligned positions
 	for ( pos = from; pos < to; pos++) 
 		mPairs[pos] = ResiduePair();
@@ -288,6 +302,7 @@ void ImplAlignmentVector::removeRowRegion( Position from, Position to)
  */
 void ImplAlignmentVector::removeColRegion( Position from, Position to) 
 {
+	debug_func_cerr(5);
 
 	Position pos; 
 

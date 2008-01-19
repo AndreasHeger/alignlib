@@ -97,7 +97,7 @@ namespace alignlib
    */
   Score ImplScorerProfileSequence::getScore( Position row, Position col ) const
   {
-	  return mRowProfile->getValue( row, mColSequence[col] );
+	  return mRowProfile->getValue( row, (*mColSequence)[col] );
   }
   
 }

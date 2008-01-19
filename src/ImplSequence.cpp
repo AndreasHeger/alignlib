@@ -74,7 +74,7 @@ HAlignandum makeSequence( const std::string & sequence )
 ImplSequence::ImplSequence( 
 		const HEncoder & translator ) :
 	ImplAlignandum( translator ),
-	mSequence(NULL) 
+	mSequence() 
 {
 }
 
@@ -83,7 +83,7 @@ ImplSequence::ImplSequence(
 		const std::string & src, 
 		const HEncoder & translator  ) : 
 	ImplAlignandum( translator ), 
-	mSequence(NULL) 
+	mSequence() 
 	{
 	Position length = src.size();
 
@@ -97,12 +97,9 @@ ImplSequence::ImplSequence(
 
 //--------------------------------------------------------------------------------------
 ImplSequence::ImplSequence( const ImplSequence & src ) : 
-	ImplAlignandum( src ), mSequence(NULL)
+	ImplAlignandum( src ), mSequence(src.mSequence)
 {
 	debug_func_cerr(5);
-
-	resize( src.getFullLength() );
-	memcpy( mSequence, src.mSequence, src.getFullLength());
 }
 
 
@@ -110,22 +107,14 @@ ImplSequence::ImplSequence( const ImplSequence & src ) :
 ImplSequence::~ImplSequence() 
 {
 	debug_func_cerr(5);
-
-	if (mSequence != NULL) 
-		delete [] mSequence;
 }
 
 //--------------------------------------------------------------------------------------
 void ImplSequence::resize( Position length )
 {
 	ImplAlignandum::resize(length);
-	if (mSequence != NULL) 
-		delete [] mSequence;
-	mSequence = new Residue[length];
-	Residue gap_code = mEncoder->getGapCode();
 	
-	for (Position i = 0; i < length; ++i)
-		mSequence[i] = gap_code;
+	mSequence = ResidueVector( length, mEncoder->getGapCode() );
 }
 
 //--------------------------------------------------------------------------------------
@@ -159,9 +148,9 @@ void ImplSequence::mask( const Position & x)
 }
 
 //--------------------------------------------------------------------------------------
-const Residue * ImplSequence::getSequence() const 
+const ResidueVector * ImplSequence::getSequence() const 
 {
-	return mSequence;
+	return &mSequence;
 }
 
 //--------------------------------------------------------------------------------------
@@ -177,8 +166,7 @@ void ImplSequence::swap( const Position & x, const Position & y )
 //--------------------------------------------------------------------------------------
 void ImplSequence::write( std::ostream & output ) const 
 {
-	std::string s = mEncoder->decode( mSequence, getFullLength() );
-	output << s;
+	output << mEncoder->decode( mSequence );
 }
 
 //--------------------------------------------------------------------------------------
@@ -194,7 +182,8 @@ void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const
 
 	ImplAlignandum::__save( output, type );
 	
-	output.write( (char*)mSequence, sizeof(Residue) * getFullLength() );
+	for ( Position x = 0; x < getFullLength(); ++ x)
+		output.write( (char*)&mSequence[x], sizeof(Residue) );
 }
 
 //--------------------------------------------------------------------------------------
@@ -203,12 +192,11 @@ void ImplSequence::load( std::istream & input)
 	debug_func_cerr( 5 );
 	
 	ImplAlignandum::load( input );
-
-	if (mSequence != NULL) 
-		delete [] mSequence;
 	
-	mSequence = new Residue[ getFullLength() ] ;
-	input.read( (char*)mSequence, sizeof(Residue) * getFullLength() );
+	mSequence.resize( getFullLength() );
+	
+	for ( Position x = 0; x < getFullLength(); ++ x)
+		input.read( (char*)&mSequence[x], sizeof(Residue) );
 	
 	if (input.fail()) 
 		throw AlignException( "incomplete sequence in stream.");

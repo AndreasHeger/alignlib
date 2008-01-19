@@ -83,8 +83,8 @@ namespace alignlib
      /* since src1 and src2 are const, I have to create two work-copies, 
         so that the boundaries can be changed. */
 
-      HAlignandum copy_row(row);
-      HAlignandum copy_col(col);
+      HAlignandum copy_row(row->getClone());
+      HAlignandum copy_col(col->getClone());
       
       // start aligning by calling recursively performIterativeAlignmentStep
       alignIteratively( result, copy_row, copy_col );

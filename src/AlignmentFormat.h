@@ -44,7 +44,17 @@
 namespace alignlib 
 {
 
-/** base class - keeps track of alignment coordinates
+/** Base class for alignment formats.
+ * 
+ * 	This is a convenience structure for importing/exporting
+ *	pairwise alignments.
+ * 
+ *  This class keeps track of alignment coordinates.
+ * 
+ *  @author Andreas Heger
+ *  @version $Id$
+ *  @short Base class for alignment formats. 
+ * 
  */
 struct AlignmentFormat
 {
@@ -66,11 +76,13 @@ struct AlignmentFormat
 	virtual ~AlignmentFormat();
 
 	/** fill format from alignment
-		@param src Alignment to parse
+	 * 
+	 *	@param src Alignment to parse
 	 */
 	virtual void fill( const HAlignment & src);
 
 	/** fill alignment from format
+	 * 
 	 * 	@param dest Alignment 
 	 */
 	virtual void copy( HAlignment & dest ) const;
@@ -100,10 +112,18 @@ struct AlignmentFormat
 };
 
 /**
-	Data structures for aligned blocks alignment format
+	Data structure for aligned blocks alignment format.
 	
 	This is a convenience structure for importing/exporting
 	pairwise alignments.
+	
+	The aligned blocks format displays gap-less blocks in 
+	an alignment. Each block is defined by a start position
+	in row, a start position in col and a length.
+	
+	Coordinates in row and col are stored relative to 
+	the alignment coordinates and thus always start
+	at 0.
 	
    	@author Andreas Heger
    	@version $Id$
@@ -159,7 +179,7 @@ struct AlignmentFormatBlocks : public AlignmentFormat
 };
 
 /**
-	Data structures for "Emissions" alignment format
+	Data structure for "Emissions" alignment format.
 	
 	This is a convenience structure for importing/exporting
 	pairwise alignments.
@@ -171,7 +191,7 @@ struct AlignmentFormatBlocks : public AlignmentFormat
 	
    	@author Andreas Heger
    	@version $Id$
-   	@short Data structure of emissions alignment format.
+   	@short Data structure of "Emissions" alignment format.
  
 */ 
 
@@ -232,7 +252,7 @@ struct AlignmentFormatEmissions : public AlignmentFormat
 	
    	@author Andreas Heger
    	@version $Id$
-   	@short Data structure of explicit alignment format.
+   	@short Data structure of "Explicit" alignment format.
  
 */ 
 
@@ -327,6 +347,11 @@ struct AlignmentFormatExplicit : public AlignmentFormat
     it is best to use for those that are sorted by diagonal, for
     example, MatrixDiagonal. This achieves the highest compression.
      	
+    The "Diagonals" format is related to the "Emissions" format. Gaps
+    are prefixed by '-' and emissions are prefixed by '+'.
+
+    diagonal:-n1+n2-n3+n4;diagonal;...
+	     
    	@author Andreas Heger
    	@version $Id$
    	@short Data structure of "Diagonals" alignment format.
@@ -363,10 +388,6 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 		 A further filter can be applied, that only saves a band. 
 
 	     If diagonal_from is larger than diagonal_to, then the whole range is used.
-	     
-    The diagonal format is:
-
-    diagonal:-n1+n2-n3+n4;diagonal;...
 	     
 	 */
 	virtual void fill( 

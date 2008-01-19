@@ -107,6 +107,7 @@ namespace alignlib
     {
       debug_func_cerr(5);
 
+      mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
       mChangedLength = false;
       mLength = 0;
       mScore = 0;
@@ -136,7 +137,6 @@ namespace alignlib
   void ImplAlignment::write( std::ostream& output ) const 
   {
     debug_func_cerr(5);
-
 
     output << "Length: " << getLength() << "\tScore: " << getScore() << "\tGaps: " << getNumGaps() << endl;
     output << "Row\tColumn\tScore\t" << endl;
@@ -224,7 +224,6 @@ namespace alignlib
   void ImplAlignment::addPair( Position row, Position col, Score score ) 
     {
       debug_func_cerr(5);
-
       addPair(ResiduePair( row,col,score) );
     } 
 
@@ -238,7 +237,6 @@ namespace alignlib
 
     mLength = 0;
     mNumGaps = 0;
-    
     if (it == it_end)
     {
     	mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;

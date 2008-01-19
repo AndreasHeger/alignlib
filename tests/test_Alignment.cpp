@@ -40,8 +40,11 @@
 #include "HelpersAlignment.h"
 #include "AlignlibDebug.h"
 
-using namespace std;
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
+using namespace std;
 using namespace alignlib;
 
 bool isIdentical( 
@@ -74,8 +77,20 @@ bool isIdentical(
 	return is_identical;
 }
 
+// fill alignment with sample data
+void fillAlignment( HAlignment & a)
+{
+	a->addPair( ResiduePair(3,3, 1.0));		
+	a->addPair( ResiduePair(4,4, 1.0));				
+	a->addPair( ResiduePair(5,6, 1.0));
+	a->addPair( ResiduePair(6,7, 1.0));
+	a->addPair( ResiduePair(8,8, 1.0));
+	a->addPair( ResiduePair(9,10, 1.0));
+	a->addPair( ResiduePair(10,11, 1.0));
+	a->addPair( ResiduePair(12,12, 1.0));	
+}
 // tests for both empty and full alignments
-void TestAlignment( HAlignment & a)
+void testAlignment( HAlignment & a)
 {
 	{ 
 		cout << "testing...writing alignment...";
@@ -92,7 +107,7 @@ void TestAlignment( HAlignment & a)
 		for (; it != it_end; it++) 
 		{ 	ResiduePair p = *it; 
 			p.mRow+=1;
-			}
+		}
 		cout << "passed" << endl;
 	}
 
@@ -245,15 +260,34 @@ void TestAlignment( HAlignment & a)
 	{
 		cout << "testing...removeRowRegion()..." ;
 
-		int i = 0;
+		
+		if (!a->isEmpty())
+		{
+			HAlignment a_clone(a->getClone());
 
-		HAlignment a_clone(a->getClone());
-
-		for (i = 0; i < a->getRowTo() + 5; i+=3) 
-			a_clone->removeRowRegion(i, i+3);       
-
+			a_clone->removeRowRegion( 3, 5);
+			assert( a_clone->getRowFrom() == 5 );
+			assert( a_clone->getColFrom() == 6 );
+		
+			a_clone->removeRowRegion( 10, 13);
+			assert( a_clone->getRowTo() == 10);
+			assert( a_clone->getColTo() == 11);       
+			a_clone->removeRowRegion( 0, 20 );
+			assert( a_clone->getLength() ==  0 );
+			assert( a_clone->isEmpty()== true);
+		}
+        
+		{
+			HAlignment a_clone(a->getClone());
+			a_clone->removeRowRegion(-1, -3);
+			a_clone->removeRowRegion(20, 30);
+			a_clone->removeRowRegion(0, 2);
+			a_clone->removeRowRegion(1, 2);
+			a_clone->removeRowRegion(2, 1);                               
+			assert( a_clone->getLength() ==  a->getLength() );
+		}
+        
 		cout << "passed" << endl;
-
 	}
 
 	{
@@ -269,151 +303,70 @@ void TestAlignment( HAlignment & a)
 		cout << "passed" << endl;
 	}
 
+	// test removing all pairs
 	{
-		cout << "testing...removePair()..." ;
-
-		int i = 0;
-
 		HAlignment a_clone(a->getClone());
 
 		AlignmentIterator it(a->begin());
 		AlignmentIterator it_end(a->end());
 		
+		int naligned = a_clone->getNumAligned();
 		for (; it != it_end; ++it)
+		{
 			a_clone->removePair( *it );
-			
-		assert( a_clone->getLength() == 0 );
-		assert( a_clone->getNumGaps() == 0 );
-		
-		cout << "passed" << endl;
+			BOOST_CHECK_EQUAL( a_clone->getNumAligned(), --naligned );
+		}
+		BOOST_CHECK_EQUAL(a_clone->getLength(), 0 );
+		BOOST_CHECK_EQUAL(a_clone->getNumGaps() , 0);
+		BOOST_CHECK_EQUAL(a_clone->getNumAligned() , 0);
+		BOOST_CHECK_EQUAL(a_clone->isEmpty(), true );
 	}
 	
 	{ 
-		cout << "testing...Clear()...";
-		a->clear();
-		if (a->getScore() == 0 && a->getLength() == 0 && a->getNumGaps() ==0) 
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;
+		HAlignment a_clone( a->getClone());
+		a_clone->clear();
+		BOOST_CHECK_EQUAL(a_clone->getScore(), 0);
+		BOOST_CHECK_EQUAL(a_clone->getLength(), 0 );
+		BOOST_CHECK_EQUAL(a_clone->getNumGaps() , 0);
+		BOOST_CHECK_EQUAL(a_clone->getNumAligned() , 0);		
+		BOOST_CHECK_EQUAL(a_clone->isEmpty(), true );
 	}
 
-	return;
-}
-
-// tests that only make sense for populated alignments
-void FullTest( HAlignment & a) 
-{
+	if ( a->isEmpty() )
+		return;
 	
-	{
-		cout << "testing...getRowFrom()...";
-		Position result = a->getRowFrom();
-		if ( (*(a->begin())).mRow == result) 
-			cout << "passed" << endl;
-		else 
-			cout << "failed" << endl;
-		
-	}
+	BOOST_CHECK_EQUAL( (*(a->begin())).mRow, a->getRowFrom() ); 	
+	BOOST_CHECK_EQUAL( a->front().mRow, a->getRowFrom() ); 		
 
-	{
-		cout << "testing...getRowTo()...";
-		Position result = a->getRowTo(); result++;
-		cout << "passed" << endl;
-	}
+	BOOST_CHECK_EQUAL( (*(a->begin())).mCol, a->getColFrom() ); 	
+	BOOST_CHECK_EQUAL( a->front().mCol, a->getColFrom() );
 
-	{
-		cout << "testing...getColFrom()...";
-		Position result = a->getColFrom();
-		if ( (*(a->begin())).mCol == result) 
-			cout << "passed" << endl;
-		else 
-			cout << "failed" << endl;
-	}
-
-	{
-		cout << "testing...getColTo()...";
-		Position result = a->getRowTo(); result++;
-		cout << "passed" << endl;
-	}
 
 }
 
 //----------------------------------------------------------
 // main test routine for a pairwise alignment
-void Test( HAlignment & a ) 
+void runTests( HAlignment & a ) 
 {
-
-	cout << "-->testing empty alignment" << endl;
-	TestAlignment(a);
-
-	{
-		cout << "testing...addPair()...";
-
-		unsigned int i;
-
-		for (i = 3; i < 5; i++) 
-			a->addPair(ResiduePair( i, i, 1.0));
-
-		a->addPair( ResiduePair(5,6, 1.0));
-		a->addPair( ResiduePair(6,7, 1.0));
-		a->addPair( ResiduePair(7,8, 1.0));
-		a->addPair( ResiduePair(9,9, 1.0));
-		a->addPair( ResiduePair(10,10, 1.0));
-
-		for (i = 12; i < 15; i++) 
-			a->addPair(ResiduePair( i, i, 1.0));
-
-		cout << "passed" << endl;
-	}
-
-	cout << "-->testing populated alignment" << endl;
-	FullTest(a);
-	TestAlignment(a);
-
+	testAlignment( a );
+	fillAlignment( a );
+	testAlignment( a );
+	a->clear();
+	fillAlignment( a );
+	testAlignment( a );
 }
 
-int main () {
+#define create_test( name, factory ) \
+	BOOST_AUTO_TEST_CASE( name ) { HAlignment a(factory()); runTests(a); }
 
-	HAlignment a;
-
-	cout << "---------------------Testing AlignmentVector-------------------------------" << endl;
-	a = makeAlignmentVector();
-	Test( a );
-
-	cout << "---------------------Testing AlignmentSet----------------------------------" << endl;
-	a = makeAlignmentSet();
-	Test( a );
-
-	cout << "---------------------Testing AlignmentHash----------------------------------" << endl;
-	a = makeAlignmentHash();
-	Test( a );
-
-	cout << "---------------------Testing AlignmentHashDiagonal------------------------------" << endl;
-	a = makeAlignmentHashDiagonal();
-	Test( a );
-
-	cout << "---------------------Testing AlignmentSetCol------------------------------" << endl;
-	a = makeAlignmentSetCol();
-	Test( a );
-
-	cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
-	a = makeAlignmentMatrixRow();
-	Test( a );
-
-	cout << "---------------------Testing AlignmentMatrixDiagonal-------------------------------" << endl;
-	a = makeAlignmentMatrixDiagonal();
-	Test( a );
-
-	cout << "---------------------Testing AlignmentMatrixUnsorted-------------------------------" << endl;
-	a = makeAlignmentMatrixUnsorted();
-	Test( a );
-	
-	return EXIT_SUCCESS;
-}
-
-
-
-
-
+create_test( Vector, makeAlignmentVector );
+create_test( Set, makeAlignmentSet );
+create_test( Hash, makeAlignmentHash );
+create_test( HashDiagonal, makeAlignmentHashDiagonal );
+create_test( SetCol, makeAlignmentSetCol );
+create_test( MatrixRow, makeAlignmentMatrixRow );
+create_test( MatrixDiagonal, makeAlignmentMatrixDiagonal );
+create_test( MatrixUnsorted, makeAlignmentMatrixUnsorted );
 
 
 

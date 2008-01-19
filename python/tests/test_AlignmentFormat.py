@@ -28,15 +28,16 @@ class AlignmentFormatTestCase( unittest.TestCase ):
         fillAlignmentIdentity( self.mAlignment, 5, 10, 0)
         fillAlignmentIdentity( self.mAlignment, 10, 15, 5)
         fillAlignmentIdentity( self.mAlignment, 25, 30, -5)
-        self.mFormat = AlignmentFormat
+        self.mFormat = None
 
     def testInput(self):
         
-        a = str(self.mFormat( self.mAlignment ))
-        alignment = makeAlignmentVector()
-        self.mFormat(a).copy( alignment )
-        b = str(self.mFormat( alignment ))
-        self.assertEqual( a, b )
+        if self.mFormat:
+            a = str(self.mFormat( self.mAlignment ))
+            alignment = makeAlignmentVector()
+            self.mFormat(a).copy( alignment )
+            b = str(self.mFormat( alignment ))
+            self.assertEqual( a, b )
 
 class AlignmentFormatBlocksTestCase( AlignmentFormatTestCase ):
 

@@ -81,7 +81,7 @@ class ImplEncoder : public Encoder
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual std::string decode( const Residue *src, int length) const;
+    virtual std::string decode( const ResidueVector & src ) const;
     
     /** translate a single residue from internal to real world representation.
      */
@@ -91,7 +91,7 @@ class ImplEncoder : public Encoder
 	@param src		pointer to string of residues
 	@param length	length of string
     */
-    virtual HResidueVector encode( const std::string & src) const;
+    virtual ResidueVector encode( const std::string & src) const;
 
     /** translate a single residue from real world to internal representation.
      */

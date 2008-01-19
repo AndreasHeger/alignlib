@@ -185,17 +185,17 @@ Position ImplEncoder::countChars( const std::string & ali ) const
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplEncoder::decode( const Residue * src, int length ) const 
+std::string ImplEncoder::decode( const ResidueVector & src ) const 
 {
 	debug_func_cerr(5);
 
-	char * result = new char[length + 1];
+	char * result = new char[src.size() + 1];
 
 	int i;
-	for (i = 0; i < length; i++) 
+	for (i = 0; i < src.size(); i++) 
 		result[i] = mDecodingTable[src[i]];
 
-	result[length] = '\0'; 
+	result[src.size()] = '\0'; 
 	std::string s( result );
 	delete [] result;
 	return s;
@@ -208,12 +208,13 @@ Residue ImplEncoder::encode( const char residue) const
 }  
 
 //--------------------------------------------------------------------------------------------------------------------------------
-HResidueVector ImplEncoder::encode( const std::string & src ) const 
+ResidueVector ImplEncoder::encode( const std::string & src ) const 
 {
-
-	HResidueVector result(new ResidueVector( src.size() ));
+	// TODO: this is inefficient, as ResidueVector is copied on return.
+	// Solution? use dest as argument.
+	ResidueVector result( src.size() );
 	for ( int i = 0; i < src.size(); i++)
-		(*result)[i] = mEncodingTable[src[i]];
+		result[i] = mEncodingTable[src[i]];
 
 	return result;
 }

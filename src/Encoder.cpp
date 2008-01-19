@@ -35,6 +35,10 @@ Encoder::Encoder()
 {
 }    
 
+Encoder::Encoder( const Encoder & src) 
+{
+}    
+
 //--------------------------------------------------------------------------------------
 Encoder::~Encoder () 
 {

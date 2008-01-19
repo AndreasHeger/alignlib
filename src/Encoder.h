@@ -32,11 +32,25 @@
 namespace alignlib 
 {
   
-/** @short Interface definition for translators, that translate sequence to internal representation.
+/** @short Protocoll class for objects that translate alphanumeric alphabets to numeric codes.
     
-    Base class for Encoders. These objects are responsible for translating a residue or
-    a string of residues between real world-representation (e.g. ACVD) and the internal representation
-    used in this library.
+    Encoders are responsible for translating between biological alphabets (ACGT, 20 amino acids)
+	to the numeric representation used by alignment algorithms. Each characters is assigned 
+	a numeric number starting from 0.
+	
+	The alphabet can include characters for masking (e.g., X for protein sequences, N for nucleotide
+	sequences) and these are part of the alphabet. While several characters might be defined as 
+	gap-characters, on encoding only a single code is used for all. On decoding, the default mask 
+	character will be returned.
+	
+	The encoders also record gap characters and assign a unique code for these, but 
+	these characters are not considered to be a part of the alphabet (and thus do not
+	count towards the alphabet size.)
+	
+	Any character that is not recognized by an @ref Encoder will be substituted with
+	a mask character.
+	
+	Encoders are in general case-insensitive, case information is lost on encoding/decoding.
 
    @author Andreas Heger
    @version $Id: Encoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
@@ -53,36 +67,40 @@ class Encoder
     Encoder();
 
     /** copy constructor */
-    // Encoder(const Encoder &);
+    Encoder(const Encoder &);
 
     /** destructor */
     virtual ~Encoder ();
 
-    /** translate a string of residues from internal to real-world representation. A copy
-	of the translated (null-terminated) string is returned.
-	@param src		pointer to string of residues
-	@param length	length of string
+    /** decode a string of residues from internal to real-world representation. 
+     * 
+	 *
+	 *	@param src		Vector of residues
+	 *  @return a string of the decoded residues. 
     */
-    virtual std::string decode( const Residue *src, 
-    							int length) const = 0;
+    virtual std::string decode( const ResidueVector & src ) const = 0; 
     
     /** translate a single residue from internal to real-world representation.
      */
     virtual char decode( const Residue src) const = 0;
  
-    /** translate at string of residues from real word presentation to internal representation. A
-	copy of the translated string is returned.
-	@param src		pointer to string of residues
-	@param length	length of string
+    /** translate at string of residues from real word presentation to internal representation. 
+
+	@param  src		pointer to string of residues
+	@param  length	length of string
+	@return a handle to a vector of encoded characters.
+	 
     */
-    virtual HResidueVector encode( const std::string & src ) const = 0;
+    virtual ResidueVector encode( const std::string & src ) const = 0;
 
     /** translate a single residue from real-world to internal representation.
      */
     virtual Residue encode( const char) const = 0;
  
-   /** check, if the supplied character is in the alphabet. */
-    virtual bool isValidChar( const char ) const = 0;
+   /** check, if the supplied character is in the alphabet. 
+    * @param c character to test.
+    * */
+    virtual bool isValidChar( const char c) const = 0;
     
     /** get code used for a masked character. */
     virtual Residue getMaskCode() const = 0;

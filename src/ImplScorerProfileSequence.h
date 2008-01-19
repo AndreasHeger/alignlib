@@ -29,7 +29,6 @@
 #define IMPL_SCORER_PROFILE_SEQUENCE_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplProfile.h"
 #include "ImplSequence.h"
 #include "ImplScorer.h"
@@ -67,7 +66,7 @@ namespace alignlib
       /** pointer to member data of row/col : AlignandumSequence */
       const ScoreMatrix * mRowProfile;
       
-      const Residue * mColSequence;
+      const ResidueVector * mColSequence;
       
       /** the profile width */
       Residue mProfileWidth;

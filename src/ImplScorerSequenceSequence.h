@@ -68,8 +68,8 @@ namespace alignlib
 
   protected:
       /** pointer to member data of row/col : AlignandumSequence */
-      const Residue * mRowSequence; 
-      const Residue * mColSequence;
+      const ResidueVector * mRowSequence; 
+      const ResidueVector * mColSequence;
       HSubstitutionMatrix mSubstitutionMatrix ;
   };
   

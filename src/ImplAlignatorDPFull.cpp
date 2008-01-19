@@ -276,6 +276,9 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
 		const HAlignandum & prow, const HAlignandum & pcol )
 {
+	
+	// TODO: Fix end gap treatment for global alignment.
+	// See the python test set.
 
 	debug_func_cerr(5);
 

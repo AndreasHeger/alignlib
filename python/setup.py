@@ -213,18 +213,17 @@ def exportInterfaceClasses( mb ):
                               'MultipleAlignment',
                               'Alignator',
                               'Iterator',
-                              'Translator',
+                              'Encoder',
                               'Fragmentor',
                               'Alignment',
                               'AlignmentIterator',
-                              'AlignmentConstIterator',
                               'Scorer',
                               'Weightor',
                               'Renderer',
                               'LogOddor',
                               'Regularizor',
                               'Iterator2D',
-                              'ResiduePAIR',
+                              'ResiduePair',
                               'Alignatum',
                               'EVDParameters',
                               'NormalDistributionParameters',
@@ -270,7 +269,7 @@ def exportInterfaceClasses( mb ):
         cls.constructors().exclude()
 
     ## export load/save functionality
-    classes_with_load_save = ("Alignandum", "Translator")         
+    classes_with_load_save = ("Alignandum", "Encoder")         
     exportSave( mb, 
                 classes_with_load_save,
                 options )        
@@ -287,7 +286,7 @@ def exportHandles( mb ):
     handles_to_export = ['HAlignandum',
                               'HMultipleAlignment',
                               'HAlignator',
-                              'HTranslator',
+                              'HEncoder',
                               'HFragmentor',
                               'HAlignment',
                               'HScorer',

@@ -28,7 +28,6 @@
 #define IMPL_SEQUENCE_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplAlignandum.h"
 #include <iosfwd>
 
@@ -94,7 +93,7 @@ class ImplSequence : public ImplAlignandum
     virtual void load( std::istream & input ) ;
     
     /** export functions for Scorer objects */
-    virtual const Residue * getSequence() const ;
+    virtual const ResidueVector * getSequence() const ;
     
     /** swap two residues */
     virtual void swap( const Position & x, const Position & y);
@@ -117,8 +116,8 @@ class ImplSequence : public ImplAlignandum
 
  protected:
 
-    /** The actual sequence is here*/
-    Residue * mSequence;
+    /** sequence */
+    ResidueVector mSequence;
 };
 
 // handle definition for down-casting
