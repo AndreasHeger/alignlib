@@ -43,7 +43,7 @@ void ImplDistor::calculateMatrix(
 
     PhyloMatrixSize i, j;
     
-    PhyloMatrixSize width = multali->getWidth();
+    PhyloMatrixSize width = multali->getNumSequences();
 
     if (matrix->getWidth() != width)
 	throw AlignException( "Multiple alignment and matrix have different size in ImplDistor::operator()");

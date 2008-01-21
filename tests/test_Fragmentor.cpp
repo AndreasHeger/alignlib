@@ -41,8 +41,7 @@
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 
-#include "HelpersSequence.h"
-#include "HelpersProfile.h"
+#include "HelpersAlignandum.h"
 #include "Alignandum.h"
 #include "Alignator.h"
 #include "HelpersAlignator.h"

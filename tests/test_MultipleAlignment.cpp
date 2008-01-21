@@ -33,8 +33,7 @@
 #include <cassert>
 
 #include "Alignandum.h"
-#include "HelpersSequence.h"
-#include "HelpersProfile.h"
+#include "HelpersAlignandum.h"
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 #include "Alignatum.h"
@@ -86,7 +85,7 @@ int main ()
 		m1->add(makeAlignatum("AAAAAAA--AAAA"));
 
 		assert( m1->getLength() == 13);
-		assert( m1->getWidth() == 4);
+		assert( m1->getNumSequences() == 4);
 
 		std::cout << "testing ouptut" << std::endl;
 		cout << *m1 << endl;
@@ -109,7 +108,7 @@ int main ()
 		m2->add( m1 );
 		m2->add( m1 );
 
-		assert( m2->getWidth() == m1->getWidth() * 2);
+		assert( m2->getNumSequences() == m1->getNumSequences() * 2);
 		assert( m2->getLength() == m2->getLength() );
 		cout << *m2 << endl;
 	}
@@ -121,7 +120,7 @@ int main ()
 
 		m2->add( m1, ali, true );
 		assert( m2->getLength() == 8);
-		assert( m2->getWidth() == 2 * m1->getWidth() );
+		assert( m2->getNumSequences() == 2 * m1->getNumSequences() );
 
 		debug_cerr(5, "mali is in row\n" << *m2 );
 	}
@@ -133,7 +132,7 @@ int main ()
 		m2->add( m1, ali, false);
 
 		assert( m2->getLength() == 8);
-		assert( m2->getWidth() == 2 * m1->getWidth() );
+		assert( m2->getNumSequences() == 2 * m1->getNumSequences() );
 
 		debug_cerr(5, "mali is in col\n" << *m2 );
 	}

@@ -35,8 +35,14 @@
 namespace alignlib 
 {
 
-/** A simple fixed-width matrix
- */
+	/** @short A simple templated, fixed-size matrix.
+	 * 
+	 * Data is stored as a contiguous array in row/column order.
+	 * 
+	 * @author Andreas Heger
+   	 * @version $Id$
+	 */
+
 template <class T> 
 class Matrix 
 {
@@ -78,7 +84,8 @@ public:
 		mMatrix[(row * mCols) + col] = value;
 	}
 
-	// copy constructor 
+	/** copy constructor.
+	 */
 	Matrix (const Matrix <T>& src) : 
 		mRows(src.mRows), mCols(src.mCols), mSize(src.mSize) 
 		{
@@ -86,7 +93,8 @@ public:
 		memcpy( mMatrix, src.mMatrix, sizeof(T) * mSize );		
 		}
 
-	// assignment operator overloading
+	/** assignment operator
+	 */
 	Matrix& operator= (const Matrix <T>&  src) 
 	{
 		if (src == *this) return (*this) ; // protect against self assignment      
@@ -100,10 +108,14 @@ public:
 		return (*this);
 	}
 
-	// destructor
+	/** destructor
+	 */
 	~Matrix() { delete [] mMatrix; }
 
-	// equality operator, check element-wise
+	/** equality operator.
+	 * 
+	 * @return true, if the matrices are element-wise identical.
+	 */
 	bool operator==(const Matrix<T>& other) const 
 	{
 		if (mRows != other.mRows) return false;
@@ -113,36 +125,63 @@ public:
 		return true;
 	}
 
+	/** return the number of rows in matrix.
+	 * @return number of rows.
+	 */
 	unsigned int getNumRows() const { return mRows; }
+	
+	/** return the number of columns in matrix.
+	 * @return number of columns.
+	 */
 	unsigned int getNumCols() const { return mCols; }
 
-	/** return pointer to location of matrix data 
+	/** return pointer to raw data.
+	 * 
+	 * This is a dangerous convenience function.
+	 * 
+	 * @return pointer to raw data. 
 	 */
 	T * getData()  const
 	{
 		return mMatrix;
 	}
 
-	/** set new data matrix - the old memory is not released */
+	/** set new data matrix.
+	 * 
+	 * This a dangerous convenience function.
+	 * The old memory is not released.
+	 * 
+	 * @param matrix pointer to new data.
+	 * */
 	void setData( T * matrix ) 
 	{
 		mMatrix = matrix;
 	}
 	
-	/** copy data from a data location. This functions copies
-	 * as many bytes as it needs. */
+	/** copy data. 
+	 * 
+	 * This functions copies as many bytes as it needs.
+	 * @param pointer to data to copy. 
+	 * */
 	void copyData( T * matrix )
 	{
 		memcpy( mMatrix, matrix, sizeof(T) * mSize );
 	}
 	
-	/** return pointer to start of a given row */
+	/** return pointer to start of a given row 
+	 *
+	 * @param row row.
+	 * @return pointer to data in row. 
+	 */
 	T * getRow( unsigned int row) const
 	{
 		return &mMatrix[ row * mCols ];
 	}
 	
-	/** swap two rows
+	/** swap two rows.
+	 * 
+	 * @param x row.
+	 * @param y row.
 	 */
 	void swapRows( unsigned int x, unsigned int y)
 	{
@@ -158,15 +197,18 @@ public:
 		memcpy( &mMatrix[y*mCols], buffer           , s );
 	}
 	
-	/** mapRows
+	/** permute rows in matrix.
 	 * 
-	 * creates a new matrix by mapping old rows to new rows
+	 * Creates a new matrix by mapping old rows to new rows
 	 * using the map in map_new2old.
 	 * 
 	 * This is efficient, as the matrix is arranged by rows
 	 * and can thus proceed row-wise.
+	 * 
+	 * @param	map_new2old 	map that specifies which old row to take
+	 * 							for a new row.
 	 */
-	void mapRows( std::vector < unsigned int > & map_new2old )
+	void permuteRows( std::vector < unsigned int > & map_new2old )
 	{
 		assert( *(std::max_element( map_new2old.begin(), map_new2old.end())) < mRows );
 
@@ -183,12 +225,18 @@ public:
 		delete [] old_matrix;
 	}
 
-	/** mapCols
-	 * creates a new matrix by mapping old cols to new cols.
-	 * This is in-efficient, as the matrix is arranged by rows
-	 * and thus proceeds element-wise.
+	/** permute rows in matrix.
+	 * 
+	 * Creates a new matrix by mapping old columns to new columns.
+	 * using the map in map_new2old.
+	 * 
+	 * This is less efficient as @ref mapRows, as the matrix is arranged in rows
+	 * and copying thus proceeds element-wise.
+	 * 
+	 * @param	map_new2old 	map that specifies which old column to take
+	 * 							for a new column.
 	 */
-	void mapCols( std::vector< unsigned int> & map_new2old )
+	void permuteCols( std::vector< unsigned int> & map_new2old )
 	{
 		assert( *(std::max_element( map_new2old.begin(), map_new2old.end())) < mCols );
 		
@@ -222,7 +270,15 @@ private:
 };
 
 
-// write a matrix to stream (human readable)
+/** write a matrix to stream (human readable)
+ * 
+ * The format is a simple tab-separated format. The first
+ * lines contains the number of rows and columns.
+ * 
+ * @param out stream to output matrix into.
+ * @param src matrix to output.
+ * @return the output stream.
+ */
 template<class T> 
 std::ostream & operator<< (std::ostream & out, const Matrix<T> & src) 
 {
@@ -238,7 +294,15 @@ std::ostream & operator<< (std::ostream & out, const Matrix<T> & src)
 	return out;
 }
 
-// read a matrix from stream (human readable)
+/** read a matrix to stream.
+ * 
+ * The format is a simple tab-separated format. The first
+ * lines contains the number of rows and columns.
+ * 
+ * @param out stream to input matrix from
+ * @param src matrix to input to.
+ * @return the input stream.
+ */
 template<class T> 
 std::istream & operator>>(std::istream & input, Matrix<T> & target) 
 {

@@ -145,7 +145,7 @@ void ImplMultipleAlignmentDots::setLength( Position length)
 }
 
 //--------------------------------------------------------------------------------------------------------------
-int ImplMultipleAlignmentDots::getWidth() const 
+int ImplMultipleAlignmentDots::getNumSequences() const 
 {
 	return mRows.size();
 }
@@ -243,12 +243,12 @@ void ImplMultipleAlignmentDots::add(
 	debug_func_cerr(5);
 
 	// do not add empty mali
-	if (src->getWidth() == 0) 
+	if (src->getNumSequences() == 0) 
 		return;
 
 	HImplMultipleAlignmentDots src_mali = boost::dynamic_pointer_cast<ImplMultipleAlignmentDots, MultipleAlignment>(src);
 
-	for (int x = 0; x < src_mali->getWidth(); ++x) 
+	for (int x = 0; x < src_mali->getNumSequences(); ++x) 
 	{
 		HAlignatum alignatum(src_mali->mRows[x]->mAlignatumInput->getClone());
 		HAlignment map_mali2src = makeAlignmentVector();

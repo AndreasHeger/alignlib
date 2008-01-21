@@ -211,8 +211,8 @@ HSubstitutionMatrix makeSubstitutionMatrix(
 		HResidueVector map_new2old ( t->map(translator) ); \
 		std::vector<unsigned int>m; \
 		std::copy( map_new2old->begin(), map_new2old->end(), back_inserter( m )); \
-		matrix->mapRows(m); \
-		matrix->mapCols(m); \
+		matrix->permuteRows(m); \
+		matrix->permuteCols(m); \
 		return matrix; }
 
 MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixBlosum62, 23, blosum62 );

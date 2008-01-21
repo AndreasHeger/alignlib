@@ -39,8 +39,6 @@
 #include "Encoder.h"
 #include "HelpersEncoder.h"
 #include "HelpersAlignandum.h"
-#include "HelpersSequence.h"
-#include "HelpersProfile.h"
 
 using namespace std;
 

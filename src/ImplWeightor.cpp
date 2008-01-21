@@ -100,20 +100,20 @@ void ImplWeightor::fillCounts(
 	if (src->getLength() != dest.getNumRows())
 		throw AlignException( "count matrix and multiple alignment have different size.");
 	
-	int nsequences = src->getWidth();
+	int nsequences = src->getNumSequences();
 
 	HSequenceWeights weights( calculateWeights( src, translator) );
   
 	debug_cerr_start( 5, "computed the following weights:");
 	
 #ifdef DEBUG
-	for (int i = 0; i < src->getWidth(); i++) 
+	for (int i = 0; i < src->getNumSequences(); i++) 
 		debug_cerr_add ( 5, " " << i << "=" << (*weights)[i] )
 	debug_cerr_add( 5, std::endl );	
 #endif
 
 	Position mali_length = src->getLength();
-	int mali_width = src->getWidth();
+	int mali_width = src->getNumSequences();
 
 	// calculate counts
 	Residue width = translator->getAlphabetSize();
@@ -138,7 +138,7 @@ HSequenceWeights ImplWeightor::calculateWeights(
 		const HMultipleAlignment & src,
 		const HEncoder & translator ) const
 {
-	int nsequences = src->getWidth();
+	int nsequences = src->getNumSequences();
 	
 	HSequenceWeights weights(new SequenceWeights(nsequences));
 	  

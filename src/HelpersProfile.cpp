@@ -46,7 +46,7 @@
 #include "HelpersLogOddor.h"
 #include "HelpersMultipleAlignment.h"
 
-#include "HelpersProfile.h"
+#include "HelpersAlignandum.h"
 
 #include "ImplProfile.h"
 #include "ImplSequence.h"

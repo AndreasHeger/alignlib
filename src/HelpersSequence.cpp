@@ -28,7 +28,7 @@
 
 #include "Matrix.h"
 
-#include "HelpersSequence.h" 
+#include "HelpersAlignandum.h" 
 #include "AlignException.h"
 
 #include "Encoder.h"

@@ -37,7 +37,7 @@ namespace alignlib
 {
 
 /** 
-    Base class for objects that are to be aligned, typically sequences or profiles.
+    @short Protocol class of alignable objects, typically sequences or profiles.
 
     Objects can restrict access to a sequence range. Ranges are given in open/closed 
     notation starting from 0. Thus, the segment 0..5 includes residues 0,1,2,3,4.
@@ -47,7 +47,6 @@ namespace alignlib
 
     @author Andreas Heger
     @version $Id: Alignandum.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
-    @short protocol class of alignable objects
  */
 
 class Alignandum 

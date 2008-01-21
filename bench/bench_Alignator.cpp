@@ -41,8 +41,6 @@
 #include "AlignmentIterator.h"
 #include "HelpersAlignment.h"
 #include "Alignandum.h"
-#include "HelpersSequence.h"
-#include "HelpersProfile.h"
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 #include "HelpersEncoder.h"

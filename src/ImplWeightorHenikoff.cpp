@@ -70,7 +70,7 @@ HSequenceWeights ImplWeightorHenikoff::calculateWeights(
 
 	int width = translator->getAlphabetSize();
 
-	int nsequences = src->getWidth();
+	int nsequences = src->getNumSequences();
 	Position length = src->getLength();
 
 	Position column;

@@ -42,7 +42,6 @@
 #include "HelpersMultipleAlignment.h"
 #include "AlignlibDebug.h"
 #include "Weightor.h"
-#include "HelpersProfile.h"
 #include "HelpersEncoder.h"
 
 #define BOOST_TEST_MODULE

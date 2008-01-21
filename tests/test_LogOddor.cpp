@@ -41,7 +41,6 @@
 #include "HelpersEncoder.h"
 #include "HelpersAlignandum.h"
 #include "HelpersSubstitutionMatrix.h"
-#include "HelpersProfile.h"
 
 #define BOOST_TEST_MODULE
 #include <boost/test/included/unit_test.hpp>

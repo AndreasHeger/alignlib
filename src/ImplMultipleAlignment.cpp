@@ -31,7 +31,7 @@
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
-#include "HelpersProfile.h"
+#include "HelpersAlignandum.h"
 #include "ImplMultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
 #include "HelpersEncoder.h"
@@ -103,7 +103,7 @@ void ImplMultipleAlignment::setLength( Position length)
 }
 
 //--------------------------------------------------------------------------------------------------------------
-int ImplMultipleAlignment::getWidth() const 
+int ImplMultipleAlignment::getNumSequences() const 
 {
 	return mRows.size();
 }
@@ -245,7 +245,7 @@ void ImplMultipleAlignment::add( const HMultipleAlignment & src)
 	debug_func_cerr(5);
 
 	// do not add empty mali
-	if (src->getWidth() == 0) 
+	if (src->getNumSequences() == 0) 
 		return;
 
 	//--------------------------------------------------------------------
@@ -267,7 +267,7 @@ void ImplMultipleAlignment::add( const HMultipleAlignment & src)
 	if (mLength != copy->getLength())
 		throw AlignException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
 	
-	for (int row = 0; row < copy->getWidth(); row++) 
+	for (int row = 0; row < copy->getNumSequences(); row++) 
 		mRows.push_back( copy->getRow(row)->getClone() );
 }
 
@@ -286,7 +286,7 @@ void ImplMultipleAlignment::add(
 	debug_func_cerr(5);
 
 	// do not add empty mali
-	if (src->getWidth() == 0) 
+	if (src->getNumSequences() == 0) 
 		return;
 
 	//--------------------------------------------------------------------
@@ -342,7 +342,7 @@ void ImplMultipleAlignment::add(
 		mRows[row]->mapOnAlignment( map_this2new, mLength);
 	
 	// now add alignatum objects from the other alignment
-	for (int row = 0; row < copy->getWidth(); row++) 
+	for (int row = 0; row < copy->getNumSequences(); row++) 
 	{
 		HAlignatum new_alignatum(copy->getRow(row)->getClone());
 		new_alignatum->mapOnAlignment( map_alignatum2new, mLength );

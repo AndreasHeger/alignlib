@@ -39,7 +39,6 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 #include "Alignandum.h"
-#include "HelpersSequence.h"
 
 using namespace std;
 

@@ -33,16 +33,14 @@
 namespace alignlib 
 {
 	
-  /** Protocoll class for objects, convert frequencies into log-odds scores. Different
-      log odds scorer use different background frequencies.
+  /** @short Protocoll class for objects that convert residue frequencies into profile scores. 
+   * 
+   * Typically the scores are log-odds scores, hence the name.
       
       This class is a protocol class and as such defines only the general interface.
       
-      I know, I am not very creative when it comes to inventing names.
-      
       @author Andreas Heger
       @version $Id: LogOddor.h,v 1.2 2004/01/07 14:35:37 aheger Exp $
-      @short protocol class for log-odders
       
   */
     
@@ -61,7 +59,11 @@ class LogOddor
     /** destructor */
     virtual ~LogOddor ();
 
-    /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
+    /** insert scores into a profile @ref ScoreMatrix
+     * 
+     * @param scores		@ref ScoreMatrix to be filled.
+     * @param frequencies 	@ref @FrequencyMatrix to use for filling.
+     * */
     virtual void fillProfile( ScoreMatrix & scores, 
     		const FrequencyMatrix & frequencies ) const = 0;
 

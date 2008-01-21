@@ -31,8 +31,11 @@
 #include "AlignException.h"
 #include "Alignandum.h"
 #include "Encoder.h"
-#include "HelpersSequence.h"
-#include "HelpersProfile.h"
+#include "HelpersAlignandum.h"
+#include "HelpersWeightor.h"
+#include "HelpersRegularizor.h"
+#include "HelpersLogOddor.h"
+#include "HelpersEncoder.h"
 #include "ImplSequence.h"
 #include "ImplProfile.h"
 

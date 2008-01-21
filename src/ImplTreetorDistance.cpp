@@ -50,8 +50,8 @@ void ImplTreetorDistance::startUp(
 	debug_func_cerr( 5 );
 
 	// create a distance matrix
-	assert( mali->getWidth() > 0);
-	mWorkMatrix = makePhyloMatrixSymmetric( mali->getWidth());
+	assert( mali->getNumSequences() > 0);
+	mWorkMatrix = makePhyloMatrixSymmetric( mali->getNumSequences());
   
 	// call Distor for multiple alignment to fill matrix with distances
 	mDistor->calculateMatrix( mWorkMatrix, mali );

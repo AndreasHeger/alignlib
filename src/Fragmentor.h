@@ -29,16 +29,16 @@
 #define FRAGMENTOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
 
 /**
-   @short Base class for generating a list of fragments from two objects.
+   @short Protocoll class for alignment generators.
 
-   Fragmentors repeatedly apply an @ref Alignator to @ref Alignandum objects and
-   return a list of fragments.
+   Fragmentors repeatedly apply an @ref Alignator to @ref Alignandum objects.
+   In contrast to @ref Alignator objects, these objects will return a list of
+   @ref Alignment objects, and not a single @ref Alignment.
    
    @author Andreas Heger
    @version $Id: Fragmentor.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
@@ -58,12 +58,15 @@ class Fragmentor
     /** copy constructor */
     Fragmentor( const Fragmentor & src);
     
-    /** method for aligning two arbitrary objects */
+    /** method for aligning two arbitrary objects 
+     * @param dest 	@ref Alignment object in which to store data.
+     * @param row	@ref Alignandum object to use.
+     * @param col	@ref Alignandum object to use.*/
     virtual HFragmentVector fragment( 
     		HAlignment & dest,
     		const HAlignandum & row, 
     		const HAlignandum & col ) = 0; 
-    
+
 };
 
 }

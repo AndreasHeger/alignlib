@@ -36,7 +36,6 @@
 #include "alignlib.h"
 #include "alignlib_fwd.h"
 #include "Alignandum.h"
-#include "HelpersSequence.h"
 #include "HelpersScorer.h"
 
 #include "Alignment.h"

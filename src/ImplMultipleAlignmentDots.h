@@ -121,7 +121,7 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
 
     /** returns the width of the multiple alignment, i.e., the number of objects in this multiple
 	alignment */
-    virtual int getWidth() const;
+    virtual int getNumSequences() const;
     
     /** returns a const reference to the object at row in the multiple alignment. This allows treating
 	the multiple alignment as a two-dimensional matrix. Since string does define operator[] as well, you

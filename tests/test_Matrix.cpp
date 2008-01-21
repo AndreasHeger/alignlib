@@ -49,9 +49,9 @@ BOOST_AUTO_TEST_CASE( test_map1 )
 	std::vector<unsigned int> map_new2old( 2 );
 	map_new2old[0] = 0;
 	map_new2old[1] = 2;
-	matrix.mapRows( map_new2old );
+	matrix.permuteRows( map_new2old );
 	std::cout << matrix << std::endl;
-	matrix.mapCols( map_new2old );
+	matrix.permuteCols( map_new2old );
 	std::cout << matrix << std::endl;	
 }
 
@@ -62,9 +62,9 @@ BOOST_AUTO_TEST_CASE( test_map2 )
 	std::vector<unsigned int> map_new2old( 2 );
 	map_new2old[0] = 0;
 	map_new2old[1] = 1;
-	matrix.mapRows( map_new2old );
+	matrix.permuteRows( map_new2old );
 	std::cout << matrix << std::endl;
-	matrix.mapCols( map_new2old );
+	matrix.permuteCols( map_new2old );
 	std::cout << matrix << std::endl;	
 }
 

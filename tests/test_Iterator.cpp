@@ -43,7 +43,6 @@
 #include "alignlib.h"
 
 #include "Alignandum.h"
-#include "HelpersSequence.h"
 
 #include "Iterator2D.h"
 #include "HelpersIterator2D.h"

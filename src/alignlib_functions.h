@@ -31,8 +31,6 @@
 #include "AlignlibMethods.h"
 
 #include "HelpersAlignandum.h"
-#include "HelpersProfile.h"
-#include "HelpersSequence.h"
 #include "HelpersAlignment.h"
 #include "HelpersAlignator.h"
 #include "HelpersAlignatum.h"

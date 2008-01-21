@@ -32,48 +32,22 @@
 #include <string>
 
 #include "alignlib_fwd.h" 
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
 
 /**
-    @short Interface definition of mutltiple alignment objects.
+    @short Protocoll class for multiple alignments.
     
-    Multiple alignments are collection of aligned sequences (more specifically: objects of type
-    @ref Alignment). A multiple alignment
-    receives submitted aligned objects, or unaligned objects together with a multiple
-    alignment, etc. Ownership belongs to the multiple alignment.
-    
-    Iterators for multiple alignments: not implemented yet, will come. So far, use
-    operator[].
-    
-    The functions for obtaining an iterator over the multiple alignments is modelled
-    after containers in the STL. I did not want to restrict the implementation to 
-    vectors, (or lists, etc.), because some implementations might like to have it
-    in a hash. But nevertheless, it should be possible to iterate over a multiple
-    alignment and therefore we need a container.
-    
-    (in re maps: actually, it might be nice to then to templatize operator[](T&),
-    so that access via id can be possible then as well. Before doing so, check for
-    code bloat. On the other hand, when interacting via iterators, the whole class
-    could be a template, i.e. MultipleAlignment< vector >, or MultipleAlignment< list >
-    )
-    
-    The multiple alignment is a sort of container. Output-formatting, etc. is done
-    by the @ref Alignment objects.
-    
-    The interface for this class is quite fat, because multiple alignments are used
-    in a variety of contexts.
-
+    Multiple alignments are collections of aligned sequences (objects of type
+    @ref Alignatum). 
+        
     This class is a protocol class and as such defines only the general interface
 
     About the parameter skip_gaps: When skip_gaps is set to true, then the current
     multiple alignment is regarded as a master multiple alignment and no gaps are 
     inserted into this alignment. When it is not set, gaps are added in the middle
     and the ends.
-
-    10.4.2001: added default value NULL for parameter renderer in method registerRenderer() 
 
     @author Andreas Heger
     @version $Id: MultipleAlignment.h,v 1.6 2004/09/16 16:02:38 aheger Exp $
@@ -85,12 +59,7 @@ class MultipleAlignment
 
     // class member functions
  public:
-    /** iterator associated with multiple alignments */
-    class iterator;
-    
-    /** const_iterator associated with multiple alignments */
-    class const_iterator;
-
+	 
     // constructors and desctructors
     /** empty constructor */
     MultipleAlignment  ();
@@ -103,30 +72,47 @@ class MultipleAlignment
 
     //---------------------------------------------------------------------------------------
     /*------- accessors --------------------------------------------------------------------*/
-    /** returns the length of the multiple alignment. All objects in a multiple alignment have
-	the same length */
+    /** returns the length (number of columns) of the multiple alignment. 
+     * 
+     * All objects in a multiple alignment have the same length.
+     *  
+     * @return the length of the multiple alignment. */
     virtual Position getLength() const = 0;
 
-    /** sets the length of the multiple alignment. Raises an exception, if the mali is not empty
+    /** sets the length of the multiple alignment. 
+     * 
+     * @exception AlignException raised if alignment is not empty.
 	*/
     virtual void setLength( Position length) = 0;
 
-    /** returns the width of the multiple alignment, i.e., the number of objects in this multiple
-	alignment */
-    virtual int getWidth() const = 0;
+    /** returns the number of sequences in this multiple alignment.
+     * 
+     * @return number of sequences in alignment.
+     */
+    virtual int getNumSequences() const = 0;
     
-    /** returns a const reference to the object at row in the multiple alignment. This allows treating
-	the multiple alignment as a two-dimensional matrix. Since string does define operator[] as well, you
-	can access the symbol in column c and row r by calling 
-	symbol =  multiple_alignment[r][c]
+    /** returns a row in the multiple alignment. 
+     * 
+     * This allows treating the multiple alignment as a two-dimensional matrix. 
+     * Since string does define operator[] as well, you can access the symbol in column 
+     * c and row r by calling symbol =  multiple_alignment[r][c]
+     * 
+     * @param row row of multiple alignment.
+     * return string of aligned sequence.
     */
     virtual const std::string & operator[]( int row ) const = 0;		
 
-    /** returns a pointer to the object at row from the multiple alignment. The pointer is not const,
-	so you are free to do all sort of ugly stuff.*/
+    /** returns a row in the multiple alignment.
+     *
+     * @param row row of multiple alignment.
+     * return a @ref Alignatum object 
+    */
     virtual HAlignatum getRow( int row ) const = 0;
 
-    /** erases an entry form the multiple alignment */
+    /** erases an row from the multiple alignment 
+     * 
+     * @param row row to erase.
+     * */
     virtual void eraseRow( int row ) = 0;
 
     /* ------------------ mutators ----------------------------------------------------------- */
@@ -134,23 +120,17 @@ class MultipleAlignment
     /*------------------- functions for adding new members to the multiple alignment---------*/
     
 
-    /** add an aligned object to the multiple alignment. 
-     * Ownership of the object is transferred to the multiple alignment.
+    /** add an @ref Alignatum object to the multiple alignment.
+     *  
      * 
-	@param src	       pointer to the aligned object to be added.
-	@param alignment pointer to the alignment used for combining these two objects. If it is
-		       not supplied, then it is assumed, that it is the identity alignment. In
-		       that case src has to have the same length the multiple alignment. Note, the
-		       multiple alignment is in col, the src is in row of the multiple alignment, so
-		       when calling the member-function Alignment::Map() with a residue from
-		       src, you get the correct position in the multiple alignment.
-    @param mali_is_in_row		true, if the multiple alignment is in the row in alignment.
-	@param insert_gaps_mali		true, if gaps shall be inserted into the multiple alignment.
+	@param src	 @ref Alignatum object to add.
+	@param alignment @ref Alignment that maps src to mali. 
+    @param mali_is_in_row			true, if the multiple alignment is in the row of the alignment.
+	@param insert_gaps_mali			true, if gaps shall be inserted into the multiple alignment.
 	@param insert_gaps_alignatum	analogous to insert_gaps_alignatum.
-	@param use_end_mali		true, if not-aligned residues at the ends of the multiple alignment
-					shall be kept.
-	@param use_end_alignatum	analogous to use_end_mali.
-			      
+	@param use_end_mali				true, if not-aligned residues at the ends of the multiple alignment
+									shall be kept.
+	@param use_end_alignatum		analogous to use_end_mali.			      
     */
     virtual void add( const HAlignatum & src,
     		const HAlignment & alignment,
@@ -160,13 +140,26 @@ class MultipleAlignment
     		bool use_end_mali = false,
     		bool use_end_alignatum = false) = 0;
 
-    /** add a aligned sequence of the same length to this multiple alignment.
+    /** add an @ref Alignatum object to mali.
+     * 
+     * The @ref Alignatum object has to have the same length as the
+     * mutliple alignment.
+     * @param src @ref Alignatum object to add.
      */
     virtual void add( const HAlignatum & src ) = 0;
-    
-    /** add the contents of a multiple alignment to the multiple alignment by mapping it 
-     * through an alignment
-     */
+
+    /** add a @ref MultipleAlignment object to the multiple alignment.
+     *  
+     * 
+	@param src	 @ref MultipleAlignment object to add.
+	@param alignment @ref Alignment that maps src to mali. 
+    @param mali_is_in_row			true, if the multiple alignment is in the row of the alignment.
+	@param insert_gaps_mali			true, if gaps shall be inserted into the multiple alignment.
+	@param insert_gaps_alignatum	analogous to insert_gaps_alignatum.
+	@param use_end_mali				true, if not-aligned residues at the ends of the multiple alignment
+									shall be kept.
+	@param use_end_alignatum		analogous to use_end_mali.			      
+    */
     virtual void add( 
     		const HMultipleAlignment & src,
     		const HAlignment & alignment,
@@ -176,26 +169,40 @@ class MultipleAlignment
     		bool use_end_mali = false,
 		    bool use_end_alignatum = false) = 0;
     
-    /** add a multiple alignment of the same length to this multiple alignment. 
+    /** add a multiple alignment.
+     * 
+     * Both multiple alignments have to have the same length.
+     * 
+     * @param src @ref MultipleAlignment to add. 
      */
     virtual void add( const HMultipleAlignment & src ) = 0;    
     
-    /** returns true, if there are no aligned objects in this alignment */
+    /** returns true, if the alignment is empty.
+     *  
+     * @return true, if the alignment is emtpy.
+     * */
     virtual bool isEmpty() const = 0;
 
-    /** clears the multiple alignment */
+    /** clears the multiple alignment 
+    */
     virtual void clear() = 0;
 
     /** register a new renderer */
     virtual void registerRenderer( const HRenderer & renderer ) = 0;
     
-    /** returns a clone of this object */
+    /** returns a clone of this object 
+     * @return a copy of this object.
+     * */
     virtual HMultipleAlignment getClone() const = 0;
     
-    /** returns an empty version of this object */
+    /** returns a new object of this type. 
+     * @return a new object of this type.
+     * */
     virtual HMultipleAlignment getNew() const = 0;
     
     /** write the multiple alignment to a stream
+     * 
+     * @param output output stream.
     */
     virtual void write( std::ostream & output ) const = 0; 
 };

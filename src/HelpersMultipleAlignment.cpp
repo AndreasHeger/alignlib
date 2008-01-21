@@ -27,7 +27,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "HelpersProfile.h"
+#include "HelpersAlignandum.h"
 #include "ImplMultipleAlignment.h"
 #include "ImplMultipleAlignmentDots.h"
 #include "AlignException.h"
@@ -174,7 +174,7 @@ void copyMultipleAlignment(
 		unsigned int end_row ) 
 {
 
-	unsigned int width = src->getWidth();
+	unsigned int width = src->getNumSequences();
 
 	if (end_row > width || end_row == 0) 
 		end_row = width;

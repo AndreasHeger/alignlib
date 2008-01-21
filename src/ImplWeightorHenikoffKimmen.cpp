@@ -68,7 +68,7 @@ HSequenceWeights ImplWeightorHenikoffKimmen::calculateWeights(
 
 	HSequenceWeights weights( ImplWeightorHenikoff::calculateWeights( src, translator ) );
 
-	int nsequences = src->getWidth();
+	int nsequences = src->getNumSequences();
 	
 	// rescale weights, so that they sum to the number of nsequences 
 	rescaleWeights( weights, nsequences, nsequences);

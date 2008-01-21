@@ -29,7 +29,6 @@
 #include "AlignlibDebug.h"
 
 #include "HelpersAlignandum.h"
-#include "HelpersSequence.h"
 #include "ImplSequence.h" 
 #include "AlignException.h"
 #include "Encoder.h"

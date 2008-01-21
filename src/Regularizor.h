@@ -33,13 +33,16 @@
 namespace alignlib 
 {
 	
-  /** Protocoll class for objects, that regularize profile columns.
+  /** @short Protocoll class for objects, that regularize residue counts.
       
       This class is a protocol class and as such defines only the general interface.
+
+	  Regularizers are used in profile computation. They change observed residue 
+	  counts into estimates of residue frequencies. Estimates might take into
+	  account the number of observations per column.
       
       @author Andreas Heger
       @version $Id: Regularizor.h,v 1.2 2004/01/07 14:35:37 aheger Exp $
-      @short protocol class for sequence weighters
       
   */
 
@@ -57,7 +60,11 @@ class Regularizor
     /** destructor */
     virtual ~Regularizor ();
     
-    /** copy the counts into the frequencies and regularize them by doing so. */
+    /** regularize a @ref CountMatrix.
+     * 
+     * @param frequencies @ref FrequencyMatrix to store result.
+     * @param counts @ref CountMatrix with observed residue counts. 
+     * */
     virtual void fillFrequencies( 
     		FrequencyMatrix & frequencies, 
     		const CountMatrix & counts ) const = 0;

@@ -25,24 +25,24 @@
 #include <iomanip>
 #include "MultipleAlignment.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
 //--------------------------------------------------------------------------------------
-MultipleAlignment::MultipleAlignment() {
+MultipleAlignment::MultipleAlignment() 
+{
 }    
 
 //--------------------------------------------------------------------------------------
-MultipleAlignment::~MultipleAlignment () {
+MultipleAlignment::~MultipleAlignment () 
+{
 }
 
 //--------------------------------------------------------------------------------------
-MultipleAlignment::MultipleAlignment(const MultipleAlignment & src) {
+MultipleAlignment::MultipleAlignment(const MultipleAlignment & src) 
+{
 }
    
 std::ostream & operator<<( std::ostream & output, const MultipleAlignment & src) {
