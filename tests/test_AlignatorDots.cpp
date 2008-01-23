@@ -82,7 +82,7 @@ void test()
 	HAlignator dottor(makeAlignatorPrebuilt( dotplot ));
 	// make the alignator
 	
-	HAlignator alignator(makeAlignatorDotsSquared( dottor, -10, -2 ));
+	HAlignator alignator(makeAlignatorDots( dottor, -10, -2 ));
 	
 	// setup up map_source2dest; m2 will be in col
 	HAlignment map_source2dest(makeAlignmentVector());

@@ -29,7 +29,6 @@
 #define IMPL_ALIGNATOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "Alignator.h"
 
 namespace alignlib 
@@ -59,13 +58,14 @@ namespace alignlib
       ImplAlignator( const ImplAlignator & src);
     
     protected:
-      /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-      virtual void startUp( HAlignment & ali,
-    		  const HAlignandum & row, const HAlignandum & col);
-    
-      /** perform cleanup after alignment */
-      virtual void cleanUp( HAlignment & ali, 
-    		  const HAlignandum & row, const HAlignandum & col );                     
+
+        /** perform initialisation before alignment. Overload, but call this function in subclasses! */
+        virtual void startUp( HAlignment & ali,
+      		  const HAlignandum & row, const HAlignandum & col);
+      
+        /** perform cleanup after alignment */
+        virtual void cleanUp( HAlignment & ali, 
+      		  const HAlignandum & row, const HAlignandum & col );                     
 
       /** set range object */
       virtual void setIterator2D( const HIterator2D & iterator);    

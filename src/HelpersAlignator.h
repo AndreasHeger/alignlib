@@ -33,8 +33,12 @@
 namespace alignlib 
 {
     
-    /** Helper functions for @ref class Alignator
-
+    /**
+     * 
+     * @defgroup FactoryAlignator Factory functions for Alignator objects.
+     * @{ 
+     *  
+     * 
 	Affine gap penalties are computed using the following
 	formula:
 	
@@ -53,6 +57,8 @@ namespace alignlib
      * @param gep				Gap extension penalty.
      * @param penalize_left		Penalize gaps on left side of sequences (global alignment)
      * @param penalize_right	Penalize gaps on right side of sequences (global alignment).
+     * 
+     * @return a new HAlignator object.
      * */
 	HAlignator makeAlignatorDPFull( 
 			AlignmentType alignment_type,
@@ -60,30 +66,56 @@ namespace alignlib
 			bool penalize_left = false, 
 			bool penalize_right = false );
 
-    /** make an alignator object, which aligns identical residues */
+    /** make @ref Alignator object that return pairs of identical residues. 
+     * 
+     * This alignator object returns a non-linear alignment (dotplot).
+     * 
+     * @return a new HAlignator object.
+    */
     HAlignator makeAlignatorIdentity();
 
-    /** make an @ref Alignator object, which aligns similar residues 
+    /** make @ref Alignator object that returns pairs of similar residues 
      * 
      * Similar residues are defined as those that produce a positive
      * alignment score.
+     * 
+     * This alignator object returns a non-linear alignment (dotplot).
+     * 
+     * @return a new HAlignator object. 
      */
     HAlignator makeAlignatorSimilarity();
 
-    /** make an @ref Alignator object, which aligns identical tuples 
+    /** make @ref Alignator object that returns aligned tuples.
+     * 
+     * Tuples are k-words. Aligned tuples are sequence identical.
+     * 
+     * This alignator object returns a non-linear alignment (dotplot).
+     * 
+     * @return a new HAlignator object.  
+     *  
     */
     HAlignator makeAlignatorTuples(int ktuple = 3 );
 
-    /** make an @ref Alignator object that returns a pre-built alignment.
+    /** make @ref Alignator object that returns a pre-built alignment.
+     * 
+     * This object can function as a place-holder for objects
+     * that require a helper @Alignator object. Instead of re-aligning
+     * row and col, this object will simply return a copy of a
+     * pre-computed alignment. 
+     * 
      * @param ali	alignment to return on calling the align method.
+     * 
+     * @return a new HAlignator object.  
+     * 
     */
     HAlignator makeAlignatorPrebuilt( const HAlignment & ali );
 
-    /** make an @ref Alignator object, which does a dot-alignment with wrapping around.
+    /** make an @ref Alignator object that does a dot-alignment with wrapping around.
      * @param alignator	@ref Alignator object to build the dot matrix.
      * @param gop gap opening penalty.
-     * @param gep gap extension penalty. 
-     *  
+     * @param gep gap extension penalty.
+     * 
+     * @return a new HAlignator object.  
      */
     HAlignator makeAlignatorDotsWrap(
     		const HAlignator & alignator,    		
@@ -95,13 +127,13 @@ namespace alignlib
      * @param gop gap opening penalty.
      * @param gep gap extension penalty. 
      */
-    HAlignator makeAlignatorDotsSquared(
+    HAlignator makeAlignatorDots(
     		const HAlignator & alignator,
     		Score gop, 
     		Score gep );
     
     /** make an @ref Alignator object, which does a dot-alignment with wrapping around. */
-    HAlignator makeAlignatorDotsSquaredDiagonal(
+    HAlignator makeAlignatorDotsDiagonal(
     		const HAlignator & alignator,     		
     		Score gop, 
     		Score gep, 
@@ -109,7 +141,7 @@ namespace alignlib
     		Score diagonal_gep = 0 );
 
     /** make an @ref Alignator object, which aligns fragments. */
-    HAlignator makeAlignatorFragmentsSquared(
+    HAlignator makeAlignatorFragments(
     		Score gop, 
     		Score gep, 
     		const HFragmentor & fragmentor );
@@ -129,7 +161,7 @@ namespace alignlib
 
 	/** Alignator object for groupie alignment. 
 	 * 
-	 * See @ref ImplAligantorGroupies for an explanation of the
+	 * See @ref ImplAlignatorGroupies for an explanation of the
 	 * algorithm. 
 	 * 
 	 * @param tube_size 		size of the tube in which alignment is performed
@@ -148,7 +180,7 @@ namespace alignlib
 
 	/** Alignator object for groupie alignment.
 	 *
-	 * See @ref ImplAligantorGroupies for an explanation of the
+	 * See @ref ImplAlignatorGroupies for an explanation of the
 	 * algorithm. 
 	 *  
 	 * This alignator is parameterized as for the pairsdb
@@ -156,6 +188,12 @@ namespace alignlib
 	 */
 	HAlignator makeAlignatorGroupies();
 
+	/**
+	 * @}
+	 */
+	
+	
+	
 }
 
 #endif	/* HELPERS_ALIGNATOR_H */

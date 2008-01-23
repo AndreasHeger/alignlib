@@ -43,31 +43,26 @@ using namespace std;
 namespace alignlib 
 {
 
-#define NODOT -1
-
 /*---------------------factory functions ---------------------------------- */
 
     /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
 	object */
 HAlignator makeAlignatorDotsWrap(
-		Score gop, Score gep, 
-		const HAlignator & alignator, 
-		const HSubstitutionMatrix & subst_matrix) 
+		  const HAlignator & dots,
+		  Score row_gop, Score row_gep, 
+		  Score col_gop, Score col_gep ) 
 {
-	return new ImplAlignatorDotsWrap( subst_matrix, 
-				  gop, gep, gop, gep, alignator ); 
+	return HAlignator( new ImplAlignatorDotsWrap( dots, row_gop, row_gep, col_gop, col_gep ) ); 
 }
 
-//----------------------------------------------------------------------------------------------------------------------------------------
-    /** constructors and destructors */
-ImplAlignatorDotsWrap::ImplAlignatorDotsWrap( const HSubstitutionMatrix & subst_matrix,
-					      Score row_gop, Score row_gep, 
-					      Score col_gop, Score col_gep,
-					      const HAlignator & dots) :
-  ImplAlignatorDots( subst_matrix, row_gop, row_gep, col_gop, col_gep, dots) 
-  {
+ImplAlignatorDotsWrap::ImplAlignatorDotsWrap(
+		const HAlignator & dots,
+		Score row_gop, Score row_gep, 
+		Score col_gop, Score col_gep ) 
+: ImplAlignatorDots( dots, row_gop, row_gep, col_gop, col_gep)
+{
 }
-
+		
 //----------------------------------------------------------------------------------------------------------------------------------------
 ImplAlignatorDotsWrap::ImplAlignatorDotsWrap( const ImplAlignatorDotsWrap & src ) : ImplAlignatorDots( src ) 
 {
@@ -83,19 +78,20 @@ ImplAlignatorDotsWrap::~ImplAlignatorDotsWrap()
 }
 
 //----------------------------------------------------------------------------------------------------------
-ImplAlignatorDotsWrap * ImplAlignatorDotsWrap::getClone() const 
+HAlignator ImplAlignatorDotsWrap::getClone() const 
 {
- return new ImplAlignatorDotsWrap( *this );
+ return HAlignator( new ImplAlignatorDotsWrap( *this ) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 
-Score ImplAlignatorDotsWrap::getGapCost( Dot x1, Dot x2 ) const {
+Score ImplAlignatorDotsWrap::getGapCost( Dot x1, Dot x2 ) const 
+{
 
-  Position c1 = mPairs[x1].mCol;
-  Position c2 = mPairs[x2].mCol;  
-  Position r1 = mPairs[x1].mRow;
-  Position r2 = mPairs[x2].mRow;  
+  Position c1 = (*mPairs)[x1].mCol;
+  Position c2 = (*mPairs)[x2].mCol;  
+  Position r1 = (*mPairs)[x1].mRow;
+  Position r2 = (*mPairs)[x2].mRow;  
 
   Score gap_cost = 0;
   Position d;
@@ -112,9 +108,13 @@ Score ImplAlignatorDotsWrap::getGapCost( Dot x1, Dot x2 ) const {
 }
 
 //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAlignandum pcol, HAlignment ali) {
-
-  int left;
+void ImplAlignatorDotsWrap::performAlignment( 
+		HAlignment  & ali, 
+		const HAlignandum & prow, 
+		const HAlignandum & pcol )
+{
+	
+	Position left;
   int bestdot, globdot;
 
   Score globbest, best;
@@ -149,8 +149,8 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
   for ( idot = mRowIndices[1]; idot < mNDots; idot++ ) {	   /* iterate through nextrow starting at first position */
     
     if (idot < 0) continue;
-    row_res = mPairs[idot].mRow;                           /* row_res = row */
-    col_res = mPairs[idot].mCol;                           /* col_res = col, wrap around col */
+    row_res = (*mPairs)[idot].mRow;                           /* row_res = row */
+    col_res = (*mPairs)[idot].mCol;                           /* col_res = col, wrap around col */
 
     // some safety checks
 #ifdef SAVE
@@ -161,17 +161,17 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
 
 #ifdef DEBUG
     printf("--------------------------------------------\n");
-    printf("idot = %i, row_res = %i, col_res = %i, score = %5.2f\n", idot, row_res, col_res, mPairs[idot].mScore);
+    printf("idot = %i, row_res = %i, col_res = %i, score = %5.2f\n", idot, row_res, col_res, (*mPairs)[idot].mScore);
 #endif
     /* calculate top row */
     if ( (hdot < 0) ||           /* enter first time */
-	 (row_res > mPairs[hdot].mRow) ) {  /* skip, if not in the same row as last time*/
+	 (row_res > (*mPairs)[hdot].mRow) ) {  /* skip, if not in the same row as last time*/
 	
 	topdot[row_res] = idot;
 	while( bestpercolstackptr > STACKEMPTY ) {
 	    xdot = bestpercolstack[--bestpercolstackptr];
-	    if ( mPairs[xdot].mRow >= row_res ) break;                 /* stop, if entering current row */
-	    xcol = mPairs[xdot].mCol;
+	    if ( (*mPairs)[xdot].mRow >= row_res ) break;                 /* stop, if entering current row */
+	    xcol = (*mPairs)[xdot].mCol;
 	    if (xdot < 0 )            continue;             /* safety check */
 	    if (bestpercol[xcol] < 0) 
 		bestpercol[xcol] = xdot;
@@ -186,8 +186,8 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
     xdot = mRowIndices[row_res - 1];
     sc = 0; 
     while ( (xdot > -1)  && 
-	    (mPairs[xdot].mRow == row_res - 1 ) &&  /* stop, if dot in previous row any more*/
-	    (mPairs[xdot].mCol  < col_res - 1 )     /* end, if direct contact to new dot*/
+	    ((*mPairs)[xdot].mRow == row_res - 1 ) &&  /* stop, if dot in previous row any more*/
+	    ((*mPairs)[xdot].mCol  < col_res - 1 )     /* end, if direct contact to new dot*/
 	    ) { 
 
       s = m[xdot] + getGapCost( xdot, idot);
@@ -234,8 +234,8 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
 	  sa=s; 
 	  adot=xdot; 
 	}
-	if (mPairs[xdot].mRow > left) { 
-	  left = mPairs[xdot].mRow; 
+	if ((*mPairs)[xdot].mRow > left) { 
+	  left = (*mPairs)[xdot].mRow; 
 	}
 	if(left == row_res-2) break;
       }
@@ -259,7 +259,7 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
       sf = m[fdot] + 
 	getGapCost( fdot, idot) +
 	getGapCost( fdot, idot);
-      if( mPairs[fdot].mCol <= col_res) 
+      if( (*mPairs)[fdot].mCol <= col_res) 
 	fcol = col_res + 1; 
     } else 
       sf=0; 
@@ -279,8 +279,8 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
 	fdot = xdot;
       }
       
-      if (mPairs[xdot].mRow > left) {
-	left = mPairs[xdot].mRow;
+      if ((*mPairs)[xdot].mRow > left) {
+	left = (*mPairs)[xdot].mRow;
       }
       
       if ( left == row_res-2 ) break;
@@ -289,7 +289,7 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
     fcol = mColLength + 1;
     
     /* update e = */
-    if ( (edot > -1 && mPairs[edot].mCol <= col_res) || (edot < 0) ) { 
+    if ( (edot > -1 && (*mPairs)[edot].mCol <= col_res) || (edot < 0) ) { 
       if ( row_res > 1 ) {
 	xdot = topdot[row_res-1];
       } else {
@@ -299,10 +299,10 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
       edot = -1;
       if (xdot >= 0) {
 	for ( xdot = 0; xdot < mNDots; xdot++ ) {
-	  if (mPairs[xdot].mRow != row_res - 1 ) break;	/* since sorted by row first. check, if we leave the row */
-	  if (mPairs[xdot].mCol < 1) continue;	/* since sorted by column inside a column */
-	  if (mPairs[xdot].mCol > mColLength) break;		
-	  if (mPairs[xdot].mCol >  col_res) {
+	  if ((*mPairs)[xdot].mRow != row_res - 1 ) break;	/* since sorted by row first. check, if we leave the row */
+	  if ((*mPairs)[xdot].mCol < 1) continue;	/* since sorted by column inside a column */
+	  if ((*mPairs)[xdot].mCol > mColLength) break;		
+	  if ((*mPairs)[xdot].mCol >  col_res) {
 	    s = m[xdot] + getGapCost( xdot, idot );
 	    if (s>se) {
 	      se=s; 
@@ -343,7 +343,7 @@ void ImplAlignatorDotsWrap::performAlignment( const HAlignandum prow, const HAli
     }
 
     /* record mTraceback */
-    best += mPairs[idot].mScore; 
+    best += (*mPairs)[idot].mScore; 
 	
     if (best < 0) { /* local alignment, reset to zero or start new mTrace with single match */
       best    = 0 ; 

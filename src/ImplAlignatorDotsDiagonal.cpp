@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignatorDotsSquaredDiagonal.cpp,v 1.2 2004/01/07 14:35:34 aheger Exp $
+  $Id: ImplAlignatorDotsDiagonal.cpp,v 1.2 2004/01/07 14:35:34 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,7 +29,7 @@
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "ImplAlignatorDotsSquaredDiagonal.h"
+#include "ImplAlignatorDotsDiagonal.h"
 #include "Alignandum.h"
 #include "ImplAlignmentMatrixRow.h"
 
@@ -54,42 +54,42 @@ namespace alignlib
 		  Score gop, Score gep,  
 		  Score diagonal_gop, Score diagonal_gep )
   {
-    return HAlignator( new ImplAlignatorDotsSquaredDiagonal( alignator, gop, gep, diagonal_gop, diagonal_gep ));
+    return HAlignator( new ImplAlignatorDotsDiagonal( alignator, gop, gep, diagonal_gop, diagonal_gep ));
   }
   //----------------------------------------------------------------------------------------------------------------------------------------
   /** constructors and destructors */
-  ImplAlignatorDotsSquaredDiagonal::ImplAlignatorDotsSquaredDiagonal( 
+  ImplAlignatorDotsDiagonal::ImplAlignatorDotsDiagonal( 
 		  const HAlignator & dots,
 		  Score row_gop, Score row_gep, 
 		  Score col_gop, Score col_gep ):
-    ImplAlignatorDotsSquared( dots, row_gop, row_gep, col_gop, col_gep ) 
+    ImplAlignatorDots( dots, row_gop, row_gep, col_gop, col_gep ) 
     {
   }
   
   //----------------------------------------------------------------------------------------------------------------------------------------
-ImplAlignatorDotsSquaredDiagonal::ImplAlignatorDotsSquaredDiagonal( const ImplAlignatorDotsSquaredDiagonal & src ) : 
-    ImplAlignatorDotsSquared( src ) 
+ImplAlignatorDotsDiagonal::ImplAlignatorDotsDiagonal( const ImplAlignatorDotsDiagonal & src ) : 
+    ImplAlignatorDots( src ) 
 {
   debug_func_cerr(5);
 
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
-ImplAlignatorDotsSquaredDiagonal::~ImplAlignatorDotsSquaredDiagonal() 
+ImplAlignatorDotsDiagonal::~ImplAlignatorDotsDiagonal() 
 {
   debug_func_cerr(5);
 
 }
 
 //----------------------------------------------------------------------------------------------------------
-HAlignator ImplAlignatorDotsSquaredDiagonal::getClone() const 
+HAlignator ImplAlignatorDotsDiagonal::getClone() const 
 {
- return HAlignator( new ImplAlignatorDotsSquaredDiagonal( *this ) );
+ return HAlignator( new ImplAlignatorDotsDiagonal( *this ) );
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 
-Score ImplAlignatorDotsSquaredDiagonal::getGapCost( Dot x1, Dot x2 ) const 
+Score ImplAlignatorDotsDiagonal::getGapCost( Dot x1, Dot x2 ) const 
 {
 
     const ResiduePair & p1 = (*mPairs)[x1];

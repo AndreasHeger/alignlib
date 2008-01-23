@@ -28,34 +28,35 @@
 #define IMPL_ALIGNATOR_DOTS_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
+
 #include "ImplAlignator.h"
 #include "ImplAlignmentMatrix.h"
 
 namespace alignlib 
 {
-#define STACKEMPTY     0
 
-/** @short Implementation of dotplot-alignment as found in RADAR.
+    
+/** @short dotplot alignment using full lookup of dots.
     
     @author Andreas Heger
     @version $Id: ImplAlignatorDots.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignatorDots : public ImplAlignator 
+class ImplAlignatorDots : public ImplAlignator
 {
  public:
 
     /* constructors and destructors */
 
-    /** set affine gap penalties
-     @param row_gop		gap opening penalty in row
-     @param row_gep		gap elongation penalty in row
-     @param col_gop		gap opening penalty in column, default = row
-     @param col_gep		gap elongation penalty in row, default = col
+    /** constructor
+     * @param dottor	@ref Alignator object to build dot plot.
+     	@param row_gop		gap opening penalty in row.
+     	@param row_gep		gap elongation penalty in row.
+     	@param col_gop		gap opening penalty in column, default is same as row.
+     	@param col_gep		gap elongation penalty in column, default is same as row.
      
     */
     ImplAlignatorDots(
-    		const HAlignator & dottor,
+    		const HAlignator & dottor,    		
     		Score row_gop, 
     		Score row_gep, 
     		Score col_gop = 0,
@@ -66,14 +67,18 @@ class ImplAlignatorDots : public ImplAlignator
 
     /** destructor */
     virtual ~ImplAlignatorDots();
-
-    /* operators------------------------------------------------------------------------------ */
-    /** method for aligning two arbitrary objects */
-    virtual void align( HAlignment & dest, 
+    
+    /** method for aligning two arbitrary objects 
+     */
+    virtual void align( 
+    		HAlignment & dest, 
     		const HAlignandum & row, 
-    		const HAlignandum & col); 
-
-    /* member access functions--------------------------------------------------------------- */
+    		const HAlignandum & col);
+    
+    
+    /** return a new alignator object of the same type.
+     */
+    virtual HAlignator getClone() const;    
 
     /** set gap opening penalty for row */
     virtual void setRowGop( Score gop );
@@ -98,28 +103,39 @@ class ImplAlignatorDots : public ImplAlignator
     
     /** get gap extension penalty for col */
     Score getColGep();
-    
+        
  protected:
 
-    /** perform initialisation before alignment. Overload, but call this function in subclasses! */
-    virtual void startUp( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
-    
-    /** perform cleanup after alignment */
-    virtual void cleanUp( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );                     
-
-    /** traces back through dot-trace and put it in the alignment in Alignment-object */
-    virtual void traceBack( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );				
-    
-    /** perform the alignment */
-    virtual void performAlignment( HAlignment & dest, const HAlignandum & row, const HAlignandum & col );
+	    /** perform the alignment */
+	    virtual void performAlignment( 
+	    		HAlignment & dest, 
+	    		const HAlignandum & row, 
+	    		const HAlignandum & col );
 
     /** get GAP cost for a gap */
-    virtual Score getGapCost( Dot x1, Dot x2 ) const = 0; 
+    virtual Score getGapCost( Dot x1, Dot x2 ) const;
+    
+    /** perform initialisation before alignment. Overload, but call this function in subclasses! */
+    virtual void startUp( 
+    		HAlignment & ali,
+  		  	const HAlignandum & row, 
+  		  	const HAlignandum & col);
+  
+    /** perform cleanup after alignment */
+    virtual void cleanUp( 
+    		HAlignment & ali, 
+  		  	const HAlignandum & row, 
+  		  	const HAlignandum & col );                     
 
-    /** look up a pair given row and column */
-    Position getPairIndex( Position row, Position col ) const;
+    /** return index for a row/col pair */
+    virtual Position getPairIndex( Position r, Position c ) const;
+    
+    /** perform traceback */
+    virtual void traceBack( 
+    		HAlignment & ali, 
+  		  	const HAlignandum & row, 
+  		  	const HAlignandum & col );                     
 
- protected:
     
     /** The dotter object that supplies the dots */
     HAlignator mDottor;

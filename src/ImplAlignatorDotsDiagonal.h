@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignatorDotsSquaredDiagonal.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
+  $Id: ImplAlignatorDotsDiagonal.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -29,7 +29,7 @@
 
 #include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
-#include "ImplAlignatorDotsSquared.h"
+#include "ImplAlignatorDots.h"
 
 namespace alignlib 
 {
@@ -37,9 +37,9 @@ namespace alignlib
 /** @short align dots using full lookup using a diagonal gap cost.
         
     @author Andreas Heger
-    @version $Id: ImplAlignatorDotsSquaredDiagonal.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
+    @version $Id: ImplAlignatorDotsDiagonal.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplAlignatorDotsSquaredDiagonal : public ImplAlignatorDotsSquared 
+class ImplAlignatorDotsDiagonal : public ImplAlignatorDots 
 {
  public:
 
@@ -52,7 +52,7 @@ class ImplAlignatorDotsSquaredDiagonal : public ImplAlignatorDotsSquared
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorDotsSquaredDiagonal( 
+    ImplAlignatorDotsDiagonal( 
     		const HAlignator & dottor,
     		Score row_gop, 
     		Score row_gep, 
@@ -60,10 +60,10 @@ class ImplAlignatorDotsSquaredDiagonal : public ImplAlignatorDotsSquared
     		Score col_gep = 0 );
     
     /** copy constructor */
-    ImplAlignatorDotsSquaredDiagonal( const ImplAlignatorDotsSquaredDiagonal & );
+    ImplAlignatorDotsDiagonal( const ImplAlignatorDotsDiagonal & );
 
     /** destructor */
-    virtual ~ImplAlignatorDotsSquaredDiagonal();
+    virtual ~ImplAlignatorDotsDiagonal();
     
     /** return a new alignator object of the same type.
      */

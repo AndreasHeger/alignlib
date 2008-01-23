@@ -34,10 +34,6 @@ namespace alignlib {
 
 #define STACKEMPTY     0
     
-    class Alignandum;
-    class Alignment;
-    class SubstitutionMatrix;
-    class ImplAlignmentMatrix;
     
 /** @short Implementation of dotplot-alignment with wrap-around lookup
 
@@ -60,12 +56,12 @@ class ImplAlignatorDotsWrap : public ImplAlignatorDots
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorDotsWrap( const HSubstitutionMatrix & subst_matrix,
+    ImplAlignatorDotsWrap(
+		       const HAlignator & dottor,    		
 		       Score row_gop, 
 		       Score row_gep, 
 		       Score col_gop = 0,
-		       Score col_gep = 0,
-		       const HAlignator & dottor);
+		       Score col_gep = 0 );
 
     /** copy constructor */
     ImplAlignatorDotsWrap( const ImplAlignatorDotsWrap & );
@@ -75,12 +71,15 @@ class ImplAlignatorDotsWrap : public ImplAlignatorDots
 
     /** return a new alignator object of the same type.
      */
-    virtual HAlignator & getClone() const ;
+    virtual HAlignator getClone() const ;
     
  protected:
 
     /** perform the alignment */
-    virtual void performAlignment(const HAlignandum & row, const HAlignandum & col, HAlignment result);
+    virtual void performAlignment(
+    		HAlignment & result, 
+    		const HAlignandum & row, 
+    		const HAlignandum & col );
 
     /** get GAP cost for a gap in row */
     virtual Score getGapCost( Dot x1, Dot x2 ) const;

@@ -154,7 +154,7 @@ HAlignator makeAlignatorGroupies()
     
     HAlignator p(makeAlignatorPrebuilt( new_dots ));
       
-    HAlignator alignator( makeAlignatorDotsSquared( p, mGop, mGep) );
+    HAlignator alignator( makeAlignatorDots( p, mGop, mGep) );
 
     alignator->align( result, row, col );
 

@@ -3421,35 +3421,35 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
-    { //::alignlib::makeAlignatorDotsSquared
+    { //::alignlib::makeAlignatorDots
     
-        typedef ::alignlib::HAlignator ( *makeAlignatorDotsSquared_function_type )( ::alignlib::HAlignator const &,::alignlib::Score,::alignlib::Score );
+        typedef ::alignlib::HAlignator ( *makeAlignatorDots_function_type )( ::alignlib::HAlignator const &,::alignlib::Score,::alignlib::Score );
         
         bp::def( 
-            "makeAlignatorDotsSquared"
-            , makeAlignatorDotsSquared_function_type( &::alignlib::makeAlignatorDotsSquared )
+            "makeAlignatorDots"
+            , makeAlignatorDots_function_type( &::alignlib::makeAlignatorDots )
             , ( bp::arg("alignator"), bp::arg("gop"), bp::arg("gep") ) );
     
     }
 
-    { //::alignlib::makeAlignatorDotsSquaredDiagonal
+    { //::alignlib::makeAlignatorDotsDiagonal
     
-        typedef ::alignlib::HAlignator ( *makeAlignatorDotsSquaredDiagonal_function_type )( ::alignlib::HAlignator const &,::alignlib::Score,::alignlib::Score,::alignlib::Score,::alignlib::Score );
+        typedef ::alignlib::HAlignator ( *makeAlignatorDotsDiagonal_function_type )( ::alignlib::HAlignator const &,::alignlib::Score,::alignlib::Score,::alignlib::Score,::alignlib::Score );
         
         bp::def( 
-            "makeAlignatorDotsSquaredDiagonal"
-            , makeAlignatorDotsSquaredDiagonal_function_type( &::alignlib::makeAlignatorDotsSquaredDiagonal )
+            "makeAlignatorDotsDiagonal"
+            , makeAlignatorDotsDiagonal_function_type( &::alignlib::makeAlignatorDotsDiagonal )
             , ( bp::arg("alignator"), bp::arg("gop"), bp::arg("gep"), bp::arg("diagnal_gop")=0, bp::arg("diagonal_gep")=0 ) );
     
     }
 
-    { //::alignlib::makeAlignatorFragmentsSquared
+    { //::alignlib::makeAlignatorFragments
     
-        typedef ::alignlib::HAlignator ( *makeAlignatorFragmentsSquared_function_type )( ::alignlib::Score,::alignlib::Score,::alignlib::HFragmentor const & );
+        typedef ::alignlib::HAlignator ( *makeAlignatorFragments_function_type )( ::alignlib::Score,::alignlib::Score,::alignlib::HFragmentor const & );
         
         bp::def( 
-            "makeAlignatorFragmentsSquared"
-            , makeAlignatorFragmentsSquared_function_type( &::alignlib::makeAlignatorFragmentsSquared )
+            "makeAlignatorFragments"
+            , makeAlignatorFragments_function_type( &::alignlib::makeAlignatorFragments )
             , ( bp::arg("gop"), bp::arg("gep"), bp::arg("fragmentor") ) );
     
     }

@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: ImplAlignatorDotsSquared.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+  $Id: ImplAlignatorDots.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -24,24 +24,23 @@
 #include <config.h>
 #endif
 
-#ifndef IMPL_ALIGNATOR_DOTS_SQUARED_H
-#define IMPL_ALIGNATOR_DOTS_SQUARED_H 1
+#ifndef IMPL_ALIGNATOR_DOTS_QUICK_H
+#define IMPL_ALIGNATOR_DOTS_QUICK_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
-
 #include "ImplAlignatorDots.h"
+#include "ImplAlignmentMatrix.h"
 
 namespace alignlib 
 {
+#define STACKEMPTY     0
 
-    
-/** @short dotplot alignment using full lookup of dots.
+/** @short Implementation of dotplot-alignment as found in RADAR.
     
     @author Andreas Heger
-    @version $Id: ImplAlignatorDotsSquared.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
+    @version $Id: ImplAlignatorDotsQuick.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignatorDotsSquared : public ImplAlignatorDots 
+class ImplAlignatorDotsQuick : public ImplAlignatorDots
 {
  public:
 
@@ -54,32 +53,28 @@ class ImplAlignatorDotsSquared : public ImplAlignatorDots
      @param col_gep		gap elongation penalty in row, default = col
      
     */
-    ImplAlignatorDotsSquared(
-    		const HAlignator & dottor,    		
+    ImplAlignatorDotsQuick(
+    		const HAlignator & dottor,
     		Score row_gop, 
     		Score row_gep, 
     		Score col_gop = 0,
     		Score col_gep = 0 );
 
     /** copy constructor */
-    ImplAlignatorDotsSquared( const ImplAlignatorDotsSquared & );
+    ImplAlignatorDotsQuick( const ImplAlignatorDotsQuick & );
 
     /** destructor */
-    virtual ~ImplAlignatorDotsSquared();
+    virtual ~ImplAlignatorDotsQuick();
     
-    /** return a new alignator object of the same type.
-     */
-    virtual HAlignator getClone() const;    
-
- protected:
-
+ protected: 
     /** perform the alignment */
-    virtual void performAlignment( HAlignment & dest, 
+    virtual void performAlignment( 
+    		HAlignment & dest, 
     		const HAlignandum & row, 
     		const HAlignandum & col );
 
-    /** get GAP cost for a gap */
-    virtual Score getGapCost( Dot x1, Dot x2 ) const;
+    
+    
 };
 
 

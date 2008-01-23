@@ -133,7 +133,7 @@ class AlignatorDPLocalTestCase( AlignatorTestCase ):
         else:
             self.assertEqual( self.mAlignmentA2B.getLength(), 14 )
 
-class AlignatorGroupies( AlignatorTestCase ):
+class AlignatorGroupiesTestCase( AlignatorTestCase ):
 
     def setUp( self ):
         AlignatorTestCase.setUp( self )
@@ -197,6 +197,8 @@ def suite():
     suite.addTest(AlignatorDPGlobalWithEndGapsPenaltiesTestCase)
     suite.addTest(AlignatorDPGlobalNoEndGapsPenaltiesTestCase)
     suite.addTest(AlignatorDPLocalTestCase)
+    suite.addTest(AlignatorDPWrapTestCase)
+    suite.addTest(AlignatorGroupiesTestCase)
     suite.addTest(AlignatorIterativeTestCase)   
     return suite
 

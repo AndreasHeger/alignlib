@@ -63,7 +63,13 @@ make test
 
 \subsection install_python_sec Python interface
 
-\section purpose
+\code
+cd python
+python setup.py build
+\endcode
+ 
+Make sure that the enfironment variables \em BOOST_BUILD_PATH and 
+\em BOOST_ROOT are set.
 
 \section history_sec History
 
