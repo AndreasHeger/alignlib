@@ -1,0 +1,71 @@
+/** \mainpage alignlib
+
+Alignlib is a c++ library for computing and manipulating sequence alignments of protein sequences. 
+It implements sequence-sequence, sequence-profile and profile-profile alignment.
+
+
+\section intro_sec Introduction
+
+\section install_sec Installation
+
+\subsection download_sec Download
+
+Alignlib is hosted by <a href="http://alignlib.wiki.sourceforge.net/">SourceForge</a>.
+
+\subsubsection svn_sec Development Version from subversion
+
+The development version can be obtained using subversion. Subversion
+is freely available from <a href="http://subversion.tigris.org/">here</a>.
+
+<pre>
+svn --username=USERNAME co https://alignlib.svn.sourceforge.net/svnroot/alignlib/trunk alignlib
+</pre>
+
+Next, configure the library for compilation:
+
+\code
+cd alignlib
+autoreconf --install
+\endcode
+
+\subsubsection Requirements
+
+Alignlib requires the freely available <a href="http://www.boost.org">boost</a> c++ library.
+
+Alignlib uses <a href="http://www.language-binding.net/pyplusplus/pyplusplus.html">Py++</a> to
+generate python bindings to the library. Py++ in turn depends on 
+<a href="http://www.gccxml.org/HTML/Index.html">gccxml</a> and 
+<a href="http://www.language-binding.net/pygccxml/pygccxml.html">pygccxml</a>. These libraries
+are required for development, but should not be necessary for compiling the python bindings.
+Boost.python should suffice.
+
+The library has been tested with
+
+<table>
+<tr>   
+<td>gcc</td><td>3.2.3, 4.1.2</td>
+</tr><tr>
+<td>gccxml</td><td>0.7.0</td>
+</tr><tr>
+<td>pygccxml</td><td>0.9</td>
+</tr><tr>
+<td>py++</td><td>0.9</td>
+</tr>
+</table>
+   
+\subsection install_c++_sec C++ library
+
+\code
+./configure
+make
+make test
+\endcode
+
+\subsection install_python_sec Python interface
+
+\section purpose
+
+\section history_sec History
+
+
+*/
