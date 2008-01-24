@@ -90,7 +90,7 @@ class ImplAlignmentMatrix : public ImplAlignment
 
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignmentMatrix( long ndots = 0);
+    ImplAlignmentMatrix();
     
     /** copy constructor */
     ImplAlignmentMatrix( const ImplAlignmentMatrix &src );

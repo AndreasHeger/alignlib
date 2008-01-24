@@ -44,8 +44,8 @@ using namespace alignlib;
 HAlignment buildAlignment()
 {
 	HAlignment a(makeAlignmentVector());
-	fillAlignmentIdentity( a, 2, 4, 0);
-	fillAlignmentIdentity( a, 6, 8, 0);
+	addDiagonal2Alignment( a, 2, 4, 0);
+	addDiagonal2Alignment( a, 6, 8, 0);
 	return a;
 }
 

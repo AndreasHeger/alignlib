@@ -68,8 +68,8 @@ void testAlignatum( HAlignatum & a, const std::string & sample )
 	// wrap on alignment - add one gap into the middle
 	HAlignment ali(makeAlignmentVector());
 	Position pos = a->getAlignedLength() / 2;
-	fillAlignmentIdentity( ali, 0, pos);
-	fillAlignmentIdentity( ali, pos, a->getAlignedLength(), 1);
+	addDiagonal2Alignment( ali, 0, pos);
+	addDiagonal2Alignment( ali, pos, a->getAlignedLength(), 1);
 	
 	a->mapOnAlignment( ali );
 

@@ -43,14 +43,15 @@ class Alignandum;
     @author Andreas Heger
     @version $Id: ImplAlignmentMatrixUnsorted.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignmentMatrixUnsorted : public ImplAlignmentMatrix {
+class ImplAlignmentMatrixUnsorted : public ImplAlignmentMatrix 
+{
 
     friend class ConstIterator;
     
  public:
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignmentMatrixUnsorted( long ndots = 0);
+    ImplAlignmentMatrixUnsorted();
     
     /** copy constructor */
     ImplAlignmentMatrixUnsorted( const ImplAlignmentMatrixUnsorted &src );

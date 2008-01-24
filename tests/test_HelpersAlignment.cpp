@@ -149,8 +149,8 @@ void Test( HAlignment & a)
 	}
 
 	{
-		cout << "testing...fillAlignmentIdentity()...";
-		fillAlignmentIdentity( a, 1, 10, 0);
+		cout << "testing...addDiagonal2Alignment()...";
+		addDiagonal2Alignment( a, 1, 10, 0);
 		cout << "passed" << endl;
 	}
 
@@ -211,7 +211,7 @@ void TestMonotone( HAlignment & a)
 	}
 	 */
 	{
-		cout << "testing fillAlignmentSummation()...";
+		cout << "testing expandAlignment()...";
 		a->clear();
 		a->addPair( ResiduePair( 3, 4, 0));
 		a->addPair( ResiduePair( 4, 5, 0));         
@@ -221,7 +221,7 @@ void TestMonotone( HAlignment & a)
 		HAlignment b = a->getNew();
 		HAlignment c = a->getNew();
 
-		fillAlignmentSummation( b, c, a, true, true, true, true, 11, 11);
+		expandAlignment( b, c, a, true, true, true, true, 11, 11);
 	}
 	Test( a );
 }

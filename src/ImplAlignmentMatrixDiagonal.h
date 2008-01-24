@@ -40,7 +40,8 @@ class Alignandum;
     @author Andreas Heger
     @version $Id: ImplAlignmentMatrixDiagonal.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class ImplAlignmentMatrixDiagonal : public ImplAlignmentMatrix {
+class ImplAlignmentMatrixDiagonal : public ImplAlignmentMatrix 
+{
 
     friend class ConstIterator;
     
@@ -48,7 +49,7 @@ class ImplAlignmentMatrixDiagonal : public ImplAlignmentMatrix {
 
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignmentMatrixDiagonal( long ndots = 0);
+    ImplAlignmentMatrixDiagonal();
     
     /** copy constructor */
     ImplAlignmentMatrixDiagonal( const ImplAlignmentMatrixDiagonal &src );

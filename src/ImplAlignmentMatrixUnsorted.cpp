@@ -28,13 +28,11 @@
 #include "ImplAlignmentMatrixUnsorted.h"
 #include "AlignException.h"
 
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
 
 using namespace std;
 
-namespace alignlib {
+namespace alignlib 
+{
 
   /** Note: There are two arrays that have to be taken care of: mPairs and mIndex. If you
       need to copy one, you have to copy the other one as well. The same applies to deletion.
@@ -54,13 +52,14 @@ namespace alignlib {
 #define NODOT -1 
 
 //------------------------------factory functions -----------------------------
-HAlignment makeAlignmentMatrixUnsorted( long ndots ) 
+HAlignment makeAlignmentMatrixUnsorted() 
 {
-  return HAlignment( new ImplAlignmentMatrixUnsorted( ndots) );
+  return HAlignment( new ImplAlignmentMatrixUnsorted() );
 }
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignmentMatrixUnsorted::ImplAlignmentMatrixUnsorted( long ndots ) : ImplAlignmentMatrix( ndots ) 
+ImplAlignmentMatrixUnsorted::ImplAlignmentMatrixUnsorted() 
+: ImplAlignmentMatrix() 
 {
   debug_func_cerr(5);
 

@@ -33,10 +33,15 @@
 namespace alignlib 
 {
 
-/* -------------------------------------------------------------------------------------------------------------------- */
-/* 1. factory functions */
+/**
+ * 
+ * @defgroup FactoryAlignandum Factory functions for Alignandum objects.
+ * @{ 
+ *  
+ * 
+*/
 
-/** load an Alignandum object from stream. 
+/** load an @ref Alignandum object from stream. 
  * 
  * @param stream stream to read an @ref Alignandum object from.
  * @exception AlignlibException	no complete object in stream.
@@ -196,9 +201,9 @@ HAlignandum makeProfile(
 		const HMultipleAlignment & mali );
 
 
-/* ----------------------------------------------------------------------------------------*/
-/* 3. convenience functions */
-
+/**
+ * @}
+ */
 
 
 

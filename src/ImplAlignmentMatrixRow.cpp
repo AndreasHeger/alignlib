@@ -54,15 +54,16 @@ namespace alignlib
 #define NODOT -1 
 
 //------------------------------factory functions -----------------------------
-HAlignment makeAlignmentMatrixRow( long ndots ) 
+HAlignment makeAlignmentMatrixRow() 
 {
   debug_func_cerr(5);
 
-  return HAlignment( new ImplAlignmentMatrixRow( ndots) );
+  return HAlignment( new ImplAlignmentMatrixRow() );
 }
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignmentMatrixRow::ImplAlignmentMatrixRow( long ndots ) : ImplAlignmentMatrix( ndots) 
+ImplAlignmentMatrixRow::ImplAlignmentMatrixRow() 
+: ImplAlignmentMatrix() 
 {
   debug_func_cerr(5);
 

@@ -211,7 +211,7 @@ void ImplMultipleAlignmentDots::add( const HAlignatum & src )
 	debug_func_cerr(5);
 
 	HAlignment ali(makeAlignmentVector());
-	fillAlignmentIdentity( ali, 0, src->getFullLength(), 0);
+	addDiagonal2Alignment( ali, 0, src->getFullLength(), 0);
 	mRows.push_back( HMaliRow( new MaliRow(src, ali)) );
 	mLength = 0;
 }

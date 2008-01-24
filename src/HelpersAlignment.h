@@ -31,81 +31,186 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
 
-/** Helper functions for class Alignment:
+/**
+ * 
+ * @defgroup FactoryAlignment Factory functions for Alignment objects.
+ * @{ 
+ *  
+ * @ref Alignment objects differ 
+ *    - in the way aligned residue pairs are sorted
+ *    - in constraints on uniqueness
+ * 
+ * Uniqueness is indicated by r:c where
+ *    - 1:1 one row can map to only one column and vice versa.
+ *    - 1:n	one row can map to multiple columns
+ *    - n:1 one column can map to multiple rows
+ *    - n:n any row can map to multiple columns and vice versa.
+ */ 
 
-	1. factory functions
-
-	2. accessor functions for default objects
-
-	3. convenience functions
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: by row
+ * Degeneracy: n:1
+ * 
+ * This object uses a std::vector container and is fastest for mapping 
+ * rows to columns at the expense of memory usage.
+ * 
+ * @return a new @ref Alignment object.
  */
-
-/* -------------------------------------------------------------------------------------------------------------------- */
-/* 1. factory functions */
-/** return a pointer to an Alignment-object */
-HAlignment makeAlignmentSet(); 
-
-/** return a pointer to an Alignment-object (iterate column-wise)*/
-HAlignment makeAlignmentSetCol(); 
-
-/** return a pointer to an Alignment-object */
-HAlignment makeAlignmentHash(); 
-
-/** return a pointer to an Alignment-object */
-HAlignment makeAlignmentHashDiagonal(); 
-
-/** return a pointer to an Alignment-object */
 HAlignment makeAlignmentVector(); 
 
-/** return a pointer to a new Alignment-object */
-HAlignment makeAlignmentMatrixRow( long ndots = 0);
-
-/** return a pointer to a new Alignment-object */
-HAlignment makeAlignmentMatrixUnsorted( long ndots = 0);
-
-/** return a pointer to a new Alignment-object */
-HAlignment makeAlignmentMatrixDiagonal( long ndots = 0);
-
-
-/* -------------------------------------------------------------------------------------------------------------------- */
-/* 2. accessor functions for default objects */
-
-
-/* -------------------------------------------------------------------------------------------------------------------- */
-/* 3. convenience functions */
-
-/** check if two alignmetns are identical
+/** make a @ref Alignment object.
  * 
- * This method iterates over both alignments and checks if the
+ *    - sort order: by row
+ * Degeneracy: n:1
+ * 
+ * This object uses a std::set container.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentSet(); 
+
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: by column
+ * Degeneracy: n:1
+ * 
+ * This object uses a std::set container.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentSetCol(); 
+
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: by row, then column
+ * Degeneracy: 1:1
+ * 
+ * This object uses a std::set container.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentHash(); 
+
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: by diagonal.
+ * Degeneracy: 1:1
+ * 
+ * This object uses a std::set container.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentHashDiagonal(); 
+
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: by row, then col.
+ * Degeneracy: n:n
+ * 
+ * This object uses an indexed list of residue pairs.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentMatrixRow();
+
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: by row, then col.
+ * Degeneracy: n:n
+ * 
+ * This object uses an indexed list of residue pairs.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentMatrixUnsorted();
+
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: undefined
+ *    - degeneracy: n:n
+ * 
+ * This object uses an indexed list of residue pairs.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentMatrixDiagonal();
+
+/**
+ * @}
+ */
+
+/**
+ * 
+ * @defgroup ToolsAlignatum Toolset for Alignment objects.
+ * @{ 
+ *  
+ */ 
+
+
+/** check if two alignments are identical
+ * 
+ * This function iterates over both alignments and checks if the
  * the same coordinates are returned. Thus, alignments that are 
  * sorted differently are not identical.
+ * 
+ * @param a @ref Alignment object.
+ * @param b @ref Alignment object.
+ * @param invert	check row in a is col in b and vice versa.
+ * @return true, if both alignments are identica.
  */
 bool checkAlignmentIdentity( 
-		const HAlignment &,
-		const HAlignment &,
+		const HAlignment & a,
+		const HAlignment & b,
 		const bool invert = false );
 
 /** enum describing the ways that two alignments can be combined
- * R: row
- * C: col
+ * 
+ *    - RR: row with row
+ *    - RC: row with column
+ *    - CR: column with row
+ *    - CC: column with column
  */
 typedef enum { RR, RC, CR, CC } CombinationMode;
 
-/** return a pointer to an Alignment-object, that has been created by combining two others */
+/** combine two @Alignment objects. 
+ * 
+ * This function merges two alignments by joining them
+ * via row/row, row/column, column/row or column/column.
+ * This is useful for mapping a whole alignment.
+ * For example,
+ * 
+ * @code
+ * combineAlignment( map_a2c, map_a2b, map_b2c, CR )
+ * @endcode
+ * 
+ * will fill map_a2c from map_a2b and map_b2c.
+ * 
+ * @param dest @ref Alignment object with the result.
+ * @param src1 @ref Alignment object with input.
+ * @param src2 @ref Alignment object with input.
+ * @param mode Combination mode.
+ */
 void combineAlignment( 
 		HAlignment & dest, 
 		const HAlignment & src1, 
 		const HAlignment & src2, 
 		const CombinationMode mode);
 
-/** copy one alignment into another. I can not do this using a copy constructor, since virtual functions are not
-     resolved by then. I also do not want a clone, for example if I want to change the underlying implementation
+/** @brief copy one alignment into another.
 
+	This function will copy src into dest. 
+
+	Only alignment pairs outside a region specified
+	by row, column or diagonal coordinates will
+	be copied.
+
+	@param dest	destionatn @ref Alignment object
+	@param src  source @ref Alignment object
      @param row_from	beginning of segment to use
      @param row_to	end of segment to use
      @param col_from	beginning of segment to use
@@ -113,7 +218,8 @@ void combineAlignment(
      @param diagonal_form beginning of tube to use
      @param diagonal_to end of tube to use
  */
-void copyAlignment( HAlignment & dest, 
+void copyAlignment( 
+		HAlignment & dest, 
 		const HAlignment & src, 
 		Position row_from = NO_POS,
 		Position row_to = NO_POS,
@@ -123,16 +229,25 @@ void copyAlignment( HAlignment & dest,
 		Diagonal diagonal_to = MAX_DIAGONAL
 );
 
-/** copy one alignment into another. In contrast to copyAlignment, this function keeps the dots outside
-     of region.
-     @param row_from	beginning of segment to use
+/** @brief copy one alignment into another.
+
+	This function will copy src into dest. 
+
+	Only alignment pairs outside a region specified
+	by row, column or diagonal coordinates will
+	be copied.
+
+	@param dest	destionatn @ref Alignment object
+	@param src  source @ref Alignment object
+    @param row_from	beginning of segment to use
      @param row_to	end of segment to use
      @param col_from	beginning of segment to use
      @param col_to	end of segment to use
      @param diagonal_form beginning of tube to use
      @param diagonal_to end of tube to use
  */
-void copyAlignmentRemoveRegion( HAlignment & dest, 
+void copyAlignmentWithoutRegion( 
+		HAlignment & dest, 
 		const HAlignment & src, 
 		Position row_from = NO_POS,
 		Position row_to = NO_POS,
@@ -142,25 +257,50 @@ void copyAlignmentRemoveRegion( HAlignment & dest,
 		Diagonal diagonal_to = 0
 );
 
-/** copy one alignment into another using filter 
- */
+/** @brief copy one alignment into another.
+
+	This function will copy src into dest. 
+
+	Only alignment pairs that are part of filter
+	will be copied.
+	
+	@param dest	destination @ref Alignment object
+	@param src  source @ref Alignment object
+	@param filter @ref Alignment object acting as filter.
+	@param mode	determines how pairs a matched between src and filter.
+	
+*/
 void copyAlignment( HAlignment & dest, 
 		const HAlignment & src, 
 		const HAlignment & filter, 
 		const CombinationMode mode);
 
-/** add one alignment to another
+/** @brief add Alignment to another.
+ * 
+	@param dest	destination @ref Alignment object
+	@param src  source @ref Alignment object
+ * 
  */
 void addAlignment2Alignment( HAlignment & dest, const HAlignment & src );
 
-/** add one alignment to another. Map src using map_src2new.
+/** @brief add Alignment to another with mapping.
+ * 
+	@param dest	destination @ref Alignment object
+	@param src  source @ref Alignment object
+	@param map_src2new	map of src.
+	@param mode	determines if row/col are mapped.
  */
 void addMappedAlignment2Alignment( HAlignment & dest, 
 		const HAlignment & src, 
 		const HAlignment & map_src2new,
 		const CombinationMode mode );
 
-/** add one alignment to another. Map both row and column.
+/** @brief add Alignment to another with mapping.
+ * 
+	@param dest	destination @ref Alignment object
+	@param src  source @ref Alignment object
+	@param map_src_row2dest_row	map of row in src.
+	@param map_src_col2dest_col map of col in src.
  */
 void addMappedAlignments2Alignment( HAlignment & dest, 
 		const HAlignment & src, 
@@ -168,15 +308,40 @@ void addMappedAlignments2Alignment( HAlignment & dest,
 		const HAlignment & map_src_col2dest_col );
 
 
-/** create an identity alignment between residues from and to in row using an offset for col */
-void fillAlignmentIdentity( 
+/** add a diagonal to an alignment.
+ *  
+ * @param dest @ref 	Alignment object 
+ * @param row_from	  	row start
+ * @param row_to	  	row end
+ * @param col_offset	column offset.
+ * */
+void addDiagonal2Alignment( 
 		HAlignment & dest, 
 		Position row_from, 
 		Position row_to, 
 		Position col_offset = 0);
 
-/** fill gaps in an alignment by doing a local alignment in each
-     region.
+/** fill gaps in an alignment. 
+ * 
+ * If there is a gap of the same length in both row and
+    col, the corresponding residues are added to the alignment.
+    
+    Only gaps of maximum size max_length are filled.
+    
+ * @param dest @ref Alignment object.
+   @param max_length maximal gap size to fill.
+    
+ */
+void fillAlignmentGaps( 
+		HAlignment & dest, 
+		const Position max_length );
+
+/** fill gaps in an alignment by alignment within gaps.
+ * 
+ * @param dest 		@ref Alignment object. 
+ * @param alignator @ref Alignator object to do the alignment.
+ * @param row	    @ref Alignandum object to align.
+ * @param col 		@ref Alignandum object to align. 
  */
 void fillAlignmentGaps( 
 		HAlignment & dest,
@@ -184,23 +349,38 @@ void fillAlignmentGaps(
 		const HAlignandum & row,
 		const HAlignandum & col );
 
-/** remove residues from an alignment, that are part of another alignment
-     @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
-     where the row is also present as a row-residue in filter.
+/** remove residues from an alignment that are part of another alignment.
+ * 
+ * @param dest 		@ref Alignment object. 
+ * @param filter 	@ref Alignment that acts as filter.
+   @param mode	 	specifies residue lookup. If mode = RR, then every pair is eliminated from dest,
+     				where the row is also present as a row-residue in filter.
  */
 void filterAlignmentRemovePairs( HAlignment & dest, 
 		const HAlignment & filter, 
 		const CombinationMode mode );
 
-/** remove residues from an alignment, that are part of another alignment
-     @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
-     where the row is also present as a row-residue in filter.
+/** remove residues from an alignment that are part of another alignment.
+ * 
+ * @param dest 		@ref Alignment object. 
+ * @param filter 	@ref Alignment that acts as filter.
+   @param mode	 	specifies residue lookup. If mode = RR, then every pair is eliminated from dest,
+     				where the row is also present as a row-residue in filter.
+ 
  */
-void filterAlignmentRemovePairwiseSorted( HAlignment & dest, 
+void filterAlignmentRemovePairwiseSorted( 
+		HAlignment & dest, 
 		const HAlignment & filter, 
 		const CombinationMode mode );
 
-/** rescore residues in an alignment. 
+/** rescore all pairs in an alignment.
+ * 
+ * The score of a pair is set by querying a @ref scorer object.
+ * 
+ * @param dest @ref Alignment object.
+ * @param row  @ref Alignandum object. 
+ * @param col  @ref Alignandum object.
+ * @param scorer @ref Scorer object.
  */
 void rescoreAlignment( 
 		HAlignment & dest,
@@ -208,13 +388,27 @@ void rescoreAlignment(
 		const HAlignandum & col,
 		const HScorer & scorer );
 
-/** rescore residues in an alignment setting them all to the same score. 
+/** rescore residues in an alignment.
+ * 
+ * All residue pairs are set to the same score.
+ * 
+ * @param dest @ref Alignment object.
+ * @param score pair score. 
  */
 void rescoreAlignment( 
 		HAlignment & dest,
 		const Score score = 0);
 
-/** calculate Alignment score given gap-penalties for row and column */
+/** calculate affine alignment score.
+ *
+ * This function uses the residue pair scores
+ * and affine gap penalties to calculate an 
+ * alignment score. The score is set in dest.
+ * 
+ * @param dest @ref Alignment object.
+ * @param gop gap opening penalty.
+ * @param gep gap elongation penalty. 
+ */
 void calculateAffineScore( HAlignment & dest, 
 		const Score gop, 
 		const Score gep );
@@ -227,24 +421,67 @@ void fillAlignmentRepeatUnit(
 		const Position first_row_residue = NO_POS,
 		const bool skip_negative_ends = false);
 
-/** 
-    return the maps of row/col of an alignment to the summation of the alignment. This is useful for 
-    building multiple alignemnts.
+/** @brief expand one alignment to two interleaved alignments.
+  	
+  	This function is useful for building multiple alignemnts.
 
-    @param	map_row2combined     
-    @param	map_col2combined
-    @param      source
-    @param	insert_gaps_row
-    @param	insert_gaps_col
-    @param	use_end_row
-    @param	use_end_col
-    @param	row_length
-    @param	col_length
+    For example: With two sequences of length 10 and alignment src between them:
+	
+	<pre>
+    src = 3 4 | 4 5 | 5 7 | 9 9 
+	</pre>
+    the result would be:
 
+	<pre>
+    A: insert_gaps_row = true, insert_gaps_col = true, use_end_row = true, use_end_col = true
+    dest1 = 1 1 | 2 2 |     |     |     | 3 6 | 4 7 |     | 5 9 | 6 10 | 7 11 | 8 12 |      | 9 14 | 10 15 |       |
+    dest2 =     |     | 1 3 | 2 4 | 3 5 | 4 6 | 5 7 | 6 8 | 7 9 |      |      |      | 8 13 | 9 14 |       | 10 16 | 
+
+    B: insert_gaps_row = false, insert_gaps_col = true, use_end_row = true, use_end_col = false
+    dest1 = 1 1 | 2 2 | 3 3 | 4 4 | 5 5 | 6  6 | 7  7 | 8  8 | 9  9 | 10 10 |
+    dest2 =     |     | 4 3 | 5 4 | 7 5 |      |      |      | 9  9 |       
+
+    C: insert_gaps_row = false, insert_gaps_col = true, use_end_row = false, use_end_col = false
+    dest1 = 3 1 | 4 2 | 5 3 | 6  4 | 7  5 | 8  6 | 9  7 | 
+    dest2 = 4 1 | 5 2 | 7 3 |      |      |      | 9  7 |       
+
+    D: insert_gaps_row = false, insert_gaps_col = false, use_end_row = false, use_end_col = false
+    dest1 = 3 1 | 4 2 | 5 3 | 9  4 | 
+    dest2 = 4 1 | 5 2 | 7 3 | 9  4 |       
+
+    E: insert_gaps_row = true, insert_gaps_col = true, use_end_row = false, use_end_col = false
+    dest1 = 3 1 | 4 2 |     | 5 4 | 6  5 | 7  6 | 8  7 |     | 9 9 |
+    dest2 = 4 1 | 5 2 | 6 3 | 7 4 |      |      |      | 8 8 | 9 9 |
+	</pre>
+	
+    A is used for building multiple alignments, where no part of the sequences are missing.
+    
+    B is used for building multiple alignments of a representative with related sequences
+    stacked on top of it. No gaps will be inserted into the representative, i.e. the 
+    multiple alignment will have a constant number of columns.
+    
+    E can be used for displaying pairwise alignments.
+
+    Note:
+
+    If there is a gap in both sequences, the residues in the first alignment dest1 are 
+    aligned to the right of the gap, while the residues in the second alignment dest2
+    are aligned to the right.
+
+    @param	map_row2combined  @ref Alignment object containing the result.
+    @param	map_col2combined  @ref Alignment object containing the result.
+    @param  src @ref Alignment object containing the input.
+    @param	insert_gaps_row	if true, insert gaps in row
+    @param	insert_gaps_col if true, insert gaps in col
+    @param	use_end_row if true, use overhanging ends in row.
+    @param	use_end_col if true, use overhanging ends in col
+    @param	row_length  total length of row
+    @param	col_length  total length of col
  */
 
-void fillAlignmentSummation( HAlignment & dest1, 
-		HAlignment & dest2, 
+void expandAlignment( 
+		HAlignment & map_row2combined, 
+		HAlignment & map_col2combined, 
 		const HAlignment & src,
 		const bool insert_gaps_row = true,
 		const bool insert_gaps_col = true, 
@@ -254,24 +491,26 @@ void fillAlignmentSummation( HAlignment & dest1,
 		const Position col_length = NO_POS);
 
 
-/** complement a pairwise alignment. If there is a gap of the same length in both row and
-     col, the corresponding residues are added to the alignment.
- */
-void complementAlignment( 
-		HAlignment & dest, 
-		const Position max_length );
+/** @brief remove all those residues from an alignmnent that are not in sequential order. 
 
-/** remove all those residues from an alignmnent, which are not
-     in sequential. 
-     
-     This ensures, that col_i < col_i+1 and row < row_i+1
-     
-     Useful with AlignmentVector.
+   This function ensures, that col_i < col_i+1 and row < row_i+1
+   
+ * @param dest @ref Alignment object.
+ 
  */
 void flattenAlignment( HAlignment & dest );
 
-/** split an alignment, if there are gaps larger than a certain 
- * 	threshold either in row or col or both.
+/** @brief split an alignment at gaps.
+ * 
+ * This function splits an alignment into fragments at gaps larger
+ * than a threshold.
+ * 
+ * @param src @ref Alignment to split. 
+ * @param max_gap_width maximum gap size.
+ * @param split_row	if true, split at gaps in row.
+ * @param split_col if true, split at gaps in col.
+ * 
+ * @return a @ref FragmentVector.
  */
 HFragmentVector splitAlignment( 
 		const HAlignment & src, 
@@ -286,38 +525,81 @@ HFragmentVector splitAlignment(
 		const HAlignment & src2, 
 		const CombinationMode mode );
 
-/** starting from the ends of an alignment, remove 
-    residues which do not contribute to a positive score.
+/** remove low-scoring ends from an alignment. 
+ * 
+ * 
+ * Starting from the ends of an alignment, remove 
+   residues which do not contribute to a positive score.
+   Gaps are treated with affined gap penalties.
+   
+ * @param src @ref Alignment object.
+   @param gop gap opening penalty.
+   @param gep gap extension penalty.
+   
  */
 void pruneAlignment( 
 		HAlignment & src,
 		const Score gop,
 		const Score gep);
 
-/** calculate percent similarity of alignment */
+/** @brief calculate percent similarity of an alignment. 
+ * 
+ * The percent similarity is defined as the number
+ * of aligned residue pairs with positive score divided 
+ * by the total number of aligned residue pairs. 
+ * 
+ * @param src @ref Alignment object.
+ * 
+ * return the percent similarity.
+ * */
 double calculatePercentSimilarity( 
 		const HAlignment & src);  
 
-/** calculate percent identity of alignment. 
+/** @brief calculate percent identity of an alignment.
+ * 
+ * The percent similarity is defined as the number
+ * of identical residue pairs divided by the total number
+ * of aligned residue pairs. 
+ * 
+ * @param src @ref Alignment object.
+ * @param row @ref Alignandum object.
+ * @param col @ref Alignandum object.
+ * 
+ * @return an alignment score.
  */
 double calculatePercentIdentity (
 		const HAlignment & src, 
 		const HAlignandum & row, 
 		const HAlignandum & col); 
 
-/** remove small fragments from alignment.
+/** @brief remove small fragments from alignment.
  * 
- * This method removes fragments from an alignment. A fragment
- * is a part of an alignment that is short (max_fragment_length)
+ * This function removes fragments from an alignment. A fragment
+ * is a part of an alignment that is short (fragment_length)
  * and surrounded by large gaps (min_gap_length).
+ * 
+ * For example,
+ * @code
+ * removeFragments( dest, 1, 3 )
+ * @endcode
+ * will remove all residue pairs surrounded by at least 3 gaps on either side.
+ *
+ * @param dest @ref Alignment object.
+ * @param fragment_length	maximum number of residues to be deleted if surrounded by gaps.
+ * @param min_gap_length	minimum number of gaps on each side for a fragment to be deleted.
+ * @param row_length	total size of row (to calculate gaps at C-terminus). 
  */
 void removeFragments( 
 		HAlignment & dest,
-		const unsigned int window_length,
+		const unsigned int fragment_length,
 		const unsigned int min_gap_length,
 		const Position row_length = NO_POS);
 
 }
+
+/**
+ * @}
+ */
 
 #endif	/* HELPERS_ALIGNATA_H */
 

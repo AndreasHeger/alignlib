@@ -25,9 +25,9 @@ class AlignmentFormatTestCase( unittest.TestCase ):
 
     def setUp( self ):
         self.mAlignment = makeAlignmentVector()
-        fillAlignmentIdentity( self.mAlignment, 5, 10, 0)
-        fillAlignmentIdentity( self.mAlignment, 10, 15, 5)
-        fillAlignmentIdentity( self.mAlignment, 25, 30, -5)
+        addDiagonal2Alignment( self.mAlignment, 5, 10, 0)
+        addDiagonal2Alignment( self.mAlignment, 10, 15, 5)
+        addDiagonal2Alignment( self.mAlignment, 25, 30, -5)
         self.mFormat = None
 
     def testInput(self):

@@ -124,7 +124,7 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 					// delete dots from dot-plot. Delete all dots in region      
 					HAlignment copy = makeAlignmentMatrixUnsorted();
 
-					copyAlignmentRemoveRegion( copy, 
+					copyAlignmentWithoutRegion( copy, 
 							mDots, 
 							result->getRowFrom(),
 							result->getRowTo(),

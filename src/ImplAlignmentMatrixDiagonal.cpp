@@ -43,13 +43,14 @@ namespace alignlib
 #define NODOT -1
 
 //------------------------------factory functions -----------------------------
-HAlignment makeAlignmentMatrixDiagonal( long ndots ) 
+HAlignment makeAlignmentMatrixDiagonal() 
 {
-  return HAlignment( new ImplAlignmentMatrixDiagonal( ndots) );
+  return HAlignment( new ImplAlignmentMatrixDiagonal() );
 }
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignmentMatrixDiagonal::ImplAlignmentMatrixDiagonal( long ndots ) : ImplAlignmentMatrix( ndots), mNumDiagonals(0) 
+ImplAlignmentMatrixDiagonal::ImplAlignmentMatrixDiagonal() 
+: ImplAlignmentMatrix(), mNumDiagonals(0) 
 {
   debug_func_cerr(5);
 

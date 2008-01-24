@@ -197,7 +197,7 @@ void ImplMultipleAlignment::add(
 	HAlignment map_alignatum2new = makeAlignmentVector();
 
 	if (mali_is_in_row)
-		fillAlignmentSummation( map_this2new, 
+		expandAlignment( map_this2new, 
 				map_alignatum2new, 
 				alignment, 
 				insert_gaps_mali,
@@ -207,7 +207,7 @@ void ImplMultipleAlignment::add(
 				getLength(),
 				src->getAlignedLength());
 	else
-		fillAlignmentSummation( map_alignatum2new, 
+		expandAlignment( map_alignatum2new, 
 				map_this2new, 
 				alignment, 
 				insert_gaps_alignatum,
@@ -312,7 +312,7 @@ void ImplMultipleAlignment::add(
 	HAlignment map_alignatum2new = makeAlignmentVector();
 	
 	if (mali_is_in_row)
-		fillAlignmentSummation( map_this2new, 
+		expandAlignment( map_this2new, 
 				map_alignatum2new, 
 					alignment, 
 					insert_gaps_mali,
@@ -322,7 +322,7 @@ void ImplMultipleAlignment::add(
 					getLength(),
 					copy->getLength());
 		else
-			fillAlignmentSummation( map_alignatum2new, 
+			expandAlignment( map_alignatum2new, 
 					map_this2new, 
 					alignment, 
 					insert_gaps_alignatum,

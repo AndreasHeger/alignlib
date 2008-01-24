@@ -49,7 +49,7 @@ class ImplAlignmentMatrixRow : public ImplAlignmentMatrix
  public:
     //------------------> constructors / destructors <---------------------------------------------------------
     /** constructor */
-    ImplAlignmentMatrixRow( long ndots = 0);
+    ImplAlignmentMatrixRow();
     
     /** copy constructor */
     ImplAlignmentMatrixRow( const ImplAlignmentMatrixRow &src );

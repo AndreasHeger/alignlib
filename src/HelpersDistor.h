@@ -19,39 +19,40 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "alignlib_default.h"
 
 namespace alignlib 
 {
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
+
+/**
+ * 
+ * @defgroup FactoryDistor Factory functions for Distor objects.
+ * @{ 
+*/
     
- /* -------------------------------------------------------------------------------------------------------------------- */
- /* 1. factory functions */
-  
-    /** return an Distor object, that calculates distances between sequences in a multiple alignment based on Kimura */
+    /** return a @ref Distor object, that calculates distances between sequences in a multiple alignment based on Kimura 
+     * 
+     * @return a new @ref Distor object. 
+     */
     HDistor makeDistorKimura();
 
-    /** return an Distor object, that calculates distances between sequences in a multiple alignment based on Kimura */
+    /** return a @ref Distor object that calculates distances between sequences in a multiple alignment 
+     * in the same way as Clustal
+     * 
+     * @return a new @ref Distor object. 
+     */
     HDistor makeDistorClustal();
     
-    /** return a Distor object, that instead of calculating a matrix, copies its own copy of a matrix into a matrix */
+    /** return a @ref Distor object that publishes a pre-built matrix.
+	*
+    * @param matrix @ref PhyloMatrix to export.
+    * @return a new @ref Distor object. 
+    */
     HDistor makeDistorDummy( const HPhyloMatrix & matrix);
   
- /* -------------------------------------------------------------------------------------------------------------------- */
- /* 2. accessor functions for default objects */
+    /** @} */
     
     DEFINE_DEFAULT( HDistor, getDefaultDistor, setDefaultDistor );
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 3. convenience functions */
-
 
 }
 

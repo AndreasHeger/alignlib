@@ -13,7 +13,6 @@
 
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
 #include "alignlib_default.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
@@ -23,4 +22,4 @@ using namespace std;
 namespace alignlib 
 {
 
-  } // namespace alignlib
+} // namespace alignlib

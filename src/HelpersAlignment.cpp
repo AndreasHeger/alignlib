@@ -36,9 +36,6 @@ using namespace std;
 namespace alignlib 
 {
 
-//---------------------------------------------------------------------------------------------------
-inline Diagonal calculateDiagonal( const ResiduePair & p) { return (p.mCol - p.mRow); }
-
 bool checkAlignmentIdentity( 
 		const HAlignment & a, 
 		const HAlignment & b, 
@@ -70,7 +67,6 @@ bool checkAlignmentIdentity(
 }
 
 //---------------------------------------------------------------------------------------------------------
-/** write an alignment in rsdb-format */
 void readAlignmentPairs( 
 		HAlignment & dest, 
 		std::istream & input, 
@@ -95,7 +91,6 @@ void readAlignmentPairs(
 
 
 //-----------------------------------------------------------------------------------------------
-/** convert one type of Alignment-object into another using functions from the public interface */
 void copyAlignment( 
 		HAlignment & dest, 
 		const HAlignment & src,
@@ -135,7 +130,7 @@ void copyAlignment(
 		const ResiduePair & p = *it;
 
 		// apply filter
-		Diagonal	this_diagonal = calculateDiagonal(p);
+		Diagonal	this_diagonal = p.getDiagonal();
 		Position this_row      = p.mRow;
 		Position this_col      = p.mCol;
 
@@ -153,8 +148,7 @@ void copyAlignment(
 	return;
 		}
 //-----------------------------------------------------------------------------------------------
-/** convert one type of Alignment-object into another using functions from the public interface */
-void copyAlignmentRemoveRegion( 
+void copyAlignmentWithoutRegion( 
 		HAlignment & dest, 
 		const HAlignment & src,
 		Position row_from,
@@ -187,7 +181,7 @@ void copyAlignmentRemoveRegion(
 		const ResiduePair & p = *it;
 
 		// apply filter
-		Diagonal	this_diagonal = calculateDiagonal(p);
+		Diagonal	this_diagonal = p.getDiagonal();
 		Position this_row      = p.mRow;
 		Position this_col      = p.mCol;
 
@@ -205,8 +199,6 @@ void copyAlignmentRemoveRegion(
 	return;
 		}
 //-----------------------------------------------------------------------------------------------
-/** convert one type of Alignment-object into another using functions from the public interface. 
- Residues are skipped, which are part of filter */
 void copyAlignment( HAlignment & dest, 
 		const HAlignment & src,
 		const HAlignment & filter, 
@@ -246,8 +238,6 @@ void copyAlignment( HAlignment & dest,
 		}
 
 //----------------------------------------------------------------------------------
-/** add one alignment to another
- */
 void addAlignment2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src ) 
@@ -266,8 +256,6 @@ void addAlignment2Alignment(
 	return;
 		}
 //----------------------------------------------------------------------------------
-/** add one alignment to another. Map src using map_src2new.
- */
 void addMappedAlignment2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src, 
@@ -302,9 +290,6 @@ void addMappedAlignment2Alignment(
 		}
 
 //----------------------------------------------------------------------------------
-/** add one alignment to another. Map both row and column.
- */
-
 void addMappedAlignments2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src, 
@@ -332,10 +317,6 @@ void addMappedAlignments2Alignment(
 		}
 
 //-----------------------------------------------------------------------------------------
-/** create a new Alignatum-object by conversion from others. This method requires the addPair 
-    method, that's why I can not put it into a constructor, the virtual mechanism is not 
-    guaranteed to work in constructors 
- */
 void combineAlignment( 
 		HAlignment & dest, 
 		const HAlignment & src1, 
@@ -409,7 +390,6 @@ void combineAlignment(
 }
 
 //------------------------------------------------------------------------------------------------------------
-/** Print pretty pairwise aligment */
 void writeAlignmentTable( 
 		std::ostream & output, 
 		const HAlignment & src,
@@ -452,10 +432,7 @@ void writeAlignmentTable(
 
 
 
-/** convenience function */
 //--------------------------------------------------------------------------------------------------------------
-/** Print pretty wraparound pairwise aligment. Iteration is over rows. 
- * Pairs have to be sorted first by row and then by column? */
 void writeWraparoundAlignment( std::ostream & output, 
 		const HAlignandum & row, 
 		const HAlignandum & col, 
@@ -586,11 +563,6 @@ void writeWraparoundAlignment( std::ostream & output,
 }
 
 //---------------------------------------------------------------------------------------
-/** remove residues from an alignment, that are part of another alignment
-    @param mode: specifies, which residues are looked up. If mode = RR, then every pairs is eliminated from dest,
-	where the row is also present as a row-residue in filter.
-
- */
 void filterAlignmentRemovePairs( 
 		HAlignment & dest, 
 		const HAlignment & filter, 
@@ -708,10 +680,7 @@ void filterAlignmentRemovePairwiseSorted(
 	return;
 		}
 
-/*--------------------------------------------------------------------------------------------------------------
-  create an identity alignment between residues from and to in row using an offset for col
- */
-void fillAlignmentIdentity( 
+void addDiagonal2Alignment( 
 		HAlignment & dest, 
 		Position row_from, 
 		Position row_to, 
@@ -727,11 +696,6 @@ void fillAlignmentIdentity(
 		}
 
 //-------------------------------------------------------------------------------------------------
-/** fill gaps in an alignment by doing a local alignment in each
-     region.
-
-     Note: it does conserve ranges in row/col!
- */
 
 void fillAlignmentGaps( 
 		HAlignment & dest,
@@ -903,7 +867,7 @@ void calculateAffineScore(
 }
 
 //----------------------------------------------------------------------------------------------------
-/** fill an alignment with a repeat unit from a wrap-around alignment */
+/*fill an alignment with a repeat unit from a wrap-around alignment */
 /* code still broken with the skip_negative_ends */
 void fillAlignmentRepeatUnit( 
 		HAlignment & dest, 
@@ -961,60 +925,9 @@ inline Position insertResidues( HAlignment & dest,
 }
 
 
-/** 
-    return the maps of row/col of an alignment to the summation of the alignment. This is useful for 
-    building multiple alignemnts.
-
-    For example: With two sequences of length 10 and alignment src between them:
-
-    src = 3 4 | 4 5 | 5 7 | 9 9 
-
-    the result would be:
-
-    A: insert_gaps_row = true, insert_gaps_col = true, use_end_row = true, use_end_col = true
-    dest1 = 1 1 | 2 2 |     |     |     | 3 6 | 4 7 |     | 5 9 | 6 10 | 7 11 | 8 12 |      | 9 14 | 10 15 |       |
-    dest2 =     |     | 1 3 | 2 4 | 3 5 | 4 6 | 5 7 | 6 8 | 7 9 |      |      |      | 8 13 | 9 14 |       | 10 16 | 
-
-    B: insert_gaps_row = false, insert_gaps_col = true, use_end_row = true, use_end_col = false
-    dest1 = 1 1 | 2 2 | 3 3 | 4 4 | 5 5 | 6  6 | 7  7 | 8  8 | 9  9 | 10 10 |
-    dest2 =     |     | 4 3 | 5 4 | 7 5 |      |      |      | 9  9 |       
-
-    C: insert_gaps_row = false, insert_gaps_col = true, use_end_row = false, use_end_col = false
-    dest1 = 3 1 | 4 2 | 5 3 | 6  4 | 7  5 | 8  6 | 9  7 | 
-    dest2 = 4 1 | 5 2 | 7 3 |      |      |      | 9  7 |       
-
-    D: insert_gaps_row = false, insert_gaps_col = false, use_end_row = false, use_end_col = false
-    dest1 = 3 1 | 4 2 | 5 3 | 9  4 | 
-    dest2 = 4 1 | 5 2 | 7 3 | 9  4 |       
-
-    E: insert_gaps_row = true, insert_gaps_col = true, use_end_row = false, use_end_col = false
-    dest1 = 3 1 | 4 2 |     | 5 4 | 6  5 | 7  6 | 8  7 |     | 9 9 |
-    dest2 = 4 1 | 5 2 | 6 3 | 7 4 |      |      |      | 8 8 | 9 9 |
-
-    A can be used for building complete multiple alignments, where no part of the
-    sequences are missing.
-    B can be used for building multiple alignments for representatives that include
-    all the neighbours.
-    E can be used for showing pairwise alignments.
-
-    Note:
-
-    If there is a gap in both sequences, the residues in the first alignment dest1 are 
-    aligned to the right of the gap, while the residues in the second alignment dest2
-    are aligned to the right.
-
-    @param	map_row2combined     
-    @param	map_col2combined
-    @param      source
-    @param	insert_gaps_row
-    @param	insert_gaps_col
-    @param	use_end_row
-    @param	use_end_col
-    @param	row_length
-    @param	col_length
-
+/* 
  */    
-void fillAlignmentSummation( HAlignment & dest1, 
+void expandAlignment( HAlignment & dest1, 
 		HAlignment & dest2, 
 		const HAlignment & src,
 		bool insert_gaps_row,
@@ -1081,7 +994,7 @@ void fillAlignmentSummation( HAlignment & dest1,
 
 }
 //-----------------------------------------------------------------------------------------
-/** remove all those residues from an alignmnent, which are not
+/* remove all those residues from an alignmnent, which are not
      in sequence. This ensures, that col_i < col_i+1 and row < row_i+1
      Only use with AlignmentVector
 
@@ -1123,7 +1036,7 @@ void flattenAlignment( HAlignment & dest )
 
 
 //-----------------------------------------------------------------------------------------
-/** split an alignment, if there are gaps larger than a certain threshold either in row or
+/* split an alignment, if there are gaps larger than a certain threshold either in row or
     col or both.
  */
 HFragmentVector splitAlignment( 
@@ -1169,7 +1082,7 @@ HFragmentVector splitAlignment(
 }
 
 //-----------------------------------------------------------------------------------------
-/** split an alignment at points of intersection with another alignment.
+/* split an alignment at points of intersection with another alignment.
  */ 
 HFragmentVector splitAlignment( 
 		const HAlignment & src1, 
@@ -1240,10 +1153,7 @@ HFragmentVector splitAlignment(
 }
 
 //-----------------------------------------------------------------------------------------
-/** complement a pairwise alignment. If there is a gap of the same length in both row and
-    col, the corresponding residues are added to the alignment.
- */
-void complementAlignment( 
+void fillAlignmentGaps( 
 		HAlignment & dest, 
 		const Position max_length ) 
 		{
@@ -1279,7 +1189,7 @@ void complementAlignment(
 	return;
 		}
 
-/** remove small fragments from alignment.
+/* remove small fragments from alignment.
     This method removes fragments from an alignment. A fragment
     is a part of an alignment, that is short (max_fragment_length)
     and surrounded by large gaps (min_gap_length). 
@@ -1353,7 +1263,8 @@ void removeFragments( HAlignment & dest,
 		//------------------------------------------------------------------------
 		// check if region is to be deleted
 		if ( (num_left_gaps > min_gap_length) &&
-				(num_right_gaps > min_gap_length) ) {
+				(num_right_gaps > min_gap_length) ) 
+		{
 			dest->removeRowRegion( left_pos, right_pos );
 			this_pos += window_size;
 		}
@@ -1366,7 +1277,7 @@ void removeFragments( HAlignment & dest,
 }
 
 //-----------------------------------------------------------------------------------------------
-/** starting from the end of an alignment, remove
+/* starting from the end of an alignment, remove
     residues as long as the score increases when these
     residues are removed.
  */

@@ -588,7 +588,7 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 							HAlignment map_row2new = makeAlignmentVector();
 							HAlignment map_col2new = makeAlignmentVector();
 
-							fillAlignmentSummation( map_row2new, 
+							expandAlignment( map_row2new, 
 									map_col2new, 
 									src, 
 									true, true);

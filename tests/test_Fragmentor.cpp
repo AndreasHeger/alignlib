@@ -66,9 +66,9 @@ int main ()
   //  std::ifstream fin("test.dots");
   // readAlignmentPairs( dots, fin );
 
-  fillAlignmentIdentity( dots, 1, 4, 0);
-  fillAlignmentIdentity( dots, 10, 14, 0);
-  fillAlignmentIdentity( dots, 20, 24, 0);
+  addDiagonal2Alignment( dots, 1, 4, 0);
+  addDiagonal2Alignment( dots, 10, 14, 0);
+  addDiagonal2Alignment( dots, 20, 24, 0);
   rescoreAlignment( dots, 1.0);
 
   cout << "Dots read in:\n" << *dots << endl;

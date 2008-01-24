@@ -104,7 +104,7 @@ int main () {
 //    {
 //          cout << "---------------------Testing Alignator----------------------------------" << endl;
 //          // build alignment
-//          alignlib::Alignment * dotplot = fillAlignmentIdentity( makeAlignmentMatrixRow(), 10, 20, 0);
+//          alignlib::Alignment * dotplot = addDiagonal2Alignment( makeAlignmentMatrixRow(), 10, 20, 0);
 //  	rescoreAlignment( dotplot, 1);
 //  	cout << *dotplot << endl;
   

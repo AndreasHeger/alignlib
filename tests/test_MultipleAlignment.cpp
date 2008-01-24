@@ -161,16 +161,16 @@ int main ()
 		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));    
 
 		HAlignment a1(makeAlignmentVector());
-		fillAlignmentIdentity( a1, 1, 4, 0 );
-		fillAlignmentIdentity( a1, 6, 8, 0 );
+		addDiagonal2Alignment( a1, 1, 4, 0 );
+		addDiagonal2Alignment( a1, 6, 8, 0 );
 
 		HAlignment a2(makeAlignmentVector());
-		fillAlignmentIdentity( a2, 0, 5, +1 );
+		addDiagonal2Alignment( a2, 0, 5, +1 );
 
 		HAlignment a3(makeAlignmentVector());
-		fillAlignmentIdentity( a3, 1, 6, -1 );
-		fillAlignmentIdentity( a3, 6, 7, 0 );
-		fillAlignmentIdentity( a3, 7, 8, +1 );
+		addDiagonal2Alignment( a3, 1, 6, -1 );
+		addDiagonal2Alignment( a3, 6, 7, 0 );
+		addDiagonal2Alignment( a3, 7, 8, +1 );
 		
 		m1->add(makeAlignatum("ABCDGHJL"), a1);
 		m1->add(makeAlignatum(".ABCDEFGH"), a2);
@@ -184,7 +184,7 @@ int main ()
 		cout << *m2 << endl;    
 
 		HAlignment aa1(makeAlignmentVector());
-		fillAlignmentIdentity( aa1, 1, 9, 0 );    
+		addDiagonal2Alignment( aa1, 1, 9, 0 );    
 		m1->add( m2, aa1 );
 		cout << *m1 << endl;        
 	}
@@ -196,7 +196,7 @@ int main ()
 		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));    
 
 		HAlignment a1(makeAlignmentVector());
-		fillAlignmentIdentity( a1, 0, 8, 0 );
+		addDiagonal2Alignment( a1, 0, 8, 0 );
 
 		m1->add(makeAlignatum("ABCDGHIJL"), a1);
 		m1->add(makeAlignatum("ABCDGHIJL"), a1);
@@ -208,8 +208,8 @@ int main ()
 		cout << *m2 << endl;    
 
 		HAlignment aa1(makeAlignmentVector());
-		fillAlignmentIdentity( aa1, 0, 5 );
-		fillAlignmentIdentity( aa1, 5, 7, 1 );        
+		addDiagonal2Alignment( aa1, 0, 5 );
+		addDiagonal2Alignment( aa1, 5, 7, 1 );        
 
 		m1->add( m2, aa1 );
 
@@ -227,12 +227,12 @@ int main ()
 		HAlignment a1(makeAlignmentVector());
 
 		HAlignment a2(makeAlignmentVector());
-		fillAlignmentIdentity( a2, 0, 5, +1 );
+		addDiagonal2Alignment( a2, 0, 5, +1 );
 
 		HAlignment a3(makeAlignmentVector());
-		fillAlignmentIdentity( a3, 1, 6, -1 );
-		fillAlignmentIdentity( a3, 6, 7, 0 );
-		fillAlignmentIdentity( a3, 7, 8, +1 );
+		addDiagonal2Alignment( a3, 1, 6, -1 );
+		addDiagonal2Alignment( a3, 6, 7, 0 );
+		addDiagonal2Alignment( a3, 7, 8, +1 );
 
 		m1->add(makeAlignatum("ABCDGHJL") );
 		m1->add(makeAlignatum("YABCDEFGH"), a2);
@@ -249,16 +249,16 @@ int main ()
 		HMultipleAlignment m1(makeMultipleAlignmentDots( true ));
 
 		HAlignment a1(makeAlignmentVector());
-		fillAlignmentIdentity( a1, 1, 4, 0 );
-		fillAlignmentIdentity( a1, 6, 8, 0 );
+		addDiagonal2Alignment( a1, 1, 4, 0 );
+		addDiagonal2Alignment( a1, 6, 8, 0 );
 
 		HAlignment a2(makeAlignmentVector());
-		fillAlignmentIdentity( a2, 0, 5, +1 );
+		addDiagonal2Alignment( a2, 0, 5, +1 );
 
 		HAlignment a3(makeAlignmentVector());
-		fillAlignmentIdentity( a3, 1, 6, -1 );
-		fillAlignmentIdentity( a3, 6, 7, 0 );
-		fillAlignmentIdentity( a3, 7, 8, +1 );
+		addDiagonal2Alignment( a3, 1, 6, -1 );
+		addDiagonal2Alignment( a3, 6, 7, 0 );
+		addDiagonal2Alignment( a3, 7, 8, +1 );
 
 		m1->add(makeAlignatum("ABCDGHJL"), a1);
 		m1->add(makeAlignatum("YABCDEFGH"), a2);
@@ -276,16 +276,16 @@ int main ()
 		HMultipleAlignment m1(makeMultipleAlignmentDots( true, 0 ));
 
 		HAlignment a1(makeAlignmentVector());
-		fillAlignmentIdentity( a1, 1, 4, 0 );
-		fillAlignmentIdentity( a1, 6, 8, 0 );
+		addDiagonal2Alignment( a1, 1, 4, 0 );
+		addDiagonal2Alignment( a1, 6, 8, 0 );
 
 		HAlignment a2(makeAlignmentVector());
-		fillAlignmentIdentity( a2, 0, 5, +1 );
+		addDiagonal2Alignment( a2, 0, 5, +1 );
 
 		HAlignment a3(makeAlignmentVector());
-		fillAlignmentIdentity( a3, 1, 6, -1 );
-		fillAlignmentIdentity( a3, 6, 7, 0 );
-		fillAlignmentIdentity( a3, 7, 8, +1 );
+		addDiagonal2Alignment( a3, 1, 6, -1 );
+		addDiagonal2Alignment( a3, 6, 7, 0 );
+		addDiagonal2Alignment( a3, 7, 8, +1 );
 
 		m1->add(makeAlignatum("ABCDGHJL"), a1);
 		m1->add(makeAlignatum(".ABCDEFGH"), a2);

@@ -55,7 +55,7 @@ namespace alignlib
 #define NODOT -1 
 
 //------------------------------------< constructors and destructors >-----
-ImplAlignmentMatrix::ImplAlignmentMatrix( long ndots ) : ImplAlignment(), 
+ImplAlignmentMatrix::ImplAlignmentMatrix() : ImplAlignment(), 
 mIndex(NULL),
 mAllocatedIndexSize(0) 
 {
