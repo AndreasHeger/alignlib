@@ -15,7 +15,7 @@
 #include "alignlib_fwd.h"
 #include "ImplTreetorDistanceLinkage.h"
 #include "Tree.h"
-#include "PhyloMatrix.h"
+#include "DistanceMatrix.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
 #include "AlignlibDebug.h"
@@ -58,11 +58,11 @@ ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage (const ImplTreetorDistanc
 //------------------------------------------------------------------------------------------------------------------------------
 Node ImplTreetorDistanceLinkage::joinNodes(
 		HTree & tree,
-		PhyloMatrixSize cluster_1, 
-		PhyloMatrixSize cluster_2 ) const 
+		DistanceMatrixSize cluster_1, 
+		DistanceMatrixSize cluster_2 ) const 
 		{
 
-  PhyloMatrixValue d_ij = (*mWorkMatrix)( cluster_1, cluster_2 );
+  DistanceMatrixValue d_ij = (*mWorkMatrix)( cluster_1, cluster_2 );
   TreeHeight height_1 = tree->getHeight( mIndices[cluster_1] );
   TreeWeight weight_1 = d_ij / 2 - height_1;
   
@@ -87,26 +87,26 @@ void ImplTreetorDistanceLinkage::calculateMinimumDistance() const {
 //------------------------------------------------------------------------------------------------------------------------------
 void ImplTreetorDistanceLinkage::updateDistanceMatrix(
 		const HTree & tree,
-		PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2 ) const 
+		DistanceMatrixSize cluster_1, DistanceMatrixSize cluster_2 ) const 
 		{
 
   //------------------------------------------------------------------------------------------------------
   // calculate distance to new cluster and put them in cluster_1
   // the distance between cluster_1 and cluster_2 is skipped calculated
     
-  PhyloMatrixSize s, n_i, n_j, n;
-  PhyloMatrixValue d_ij;
+  DistanceMatrixSize s, n_i, n_j, n;
+  DistanceMatrixValue d_ij;
 
-  PhyloMatrixValue new_dist;
+  DistanceMatrixValue new_dist;
 
-  PhyloMatrixSize last_row = mWorkMatrix->getWidth() - 1;
+  DistanceMatrixSize last_row = mWorkMatrix->getWidth() - 1;
   
   for (s = 0; s < last_row; s++) {
 
     if (s == cluster_1 || s == cluster_2) continue;
     
-    PhyloMatrixValue d_is = (*mWorkMatrix)( cluster_1, s );
-    PhyloMatrixValue d_js = (*mWorkMatrix)( cluster_2, s );
+    DistanceMatrixValue d_is = (*mWorkMatrix)( cluster_1, s );
+    DistanceMatrixValue d_js = (*mWorkMatrix)( cluster_2, s );
 
     switch (mMethod) {
       
@@ -121,15 +121,15 @@ void ImplTreetorDistanceLinkage::updateDistanceMatrix(
 
     case AVERAGE_LINKAGE:
     case UPGMA:			
-      n_i = tree->getNumChildren( mIndices[cluster_1] );
-      n_j = tree->getNumChildren( mIndices[cluster_2] );
+      n_i = tree->getNumLeaves( mIndices[cluster_1] );
+      n_j = tree->getNumLeaves( mIndices[cluster_2] );
       n = n_i + n_j;
       new_dist = n_i * d_is / n + n_j * d_js / n;
       break;
       
     case UPGMC:
-	n_i = tree->getNumChildren( mIndices[cluster_1] );
-	n_j = tree->getNumChildren( mIndices[cluster_2] );
+	n_i = tree->getNumLeaves( mIndices[cluster_1] );
+	n_j = tree->getNumLeaves( mIndices[cluster_2] );
 	n = n_i + n_j;
 	d_ij = (*mWorkMatrix)( cluster_1, cluster_2);
       

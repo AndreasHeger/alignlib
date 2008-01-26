@@ -38,14 +38,14 @@ namespace alignlib
 {
 
 /** factory functions */
-HWeightor makeWeightorHenikoff() 
+HWeightor makeWeightorHenikoff( const bool rescale ) 
 { 
-	return HWeightor(new ImplWeightorHenikoff());
+	return HWeightor(new ImplWeightorHenikoff( rescale));
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplWeightorHenikoff::ImplWeightorHenikoff () : 
-	ImplWeightor() 
+ImplWeightorHenikoff::ImplWeightorHenikoff ( const bool rescale ) 
+: ImplWeightor(), mRescale( rescale ) 
 {
 }
 
@@ -54,7 +54,7 @@ ImplWeightorHenikoff::~ImplWeightorHenikoff ()
 }
 
 ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) : 
-	ImplWeightor(src) 
+	ImplWeightor(src), mRescale(src.mRescale)
 {
 }
 
@@ -126,7 +126,10 @@ HSequenceWeights ImplWeightorHenikoff::calculateWeights(
 	delete [] ntypes;
 
 	//---------------> rescale weights, so that they sum to 1 <---------------------------
-	rescaleWeights( weights, nsequences, 1.0);
+	if (mRescale)
+		rescaleWeights( weights, nsequences, nsequences);
+	else
+		rescaleWeights( weights, nsequences, 1.0);
 
 	return HSequenceWeights( weights );
 }

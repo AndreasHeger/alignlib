@@ -4,21 +4,21 @@
   $Id: HelpersEncoder.h,v 1.2 2004/01/07 14:35:33 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
 
 #if HAVE_CONFIG_H
@@ -30,41 +30,47 @@
 
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
-    
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
-    class Encoder;
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 1. factory functions */
-    const HEncoder getEncoder( const AlphabetType & alphabet );
 
-    const HEncoder makeEncoder( const AlphabetType & alphabet );
+/**
+ * 
+ * @defgroup FactoryEncoder Factory functions for Encoder objects.
+ * @{ 
+ */
 
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 2. accessor functions for default objects */
-    /** return the library wide translator */
-    DEFINE_DEFAULT( HEncoder, getDefaultEncoder, setDefaultEncoder );
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 3. convenience functions */
+/** return an encoder for built-in alphabet.
+ * 
+ * @param alphabet 
+ * @return a @ref Encoder object.
+ */
+const HEncoder getEncoder( const AlphabetType & alphabet );
 
-    /** load a Encoder object from stream. 
-     * 
-     * Returns NULL on EOF.
-     */	
-    const HEncoder loadEncoder( std::istream & stream );
+/** make an encoder for built-in alphabet.
+ * 
+ * @param alphabet 
+ * 
+ * @return a new @ref Encoder object.
+ */
+const HEncoder makeEncoder( const AlphabetType & alphabet );
 
+/** load a Encoder object from stream. 
+ * 
+ * @param stream input stream.
+ * @return a new @ref Encoder object.
+ */	
+const HEncoder loadEncoder( std::istream & stream );
+
+/** @} */
+
+/** @addtogroup Defaults
+ * @{
+ */ 
+
+DEFINE_DEFAULT( HEncoder, getDefaultEncoder, setDefaultEncoder );
+
+/** @} */
 }
 
 #endif	/* HELPERS_TRANSLATOR_H */

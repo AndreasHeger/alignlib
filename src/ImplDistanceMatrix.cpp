@@ -5,7 +5,7 @@
 //
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
-// $Id: ImplPhyloMatrix.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
+// $Id: ImplDistanceMatrix.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
 //--------------------------------------------------------------------------------    
 
 
@@ -17,7 +17,7 @@
 #include <cassert>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "ImplPhyloMatrix.h"
+#include "ImplDistanceMatrix.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
@@ -30,23 +30,23 @@ namespace alignlib {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 
-ImplPhyloMatrix::ImplPhyloMatrix() : mWidth(0), mSize(0), mMatrix( NULL)
+ImplDistanceMatrix::ImplDistanceMatrix() : mWidth(0), mSize(0), mMatrix( NULL)
 {
 	debug_func_cerr( 5 );
 }
 
-ImplPhyloMatrix::ImplPhyloMatrix( PhyloMatrixSize width, PhyloMatrixValue default_value)
+ImplDistanceMatrix::ImplDistanceMatrix( DistanceMatrixSize width, DistanceMatrixValue default_value)
 {
 	debug_func_cerr( 5 );
 
 	allocateMemory();
 
-	PhyloMatrixSize i;
+	DistanceMatrixSize i;
 	for (i = 0; i < mSize; i++) 
 		mMatrix[i] = default_value;
 }
 
-ImplPhyloMatrix::ImplPhyloMatrix( PhyloMatrixSize width, PhyloMatrixValue * source)
+ImplDistanceMatrix::ImplDistanceMatrix( DistanceMatrixSize width, DistanceMatrixValue * source)
 {
 	debug_func_cerr( 5 );
 
@@ -57,7 +57,7 @@ ImplPhyloMatrix::ImplPhyloMatrix( PhyloMatrixSize width, PhyloMatrixValue * sour
 }
 
 
-ImplPhyloMatrix::~ImplPhyloMatrix ()
+ImplDistanceMatrix::~ImplDistanceMatrix ()
 {
 	debug_func_cerr( 5 );
 
@@ -65,7 +65,7 @@ ImplPhyloMatrix::~ImplPhyloMatrix ()
 }
 
 
-ImplPhyloMatrix::ImplPhyloMatrix (const ImplPhyloMatrix & src ) : 
+ImplDistanceMatrix::ImplDistanceMatrix (const ImplDistanceMatrix & src ) : 
 	mWidth( src.mWidth ), mSize( src.mSize )
 	{
 
@@ -74,25 +74,25 @@ ImplPhyloMatrix::ImplPhyloMatrix (const ImplPhyloMatrix & src ) :
 	// have to allocate memory myself, because virtual functions do not work inside constructors
 	// so calling CalculateSize() is not an option
 
-	mMatrix = new PhyloMatrixValue[ mSize ];
+	mMatrix = new DistanceMatrixValue[ mSize ];
 
 	if (!mMatrix)
-		throw AlignException("Out of memory in ImplPhyloMatrix::AllocateMemory");
+		throw AlignException("Out of memory in ImplDistanceMatrix::AllocateMemory");
 
-	memcpy( mMatrix, src.mMatrix, mSize * sizeof( PhyloMatrixValue) );
+	memcpy( mMatrix, src.mMatrix, mSize * sizeof( DistanceMatrixValue) );
 
 	}
 
 
 //--------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplPhyloMatrix::getMinimum( Coordinate & x) const
+DistanceMatrixValue ImplDistanceMatrix::getMinimum( Coordinate & x) const
 {
 	debug_func_cerr( 5 );
 
-	PhyloMatrixValue min = std::numeric_limits<PhyloMatrixValue>::max();
+	DistanceMatrixValue min = std::numeric_limits<DistanceMatrixValue>::max();
 
-	PhyloMatrixSize i;
-	PhyloMatrixSize best_index = 0;
+	DistanceMatrixSize i;
+	DistanceMatrixSize best_index = 0;
 
 	for (i = 0; i < mSize; i++) 
 	{
@@ -110,7 +110,7 @@ PhyloMatrixValue ImplPhyloMatrix::getMinimum( Coordinate & x) const
 }
 
 //--------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplPhyloMatrix::getMinimum() const
+DistanceMatrixValue ImplDistanceMatrix::getMinimum() const
 {
 	debug_func_cerr( 5 );
 
@@ -120,7 +120,7 @@ PhyloMatrixValue ImplPhyloMatrix::getMinimum() const
 }
 
 //-------------------------------------------------------------
-void ImplPhyloMatrix::setWidth(PhyloMatrixSize width)
+void ImplDistanceMatrix::setWidth(DistanceMatrixSize width)
 {
 	debug_func_cerr( 5 );
 
@@ -129,14 +129,14 @@ void ImplPhyloMatrix::setWidth(PhyloMatrixSize width)
 }
 
 //--------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplPhyloMatrix::getMaximum( Coordinate & x) const
+DistanceMatrixValue ImplDistanceMatrix::getMaximum( Coordinate & x) const
 { 
 	debug_func_cerr( 5 );
 
-	PhyloMatrixValue max = -999999;
+	DistanceMatrixValue max = -999999;
 
-	PhyloMatrixSize i;
-	PhyloMatrixSize best_index = 0;
+	DistanceMatrixSize i;
+	DistanceMatrixSize best_index = 0;
 
 	for (i = 0; i < mSize; i++) {
 		if (mMatrix[i] > max)
@@ -151,7 +151,7 @@ PhyloMatrixValue ImplPhyloMatrix::getMaximum( Coordinate & x) const
 	return max;
 }
 
-PhyloMatrixValue ImplPhyloMatrix::getMaximum() const 
+DistanceMatrixValue ImplDistanceMatrix::getMaximum() const 
 {
 	Coordinate x;
 
@@ -160,27 +160,27 @@ PhyloMatrixValue ImplPhyloMatrix::getMaximum() const
 
 
 //--------------------------------------------------------------------------------------------
-void ImplPhyloMatrix::allocateMemory()
+void ImplDistanceMatrix::allocateMemory()
 {
 	debug_func_cerr( 5 );
 
 	// clear old memory, be careful!, use copy constructor to copy matrices
-	PhyloMatrixSize saved_width = mWidth;
+	DistanceMatrixSize saved_width = mWidth;
 	freeMemory();
 	mWidth = saved_width;
 
 	debug_cerr( 5, "Allocating " << mSize << " bytes for amatrix of width " << mWidth );
 
 	calculateSize();
-	mMatrix = new PhyloMatrixValue[ mSize ];
+	mMatrix = new DistanceMatrixValue[ mSize ];
 
 	if (!mMatrix)
-		throw AlignException("Out of memory in ImplPhyloMatrix::allocateMemory");
+		throw AlignException("Out of memory in ImplDistanceMatrix::allocateMemory");
 
 }
 
 //--------------------------------------------------------------------------------------------
-void ImplPhyloMatrix::freeMemory()
+void ImplDistanceMatrix::freeMemory()
 {
 	debug_func_cerr( 5 );
 
@@ -194,19 +194,19 @@ void ImplPhyloMatrix::freeMemory()
 }
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrix::getWidth() const 
+DistanceMatrixSize ImplDistanceMatrix::getWidth() const 
 {
 	return mWidth;
 }
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrix::getSize() const 
+DistanceMatrixSize ImplDistanceMatrix::getSize() const 
 {
 	return mSize;
 }
 
 //-------------------------------------------------------------
-PhyloMatrixValue ImplPhyloMatrix::operator()( PhyloMatrixSize row, PhyloMatrixSize col) const 
+DistanceMatrixValue ImplDistanceMatrix::operator()( DistanceMatrixSize row, DistanceMatrixSize col) const 
 {
 
 	debug_func_cerr( 5 );
@@ -217,42 +217,42 @@ PhyloMatrixValue ImplPhyloMatrix::operator()( PhyloMatrixSize row, PhyloMatrixSi
 }    
 
 //-------------------------------------------------------------
-PhyloMatrixValue ImplPhyloMatrix::getElement( PhyloMatrixSize row, PhyloMatrixSize col) const 
+DistanceMatrixValue ImplDistanceMatrix::getElement( DistanceMatrixSize row, DistanceMatrixSize col) const 
 {
 	return mMatrix[getIndex( row, col)];
 }    
 
 //-------------------------------------------------------------
-PhyloMatrixValue & ImplPhyloMatrix::operator()( PhyloMatrixSize row, PhyloMatrixSize col) 
+DistanceMatrixValue & ImplDistanceMatrix::operator()( DistanceMatrixSize row, DistanceMatrixSize col) 
 {
 	return mMatrix[getIndex(row,col)];
 }    
 //-------------------------------------------------------------
-void ImplPhyloMatrix::setElement( PhyloMatrixSize row, PhyloMatrixSize col, PhyloMatrixValue value) 
+void ImplDistanceMatrix::setElement( DistanceMatrixSize row, DistanceMatrixSize col, DistanceMatrixValue value) 
 {
 	mMatrix[getIndex(row,col)] = value;
 }    
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrix::getIndex( PhyloMatrixSize row, PhyloMatrixSize col) const 
+DistanceMatrixSize ImplDistanceMatrix::getIndex( DistanceMatrixSize row, DistanceMatrixSize col) const 
 {
 	return (row * mWidth + col);
 }
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrix::getRow( PhyloMatrixSize index ) const 
+DistanceMatrixSize ImplDistanceMatrix::getRow( DistanceMatrixSize index ) const 
 {
-	return ( (PhyloMatrixSize)(index / mWidth)  ); 
+	return ( (DistanceMatrixSize)(index / mWidth)  ); 
 }
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrix::getColumn( PhyloMatrixSize index ) const 
+DistanceMatrixSize ImplDistanceMatrix::getColumn( DistanceMatrixSize index ) const 
 {
 	return ( index % mWidth );
 }
 
 //-------------------------------------------------------------
-void ImplPhyloMatrix::calculateSize() 
+void ImplDistanceMatrix::calculateSize() 
 {
 
 	debug_func_cerr(5);
@@ -261,13 +261,13 @@ void ImplPhyloMatrix::calculateSize()
 }
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
-void ImplPhyloMatrix::write( std::ostream & output ) const 
+void ImplDistanceMatrix::write( std::ostream & output ) const 
 {
 	// write so that output can be used in phylip
 
 	cout << " " << mWidth << " " << mSize << endl;
 
-	PhyloMatrixSize i, j;
+	DistanceMatrixSize i, j;
 
 	for (i = 0; i < mWidth; i++) {
 		cout << i << "\t";
@@ -278,7 +278,7 @@ void ImplPhyloMatrix::write( std::ostream & output ) const
 }
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
-void ImplPhyloMatrix::read( std::istream & input ) const 
+void ImplDistanceMatrix::read( std::istream & input ) const 
 {
 }
 

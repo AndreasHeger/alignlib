@@ -73,7 +73,7 @@ class ImplTreetorDistance : public ImplTreetor
   virtual void cleanUp() const;
 
   /** swap indices in helper arrays */
-  virtual void swapHelpers( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2) const;
+  virtual void swapHelpers( DistanceMatrixSize cluster_1, DistanceMatrixSize cluster_2) const;
 
   /** calculate the minimum distance for the working matrix */
   virtual void calculateMinimumDistance() const = 0;
@@ -81,14 +81,14 @@ class ImplTreetorDistance : public ImplTreetor
   /** update the distance matrix and other helper variables */
   virtual void updateDistanceMatrix(
 		  const HTree & tree,
-		  PhyloMatrixSize cluster_1, 
-		  PhyloMatrixSize cluster_2 ) const = 0;
+		  DistanceMatrixSize cluster_1, 
+		  DistanceMatrixSize cluster_2 ) const = 0;
 
   /** join two nodes and return the index of the added node */
   virtual Node joinNodes( 
 		  HTree & tree,
-		  PhyloMatrixSize cluster_i, 
-		  PhyloMatrixSize cluster_2 ) const = 0;
+		  DistanceMatrixSize cluster_i, 
+		  DistanceMatrixSize cluster_2 ) const = 0;
 
   // member data
  public:
@@ -104,10 +104,10 @@ class ImplTreetorDistance : public ImplTreetor
 
   /** minimum distance in distance matrix
    */
-  mutable PhyloMatrixValue mMinimumValue;
+  mutable DistanceMatrixValue mMinimumValue;
 
   /** working copy of distance matrix */
-  mutable HPhyloMatrix mWorkMatrix;
+  mutable HDistanceMatrix mWorkMatrix;
   
   /** indices, mapping rows in distance matrix to nodes in tree*/
   mutable Node * mIndices;

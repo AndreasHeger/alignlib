@@ -4,21 +4,21 @@
   $Id: HelpersLogOddor.h,v 1.2 2004/01/07 14:35:32 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
 
 #if HAVE_CONFIG_H
@@ -29,53 +29,76 @@
 #define HELPERS_LOGODDOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "alignlib_default.h"
 #include "LogOddor.h"
 
 namespace alignlib 
 {
-    
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
 
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 1. factory functions */
+/**
+ * 
+ * @defgroup FactoryLogOddor Factory functions for LogOddor objects.
+ * @{ 
+ */
 
-	/** return logoddor that uses the frequencies as scores.
-	 */
-	HLogOddor makeLogOddor( const Score & scale_factor = 1.0, const Score & mask_value = -10);
+/** return @ref LogOddor that uses the raw frequencies as scores.
+ * 
+ * @param scale_factor	scores will be multiplied by this value.
+ * @param mask_value	score for a column that is masked.
+ * 
+ * @return a new @ref LogOddor object.
+ */
+HLogOddor makeLogOddor( 
+		const Score & scale_factor = 1.0, 
+		const Score & mask_value = -10);
 
-    HLogOddor makeLogOddorUniform( const Score & scale_factor = 1.0, const Score & mask_value = -10);
 
-    HLogOddor makeLogOddorBackground( const HFrequencyVector & frequencies,
-    									const Score & scale_factor = 1.0,
-    									const Score & mask_value = -10);
+/** return @ref LogOddor object that computes log odds scores using uniform background frequencies.
+ * 
+ * @param scale_factor	scores will be multiplied by this value.
+ * @param mask_value	score for a column that is masked.
+ * 
+ * @return a new @ref LogOddor object.
+ */
+HLogOddor makeLogOddorUniform( 
+		const Score & scale_factor = 1.0, 
+		const Score & mask_value = -10);
 
-    /** compute profile score according to Gribskov's method
-     * 
-     * see Gribskov et al. (1987) PNAS 84: 4355-4358
-     */
-    HLogOddor makeLogOddorGribskov( const HSubstitutionMatrix & matrix,
-    		const Score & scale_factor = 1.0,
-    		const Score & mask_value = -10 ); 
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 2. accessor functions for default objects */
+/** return @ref LogOddor object that computes log-odds scores using non-uniform background frequencies.
+ * 
+ * @param frequencies 	vector with background frequencies.
+ * @param scale_factor	scores will be multiplied by this value.
+ * @param mask_value	score for a column that is masked.
+ * 
+ * @return a new @ref LogOddor object.
+ */
+HLogOddor makeLogOddorBackground( const HFrequencyVector & frequencies,
+		const Score & scale_factor = 1.0,
+		const Score & mask_value = -10);
 
-    DEFINE_DEFAULT( HLogOddor, getDefaultLogOddor, setDefaultLogOddor );
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 3. convenience functions */
-    
+/** return @ref LogOddor object that computes profile score according to Gribskov's method
+ * 
+ * see Gribskov et al. (1987) PNAS 84: 4355-4358
+ * 
+ * @param matrix		@ref SubstitutionMatrix object.
+ * @param scale_factor	scores will be multiplied by this value.
+ * @param mask_value	score for a column that is masked.
+ * 
+ * @return a new @ref LogOddor object.
+ */
+HLogOddor makeLogOddorGribskov( 
+		const HSubstitutionMatrix & matrix,
+		const Score & scale_factor = 1.0,
+		const Score & mask_value = -10 ); 
 
+/** @} */
+
+/** @addtogroup Defaults
+ * @{
+ */ 
+DEFINE_DEFAULT( HLogOddor, getDefaultLogOddor, setDefaultLogOddor );
+
+/** @} */
 }
 
 #endif	/* HELPERS_LOGODDOR_H */

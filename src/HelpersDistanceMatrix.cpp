@@ -16,22 +16,22 @@
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
-#include "HelpersPhyloMatrix.h"
-#include "PhyloMatrix.h"
+#include "HelpersDistanceMatrix.h"
+#include "DistanceMatrix.h"
 
 using namespace std;
 
 namespace alignlib 
 {
 
-  /** copy the contents of source element wise into the PhyloMatrix */
-  void fillPhyloMatrix( 
-		  HPhyloMatrix & dest, 
-		  PhyloMatrixValue * source) 
+  /** copy the contents of source element wise into the DistanceMatrix */
+  void fillDistanceMatrix( 
+		  HDistanceMatrix & dest, 
+		  DistanceMatrixValue * source) 
   {
 	  debug_func_cerr( 5 );
     
-      PhyloMatrixSize row, col, index = 0;
+      DistanceMatrixSize row, col, index = 0;
     
       for (row = 0; row < dest->getWidth(); row++)
     	  for (col = 0; col < dest->getWidth(); col++) 

@@ -1,16 +1,24 @@
 /** \mainpage alignlib
 
-Alignlib is a c++ library for computing and manipulating sequence alignments of protein sequences. 
-It implements sequence-sequence, sequence-profile and profile-profile alignment.
-
-
 \section intro_sec Introduction
 
-\section install_sec Installation
+Alignlib is a C++ library for computing and manipulating sequence alignments of protein sequences. 
+It implements sequence-sequence, sequence-profile and profile-profile alignment. Most of the functions
+and classes are exported to python thus permitting easy scripting of complex tasks.
+
+\section manual_sec Manual
+
+A manual can be found at <href="
 
 \subsection download_sec Download
 
 Alignlib is hosted by <a href="http://alignlib.wiki.sourceforge.net/">SourceForge</a>.
+
+\subsubsection tar_sec Installation from sources
+
+The latest source can be downloaded from the 
+<a href="http://sourceforge.net/project/showfiles.php?group_id=207728"> download section</a> 
+on sourceforge.
 
 \subsubsection svn_sec Development Version from subversion
 
@@ -28,7 +36,7 @@ cd alignlib
 autoreconf --install
 \endcode
 
-\subsubsection Requirements
+\subsection Requirements
 
 Alignlib requires the freely available <a href="http://www.boost.org">boost</a> c++ library.
 
@@ -55,23 +63,58 @@ The library has been tested with
    
 \subsection install_c++_sec C++ library
 
+The library uses the standard gnu build tools. Building the library should
+be straight-forward on most systems where these tools are installed. The library
+is built using the usual sequence of commands:
+
 \code
 ./configure
 make
-make test
+make install
 \endcode
 
 \subsection install_python_sec Python interface
 
+The python extension to alignlib is built using boost.python. The script
+\em setup.py will take care of compilation and installation. Make sure 
+that the environment variables \em BOOST_BUILD_PATH and \em BOOST_ROOT are set.
+
+To build, type
 \code
 cd python
 python setup.py build
 \endcode
  
-Make sure that the enfironment variables \em BOOST_BUILD_PATH and 
-\em BOOST_ROOT are set.
+To install, type
+\code
+python setup.py install
+\endcode
 
 \section history_sec History
 
+Alignlib has evolved out of code used written by me, 
+<a href="http::wwwfgu.anat.ox.ac.uk/~andreas">Andreas Heger</a>,
+during my PhD. This explains the bias in the library towards 
+protein sequences and protein sequence alignment algorithms. It also 
+explains the sometimes strange choice of algorithms. 
+
+Alignlib was started in 2000 and has evolved every since.
+
+\section availability_sec Availability
+
+Alignlib is freely available under the GNU Public Licence.
+and comes with ABSOLUTELY NO WARRANTY;
+
+\section disclaimer_sec Disclaimer
+
+I have learned much from reading and using publicly available code. Some of it 
+will have found its way in alignlib. During my research I also 
+had to implement ideas of others - for benchmarking purposes or to 
+better understand an algorithm. 
+
+My aim is to attribute algorithms and ideas correctly, even though 
+the annotation of the code is far from complete. Please let me know
+if you think your copyright has been violated or your authorship has 
+not been acknowledged.
 
 */

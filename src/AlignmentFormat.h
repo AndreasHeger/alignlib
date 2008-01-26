@@ -11,13 +11,28 @@
 // $Id$
 //--------------------------------------------------------------------------------
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <iosfwd>
+#include <string>
+
+#include "alignlib_fwd.h"
+
+namespace alignlib 
+{
+
 /** 
- * Alignment data structures. These classes convert various alignment formats
- * to/from alignment objects. Member data is publich for easy access to your
- * own formatting functions.
+ * 
+ * @defgroup AlignmentFormats Alignment formats.
+ * @{
+ * 
+ * Alignment formats convert @ref Alignment objects into various alignment formats and back.
+ * Member data is publicly available for easy access in your own formatting functions.
  * 
  * Usage example:
- * 
+ * @code
  * HAligment ali = makeAlignmentVector();
  * ali->fill(...);
  * 
@@ -30,19 +45,8 @@
  * std::cin >> blocks_in >> std::endl;
  * blocks_in.copy( ali );
  * 
+ * @endcode
  */
-
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <iosfwd>
-#include <string>
-
-#include "alignlib_fwd.h"
-
-namespace alignlib 
-{
 
 /** Base class for alignment formats.
  * 
@@ -429,7 +433,7 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 	
 };
 
-
+/** @} */
 
 }
 

@@ -9,32 +9,32 @@
 //--------------------------------------------------------------------------------
 
 #include <iostream>
-#include "PhyloMatrix.h"
+#include "DistanceMatrix.h"
 
 using namespace std;
 
 namespace alignlib {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-PhyloMatrix::PhyloMatrix ()
+DistanceMatrix::DistanceMatrix ()
 {
 }
 		       
-PhyloMatrix::~PhyloMatrix ()
+DistanceMatrix::~DistanceMatrix ()
 {
 }
 
-PhyloMatrix::PhyloMatrix (const PhyloMatrix & src )
+DistanceMatrix::DistanceMatrix (const DistanceMatrix & src )
 {
 }
 
-std::ostream & operator<<( std::ostream & output, const PhyloMatrix & src)
+std::ostream & operator<<( std::ostream & output, const DistanceMatrix & src)
 {
   src.write( output );
   return output;
 }
   
-std::istream & operator>>( std::istream & input, PhyloMatrix & target)
+std::istream & operator>>( std::istream & input, DistanceMatrix & target)
 {
   target.read( input );
   return input;

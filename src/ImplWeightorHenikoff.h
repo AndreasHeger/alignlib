@@ -29,7 +29,6 @@
 #define IMPL_WEIGHTOR_HENIKOFF_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplWeightor.h"
 
 namespace alignlib 
@@ -49,7 +48,7 @@ class ImplWeightorHenikoff : public ImplWeightor
     // constructors and desctructors
 
     /** default constructor */
-    ImplWeightorHenikoff();
+    ImplWeightorHenikoff( const bool rescale = false );
     
     /** copy constructor */
     ImplWeightorHenikoff(const ImplWeightorHenikoff &);
@@ -64,7 +63,10 @@ class ImplWeightorHenikoff : public ImplWeightor
     virtual HSequenceWeights calculateWeights( 
     		const HMultipleAlignment & src,
     		const HEncoder & translator ) const;
-	 
+
+    /** if true, weights are scaled towards the number of
+    	sequences*/
+    bool mRescale;
 };
 
 }

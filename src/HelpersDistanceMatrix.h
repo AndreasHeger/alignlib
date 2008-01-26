@@ -5,7 +5,7 @@
 //
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
-// $Id: HelpersPhyloMatrix.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
+// $Id: HelpersDistanceMatrix.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
 //--------------------------------------------------------------------------------
 
 
@@ -36,9 +36,9 @@ namespace alignlib
     /* 1. factory functions */
 
     /** create an empty symmetric matrix */
-    HPhyloMatrix makePhyloMatrixSymmetric( 
-    		PhyloMatrixSize size = 0, 
-    		PhyloMatrixValue default_value = 0);
+    HDistanceMatrix makeDistanceMatrixSymmetric( 
+    		DistanceMatrixSize size = 0, 
+    		DistanceMatrixValue default_value = 0);
 
     /* -------------------------------------------------------------------------------------------------------------------- */
     /* 2. accessor functions for default objects */
@@ -47,9 +47,9 @@ namespace alignlib
     /* 3. convenience functions */
     
     /** fill matrix with values from source */
-    void fillPhyloMatrix( 
-    		HPhyloMatrix & dest, 
-    		PhyloMatrixValue * source );
+    void fillDistanceMatrix( 
+    		HDistanceMatrix & dest, 
+    		DistanceMatrixValue * source );
 
 }
 

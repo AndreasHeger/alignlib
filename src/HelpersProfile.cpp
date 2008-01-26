@@ -586,7 +586,8 @@ const unsigned int * getMapResidue2CategoryAll() {
 
 /** return a vector of entropies calculated for a CountsMatrix
  */
-VectorDouble * makeEntropyVector( const CountsMatrix * src) {
+VectorDouble * makeEntropyVector( const CountMatrix * src) 
+{
 
 	unsigned int length      = src->getNumRows();
 	unsigned int categories  = src->getNumCols();

@@ -1672,13 +1672,146 @@ BOOST_PYTHON_MODULE(alignlib){
         Coordinate_exposer.def_readwrite( "row", &alignlib::Coordinate::row );
     }
 
+    { //::alignlib::DistanceMatrix
+        typedef bp::class_< alignlib::DistanceMatrix, boost::noncopyable > DistanceMatrix_exposer_t;
+        DistanceMatrix_exposer_t DistanceMatrix_exposer = DistanceMatrix_exposer_t( "DistanceMatrix", bp::no_init );
+        bp::scope DistanceMatrix_scope( DistanceMatrix_exposer );
+        { //::alignlib::DistanceMatrix::getElement
+        
+            typedef ::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::*getElement_function_type )( ::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixSize ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getElement"
+                , getElement_function_type( &::alignlib::DistanceMatrix::getElement )
+                , ( bp::arg("row"), bp::arg("col") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::getMaximum
+        
+            typedef ::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::*getMaximum_function_type )(  ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getMaximum"
+                , getMaximum_function_type( &::alignlib::DistanceMatrix::getMaximum ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::getMaximum
+        
+            typedef ::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::*getMaximum_function_type )( ::alignlib::Coordinate & ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getMaximum"
+                , getMaximum_function_type( &::alignlib::DistanceMatrix::getMaximum )
+                , ( bp::arg("dest") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::getMinimum
+        
+            typedef ::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::*getMinimum_function_type )(  ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getMinimum"
+                , getMinimum_function_type( &::alignlib::DistanceMatrix::getMinimum ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::getMinimum
+        
+            typedef ::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::*getMinimum_function_type )( ::alignlib::Coordinate & ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getMinimum"
+                , getMinimum_function_type( &::alignlib::DistanceMatrix::getMinimum )
+                , ( bp::arg("dest") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::getSize
+        
+            typedef ::alignlib::DistanceMatrixSize ( ::alignlib::DistanceMatrix::*getSize_function_type )(  ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getSize"
+                , getSize_function_type( &::alignlib::DistanceMatrix::getSize ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::getWidth
+        
+            typedef ::alignlib::DistanceMatrixSize ( ::alignlib::DistanceMatrix::*getWidth_function_type )(  ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getWidth"
+                , getWidth_function_type( &::alignlib::DistanceMatrix::getWidth ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::read
+        
+            typedef void ( ::alignlib::DistanceMatrix::*read_function_type )( ::std::istream & ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "read"
+                , read_function_type( &::alignlib::DistanceMatrix::read )
+                , ( bp::arg("input") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::setElement
+        
+            typedef void ( ::alignlib::DistanceMatrix::*setElement_function_type )( ::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixValue ) ;
+            
+            DistanceMatrix_exposer.def( 
+                "setElement"
+                , setElement_function_type( &::alignlib::DistanceMatrix::setElement )
+                , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::setWidth
+        
+            typedef void ( ::alignlib::DistanceMatrix::*setWidth_function_type )( ::alignlib::DistanceMatrixSize ) ;
+            
+            DistanceMatrix_exposer.def( 
+                "setWidth"
+                , setWidth_function_type( &::alignlib::DistanceMatrix::setWidth )
+                , ( bp::arg("width") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::shrink
+        
+            typedef void ( ::alignlib::DistanceMatrix::*shrink_function_type )(  ) ;
+            
+            DistanceMatrix_exposer.def( 
+                "shrink"
+                , shrink_function_type( &::alignlib::DistanceMatrix::shrink ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::swap
+        
+            typedef void ( ::alignlib::DistanceMatrix::*swap_function_type )( ::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixSize ) ;
+            
+            DistanceMatrix_exposer.def( 
+                "swap"
+                , swap_function_type( &::alignlib::DistanceMatrix::swap )
+                , ( bp::arg("a"), bp::arg("b") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::write
+        
+            typedef void ( ::alignlib::DistanceMatrix::*write_function_type )( ::std::ostream & ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "write"
+                , write_function_type( &::alignlib::DistanceMatrix::write )
+                , ( bp::arg("output") ) );
+        
+        }
+        DistanceMatrix_exposer.def( bp::self_ns::str( bp::self ) );
+        bp::register_ptr_to_python< boost::shared_ptr< alignlib::DistanceMatrix > >();
+    }
+
     { //::alignlib::Distor
         typedef bp::class_< alignlib::Distor, boost::noncopyable > Distor_exposer_t;
         Distor_exposer_t Distor_exposer = Distor_exposer_t( "Distor", bp::no_init );
         bp::scope Distor_scope( Distor_exposer );
         { //::alignlib::Distor::calculateDistance
         
-            typedef ::alignlib::PhyloMatrixValue ( ::alignlib::Distor::*calculateDistance_function_type )( ::std::string const &,::std::string const & ) const;
+            typedef ::alignlib::DistanceMatrixValue ( ::alignlib::Distor::*calculateDistance_function_type )( ::std::string const &,::std::string const & ) const;
             
             Distor_exposer.def( 
                 "calculateDistance"
@@ -1688,7 +1821,7 @@ BOOST_PYTHON_MODULE(alignlib){
         }
         { //::alignlib::Distor::calculateMatrix
         
-            typedef void ( ::alignlib::Distor::*calculateMatrix_function_type )( ::alignlib::HPhyloMatrix &,::alignlib::HMultipleAlignment const & ) const;
+            typedef void ( ::alignlib::Distor::*calculateMatrix_function_type )( ::alignlib::HDistanceMatrix &,::alignlib::HMultipleAlignment const & ) const;
             
             Distor_exposer.def( 
                 "calculateMatrix"
@@ -1698,7 +1831,7 @@ BOOST_PYTHON_MODULE(alignlib){
         }
         { //::alignlib::Distor::getMaximumPossibleDistance
         
-            typedef ::alignlib::PhyloMatrixValue ( ::alignlib::Distor::*getMaximumPossibleDistance_function_type )(  ) const;
+            typedef ::alignlib::DistanceMatrixValue ( ::alignlib::Distor::*getMaximumPossibleDistance_function_type )(  ) const;
             
             Distor_exposer.def( 
                 "getMaximumPossibleDistance"
@@ -2529,139 +2662,6 @@ BOOST_PYTHON_MODULE(alignlib){
         NormalDistributionParameters_exposer.def_readwrite( "mStandardDeviation", &alignlib::NormalDistributionParameters::mStandardDeviation );
     }
 
-    { //::alignlib::PhyloMatrix
-        typedef bp::class_< alignlib::PhyloMatrix, boost::noncopyable > PhyloMatrix_exposer_t;
-        PhyloMatrix_exposer_t PhyloMatrix_exposer = PhyloMatrix_exposer_t( "PhyloMatrix", bp::no_init );
-        bp::scope PhyloMatrix_scope( PhyloMatrix_exposer );
-        { //::alignlib::PhyloMatrix::getElement
-        
-            typedef ::alignlib::PhyloMatrixValue ( ::alignlib::PhyloMatrix::*getElement_function_type )( ::alignlib::PhyloMatrixSize,::alignlib::PhyloMatrixSize ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "getElement"
-                , getElement_function_type( &::alignlib::PhyloMatrix::getElement )
-                , ( bp::arg("row"), bp::arg("col") ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::getMaximum
-        
-            typedef ::alignlib::PhyloMatrixValue ( ::alignlib::PhyloMatrix::*getMaximum_function_type )(  ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "getMaximum"
-                , getMaximum_function_type( &::alignlib::PhyloMatrix::getMaximum ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::getMaximum
-        
-            typedef ::alignlib::PhyloMatrixValue ( ::alignlib::PhyloMatrix::*getMaximum_function_type )( ::alignlib::Coordinate & ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "getMaximum"
-                , getMaximum_function_type( &::alignlib::PhyloMatrix::getMaximum )
-                , ( bp::arg("coordinates") ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::getMinimum
-        
-            typedef ::alignlib::PhyloMatrixValue ( ::alignlib::PhyloMatrix::*getMinimum_function_type )(  ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "getMinimum"
-                , getMinimum_function_type( &::alignlib::PhyloMatrix::getMinimum ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::getMinimum
-        
-            typedef ::alignlib::PhyloMatrixValue ( ::alignlib::PhyloMatrix::*getMinimum_function_type )( ::alignlib::Coordinate & ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "getMinimum"
-                , getMinimum_function_type( &::alignlib::PhyloMatrix::getMinimum )
-                , ( bp::arg("coordinates") ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::getSize
-        
-            typedef ::alignlib::PhyloMatrixSize ( ::alignlib::PhyloMatrix::*getSize_function_type )(  ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "getSize"
-                , getSize_function_type( &::alignlib::PhyloMatrix::getSize ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::getWidth
-        
-            typedef ::alignlib::PhyloMatrixSize ( ::alignlib::PhyloMatrix::*getWidth_function_type )(  ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "getWidth"
-                , getWidth_function_type( &::alignlib::PhyloMatrix::getWidth ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::read
-        
-            typedef void ( ::alignlib::PhyloMatrix::*read_function_type )( ::std::istream & ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "read"
-                , read_function_type( &::alignlib::PhyloMatrix::read )
-                , ( bp::arg("input") ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::setElement
-        
-            typedef void ( ::alignlib::PhyloMatrix::*setElement_function_type )( ::alignlib::PhyloMatrixSize,::alignlib::PhyloMatrixSize,::alignlib::PhyloMatrixValue ) ;
-            
-            PhyloMatrix_exposer.def( 
-                "setElement"
-                , setElement_function_type( &::alignlib::PhyloMatrix::setElement )
-                , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::setWidth
-        
-            typedef void ( ::alignlib::PhyloMatrix::*setWidth_function_type )( ::alignlib::PhyloMatrixSize ) ;
-            
-            PhyloMatrix_exposer.def( 
-                "setWidth"
-                , setWidth_function_type( &::alignlib::PhyloMatrix::setWidth )
-                , ( bp::arg("width") ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::shrink
-        
-            typedef void ( ::alignlib::PhyloMatrix::*shrink_function_type )(  ) ;
-            
-            PhyloMatrix_exposer.def( 
-                "shrink"
-                , shrink_function_type( &::alignlib::PhyloMatrix::shrink ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::swap
-        
-            typedef void ( ::alignlib::PhyloMatrix::*swap_function_type )( ::alignlib::PhyloMatrixSize,::alignlib::PhyloMatrixSize ) ;
-            
-            PhyloMatrix_exposer.def( 
-                "swap"
-                , swap_function_type( &::alignlib::PhyloMatrix::swap )
-                , ( bp::arg("col_1"), bp::arg("col_2") ) );
-        
-        }
-        { //::alignlib::PhyloMatrix::write
-        
-            typedef void ( ::alignlib::PhyloMatrix::*write_function_type )( ::std::ostream & ) const;
-            
-            PhyloMatrix_exposer.def( 
-                "write"
-                , write_function_type( &::alignlib::PhyloMatrix::write )
-                , ( bp::arg("output") ) );
-        
-        }
-        PhyloMatrix_exposer.def( bp::self_ns::str( bp::self ) );
-        bp::register_ptr_to_python< boost::shared_ptr< alignlib::PhyloMatrix > >();
-    }
-
     { //::alignlib::Regularizor
         typedef bp::class_< alignlib::Regularizor, boost::noncopyable > Regularizor_exposer_t;
         Regularizor_exposer_t Regularizor_exposer = Regularizor_exposer_t( "Regularizor", bp::no_init );
@@ -2766,13 +2766,13 @@ BOOST_PYTHON_MODULE(alignlib){
         typedef bp::class_< alignlib::Tree, boost::noncopyable > Tree_exposer_t;
         Tree_exposer_t Tree_exposer = Tree_exposer_t( "Tree", bp::no_init );
         bp::scope Tree_scope( Tree_exposer );
-        { //::alignlib::Tree::findRoot
+        { //::alignlib::Tree::findLastParent
         
-            typedef ::alignlib::Node ( ::alignlib::Tree::*findRoot_function_type )( ::alignlib::Node const ) const;
+            typedef ::alignlib::Node ( ::alignlib::Tree::*findLastParent_function_type )( ::alignlib::Node const ) const;
             
             Tree_exposer.def( 
-                "findRoot"
-                , findRoot_function_type( &::alignlib::Tree::findRoot )
+                "findLastParent"
+                , findLastParent_function_type( &::alignlib::Tree::findLastParent )
                 , ( bp::arg("node") ) );
         
         }
@@ -2859,16 +2859,6 @@ BOOST_PYTHON_MODULE(alignlib){
                 , getNodesLeaves_function_type( &::alignlib::Tree::getNodesLeaves ) );
         
         }
-        { //::alignlib::Tree::getNumChildren
-        
-            typedef ::alignlib::Node ( ::alignlib::Tree::*getNumChildren_function_type )( ::alignlib::Node ) const;
-            
-            Tree_exposer.def( 
-                "getNumChildren"
-                , getNumChildren_function_type( &::alignlib::Tree::getNumChildren )
-                , ( bp::arg("node") ) );
-        
-        }
         { //::alignlib::Tree::getNumLeaves
         
             typedef ::alignlib::Node ( ::alignlib::Tree::*getNumLeaves_function_type )(  ) const;
@@ -2876,6 +2866,16 @@ BOOST_PYTHON_MODULE(alignlib){
             Tree_exposer.def( 
                 "getNumLeaves"
                 , getNumLeaves_function_type( &::alignlib::Tree::getNumLeaves ) );
+        
+        }
+        { //::alignlib::Tree::getNumLeaves
+        
+            typedef ::alignlib::Node ( ::alignlib::Tree::*getNumLeaves_function_type )( ::alignlib::Node ) const;
+            
+            Tree_exposer.def( 
+                "getNumLeaves"
+                , getNumLeaves_function_type( &::alignlib::Tree::getNumLeaves )
+                , ( bp::arg("node") ) );
         
         }
         { //::alignlib::Tree::getParent
@@ -2919,12 +2919,12 @@ BOOST_PYTHON_MODULE(alignlib){
         }
         { //::alignlib::Tree::joinNodes
         
-            typedef ::alignlib::Node ( ::alignlib::Tree::*joinNodes_function_type )( ::alignlib::Node const,::alignlib::Node const,::alignlib::TreeWeight,::alignlib::TreeWeight,bool const ) ;
+            typedef ::alignlib::Node ( ::alignlib::Tree::*joinNodes_function_type )( ::alignlib::Node const,::alignlib::Node const,::alignlib::TreeWeight const,::alignlib::TreeWeight const ) ;
             
             Tree_exposer.def( 
                 "joinNodes"
                 , joinNodes_function_type( &::alignlib::Tree::joinNodes )
-                , ( bp::arg("node_1"), bp::arg("node_2"), bp::arg("weight_1"), bp::arg("weight_2"), bp::arg("map_parents")=(bool const)(false) ) );
+                , ( bp::arg("node_1"), bp::arg("node_2"), bp::arg("weight_1"), bp::arg("weight_2") ) );
         
         }
         { //::alignlib::Tree::removeRoot
@@ -3035,6 +3035,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::addDiagonal2Alignment
+    
+        typedef void ( *addDiagonal2Alignment_function_type )( ::alignlib::HAlignment &,::alignlib::Position,::alignlib::Position,::alignlib::Position );
+        
+        bp::def( 
+            "addDiagonal2Alignment"
+            , addDiagonal2Alignment_function_type( &::alignlib::addDiagonal2Alignment )
+            , ( bp::arg("dest"), bp::arg("row_from"), bp::arg("row_to"), bp::arg("col_offset")=(int)(0) ) );
+    
+    }
+
     { //::alignlib::addMappedAlignment2Alignment
     
         typedef void ( *addMappedAlignment2Alignment_function_type )( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const );
@@ -3119,7 +3130,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "checkAlignmentIdentity"
             , checkAlignmentIdentity_function_type( &::alignlib::checkAlignmentIdentity )
-            , ( bp::arg("arg0"), bp::arg("arg1"), bp::arg("invert")=(bool const)(false) ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("invert")=(bool const)(false) ) );
     
     }
 
@@ -3131,17 +3142,6 @@ BOOST_PYTHON_MODULE(alignlib){
             "combineAlignment"
             , combineAlignment_function_type( &::alignlib::combineAlignment )
             , ( bp::arg("dest"), bp::arg("src1"), bp::arg("src2"), bp::arg("mode") ) );
-    
-    }
-
-    { //::alignlib::complementAlignment
-    
-        typedef void ( *complementAlignment_function_type )( ::alignlib::HAlignment &,::alignlib::Position const );
-        
-        bp::def( 
-            "complementAlignment"
-            , complementAlignment_function_type( &::alignlib::complementAlignment )
-            , ( bp::arg("dest"), bp::arg("max_length") ) );
     
     }
 
@@ -3167,13 +3167,13 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
-    { //::alignlib::copyAlignmentRemoveRegion
+    { //::alignlib::copyAlignmentWithoutRegion
     
-        typedef void ( *copyAlignmentRemoveRegion_function_type )( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::Position,::alignlib::Position,::alignlib::Position,::alignlib::Position,::alignlib::Diagonal,::alignlib::Diagonal );
+        typedef void ( *copyAlignmentWithoutRegion_function_type )( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::Position,::alignlib::Position,::alignlib::Position,::alignlib::Position,::alignlib::Diagonal,::alignlib::Diagonal );
         
         bp::def( 
-            "copyAlignmentRemoveRegion"
-            , copyAlignmentRemoveRegion_function_type( &::alignlib::copyAlignmentRemoveRegion )
+            "copyAlignmentWithoutRegion"
+            , copyAlignmentWithoutRegion_function_type( &::alignlib::copyAlignmentWithoutRegion )
             , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-1), bp::arg("row_to")=(int)(-1), bp::arg("col_from")=(int)(-1), bp::arg("col_to")=(int)(-1), bp::arg("diagonal_from")=(long int)(1), bp::arg("diagonal_to")=(long int)(0) ) );
     
     }
@@ -3189,6 +3189,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::expandAlignment
+    
+        typedef void ( *expandAlignment_function_type )( ::alignlib::HAlignment &,::alignlib::HAlignment &,::alignlib::HAlignment const &,bool const,bool const,bool const,bool const,::alignlib::Position const,::alignlib::Position const );
+        
+        bp::def( 
+            "expandAlignment"
+            , expandAlignment_function_type( &::alignlib::expandAlignment )
+            , ( bp::arg("map_row2combined"), bp::arg("map_col2combined"), bp::arg("src"), bp::arg("insert_gaps_row")=(bool const)(true), bp::arg("insert_gaps_col")=(bool const)(true), bp::arg("use_end_row")=(bool const)(false), bp::arg("use_end_col")=(bool const)(false), bp::arg("row_length")=(int const)(-1), bp::arg("col_length")=(int const)(-1) ) );
+    
+    }
+
     { //::alignlib::fillAlignmentGaps
     
         typedef void ( *fillAlignmentGaps_function_type )( ::alignlib::HAlignment &,::alignlib::HAlignator const &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const & );
@@ -3200,14 +3211,14 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
-    { //::alignlib::fillAlignmentIdentity
+    { //::alignlib::fillAlignmentGaps
     
-        typedef void ( *fillAlignmentIdentity_function_type )( ::alignlib::HAlignment &,::alignlib::Position,::alignlib::Position,::alignlib::Position );
+        typedef void ( *fillAlignmentGaps_function_type )( ::alignlib::HAlignment &,::alignlib::Position const );
         
         bp::def( 
-            "fillAlignmentIdentity"
-            , fillAlignmentIdentity_function_type( &::alignlib::fillAlignmentIdentity )
-            , ( bp::arg("dest"), bp::arg("row_from"), bp::arg("row_to"), bp::arg("col_offset")=(int)(0) ) );
+            "fillAlignmentGaps"
+            , fillAlignmentGaps_function_type( &::alignlib::fillAlignmentGaps )
+            , ( bp::arg("dest"), bp::arg("max_length") ) );
     
     }
 
@@ -3222,14 +3233,14 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
-    { //::alignlib::fillAlignmentSummation
+    { //::alignlib::fillDistanceMatrix
     
-        typedef void ( *fillAlignmentSummation_function_type )( ::alignlib::HAlignment &,::alignlib::HAlignment &,::alignlib::HAlignment const &,bool const,bool const,bool const,bool const,::alignlib::Position const,::alignlib::Position const );
+        typedef void ( *fillDistanceMatrix_function_type )( ::alignlib::HDistanceMatrix &,::alignlib::DistanceMatrixValue * );
         
         bp::def( 
-            "fillAlignmentSummation"
-            , fillAlignmentSummation_function_type( &::alignlib::fillAlignmentSummation )
-            , ( bp::arg("dest1"), bp::arg("dest2"), bp::arg("src"), bp::arg("insert_gaps_row")=(bool const)(true), bp::arg("insert_gaps_col")=(bool const)(true), bp::arg("use_end_row")=(bool const)(false), bp::arg("use_end_col")=(bool const)(false), bp::arg("row_length")=(int const)(-1), bp::arg("col_length")=(int const)(-1) ) );
+            "fillDistanceMatrix"
+            , fillDistanceMatrix_function_type( &::alignlib::fillDistanceMatrix )
+            , ( bp::arg("dest"), bp::arg("source") ) );
     
     }
 
@@ -3240,18 +3251,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "fillMultipleAlignment"
             , fillMultipleAlignment_function_type( &::alignlib::fillMultipleAlignment )
-            , ( bp::arg("ali"), bp::arg("sequences"), bp::arg("nsequences") ) );
-    
-    }
-
-    { //::alignlib::fillPhyloMatrix
-    
-        typedef void ( *fillPhyloMatrix_function_type )( ::alignlib::HPhyloMatrix &,::alignlib::PhyloMatrixValue * );
-        
-        bp::def( 
-            "fillPhyloMatrix"
-            , fillPhyloMatrix_function_type( &::alignlib::fillPhyloMatrix )
-            , ( bp::arg("dest"), bp::arg("source") ) );
+            , ( bp::arg("dst"), bp::arg("sequences"), bp::arg("nsequences") ) );
     
     }
 
@@ -3593,34 +3593,31 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::makeAlignmentMatrixDiagonal
     
-        typedef ::alignlib::HAlignment ( *makeAlignmentMatrixDiagonal_function_type )( long int );
+        typedef ::alignlib::HAlignment ( *makeAlignmentMatrixDiagonal_function_type )(  );
         
         bp::def( 
             "makeAlignmentMatrixDiagonal"
-            , makeAlignmentMatrixDiagonal_function_type( &::alignlib::makeAlignmentMatrixDiagonal )
-            , ( bp::arg("ndots")=(long int)(0) ) );
+            , makeAlignmentMatrixDiagonal_function_type( &::alignlib::makeAlignmentMatrixDiagonal ) );
     
     }
 
     { //::alignlib::makeAlignmentMatrixRow
     
-        typedef ::alignlib::HAlignment ( *makeAlignmentMatrixRow_function_type )( long int );
+        typedef ::alignlib::HAlignment ( *makeAlignmentMatrixRow_function_type )(  );
         
         bp::def( 
             "makeAlignmentMatrixRow"
-            , makeAlignmentMatrixRow_function_type( &::alignlib::makeAlignmentMatrixRow )
-            , ( bp::arg("ndots")=(long int)(0) ) );
+            , makeAlignmentMatrixRow_function_type( &::alignlib::makeAlignmentMatrixRow ) );
     
     }
 
     { //::alignlib::makeAlignmentMatrixUnsorted
     
-        typedef ::alignlib::HAlignment ( *makeAlignmentMatrixUnsorted_function_type )( long int );
+        typedef ::alignlib::HAlignment ( *makeAlignmentMatrixUnsorted_function_type )(  );
         
         bp::def( 
             "makeAlignmentMatrixUnsorted"
-            , makeAlignmentMatrixUnsorted_function_type( &::alignlib::makeAlignmentMatrixUnsorted )
-            , ( bp::arg("ndots")=(long int)(0) ) );
+            , makeAlignmentMatrixUnsorted_function_type( &::alignlib::makeAlignmentMatrixUnsorted ) );
     
     }
 
@@ -3654,6 +3651,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::makeDistanceMatrixSymmetric
+    
+        typedef ::alignlib::HDistanceMatrix ( *makeDistanceMatrixSymmetric_function_type )( ::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixValue );
+        
+        bp::def( 
+            "makeDistanceMatrixSymmetric"
+            , makeDistanceMatrixSymmetric_function_type( &::alignlib::makeDistanceMatrixSymmetric )
+            , ( bp::arg("size")=(long unsigned int)(0), bp::arg("default_value")=0 ) );
+    
+    }
+
     { //::alignlib::makeDistorClustal
     
         typedef ::alignlib::HDistor ( *makeDistorClustal_function_type )(  );
@@ -3666,7 +3674,7 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::makeDistorDummy
     
-        typedef ::alignlib::HDistor ( *makeDistorDummy_function_type )( ::alignlib::HPhyloMatrix const & );
+        typedef ::alignlib::HDistor ( *makeDistorDummy_function_type )( ::alignlib::HDistanceMatrix const & );
         
         bp::def( 
             "makeDistorDummy"
@@ -3709,7 +3717,7 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::makeEntropyVector
     
-        typedef ::alignlib::VectorDouble * ( *makeEntropyVector_function_type )( ::alignlib::CountsMatrix const * );
+        typedef ::alignlib::VectorDouble * ( *makeEntropyVector_function_type )( ::alignlib::CountMatrix const * );
         
         bp::def( 
             "makeEntropyVector"
@@ -3879,17 +3887,6 @@ BOOST_PYTHON_MODULE(alignlib){
             "makeNormalDistributionParameters"
             , makeNormalDistributionParameters_function_type( &::alignlib::makeNormalDistributionParameters )
             , bp::return_value_policy< bp::manage_new_object >() );
-    
-    }
-
-    { //::alignlib::makePhyloMatrixSymmetric
-    
-        typedef ::alignlib::HPhyloMatrix ( *makePhyloMatrixSymmetric_function_type )( ::alignlib::PhyloMatrixSize,::alignlib::PhyloMatrixValue );
-        
-        bp::def( 
-            "makePhyloMatrixSymmetric"
-            , makePhyloMatrixSymmetric_function_type( &::alignlib::makePhyloMatrixSymmetric )
-            , ( bp::arg("size")=(long unsigned int)(0), bp::arg("default_value")=0 ) );
     
     }
 
@@ -4181,7 +4178,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeSubstitutionMatrixBlosum50"
             , makeSubstitutionMatrixBlosum50_function_type( &::alignlib::makeSubstitutionMatrixBlosum50 )
-            , ( bp::arg("arg0") ) );
+            , ( bp::arg("encoder") ) );
     
     }
 
@@ -4202,7 +4199,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeSubstitutionMatrixBlosum62"
             , makeSubstitutionMatrixBlosum62_function_type( &::alignlib::makeSubstitutionMatrixBlosum62 )
-            , ( bp::arg("arg0") ) );
+            , ( bp::arg("encoder") ) );
     
     }
 
@@ -4223,7 +4220,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeSubstitutionMatrixPam120"
             , makeSubstitutionMatrixPam120_function_type( &::alignlib::makeSubstitutionMatrixPam120 )
-            , ( bp::arg("arg0") ) );
+            , ( bp::arg("encoder") ) );
     
     }
 
@@ -4244,7 +4241,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeSubstitutionMatrixPam250"
             , makeSubstitutionMatrixPam250_function_type( &::alignlib::makeSubstitutionMatrixPam250 )
-            , ( bp::arg("arg0") ) );
+            , ( bp::arg("encoder") ) );
     
     }
 
@@ -4265,7 +4262,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeSubstitutionMatrixPam30"
             , makeSubstitutionMatrixPam30_function_type( &::alignlib::makeSubstitutionMatrixPam30 )
-            , ( bp::arg("arg0") ) );
+            , ( bp::arg("encoder") ) );
     
     }
 
@@ -4324,21 +4321,12 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::makeWeightorHenikoff
     
-        typedef ::alignlib::HWeightor ( *makeWeightorHenikoff_function_type )(  );
+        typedef ::alignlib::HWeightor ( *makeWeightorHenikoff_function_type )( bool const );
         
         bp::def( 
             "makeWeightorHenikoff"
-            , makeWeightorHenikoff_function_type( &::alignlib::makeWeightorHenikoff ) );
-    
-    }
-
-    { //::alignlib::makeWeightorHenikoffKimmen
-    
-        typedef ::alignlib::HWeightor ( *makeWeightorHenikoffKimmen_function_type )(  );
-        
-        bp::def( 
-            "makeWeightorHenikoffKimmen"
-            , makeWeightorHenikoffKimmen_function_type( &::alignlib::makeWeightorHenikoffKimmen ) );
+            , makeWeightorHenikoff_function_type( &::alignlib::makeWeightorHenikoff )
+            , ( bp::arg("rescale_counts")=(bool const)(false) ) );
     
     }
 
@@ -4360,7 +4348,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "removeFragments"
             , removeFragments_function_type( &::alignlib::removeFragments )
-            , ( bp::arg("dest"), bp::arg("window_length"), bp::arg("min_gap_length"), bp::arg("row_length")=(int const)(-1) ) );
+            , ( bp::arg("dest"), bp::arg("fragment_length"), bp::arg("min_gap_length"), bp::arg("row_length")=(int const)(-1) ) );
     
     }
 

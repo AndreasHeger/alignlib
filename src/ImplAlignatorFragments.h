@@ -76,6 +76,10 @@ class ImplAlignatorFragments : public ImplAlignator
     /** destructor */
     virtual ~ImplAlignatorFragments();
 
+    /** return a new alignator object of the same type.
+     */
+    virtual HAlignator getClone() const;    
+    
     /* operators------------------------------------------------------------------------------ */
     /** method for aligning two arbitrary objects */
     virtual void align( HAlignment & dest,
@@ -112,8 +116,11 @@ class ImplAlignatorFragments : public ImplAlignator
     /** perform the alignment */
     virtual void performAlignment( HAlignment & dest,
     		const HAlignandum & row, 
-    		const HAlignandum & col ) = 0 ;
+    		const HAlignandum & col );
 
+    /** get cost for a gap */
+    virtual Score getGapCost( Dot x1, Dot x2 ) const;
+    
     /** perform initialisation before alignment. Overload, but call this function in subclasses! */
     virtual void startUp( 
     		HAlignment & dest,

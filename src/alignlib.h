@@ -37,5 +37,13 @@
 #include "alignlib_interfaces.h"
 #include "alignlib_functions.h"
 
+/** @brief alignlib : a C++ library with python bindings for biological sequence analysis.
+ */
+
+namespace alignlib
+{
+}
+
+
 #endif /* _ALIGNLIB_H */
 

@@ -20,27 +20,20 @@
 #include <string>
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
-
-/**
-   base class for methods calculating distance matrices from
-   multiple alignments of protein sequences. If you have a set
-   of single pairswise alignments, do it yourself :=).
-
-   About the matrix:
-   The matrix should be symmetric and support two commands:
-	1. nrows():		for retrieving the number of rows
-	2. operator(row,col):	for setting/retrieving values
-
-   @author Andreas Heger
-   @version $Id: Distor.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-   @short base class for calculating distance matrices from sequences
- */ 
-
 
 namespace alignlib 
 {
 
+/** 
+ * @short Protocol class for calculating distance matrices from sequences.
+
+	A @ref Distor object computes pairwise distances between all pairs of
+	sequences in a @ref MultipleAlignment and stores the results in a
+	@ref DistanceMatrix.
+	
+   	@author Andreas Heger
+   	@version $Id: Distor.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
+ */ 
 class Distor 
 {
 	// class member functions
@@ -54,19 +47,27 @@ public:
 
 	virtual ~Distor ();
 
-	/** calculate a distance matrix from protein sequences
-	@param multali multiple alignment of protein sequences
-	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
+	/** fill @ref DistanceMatrix from a @ref MultipleAlignment.
+	 *
+	 * @param dest @ref DistanceMatrix to fill. 
+	 * @param mali @ref MultipleAlignment object.
 	 */
 	virtual void calculateMatrix( 
-			HPhyloMatrix & dest, 
+			HDistanceMatrix & dest, 
 			const HMultipleAlignment & mali ) const = 0;
 
-	/** return the maximum possible distance than can be achieved between two sequences */
-	virtual PhyloMatrixValue getMaximumPossibleDistance() const = 0;
+	/** return the maximum possible distance
+	 * @return a distance 
+	 * */
+	virtual DistanceMatrixValue getMaximumPossibleDistance() const = 0;
 
-	/** Calculate distance between two rows from multiple alignment */
-	virtual PhyloMatrixValue calculateDistance( 
+	/** calculate distance between two strings.
+	 * 
+	 * @param a	string with first sequence.
+	 * @param b string with second sequence.
+	 * @return a distance.
+	 * */
+	virtual DistanceMatrixValue calculateDistance( 
 			const std::string & s_row_1, 
 			const std::string & s_row_2) const = 0;
 

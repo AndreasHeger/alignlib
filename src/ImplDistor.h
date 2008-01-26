@@ -49,11 +49,11 @@ class ImplDistor : public Distor
 	@param matrix  matrix to use. If not supplied, the most basic matrix type will be used.
      */
     virtual void calculateMatrix( 
-    		HPhyloMatrix & dest, 
+    		HDistanceMatrix & dest, 
     		const HMultipleAlignment & mali ) const ;
 
     /** Calculate distance between two rows from multiple alignment */
-    virtual PhyloMatrixValue calculateDistance( 
+    virtual DistanceMatrixValue calculateDistance( 
     		const std::string & s_row_1, 
     		const std::string & s_row_2) const = 0;
 

@@ -125,7 +125,7 @@ class ImplTree : public Tree
   virtual Node getRightChild( Node node ) const;
 
   /** returns the number of children of a node */
-  virtual Node getNumChildren( Node node) const;
+  virtual Node getNumLeaves( Node node) const;
 
   /** returns a vector of leaves nodes */
   virtual HNodeVector getNodesLeaves() const;
@@ -152,7 +152,7 @@ class ImplTree : public Tree
 			     TreeWeight weight ) ;
 
   /** find root */
-  virtual Node findRoot( const Node node ) const;
+  virtual Node findLastParent( const Node node ) const;
 
   /** Add a node to a tree for bottom-up construction, i.e. a construction which starts by
       joining leaves. This function returns a reference to the internal node that was just 
@@ -163,11 +163,11 @@ class ImplTree : public Tree
       @param weight_1	weight of edge 1 to new internal node
       @param weight_2	weight of edge 2 to new internal node
   */
-  virtual Node joinNodes( const Node node_1, 
-			       const Node node_2,
-			       TreeWeight weight_1, 
-			       TreeWeight weight_2,
-			       const bool map_parents = false);
+  virtual Node joinNodes( 
+		  const Node node_1, 
+		  const Node node_2,
+		  const TreeWeight weight_1, 
+		  const TreeWeight weight_2 );
 
 
   virtual void write( std::ostream & output ) const;

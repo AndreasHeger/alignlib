@@ -19,41 +19,45 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "alignlib_default.h"
 
 namespace alignlib 
 {
 
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
-    
- /* -------------------------------------------------------------------------------------------------------------------- */
- /* 1. factory functions */
+/**
+ * 
+ * @defgroup FactoryTreetor Factory functions for Treetor objects.
+ * @{ 
+ */
 
-    /** make a Treetor using Distance matrices */
-	HTreetor makeTreetorDistanceLinkage(
+/** make a Treetor using linkage clustering methods.
+ * 
+ * @param distor @ref Distor object to compute distance.
+ * @param method @ref LinkageType 
+ * @return a new @ref Treetor object.
+* */
+HTreetor makeTreetorDistanceLinkage(
 		const HDistor & distor,     		
 		LinkageType method = UPGMA ); 
 
-    /** make a Treetor using Distance matrices and the neighbour-joining algorithm */
-    HTreetor makeTreetorDistanceNJ( const HDistor & distor );    
+/** make a Treetor using the neighbour-joining algorithm. 
+ * 
+ * @param distor @ref Distor object to compute distance.
+ * @return a new @ref Treetor object. 
+ * */
+HTreetor makeTreetorDistanceNJ( const HDistor & distor );    
 
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 2. accessor functions for default objects */
+/** @} */
 
-    DEFINE_DEFAULT( HTreetor, 
-    		getDefaultTreetor,
-    		setDefaultTreetor );
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 3. convenience functions */
+/** @addtogroup Defaults
+ * @{
+ */
+
+DEFINE_DEFAULT( HTreetor, 
+		getDefaultTreetor,
+		setDefaultTreetor );
+
+/** @} */
 }
 
 #endif	/* HELPERS_TREETOR_H */

@@ -11,9 +11,11 @@
 
 INCLUDES = -I$(top_srcdir)/src 
 
+AM_CXXFLAGS = $(BOOST_CPPFLAGS)
+
 include_HEADERS = alignlib.h
 
-pkginclude_HEADERS = 	alignlib.h \
+pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			AlignException.h \
 			AlignlibDebug.h \
 			AlignlibMethods.h \
@@ -30,10 +32,13 @@ pkginclude_HEADERS = 	alignlib.h \
 			$(HEADERS_SUBSTMATRIX) \
 		    $(HEADERS_PHYLOLIB)
 
+HEADERS_ALIGNLIB= alignlib.h alignlib_fwd.h alignlib_default.h \
+					alignlib_functions.h alignlib_types.h alignlib_interfaces.h
+
 HEADERS_PHYLOLIB=Tree.h HelpersTree.h \
                         ImplTree.h \
-                        PhyloMatrix.h HelpersPhyloMatrix.h \
-                        ImplPhyloMatrix.h ImplPhyloMatrixSymmetric.h \
+                        DistanceMatrix.h HelpersDistanceMatrix.h \
+                        ImplDistanceMatrix.h ImplDistanceMatrixSymmetric.h \
                         Distor.h HelpersDistor.h \
                         ImplDistor.h ImplDistorKimura.h ImplDistorClustal.h ImplDistorDummy.h \
                         Treetor.h HelpersTreetor.h \
@@ -46,7 +51,7 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h \
 			Regularizor.h HelpersRegularizor.h \
 			LogOddor.h HelpersLogOddor.h \
 			ImplAlignandum.h ImplSequence.h ImplProfile.h \
-			ImplWeightor.h ImplWeightorHenikoff.h ImplWeightorHenikoffKimmen.h \
+			ImplWeightor.h ImplWeightorHenikoff.h \
 			ImplRegularizor.h ImplRegularizorTatusov.h \
 			ImplRegularizorDirichlet.h ImplRegularizorDirichletHash.h \
 			ImplRegularizorDirichletInterpolate.h ImplRegularizorDirichletPrecomputed.h \
@@ -68,7 +73,7 @@ HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignatorIdentity.h ImplAlignatorSimilarity.h \
 			ImplAlignatorTuples.h \
 			ImplAlignatorPrebuilt.h \
-			ImplAlignatorFragments.h ImplAlignatorFragmentsSquared.h \
+			ImplAlignatorFragments.h \
 			ImplAlignatorGroupies.h
 
 HEADERS_ITERATOR=	Iterator2D.h \
@@ -117,8 +122,8 @@ PARTS = AlignException.cpp \
 
 PARTS_PHYLOLIB= Tree.cpp HelpersTree.cpp \
                         ImplTree.cpp \
-                        PhyloMatrix.cpp HelpersPhyloMatrix.cpp \
-                        ImplPhyloMatrix.cpp ImplPhyloMatrixSymmetric.cpp \
+                        DistanceMatrix.cpp HelpersDistanceMatrix.cpp \
+                        ImplDistanceMatrix.cpp ImplDistanceMatrixSymmetric.cpp \
                         Distor.cpp HelpersDistor.cpp \
                         ImplDistor.cpp ImplDistorKimura.cpp ImplDistorClustal.cpp ImplDistorDummy.cpp \
                         Treetor.cpp HelpersTreetor.cpp \
@@ -130,7 +135,7 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 			Regularizor.cpp HelpersRegularizor.cpp \
 			LogOddor.cpp HelpersLogOddor.cpp \
 			ImplAlignandum.cpp ImplSequence.cpp ImplProfile.cpp \
-			ImplWeightor.cpp ImplWeightorHenikoff.cpp ImplWeightorHenikoffKimmen.cpp \
+			ImplWeightor.cpp ImplWeightorHenikoff.cpp\
 			ImplRegularizor.cpp ImplRegularizorTatusov.cpp \
 			ImplRegularizorDirichlet.cpp ImplRegularizorDirichletHash.cpp \
 			ImplRegularizorDirichletInterpolate.cpp ImplRegularizorDirichletPrecomputed.cpp \
@@ -154,7 +159,7 @@ PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
 			ImplAlignatorDotsWrap.cpp \
 			ImplAlignatorIdentity.cpp ImplAlignatorSimilarity.cpp ImplAlignatorTuples.cpp \
 			ImplAlignatorPrebuilt.cpp \
-			ImplAlignatorFragments.cpp ImplAlignatorFragmentsSquared.cpp \
+			ImplAlignatorFragments.cpp \
 			ImplAlignatorGroupies.cpp
 
 PARTS_ITERATOR=		Iterator2D.cpp HelpersIterator2D.cpp \

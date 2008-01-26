@@ -78,13 +78,6 @@ BOOST_AUTO_TEST_CASE( test_WeightorHenikoff )
 	test_GenericWeightor( l );
 }
 
-BOOST_AUTO_TEST_CASE( test_WeightorHenikoffKimmen )
-{
-	setDefaultEncoder( getEncoder( Protein23 ) );
-	HWeightor l(makeWeightorHenikoffKimmen());
-	test_GenericWeightor( l ); 
-}
-
 
 
 

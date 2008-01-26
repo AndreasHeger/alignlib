@@ -24,34 +24,39 @@
 namespace alignlib 
 {
 
-    typedef std::vector< std::string > Labels;
-    
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 1. factory functions */
+typedef std::vector< std::string > Labels;
 
-    /** create an empty tree */
-    HTree makeTree( const Node num_leaves = 0);
+/**
+ * 
+ * @defgroup FactoryTree Factory functions for Tree objects.
+ * @{ 
+ */
 
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 2. accessor functions for default objects */
-    
-    /* -------------------------------------------------------------------------------------------------------------------- */
-    /* 3. convenience functions */
+/** create an empty tree.
+ * 
+ * @param num_leaves number of leaves in tree.
+ * 
+ * @return a new @ref Tree object.*/
+HTree makeTree( const Node num_leaves = 0);
 
-    /** print a tree in NewHampshire format */
-    void writeNewHampshire( std::ostream & output, 
-    		const HTree & tree, 
-    		const Labels * labels = NULL );
- 
+/** @} */
+
+/** @defgroup ToolsetTree Toolset for Tree objects.
+ * @{
+ */
+
+/** write a tree in NewHampshire format 
+ * 
+ * @param output output stream.
+ * @param tree @ref Tree object to output.
+ * @param labels optional vector to labels.
+ * 
+ * */
+void writeNewHampshire( std::ostream & output, 
+		const HTree & tree, 
+		const Labels * labels = NULL );
+
+/** @} */
 }
 
 #endif	/* HELPERS_TREE_H */

@@ -51,13 +51,13 @@ ImplDistorKimura::ImplDistorKimura (const ImplDistorKimura & src ) :
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplDistorKimura::getMaximumPossibleDistance() const 
+DistanceMatrixValue ImplDistorKimura::getMaximumPossibleDistance() const 
 {
     return MAX_DISTANCE;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplDistorKimura::calculateDistance(
+DistanceMatrixValue ImplDistorKimura::calculateDistance(
 		const std::string & s_row_1, 
 		const std::string & s_row_2) const 
 		{

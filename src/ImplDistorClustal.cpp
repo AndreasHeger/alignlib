@@ -101,13 +101,13 @@ ImplDistorClustal::ImplDistorClustal (const ImplDistorClustal & src ) : ImplDist
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplDistorClustal::getMaximumPossibleDistance() const 
+DistanceMatrixValue ImplDistorClustal::getMaximumPossibleDistance() const 
 {
     return MAX_DISTANCE;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const 
+DistanceMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const 
 {
 
 	debug_func_cerr( 5 );
@@ -115,8 +115,8 @@ PhyloMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_row
   unsigned char gap_char  = alignlib::getDefaultEncoder()->getGapChar();
 
   unsigned int i;
-  PhyloMatrixSize identities = 0;
-  PhyloMatrixSize n_nongaps = 0;		// normalize over non-gap-positions
+  DistanceMatrixSize identities = 0;
+  DistanceMatrixSize n_nongaps = 0;		// normalize over non-gap-positions
 
   for (i = 0; i < s_row_1.length(); i++) {
     if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char)) {
@@ -136,7 +136,7 @@ PhyloMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_row
     return -log( 1.0 - pdiff - 0.2 * pdiff * pdiff);
   
   if (pdiff < MAX_PAM)
-    return (double)dayhoff_pams[(PhyloMatrixSize)(pdiff * 1000.0 - 750.0)] / 100.0;
+    return (double)dayhoff_pams[(DistanceMatrixSize)(pdiff * 1000.0 - 750.0)] / 100.0;
   
   return MAX_DISTANCE;
 }

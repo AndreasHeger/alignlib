@@ -5,7 +5,7 @@
 //
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
-// $Id: ImplPhyloMatrixSymmetric.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
+// $Id: ImplDistanceMatrixSymmetric.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
 //--------------------------------------------------------------------------------    
 
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "ImplPhyloMatrixSymmetric.h"
+#include "ImplDistanceMatrixSymmetric.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
 
@@ -23,23 +23,23 @@ using namespace std;
 
 namespace alignlib {
 
-HPhyloMatrix makePhyloMatrixSymmetric( PhyloMatrixSize size, PhyloMatrixValue default_value)
+HDistanceMatrix makeDistanceMatrixSymmetric( DistanceMatrixSize size, DistanceMatrixValue default_value)
 {
-	return HPhyloMatrix( new ImplPhyloMatrixSymmetric( size, default_value ) );
+	return HDistanceMatrix( new ImplDistanceMatrixSymmetric( size, default_value ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 
-ImplPhyloMatrixSymmetric::ImplPhyloMatrixSymmetric() : ImplPhyloMatrix()
+ImplDistanceMatrixSymmetric::ImplDistanceMatrixSymmetric() : ImplDistanceMatrix()
 {
 }
 
-ImplPhyloMatrixSymmetric::~ImplPhyloMatrixSymmetric ()
+ImplDistanceMatrixSymmetric::~ImplDistanceMatrixSymmetric ()
 {
 }
 
 // not calling the base class constructor is dangerous!!
-ImplPhyloMatrixSymmetric::ImplPhyloMatrixSymmetric (PhyloMatrixSize width, PhyloMatrixValue default_value ) : ImplPhyloMatrix()
+ImplDistanceMatrixSymmetric::ImplDistanceMatrixSymmetric (DistanceMatrixSize width, DistanceMatrixValue default_value ) : ImplDistanceMatrix()
 {
 	debug_func_cerr( 5 );  
 
@@ -50,14 +50,14 @@ ImplPhyloMatrixSymmetric::ImplPhyloMatrixSymmetric (PhyloMatrixSize width, Phylo
 	cout << "Allocating " << mSize << " bytes for amatrix of width " << mWidth << endl;
 #endif
 
-	mMatrix = new PhyloMatrixValue[ mSize ];
+	mMatrix = new DistanceMatrixValue[ mSize ];
 
-	PhyloMatrixSize i;
+	DistanceMatrixSize i;
 	for (i = 0; i < mSize; i++)
 		mMatrix[i] = default_value;
 }
 
-ImplPhyloMatrixSymmetric::ImplPhyloMatrixSymmetric( const ImplPhyloMatrixSymmetric & src) : ImplPhyloMatrix( src )
+ImplDistanceMatrixSymmetric::ImplDistanceMatrixSymmetric( const ImplDistanceMatrixSymmetric & src) : ImplDistanceMatrix( src )
 {
 
 	debug_func_cerr( 5 );
@@ -66,16 +66,16 @@ ImplPhyloMatrixSymmetric::ImplPhyloMatrixSymmetric( const ImplPhyloMatrixSymmetr
 	// since virtual functions do not work in constructors, I have to everything myself
 
 	mWidth = src.getWidth();
-	const PhyloMatrixValue * matrix = src.mMatrix;
+	const DistanceMatrixValue * matrix = src.mMatrix;
 
 	mSize = mWidth * (mWidth - 1) / 2;
-	mMatrix = new PhyloMatrixValue[ mSize ];
+	mMatrix = new DistanceMatrixValue[ mSize ];
 
 	if (!mMatrix)
-		throw AlignException("Out of memory in ImplPhyloMatrixSymmetric");
+		throw AlignException("Out of memory in ImplDistanceMatrixSymmetric");
 
-	PhyloMatrixSize i, j;
-	PhyloMatrixSize index = 0;
+	DistanceMatrixSize i, j;
+	DistanceMatrixSize index = 0;
 
 	for (i = 1; i < mWidth; i++)			// iterate through rows
 		for (j = 0; j < i; j++) 			// iterate through columns
@@ -83,7 +83,7 @@ ImplPhyloMatrixSymmetric::ImplPhyloMatrixSymmetric( const ImplPhyloMatrixSymmetr
 }
 
 //-------------------------------------------------------------
-void ImplPhyloMatrixSymmetric::shrink() 
+void ImplDistanceMatrixSymmetric::shrink() 
 {
 	debug_func_cerr( 5 );
 	/* simply decrease the width of the matrix */
@@ -95,7 +95,7 @@ void ImplPhyloMatrixSymmetric::shrink()
 }
 
 //-------------------------------------------------------------
-void ImplPhyloMatrixSymmetric::swap( PhyloMatrixSize row_1, PhyloMatrixSize row_2 )
+void ImplDistanceMatrixSymmetric::swap( DistanceMatrixSize row_1, DistanceMatrixSize row_2 )
 {
 	debug_func_cerr( 5 );
 
@@ -113,11 +113,11 @@ void ImplPhyloMatrixSymmetric::swap( PhyloMatrixSize row_1, PhyloMatrixSize row_
    2. col = row_2
 	 */
 
-	PhyloMatrixValue t;
+	DistanceMatrixValue t;
 
 #define SWAP( x, y) { t = mMatrix[x], mMatrix[x] = mMatrix[y], mMatrix[y] = t;}
 
-	PhyloMatrixSize i;
+	DistanceMatrixSize i;
 
 	if (row_2 < row_1) 
 	{
@@ -138,7 +138,7 @@ void ImplPhyloMatrixSymmetric::swap( PhyloMatrixSize row_1, PhyloMatrixSize row_
 }
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrixSymmetric::getIndex( PhyloMatrixSize row, PhyloMatrixSize col) const
+DistanceMatrixSize ImplDistanceMatrixSymmetric::getIndex( DistanceMatrixSize row, DistanceMatrixSize col) const
 {
 	debug_func_cerr( 5 );
 
@@ -156,12 +156,12 @@ PhyloMatrixSize ImplPhyloMatrixSymmetric::getIndex( PhyloMatrixSize row, PhyloMa
 }
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrixSymmetric::getRow( PhyloMatrixSize index ) const
+DistanceMatrixSize ImplDistanceMatrixSymmetric::getRow( DistanceMatrixSize index ) const
 {
 	debug_func_cerr( 5 );
 
-	PhyloMatrixSize row = 1;
-	PhyloMatrixSize row_index = 0;
+	DistanceMatrixSize row = 1;
+	DistanceMatrixSize row_index = 0;
 
 	while (index >= row_index)
 		row_index += row++;
@@ -171,13 +171,13 @@ PhyloMatrixSize ImplPhyloMatrixSymmetric::getRow( PhyloMatrixSize index ) const
 
 
 //-------------------------------------------------------------
-PhyloMatrixSize ImplPhyloMatrixSymmetric::getColumn( PhyloMatrixSize index ) const {
+DistanceMatrixSize ImplDistanceMatrixSymmetric::getColumn( DistanceMatrixSize index ) const {
 	// computationally inefficient, maybe use cache
 	return (index - getIndex(getRow(index), 0));	
 }
 
 //-------------------------------------------------------------
-void ImplPhyloMatrixSymmetric::calculateSize()
+void ImplDistanceMatrixSymmetric::calculateSize()
 {
 
 	debug_func_cerr( 5 );

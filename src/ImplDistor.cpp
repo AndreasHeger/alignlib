@@ -18,7 +18,7 @@
 #include "ImplDistor.h"
 #include "AlignlibDebug.h"
 #include "AlignException.h"
-#include "PhyloMatrix.h"
+#include "DistanceMatrix.h"
 
 using namespace std;
 
@@ -37,13 +37,13 @@ ImplDistor::ImplDistor (const ImplDistor & src ) :
 
 //--------------------------------------------------------------------------------------------------------------------------------
 void ImplDistor::calculateMatrix( 
-		HPhyloMatrix & matrix, 
+		HDistanceMatrix & matrix, 
 		const HMultipleAlignment & multali) const 
 		{
 
-    PhyloMatrixSize i, j;
+    DistanceMatrixSize i, j;
     
-    PhyloMatrixSize width = multali->getNumSequences();
+    DistanceMatrixSize width = multali->getNumSequences();
 
     if (matrix->getWidth() != width)
 	throw AlignException( "Multiple alignment and matrix have different size in ImplDistor::operator()");

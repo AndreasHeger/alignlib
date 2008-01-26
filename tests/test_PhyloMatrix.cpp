@@ -24,8 +24,8 @@
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
-#include "PhyloMatrix.h"
-#include "HelpersPhyloMatrix.h"
+#include "DistanceMatrix.h"
+#include "HelpersDistanceMatrix.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ using namespace alignlib;
 int main ()
 {
 
-	HPhyloMatrix m = makePhyloMatrixSymmetric(10, 0);
+	HDistanceMatrix m = makeDistanceMatrixSymmetric(10, 0);
 
 	cout << *m << endl;
 

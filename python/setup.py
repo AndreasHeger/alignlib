@@ -20,6 +20,10 @@ from pyplusplus.decl_wrappers import \
 
 from pygccxml import declarations
 
+import distutils.sysconfig
+import os.path
+import shutil
+
 def findBoost( options ):
     """find location of boost."""
     if not options.boost_dir:
@@ -230,7 +234,7 @@ def exportInterfaceClasses( mb ):
                               'Distor',
                               'Treetor',
                               'Tree',
-                              'PhyloMatrix',
+                              'DistanceMatrix',
                               ])
 
     ## TODO export substitution matrix
@@ -519,7 +523,7 @@ if __name__ == "__main__":
         
     for command in commands:
 
-        if command in ("build", "generate-interface", "compile-interface" ):
+        if command in ("build", "generate-interface", "compile-interface", "install" ):
     
             nerrors = checkRequisites( options )
             
@@ -541,8 +545,30 @@ if __name__ == "__main__":
         
             compileModule( module_name = module_name, options = options )
 
-        elif command == "install":
-            pass
+            if command == "install":
+            
+                python_lib = distutils.sysconfig.get_python_lib()
+                    
+                results = []
+                for root, dirs, files in os.walk('.'):
         
+                    if "alignlib.so" in files:
+                        results.append( os.path.join(root, "alignlib.so") )
+                        
+                if len(results) == 0:
+                    print "could not find alignlib.so"
+                    print "please run setup.py build first."
+                    sys.exit(0)
+                
+                if len(results) > 1:
+                    print "found more than one alignlib.so in %s." % str(results)
+                    print "confused and thus not installing."
+            
+                print "installing %s in %s" % (results[0], python_lib )
+                try:
+                    shutil.copy( results[0], python_lib )
+                except IOError, msg:
+                    print "installation failed: %s" % str(msg)
+                    
         elif command == "test":
             pass

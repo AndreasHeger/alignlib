@@ -29,33 +29,27 @@
 #define WEIGHTOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 namespace alignlib 
 {
 
-/** @short Interface definition for Weightor objects.
+/** @short Protocoll class for @ref Weightor objects.
     
-    Given a multiple alignment of sequences, a Weightor returns a vector of
+    Given a multiple alignment of sequences, a @ref Weightor returns a vector of
     weights, for each sequence one weight. The vector has to be deleted
     by the caller.
 
-    These objects take a multiple alignment and return an array of weights.
-    Since the same objects will be used for several profiles, no state data 
-    between calculations is stored. 
-    
-    Weighters have to know, what translation was used, because they have to be aware of
-    gaps and masked characters. They use the global Encoder object for this.
+    The object takes a multiple alignment and return an array of weights.
     
     This class is a protocol class and as such defines only the general interface.
     
     @author Andreas Heger
     @version $Id: Weightor.h,v 1.3 2004/03/19 18:23:42 aheger Exp $
+    
 */
 class Weightor 
 {
  public:
-    // constructors and desctructors
 
     /** default constructor */
     Weightor();
@@ -66,7 +60,11 @@ class Weightor
     /** destructor */
     virtual ~Weightor();
     
-    /** fill a counts matrix from a multiple alignment 
+    /** fill a counts matrix from a multiple alignment
+     * 
+     * @param counts 	@ref CountMatrix to fill.
+     * @param src		@ref MultipleAlignment object to compute weights from.
+     * @param encoder 	@ref Encoder object.  
      */
     virtual void fillCounts(
     		CountMatrix & counts,  		

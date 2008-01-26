@@ -45,7 +45,7 @@ namespace alignlib
  * 
  * @param stream stream to read an @ref Alignandum object from.
  * @exception AlignlibException	no complete object in stream.
- * @return	a new HAlignandum object. 
+ * @return a new Alignandum object. 
  */	
 HAlignandum loadAlignandum( std::istream & stream );
 
@@ -54,7 +54,7 @@ HAlignandum loadAlignandum( std::istream & stream );
  * The default @ref Encoder object is used.
  *  
  * @param sequence NULL terminated C-string.
- * @return a new HAlignandum object.
+ * @return a new @ref Alignandum object.
  */
 HAlignandum makeSequence( const char * sequence ); 
 
@@ -63,7 +63,7 @@ HAlignandum makeSequence( const char * sequence );
  * @param sequence NULL terminated C-string.
  * @param encoder @ref Encoder object to use.
  * 
- * @return a new HAlignandum object.
+ * @return a new @ref Alignandum object.
  */
 
 HAlignandum makeSequence( const char * sequence, 
@@ -74,7 +74,7 @@ HAlignandum makeSequence( const char * sequence,
  * The default @ref Encoder object is used.
  *  
  * @param sequence string.
- * @return a new HAlignandum object.
+ * @return a new @ref Alignandum object.
  */
 HAlignandum makeSequence( const std::string & sequence );
 
@@ -82,7 +82,7 @@ HAlignandum makeSequence( const std::string & sequence );
  * 
  * @param sequence string.
  * @param encoder @ref Encoder object to use.
- * @return a new HAlignandum object.
+ * @return a new @ref Alignandum object.
  */    
 HAlignandum makeSequence( const std::string & sequence,
 		const HEncoder & encoder );
@@ -99,11 +99,11 @@ HAlignandum makeMutatedSequence(
 
 /** create a new profile.
  * 
- * @param encoder @ref encoder object to use.
+ * @param encoder @ref Encoder object to use.
  * @param weightor @ref Weightor object to use.
  * @param regularizor @ref Regularizor object to use.
  * @param logoddor @ref LogOddor object to use.
- * @return a new @ref HAlignandum object. The profile is empty.
+ * @return a new @ref Alignandum object. The profile is empty.
  */
 HAlignandum makeProfile(
 		const HEncoder & encoder,
@@ -115,7 +115,7 @@ HAlignandum makeProfile(
  * 
  * The object is initialized with default objects.
  * 
- * @return a new @ref HAlignandum object. The profile is empty.
+ * @return a new @ref Alignandum object. The profile is empty.
  */
 HAlignandum makeProfile();
 
@@ -125,7 +125,7 @@ HAlignandum makeProfile();
  * @param weightor @ref Weightor object to use.
  * @param regularizor @ref Regularizor object to use.
  * @param logoddor @ref LogOddor object to use.
- * @return a new @ref HAlignandum object. The profile is empty, but has a set length.
+ * @return a new @ref Alignandum object. The profile is empty, but has a set length.
  */
 HAlignandum makeProfile( const Position & length,
 		const HEncoder & encoder,
@@ -137,7 +137,7 @@ HAlignandum makeProfile( const Position & length,
  *
  * The object is initialized with default objects.
  * @param length	length of the profile.
- * @return a new @ref HAlignandum object. The profile is empty, but has a set length.
+ * @return a new @ref Alignandum object. The profile is empty, but has a set length.
  */    
 HAlignandum makeProfile( const Position & length );
 
@@ -149,7 +149,7 @@ HAlignandum makeProfile( const Position & length );
  * @param weightor @ref Weightor object to use.
  * @param regularizor @ref Regularizor object to use.
  * @param logoddor @ref LogOddor object to use.
- * @return a new @ref HAlignandum object filled with sequences.
+ * @return a new @ref Alignandum object filled with sequences.
  */    
 HAlignandum makeProfile( 
 		const std::string & sequences, 
@@ -165,7 +165,7 @@ HAlignandum makeProfile(
  *
  * @param sequences sequences for filling the profile.
  * @param nsequences number of concatenated sequences.
- * @return a new @ref HAlignandum object filled with sequences.
+ * @return a new @ref Alignandum object filled with sequences.
  */    
 
 HAlignandum makeProfile( 
@@ -180,7 +180,7 @@ HAlignandum makeProfile(
  * @param weightor @ref Weightor object to use.
  * @param regularizor @ref Regularizor object to use.
  * @param logoddor @ref LogOddor object to use.
- * @return a new @ref HAlignandum object filled from a multiple alignment.
+ * @return a new @ref Alignandum object filled from a multiple alignment.
  */    
 HAlignandum makeProfile( 
 		const HMultipleAlignment & mali,
@@ -194,7 +194,7 @@ HAlignandum makeProfile(
  * The object is initialized with default objects.
  * 
  * @param mali multiple alignment.
- * @return a new @ref HAlignandum object filled from a multiple alignment.
+ * @return a new @ref Alignandum object filled from a multiple alignment.
  */    
 
 HAlignandum makeProfile( 

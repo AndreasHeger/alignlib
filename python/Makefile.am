@@ -11,4 +11,4 @@
 # using htmldir directly does not work
 # all: documentation
 
-EXTRA_DIST=setup.py includes.h
+EXTRA_DIST=setup.py includes.h alignlib.cpp

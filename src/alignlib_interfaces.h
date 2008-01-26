@@ -43,7 +43,7 @@
 #include "Weightor.h"
 #include "Distor.h"
 #include "Treetor.h"
-#include "PhyloMatrix.h"
+#include "DistanceMatrix.h"
 #include "Tree.h"
 
 #endif /*ALIGNLIB_INTERFACES_H_*/

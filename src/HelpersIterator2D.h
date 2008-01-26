@@ -54,9 +54,14 @@ namespace alignlib
 		  const Diagonal lower_diagonal = 0,
 		  const Diagonal upper_diagonal = 0);
 
+  /** @addtogroup Defaults
+   * @{
+   */ 
+  
   // 2. accessory functions for default objects  
   DEFINE_DEFAULT( HIterator2D, getDefaultIterator2D, setDefaultIterator2D );
-  
+
+  /** @} */
 }
 
 #endif	/* HELPERS_ITERATOR2D_H */

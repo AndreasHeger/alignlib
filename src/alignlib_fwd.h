@@ -76,8 +76,8 @@ namespace alignlib
 	class Distor;
 	typedef boost::shared_ptr<Distor>HDistor;
 
-	class PhyloMatrix;
-	typedef boost::shared_ptr<PhyloMatrix>HPhyloMatrix;
+	class DistanceMatrix;
+	typedef boost::shared_ptr<DistanceMatrix>HDistanceMatrix;
 	
 	class Fragmentor;
 	typedef boost::shared_ptr<Fragmentor>HFragmentor;

@@ -28,31 +28,36 @@ namespace alignlib
  * 
  * @defgroup FactoryDistor Factory functions for Distor objects.
  * @{ 
-*/
-    
-    /** return a @ref Distor object, that calculates distances between sequences in a multiple alignment based on Kimura 
-     * 
-     * @return a new @ref Distor object. 
-     */
-    HDistor makeDistorKimura();
+ */
 
-    /** return a @ref Distor object that calculates distances between sequences in a multiple alignment 
-     * in the same way as Clustal
-     * 
-     * @return a new @ref Distor object. 
-     */
-    HDistor makeDistorClustal();
-    
-    /** return a @ref Distor object that publishes a pre-built matrix.
-	*
-    * @param matrix @ref PhyloMatrix to export.
-    * @return a new @ref Distor object. 
-    */
-    HDistor makeDistorDummy( const HPhyloMatrix & matrix);
-  
-    /** @} */
-    
-    DEFINE_DEFAULT( HDistor, getDefaultDistor, setDefaultDistor );
+/** return a @ref Distor object, that calculates distances between sequences in a multiple alignment based on Kimura 
+ * 
+ * @return a new @ref Distor object. 
+ */
+HDistor makeDistorKimura();
+
+/** return a @ref Distor object that calculates distances between sequences in a multiple alignment 
+ * in the same way as Clustal
+ * 
+ * @return a new @ref Distor object. 
+ */
+HDistor makeDistorClustal();
+
+/** return a @ref Distor object that publishes a pre-built matrix.
+ *
+ * @param matrix @ref DistanceMatrix to export.
+ * @return a new @ref Distor object. 
+ */
+HDistor makeDistorDummy( const HDistanceMatrix & matrix);
+
+/** @} */
+
+/** @addtogroup Defaults
+ * @{
+ */ 
+
+DEFINE_DEFAULT( HDistor, getDefaultDistor, setDefaultDistor );
+/** @} */
 
 }
 

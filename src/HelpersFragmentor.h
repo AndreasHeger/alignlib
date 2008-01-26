@@ -33,53 +33,87 @@
 #include "alignlib_fwd.h"
 #include "Fragmentor.h"
 
-namespace alignlib {
+namespace alignlib 
+{
     
-    /** Helper functions for class Alignment:
-	
-	1. factory functions
-	
-	2. accessor functions for default objects
-	
-	3. convenience functions
-    */
+/**
+ * 
+ * @defgroup FactoryFragmentor Factory functions for Fragmentor objects.
+ * @{ 
+ */
 
-
-  class Alignator;
- 
-  /* 1. factory functions */
+/** @brief make a fragmentor that returns diagonals.
+ * 
+ * @param alignator @ref Alignator object to use.
+ * @param gop	gap opening penalty.
+ * @param gep 	gep elongation penalty.
+ * 
+ * @return a new @ref Fragmentor object.
+ */
   HFragmentor makeFragmentorDiagonals(
 		  const HAlignator & alignator,
 		  Score gop, 
 		  Score gep );
   
+  /** @brief make a fragmentor that returns fragments from a dotplot.
+   * 
+   * @param dots 	@ref Alignment object with dotplot
+   * @param score	@ref minimum score.
+   * @param gop		gap opening penalty.
+   * @param gep 	gep elongation penalty.
+   * 
+   * @return a new @ref Fragmentor object.
+   */
   HFragmentor makeFragmentorIterative( 
 		  const HAlignment & dots, 
 		  Score min_score,
 		  Score gop,
 		  Score gep );
 
+  /** @brief make a @ref Fragmentor object that repeatedly aligns.
+   * 
+   * This fragmentor repeatedly applies a @ref Alignator object.
+   * At each iteration, previously aligned regions are masked. The
+   * iteration stops if there is no more alignment above a minimum score. 
+   * 
+   * @param alignator @ref Alignator object to use.
+   * @param score	  @ref minimum score.
+   * 
+   * @return a new @ref Fragmentor object.
+   */
   HFragmentor makeFragmentorRepetitive( 
 		  const HAlignator & alignator,
 		  Score min_score );
 
-  /* 2. accessor functions for default objects */
-    
+  /** @} */
 
-  /* 3. convenience functions */
+  /** @defgroup ToolsetFragmentor Toolset for Fragmentor objects.
+   * @{
+   */
+  
+  /** write fragments to stream.
+   * 
+   * @param output 	output stream.
+   * @param fragments	fragments to output.
+   */
   void writeFragments( 
 		  std::ostream & output,
 		  const HFragmentVector & fragments);
  
-  /** rescore fragments. 
-      The score of a fragment is the number of aligned residues plus gap penalties. 
-      Gaps are penalized using affine gap penalties.
+  /** rescore fragments.
+   *  
+    	The score of a fragment is the number of aligned residues plus gap penalties. 
+      	Gaps are penalized using affine gap penalties.
+      	@param fragments fragments to rescore.
+      	@gop	gap opening penalty.
+      	@gep 	gap extension penalty.
   */
   void rescoreFragmentsNumberGaps( 
 		  HFragmentVector & fragments, 
 		  Score gop = 0, 
 		  Score gep = 0);
 
+  /** @} */
 }
 
 #endif	/* HELPERS_FRAGMENTOR_H */

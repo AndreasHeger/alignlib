@@ -51,7 +51,7 @@ class ImplTreetorDistanceNJ : public ImplTreetorDistance
 
  protected:
   /** swap indices in helper arrays */
-  virtual void swapHelpers( PhyloMatrixSize cluster_1, PhyloMatrixSize cluster_2) const;
+  virtual void swapHelpers( DistanceMatrixSize cluster_1, DistanceMatrixSize cluster_2) const;
 
   /** calculate the minimum distance for the working matrix */
   virtual void calculateMinimumDistance() const;
@@ -59,14 +59,14 @@ class ImplTreetorDistanceNJ : public ImplTreetorDistance
   /** update the distance matrix and other helper variables */
   virtual void updateDistanceMatrix( 
 		  const HTree & tree,
-		  PhyloMatrixSize cluster_1, 
-		  PhyloMatrixSize cluster_2 ) const;
+		  DistanceMatrixSize cluster_1, 
+		  DistanceMatrixSize cluster_2 ) const;
 
   /** join two nodes and return the index of the added node */
   virtual Node joinNodes( 
 		  HTree & tree,
-		  PhyloMatrixSize cluster_i, 
-		  PhyloMatrixSize cluster_2 ) const;
+		  DistanceMatrixSize cluster_i, 
+		  DistanceMatrixSize cluster_2 ) const;
 
   /** initialize helper variables that you might need */
   virtual void startUp(  HTree & tree, 
@@ -77,7 +77,7 @@ class ImplTreetorDistanceNJ : public ImplTreetorDistance
 
  private:
   /** average distance from cluster i to all other clusters */
-  mutable PhyloMatrixValue * mR;
+  mutable DistanceMatrixValue * mR;
 
 };
 

@@ -46,7 +46,7 @@
 #include "HelpersWeightor.h"
 #include "HelpersDistor.h"
 #include "HelpersTreetor.h"
-#include "HelpersPhyloMatrix.h"
+#include "HelpersDistanceMatrix.h"
 #include "HelpersTree.h"
 
 #include "AlignmentFormat.h"

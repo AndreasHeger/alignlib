@@ -54,10 +54,10 @@ class ImplDistorClustal : public ImplDistor {
     virtual ~ImplDistorClustal ();
     
     /** return the maximum distance obtainable between two sequences */
-    virtual PhyloMatrixValue getMaximumPossibleDistance() const;
+    virtual DistanceMatrixValue getMaximumPossibleDistance() const;
 
     /** Calculate distance between two rows from multiple alignment */
-    virtual PhyloMatrixValue calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const ;
+    virtual DistanceMatrixValue calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const ;
 
 };
 

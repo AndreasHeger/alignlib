@@ -27,8 +27,8 @@
 #include "HelpersAlignatum.h"
 
 #include "alignlib.h"
-#include "PhyloMatrix.h"
-#include "HelpersPhyloMatrix.h"
+#include "DistanceMatrix.h"
+#include "HelpersDistanceMatrix.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
 
@@ -44,7 +44,7 @@ int main ()
   mali->add(alignlib::makeAlignatum("-A-AAA-CCA-A-"));
   mali->add(alignlib::makeAlignatum("AAAGAAA--AAAA"));     
 
-  HPhyloMatrix matrix(makePhyloMatrixSymmetric(4, 0));
+  HDistanceMatrix matrix(makeDistanceMatrixSymmetric(4, 0));
 
   cout << *matrix << endl;
 

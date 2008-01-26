@@ -13,7 +13,7 @@
 #include <cassert>
 #include "ImplTreetorDistanceNJ.h"
 #include "Tree.h"
-#include "PhyloMatrix.h"
+#include "DistanceMatrix.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
 #include "AlignException.h"
@@ -44,9 +44,9 @@ ImplTreetorDistanceNJ::ImplTreetorDistanceNJ (const ImplTreetorDistanceNJ & src 
 	{
 	if (mWorkMatrix != NULL)
 	{
-		PhyloMatrixSize width = mWorkMatrix->getWidth();
-		mR = new PhyloMatrixValue[ width ];
-		memcpy( mR, src.mR, sizeof(PhyloMatrixValue) * width );
+		DistanceMatrixSize width = mWorkMatrix->getWidth();
+		mR = new DistanceMatrixValue[ width ];
+		memcpy( mR, src.mR, sizeof(DistanceMatrixValue) * width );
 	}
 	}	
 
@@ -58,12 +58,12 @@ void ImplTreetorDistanceNJ::startUp(
 	cleanUp();
 	ImplTreetorDistance::startUp( tree, mali);
 
-	PhyloMatrixSize width = mWorkMatrix->getWidth();
-	PhyloMatrixSize width_2 = width - 2;
+	DistanceMatrixSize width = mWorkMatrix->getWidth();
+	DistanceMatrixSize width_2 = width - 2;
 
-	mR = new PhyloMatrixValue[ width ];
+	mR = new DistanceMatrixValue[ width ];
 
-	PhyloMatrixSize i,k;
+	DistanceMatrixSize i,k;
 
 	for (i = 0; i < width; i++) 
 	{
@@ -87,14 +87,14 @@ void ImplTreetorDistanceNJ::cleanUp() const
 //------------------------------------------------------------------------------------------------------------------------------
 Node ImplTreetorDistanceNJ::joinNodes( 
 		HTree & tree,
-		PhyloMatrixSize cluster_1, 
-		PhyloMatrixSize cluster_2 ) const 
+		DistanceMatrixSize cluster_1, 
+		DistanceMatrixSize cluster_2 ) const 
 {
 	debug_func_cerr( 5 );	
 
-	PhyloMatrixValue d_ij = (*mWorkMatrix)( cluster_1, cluster_2 );
-	PhyloMatrixValue d_ik = (d_ij + mR[cluster_1] - mR[cluster_2]) / 2;
-	PhyloMatrixValue d_jk = d_ij - d_ik;
+	DistanceMatrixValue d_ij = (*mWorkMatrix)( cluster_1, cluster_2 );
+	DistanceMatrixValue d_ik = (d_ij + mR[cluster_1] - mR[cluster_2]) / 2;
+	DistanceMatrixValue d_jk = d_ij - d_ik;
 
 	debug_cerr( 5, "Joining nodes " <<
 			mIndices[cluster_1] << " (" << d_ik << ") with " << 
@@ -108,10 +108,10 @@ Node ImplTreetorDistanceNJ::joinNodes(
 
 //------------------------------------------------------------------------------------------------------------------------------
 void ImplTreetorDistanceNJ::swapHelpers( 
-		PhyloMatrixSize cluster_1, 
-		PhyloMatrixSize cluster_2) const 
+		DistanceMatrixSize cluster_1, 
+		DistanceMatrixSize cluster_2) const 
 {
-	PhyloMatrixValue t;
+	DistanceMatrixValue t;
 
 	t = mR[cluster_1];
 	mR[cluster_1] = mR[cluster_2];
@@ -122,13 +122,13 @@ void ImplTreetorDistanceNJ::swapHelpers(
 void ImplTreetorDistanceNJ::calculateMinimumDistance() const 
 {
 
-	PhyloMatrixValue min = std::numeric_limits<PhyloMatrixValue>::max();
+	DistanceMatrixValue min = std::numeric_limits<DistanceMatrixValue>::max();
 
-	PhyloMatrixSize row, col;
-	PhyloMatrixSize best_row = 0;
-	PhyloMatrixSize best_col = 0;
-	PhyloMatrixSize width = mWorkMatrix->getWidth();
-	PhyloMatrixValue d; 
+	DistanceMatrixSize row, col;
+	DistanceMatrixSize best_row = 0;
+	DistanceMatrixSize best_col = 0;
+	DistanceMatrixSize width = mWorkMatrix->getWidth();
+	DistanceMatrixValue d; 
 
 	// iterate through rows and columns, not through indices, since ri and rj have
 	// to be calculated, and looking up the row/col for a given index is slow.
@@ -155,8 +155,8 @@ void ImplTreetorDistanceNJ::calculateMinimumDistance() const
 //------------------------------------------------------------------------------------------------------------------------------
 void ImplTreetorDistanceNJ::updateDistanceMatrix( 
 		const HTree & tree,
-		PhyloMatrixSize cluster_1, 
-		PhyloMatrixSize cluster_2 ) const 
+		DistanceMatrixSize cluster_1, 
+		DistanceMatrixSize cluster_2 ) const 
 {
 
 	debug_func_cerr( 5 );
@@ -169,19 +169,19 @@ void ImplTreetorDistanceNJ::updateDistanceMatrix(
 	// 2. calculate new distance d_sk (k = new cluster, is stored in cluster_1, i.e. i)
 	// 3. mR[s]: add d_sk , divide by |L| - 3. 
 
-	PhyloMatrixSize s;
+	DistanceMatrixSize s;
 
-	PhyloMatrixValue new_r = 0;		// mR for new cluster
+	DistanceMatrixValue new_r = 0;		// mR for new cluster
 
-	PhyloMatrixSize last_row = mWorkMatrix->getWidth() - 1;
-	PhyloMatrixSize num_leaves_2 = last_row - 1;
-	PhyloMatrixSize num_leaves_3 = last_row - 2;
+	DistanceMatrixSize last_row = mWorkMatrix->getWidth() - 1;
+	DistanceMatrixSize num_leaves_2 = last_row - 1;
+	DistanceMatrixSize num_leaves_3 = last_row - 2;
 
 	if (num_leaves_3 == 0)
 		num_leaves_3 = 1;			
 
 	// iterate to lastrow. if s = cluster_1 d_ss, etc are 0, so nothing changes.
-	PhyloMatrixValue d_ij = (*mWorkMatrix)( cluster_1, cluster_2);
+	DistanceMatrixValue d_ij = (*mWorkMatrix)( cluster_1, cluster_2);
 
 	for (s = 0; s < last_row; s++) {
 
@@ -191,10 +191,10 @@ void ImplTreetorDistanceNJ::updateDistanceMatrix(
 		- (*mWorkMatrix)( cluster_2, s);
 
 		// calculate new value for d_ms
-		PhyloMatrixValue d_is = (*mWorkMatrix)( cluster_1, s );
-		PhyloMatrixValue d_js = (*mWorkMatrix)( cluster_2, s );
+		DistanceMatrixValue d_is = (*mWorkMatrix)( cluster_1, s );
+		DistanceMatrixValue d_js = (*mWorkMatrix)( cluster_2, s );
 
-		PhyloMatrixValue new_dist = (d_is + d_js - d_ij) / 2.0;
+		DistanceMatrixValue new_dist = (d_is + d_js - d_ij) / 2.0;
 
 		(*mWorkMatrix)( cluster_1, s) = new_dist; 
 		new_r += new_dist;

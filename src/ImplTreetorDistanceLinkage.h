@@ -44,7 +44,7 @@ class ImplTreetorDistanceLinkage : public ImplTreetorDistance
 
   /** empty constructor */
   ImplTreetorDistanceLinkage ( 
-		  const HPhyloMatrix & matrix, 
+		  const HDistanceMatrix & matrix, 
 		  LinkageType method );
 
   /** copy constructor */
@@ -62,14 +62,14 @@ class ImplTreetorDistanceLinkage : public ImplTreetorDistance
   /** update the distance matrix and other helper variables */
   virtual void updateDistanceMatrix(
 		  const HTree & tree,
-		  PhyloMatrixSize cluster_1, 
-		  PhyloMatrixSize cluster_2 ) const;
+		  DistanceMatrixSize cluster_1, 
+		  DistanceMatrixSize cluster_2 ) const;
 
   /** join two nodes and return the index of the added node */
   virtual Node joinNodes( 
 		  HTree & tree,
-		  PhyloMatrixSize cluster_i, 
-		  PhyloMatrixSize cluster_2 ) const;
+		  DistanceMatrixSize cluster_i, 
+		  DistanceMatrixSize cluster_2 ) const;
 
   /** method to use for calculating the distance between new and old clusters */
   LinkageType mMethod;

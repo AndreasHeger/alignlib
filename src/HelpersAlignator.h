@@ -56,7 +56,7 @@ namespace alignlib
  * @param penalize_left		Penalize gaps on left side of sequences (global alignment)
  * @param penalize_right	Penalize gaps on right side of sequences (global alignment).
  * 
- * @return a new HAlignator object.
+ * @return a new @ref Alignator object.
  * */
 HAlignator makeAlignatorDPFull( 
 		AlignmentType alignment_type,
@@ -68,7 +68,7 @@ HAlignator makeAlignatorDPFull(
  * 
  * This alignator object returns a non-linear alignment (dotplot).
  * 
- * @return a new HAlignator object.
+ * @return a new @ref Alignator object.
  */
 HAlignator makeAlignatorIdentity();
 
@@ -79,7 +79,7 @@ HAlignator makeAlignatorIdentity();
  * 
  * This alignator object returns a non-linear alignment (dotplot).
  * 
- * @return a new HAlignator object. 
+ * @return a new @ref Alignator object. 
  */
 HAlignator makeAlignatorSimilarity();
 
@@ -89,7 +89,7 @@ HAlignator makeAlignatorSimilarity();
  * 
  * This alignator object returns a non-linear alignment (dotplot).
  * 
- * @return a new HAlignator object.  
+ * @return a new @ref Alignator object.  
  *  
  */
 HAlignator makeAlignatorTuples(int ktuple = 3 );
@@ -97,13 +97,13 @@ HAlignator makeAlignatorTuples(int ktuple = 3 );
 /** make @ref Alignator object that returns a pre-built alignment.
  * 
  * This object can function as a place-holder for objects
- * that require a helper @Alignator object. Instead of re-aligning
+ * that require a helper @ref Alignator object. Instead of re-aligning
  * row and col, this object will simply return a copy of a
  * pre-computed alignment. 
  * 
  * @param ali	alignment to return on calling the align method.
  * 
- * @return a new HAlignator object.  
+ * @return a new @ref Alignator object.  
  * 
  */
 HAlignator makeAlignatorPrebuilt( const HAlignment & ali );
@@ -113,7 +113,7 @@ HAlignator makeAlignatorPrebuilt( const HAlignment & ali );
  * @param gop gap opening penalty.
  * @param gep gap extension penalty.
  * 
- * @return a new HAlignator object.  
+ * @return a new @ref Alignator object.  
  */
 HAlignator makeAlignatorDotsWrap(
 		const HAlignator & alignator,    		

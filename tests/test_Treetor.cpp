@@ -28,8 +28,8 @@
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
 #include "HelpersAlignatum.h"
-#include "PhyloMatrix.h"
-#include "HelpersPhyloMatrix.h"
+#include "DistanceMatrix.h"
+#include "HelpersDistanceMatrix.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
 #include "Tree.h"
@@ -41,7 +41,7 @@
 using namespace std;
 using namespace alignlib;
 
-PhyloMatrixValue source_linkage[]=  { 0.0, 4.0, 7.0, 4.0, 7.0,
+DistanceMatrixValue source_linkage[]=  { 0.0, 4.0, 7.0, 4.0, 7.0,
 				       4.0, 0.0, 7.0, 2.0, 7.0,
 				       7.0, 7.0, 0.0, 7.0, 2.0,
 				       4.0, 2.0, 7.0, 0.0, 7.0,
@@ -61,7 +61,7 @@ PhyloMatrixValue source_linkage[]=  { 0.0, 4.0, 7.0, 4.0, 7.0,
     ((2:0.4,0:0.1):0.05,(1:0.1,3:0.4):0.05)  
 */
 
-PhyloMatrixValue source_nj[] =  { 0.0, 0.3, 0.5, 0.6,
+DistanceMatrixValue source_nj[] =  { 0.0, 0.3, 0.5, 0.6,
 				   0.3, 0.0, 0.6, 0.5,
 				   0.5, 0.6, 0.0, 0.9,
 				   0.6, 0.5, 0.9, 0.0 };
@@ -91,7 +91,7 @@ int main ()
   
 	HTreetor treetor;
 	HDistor distor;
-	HPhyloMatrix matrix;
+	HDistanceMatrix matrix;
 
   //------------------------> Test 1<-----------------------------------------
   cout << "Test 1: create a tree from a multiple alignment:" << endl;
@@ -100,8 +100,8 @@ int main ()
   
   //------------------------> Test 2<-----------------------------------------
   cout << "Test 2: creating a tree from a distance matrix:" << endl;
-  matrix = makePhyloMatrixSymmetric(5);
-  fillPhyloMatrix( matrix, source_linkage );
+  matrix = makeDistanceMatrixSymmetric(5);
+  fillDistanceMatrix( matrix, source_linkage );
   
   distor = makeDistorDummy( matrix );
   treetor = makeTreetorDistanceLinkage( distor, UPGMA );
@@ -109,8 +109,8 @@ int main ()
   
   //------------------------> Test 2<-----------------------------------------
   cout << "Test 3: creating a tree from a distance matrix:" << endl;
-  matrix = makePhyloMatrixSymmetric(4);
-  fillPhyloMatrix( matrix, source_nj );
+  matrix = makeDistanceMatrixSymmetric(4);
+  fillDistanceMatrix( matrix, source_nj );
   
   distor = makeDistorDummy( matrix );
   treetor = makeTreetorDistanceNJ( distor );

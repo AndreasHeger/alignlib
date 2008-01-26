@@ -128,7 +128,7 @@ Node ImplTree::getParent( Node node) const
 	return mTree[node].mParent;
 }
 
-Node ImplTree::getNumChildren( Node node) const 
+Node ImplTree::getNumLeaves( Node node) const 
 {
 	return mTree[node].mNumChildren;
 }
@@ -154,7 +154,7 @@ void ImplTree::setWeight( Node child, Node parent, TreeWeight weight)
 }
 
 //-------------------------------------------------------< others >-------------------------------------------
-Node ImplTree::findRoot( const Node node) const 
+Node ImplTree::findLastParent( const Node node) const 
 {
 
 	Node n = node;
@@ -163,35 +163,25 @@ Node ImplTree::findRoot( const Node node) const
 	return n;
 }
 
-Node ImplTree::joinNodes( const Node node_1, 
+Node ImplTree::joinNodes( 
+		const Node node_1, 
 		const Node node_2,
 		const TreeWeight edge_weight_1, 
-		const TreeWeight edge_weight_2,
-		const bool map_parents) 
+		const TreeWeight edge_weight_2 )
 {
 
 	debug_func_cerr( 5 );
 
-	Node node1, node2;
+	mTree[node_1].mParent = mCurrentNode;
+	mTree[node_2].mParent = mCurrentNode;
 
-	if (map_parents) {
-		node1 = findRoot( node_1 );
-		node2 = findRoot( node_2 );
-	} else {
-		node1 = node_1;
-		node2 = node_2;
-	}
+	mTree[node_1].mWeight = edge_weight_1;
+	mTree[node_2].mWeight = edge_weight_2;
 
-	mTree[node1].mParent = mCurrentNode;
-	mTree[node2].mParent = mCurrentNode;
-
-	mTree[node1].mWeight = edge_weight_1;
-	mTree[node2].mWeight = edge_weight_2;
-
-	mTree[mCurrentNode].mLeftChild = node1;
-	mTree[mCurrentNode].mRightChild = node2;
-	mTree[mCurrentNode].mNumChildren = mTree[node1].mNumChildren + 
-	mTree[node2].mNumChildren;
+	mTree[mCurrentNode].mLeftChild = node_1;
+	mTree[mCurrentNode].mRightChild = node_2;
+	mTree[mCurrentNode].mNumChildren = mTree[node_1].mNumChildren + 
+	mTree[node_2].mNumChildren;
 
 	return mCurrentNode++;
 }

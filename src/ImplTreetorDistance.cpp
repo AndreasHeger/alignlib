@@ -15,8 +15,8 @@
 
 #include "ImplTreetorDistance.h"
 #include "Tree.h"
-#include "PhyloMatrix.h"
-#include "HelpersPhyloMatrix.h"
+#include "DistanceMatrix.h"
+#include "HelpersDistanceMatrix.h"
 #include "Distor.h"
 #include "AlignlibDebug.h"
 
@@ -51,7 +51,7 @@ void ImplTreetorDistance::startUp(
 
 	// create a distance matrix
 	assert( mali->getNumSequences() > 0);
-	mWorkMatrix = makePhyloMatrixSymmetric( mali->getNumSequences());
+	mWorkMatrix = makeDistanceMatrixSymmetric( mali->getNumSequences());
   
 	// call Distor for multiple alignment to fill matrix with distances
 	mDistor->calculateMatrix( mWorkMatrix, mali );
@@ -64,8 +64,8 @@ void ImplTreetorDistance::cleanUp() const
 
 //------------------------------------------------------------------------------------------------------------------------------
 void ImplTreetorDistance::swapHelpers( 
-		PhyloMatrixSize cluster_1, 
-		PhyloMatrixSize cluster_2) const 
+		DistanceMatrixSize cluster_1, 
+		DistanceMatrixSize cluster_2) const 
 {
 }
 
@@ -78,14 +78,14 @@ void ImplTreetorDistance::calculateTree(
 	debug_func_cerr( 5 );
 	startUp( tree, mali );
 
-	PhyloMatrixSize swap_temp;	// for swapping indices
+	DistanceMatrixSize swap_temp;	// for swapping indices
 
 #define SWAP(x,y) { swap_temp = x; x = y; y = swap_temp; }
 
 	//------------------------------------------------------------------------------------------
 	// start up 
-	PhyloMatrixSize width = mWorkMatrix->getWidth();
-	PhyloMatrixSize i;
+	DistanceMatrixSize width = mWorkMatrix->getWidth();
+	DistanceMatrixSize i;
   
 	/* in this algorithm I assume that the matrix I use is only a half-matrix using the lower diagonal */
 	tree->setNumLeaves( width );					// allocate memory for tree
@@ -97,7 +97,7 @@ void ImplTreetorDistance::calculateTree(
 	//----------------------------------------------------------------------------------------------------
 	// Perform hierarchical clustering
 
-	PhyloMatrixSize last_row = width - 1;
+	DistanceMatrixSize last_row = width - 1;
   
 	/* shrink distance matrix, until it contains only a single cluster */
 	while (last_row > 0) 
@@ -118,8 +118,8 @@ void ImplTreetorDistance::calculateTree(
 	--------
       */
     calculateMinimumDistance();
-    PhyloMatrixSize min_row = mMinimumCoord.row;
-    PhyloMatrixSize min_col = mMinimumCoord.col;
+    DistanceMatrixSize min_row = mMinimumCoord.row;
+    DistanceMatrixSize min_col = mMinimumCoord.col;
 
     debug_cerr( 5, "Joining nodes -> "  
 			    << "minimum distance :" << mMinimumValue << " " 
@@ -140,7 +140,7 @@ void ImplTreetorDistance::calculateTree(
 	-y--x---		yyyyyyyy
     */
 
-    PhyloMatrixSize second_row = last_row - 1;		// second to last row
+    DistanceMatrixSize second_row = last_row - 1;		// second to last row
 
     // exchange row with last row
     mWorkMatrix->swap( min_row, last_row);

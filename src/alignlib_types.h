@@ -125,9 +125,9 @@ struct Coordinate
 	unsigned long col;
 };
 
-typedef double PhyloMatrixValue;
+typedef double DistanceMatrixValue;
 
-typedef unsigned long PhyloMatrixSize;
+typedef unsigned long DistanceMatrixSize;
 } 
 
 #endif /*ALIGNLIB_DECLS_H_*/

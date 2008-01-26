@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "ImplDistorDummy.h"
-#include "PhyloMatrix.h"
+#include "DistanceMatrix.h"
 #include "AlignlibDebug.h"
 
 using namespace std;
@@ -19,13 +19,13 @@ using namespace std;
 namespace alignlib {
 
 //-------------------------> factory functions <-------------------------------------------------------------------------------
-HDistor makeDistorDummy( const HPhyloMatrix & matrix) 
+HDistor makeDistorDummy( const HDistanceMatrix & matrix) 
 {
   return HDistor( new ImplDistorDummy( matrix) );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplDistorDummy::ImplDistorDummy ( const HPhyloMatrix & matrix) : 
+ImplDistorDummy::ImplDistorDummy ( const HDistanceMatrix & matrix) : 
 	ImplDistor(), mMatrix(matrix) 
 {
 }
@@ -42,19 +42,19 @@ ImplDistorDummy::ImplDistorDummy (const ImplDistorDummy & src ) :
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplDistorDummy::getMaximumPossibleDistance() const 
+DistanceMatrixValue ImplDistorDummy::getMaximumPossibleDistance() const 
 {
     return mMatrix->getMaximum();
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplDistorDummy::calculateMatrix( HPhyloMatrix & matrix, 
+void ImplDistorDummy::calculateMatrix( HDistanceMatrix & matrix, 
 		const alignlib::HMultipleAlignment multali) const 
 {
 	debug_func_cerr( 5 );
 
-    PhyloMatrixSize i, j;
-    PhyloMatrixSize width = mMatrix->getWidth();
+    DistanceMatrixSize i, j;
+    DistanceMatrixSize width = mMatrix->getWidth();
     
     matrix->setWidth( width );
 
@@ -66,7 +66,7 @@ void ImplDistorDummy::calculateMatrix( HPhyloMatrix & matrix,
 } 
     
 //--------------------------------------------------------------------------------------------------------------------------------
-PhyloMatrixValue ImplDistorDummy::calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const 
+DistanceMatrixValue ImplDistorDummy::calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const 
 {
 	debug_func_cerr( 5 );
   
