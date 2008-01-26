@@ -3466,12 +3466,12 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::makeAlignatorGroupies
     
-        typedef ::alignlib::HAlignator ( *makeAlignatorGroupies_function_type )( ::alignlib::Position const,::alignlib::HAlignator const &,::alignlib::HAlignator const &,::alignlib::Score const &,::alignlib::Score const & );
+        typedef ::alignlib::HAlignator ( *makeAlignatorGroupies_function_type )( ::alignlib::Position const,::alignlib::Position const,::alignlib::HAlignator const &,::alignlib::HAlignator const &,::alignlib::Score const &,::alignlib::Score const & );
         
         bp::def( 
             "makeAlignatorGroupies"
             , makeAlignatorGroupies_function_type( &::alignlib::makeAlignatorGroupies )
-            , ( bp::arg("tube_size"), bp::arg("alignator_dots"), bp::arg("alignator_gaps"), bp::arg("gop"), bp::arg("gep") ) );
+            , ( bp::arg("tube_size"), bp::arg("tuple_size"), bp::arg("alignator_dots"), bp::arg("alignator_gaps"), bp::arg("gop"), bp::arg("gep") ) );
     
     }
 

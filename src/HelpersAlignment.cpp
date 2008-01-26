@@ -704,11 +704,13 @@ void fillAlignmentGaps(
 		const HAlignandum & col )
 		{
 	
+	debug_func_cerr( 5 );
+	
 	if ( dest->getLength() == 0) return;
 
 	HAlignment copy = dest->getClone();
 	HAlignment temp_map_row2col = makeAlignmentVector();
-
+	
 	AlignmentIterator it(copy->begin());
 	AlignmentIterator end(copy->end());
 
@@ -722,10 +724,14 @@ void fillAlignmentGaps(
 		if (it->mRow - last_row > 1 && it->mCol - last_col > 1)
 		{
 			temp_map_row2col->clear();
-			row->useSegment( last_row + 1, it->mRow - 1);
-			col->useSegment( last_col + 1, it->mCol - 1);	    
+			row->useSegment( last_row + 1, it->mRow);
+			col->useSegment( last_col + 1, it->mCol);	    
 			alignator->align( temp_map_row2col, row, col );
 			addAlignment2Alignment( dest, temp_map_row2col );
+			debug_cerr( 5, "filling gap between " << 
+					last_row << "-" << it->mRow << " and " << last_col << "-" << it->mCol << 
+					" with " << temp_map_row2col->getNumAligned() << " pairs");
+			
 		}
 		last_row = it->mRow;
 		last_col = it->mCol;
@@ -735,7 +741,7 @@ void fillAlignmentGaps(
 	col->useSegment();
 
 	return;
-		}
+}
 
 
 //-------------------------------------------------------------------------------------------------
@@ -875,6 +881,7 @@ void fillAlignmentRepeatUnit(
 		Position first_row_residue,
 		bool skip_negative_ends) 
 {
+	debug_func_cerr( 5 );
 
 	if (first_row_residue == 0)
 		first_row_residue = src->getRowFrom();
@@ -1001,6 +1008,7 @@ void expandAlignment( HAlignment & dest1,
  */
 void flattenAlignment( HAlignment & dest ) 
 {
+	debug_func_cerr( 5 );
 
 	AlignmentIterator it(dest->begin());
 	AlignmentIterator it_end(dest->end());
@@ -1044,6 +1052,7 @@ HFragmentVector splitAlignment(
 		const int max_gap_width,
 		bool split_row, bool split_col) 
 {
+	debug_func_cerr( 5 );
 
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
@@ -1089,7 +1098,9 @@ HFragmentVector splitAlignment(
 		const HAlignment & src2, 
 		const CombinationMode mode ) 
 		{
-
+	
+	debug_func_cerr( 5 );
+	
 	AlignmentIterator it1(src1->begin());
 	AlignmentIterator it1_end(src1->end());
 
@@ -1159,14 +1170,14 @@ void fillAlignmentGaps(
 		{
 	debug_func_cerr(5);
 
-
 	AlignmentIterator it(dest->begin());
 	AlignmentIterator it_end(dest->end());
 
 	Position last_row = it->mRow;
 	Position last_col = it->mCol;
 
-	for (; it != it_end; ++it ) {
+	for (; it != it_end; ++it ) 
+	{
 
 		Position this_row = it->mRow;
 		Position this_col = it->mCol;
@@ -1175,8 +1186,10 @@ void fillAlignmentGaps(
 
 		if ( gap_row > 0 && 
 				gap_row <= max_length &&
-				gap_row == (this_col - last_col - 1) ) {
-			while (++last_row < this_row) {
+				gap_row == (this_col - last_col - 1) ) 
+		{
+			while (++last_row < this_row) 
+			{
 				++last_col;
 				dest->addPair( ResiduePair(last_row, last_col, 0));
 			}
@@ -1186,8 +1199,8 @@ void fillAlignmentGaps(
 		last_col = this_col;
 	}
 
-	return;
-		}
+	return;	
+}
 
 /* remove small fragments from alignment.
     This method removes fragments from an alignment. A fragment

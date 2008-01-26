@@ -45,7 +45,7 @@ AC_SUBST(ALIGNLIB_VERSION)
 
 AM_INIT_AUTOMAKE([alignlib],$VERSION)
 
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADER([config.h])
 
 # check for tools
 AC_PROG_CC
@@ -56,14 +56,16 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
+## include custom macros
+ACLOCAL_AMFLAGS=-I m4
+AC_CONFIG_MACRO_DIR( [m4] )
+
 # AX_BOOST_BASE([1.34.1])
 
 for top_builddir in . .. ../.. $ac_auxdir $ac_auxdir/..; do
              test -f $top_builddir/configure && break
 done  
 
-# enable libtool. AM_PROG_LIBTOOL is deprecated,
-# AC_PROG_LIBTOOL does not work with automake1.4 yet.
 AC_PROG_LIBTOOL  
 
 adl_ENABLE_HTML_DOC()

@@ -70,6 +70,7 @@ namespace alignlib
        * */
       ImplAlignatorGroupies( 
     		  const Position tube_size,
+    		  const Position tuple_size,
     		  const HAlignator & alignator_dots,
     		  const HAlignator & alignator_gaps,
     		  const Score & gop,
@@ -114,6 +115,10 @@ namespace alignlib
     	/** gap extension penalty 
     	 */
     	Score mGep;
+    	
+    	/** the tuple size
+    	 */
+    	Position mTupleSize;
     };
   
 }

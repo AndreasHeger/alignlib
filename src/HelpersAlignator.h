@@ -162,7 +162,8 @@ HAlignator makeAlignatorIterative(
  * See @ref ImplAlignatorGroupies for an explanation of the
  * algorithm. 
  * 
- * @param tube_size 		size of the tube in which alignment is performed
+ * @param tube_size 		size of the tube in which alignment is performed.
+ * @param tuple_size		tuple size. Gaps of this size are filled.
  * @param alignator_dots	@ref Alignator to build dots.
  * @param alignator_gaps	@ref Alignator to use to fill in gaps.
  * @param gop				gap opening penalty.
@@ -171,6 +172,7 @@ HAlignator makeAlignatorIterative(
 
 HAlignator makeAlignatorGroupies(
 		const Position tube_size,
+		const Position tuple_size,
 		const HAlignator & alignator_dots,
 		const HAlignator & alignator_gaps,
 		const Score & gop,

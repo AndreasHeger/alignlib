@@ -96,12 +96,13 @@ void ImplAlignatorTuples::align(
 		tuples[row_sequence.substr(xrow, mKtuple)].push_back(xrow);
 
 #ifdef DEBUG
-	cout << "Tuples " << endl;
-	for (TUPLES::iterator it = tuples.begin(); it != tuples.end(); ++it) {
-		cout << (*it).first << endl;
+	debug_cerr( 5, "Tuples " );
+	for (TUPLES::iterator it = tuples.begin(); it != tuples.end(); ++it) 
+	{
+		std::cerr << (*it).first << "\t" ;
 		vector<int> & v = tuples[(*it).first];
-		copy(v.begin(), v.end(), std::ostream_iterator<int>(cout, " "));
-		cout << endl;
+		copy(v.begin(), v.end(), std::ostream_iterator<int>(std::cerr, " "));
+		std::cerr << endl;
 	}
 #endif
 

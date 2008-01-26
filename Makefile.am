@@ -12,6 +12,8 @@
 EXTRA_DIST = configure
 SUBDIRS = m4 doc src tests bench python
 
+ACLOCAL_AMFLAGS=-I m4
+
 cvs-dist:
 	pkg=`echo "@PACKAGE@" | tr a-z A-Z`; \
 	ver=`echo "@VERSION@" | sed 's/\./_/g'`; \

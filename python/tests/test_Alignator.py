@@ -148,8 +148,7 @@ class AlignatorGroupiesTestCase( AlignatorTestCase ):
             self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
         else:
             self.assertEqual( self.mAlignmentA2B.getLength(), 5 )
-        
-
+                
 class AlignatorDPWrapTestCase( AlignatorTestCase ):
 
     def setUp( self ):

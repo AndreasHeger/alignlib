@@ -43,9 +43,35 @@
 #include "AlignmentIterator.h"
 
 using namespace std;
-
-
 using namespace alignlib;
+
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
+
+BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps1 )
+{
+	HAlignment ali( makeAlignmentVector() );
+	addDiagonal2Alignment( ali, 0, 5, 0);
+	addDiagonal2Alignment( ali, 6,10, 0);
+	std::cout << AlignmentFormatEmissions( ali ) << std::endl;
+	fillAlignmentGaps( ali, 3 );
+	std::cout << AlignmentFormatEmissions( ali ) << std::endl;
+	BOOST_CHECK_EQUAL( ali->getNumGaps(), 0);
+	BOOST_CHECK_EQUAL( ali->getLength(), 10);
+}
+
+/*
+BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps2)
+{
+	HAlignment ali( makeAlignmentVector() );
+	addDiagonal2Alignment( ali, 1481, 1522, -1481);
+	addDiagonal2Alignment( ali, 1523, 1597, -1481);
+	std::cout << AlignmentFormatEmissions( ali ) << std::endl;
+	fillAlignmentGaps( ali, 3 );
+	std::cout << AlignmentFormatEmissions( ali ) << std::endl;
+}
+*/
 
 /*
 bool TestCompressionMonotone( HAlignment & a, 
@@ -190,11 +216,9 @@ void TestDiagonal(HAlignment & a)
 	*/
 	Test( a );
 }
-
 // tests for monotone alignments
 void TestMonotone( HAlignment & a) 
 {
-
 	/*
 	{ 
 		cout << "testing...fill/writeAlignmentCompressed()...";
@@ -225,8 +249,7 @@ void TestMonotone( HAlignment & a)
 	}
 	Test( a );
 }
-
-
+/*
 int main () {
 
 	HAlignment a;
@@ -265,7 +288,7 @@ int main () {
 
 }
 
-
+*/
 
 
 
