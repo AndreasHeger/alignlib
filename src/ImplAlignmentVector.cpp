@@ -113,8 +113,6 @@ void ImplAlignmentVector::addPair( const ResiduePair & new_pair )
 		mPairs.resize( needed_size * GROWTH_FACTOR, ResiduePair() );
 
 	mPairs[new_row] = new_pair;
-	
-	setChangedLength();
 } 
 
 //--------------------------------------------------------------------------------------------------------------

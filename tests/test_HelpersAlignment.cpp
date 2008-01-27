@@ -35,12 +35,6 @@
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
-#include "Alignandum.h"
-#include "HelpersScorer.h"
-
-#include "Alignment.h"
-#include "HelpersAlignment.h"
-#include "AlignmentIterator.h"
 
 using namespace std;
 using namespace alignlib;
@@ -54,12 +48,21 @@ BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps1 )
 	HAlignment ali( makeAlignmentVector() );
 	addDiagonal2Alignment( ali, 0, 5, 0);
 	addDiagonal2Alignment( ali, 6,10, 0);
-	std::cout << AlignmentFormatEmissions( ali ) << std::endl;
 	fillAlignmentGaps( ali, 3 );
-	std::cout << AlignmentFormatEmissions( ali ) << std::endl;
 	BOOST_CHECK_EQUAL( ali->getNumGaps(), 0);
-	BOOST_CHECK_EQUAL( ali->getLength(), 10);
+	BOOST_CHECK_EQUAL( ali->getLength(), 10);	
 }
+
+// test filling an empty alignment
+BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps2 )
+{
+	HAlignment ali( makeAlignmentVector() );
+	fillAlignmentGaps( ali, 3 );
+	BOOST_CHECK_EQUAL( ali->getNumGaps(), 0);
+	BOOST_CHECK_EQUAL( ali->getLength(), 0);	
+}
+
+
 
 /*
 BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps2)

@@ -100,7 +100,7 @@ void copyAlignment(
 		Position col_to,
 		Diagonal diagonal_from,
 		Diagonal diagonal_to ) 
-		{
+{
 	debug_func_cerr(5);
 
 
@@ -146,7 +146,7 @@ void copyAlignment(
 	}
 
 	return;
-		}
+}
 //-----------------------------------------------------------------------------------------------
 void copyAlignmentWithoutRegion( 
 		HAlignment & dest, 
@@ -157,7 +157,7 @@ void copyAlignmentWithoutRegion(
 		Position col_to,
 		Diagonal diagonal_from,
 		Diagonal diagonal_to ) 
-		{
+{
 	debug_func_cerr(5);
 
 
@@ -197,13 +197,13 @@ void copyAlignmentWithoutRegion(
 	}
 
 	return;
-		}
+}
 //-----------------------------------------------------------------------------------------------
 void copyAlignment( HAlignment & dest, 
 		const HAlignment & src,
 		const HAlignment & filter, 
 		const CombinationMode mode ) 
-		{
+{
 	debug_func_cerr(5);
 
 
@@ -235,13 +235,13 @@ void copyAlignment( HAlignment & dest,
 	}
 
 	return;
-		}
+}
 
 //----------------------------------------------------------------------------------
 void addAlignment2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src ) 
-		{
+{
 	debug_func_cerr(5);
 
 
@@ -254,14 +254,14 @@ void addAlignment2Alignment(
 	dest->setScore( dest->getScore() + src->getScore());
 
 	return;
-		}
+}
 //----------------------------------------------------------------------------------
 void addMappedAlignment2Alignment( 
 		HAlignment & dest, 
 		const HAlignment & src, 
 		const HAlignment & map_src2new,
 		const CombinationMode mode ) 
-		{
+{
 	debug_func_cerr(5);
 
 	AlignmentIterator it(src->begin());
@@ -287,7 +287,7 @@ void addMappedAlignment2Alignment(
 	dest->setScore( dest->getScore() + src->getScore());
 
 	return;
-		}
+}
 
 //----------------------------------------------------------------------------------
 void addMappedAlignments2Alignment( 
@@ -295,7 +295,7 @@ void addMappedAlignments2Alignment(
 		const HAlignment & src, 
 		const HAlignment & map_src_row2dest_row, 
 		const HAlignment & map_src_col2dest_col ) 
-		{
+{
 	debug_func_cerr(5);
 
 	AlignmentIterator it(src->begin());
@@ -314,7 +314,7 @@ void addMappedAlignments2Alignment(
 	dest->setScore( dest->getScore() + src->getScore());
 
 	return;
-		}
+}
 
 //-----------------------------------------------------------------------------------------
 void combineAlignment( 
@@ -615,7 +615,7 @@ void filterAlignmentRemovePairwiseSorted(
 		HAlignment & dest, 
 		const HAlignment & filter, 
 		const CombinationMode mode ) 
-		{
+{
 	debug_func_cerr(5);
 
 
@@ -678,14 +678,14 @@ void filterAlignmentRemovePairwiseSorted(
 	}
 
 	return;
-		}
+}
 
 void addDiagonal2Alignment( 
 		HAlignment & dest, 
 		Position row_from, 
 		Position row_to, 
 		Position col_offset) 
-		{
+{
 	debug_func_cerr(5);
 
 	Position i;
@@ -693,7 +693,7 @@ void addDiagonal2Alignment(
 		dest->addPair( ResiduePair( i, i + col_offset, 0));
 
 	return;
-		}
+}
 
 //-------------------------------------------------------------------------------------------------
 
@@ -702,15 +702,15 @@ void fillAlignmentGaps(
 		const HAlignator &  alignator,
 		const HAlignandum & row,
 		const HAlignandum & col )
-		{
-	
+{
+
 	debug_func_cerr( 5 );
-	
+
 	if ( dest->getLength() == 0) return;
 
 	HAlignment copy = dest->getClone();
 	HAlignment temp_map_row2col = makeAlignmentVector();
-	
+
 	AlignmentIterator it(copy->begin());
 	AlignmentIterator end(copy->end());
 
@@ -731,7 +731,7 @@ void fillAlignmentGaps(
 			debug_cerr( 5, "filling gap between " << 
 					last_row << "-" << it->mRow << " and " << last_col << "-" << it->mCol << 
 					" with " << temp_map_row2col->getNumAligned() << " pairs");
-			
+
 		}
 		last_row = it->mRow;
 		last_col = it->mCol;
@@ -800,7 +800,7 @@ void rescoreAlignment(
 		const HAlignandum & row,
 		const HAlignandum & col, 
 		const HScorer & scorer )
-		{
+{
 	debug_func_cerr(5);
 
 	AlignmentIterator it(dest->begin());
@@ -813,13 +813,13 @@ void rescoreAlignment(
 	}	
 
 	return;
-	}
+}
 
 //----------------------------------------------------------------------------------------------------
 void rescoreAlignment( 
 		HAlignment & dest,
 		const Score score ) 
-		{
+{
 	debug_func_cerr(5);
 
 	AlignmentIterator it(dest->begin());
@@ -832,7 +832,7 @@ void rescoreAlignment(
 	}
 
 	return;
-	}
+}
 
 
 //----------------------------------------------------------------------------------------------------
@@ -840,7 +840,7 @@ void calculateAffineScore(
 		HAlignment & dest,
 		const Score gop, 
 		const Score gep) 
-		{
+{
 	debug_func_cerr(5);
 
 	Score score = 0;
@@ -1097,10 +1097,10 @@ HFragmentVector splitAlignment(
 		const HAlignment & src1, 
 		const HAlignment & src2, 
 		const CombinationMode mode ) 
-		{
-	
+{
+
 	debug_func_cerr( 5 );
-	
+
 	AlignmentIterator it1(src1->begin());
 	AlignmentIterator it1_end(src1->end());
 
@@ -1167,8 +1167,10 @@ HFragmentVector splitAlignment(
 void fillAlignmentGaps( 
 		HAlignment & dest, 
 		const Position max_length ) 
-		{
+{
 	debug_func_cerr(5);
+
+	if (dest->getLength() == 0) return;
 
 	AlignmentIterator it(dest->begin());
 	AlignmentIterator it_end(dest->end());
