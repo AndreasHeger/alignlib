@@ -12,3 +12,9 @@
 # all: documentation
 
 EXTRA_DIST=setup.py includes.h alignlib.cpp
+
+python:
+	python setup.py build
+	
+install-exec-hook:
+	python setup.py install

@@ -1,5 +1,14 @@
 /* config.h.in.  Generated from configure.in by autoheader.  */
 
+/* define if the Boost library is available */
+#undef HAVE_BOOST
+
+/* define if the Boost::Python library is available */
+#undef HAVE_BOOST_PYTHON
+
+/* define if the Boost::Unit_Test_Framework library is available */
+#undef HAVE_BOOST_UNIT_TEST_FRAMEWORK
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
