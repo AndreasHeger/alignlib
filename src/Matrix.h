@@ -195,6 +195,7 @@ public:
 		memcpy( buffer,             &mMatrix[x*mCols], s );
 		memcpy( &mMatrix[x*mCols], &mMatrix[y*mCols], s );
 		memcpy( &mMatrix[y*mCols], buffer           , s );
+		delete [] buffer;
 	}
 	
 	/** permute rows in matrix.

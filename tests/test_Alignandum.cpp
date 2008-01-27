@@ -154,6 +154,7 @@ void testAlignandum( HAlignandum & a, const std::string & sample )
 	std::cout << "--- testing released --- " << std::endl;	
 	a->release();
 	runTests( a, sample);
+	
 }
 
 
@@ -163,16 +164,26 @@ int main ()
 	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
 	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
 	{
+		std::cout << "--- testing Sequence ----" << std::endl;
 		HAlignandum a(makeSequence( "ACA") );
 		testAlignandum( a, "ACA" );
 	}
 
+
 	{
+		std::cout << "--- testing masked Sequence ----" << std::endl;
+		HAlignandum a(makeSequence( "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") );
+		testAlignandum( a, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" );
+	}
+
+	{
+		std::cout << "--- testing Sequence - protein 20 ----" << std::endl;		
 		HAlignandum a(makeSequence( ref_protein20 ) );
 		testAlignandum( a, ref_protein20 );    
 	}
 
 	{
+		std::cout << "--- testing Profile----" << std::endl;		
 		HAlignandum a(makeProfile( ref_protein20x3, 3) );
 		testAlignandum( a, ref_protein20  );    
 	}

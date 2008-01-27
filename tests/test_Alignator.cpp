@@ -355,7 +355,7 @@ int main () {
 		testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
 		testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
 		testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+2-2+3", 0,  7,      "+7", 34 );
-		testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+8-1+7",0,  15,  "+7-1+8", 112 );
+		testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",0,  15,  "+15", 150 );
 	}
 	
 	

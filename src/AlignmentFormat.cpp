@@ -30,20 +30,17 @@ using namespace std;
 namespace alignlib 
 {
 
-inline Diagonal calculateDiagonal( const ResiduePair & p) 
-{ 
-	return (p.mCol - p.mRow); 
-}
-
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-AlignmentFormat::AlignmentFormat() : 
+AlignmentFormat::AlignmentFormat() 
+: 
 	mRowFrom(NO_POS), mRowTo(NO_POS), mColFrom(NO_POS), mColTo(NO_POS)
 	{
 	}
 
-AlignmentFormat::AlignmentFormat( const AlignmentFormat & src) : 
+AlignmentFormat::AlignmentFormat( const AlignmentFormat & src) 
+: 
 	mRowFrom(src.mRowFrom), mRowTo(src.mRowTo), 
 	mColFrom(src.mColFrom), mColTo(src.mColTo)
 	{
@@ -113,29 +110,29 @@ std::istream & operator>> (std::istream & input, AlignmentFormat & dest)
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-AlignmentFormatBlocks::AlignmentFormatBlocks() : 
-	AlignmentFormat()
-	{
-	}
+AlignmentFormatBlocks::AlignmentFormatBlocks() 
+: AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
+{
+}
 
-AlignmentFormatBlocks::AlignmentFormatBlocks( std::istream & input ) : 
-	AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
-	{
+AlignmentFormatBlocks::AlignmentFormatBlocks( std::istream & input ) 
+: AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
+{
 	load( input );
-	}
+}
 
-AlignmentFormatBlocks::AlignmentFormatBlocks( const std::string & src) : 
-	AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
+AlignmentFormatBlocks::AlignmentFormatBlocks( const std::string & src) 
+: AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
 	{
 	std::istringstream i(src.c_str());
 	load( i );
 	}
 
-AlignmentFormatBlocks::AlignmentFormatBlocks( const HAlignment & src) : 
-	AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
-	{
+AlignmentFormatBlocks::AlignmentFormatBlocks( const HAlignment & src) 
+: AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
+{
 	fill( src );
-	}
+}
 
 
 AlignmentFormatBlocks::~AlignmentFormatBlocks () 
@@ -145,9 +142,9 @@ AlignmentFormatBlocks::~AlignmentFormatBlocks ()
 	mBlockSizes.clear();
 }
 
-AlignmentFormatBlocks::AlignmentFormatBlocks (const AlignmentFormatBlocks & src ) :
-	AlignmentFormat( src )
-	{
+AlignmentFormatBlocks::AlignmentFormatBlocks (const AlignmentFormatBlocks & src ) 
+: AlignmentFormat( src )
+{
 	mRowStarts.clear();
 	mColStarts.clear();
 	mBlockSizes.clear();
@@ -162,7 +159,7 @@ AlignmentFormatBlocks::AlignmentFormatBlocks (const AlignmentFormatBlocks & src 
 			src.mBlockSizes.end(), 
 			std::back_inserter< PositionVector>(mBlockSizes)) ;
 
-	}
+}
 
 void AlignmentFormatBlocks::fill( const HAlignment & src)
 {
@@ -277,31 +274,37 @@ void AlignmentFormatBlocks::load(std::istream & input)
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-AlignmentFormatEmissions::AlignmentFormatEmissions() : 
-	AlignmentFormat(),
-	mRowAlignment(""),
-	mColAlignment("")	
-	{
-	}
+AlignmentFormatEmissions::AlignmentFormatEmissions() 
+: AlignmentFormat(),
+mRowAlignment(""),
+mColAlignment("")	
+{
+}
 
-AlignmentFormatEmissions::AlignmentFormatEmissions( const HAlignment & src) : 
-	AlignmentFormat()
-	{
+AlignmentFormatEmissions::AlignmentFormatEmissions( const HAlignment & src) 
+:  AlignmentFormat(),
+mRowAlignment(""),
+mColAlignment("")
+{
 	fill( src );
-	}
+}
 
-AlignmentFormatEmissions::AlignmentFormatEmissions( std::istream & src) : 
-	AlignmentFormat()
-	{
+AlignmentFormatEmissions::AlignmentFormatEmissions( std::istream & src) 
+: AlignmentFormat(),
+mRowAlignment(""),
+mColAlignment("")	
+{
 	load( src );
-	}
+}
 
-AlignmentFormatEmissions::AlignmentFormatEmissions( const std::string & src) : 
-	AlignmentFormat()
-	{
+AlignmentFormatEmissions::AlignmentFormatEmissions( const std::string & src) 
+: AlignmentFormat(),
+mRowAlignment(""),
+mColAlignment("")	
+{
 	std::istringstream i(src.c_str());
 	load( i );
-	}
+}
 
 
 AlignmentFormatEmissions::~AlignmentFormatEmissions () 
@@ -321,7 +324,7 @@ void AlignmentFormatEmissions::fill( const HAlignment & src)
 
 	AlignmentFormat::fill( src );
 
-	// sanity checks
+	// sanity check
 	if (src->isEmpty()) return;
 
 	AlignmentIterator it(src->begin());
@@ -523,32 +526,39 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 		const HAlignment & src,
 		const HAlignandum & row,
 		const HAlignandum & col) 
-: AlignmentFormat()
+: AlignmentFormat(),
+mRowAlignment(""),
+mColAlignment("")
 {
 	fill( src, row, col );
 }
-
 AlignmentFormatExplicit::AlignmentFormatExplicit( 
 		std::istream & src )
-: AlignmentFormat()
+: AlignmentFormat(),
+mRowAlignment(""),
+mColAlignment("")		
 {
 	load( src );
 }
+		
+AlignmentFormatExplicit::AlignmentFormatExplicit( const std::string & src) 
+: AlignmentFormat(), 
+mRowAlignment(""),
+mColAlignment("")
+{
+	std::istringstream i(src.c_str());
+	load( i );
+}
 
-				AlignmentFormatExplicit::AlignmentFormatExplicit( const std::string & src) : 
-					AlignmentFormat()
-					{
-					std::istringstream i(src.c_str());
-					load( i );
-					}
-
-				AlignmentFormatExplicit::AlignmentFormatExplicit(
-						const Position row_from,
-						const std::string & row,
-						const Position col_from,
-						const std::string & col) : 
-							AlignmentFormat(), mRowAlignment( row ), mColAlignment( col )
-							{
+AlignmentFormatExplicit::AlignmentFormatExplicit(
+		const Position row_from,
+		const std::string & row,
+		const Position col_from,
+		const std::string & col) 
+: AlignmentFormat(), 
+mRowAlignment( row ), 
+mColAlignment( col )
+{
 							mRowFrom = row_from;
 							mColFrom = col_from;
 							mRowTo = row_from + getDefaultEncoder()->countChars( mRowAlignment );
@@ -647,44 +657,44 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 							input >> mRowFrom >> mRowTo >> mRowAlignment >> mColFrom >> mColTo >> mColAlignment;
 						}
 
-						//-----------------------------------------------------------------------
-						//-----------------------------------------------------------------------
-						//-----------------------------------------------------------------------
-						AlignmentFormatDiagonals::AlignmentFormatDiagonals() 
-						: AlignmentFormat(), mAlignment("")
-						{
-						}
+//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+AlignmentFormatDiagonals::AlignmentFormatDiagonals() 
+: AlignmentFormat(), mAlignment("")
+{
+}
+	
+AlignmentFormatDiagonals::AlignmentFormatDiagonals( 
+		const HAlignment & src)
+: AlignmentFormat(), mAlignment("")
+{
+			fill( src);
+}
 
-						AlignmentFormatDiagonals::AlignmentFormatDiagonals( 
-								const HAlignment & src) 
-						: AlignmentFormat()
-						{
-							fill( src);
-						}
-
-								AlignmentFormatDiagonals::AlignmentFormatDiagonals( 
-										std::istream & src) : 
-											AlignmentFormat()	
-											{
+AlignmentFormatDiagonals::AlignmentFormatDiagonals( 
+		std::istream & src) 
+: AlignmentFormat(), mAlignment("")
+{
 											load(src);
 											}
 
-										AlignmentFormatDiagonals::AlignmentFormatDiagonals( const std::string & src) : 
-											AlignmentFormat()
-											{
-											std::istringstream i(src.c_str());
-											load( i );
-											}
+AlignmentFormatDiagonals::AlignmentFormatDiagonals( const std::string & src)  
+	: AlignmentFormat(), mAlignment("")
+	{
+	std::istringstream i(src.c_str());
+	load( i );
+	}
 
-										AlignmentFormatDiagonals::~AlignmentFormatDiagonals () 
-										{
-										}
+AlignmentFormatDiagonals::~AlignmentFormatDiagonals () 
+{
+}
 
-										AlignmentFormatDiagonals::AlignmentFormatDiagonals (const AlignmentFormatDiagonals & src ) :
-											AlignmentFormat( src ), 
-											mAlignment( src.mAlignment ) 
-											{
-											}
+AlignmentFormatDiagonals::AlignmentFormatDiagonals (const AlignmentFormatDiagonals & src ) 
+:	AlignmentFormat( src ), 
+	mAlignment( src.mAlignment ) 
+{
+}
 
 										void AlignmentFormatDiagonals::fill( 
 												const HAlignment & src )
@@ -736,7 +746,7 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 											AlignmentIterator it(src->begin());
 											AlignmentIterator it_end(src->end());
 
-											Diagonal last_diagonal = calculateDiagonal( *it );
+											Diagonal last_diagonal = it->getDiagonal();
 											Diagonal this_diagonal = 0;
 
 											Position this_row	 = it->mRow;
@@ -753,7 +763,7 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 											for (;it!= it_end; ++it) 
 											{
 
-												this_diagonal = calculateDiagonal(*it);
+												this_diagonal = it->getDiagonal();
 												this_row      = it->mRow;
 												this_col      = it->mCol;
 
