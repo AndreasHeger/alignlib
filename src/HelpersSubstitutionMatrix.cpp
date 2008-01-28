@@ -262,7 +262,7 @@ HSubstitutionMatrix loadSubstitutionMatrix(
 	
 	Score value;
 	char c;
-	char * buffer = new char[BUFFER_SIZE];
+	char buffer[BUFFER_SIZE];
 	while (!input.eof())
 	{
 		input.getline( buffer, BUFFER_SIZE );
@@ -298,7 +298,6 @@ HSubstitutionMatrix loadSubstitutionMatrix(
 		}	
 	}
 	return matrix;
-	delete [] buffer;
 }
 
 } // namespace alignlib

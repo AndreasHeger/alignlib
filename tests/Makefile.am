@@ -8,12 +8,25 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+EXTRA_DIST=data/PAM30 data/BLOSUM62
+
 AM_CPPFLAGS = -I$(top_srcdir)/src
 
-programs=test_Fragmentor test_AlignatorDots test_Alignment  test_Alignator \
-		test_MultipleAlignment test_Alignandum test_HelpersAlignment test_Statistics \
-		test_SubstitutionMatrix test_Iterator test_Alignatum \
-		test_Tree test_Treetor test_PhyloMatrix test_Distor \
+programs=test_Fragmentor \
+		test_AlignatorDots \
+		test_Alignment \
+		test_Alignator \
+		test_MultipleAlignment \
+		test_Alignandum \
+		test_HelpersAlignment \
+		test_Statistics \
+		test_SubstitutionMatrix \
+		test_Iterator \
+		test_Alignatum \
+		test_Tree \
+		test_Treetor \
+		test_PhyloMatrix \
+		test_Distor \
 		test_Weightor \
 		test_Encoder \
 		test_LogOddor \
