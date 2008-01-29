@@ -176,6 +176,10 @@ mGep(gep)
 			fillAlignmentGaps( result, mTupleSize );
 			debug_cerr( 5, "-> gaps after filling constant size gaps of size " << mTupleSize << " : " << result->getNumGaps() );
 			
+			// calculate alignment score
+			rescoreAlignment( result, row, col, mScorer ); 
+			calculateAffineScore( result, mGop, mGep );
+			
 			cleanUp(result, row, col );
 		}
 

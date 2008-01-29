@@ -85,12 +85,12 @@ namespace alignlib
 
     private:
 
-      /** template objects for iterators */
-      HIterator2D mIteratorTemplate;
-      
       /** template for scorer */
       HScorer mScorerTemplate;
       
+      /** template objects for iterators */
+      HIterator2D mIteratorTemplate;
+            
     };
   
 }
