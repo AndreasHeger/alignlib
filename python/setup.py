@@ -288,11 +288,11 @@ def exportHandles( mb ):
     These are shared_ptr<> typedefs.     
     """
     handles_to_export = ['HAlignandum',
-                              'HMultipleAlignment',
-                              'HAlignator',
-                              'HEncoder',
-                              'HFragmentor',
-                              'HAlignment',
+                         'HMultipleAlignment',
+                        'HAlignator',
+                        'HEncoder',
+                        'HFragmentor',
+                        'HAlignment',
                               'HScorer',
                               'HWeightor',
                               'HRenderer',
@@ -304,6 +304,7 @@ def exportHandles( mb ):
                               'HTreetor',
                               'HTree',
                               'HPhyloMatrix',
+                              'HFragmentVector',
                               ]
 
     for handle in handles_to_export:
@@ -326,20 +327,53 @@ def exportHandles( mb ):
         # d.rename( handle )
         # d.alias = handle
 
-def exportTemplates( mb ):
-    """include templated classes.
+def exportContainers( mb ):
+    """include containers of complex types. 
+    
+    Containers for atomic types worked out of the box, but
+    I could not get the name mapping right for containers
+    containing complex types like handle classes. I thus
+    add explicit code.
+    """
+
+# The following did not work:
+#    template_translations = { 'vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >': 'FragmentVector',
+#                             }
+#      
+#    ## first include the whole class, then exclude specific member functions
+#    declarations_to_export = set( template_translations.keys() )
+#    mb.decls( lambda x: x.name in declarations_to_export ).include()
+#
+#    for old, new in template_translations.items():
+#        cls = mb.class_( old )
+#        cls.rename( new )
+#        cls.alias = new
+
+    vectors_to_export = ( { 'name' : 'FragmentVector', 'handle' : 'HAlignment' }, )
+
+    for data in vectors_to_export:
+        
+        code = """
+        { //::std::vector<%(handle)s, std::allocator<%(handle)s> >
+        typedef bp::class_< std::vector<alignlib::%(handle)s, std::allocator<alignlib::%(handle)s> > > %(name)s_exposer_t;
+        %(name)s_exposer_t %(name)s_exposer = %(name)s_exposer_t( "%(name)s" );
+        bp::scope %(name)s_scope( %(name)s_exposer );
+        %(name)s_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::%(handle)s, std::allocator<alignlib::%(handle)s> >, true >() );
+        }
+
+        bp::register_ptr_to_python< boost::shared_ptr<alignlib::%(name)s> >();
+        """ % data
+
+        mb.add_registration_code( code, tail=True )
+
+def exportMatrices( mb ):
+    """include matrix classes.
     """
     
-    # export_templates = ("SubstitutionMatrix", )
-    # 
-    # for name in export_templates:
-    #     continue
-    #    mb.typedef( name ).include()
-                
     ## Deal with templated matrix class
     template_translations = { 'Matrix<double>' : 'MatrixDouble',
                               'Matrix<unsigned>' : 'MatrixUInt',  
-                              'Matrix<int>' : 'MatrixInt',  
+                              'Matrix<int>' : 'MatrixInt',
                               }
 
     ## first include the whole class, then exclude specific member functions
@@ -409,7 +443,9 @@ def buildModule( include_paths, dest, options) :
     ## Every declaration will be exposed at its own line
     mb.classes().always_expose_using_scope = True
 
-    exportTemplates( mb )
+    exportContainers( mb )
+
+    exportMatrices( mb )
 
     exportEnums( mb )
     

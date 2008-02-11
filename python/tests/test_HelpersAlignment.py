@@ -72,6 +72,12 @@ class HelpersAlignmentTestCase( unittest.TestCase ):
                     
         return is_identical
         
+    def testSplitAlignment(self):
+        
+        self.buildAlignment( self.mAlignment )
+        f = splitAlignment( self.mAlignment, 1)
+        self.assertEqual( len(f), 5)
+        
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(AlignmentVectorTestCase)

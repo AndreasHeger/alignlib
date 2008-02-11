@@ -4532,6 +4532,15 @@ BOOST_PYTHON_MODULE(alignlib){
 
     bp::def( "loadEncoder", wrapper_for_load_Encoder );
 
+    { //::std::vector<HAlignment, std::allocator<HAlignment> >
+            typedef bp::class_< std::vector<alignlib::HAlignment, std::allocator<alignlib::HAlignment> > > FragmentVector_exposer_t;
+            FragmentVector_exposer_t FragmentVector_exposer = FragmentVector_exposer_t( "FragmentVector" );
+            bp::scope FragmentVector_scope( FragmentVector_exposer );
+            FragmentVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::HAlignment, std::allocator<alignlib::HAlignment> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::FragmentVector> >();
+
     { //::alignlib::writeNewHampshire
     
         typedef void ( *writeNewHampshire_function_type )( ::std::ostream &,::alignlib::HTree const &,::alignlib::Labels const * );
