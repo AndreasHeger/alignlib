@@ -334,6 +334,13 @@ struct AlignmentFormatEmissions_wrapper : alignlib::AlignmentFormatEmissions, bp
     
     }
 
+    AlignmentFormatEmissions_wrapper(::alignlib::Position const row_from, ::std::string const & row, ::alignlib::Position const col_from, ::std::string const & col )
+    : alignlib::AlignmentFormatEmissions( row_from, row, col_from, col )
+      , bp::wrapper< alignlib::AlignmentFormatEmissions >(){
+        // constructor
+    
+    }
+
     virtual void copy( ::alignlib::HAlignment & dest ) const  {
         if( bp::override func_copy = this->get_override( "copy" ) )
             func_copy( dest );
@@ -356,6 +363,18 @@ struct AlignmentFormatEmissions_wrapper : alignlib::AlignmentFormatEmissions, bp
     
     void default_fill( ::alignlib::HAlignment const & src ) {
         alignlib::AlignmentFormatEmissions::fill( src );
+    }
+
+    virtual ::alignlib::Position getNumEmissions( ::std::string const & src ) {
+        if( bp::override func_getNumEmissions = this->get_override( "getNumEmissions" ) )
+            return func_getNumEmissions( src );
+        else
+            return this->alignlib::AlignmentFormatEmissions::getNumEmissions( src );
+    }
+    
+    
+    ::alignlib::Position default_getNumEmissions( ::std::string const & src ) {
+        return alignlib::AlignmentFormatEmissions::getNumEmissions( src );
     }
 
     virtual void load( ::std::istream & arg0 ) {
@@ -1521,6 +1540,7 @@ BOOST_PYTHON_MODULE(alignlib){
         AlignmentFormatEmissions_exposer.def( bp::init< std::istream & >(( bp::arg("src") )) );
         AlignmentFormatEmissions_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
         AlignmentFormatEmissions_exposer.def( bp::init< alignlib::AlignmentFormatEmissions const & >(( bp::arg("arg0") )) );
+        AlignmentFormatEmissions_exposer.def( bp::init< int, std::string const &, int, std::string const & >(( bp::arg("row_from"), bp::arg("row"), bp::arg("col_from"), bp::arg("col") )) );
         { //::alignlib::AlignmentFormatEmissions::copy
         
             typedef void ( ::alignlib::AlignmentFormatEmissions::*copy_function_type )( ::alignlib::HAlignment & ) const;
@@ -1542,6 +1562,18 @@ BOOST_PYTHON_MODULE(alignlib){
                 "fill"
                 , fill_function_type(&::alignlib::AlignmentFormatEmissions::fill)
                 , default_fill_function_type(&AlignmentFormatEmissions_wrapper::default_fill)
+                , ( bp::arg("src") ) );
+        
+        }
+        { //::alignlib::AlignmentFormatEmissions::getNumEmissions
+        
+            typedef ::alignlib::Position ( ::alignlib::AlignmentFormatEmissions::*getNumEmissions_function_type )( ::std::string const & ) ;
+            typedef ::alignlib::Position ( AlignmentFormatEmissions_wrapper::*default_getNumEmissions_function_type )( ::std::string const & ) ;
+            
+            AlignmentFormatEmissions_exposer.def( 
+                "getNumEmissions"
+                , getNumEmissions_function_type(&::alignlib::AlignmentFormatEmissions::getNumEmissions)
+                , default_getNumEmissions_function_type(&AlignmentFormatEmissions_wrapper::default_getNumEmissions)
                 , ( bp::arg("src") ) );
         
         }

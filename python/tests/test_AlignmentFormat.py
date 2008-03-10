@@ -52,6 +52,11 @@ class AlignmentFormatEmissionsTestCase( AlignmentFormatTestCase ):
         AlignmentFormatTestCase.setUp( self )
         self.mFormat = AlignmentFormatEmissions
 
+    def testInput2(self):
+        a = self.mFormat( 5, "+5-5+10", 5, "+10-5+5" )
+        self.assertEqual( a.mRowTo, 20 )
+        self.assertEqual( a.mColTo, 20 )
+        
 class AlignmentFormatDiagonalsTestCase( AlignmentFormatTestCase ):
     
     def setUp(self):

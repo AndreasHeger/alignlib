@@ -318,6 +318,39 @@ AlignmentFormatEmissions::AlignmentFormatEmissions (const AlignmentFormatEmissio
 	{
 	}
 
+AlignmentFormatEmissions::AlignmentFormatEmissions(
+		const Position row_from,
+		const std::string & row,
+		const Position col_from,
+		const std::string & col) 
+: AlignmentFormat(), 
+mRowAlignment( row ), 
+mColAlignment( col )
+{
+	mRowFrom = row_from;
+	mColFrom = col_from;
+
+	mRowTo = mRowFrom + getNumEmissions( mRowAlignment );
+	mColTo = mColFrom + getNumEmissions( mColAlignment );
+}
+
+Position AlignmentFormatEmissions::getNumEmissions( const std::string & src )
+{
+	std::istringstream is( src.c_str() );  
+
+	Position nemissions = 0;
+	Position d = 0;   
+
+	while (is >> d)
+	{
+		if (d > 0)
+			nemissions += d;
+	}	  
+	
+	return nemissions;	
+	
+}
+		
 void AlignmentFormatEmissions::fill( const HAlignment & src)
 {
 	debug_func_cerr(5);
@@ -495,7 +528,7 @@ void AlignmentFormatEmissions::copy( HAlignment & dest ) const
 			if (!(is_col >> d_col)) break;	// read new d_col
 
 	}	  
-
+	
 	return;	
 }
 

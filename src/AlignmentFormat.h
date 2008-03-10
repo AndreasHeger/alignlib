@@ -212,8 +212,20 @@ struct AlignmentFormatEmissions : public AlignmentFormat
 	
 	AlignmentFormatEmissions (const AlignmentFormatEmissions &);
 
+	AlignmentFormatEmissions(
+			const Position row_from,
+			const std::string & row,
+			const Position col_from,
+			const std::string & col);
+
 	virtual ~AlignmentFormatEmissions ();
 
+	/** return the number of emissions in an alignment string.
+	 * 
+	 * @param src Alignment string
+	 */
+	virtual Position getNumEmissions( const std::string & src );
+	
 	/** fill blocks from alignment
 		@param src Alignment to parse
 	 */
