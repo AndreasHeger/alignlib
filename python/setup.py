@@ -99,7 +99,7 @@ def addStreamBufClasses( mb ):
     """
     mb.add_declaration_code ( declaration_code, tail=True )
 
-def exportSave( mb, classes, options):
+def exportSave( mb, classes, options, generic = True):
     """export save method in classes Alignandum."""
     
     declaration_code = \
@@ -128,16 +128,24 @@ def exportSave( mb, classes, options):
         cls.member_function( "save" ).exclude()
         cls.add_registration_code( registration_code )
 
-def exportLoad( mb, classes, options ):
+def exportLoad( mb, classes, options, generic = True ):
     """export load functions.
     
-    The load functions returns and empty smart pointer. This
+    The load functions returns an empty smart pointer. This
     is then translated to the None object.
+    
+    If generic is true, the method name is appended to the
+        function name (like loadAlignandum).
     """
     
     for c in classes:
         
         params = { 'class' : c }
+        if generic:
+            params['function'] = "load"
+        else:
+            params['function'] = "load%s" % c
+        
         declaration_code = \
     """
       alignlib::H%(class)s wrapper_for_load_%(class)s( PyObject * fp )
@@ -152,13 +160,13 @@ def exportLoad( mb, classes, options ):
          if (is.peek() == EOF)
              return alignlib::H%(class)s();
          else
-             return alignlib::H%(class)s (alignlib::load%(class)s( is ));
+             return alignlib::H%(class)s (alignlib::%(function)s( is ));
       } 
 """ % params
 
-        registration_code = 'bp::def( "load%(class)s", wrapper_for_load_%(class)s );' % params     
+        registration_code = 'bp::def( "%(function)s", wrapper_for_load_%(class)s );' % params     
     
-        fun = mb.free_function( "load%(class)s" % params)
+        fun = mb.free_function( "%(function)s" % params)
         fun.include_files.append( "streambuf" )
         fun.exclude()
         mb.add_declaration_code( declaration_code, tail = True )
@@ -206,7 +214,16 @@ def exportClasses( mb ):
     ## add __str__ function for functions having defined the '<<' operator
     ## This automatically maps std::ostream to a string
     mb.free_operators( lambda x: x.name == "operator<<" ).include()    
+    
+    classes_with_load_save = set( ['AlignmentFormat',
+                              'AlignmentFormatBlocks',
+                              'AlignmentFormatExplicit',
+                              'AlignmentFormatDiagonals',
+                              'AlignmentFormatEmissions', ] )
 
+#    exportLoad( mb, 
+#                classes_with_load_save,
+#                options )
         
 def exportInterfaceClasses( mb ):
     """export virtual classes.
@@ -276,11 +293,13 @@ def exportInterfaceClasses( mb ):
     classes_with_load_save = ("Alignandum", "Encoder")         
     exportSave( mb, 
                 classes_with_load_save,
-                options )        
+                options,
+                generic = False )        
     
     exportLoad( mb, 
                 classes_with_load_save,
-                options )
+                options,
+                generic = False )
 
 def exportHandles( mb ):
     """include handle classes. 
@@ -376,6 +395,8 @@ def exportMatrices( mb ):
                               'Matrix<int>' : 'MatrixInt',
                               }
 
+    exclude_functions = ( "getData", "setData", "copyData", "getRow" )
+    
     ## first include the whole class, then exclude specific member functions
     declarations_to_export = set( template_translations.keys() )
     mb.decls( lambda x: x.name in declarations_to_export ).include()
@@ -391,14 +412,12 @@ def exportMatrices( mb ):
         ## silence warnings about immutable types
         cls.mem_fun( "getValue" ).disable_warnings( messages.W1008 )
         cls.mem_fun( "setValue" ).disable_warnings( messages.W1008 )
-        
-    exclude_functions = ( "getData", "setData", "copyData", "getRow" )
-    
-    for f in exclude_functions:
-        try:
-            mb.member_functions(f).exclude()
-        except RuntimeError:
-            print "could not find function %s to exclude" % f
+
+        for f in exclude_functions:        
+            try:
+                cls.mem_fun( f ).exclude()
+            except RuntimeError:
+                continue
 
 def exportEnums( mb ):
     """export enums."""
