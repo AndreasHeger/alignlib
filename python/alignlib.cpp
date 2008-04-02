@@ -2625,6 +2625,16 @@ BOOST_PYTHON_MODULE(alignlib){
                 , getNumSequences_function_type( &::alignlib::MultipleAlignment::getNumSequences ) );
         
         }
+        { //::alignlib::MultipleAlignment::getRow
+        
+            typedef ::alignlib::HAlignatum ( ::alignlib::MultipleAlignment::*getRow_function_type )( int ) const;
+            
+            MultipleAlignment_exposer.def( 
+                "getRow"
+                , getRow_function_type( &::alignlib::MultipleAlignment::getRow )
+                , ( bp::arg("row") ) );
+        
+        }
         { //::alignlib::MultipleAlignment::isEmpty
         
             typedef bool ( ::alignlib::MultipleAlignment::*isEmpty_function_type )(  ) const;
