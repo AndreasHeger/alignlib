@@ -3451,6 +3451,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::hasAlignmentOverlap
+    
+        typedef bool ( *hasAlignmentOverlap_function_type )( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const,int );
+        
+        bp::def( 
+            "hasAlignmentOverlap"
+            , hasAlignmentOverlap_function_type( &::alignlib::hasAlignmentOverlap )
+            , ( bp::arg("src1"), bp::arg("src2"), bp::arg("mode"), bp::arg("min_overlap")=(int)(1) ) );
+    
+    }
+
     { //::alignlib::loadSubstitutionMatrix
     
         typedef ::alignlib::HSubstitutionMatrix ( *loadSubstitutionMatrix_function_type )( ::std::istream &,::alignlib::HEncoder const & );

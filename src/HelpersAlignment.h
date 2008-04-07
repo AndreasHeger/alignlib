@@ -190,6 +190,23 @@ bool checkAlignmentIdentity(
  */
 typedef enum { RR, RC, CR, CC } CombinationMode;
 
+/** check if two @Alignment objects overlap 
+ * 
+ * This function checks if two alignments overlap
+ * by at least @param min_overlap residues.
+ * 
+ * @param src1 @ref Alignment object with input.
+ * @param src2 @ref Alignment object with input.
+ * @param mode Combination mode, see @ref combineAlignment.
+ * @param min_overlap minimum number of overlapping residues.
+ * @return returns true if the two alignments overlap.
+ */
+bool hasAlignmentOverlap( 
+		const HAlignment & src1, 
+		const HAlignment & src2, 
+		const CombinationMode mode,
+		int min_overlap = 1);
+
 /** combine two @Alignment objects. 
  * 
  * This function merges two alignments by joining them

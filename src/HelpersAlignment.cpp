@@ -316,6 +316,97 @@ void addMappedAlignments2Alignment(
 	return;
 }
 
+
+
+//-----------------------------------------------------------------------------------------
+bool hasAlignmentOverlap( 
+		const HAlignment & src1, 
+		const HAlignment & src2, 
+		const CombinationMode mode,
+		const int min_overlap ) 
+{
+	debug_func_cerr(5);
+
+	Position map1 = 0;
+	Position map2 = 0;
+
+	// check if ranges overlap
+	switch (mode) 
+	{			
+	case RR:
+		if (src1->getRowFrom() > src2->getRowTo() - min_overlap ||
+				src2->getRowFrom() > src1->getRowTo() - min_overlap )
+			return false;
+		break;
+	case CR:
+		if (src1->getColFrom() > src2->getRowTo() - min_overlap||
+				src2->getRowFrom() > src1->getColTo() - min_overlap )
+			return false;
+		break;
+	case RC:
+		if (src1->getRowFrom() > src2->getColTo() - min_overlap ||
+				src2->getColFrom() > src1->getRowTo() - min_overlap )
+			return false;
+		break;
+	case CC:
+		if (src1->getColFrom() > src2->getColTo() - min_overlap ||
+				src2->getColFrom() > src1->getColTo() - min_overlap )
+			return false;
+		break;
+	}
+				
+	// check if enough residues overlap
+	AlignmentIterator it1(src1->begin());
+	AlignmentIterator it1_end(src1->end());
+	AlignmentIterator it2(src2->begin());
+	AlignmentIterator it2_end(src2->end());
+
+	int noverlap = 0;
+	while ( it1 != it1_end && it2 != it2_end ) 
+	{
+		const ResiduePair & x_pair = *it1;
+		const ResiduePair & y_pair = *it2;
+
+		Position map1 = NO_POS;
+		Position map2 = NO_POS;
+
+		switch (mode) 
+		{			
+		case RR:
+			map1 = x_pair.mRow; 
+			map2 = y_pair.mRow; 
+			break;
+		case CR:
+			map1 = x_pair.mCol;
+			map2 = y_pair.mRow;
+			break;
+		case RC:
+			map1 = x_pair.mRow;
+			map2 = y_pair.mCol;
+			break;
+		case CC:
+			map1 = x_pair.mCol;
+			map2 = y_pair.mCol;
+			break;
+		}
+
+		if (map1 == map2) 
+		{
+			if( ++noverlap >= min_overlap )
+				return true;
+		}
+		else 
+		{ 
+			if (map1 < map2) 
+				++it1;
+			else 
+				++it2;
+		}
+	}
+	return false;
+}
+
+
 //-----------------------------------------------------------------------------------------
 void combineAlignment( 
 		HAlignment & dest, 
@@ -338,11 +429,11 @@ void combineAlignment(
 		const ResiduePair & x_pair = *it1;
 		const ResiduePair & y_pair = *it2;
 
-		Position map1 = 0;
-		Position value1 = 0;
+		Position map1 = NO_POS;
+		Position value1 = NO_POS;
 
-		Position map2 = 0;
-		Position value2 = 0;
+		Position map2 = NO_POS;
+		Position value2 = NO_POS;
 
 		switch (mode) 
 		{

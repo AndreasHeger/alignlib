@@ -149,7 +149,7 @@ PARTS_ALIGNMENT = Alignment.cpp \
 			ImplAlignmentVector.cpp \
 			ImplAlignmentSorted.cpp \
 			ImplAlignmentMatrix.cpp ImplAlignmentMatrixRow.cpp \
-			ImplAlignmentMatrixDiagonal.cpp ImplAlignmentMatrixUnsorted.cpp \ 
+			ImplAlignmentMatrixDiagonal.cpp ImplAlignmentMatrixUnsorted.cpp \
 			ImplAlignmentBlocks.cpp
 
 PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
