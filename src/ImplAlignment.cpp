@@ -211,6 +211,18 @@ void ImplAlignment::addPair( const ResiduePair & pair )
 }
 
 //--------------------------------------------------------------------------------------------------------------  
+void ImplAlignment::addDiagonal( 
+		Position row_from, 
+		Position row_to, 
+		Position col_offset) 
+{
+	Position i;
+	for (i = row_from; i < row_to; i++) 
+		addPair( ResiduePair( i, i + col_offset, 0));
+
+}
+
+//--------------------------------------------------------------------------------------------------------------  
 void ImplAlignment::removePair( const ResiduePair & pair )
 {
 	debug_func_cerr( 5 );

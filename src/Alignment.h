@@ -251,6 +251,17 @@ public:
 	/** adds a pair of residues to the alignment */
 	virtual void addPair( Position row, Position col, Score score = 0) = 0; 
 
+	/** adds a diagonal to the alignment.
+	 *  
+	 * @param row_from	  	row start
+	 * @param row_to	  	row end
+	 * @param col_offset	column offset.
+	*/
+	virtual void addDiagonal( 
+			Position row_from, 
+			Position row_to, 
+			Position col_offset = 0) = 0;
+	
 	/** removes a residue pair from the alignment
 	 * 
 	 * @param pair @ref ResiduePair to be removed. 

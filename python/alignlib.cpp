@@ -1036,6 +1036,16 @@ BOOST_PYTHON_MODULE(alignlib){
         typedef bp::class_< alignlib::Alignment, boost::noncopyable > Alignment_exposer_t;
         Alignment_exposer_t Alignment_exposer = Alignment_exposer_t( "Alignment", bp::no_init );
         bp::scope Alignment_scope( Alignment_exposer );
+        { //::alignlib::Alignment::addDiagonal
+        
+            typedef void ( ::alignlib::Alignment::*addDiagonal_function_type )( ::alignlib::Position,::alignlib::Position,::alignlib::Position ) ;
+            
+            Alignment_exposer.def( 
+                "addDiagonal"
+                , addDiagonal_function_type( &::alignlib::Alignment::addDiagonal )
+                , ( bp::arg("row_from"), bp::arg("row_to"), bp::arg("col_offset")=(int)(0) ) );
+        
+        }
         { //::alignlib::Alignment::addPair
         
             typedef void ( ::alignlib::Alignment::*addPair_function_type )( ::alignlib::ResiduePair const & ) ;
@@ -3610,6 +3620,16 @@ BOOST_PYTHON_MODULE(alignlib){
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
             , ( bp::arg("src"), bp::arg("from")=(int const)(-1), bp::arg("to")=(int const)(-1) ) );
+    
+    }
+
+    { //::alignlib::makeAlignmentBlocks
+    
+        typedef ::alignlib::HAlignment ( *makeAlignmentBlocks_function_type )(  );
+        
+        bp::def( 
+            "makeAlignmentBlocks"
+            , makeAlignmentBlocks_function_type( &::alignlib::makeAlignmentBlocks ) );
     
     }
 

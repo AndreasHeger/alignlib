@@ -62,8 +62,9 @@ HEADERS_ALIGNMENT =	Alignment.h HelpersAlignment.h \
 			ImplAlignment.h \
 			ImplAlignmentVector.h ImplAlignmentSorted.h \
 			ImplAlignmentMatrix.h ImplAlignmentMatrixRow.h ImplAlignmentMatrixDiagonal.h \
-			ImplAlignmentMatrixUnsorted.h 
-
+			ImplAlignmentMatrixUnsorted.h \
+			ImplAlignmentBlocks.h
+			
 HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignator.h ImplAlignatorDP.h \
 			ImplAlignatorDPFull.h \
@@ -148,8 +149,8 @@ PARTS_ALIGNMENT = Alignment.cpp \
 			ImplAlignmentVector.cpp \
 			ImplAlignmentSorted.cpp \
 			ImplAlignmentMatrix.cpp ImplAlignmentMatrixRow.cpp \
-			ImplAlignmentMatrixDiagonal.cpp ImplAlignmentMatrixUnsorted.cpp 
-
+			ImplAlignmentMatrixDiagonal.cpp ImplAlignmentMatrixUnsorted.cpp \ 
+			ImplAlignmentBlocks.cpp
 
 PARTS_ALIGNATOR =	Alignator.cpp HelpersAlignator.cpp \
 			ImplAlignator.cpp ImplAlignatorDP.cpp \

@@ -30,7 +30,7 @@ class AlignmentFormatTestCase( unittest.TestCase ):
         addDiagonal2Alignment( self.mAlignment, 25, 30, -5)
         self.mFormat = None
 
-    def testInput(self):
+    def testCopy(self):
         
         if self.mFormat:
             a = str(self.mFormat( self.mAlignment ))
@@ -38,13 +38,22 @@ class AlignmentFormatTestCase( unittest.TestCase ):
             self.mFormat(a).copy( alignment )
             b = str(self.mFormat( alignment ))
             self.assertEqual( a, b )
+            
+    def testLoad(self):
+
+        if self.mFormat:
+            a = str(self.mFormat( self.mAlignment ))
+            alignment = makeAlignmentVector()
+            x = self.mFormat()
+            x.load( a)
+            b = str(x)
+            self.assertEqual( a, b )
 
 class AlignmentFormatBlocksTestCase( AlignmentFormatTestCase ):
 
     def setUp(self):
         AlignmentFormatTestCase.setUp( self )
         self.mFormat = AlignmentFormatBlocks
-
         
 class AlignmentFormatEmissionsTestCase( AlignmentFormatTestCase ):
     

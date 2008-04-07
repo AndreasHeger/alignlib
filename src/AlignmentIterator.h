@@ -91,7 +91,7 @@ class AlignmentIterator
     { 
     	return &(mIterator->getReference()); 
     }
-
+    
     /** dereference operator */
     inline const ResiduePair & operator*() const 
     { 

@@ -25,21 +25,21 @@ class AlignmentTestCase( unittest.TestCase ):
 
     def setUp( self ):
 
-        self.mAlignment = makeAlignmentVector()
+        self.mAlignment = makeAlignmentBlocks()
+        self.mPairs = ((3,3,1),    
+                       (4,4,1),
+                       (5,6,1),
+                       (6,7,1),
+                       (8,8,1),
+                       (9,10,1),
+                       (10,11,1),
+                       (12,12,1))
 
     def buildAlignment( self, alignment ):
         
         alignment.clear()
         
-        for d in (
-            (3,3,1),    
-            (4,4,1),
-            (5,6,1),
-            (6,7,1),
-            (8,8,1),
-            (9,10,1),
-            (10,11,1),
-            (12,12,1)):
+        for d in self.mPairs:
             alignment.addPair( d[0], d[1], float(d[2]))
 
     def testAddPair( self ):
@@ -56,6 +56,13 @@ class AlignmentTestCase( unittest.TestCase ):
     def testGetColFrom( self ):
         self.testAddPair()
         self.assertEqual( self.mAlignment.getRowFrom(), 3) 
+
+    def testMapRowToCol(self):
+        self.testAddPair()
+        
+        for d in self.mPairs:
+            self.assertEqual( d[1], self.mAlignment.mapRowToCol( d[0] ) )
+       
 
     def testGetColTo( self ):
         self.testAddPair()
@@ -118,6 +125,7 @@ class AlignmentTestCase( unittest.TestCase ):
             y = self.mAlignment.mapRowToCol( x )
             if y >= 0:
                 z = ali.mapRowToCol( y )
+                print x, y, z
                 self.assertEqual( x, z )
                 
             y = self.mAlignment.mapColToRow( x )            
@@ -132,46 +140,59 @@ class AlignmentTestCase( unittest.TestCase ):
 class AlignmentVectorTestCase( AlignmentTestCase ):
 
     def setUp( self ):
+        AlignmentTestCase.setUp( self)
         self.mAlignment = makeAlignmentVector()
 
 class AlignmentSetTestCase( AlignmentTestCase ):
 
     def setUp( self ):
+        AlignmentTestCase.setUp( self)
         self.mAlignment = makeAlignmentSet()
 
 class AlignmentSetColTestCase( AlignmentTestCase ):
 
     def setUp( self ):
+        AlignmentTestCase.setUp( self)
         self.mAlignment = makeAlignmentSetCol()
 
 class AlignmentHashTestCase( AlignmentTestCase ):
 
     def setUp( self ):
+        AlignmentTestCase.setUp( self)        
         self.mAlignment = makeAlignmentHash()
 
 class AlignmentHashDiagonalTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
+        AlignmentTestCase.setUp( self)        
         self.mAlignment = makeAlignmentHashDiagonal()
         self.mAlignment = makeAlignmentVector()
 
 class AlignmentMatrixRowTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
+        AlignmentTestCase.setUp( self)
         self.mAlignment = makeAlignmentMatrixRow()
         self.mAlignment = makeAlignmentVector()
 
 class AlignmentMatrixUnsortedTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
+        AlignmentTestCase.setUp( self)    
         self.mAlignment = makeAlignmentMatrixUnsorted()
         self.mAlignment = makeAlignmentVector()
 
 class AlignmentMatrixDiagonalTestCase( AlignmentTestCase ):
     '''!!!TODO!!! fix me'''
     def setUp( self ):
+        AlignmentTestCase.setUp( self)        
         self.mAlignment = makeAlignmentMatrixDiagonal()
         self.mAlignment = makeAlignmentVector()
+
+class AlignmentBlocks( AlignmentTestCase ):
+    def setUp( self ):
+        AlignmentTestCase.setUp( self)
+        self.mAlignment = makeAlignmentBlocks()
 
 def suite():
     suite = unittest.TestSuite()

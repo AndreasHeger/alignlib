@@ -688,10 +688,8 @@ void addDiagonal2Alignment(
 {
 	debug_func_cerr(5);
 
-	Position i;
-	for (i = row_from; i < row_to; i++) 
-		dest->addPair( ResiduePair( i, i + col_offset, 0));
-
+	dest->addDiagonal( row_from, row_to, col_offset );
+	
 	return;
 }
 

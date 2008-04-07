@@ -87,11 +87,22 @@ void fillAlignment( HAlignment & a)
 	a->addPair( ResiduePair(8,8, 1.0));
 	a->addPair( ResiduePair(9,10, 1.0));
 	a->addPair( ResiduePair(10,11, 1.0));
-	a->addPair( ResiduePair(12,12, 1.0));	
+	a->addPair( ResiduePair(12,12, 1.0));
+	a->addPair( ResiduePair(13,13, 1.0));
 }
 // tests for both empty and full alignments
 void testAlignment( HAlignment & a)
 {
+#define npairs 9	
+	
+	Position row_pairs[npairs] = {3,4,5,6,8,9,10,12,13};
+	Position col_pairs[npairs] = {3,4,6,7,8,10,11,12,13};
+	
+	std::map<Position,int>pairs;
+	if (!a->isEmpty())
+		for (int i = 0; i < npairs; ++i)
+			pairs[row_pairs[i] * 100+col_pairs[i]] = 0;
+	
 	{ 
 		cout << "testing...writing alignment...";
 		ostringstream result;
@@ -100,28 +111,31 @@ void testAlignment( HAlignment & a)
 	}
 
 	{
-		cout << "testing...iteration (post-increment)...";
-
 		AlignmentIterator it(a->begin());
 		AlignmentIterator it_end(a->end());
-		for (; it != it_end; it++) 
-		{ 	ResiduePair p = *it; 
-			p.mRow+=1;
+		int x = 0;
+		int found = 0;
+		for (; it != it_end; x++, it++) 
+		{ 	
+			Position k = it->mRow * 100 + it->mCol;
+			if (pairs.find(k) != pairs.end())
+				++found;
 		}
-		cout << "passed" << endl;
+		BOOST_CHECK_EQUAL( pairs.size(), found);
 	}
 
 	{
-		cout << "testing...iteration (pre-increment)...";
-
 		AlignmentIterator it(a->begin());
 		AlignmentIterator it_end(a->end());
-		for (; it != it_end; ++it) 
-		{ 
-			ResiduePair p = *it; 
-			p.mRow +=1;
+		int x = 0;
+		int found = 0;
+		for (; it != it_end; x++, ++it) 
+		{ 	
+			Position k = it->mRow * 100 + it->mCol;
+			if (pairs.find(k) != pairs.end())
+				++found;
 		}
-		cout << "passed" << endl;
+		BOOST_CHECK_EQUAL( pairs.size(), found);
 	}
 
 	{ 
@@ -182,63 +196,31 @@ void testAlignment( HAlignment & a)
 
 	}
 
-	// this function assumes an ordering by row
-	// which is not true for some containers.
-	{ 
-		cout << "testing...mapRowToCol()..."; 
-
-		AlignmentIterator it(a->begin());
-		AlignmentIterator it_end(a->end());
+	if (!a->isEmpty())	
+	{ 		
 		Position pos = 0;
-		bool passed = true;
-		while (pos < a->getRowTo()) 
+		for( int x = 0; x < npairs; ++x)
 		{
 			// check gaps
-			while (it != it_end && pos < (*it).mRow)
-			{
-				if (a->mapRowToCol( pos++ ) != NO_POS) 
-					passed = false;
-			}
-
-			if (it != it_end) 
-			{
-				if (a->mapRowToCol( pos) != it->mCol) 
-					passed = false;
-				++it;
-			}
-			++pos;
+			while ( pos < row_pairs[x])
+				BOOST_CHECK_EQUAL(a->mapRowToCol( pos++),NO_POS); 
+			// check aligned
+			BOOST_CHECK_EQUAL(a->mapRowToCol( pos++ ), col_pairs[x]); 
 		}      
-		if (passed)
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;
 	}
-
+	
+	if (!a->isEmpty())
 	{ 
-		cout << "testing...mapColToRow()..."; 
-
-		AlignmentIterator it(a->begin());
-		AlignmentIterator it_end(a->end());
 		Position pos = 0;
-		bool passed = true;
-		while (pos < a->getColTo() ) 
+		for( int x = 0; x < npairs; ++x)
 		{
-			while (it != it_end && pos < (*it).mCol) 
-				if (a->mapColToRow( pos++ ) != NO_POS) passed = false;
-
-			if (it!= it_end) 
-			{
-				if (a->mapColToRow( pos) != it->mRow) passed = false;
-				++it;
-			}
-
-			++pos;
+			// check gaps
+			while ( pos < col_pairs[x])
+				BOOST_CHECK_EQUAL(a->mapColToRow( pos++),NO_POS); 
+			// check aligned
+			BOOST_CHECK_EQUAL(a->mapColToRow( pos++), row_pairs[x]); 
 		}      
-		if (passed)
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;
-	}
+	}	
 
 	{ 
 		cout << "testing...switchRowCol()...";
@@ -269,7 +251,7 @@ void testAlignment( HAlignment & a)
 			assert( a_clone->getRowFrom() == 5 );
 			assert( a_clone->getColFrom() == 6 );
 		
-			a_clone->removeRowRegion( 10, 13);
+			a_clone->removeRowRegion( 10, 14);
 			assert( a_clone->getRowTo() == 10);
 			assert( a_clone->getColTo() == 11);       
 			a_clone->removeRowRegion( 0, 20 );
@@ -367,6 +349,6 @@ create_test( SetCol, makeAlignmentSetCol );
 create_test( MatrixRow, makeAlignmentMatrixRow );
 create_test( MatrixDiagonal, makeAlignmentMatrixDiagonal );
 create_test( MatrixUnsorted, makeAlignmentMatrixUnsorted );
-
+create_test( Blocks, makeAlignmentBlocks );
 
 

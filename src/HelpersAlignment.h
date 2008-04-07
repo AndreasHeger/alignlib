@@ -140,6 +140,19 @@ HAlignment makeAlignmentMatrixUnsorted();
  */
 HAlignment makeAlignmentMatrixDiagonal();
 
+/** make a @ref Alignment object.
+ * 
+ *    - sort order: by row.
+ * Degeneracy: n:1
+ * 
+ * This object stores the alignment in a compressed form
+ * without alignment scores. Suitable for large (genomic)
+ * alignments.
+ * 
+ * @return a new @ref Alignment object.
+ */
+HAlignment makeAlignmentBlocks(); 
+
 /**
  * @}
  */

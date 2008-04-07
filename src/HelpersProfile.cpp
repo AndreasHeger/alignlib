@@ -601,8 +601,10 @@ VectorDouble * makeEntropyVector( const CountMatrix * src)
 		}
 		double e = 0;
 		unsigned int counts;
-		for (unsigned int c = 0; c < categories; c++) {
-			if ( (counts = (*src)[l][c]) > 0) {
+		for (unsigned int c = 0; c < categories; c++) 
+		{
+			if ( (counts = (*src)[l][c]) > 0) 
+			{
 				double p = (double)counts / (double)total;
 				e -= p * log(p);
 			}
