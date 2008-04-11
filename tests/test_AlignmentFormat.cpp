@@ -57,7 +57,6 @@ void testWriteRead( const std::auto_ptr<AlignmentFormat> & format,
 		
 	HAlignment n(ref->getNew());
 	format->copy( n );
-	
 	BOOST_CHECK( checkAlignmentIdentity( ref, n ) );	
 }
 
@@ -78,6 +77,13 @@ BOOST_AUTO_TEST_CASE( test_AlignmentBlocks )
 	testWriteRead( f, ali );
 }
 
+BOOST_AUTO_TEST_CASE( test_AlignmentBlat )
+{
+	HAlignment ali(buildAlignment());
+	std::auto_ptr<AlignmentFormat>f(new AlignmentFormatBlat( ali));	
+	testWriteRead( f, ali );
+}
+
 BOOST_AUTO_TEST_CASE( test_AlignmentEmissions )
 {
 	HAlignment ali(buildAlignment());
@@ -91,6 +97,5 @@ BOOST_AUTO_TEST_CASE( test_AlignmentDiagonals )
 	std::auto_ptr<AlignmentFormat>f(new AlignmentFormatDiagonals( ali));	
 	testWriteRead( f, ali );
 }
-
 
 

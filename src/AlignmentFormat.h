@@ -179,8 +179,65 @@ struct AlignmentFormatBlocks : public AlignmentFormat
 	
 	/** vector with block sizes */
 	PositionVector mBlockSizes;
+
+	protected:
+
+		/** apply offset to a coordinate */
+		virtual Position applyOffset( 
+				const Position & pos,
+				const Position & offset ) const;	
+
+		/** remove offset from a coordinate */
+		virtual Position removeOffset( 
+				const Position & pos,
+				const Position & offset ) const;	
+
+		
+};
+
+/**
+	Data structure for blat alignment format.
+	
+	This format is identical to @ref AlignmentFormatBlocks
+	except that the Block start positions are not relative
+	to the alignment start, but are absolute.
+	
+   	@author Andreas Heger
+   	@version $Id$
+   	@short Data structure of aligned blocks.
+ 
+*/ 
+struct AlignmentFormatBlat : public AlignmentFormatBlocks
+{
+	// constructors and desctructors
+	AlignmentFormatBlat ();
+
+	AlignmentFormatBlat( const HAlignment & src);
+	
+	AlignmentFormatBlat( std::istream & src);
+
+	AlignmentFormatBlat( const std::string & src);
+	
+	AlignmentFormatBlat (const AlignmentFormatBlat &);
+
+	virtual ~AlignmentFormatBlat ();
+
+	protected:
+	
+	/** apply offset to a coordinate */
+	virtual Position applyOffset( 
+			const Position & pos,
+			const Position & offset ) const;	
+
+	/** remove offset from a coordinate */
+	virtual Position removeOffset( 
+			const Position & pos,
+			const Position & offset ) const;	
+
 	
 };
+
+
 
 /**
 	Data structure for "Emissions" alignment format.

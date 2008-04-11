@@ -204,6 +204,7 @@ def exportClasses( mb ):
     classes_to_export = set( ['Coordinate', 
                               'AlignmentFormat',
                               'AlignmentFormatBlocks',
+                              'AlignmentFormatBlat',
                               'AlignmentFormatExplicit',
                               'AlignmentFormatDiagonals',
                               'AlignmentFormatEmissions', ] )

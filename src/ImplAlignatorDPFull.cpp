@@ -227,7 +227,8 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 				debug_cerr_add( 5, setw(4) << "-" );                  
 			debug_cerr_add( 5, std::endl );
 		}
-		debug_cerr( 5, "traceback starts in cell ("<< mRowLast << "," << mColLast << ") with score " << mScore );
+		debug_cerr( 5, "traceback starts in cell ("<< mRowLast << "," << mColLast << ") with score " << mScore 
+				<< " until (" << mIterator->row_front() << "," << mIterator->row_front() << ")" );
 	}
 
 #endif
@@ -243,21 +244,24 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 	while ( t != TB_STOP ) 
 	{
 
-		switch (t) {
+		debug_cerr( 5, "traceback in cell ("<< row << "," << col << ") with code " << t ); 
+		
+		switch (t) 
+		{
 		case TB_DELETION :
-			col--;
-			ngaps++;
+			--col;
+			++ngaps;
 			if (col < 1) 
-				row--;
+				--row;
 			break;
 		case TB_INSERTION :
-			ngaps++;
-			row--;
+			++ngaps;
+			--row;
 			break;
 		case TB_MATCH :
 			result->addPair( ResiduePair( row, col, mScorer->getScore( row, col)));
-			row--;
-			col--;
+			--row;
+			--col;
 			break;
 		case TB_WRAP :
 			col = mIterator->col_back( row );

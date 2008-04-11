@@ -107,6 +107,24 @@ std::istream & operator>> (std::istream & input, AlignmentFormat & dest)
 	return input;
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------
+inline void parseList( std::istream & input, PositionVector & dest )
+{
+	std::string delimiters(",");
+	std::string str;
+	input >> str;
+
+	string::size_type last_pos = str.find_first_not_of( delimiters, 0);
+	string::size_type pos     = str.find_first_of(delimiters, last_pos);
+
+	while (string::npos != pos || string::npos != last_pos)
+	{
+		dest.push_back(atoi(str.substr(last_pos, pos - last_pos).c_str()));
+		last_pos = str.find_first_not_of(delimiters, pos);
+		pos = str.find_first_of(delimiters, last_pos);
+	}	
+}
+
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
@@ -161,6 +179,21 @@ AlignmentFormatBlocks::AlignmentFormatBlocks (const AlignmentFormatBlocks & src 
 
 }
 
+Position AlignmentFormatBlocks::applyOffset( 
+		const Position & pos,
+		const Position & offset ) const
+{
+	debug_func_cerr(5);
+	return pos - offset;
+}
+
+Position AlignmentFormatBlocks::removeOffset( 
+		const Position & pos,
+		const Position & offset ) const
+{
+	return pos + offset;
+}
+
 void AlignmentFormatBlocks::fill( const HAlignment & src)
 {
 	debug_func_cerr(5);
@@ -183,23 +216,30 @@ void AlignmentFormatBlocks::fill( const HAlignment & src)
 	Position d_row, d_col;
 
 	// start iteration at col_from + 1
-	mRowStarts.push_back( it->mRow - mRowFrom );
-	mColStarts.push_back( it->mCol - mColFrom );
+	debug_cerr(5, "adding pair\t" << *it << '\t' 
+				<< applyOffset( it->mRow, mRowFrom ) << '\t' 
+				<< applyOffset( it->mCol, mColFrom ) );
+	
+	mRowStarts.push_back( applyOffset( it->mRow, mRowFrom )) ;
+	mColStarts.push_back( applyOffset( it->mCol, mColFrom ));
 	Position block_size = 1;
 
 	++it;
 
 	for (; it != it_end; ++it)
 	{
-		debug_cerr(5, "adding pair\t" << *it );
 		Position current_row = it->mRow;
 		Position current_col = it->mCol;
 
 		if ( (current_row - last_row) > 1 || (current_col - last_col) > 1) 
 		{
+			debug_cerr(5, "adding pair\t" << *it << '\t' 
+						<< applyOffset( current_row, mRowFrom ) << '\t' 
+						<< applyOffset( current_col, mColFrom ) );
+
 			mBlockSizes.push_back( block_size );
-			mRowStarts.push_back( current_row - mRowFrom );
-			mColStarts.push_back( current_col - mColFrom );
+			mRowStarts.push_back( applyOffset( current_row, mRowFrom ));
+			mColStarts.push_back( applyOffset( current_col, mColFrom ));
 			block_size = 0;
 		}       
 		++ block_size;
@@ -216,14 +256,14 @@ void AlignmentFormatBlocks::copy( HAlignment & dest ) const
 {
 	debug_func_cerr(5);
 
-	debug_cerr(5, "number of blocks=" << mBlockSizes.size() << " " << this);
+	debug_cerr(5, "number of blocks=" << mBlockSizes.size() );
 
 	AlignmentFormat::copy( dest );
 
 	for (int x = 0; x < mRowStarts.size(); ++x)
 	{
-		Position row = mRowStarts[x] + mRowFrom; 
-		Position col = mColStarts[x] + mColFrom;		
+		Position row = removeOffset( mRowStarts[x], mRowFrom ); 
+		Position col = removeOffset( mColStarts[x], mColFrom );		
 		for (int l = 0; l < mBlockSizes[x]; ++l, ++row, ++col)
 			dest->addPair( row, col );
 	}
@@ -243,24 +283,6 @@ void AlignmentFormatBlocks::save(std::ostream & output ) const
 	std::copy( mBlockSizes.begin(), mBlockSizes.end(), std::ostream_iterator<Position>(output, ","));
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------
-inline void parseList( std::istream & input, PositionVector & dest )
-{
-	std::string delimiters(",");
-	std::string str;
-	input >> str;
-
-	string::size_type last_pos = str.find_first_not_of( delimiters, 0);
-	string::size_type pos     = str.find_first_of(delimiters, last_pos);
-
-	while (string::npos != pos || string::npos != last_pos)
-	{
-		dest.push_back(atoi(str.substr(last_pos, pos - last_pos).c_str()));
-		last_pos = str.find_first_not_of(delimiters, pos);
-		pos = str.find_first_of(delimiters, last_pos);
-	}	
-}
-
 void AlignmentFormatBlocks::load(std::istream & input) 
 {
 	debug_func_cerr(5);
@@ -269,6 +291,61 @@ void AlignmentFormatBlocks::load(std::istream & input)
 	parseList( input, mRowStarts );
 	parseList( input, mColStarts );
 	parseList( input, mBlockSizes );
+}
+
+//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
+AlignmentFormatBlat::AlignmentFormatBlat() 
+: AlignmentFormatBlocks()
+{
+}
+
+// In the following methods do not use the non-empty constructors
+// from Blocks, as the virtual method table has not been built and
+// thus the correct methods for applyOffset are not picked up.
+AlignmentFormatBlat::AlignmentFormatBlat( std::istream & input ) 
+: AlignmentFormatBlocks()
+{
+	load( input );
+}
+
+AlignmentFormatBlat::AlignmentFormatBlat( const std::string & src) 
+: AlignmentFormatBlocks()
+{
+	std::istringstream i(src.c_str());
+	load( i );
+}
+
+AlignmentFormatBlat::AlignmentFormatBlat( const HAlignment & src) 
+: AlignmentFormatBlocks()
+{
+	fill( src );
+}
+
+AlignmentFormatBlat::~AlignmentFormatBlat () 
+{
+}
+
+AlignmentFormatBlat::AlignmentFormatBlat (const AlignmentFormatBlat & src ) 
+: AlignmentFormatBlocks( src )
+{
+}
+
+Position AlignmentFormatBlat::applyOffset( 
+			const Position & pos,
+			const Position & offset ) const
+{
+	debug_func_cerr(5);
+	return pos;
+}
+
+Position AlignmentFormatBlat::removeOffset( 
+			const Position & pos,
+			const Position & offset ) const
+{
+	debug_func_cerr(5);
+	return pos;
 }
 
 //-----------------------------------------------------------------------

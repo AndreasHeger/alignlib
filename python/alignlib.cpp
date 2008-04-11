@@ -136,6 +136,13 @@ struct AlignmentFormatBlocks_wrapper : alignlib::AlignmentFormatBlocks, bp::wrap
     
     }
 
+    virtual ::alignlib::Position applyOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_applyOffset = this->get_override( "applyOffset" ) )
+            return func_applyOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlocks::applyOffset( pos, offset );
+    }
+
     virtual void copy( ::alignlib::HAlignment & dest ) const  {
         if( bp::override func_copy = this->get_override( "copy" ) )
             func_copy( dest );
@@ -172,6 +179,13 @@ struct AlignmentFormatBlocks_wrapper : alignlib::AlignmentFormatBlocks, bp::wrap
         alignlib::AlignmentFormatBlocks::load( boost::ref(arg0) );
     }
 
+    virtual ::alignlib::Position removeOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_removeOffset = this->get_override( "removeOffset" ) )
+            return func_removeOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlocks::removeOffset( pos, offset );
+    }
+
     virtual void save( ::std::ostream & arg0 ) const  {
         if( bp::override func_save = this->get_override( "save" ) )
             func_save( boost::ref(arg0) );
@@ -182,6 +196,59 @@ struct AlignmentFormatBlocks_wrapper : alignlib::AlignmentFormatBlocks, bp::wrap
     
     void default_save( ::std::ostream & arg0 ) const  {
         alignlib::AlignmentFormatBlocks::save( boost::ref(arg0) );
+    }
+
+};
+
+struct AlignmentFormatBlat_wrapper : alignlib::AlignmentFormatBlat, bp::wrapper< alignlib::AlignmentFormatBlat > {
+
+    AlignmentFormatBlat_wrapper( )
+    : alignlib::AlignmentFormatBlat( )
+      , bp::wrapper< alignlib::AlignmentFormatBlat >(){
+        // null constructor
+    
+    }
+
+    AlignmentFormatBlat_wrapper(::alignlib::HAlignment const & src )
+    : alignlib::AlignmentFormatBlat( src )
+      , bp::wrapper< alignlib::AlignmentFormatBlat >(){
+        // constructor
+    
+    }
+
+    AlignmentFormatBlat_wrapper(::std::istream & src )
+    : alignlib::AlignmentFormatBlat( boost::ref(src) )
+      , bp::wrapper< alignlib::AlignmentFormatBlat >(){
+        // constructor
+    
+    }
+
+    AlignmentFormatBlat_wrapper(::std::string const & src )
+    : alignlib::AlignmentFormatBlat( src )
+      , bp::wrapper< alignlib::AlignmentFormatBlat >(){
+        // constructor
+    
+    }
+
+    AlignmentFormatBlat_wrapper(::alignlib::AlignmentFormatBlat const & arg0 )
+    : alignlib::AlignmentFormatBlat( boost::ref(arg0) )
+      , bp::wrapper< alignlib::AlignmentFormatBlat >(){
+        // copy constructor
+    
+    }
+
+    virtual ::alignlib::Position applyOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_applyOffset = this->get_override( "applyOffset" ) )
+            return func_applyOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlat::applyOffset( pos, offset );
+    }
+
+    virtual ::alignlib::Position removeOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_removeOffset = this->get_override( "removeOffset" ) )
+            return func_removeOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlat::removeOffset( pos, offset );
     }
 
 };
@@ -1392,6 +1459,16 @@ BOOST_PYTHON_MODULE(alignlib){
         AlignmentFormatBlocks_exposer.def( bp::init< std::istream & >(( bp::arg("src") )) );
         AlignmentFormatBlocks_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
         AlignmentFormatBlocks_exposer.def( bp::init< alignlib::AlignmentFormatBlocks const & >(( bp::arg("arg0") )) );
+        { //::alignlib::AlignmentFormatBlocks::applyOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlocks_wrapper::*applyOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlocks_exposer.def( 
+                "applyOffset"
+                , applyOffset_function_type( &AlignmentFormatBlocks_wrapper::applyOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
+        
+        }
         { //::alignlib::AlignmentFormatBlocks::copy
         
             typedef void ( ::alignlib::AlignmentFormatBlocks::*copy_function_type )( ::alignlib::HAlignment & ) const;
@@ -1428,6 +1505,16 @@ BOOST_PYTHON_MODULE(alignlib){
                 , ( bp::arg("arg0") ) );
         
         }
+        { //::alignlib::AlignmentFormatBlocks::removeOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlocks_wrapper::*removeOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlocks_exposer.def( 
+                "removeOffset"
+                , removeOffset_function_type( &AlignmentFormatBlocks_wrapper::removeOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
+        
+        }
         { //::alignlib::AlignmentFormatBlocks::save
         
             typedef void ( ::alignlib::AlignmentFormatBlocks::*save_function_type )( ::std::ostream & ) const;
@@ -1450,6 +1537,43 @@ BOOST_PYTHON_MODULE(alignlib){
     bp::implicitly_convertible< std::istream &, alignlib::AlignmentFormatBlocks >();
 
     bp::implicitly_convertible< std::string const &, alignlib::AlignmentFormatBlocks >();
+
+    { //::alignlib::AlignmentFormatBlat
+        typedef bp::class_< AlignmentFormatBlat_wrapper, bp::bases< alignlib::AlignmentFormatBlocks > > AlignmentFormatBlat_exposer_t;
+        AlignmentFormatBlat_exposer_t AlignmentFormatBlat_exposer = AlignmentFormatBlat_exposer_t( "AlignmentFormatBlat" );
+        bp::scope AlignmentFormatBlat_scope( AlignmentFormatBlat_exposer );
+        AlignmentFormatBlat_exposer.def( bp::init< >() );
+        AlignmentFormatBlat_exposer.def( bp::init< alignlib::HAlignment const & >(( bp::arg("src") )) );
+        AlignmentFormatBlat_exposer.def( bp::init< std::istream & >(( bp::arg("src") )) );
+        AlignmentFormatBlat_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
+        AlignmentFormatBlat_exposer.def( bp::init< alignlib::AlignmentFormatBlat const & >(( bp::arg("arg0") )) );
+        { //::alignlib::AlignmentFormatBlat::applyOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlat_wrapper::*applyOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlat_exposer.def( 
+                "applyOffset"
+                , applyOffset_function_type( &AlignmentFormatBlat_wrapper::applyOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
+        
+        }
+        { //::alignlib::AlignmentFormatBlat::removeOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlat_wrapper::*removeOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlat_exposer.def( 
+                "removeOffset"
+                , removeOffset_function_type( &AlignmentFormatBlat_wrapper::removeOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
+        
+        }
+    }
+
+    bp::implicitly_convertible< alignlib::HAlignment const &, alignlib::AlignmentFormatBlat >();
+
+    bp::implicitly_convertible< std::istream &, alignlib::AlignmentFormatBlat >();
+
+    bp::implicitly_convertible< std::string const &, alignlib::AlignmentFormatBlat >();
 
     { //::alignlib::AlignmentFormatDiagonals
         typedef bp::class_< AlignmentFormatDiagonals_wrapper, bp::bases< alignlib::AlignmentFormat > > AlignmentFormatDiagonals_exposer_t;
