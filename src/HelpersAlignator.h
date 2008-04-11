@@ -53,16 +53,20 @@ namespace alignlib
  * @param alignment_type 	The @ref AlignmentType (global, local, wrapping)
  * @param gop				Gap openening penalty.
  * @param gep				Gap extension penalty.
- * @param penalize_left		Penalize gaps on left side of sequences (global alignment)
- * @param penalize_right	Penalize gaps on right side of sequences (global alignment).
+ * @param penalize_row_left		Penalize gaps on left side of row sequence (global alignment)
+ * @param penalize_row_right	Penalize gaps on right side of row sequence (global alignment).
+ * @param penalize_col_left		Penalize gaps on left side of col sequence (global alignment)
+ * @param penalize_col_right	Penalize gaps on right side of col sequence (global alignment).
  * 
  * @return a new @ref Alignator object.
  * */
 HAlignator makeAlignatorDPFull( 
 		AlignmentType alignment_type,
 		Score gop, Score gep, 
-		bool penalize_left = false, 
-		bool penalize_right = false );
+		bool penalize_row_left = false, 
+		bool penalize_row_right = false,
+		bool penalize_col_left = false, 
+		bool penalize_col_right = false );
 
 /** make @ref Alignator object that return pairs of identical residues. 
  * 

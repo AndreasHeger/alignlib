@@ -55,11 +55,13 @@ namespace alignlib
 
 HAlignator makeAlignatorDPFull( AlignmentType alignment_type,
 		Score gop, Score gep,
-		bool penalize_left,
-		bool penalize_right )
+		bool penalize_row_left, 
+		bool penalize_row_right, 
+		bool penalize_col_left, 
+		bool penalize_col_right)
 		{
 	return HAlignator( new ImplAlignatorDPFull( alignment_type, gop, gep, gop, gep,
-			penalize_left, penalize_right, penalize_left, penalize_right) );
+			penalize_row_left, penalize_row_right, penalize_col_left, penalize_col_right) );
 		}
 
 /* How to write a fast algorithm:
@@ -273,7 +275,261 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 //---------------------------------< the actual alignment algorithm >-------------------------------------------
 
 //-----------------------------------------------------------------------------------  
-void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
+void ImplAlignatorDPFull::performAlignment( 
+		HAlignment & ali,
+		const HAlignandum & prow, 
+		const HAlignandum & pcol )
+{
+	
+	/*
+      ------> col
+      | CC-> 
+      | DD->
+      |
+      |
+      row
+
+      For each cell:
+        s   mCC/mDD   
+         \  |
+          \ |
+      c/e-- x
+
+      c/mCC: last op was match
+      e/mDD: last op was gap
+	 */
+
+	switch (mAlignmentType)
+	{
+	case ALIGNMENT_LOCAL:
+		performAlignmentLocal( ali, prow, pcol );
+		break;
+	case ALIGNMENT_WRAP:      
+		performAlignmentWrapped( ali, prow, pcol );
+		break;
+	case ALIGNMENT_GLOBAL:
+		performAlignmentGlobal( ali, prow, pcol );
+		break;
+	}
+
+	traceBack(ali, prow, pcol );
+}
+
+//-----------------------------------------------------------------------------------  
+void ImplAlignatorDPFull::performAlignmentGlobal( 
+		HAlignment & ali,
+		const HAlignandum & prow, 
+		const HAlignandum & pcol )
+{
+	
+	// TODO: Fix end gap treatment for global alignment.
+	// See the python test set.
+
+	debug_func_cerr(5);
+
+	Score row_gop = getRowGop();
+	Score row_gep = getRowGep();
+	Score col_gop = getColGop();
+	Score col_gep = getColGep();
+
+	Score c, e, d, s;                  // helper variables
+	c = e = d = s = 0;
+
+	Score row_m = row_gop + row_gep;
+	Score col_m = col_gop + col_gep;
+
+	/*
+      ------> col
+      | CC-> 
+      | DD->
+      |
+      |
+      row
+
+      For each cell:
+        s   mCC/mDD   
+         \  |
+          \ |
+      c/e-- x
+
+      c/mCC: last op was match
+      e/mDD: last op was gap
+	 */
+
+	//---> Initialise affine penalty arrays <--------------------------
+
+	//-----------------------------------------------------------------
+	{
+
+		Position row = mIterator->row_front();
+		Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
+		assert( (*cit) -1 >= -1);
+		mCC[(*cit)-1] = 0;
+
+		/* set initial values for upper border */      
+		if (mPenalizeRowLeft)
+		{
+			for (; cit != cend; ++cit)
+			{
+				Position col = *cit;	    
+				mCC[col]   = row_gop + row_gep * (col+1);
+				mDD[col]   = mCC[col];                              // add score for gap opening
+			}
+		}
+		else
+		{
+			for (; cit != cend; ++cit)
+			{
+				Position col = *cit;	    		
+				mCC[col]   = 0;
+				mDD[col]   = row_gop;                               // add score for gap opening
+			}
+		}
+	}
+	
+	//----------------------------> Calculate dynamic programming matrix <----------------------------
+	//----------------------------> iterate over rowumns <--------------------------------------------
+	Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
+
+	debug_cerr( 5, "aligning within the following coordinates: row= "
+			<< *mIterator->row_begin() << "-" <<  *mIterator->row_end() << ":" << mIterator->row_size() << " col=" 
+			<< *mIterator->col_begin() << "-" <<  *mIterator->col_end() << ":" << mIterator->col_size() );
+	debug_cerr( 5, "penalties=" << mPenalizeRowLeft << " " << mPenalizeRowRight 
+			<< " " << mPenalizeColLeft << " " << mPenalizeColRight );
+
+#ifdef DEBUG
+	{
+		{
+			debug_cerr_start( 5, "col" << setw(6) << " " );
+			for (Position c = -1; c < mIterator->col_size(); ++c) 
+				debug_cerr_add( 5, setw(4) << c );
+			debug_cerr_add( 5, std::endl );
+		}
+		{
+			debug_cerr_start( 5, "mCC" << setw(6) << " " );
+			for (Position c = -1; c < mIterator->col_size(); ++c) 
+				debug_cerr_add( 5, setw(4) << mCC[c] );
+			debug_cerr_add( 5, std::endl );
+		}
+		{
+			debug_cerr_start( 5, "mDD" << setw(6) << " " );
+			for (Position c = -1; c < mIterator->col_size(); ++c) 
+				debug_cerr_add( 5, setw(4) << mDD[c] );
+			debug_cerr_add( 5, std::endl );
+		}
+	}
+#endif
+		
+	for (; rit != rend; ++rit)
+	{
+		Position row = *rit;
+		Position row_length = mIterator->row_size();
+		Position row_from   = mIterator->row_front( row );
+		Position col_length = mIterator->col_size( row );
+
+		Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
+		Position col_from = *cit;
+
+		// set initial values for left border
+		// take into account that with an iterator the iteration
+		// will not start at the first cell in a row. The trace is
+		// never allowed to leave the band, and this includes gaps.
+		if (mPenalizeColLeft)
+		{
+			// s contains score of i-1,j-1 as if both ends are unaligned
+			s = mCC[col_from-1];         
+			mCC[col_from-1] += col_gep;
+			if (row == row_from)
+				mCC[col_from-1] += col_gop;
+			e = c = col_gop + col_gep * (row + 1);                  
+		}
+		else
+		{
+			s = 0;
+			c = 0;
+			e = col_gop;
+		}
+
+		//-------------------------> iterate over cols <------------------------------------------------	
+		for (; cit != cend; ++cit)
+		{
+			Position col = *cit;
+
+			//---------------------------> calculate scores <--------------------------------------------
+			// c contains score of cell left
+			// s contains score for cell [row-1, col-1]
+			// e is better of: score for opening a horizontal gap or score for extending a horizontal gap: 
+			// use col-gap-penalties
+			bool new_horizontal_gap = false;
+			if ((c = c + col_m) > (e = e + col_gep))  
+			{
+				new_horizontal_gap = true;
+				e = c;
+			}       
+			// d is better of: score for opening a vertical gap or score for extending a vertical gap
+			bool new_vertical_gap = false;
+			if ((c = mCC[col] + row_m) > (d = mDD[col] + row_gep))
+			{
+				new_vertical_gap = true;
+				d = c;
+			}
+
+			// c is score for a match
+			c = s + mScorer->getScore(row,col);
+
+			// put into c the best of all possible cases
+			if (e > c) c = e;
+			if (d > c) c = d;
+
+			//--------------------------> recurrence relation <-------------------------------------------------
+			if ( c == d )                   // vertical gap
+			{
+				mTraceMatrix[getTraceIndex(row,col)] = TB_INSERTION;
+				// make sure that if we backtrack via gap extension
+				// if this is an old gap.
+				if (!new_vertical_gap)
+					mTraceMatrix[getTraceIndex(row-1,col)] = TB_INSERTION;
+			}
+			else if ( c == e )              // horizontal gap
+			{
+				mTraceMatrix[getTraceIndex(row,col)] = TB_DELETION;
+				if (!new_horizontal_gap)
+					mTraceMatrix[getTraceIndex(row,col-1)] = TB_DELETION;
+			}
+			else                           // match
+				mTraceMatrix[getTraceIndex(row,col)] = TB_MATCH;
+
+			debug_cerr( 5, " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
+								<< " mCC=" << mCC[col] << " mDD=" << mDD[col]
+					            << " index=" << getTraceIndex(row,col) <<  " mScore=" << mScore << " : "                               
+					            << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );      
+
+			s = mCC[col];
+			mCC[col] = c;                                              // save new score for next i
+			mDD[col] = d;
+
+			/* retrieve maximum score. If penalty has to be paid for right end-gaps, 
+	       then restrict search last row/colum;
+			 */
+			if (mPenalizeColRight && row < row_length - 1) 
+				continue;
+			if (mPenalizeRowRight && col < col_length - 1) 
+				continue;
+
+			if (mScore < c)
+			{
+				// save maximum
+				debug_cerr( 5, " updating score from cell " << row << "," << col << " with " << c );
+				mScore   = c;
+				mRowLast = row;
+				mColLast = col;
+			}
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------------  
+void ImplAlignatorDPFull::performAlignmentWrapped( HAlignment & ali,
 		const HAlignandum & prow, const HAlignandum & pcol )
 {
 	
@@ -321,47 +577,13 @@ void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
 		assert( (*cit) -1 >= -1);
 		mCC[(*cit)-1] = 0;
 
-		switch (mAlignmentType)
+		for (; cit != cend; ++cit)
 		{
-		case ALIGNMENT_LOCAL:
-			for (; cit != cend; ++cit)
-			{
-				Position col = *cit;	    
-				mCC[col]   = 0;
-				mDD[col]   = row_gop;                               // score for horizontal gap opening
-			}
-			mCC[mIterator->col_back()] = col_gop;
-			break;
-		case ALIGNMENT_WRAP:      
-			for (; cit != cend; ++cit)
-			{
-				Position col = *cit;	    
-				mCC[col]   = 0;
-				mDD[col]   = row_gop;                               // score for horizontal gap opening
-			}
-			mCC[mIterator->col_back()] = col_gop;
-			break;
-		case ALIGNMENT_GLOBAL:
-			/* set initial values for upper border */      
-			if (mPenalizeRowLeft)
-			{
-				for (; cit != cend; ++cit)
-				{
-					Position col = *cit;	    
-					mCC[col]   = row_gop + row_gep * (col+1);
-					mDD[col]   = mCC[col];                              // add score for gap opening
-				}
-			}
-			else
-			{
-				for (; cit != cend; ++cit)
-				{
-					Position col = *cit;	    		
-					mCC[col]   = 0;
-					mDD[col]   = row_gop;                               // add score for gap opening
-				}
-			}
+			Position col = *cit;	    
+			mCC[col]   = 0;
+			mDD[col]   = row_gop;                               // score for horizontal gap opening
 		}
+		mCC[mIterator->col_back()] = col_gop;
 	}
 
 	//----------------------------> Calculate dynamic programming matrix <----------------------------
@@ -384,47 +606,19 @@ void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
 		Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
 		Position col_from = *cit;
 
-		switch (mAlignmentType)
+		// the wrapping around part	  
+		if (mCC[col_length-1] > 0)
 		{
-		case ALIGNMENT_LOCAL:
-			s = mCC[col_from - 1];
-			mCC[col_from - 1] = c = 0;
-			e = col_gop;  // penalty for opening a vertical gap
-			break;
-		case ALIGNMENT_WRAP:
-			// the wrapping around part	  
-			if (mCC[col_length-1] > 0)
-			{
-				mCC[col_from - 1] = c = mCC[col_length-1];
-				mTraceMatrix[getTraceIndex(row-1,-1)] = TB_WRAP;
-			}
-			else
-			{
-				mCC[col_from - 1] = c = 0;
-			}
-
-			s = mCC[col_from - 1];
-			e = col_gop; // penalty for opening a vertical gap
-			break;
-		case ALIGNMENT_GLOBAL:
-			/* set initial values for left border */
-			// does this work with iterator2D?
-			if (mPenalizeColLeft)
-			{
-				s = mCC[col_from-1];         
-				mCC[col_from-1] += col_gep;
-				if (row == row_from)
-					mCC[col_from-1] += col_gop;
-				e = c = col_gop + col_gep * (row + 1);                  
-			}
-			else
-			{
-				s = 0;
-				c = 0;
-				e = col_gop;
-			}
-			break;
+			mCC[col_from - 1] = c = mCC[col_length-1];
+			mTraceMatrix[getTraceIndex(row-1,-1)] = TB_WRAP;
 		}
+		else
+		{
+			mCC[col_from - 1] = c = 0;
+		}
+
+		s = mCC[col_from - 1];
+		e = col_gop; // penalty for opening a vertical gap
 
 		//-------------------------> iterate over cols <------------------------------------------------	
 		for (; cit != cend; ++cit)
@@ -458,7 +652,158 @@ void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
 			if (d > c) c = d;
 
 			//--------------------------> recurrence relation <-------------------------------------------------
-			if (mAlignmentType == ALIGNMENT_LOCAL && c <= 0)
+			if ( c == d )                   // vertical gap
+			{
+				mTraceMatrix[getTraceIndex(row,col)] = TB_INSERTION;
+				// make sure that if we backtrack via gap extension
+				// if this is an old gap.
+				if (!new_vertical_gap)
+					mTraceMatrix[getTraceIndex(row-1,col)] = TB_INSERTION;
+			}
+			else if ( c == e )              // horizontal gap
+			{
+				mTraceMatrix[getTraceIndex(row,col)] = TB_DELETION;
+				if (!new_horizontal_gap)
+					mTraceMatrix[getTraceIndex(row,col-1)] = TB_DELETION;
+			}
+			else                           // match
+				mTraceMatrix[getTraceIndex(row,col)] = TB_MATCH;
+
+			debug_cerr( 5, " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
+					<< " mCC=" << mCC[col] << " mDD=" << mDD[col]
+					                                         << " index=" << getTraceIndex(row,col) <<  " mScore=" << mScore << " : "                               
+					                                         << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );      
+
+			s = mCC[col];
+			mCC[col] = c;                                              // save new score for next i
+			mDD[col] = d;
+
+			if (mScore < c)
+			{
+				// save maximum
+				debug_cerr( 5, " updating score from cell " << row << "," << col << " with " << c );
+				mScore   = c;
+				mRowLast = row;
+				mColLast = col;
+			}
+		}
+	}
+
+	traceBack(ali, prow, pcol );
+}
+
+//-----------------------------------------------------------------------------------  
+void ImplAlignatorDPFull::performAlignmentLocal( 
+		HAlignment & ali,
+		const HAlignandum & prow, 
+		const HAlignandum & pcol )
+{
+	
+	debug_func_cerr(5);
+
+	Score row_gop = getRowGop();
+	Score row_gep = getRowGep();
+	Score col_gop = getColGop();
+	Score col_gep = getColGep();
+
+	Score c, e, d, s;                  // helper variables
+	c = e = d = s = 0;
+
+	Score row_m = row_gop + row_gep;
+	Score col_m = col_gop + col_gep;
+
+	/*
+      ------> col
+      | CC-> 
+      | DD->
+      |
+      |
+      row
+
+      For each cell:
+        s   mCC/mDD   
+         \  |
+          \ |
+      c/e-- x
+
+      c/mCC: last op was match
+      e/mDD: last op was gap
+	 */
+
+	//---> Initialise affine penalty arrays <--------------------------
+
+	//-----------------------------------------------------------------
+	{
+
+		Position row = mIterator->row_front();
+		Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
+		assert( (*cit) -1 >= -1);
+		mCC[(*cit)-1] = 0;
+
+		for (; cit != cend; ++cit)
+		{
+			Position col = *cit;	    
+			mCC[col]   = 0;
+			mDD[col]   = row_gop;                               // score for horizontal gap opening
+		}
+		mCC[mIterator->col_back()] = col_gop;
+	}
+
+	//----------------------------> Calculate dynamic programming matrix <----------------------------
+	//----------------------------> iterate over rowumns <--------------------------------------------
+	Iterator2D::const_iterator rit(mIterator->row_begin()), rend(mIterator->row_end());
+
+	debug_cerr( 5, "aligning within the following coordinates: row= "
+			<< *mIterator->row_begin() << "-" <<  *mIterator->row_end() << ":" << mIterator->row_size() << " col=" 
+			<< *mIterator->col_begin() << "-" <<  *mIterator->col_end() << ":" << mIterator->col_size() );
+
+	for (; rit != rend; ++rit)
+	{
+		Position row = *rit;
+		Position row_length = mIterator->row_size();
+		Position row_from   = mIterator->row_front( row );
+		Position col_length = mIterator->col_size( row );
+
+		Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
+		Position col_from = *cit;
+
+		s = mCC[col_from - 1];
+		mCC[col_from - 1] = c = 0;
+		e = col_gop;  // penalty for opening a vertical gap
+
+		//-------------------------> iterate over cols <------------------------------------------------	
+		for (; cit != cend; ++cit)
+		{
+			Position col = *cit;
+
+			//---------------------------> calculate scores <--------------------------------------------
+			// c contains score of cell left
+			// s contains score for cell [row-1, col-1]
+			// e is better of: score for opening a horizontal gap or score for extending a horizontal gap: 
+			// use col-gap-penalties
+			bool new_horizontal_gap = false;
+			if ((c = c + col_m) > (e = e + col_gep))  
+			{
+				new_horizontal_gap = true;
+				e = c;
+			}       
+			// d is better of: score for opening a vertical gap or score for extending a vertical gap
+			bool new_vertical_gap = false;
+			if ((c = mCC[col] + row_m) > (d = mDD[col] + row_gep))
+			{
+				new_vertical_gap = true;
+				d = c;
+			}
+
+			// c is score for a match
+			c = s + mScorer->getScore(row,col);
+
+			// put into c the best of all possible cases
+			if (e > c) c = e;
+			if (d > c) c = d;
+
+			//--------------------------> recurrence relation <-------------------------------------------------
+			if (c <= 0)
 			{
 				c = 0;                                                  // the local alignment part
 			}
@@ -483,24 +828,13 @@ void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
 			}
 
 			debug_cerr( 5, " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
-					<< " mCC=" << mCC[col] << " mDD=" << mDD[col]
+							<< " mCC=" << mCC[col] << " mDD=" << mDD[col]
 					                                         << " index=" << getTraceIndex(row,col) <<  " mScore=" << mScore << " : "                               
 					                                         << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );      
 
 			s = mCC[col];
 			mCC[col] = c;                                              // save new score for next i
 			mDD[col] = d;
-
-			/* retrieve maximum score. If penalty has to be paid for right end-gaps, 
-	       then restrict search correspondingly;
-			 */
-			if (mAlignmentType == ALIGNMENT_GLOBAL)
-			{                    
-				if (mPenalizeRowRight && row < row_length - 1) 
-					continue;
-				if (mPenalizeColRight && col < col_length - 1) 
-					continue;
-			}
 
 			if (mScore < c)
 			{
@@ -512,8 +846,7 @@ void ImplAlignatorDPFull::performAlignment( HAlignment & ali,
 			}
 		}
 	}
-
-	traceBack(ali, prow, pcol );
 }
+
 
 } // namespace alignlib

@@ -121,6 +121,23 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
 	    							const HAlignandum & row, 
 	    							const HAlignandum & col );
 
+	    /** perform local alignment */
+	    virtual void performAlignmentLocal(HAlignment & dest, 
+	    							const HAlignandum & row, 
+	    							const HAlignandum & col );
+
+	    /** perform global alignment */
+	    virtual void performAlignmentGlobal(HAlignment & dest, 
+	    							const HAlignandum & row, 
+	    							const HAlignandum & col );
+
+	    /** perform wrapped alignment */
+	    virtual void performAlignmentWrapped(HAlignment & dest, 
+	    							const HAlignandum & row, 
+	    							const HAlignandum & col );
+
+	    
+	    
     /** traces back through trace matrix and put in the alignment in Alignment-object */
     virtual void traceBack( HAlignment & dest,
     		const HAlignandum & row, const HAlignandum & col );				

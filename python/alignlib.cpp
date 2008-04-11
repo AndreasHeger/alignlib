@@ -3475,12 +3475,12 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::makeAlignatorDPFull
     
-        typedef ::alignlib::HAlignator ( *makeAlignatorDPFull_function_type )( ::alignlib::AlignmentType,::alignlib::Score,::alignlib::Score,bool,bool );
+        typedef ::alignlib::HAlignator ( *makeAlignatorDPFull_function_type )( ::alignlib::AlignmentType,::alignlib::Score,::alignlib::Score,bool,bool,bool,bool );
         
         bp::def( 
             "makeAlignatorDPFull"
             , makeAlignatorDPFull_function_type( &::alignlib::makeAlignatorDPFull )
-            , ( bp::arg("alignment_type"), bp::arg("gop"), bp::arg("gep"), bp::arg("penalize_left")=(bool)(false), bp::arg("penalize_right")=(bool)(false) ) );
+            , ( bp::arg("alignment_type"), bp::arg("gop"), bp::arg("gep"), bp::arg("penalize_row_left")=(bool)(false), bp::arg("penalize_row_right")=(bool)(false), bp::arg("penalize_col_left")=(bool)(false), bp::arg("penalize_col_right")=(bool)(false) ) );
     
     }
 

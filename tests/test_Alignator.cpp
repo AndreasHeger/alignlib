@@ -98,7 +98,7 @@ bool testPairwiseAlignment(int test_id,
 		<< score << (( score == result->getScore() ) ? " == " : " != ") << result->getScore()
 		<< std::endl;
 		std::cout << "test " << test_id << " failure" << std::endl;      
-
+		
 		return false;
 	}
 }
@@ -137,7 +137,7 @@ bool testWrappedAlignment(int test_id,
 		<< format.mAlignment
 		<< std::endl;
 		std::cout << "test " << test_id << " failure" << std::endl;      
-
+		
 		return false;
 	}
 }
@@ -271,7 +271,8 @@ void testPairAlignator( Alignator * a,
 
 }
  */
-int main () {
+int main () 
+{
 
 	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
 			getDefaultEncoder()->getAlphabetSize(), 
@@ -293,7 +294,7 @@ int main () {
 	
 	{
 		std::cout << "--- testing AlignatorDPFull (global mode) " << std::endl;
-		HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true );
+		HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true, true, true );
 		testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
 		testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 6 );
 		testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 6 );
@@ -309,7 +310,7 @@ int main () {
 		testPairwiseAlignment( 9, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 
 	}
-
+	
 	{
 		std::cout << "--- testing AlignatorDPFull (local mode)" << std::endl;
 		HAlignator a = makeAlignatorDPFull( ALIGNMENT_LOCAL, gop, gep );
@@ -351,14 +352,13 @@ int main () {
 		// here, gap costs are -10, -2
 		std::cout << "--- testing AlignatorGroupies " << std::endl;
 		HAlignator a = makeAlignatorGroupies();
-		testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-		testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
-		testPairwiseAlignment( 3, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
-		testPairwiseAlignment( 4, a, seq2, seq3, 0,  5, "+2-2+3", 0,  7,      "+7", 34 );
-		testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",0,  15,  "+15", 150 );
+		testPairwiseAlignment( 31, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment( 32, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
+		testPairwiseAlignment( 33, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
+		testPairwiseAlignment( 34, a, seq2, seq3, 0,  5, "+2-2+3", 0,  7,      "+7", 36 );
+		testPairwiseAlignment( 35, a, seq1, seq4, 0,  15, "+15",0,  15,  "+15", 139 );
 	}
-	
-	
+		
 	{ 
 		
 		HSubstitutionMatrix new_matrix(makeSubstitutionMatrix( 
@@ -397,6 +397,71 @@ int main () {
 			std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;			
 		}
 	}
+	
+	{
+		
+		HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
+				getDefaultEncoder()->getAlphabetSize(), 
+				1, -1);
+		
+		setDefaultSubstitutionMatrix( matrix );
+
+		HAlignandum seq1 = makeSequence( "AAAAACCCCCAAAAACCCCCAAAAA" );
+		HAlignandum seq2 = makeSequence( "CCCCCAAAAA" );
+
+		Score gop = -2;
+		Score gep = -1;
+
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, false, false );
+			testPairwiseAlignment( 51, a, seq1, seq2, 5,  15, "+10",     0,  10,  "+10", 10 );
+			testPairwiseAlignment( 52, a, seq2, seq1, 0,  10, "+10",     5,  15,  "+10", 10);
+		}
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, false, false, false );
+			testPairwiseAlignment( 53, a, seq1, seq2, 5,  15, "+10",     0,  10,  "+10", 10 );
+			testPairwiseAlignment( 54, a, seq2, seq1, 5,  10, "+5",     0,  5,  "+5", 5 );
+		}
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, true, false, false );
+			testPairwiseAlignment( 55, a, seq1, seq2, 5,  15, "+10",     0,  10,  "+10", 10 );
+			testPairwiseAlignment( 56, a, seq2, seq1, 0,  10, "+10",    15,  25,  "+10", 10 );
+		}
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true, false, false );
+			testPairwiseAlignment( 57, a, seq1, seq2, 5,  15, "+10",     0,  10,  "+10", 10 );
+			testPairwiseAlignment( 58, a, seq2, seq1, 0,  10, "+9-10+1",     5,  25,  "+20", -7 );
+		}
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, true, false );
+			testPairwiseAlignment( 59, a, seq2, seq1, 0,  10, "+10",     5,  15,  "+10", 10 );
+			testPairwiseAlignment( 60, a, seq1, seq2, 0,  5, "+5",      5,  10,  "+5", 5 );
+		}
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, false, true );
+			testPairwiseAlignment( 61, a, seq2, seq1, 0,  10, "+10",     5,  15,  "+10", 10 );
+			testPairwiseAlignment( 62, a, seq1, seq2, 15,  25, "+10",    0,  10,  "+10", 10 );
+		}
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, true, true );
+			testPairwiseAlignment( 63, a, seq2, seq1, 0,  10, "+10",     5,  15,  "+10", 10 );
+			testPairwiseAlignment( 64, a, seq1, seq2, 5,  25, "+20",     0,  10,  "+9-10+1", -7 );
+		}
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true, true, true );
+			testPairwiseAlignment( 66, a, seq2, seq1,  0,  10, "+9-10+1", 5,  25, "+20",      -7 );
+			testPairwiseAlignment( 66, a, seq1, seq2,  5,  25, "+20",     0,  10,  "+9-10+1", -7 );
+		}
+
+	}
+
+	/*
+	{
+		HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, true, true );
+		testPairwiseAlignment( 9, a, seq1, seq7, 0,  15, "+15",     0,  15,  "+15", 139 );
+		testPairwiseAlignment( 9, a, seq7, seq1, 0,  15, "+15",     0,  15,  "+15", 139 );
+	}
+	*/
 	
 	//   cout << "---------------------testing AlignatorFullDPWrap----------------------------------" << endl;
 	//   a1 = makeAlignatorFullDPWrap( -1, -0.1 );
