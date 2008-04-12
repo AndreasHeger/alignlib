@@ -74,9 +74,18 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
     /** codes in trace-back matrix */
     enum TraceBackType
       {
-	TB_NOMATCH, TB_STOP, TB_INSERTION, TB_DELETION, TB_MATCH, TB_WRAP
+    	TB_NOMATCH, TB_MATCH, 
+    	TB_INSERTION, TB_DELETION,
+    	TB_INSERTION_OPEN, TB_INSERTION_EXTEND, 
+    	TB_DELETION_OPEN, TB_DELETION_EXTEND,
+    	TB_STOP, TB_WRAP
       };
 
+      enum TraceBackLevel
+      {
+    	  TBL_MATCH, TBL_INSERTION, TBL_DELETION
+      };
+      
   public:
     /* Constructors and destructors */
 
@@ -144,7 +153,7 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
 
     /** return index for given row and length.
      * */
-    inline int getTraceIndex( Position row, Position col )
+    inline int getTraceIndex( TraceBackLevel level, Position row, Position col ) const
       {
     	assert( row >= mRowFrom - 1);
     	assert( row < mRowTo );
@@ -160,6 +169,17 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
 #endif
     	assert( index >= 0);
     	assert( index < mMatrixSize );
+    	// shift matrix according to level
+    	switch (level)
+    	{
+    	case TBL_DELETION:
+    		index += mMatrixSize;
+    	case TBL_INSERTION:
+    		index += mMatrixSize;
+    	case TBL_MATCH:
+    		;
+    	}
+    	
     	return index;
       }; 
 
@@ -189,6 +209,14 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
 
     /** column, where trace ended */
     Position mColLast;
+    
+    /** level on which trace ended */
+    TraceBackLevel mLevelLast;
+    
+    /** print traceback matrix (for debugging purposes)
+     */
+	void printTraceMatrix( TraceBackLevel level ) const;
+
     
 };
 
