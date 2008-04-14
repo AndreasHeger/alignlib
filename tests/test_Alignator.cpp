@@ -434,7 +434,7 @@ int main ()
 		{
 			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, true, false );
 			testPairwiseAlignment( 59, a, seq2, seq1, 0,  10, "+10",     5,  15,  "+10", 10 );
-			testPairwiseAlignment( 60, a, seq1, seq2, 0,  5, "+5",      5,  10,  "+5", 5 );
+			testPairwiseAlignment( 60, a, seq1, seq2, 0,  5,  "+5",      5,  10,  "+5", 5 );
 		}
 		{
 			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, false, true );
@@ -450,6 +450,19 @@ int main ()
 			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true, true, true );
 			testPairwiseAlignment( 65, a, seq2, seq1,  0,  10, "+10",   15,  25, "+10",      -7 );
 			testPairwiseAlignment( 66, a, seq1, seq2, 15,  25, "+10",    0,  10, "+10",      -7 );
+		}
+	}
+	{
+		HAlignandum seq1 = makeSequence( "AAAAACCCCCAAAAA" );
+		HAlignandum seq2 = makeSequence( "YYYYYCCCCCYYYYY" );
+
+		Score gop = -2;
+		Score gep = -1;
+
+		{
+			HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, false, false );
+			testPairwiseAlignment( 70, a, seq1, seq2, 5,  10, "+5",     5,  10,  "+5", 5 );
+			testPairwiseAlignment( 71, a, seq2, seq1, 5,  10, "+5",     5,  10,  "+5", 5 );
 		}
 
 	}

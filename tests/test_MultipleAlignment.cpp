@@ -201,15 +201,15 @@ int main ()
 		m1->add(makeAlignatum("ABCDGHIJL"), a1);
 		m1->add(makeAlignatum("ABCDGHIJL"), a1);
 
-		m2->add(makeAlignatum("ABCDGHIJL"), a1);
-		m2->add(makeAlignatum("ABCDGHIJL"), a1);    
+		m2->add(makeAlignatum("ABCDHIJL"), a1);
+		m2->add(makeAlignatum("ABCDHIJL"), a1);    
 
 		cout << *m1 << endl;
 		cout << *m2 << endl;    
 
 		HAlignment aa1(makeAlignmentVector());
 		addDiagonal2Alignment( aa1, 0, 5 );
-		addDiagonal2Alignment( aa1, 5, 7, 1 );        
+		addDiagonal2Alignment( aa1, 5, 8, -1 );        
 
 		m1->add( m2, aa1 );
 
@@ -217,30 +217,6 @@ int main ()
 
 	}
 
-	// check mali dots
-	std::cout << "## checking MultipleAlignmentDots options" << std::endl;
-	{
-
-		// create a multiple alignment 
-		HMultipleAlignment m1(makeMultipleAlignmentDots( true ));
-
-		HAlignment a1(makeAlignmentVector());
-
-		HAlignment a2(makeAlignmentVector());
-		addDiagonal2Alignment( a2, 0, 5, +1 );
-
-		HAlignment a3(makeAlignmentVector());
-		addDiagonal2Alignment( a3, 1, 6, -1 );
-		addDiagonal2Alignment( a3, 6, 7, 0 );
-		addDiagonal2Alignment( a3, 7, 8, +1 );
-
-		m1->add(makeAlignatum("ABCDGHJL") );
-		m1->add(makeAlignatum("YABCDEFGH"), a2);
-		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
-
-		std::cout << *m1 << endl;
-
-	}
 
 	{
 		std::cout << "## checking MultipleAlignmentDots options" << std::endl;
@@ -250,7 +226,7 @@ int main ()
 
 		HAlignment a1(makeAlignmentVector());
 		addDiagonal2Alignment( a1, 1, 4, 0 );
-		addDiagonal2Alignment( a1, 6, 8, 0 );
+		addDiagonal2Alignment( a1, 7, 9, -1 );
 
 		HAlignment a2(makeAlignmentVector());
 		addDiagonal2Alignment( a2, 0, 5, +1 );
@@ -265,6 +241,20 @@ int main ()
 		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
 
 		std::cout << *m1 << endl;
+		
+		// 0123456789
+		// -BCD---JL--
+		// ABCDE-----
+		// -BCDEFIJLM
+		// 0000020010
+		
+		// 0123456789
+		// -BCD-gh--J-L--
+		// ABCDE--------
+		// -BCDE--FIJkLM
+		
+		
+		
 	}
 
 	// check mali dots

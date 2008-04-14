@@ -30,7 +30,8 @@ class SubstitutionMatrixCase( unittest.TestCase ):
                     makeSubstitutionMatrixBlosum50,
                     makeSubstitutionMatrixPam250,
                     makeSubstitutionMatrixPam120,
-                    makeSubstitutionMatrixBackTranslation ]
+                    lambda : makeSubstitutionMatrixBackTranslation( 1, -1, 0.5, getEncoder( Protein23) ), 
+                   ]
                     
     def testMake(self):
         """check if all matrices can be created and are square."""

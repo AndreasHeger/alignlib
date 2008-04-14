@@ -89,9 +89,9 @@ class AlignatorDPGlobalWithEndGapsPenaltiesTestCase( AlignatorTestCase ):
 
     def checkAlignment( self, row, col ):
 
-        print "where", row, col, str(self.mSeqs[row]), str(self.mSeqs[col])
-        print str( self.mAlignmentA2B )
-        print str( self.mAlignmentB2A )
+        #print "where", row, col, str(self.mSeqs[row]), str(self.mSeqs[col])
+        #print str( self.mAlignmentA2B )
+        #print str( self.mAlignmentB2A )
         
         AlignatorTestCase.checkAlignment( self, row, col )
         

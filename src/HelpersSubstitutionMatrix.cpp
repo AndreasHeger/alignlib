@@ -326,8 +326,9 @@ HSubstitutionMatrix makeSubstitutionMatrixBackTranslation(
 		const HEncoder & encoder)    
 {
 
-	HSubstitutionMatrix matrix(new SubstitutionMatrix( encoder->getAlphabetSize(), 
+	HSubstitutionMatrix matrix(makeSubstitutionMatrix( 
 			encoder->getAlphabetSize(), 
+			match,
 			mismatch ));
 
 	// AGCTN <-> W
