@@ -134,6 +134,9 @@ ResiduePair ImplAlignmentMatrix::back()  const
 void ImplAlignmentMatrix::addPair( const ResiduePair & pair ) 
 { 
 	ImplAlignment::addPair( pair );
+    debug_cerr( 5, "adding pair " <<  pair << " to container of size " 
+    		<< mPairs.size() << " coords=" << mRowFrom << "-" << mRowTo << ":" << mColFrom << "-" << mColTo );
+
 	mPairs.push_back( pair );
 	setChangedLength();
 } 

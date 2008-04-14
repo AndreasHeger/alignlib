@@ -41,6 +41,10 @@
 
 #include "alignlib.h"
 
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
+
 using namespace std;
 using namespace alignlib;
 
@@ -73,8 +77,16 @@ bool testPairwiseAlignment(int test_id,
 	std::cout << AlignmentFormatExplicit( result, benchmark_row, benchmark_col ) << std::endl ;
 
 	std::cout << "result=" << *result << std::endl;
-	
+
 	AlignmentFormatEmissions format( result );
+
+	BOOST_CHECK_EQUAL(result->getScore(), score);
+	BOOST_CHECK_EQUAL(row_from, result->getRowFrom());
+	BOOST_CHECK_EQUAL(row_to, result->getRowTo());
+	BOOST_CHECK_EQUAL(col_from, result->getColFrom());
+	BOOST_CHECK_EQUAL(col_to, result->getColTo());
+	BOOST_CHECK_EQUAL(format.mRowAlignment, r_row);
+	BOOST_CHECK_EQUAL(format.mColAlignment, r_col );
 	
 	if ( result->getScore() == score &&
 			row_from == result->getRowFrom() &&
@@ -98,7 +110,7 @@ bool testPairwiseAlignment(int test_id,
 		<< score << (( score == result->getScore() ) ? " == " : " != ") << result->getScore()
 		<< std::endl;
 		std::cout << "test " << test_id << " failure" << std::endl;      
-		
+
 		return false;
 	}
 }
@@ -122,8 +134,8 @@ bool testWrappedAlignment(int test_id,
 	std::string r_row(r_ali);
 
 	AlignmentFormatDiagonals format( result );
-	
-	
+
+
 	if ( result->getScore() == score &&
 			format.mAlignment == r_ali )
 	{
@@ -132,151 +144,24 @@ bool testWrappedAlignment(int test_id,
 	}
 	else
 	{
+		// std::cout << *result << std::endl;
 		std::cout << r_ali
 		<< (( format.mAlignment == r_ali ) ? " == " : " != ")
 		<< format.mAlignment
 		<< std::endl;
 		std::cout << "test " << test_id << " failure" << std::endl;      
-		
+
 		return false;
 	}
 }
 
 
-/* test pairwise alignments. For the calculation of the score it is assumed, 
-   that the identity matrix is used (match = 1, mismatch = -1, gop = -0.2, gep = -0.1).
- */
-/*
-void testPairAlignator( Alignator * a,
-			Alignment * ali)
-{
-
-  { 
-    std::cout << "testing...Align( seq1, seq2 )#1...";
-
-    Alignandum * a1 = makeSequence( "AAAAACCCCCAAAAA");
-    Alignandum * a2 = makeSequence( "AAAAACCCCCAAAAA");
-
-    if (
-	TestPairwiseAlignment( a, ali, a1, a2, "+15", "+15", 15) &&
-	TestPairwiseAlignment( a, ali, a2, a1, "+15", "+15", 15) 
-	) 
-      std::cout << "passed" << std::endl;
-    else 
-      std::cout << "failed" << std::endl;
-
-    delete a1;
-    delete a2;
-  }
-
-  { 
-    std::cout << "testing...Align( seq1, seq2 )#2...";
-
-    Alignandum * a1 = makeSequence( "AAAAACCCCCAAAAA");
-    Alignandum * a2 = makeSequence( "CCCCC");
-
-    if (
-	TestPairwiseAlignment( a, ali, a1, a2, "+5", "+5", 5) &&
-	TestPairwiseAlignment( a, ali, a2, a1, "+5", "+5", 5) 
-	) 
-      cout << "passed" << endl;
-    else 
-      cout << "failed" << endl;
-
-    delete a1;
-    delete a2;
-  }
-
-  { 
-    cout << "testing...Align( seq1, seq2 )#3...";
-
-    Alignandum * a1 = makeSequence( "AAAAACCCAACCCAAAAA");
-    Alignandum * a2 = makeSequence( "CCCCCC");
-
-    if (
-	TestPairwiseAlignment( a, ali, a1, a2, "+8", "+3-2+3", 4.8) &&
-	TestPairwiseAlignment( a, ali, a2, a1, "+3-2+3", "+8", 4.8) 
-	) 
-      cout << "passed" << endl;
-    else 
-      cout << "failed" << endl;
-
-    delete a1;
-    delete a2;
-  }
-
-  { 
-    cout << "testing...Align( seq1, seq2 )#4...";
-
-    Alignandum * a1 = makeSequence( "AAAAACCCACCCAAAAA");
-    Alignandum * a2 = makeSequence( "CCCKCCC");
-
-    if (
-	TestPairwiseAlignment( a, ali, a1, a2, "+7", "+7", 5) &&
-	TestPairwiseAlignment( a, ali, a2, a1, "+7", "+7", 5) 
-	) 
-      cout << "passed" << endl;
-    else 
-      cout << "failed" << endl;
-
-    delete a1;
-    delete a2;
-  }
-
-
-
-//   //--------------------------------------------------------
-//   seq1 = makeSequence( "AAAAACCCCCAAAAA");
-//   seq2 = makeSequence( "AAAAAKKKKKAAAAA");
-//   ali = a->Align( seq1, seq2, ali);
-//   cout << *seq1 << endl << *seq2 << endl << *ali;
-//   cout << "Score: " << ali->getScore() << " (should be: 37 = 10 * 4 - 2 * 1 - 10 *  0.1)" <<endl;
-//   if (mode == PAIR) writePairAlignment( cout, seq1, seq2, ali);
-//   delete seq1;
-//   delete seq2;
-
-//   //--------------------------------------------------------
-//   seq1 = makeSequence( "AAAACAAAAAA" );
-//   seq2 = makeSequence( "AAAAAAAAAA");
-//   ali = a->Align( seq1, seq2, ali);
-//   cout << *seq1 << endl << *seq2 << endl << *ali;
-//   cout << "Score: " << ali->getScore() << " (should be: 37 = 10 * 4 - 2 * 1 - 10 *  0.1)" <<endl;
-//   if (mode == PAIR) writePairAlignment( cout, seq1, seq2, ali);
-//   delete seq1;
-//   delete seq2;
-
-//   //--------------------------------------------------------
-//   seq1 = makeSequence( "AAAAKKKKAAAAAA" );
-//   seq2 = makeSequence( "KKAKKKGGG");
-//   ali = a->Align( seq1, seq2, ali);
-//   cout << *seq1 << endl << *seq2 << endl << *ali;
-//   cout << "Score: " << ali->getScore() << " (should be: 19 = 1 * 4 + 3 * 5)" <<endl;
-//   if (mode == PAIR) writePairAlignment( cout, seq1, seq2, ali);
-//   delete seq1;
-//   delete seq2;
-
-//   //--------------------------------------------------------
-//   // check wraparound-alignment
-//   seq1 = makeSequence( "YKKAAAAAAYKKAAAAAAYKKAAAAAAYKKAAAAAA" );
-//   seq2 = makeSequence( "KKAAAAAA");
-//   ali = a->Align( seq1, seq2, ali);
-//   cout << *seq1 << endl << *seq2 << endl << *ali;
-//   ali = a->Align( seq2, seq1, ali);
-//   cout << *ali;
-//   delete seq1;
-//   delete seq2;
-
-  //--------------------------------------------------------
-  cout << "Test finished..." << endl;
-
-}
- */
-int main () 
+BOOST_AUTO_TEST_CASE( global_alignment2)
 {
 	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
 			getDefaultEncoder()->getAlphabetSize(), 
 			10, -1);
-	
+
 	setDefaultSubstitutionMatrix( matrix );
 
 	HAlignandum seq1 = makeSequence( "AAAAACCCCCAAAAA" );
@@ -290,7 +175,7 @@ int main ()
 
 	Score gop = -12;
 	Score gep = -2;
-	
+
 	{
 		std::cout << "--- testing AlignatorDPFull (global mode) " << std::endl;
 		HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true, true, true );
@@ -309,7 +194,134 @@ int main ()
 		testPairwiseAlignment( 9, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 
 	}
-	
+
+
+	{ 
+		std::cout << "--- testing setting of range ---" << std::endl;
+		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
+		seq1->useSegment(5,8);
+		testPairwiseAlignment( 23, a, seq1, seq2, 5, 8, "+3", 0, 3, "+3", 14 );
+		seq1->useSegment(); 
+	}
+
+	{ 
+		std::cout << "--- testing sequence/profile alignment ---" << std::endl;
+		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
+		testPairwiseAlignment( 24, a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 18 );
+	}
+}
+
+BOOST_AUTO_TEST_CASE( alignment_wrap)
+{
+	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
+			getDefaultEncoder()->getAlphabetSize(), 
+			10, -1);
+
+	setDefaultSubstitutionMatrix( matrix );
+
+	HAlignandum seq1 = makeSequence( "KKKACACACKKK");
+	HAlignandum seq2 = makeSequence( "AC");  
+
+	Score gop = -12;
+	Score gep = -2;
+
+	std::cout << "--- testing AlignatorDPWrap (local mode)" << std::endl;
+	HAlignator a = makeAlignatorDPFull( ALIGNMENT_WRAP, gop, gep );
+	testWrappedAlignment(21, a, seq1, seq2, "-7:-0+2;-5:-0+2;-3:-0+2", 60 );
+	testWrappedAlignment(22, a, seq2, seq1, "3:-0+2", 20 );    
+}
+
+BOOST_AUTO_TEST_CASE( iterative_alignment )
+{ 
+	HSubstitutionMatrix new_matrix(makeSubstitutionMatrix( 
+			getDefaultEncoder()->getAlphabetSize(), 10, -10));
+	setDefaultSubstitutionMatrix( new_matrix );
+
+	std::cout << "--- testing iterative alignment ---" << std::endl;
+	HAlignator a(makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 ));
+
+	HAlignment result = makeAlignmentVector();
+	HAlignator alignator = makeAlignatorIterative( a, 1.0 );
+	{
+		HAlignandum row = makeSequence( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA" );
+		HAlignandum col = makeSequence( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA" );
+
+		alignator->align( result, row, col );		
+
+		std::cout << *result << std::endl;
+		std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
+	}
+	{
+		HAlignandum row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2,
+				getDefaultEncoder(),
+				makeWeightor(),
+				makeRegularizor(),
+				makeLogOddor());
+		HAlignandum col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2,
+				getDefaultEncoder(),
+				makeWeightor(),
+				makeRegularizor(),
+				makeLogOddor());
+
+		alignator->align( result, row, col );		
+
+		std::cout << *result << std::endl;
+		std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;			
+	}
+}
+
+BOOST_AUTO_TEST_CASE( groupies_alignment)
+{
+	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
+			getDefaultEncoder()->getAlphabetSize(), 
+			10, -1);
+
+	setDefaultSubstitutionMatrix( matrix );
+
+	HAlignandum seq1 = makeSequence( "AAAAACCCCCAAAAA" );
+	HAlignandum seq2 = makeSequence( "CCCCC" );
+	HAlignandum seq3 = makeSequence( "CCCKCCC" );
+	HAlignandum seq4 = makeSequence( "AAAAACCACCAAAAA" );
+	HAlignandum seq5 = makeSequence( "KKKACACACKKK");
+	HAlignandum seq6 = makeSequence( "AC");  
+	HAlignandum seq7 = makeSequence( "AAAAAAACCCCAAAAAAA" );
+	HAlignandum seq8 = makeProfile( "AAAAAAACCCCAAAAAAA", 1);
+
+	Score gop = -12;
+	Score gep = -2;
+
+	{
+		// here, gap costs are -10, -2
+		std::cout << "--- testing AlignatorGroupies " << std::endl;
+		HAlignator a = makeAlignatorGroupies();
+		testPairwiseAlignment( 31, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
+		testPairwiseAlignment( 32, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
+		testPairwiseAlignment( 33, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
+		testPairwiseAlignment( 34, a, seq2, seq3, 0,  5, "+2-2+3", 0,  7,      "+7", 36 );
+		testPairwiseAlignment( 35, a, seq1, seq4, 0,  15, "+15",0,  15,  "+15", 139 );
+	}
+}
+
+BOOST_AUTO_TEST_CASE( local_alignment)
+{
+	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
+			getDefaultEncoder()->getAlphabetSize(), 
+			10, -1);
+
+	setDefaultSubstitutionMatrix( matrix );
+
+	HAlignandum seq1 = makeSequence( "AAAAACCCCCAAAAA" );
+	HAlignandum seq2 = makeSequence( "CCCCC" );
+	HAlignandum seq3 = makeSequence( "CCCKCCC" );
+	HAlignandum seq4 = makeSequence( "AAAAACCACCAAAAA" );
+	HAlignandum seq5 = makeSequence( "KKKACACACKKK");
+	HAlignandum seq6 = makeSequence( "AC");  
+	HAlignandum seq7 = makeSequence( "AAAAAAACCCCAAAAAAA" );
+	HAlignandum seq8 = makeProfile( "AAAAAAACCCCAAAAAAA", 1);
+
+	Score gop = -12;
+	Score gep = -2;
+
 	{
 		std::cout << "--- testing AlignatorDPFull (local mode)" << std::endl;
 		HAlignator a = makeAlignatorDPFull( ALIGNMENT_LOCAL, gop, gep );
@@ -326,83 +338,18 @@ int main ()
 		testPairwiseAlignment( 17, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
 		testPairwiseAlignment( 18, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 	}
-	{
-		std::cout << "--- testing AlignatorDPWrap (local mode)" << std::endl;
-		HAlignator a = makeAlignatorDPFull( ALIGNMENT_WRAP, gop, gep );
-		testWrappedAlignment(21, a, seq5, seq6, "-7:-0+2;-5:-0+2;-3:-0+2", 60 );
-		testWrappedAlignment(22, a, seq6, seq5, "3:-0+2", 20 );    
-	}
 
-	{ 
-		std::cout << "--- testing setting of range ---" << std::endl;
-		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
-		seq1->useSegment(5,8);
-		testPairwiseAlignment( 23, a, seq1, seq2, 5, 8, "+3", 0, 3, "+3", 14 );
-		seq1->useSegment(); 
-	}
+}
 
-	{ 
-		std::cout << "--- testing sequence/profile alignment ---" << std::endl;
-		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
-		testPairwiseAlignment( 24, a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 18 );
-	}
+
+BOOST_AUTO_TEST_CASE( global_alignment)
+{
 
 	{
-		// here, gap costs are -10, -2
-		std::cout << "--- testing AlignatorGroupies " << std::endl;
-		HAlignator a = makeAlignatorGroupies();
-		testPairwiseAlignment( 31, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
-		testPairwiseAlignment( 32, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
-		testPairwiseAlignment( 33, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
-		testPairwiseAlignment( 34, a, seq2, seq3, 0,  5, "+2-2+3", 0,  7,      "+7", 36 );
-		testPairwiseAlignment( 35, a, seq1, seq4, 0,  15, "+15",0,  15,  "+15", 139 );
-	}
-		
-	{ 
-		
-		HSubstitutionMatrix new_matrix(makeSubstitutionMatrix( 
-				getDefaultEncoder()->getAlphabetSize(), 10, -10));
-		setDefaultSubstitutionMatrix( new_matrix );
-
-		std::cout << "--- testing iterative alignment ---" << std::endl;
-		HAlignator a(makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 ));
-
-		HAlignment result = makeAlignmentVector();
-		HAlignator alignator = makeAlignatorIterative( a, 1.0 );
-		{
-			HAlignandum row = makeSequence( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA" );
-			HAlignandum col = makeSequence( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA" );
-		
-			alignator->align( result, row, col );		
-		
-			std::cout << *result << std::endl;
-			std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
-		}
-		{
-			HAlignandum row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2,
-					getDefaultEncoder(),
-					makeWeightor(),
-					makeRegularizor(),
-					makeLogOddor());
-			HAlignandum col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2,
-					getDefaultEncoder(),
-					makeWeightor(),
-					makeRegularizor(),
-					makeLogOddor());
-		
-			alignator->align( result, row, col );		
-		
-			std::cout << *result << std::endl;
-			std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;			
-		}
-	}
-	
-	{
-		
 		HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
 				getDefaultEncoder()->getAlphabetSize(), 
 				1, -1);
-		
+
 		setDefaultSubstitutionMatrix( matrix );
 
 		HAlignandum seq1 = makeSequence( "AAAAACCCCCAAAAACCCCCAAAAA" );
@@ -452,6 +399,7 @@ int main ()
 			testPairwiseAlignment( 66, a, seq1, seq2, 15,  25, "+10",    0,  10, "+10",      -7 );
 		}
 	}
+
 	{
 		HAlignandum seq1 = makeSequence( "AAAAACCCCCAAAAA" );
 		HAlignandum seq2 = makeSequence( "YYYYYCCCCCYYYYY" );
@@ -466,78 +414,4 @@ int main ()
 		}
 
 	}
-	
-	//   cout << "---------------------testing AlignatorFullDPWrap----------------------------------" << endl;
-	//   a1 = makeAlignatorFullDPWrap( -1, -0.1 );
-	//   ali= makeAlignmentSet();
-	//   testAlignator( a1, ali, PAIR   );
-	//   delete a1;
-	//   delete ali;
-
-	//    cout << "---------------------testing AlignatorFullDPGlobal: end-gap-penalties on both sides----------------------------------" << endl;
-	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, true );
-	//    ali= makeAlignmentSet();
-	//    testAlignator( a1, ali, PAIR );
-	//    delete a1;
-	//    delete ali;
-
-	//    cout << "---------------------testing AlignatorFullDPGlobal: no right end-gap-penalty----------------------------------" << endl;
-	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, true, false );
-	//    ali= makeAlignmentSet();
-	//    testAlignator( a1, ali, PAIR );
-	//    delete a1;
-	//    delete ali;
-
-	//    cout << "---------------------testing AlignatorFullDPGlobal: no left end gap-penalty----------------------------------" << endl;
-	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, true );
-	//    ali= makeAlignmentSet();
-	//    testAlignator( a1, ali, PAIR );
-	//    delete a1;
-	//    delete ali;
-
-	//    cout << "---------------------testing AlignatorFullDPGlobal: no end gap-penalty----------------------------------" << endl;
-	//    a1 = makeAlignatorFullDPGlobal( -1, -0.1, false, false );
-	//    ali= makeAlignmentSet();
-	//    testAlignator( a1, ali, PAIR );
-	//    delete a1;
-	//    delete ali;
-
-
-	//   cout << "---------------------testing AlignatorIdentity----------------------------------" << endl;
-	//   a1 = makeAlignatorIdentity();
-	//   ali= makeAlignmentMatrixRow();
-	//   testAlignator( a1, ali, PAIR );
-	//   delete a1;
-	//   delete ali;
-
-	//   cout << "---------------------testing AlignatorSimilarity----------------------------------" << endl;
-	//   a1 = makeAlignatorSimilarity();		
-	//   ali= makeAlignmentMatrixRow();
-	//   testAlignator( a1, ali, MATRIX);
-	//   delete a1;
-	//   delete ali;
-
-	//   cout << "---------------------testing AlignatorTuples----------------------------------" << endl;
-	//   a1 = makeAlignatorTuples();		// this uses default values for ktuple-size and substitution matrix
-	//   ali= makeAlignmentMatrixRow();
-	//   testAlignator( a1, ali, MATRIX );
-	//   delete a1;
-	//   delete ali;
-
-	/*
-  {
-    cout << "---------------------testing AlignatorDots----------------------------------" << endl;
-
-    // this uses default values for ktuple-size and substitution matrix
-    Alignator * t  = makeAlignatorTuples( 1 );
-    Alignator * a  = makeAlignatorDotsSquared( -1, -0.1, t);		
-    Alignment  * ali= makeAlignmentVector();
-
-    testPairAlignator( a, ali );
-    delete a;
-    delete t;
-    delete ali;
-  }
-	 */
-
 }

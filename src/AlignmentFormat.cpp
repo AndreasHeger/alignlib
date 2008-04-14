@@ -779,15 +779,15 @@ AlignmentFormatDiagonals::AlignmentFormatDiagonals(
 		const HAlignment & src)
 : AlignmentFormat(), mAlignment("")
 {
-			fill( src);
+	fill( src);
 }
 
 AlignmentFormatDiagonals::AlignmentFormatDiagonals( 
 		std::istream & src) 
 : AlignmentFormat(), mAlignment("")
 {
-											load(src);
-											}
+	load(src);
+}
 
 AlignmentFormatDiagonals::AlignmentFormatDiagonals( const std::string & src)  
 	: AlignmentFormat(), mAlignment("")
@@ -806,227 +806,230 @@ AlignmentFormatDiagonals::AlignmentFormatDiagonals (const AlignmentFormatDiagona
 {
 }
 
-										void AlignmentFormatDiagonals::fill( 
-												const HAlignment & src )
-										{
-											fill(src, false);
-										}
+void AlignmentFormatDiagonals::fill( 
+		const HAlignment & src )
+{
+	fill(src, false);
+}
+	
+void AlignmentFormatDiagonals::fill( 
+		const HAlignment & src,
+		const bool reverse,
+		const Position xrow_from,
+		const Position xrow_to,
+		const Position xcol_from,
+		const Position xcol_to,
+		const Diagonal xdiagonal_from,
+		const Diagonal xdiagonal_to )
+{
+	debug_func_cerr(5);
+	
+	AlignmentFormat::fill( src );
+	
+	// sanity checks
+	if (src->isEmpty()) return;
 
-										void AlignmentFormatDiagonals::fill( 
-												const HAlignment & src,
-												const bool reverse,
-												const Position xrow_from,
-												const Position xrow_to,
-												const Position xcol_from,
-												const Position xcol_to,
-												const Diagonal xdiagonal_from,
-												const Diagonal xdiagonal_to )
-										{
-											debug_func_cerr(5);
+	HAlignment work( makeAlignmentMatrixDiagonal() );
+	copyAlignment( work, src );
+	
+	Position row_from = xrow_from;
+	Position row_to = xrow_to;
+	Position col_from = xcol_from;
+	Position col_to = xcol_to;
+	Position diagonal_from = xdiagonal_from;
+	Position diagonal_to = xdiagonal_to;
 
-											AlignmentFormat::fill( src );
+	// check parameters for filters and set them to sensible values
+	if (col_from < work->getColFrom() || col_from == NO_POS)
+		col_from = work->getColFrom();
+	if (col_to >= work->getColTo() || col_to == NO_POS)
+		col_to = work->getColTo();
+	if (row_from < work->getRowFrom() || row_from == NO_POS)
+		row_from = work->getRowFrom();
+	if (row_to >= work->getRowTo() || row_to == NO_POS)
+		row_to = work->getRowTo();
 
-											// sanity checks
-											if (src->isEmpty()) return;
+	if (diagonal_from > diagonal_to) 
+	{
+		diagonal_from = -MAX_DIAGONAL;
+		diagonal_to   =  MAX_DIAGONAL;
+	}
 
-											Position row_from = xrow_from;
-											Position row_to = xrow_to;
-											Position col_from = xcol_from;
-											Position col_to = xcol_to;
-											Position diagonal_from = xdiagonal_from;
-											Position diagonal_to = xdiagonal_to;
+	// declare variables you need for iteration of the pairs
+	AlignmentIterator it(work->begin());
+	AlignmentIterator it_end(work->end());
 
-											// check parameters for filters and set them to sensible values
-											if (col_from < src->getColFrom() || col_from == NO_POS)
-												col_from = src->getColFrom();
-											if (col_to >= src->getColTo() || col_to == NO_POS)
-												col_to = src->getColTo();
-											if (row_from < src->getRowFrom() || row_from == NO_POS)
-												row_from = src->getRowFrom();
-											if (row_to >= src->getRowTo() || row_to == NO_POS)
-												row_to = src->getRowTo();
+	Diagonal last_diagonal = it->getDiagonal();
+	Diagonal this_diagonal = 0;
 
-											if (diagonal_from > diagonal_to) 
-											{
-												diagonal_from = -MAX_DIAGONAL;
-												diagonal_to   =  MAX_DIAGONAL;
-											}
+	Position this_row	 = it->mRow;
+	Position this_col	 = it->mCol;
+	Position last_row	 = this_row -1;
+	Position emissions = 0;
+	Position initial_gaps = 0;
 
-											// declare variables you need for iteration of the pairs
-											AlignmentIterator it(src->begin());
-											AlignmentIterator it_end(src->end());
+	bool first = true;
 
-											Diagonal last_diagonal = it->getDiagonal();
-											Diagonal this_diagonal = 0;
+	std::ostringstream output;
 
-											Position this_row	 = it->mRow;
-											Position this_col	 = it->mCol;
-											Position last_row	 = this_row -1;
-											Position emissions = 0;
-											Position initial_gaps = 0;
+	// now iterate over all pairs in the alignment
+	for (;it!= it_end; ++it) 
+	{
 
-											bool first = true;
+		this_diagonal = it->getDiagonal();
+		this_row      = it->mRow;
+		this_col      = it->mCol;
 
-											std::ostringstream output;
+		debug_cerr( 5, "Pair:" << *it << std::endl            
+				<< "last_diagonal=" << last_diagonal 
+				<< " this_diagonal=" << this_diagonal
+				<< " emissions=" << emissions 
+				<< " this_row=" << this_row 
+				<< " last_row=" << last_row );
 
-											// now iterate over all pairs in the alignment
-											for (;it!= it_end; ++it) 
-											{
+		// apply filters
+		if (this_col < col_from || this_col >= col_to) 
+			continue;
+		if (this_row < row_from || this_row >= row_to) 
+			continue;
+		if (this_diagonal < diagonal_from || this_diagonal > diagonal_to)
+			continue;
 
-												this_diagonal = it->getDiagonal();
-												this_row      = it->mRow;
-												this_col      = it->mCol;
+		if (last_diagonal != this_diagonal || last_row >= this_row || first) 
+		{
 
-												debug_cerr( 5, "Pair:" << *it << std::endl            
-														<< "last_diagonal=" << last_diagonal 
-														<< " this_diagonal=" << this_diagonal
-														<< " emissions=" << emissions 
-														<< " this_row=" << this_row 
-														<< " last_row=" << last_row );
+			if (!first) 
+				output  << "+" << emissions << ";";
 
-												// apply filters
-												if (this_col < col_from || this_col >= col_to) 
-													continue;
-												if (this_row < row_from || this_row >= row_to) 
-													continue;
-												if (this_diagonal < diagonal_from || this_diagonal > diagonal_to)
-													continue;
+				// write last emission and switch to new diagonal
+			if (this_diagonal < 0) 
+				initial_gaps = this_col; 
+			else
+				initial_gaps = this_row;
 
-												if (last_diagonal != this_diagonal || last_row >= this_row || first) 
-												{
+			if (reverse)
+				output << -this_diagonal << ":-" << initial_gaps;
+			else
+				output << this_diagonal << ":-" << initial_gaps;
 
-													if (!first) 
-														output  << "+" << emissions << ";";
+			first = false;
 
-													// write last emission and switch to new diagonal
-													if (this_diagonal < 0) 
-														initial_gaps = this_col; 
-													else
-														initial_gaps = this_row;
+			last_diagonal = this_diagonal;
+			last_row = this_row;
+			emissions = 1;
+			continue;
+		}
 
-													if (reverse)
-														output << -this_diagonal << ":-" << initial_gaps;
-													else
-														output << this_diagonal << ":-" << initial_gaps;
+		// insert a gap
+		if (last_row < this_row - 1) 
+		{
+			output << "+" << emissions << "-" << (this_row - last_row - 1);
+			emissions = 0;
+		}
 
-													first = false;
+		last_row = this_row;
+		++emissions;
 
-													last_diagonal = this_diagonal;
-													last_row = this_row;
-													emissions = 1;
-													continue;
-												}
+	}
 
-												// insert a gap
-												if (last_row < this_row - 1) 
-												{
-													output << "+" << emissions << "-" << (this_row - last_row - 1);
-													emissions = 0;
-												}
+	output << "+" << emissions;
 
-												last_row = this_row;
-												++emissions;
+	mAlignment = output.str();
 
-											}
+	return;
+}
 
-											output << "+" << emissions;
+//------------------------------------------------------------------------------------------------------
+void AlignmentFormatDiagonals::copy( 
+		HAlignment & dest ) const
+		{
+	copy( dest, false );
+		}
 
-											mAlignment = output.str();
+void AlignmentFormatDiagonals::copy( 
+		HAlignment & dest,
+		const bool reverse) const 
+		{
+	debug_func_cerr(5);
 
-											return;
-										}
+	AlignmentFormat::copy( dest );
 
-										//------------------------------------------------------------------------------------------------------
-										void AlignmentFormatDiagonals::copy( 
-												HAlignment & dest ) const
-												{
-											copy( dest, false );
-												}
+	if (mRowFrom == NO_POS || mColFrom == NO_POS)
+		throw AlignException( "AlignmentFormat.cpp: alignment ranges not defined." );
 
-										void AlignmentFormatDiagonals::copy( 
-												HAlignment & dest,
-												const bool reverse) const 
-												{
-											debug_func_cerr(5);
+	std::istringstream is_ali( mAlignment.c_str() );   
 
-											AlignmentFormat::copy( dest );
+	// set these/use these parameters to shift alignment
+	Position row_from = mRowFrom;
+	Position col_from = mColFrom;
 
-											if (mRowFrom == NO_POS || mColFrom == NO_POS)
-												throw AlignException( "AlignmentFormat.cpp: alignment ranges not defined." );
+	// row and col are the index of the next dot to be written.
+	Position row = row_from;   
+	Position col = col_from;   
 
-											std::istringstream is_ali( mAlignment.c_str() );   
+	// read diagonal wise
+	while (!is_ali.eof()) 
+	{
 
-											// set these/use these parameters to shift alignment
-											Position row_from = mRowFrom;
-											Position col_from = mColFrom;
+		// read the diagonal
+		Diagonal diagonal;
+		is_ali >> diagonal;
+		is_ali.ignore();		// skip colon
 
-											// row and col are the index of the next dot to be written.
-											Position row = row_from;   
-											Position col = col_from;   
+		debug_cerr(5, "processing diagonal " << diagonal );
 
-											// read diagonal wise
-											while (!is_ali.eof()) 
-											{
+		// for a new diagonal, position yourself at the first residue 
+		// on the diagonal
+		if (diagonal < 0) 
+		{
+			row = -diagonal;
+			col = 0;
+		} else {
+			row = 0;
+			col = diagonal;
+		}
 
-												// read the diagonal
-												Diagonal diagonal;
-												is_ali >> diagonal;
-												is_ali.ignore();		// skip colon
+		while (is_ali.peek() != ';' && !is_ali.eof()) 
+		{
+			Position d = 0;   
+			is_ali >> d;
+			// write a gap
+			if (d < 0) 
+			{
+				row -= d;
+				col -= d;
+			} 
+			else 
+			{
+				// emit dots
+				while (d > 0) 
+				{
+					if (reverse)
+						dest->addPair( col++, row++, 0 );       
+					else 
+						dest->addPair( row++, col++, 0 );       
+					d--;
+				}
+			}	
+		} 
+		is_ali.ignore();		// skip semicolon
+	}   
 
-												debug_cerr(5, "processing diagonal " << diagonal );
+	return;	
+		}
 
-												// for a new diagonal, position yourself at the first residue 
-												// on the diagonal
-												if (diagonal < 0) 
-												{
-													row = -diagonal;
-													col = 0;
-												} else {
-													row = 0;
-													col = diagonal;
-												}
+//--------------------------------------------------------------------------------------------------------------------------------
+void AlignmentFormatDiagonals::save(std::ostream & output ) const 
+{
+	output 
+	<< mRowFrom << "\t" << mRowTo << "\t" 
+	<< mColFrom << "\t" << mColTo << "\t" 
+	<< mAlignment;
+}
 
-												while (is_ali.peek() != ';' && !is_ali.eof()) 
-												{
-													Position d = 0;   
-													is_ali >> d;
-													// write a gap
-													if (d < 0) 
-													{
-														row -= d;
-														col -= d;
-													} 
-													else 
-													{
-														// emit dots
-														while (d > 0) 
-														{
-															if (reverse)
-																dest->addPair( col++, row++, 0 );       
-															else 
-																dest->addPair( row++, col++, 0 );       
-															d--;
-														}
-													}	
-												} 
-												is_ali.ignore();		// skip semicolon
-											}   
-
-											return;	
-												}
-
-										//--------------------------------------------------------------------------------------------------------------------------------
-										void AlignmentFormatDiagonals::save(std::ostream & output ) const 
-										{
-											output 
-											<< mRowFrom << "\t" << mRowTo << "\t" 
-											<< mColFrom << "\t" << mColTo << "\t" 
-											<< mAlignment;
-										}
-
-										void AlignmentFormatDiagonals::load(std::istream & input ) 
-										{
-											input >> mRowFrom >> mRowTo >> mColFrom >> mColTo >> mAlignment;
-										}
+void AlignmentFormatDiagonals::load(std::istream & input ) 
+{
+	input >> mRowFrom >> mRowTo >> mColFrom >> mColTo >> mAlignment;
+}
 
 } // namespace alignlib

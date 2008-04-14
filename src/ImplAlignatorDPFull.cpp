@@ -369,7 +369,10 @@ void ImplAlignatorDPFull::performAlignment(
 		performAlignmentWrapped( ali, prow, pcol );
 		break;
 	case ALIGNMENT_GLOBAL:
-		performAlignmentGlobal( ali, prow, pcol );
+		if (mPenalizeRowLeft || mPenalizeRowRight || mPenalizeColLeft || mPenalizeColRight)  
+			performAlignmentGlobal( ali, prow, pcol );
+		else
+			performAlignmentLocal( ali, prow, pcol );			
 		break;
 	}
 
@@ -679,12 +682,12 @@ void ImplAlignatorDPFull::performAlignmentWrapped( HAlignment & ali,
 		Iterator2D::const_iterator cit(mIterator->col_begin(row)), cend(mIterator->col_end(row));
 		Position col_from = *cit;
 
-		TraceBackLevel level = TBL_MATCH;
 		// the wrapping around part	  
 		if (mCC[col_length-1] > 0)
 		{
 			mCC[col_from - 1] = c = mCC[col_length-1];
-			mTraceMatrix[getTraceIndex(level,row-1,-1)] = TB_WRAP;
+			mTraceMatrix[getTraceIndex(TBL_INSERTION,row-1,-1)] = TB_WRAP;
+			mTraceMatrix[getTraceIndex(TBL_MATCH,row-1,-1)] = TB_WRAP;
 		}
 		else
 		{
@@ -699,25 +702,29 @@ void ImplAlignatorDPFull::performAlignmentWrapped( HAlignment & ali,
 		{
 			Position col = *cit;
 			
-			TraceBackLevel level = TBL_MATCH;
 			//---------------------------> calculate scores <--------------------------------------------
 			// c contains score of cell left
 			// s contains score for cell [row-1, col-1]
-			// e is better of: score for opening a horizontal gap or score for extending a horizontal gap: 
-			// use col-gap-penalties
-			bool new_horizontal_gap = false;
+			// e is better of: score for opening a horizontal gap or score for extending a horizontal gap
+
 			if ((c = c + col_m) > (e = e + col_gep))  
 			{
-				new_horizontal_gap = true;
+				// gap open, so switch level
 				e = c;
+				mTraceMatrix[getTraceIndex(TBL_DELETION,row,col)] = TB_DELETION_OPEN;								
 			}       
+			else
+				mTraceMatrix[getTraceIndex(TBL_DELETION,row,col)] = TB_DELETION;
+			
 			// d is better of: score for opening a vertical gap or score for extending a vertical gap
-			bool new_vertical_gap = false;
 			if ((c = mCC[col] + row_m) > (d = mDD[col] + row_gep))
 			{
-				new_vertical_gap = true;
+				// gap open, so switch level						
+				mTraceMatrix[getTraceIndex(TBL_INSERTION,row,col)] = TB_INSERTION_OPEN;
 				d = c;
 			}
+			else
+				mTraceMatrix[getTraceIndex(TBL_INSERTION,row,col)] = TB_INSERTION;
 
 			// c is score for a match
 			c = s + mScorer->getScore(row,col);
@@ -727,27 +734,25 @@ void ImplAlignatorDPFull::performAlignmentWrapped( HAlignment & ali,
 			if (d > c) c = d;
 
 			//--------------------------> recurrence relation <-------------------------------------------------
+			TraceBackLevel level = TBL_MATCH;			
 			if ( c == d )                   // vertical gap
 			{
-				mTraceMatrix[getTraceIndex(level,row,col)] = TB_INSERTION;
-				// make sure that if we backtrack via gap extension
-				// if this is an old gap.
-				if (!new_vertical_gap)
-					mTraceMatrix[getTraceIndex(level,row-1,col)] = TB_INSERTION;
+				level = TBL_INSERTION;
+				mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_INSERTION;							
 			}
 			else if ( c == e )              // horizontal gap
 			{
-				mTraceMatrix[getTraceIndex(level,row,col)] = TB_DELETION;
-				if (!new_horizontal_gap)
-					mTraceMatrix[getTraceIndex(level,row,col-1)] = TB_DELETION;
+				level = TBL_DELETION;	
+				mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_DELETION;				
 			}
 			else                           // match
-				mTraceMatrix[getTraceIndex(level,row,col)] = TB_MATCH;
-
+			{
+				mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_MATCH;
+			}
 			debug_cerr( 5, " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
 								<< " mCC=" << mCC[col] << " mDD=" << mDD[col]
 								<< " level=" << level
-					            << " index=" << getTraceIndex(level,row,col) <<  " mScore=" << mScore << " : "                               
+					            << " index=" << getTraceIndex(level,row,col) << " mScore=" << mScore << " : "                               
 					            << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );      
 
 			s = mCC[col];
@@ -757,15 +762,14 @@ void ImplAlignatorDPFull::performAlignmentWrapped( HAlignment & ali,
 			if (mScore < c)
 			{
 				// save maximum
-				debug_cerr( 5, " updating score from cell " << row << "," << col << " with " << c );
+				debug_cerr( 5, " updating score from cell " << row << "," << col << "," << level << " with " << c );
 				mScore   = c;
 				mRowLast = row;
 				mColLast = col;
+				mLevelLast = level;
 			}
 		}
 	}
-
-	traceBack(ali, prow, pcol );
 }
 
 //-----------------------------------------------------------------------------------  

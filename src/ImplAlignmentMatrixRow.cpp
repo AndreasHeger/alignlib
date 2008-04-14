@@ -115,7 +115,7 @@ void ImplAlignmentMatrixRow::sortDots() const
 {
     
   /* sort indices on row */
-  sortDotsByRow( 0, mPairs.size() - 1);
+  sortDotsByRow( 0, mPairs.size() );
   
 }
 

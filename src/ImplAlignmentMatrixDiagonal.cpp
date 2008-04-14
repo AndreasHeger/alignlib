@@ -83,39 +83,40 @@ HAlignment ImplAlignmentMatrixDiagonal::getClone() const
 //--------------> mapping functions <----------------------------------------------------------------------------
 Position ImplAlignmentMatrixDiagonal::mapRowToCol( Position pos, SearchType search ) const 
 {
-
-    if (mChangedLength) calculateLength();
-
-    if (pos >= mRowTo || pos < mRowFrom) 
+	debug_func_cerr( 5 );
+	
+    if (pos >= mRowTo || pos < mRowFrom || mPairs.size() == 0) 
     	return NO_POS;
-
+	
+    if (mChangedLength) calculateLength();
+    
+	assert( mIndex[mNumDiagonals] == NODOT);
+	
     // find the row with the smallest diagonal
-    Dot dot, next_dot;
-    Dot next_diagonal = 1;
-    Position diagonal =0;
-
     Dot ndots = mPairs.size(); 
 
-    for (diagonal = 0; diagonal < mNumDiagonals; diagonal++, next_diagonal++) 
+    for (Position diagonal = 0; diagonal < mNumDiagonals; ++diagonal) 
     {
-    	dot = mIndex[diagonal];
-      
-	if (next_diagonal < mNumDiagonals)
-	  next_dot = mIndex[next_diagonal];
-	else
-	  next_dot = ndots;
-	
-	if (dot != NODOT) 
-	{
-	    // go along one diagonal
-		while ( dot < next_dot && 
-		    mPairs[dot].mRow < pos && 
-		    dot < ndots) 
-		dot++;
-	    
-	    if (dot < ndots && mPairs[dot].mRow == pos) 
-		return mPairs[dot].mCol;
-	}
+    	Dot dot = mIndex[diagonal];
+    	debug_cerr( 5, "diagonal=" << diagonal << " dot=" << dot );
+     
+    	if (dot != NODOT) 
+    	{
+        	// mIndex[mNumDiagonals] = NODOT
+
+    		Dot next_dot = mIndex[diagonal+1];
+    		
+    		// go along one diagonal
+    		while ( dot != next_dot &&
+    				dot < ndots &&
+    				mPairs[dot].mRow < pos) 
+    		{
+    			debug_cerr( 5, "diagonal=" << diagonal << " dot=" << dot << " pair=" << mPairs[dot] );
+    			++dot;
+    		}
+    		if (dot < ndots && mPairs[dot].mRow == pos) 
+    			return mPairs[dot].mCol;
+    	}
     }
 
     return NO_POS;
@@ -133,7 +134,7 @@ void ImplAlignmentMatrixDiagonal::sortDots() const
   Dot ndots = mPairs.size(); 
 
   /* sort indices on diagonal */
-  sortDotsByDiagonal( 0, ndots - 1);
+  sortDotsByDiagonal( 0, ndots);
   
   /* sort indices in diagonal */
   from = 0;
@@ -144,10 +145,10 @@ void ImplAlignmentMatrixDiagonal::sortDots() const
 
     /* find end of row */
     while ( (to < ndots) && (x == calculateDiagonal(mPairs[to])) ) 
-    { to++; } 
+    	++to; 
 
-    /* and sort per column */
-    sortDotsByRow( from, to - 1 );
+    /* and sort per row */
+    sortDotsByRow( from, to );
     from = to;
   }
   
@@ -162,23 +163,26 @@ void ImplAlignmentMatrixDiagonal::buildIndex() const
   mNumDiagonals = (mColTo - mColFrom) + (mRowTo - mRowFrom) + 1;
   Dot ndots = mPairs.size(); 
 
-  //  allocate and initialize memory memory 
-  allocateIndex( mNumDiagonals );
-  for (i = 0; i < mNumDiagonals; i++) { mIndex[i] = NODOT; }   
-  
+  //  allocate and initialize memory memory
+  // add one extra element as a terminator
+  // to simplify mapRowToCol
+  allocateIndex( mNumDiagonals + 1);
+  for (i = 0; i <= mNumDiagonals; i++) { mIndex[i] = NODOT; }   
+
   Dot first_dot = 0;
   Diagonal diagonal = calculateNormalizedDiagonal( mPairs[0], mRowFrom, mColFrom);
   Diagonal min_diagonal = -(mRowTo - mRowFrom);
 
   // update mIndex
-  for (i = 0; i < ndots; i++) {
-    if(diagonal != calculateNormalizedDiagonal(mPairs[i], mRowFrom, mColFrom)) 
-    {
-      
-      mIndex[diagonal - min_diagonal] = first_dot;
-      first_dot	= i;
-      diagonal = calculateNormalizedDiagonal(mPairs[i], mRowFrom, mColFrom);
-    }
+  for (i = 0; i < ndots; i++) 
+  {
+	  Diagonal next_diagonal = calculateNormalizedDiagonal(mPairs[i], mRowFrom, mColFrom);
+	  if(diagonal != next_diagonal)
+	  {
+		  mIndex[diagonal - min_diagonal] = first_dot;
+		  first_dot	= i;
+		  diagonal = next_diagonal;
+	  }
   }
 
   mIndex[diagonal - min_diagonal] = first_dot;

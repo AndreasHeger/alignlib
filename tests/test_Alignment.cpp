@@ -351,4 +351,3 @@ create_test( MatrixDiagonal, makeAlignmentMatrixDiagonal );
 create_test( MatrixUnsorted, makeAlignmentMatrixUnsorted );
 create_test( Blocks, makeAlignmentBlocks );
 
-
