@@ -4368,6 +4368,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::makeSubstitutionMatrixBackTranslation
+    
+        typedef ::alignlib::HSubstitutionMatrix ( *makeSubstitutionMatrixBackTranslation_function_type )( ::alignlib::Score const &,::alignlib::Score const &,::alignlib::Score const &,::alignlib::HEncoder const & );
+        
+        bp::def( 
+            "makeSubstitutionMatrixBackTranslation"
+            , makeSubstitutionMatrixBackTranslation_function_type( &::alignlib::makeSubstitutionMatrixBackTranslation )
+            , ( bp::arg("match"), bp::arg("mismatch"), bp::arg("approximate_match"), bp::arg("encoder") ) );
+    
+    }
+
     { //::alignlib::makeSubstitutionMatrixBlosum50
     
         typedef ::alignlib::HSubstitutionMatrix ( *makeSubstitutionMatrixBlosum50_function_type )( ::alignlib::HEncoder const & );

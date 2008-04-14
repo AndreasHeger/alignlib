@@ -300,6 +300,49 @@ HSubstitutionMatrix loadSubstitutionMatrix(
 	return matrix;
 }
 
+inline void setMatrixScores( 
+		HSubstitutionMatrix & matrix,
+		const HEncoder & encoder,
+		const Score & score,
+		const std::string & a,
+		const std::string & b)
+{
+	for (int x = 0; x < a.size(); ++x)
+	{
+		Residue rx = encoder->encode(a[x]);
+		for (int y = 0; y < b.size(); ++y)
+		{	
+			Residue ry = encoder->encode(b[y]);
+			matrix->setValue(rx,ry, score);
+			matrix->setValue(ry,rx, score);
+		}
+	}
+}
+
+HSubstitutionMatrix makeSubstitutionMatrixBackTranslation( 
+		const Score & match,
+		const Score & mismatch,
+		const Score & approximate_match,
+		const HEncoder & encoder)    
+{
+
+	HSubstitutionMatrix matrix(new SubstitutionMatrix( encoder->getAlphabetSize(), 
+			encoder->getAlphabetSize(), 
+			mismatch ));
+
+	// AGCTN <-> W
+	setMatrixScores( matrix, encoder, approximate_match, "AGCTN", "W");
+	// AG <-> V
+	setMatrixScores( matrix, encoder, match, "AG", "V");
+	// CT <-> Y
+	setMatrixScores( matrix, encoder, match, "CT", "Y");
+	// ACGTNVY <-> N
+	setMatrixScores( matrix, encoder, match, "ACGTNVY", "N");
+	
+	return matrix;
+}
+
+
 } // namespace alignlib
 
 

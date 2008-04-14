@@ -129,3 +129,19 @@ BOOST_AUTO_TEST_CASE( test5 )
 		}	
 }	
 
+// automatic mapping to 23 residue letter alphabet (no effect mapping).
+BOOST_AUTO_TEST_CASE( test6 )
+{
+        const HEncoder t(getEncoder( Protein23 ));
+        const HSubstitutionMatrix matrix1( makeSubstitutionMatrixBackTranslation( 1, -1, 0.5, t ) );
+        std::cout << *matrix1 << std::endl;
+        for (int x = 0; x < matrix1->getNumRows(); ++x )
+                for (int y = 0; y < matrix1->getNumCols(); ++y )
+                        BOOST_CHECK_EQUAL( matrix1->getValue(x,y), matrix1->getValue(y,x) );
+        
+}
+
+
+
+
+

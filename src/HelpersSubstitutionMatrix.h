@@ -134,6 +134,25 @@ HSubstitutionMatrix makeSubstitutionMatrixPam30();
  * */
 HSubstitutionMatrix makeSubstitutionMatrixPam30( const HEncoder & encoder);    
 
+/** A backtranslation substitution matrix
+ * 
+ * used for aligning a generalized codon sequence.
+ * 
+ * approximate_match: 	AGCTN <-> W
+ * match: 				AG <-> V
+ * match: 				CT <-> Y
+ * match:				N <-> N
+ * all other: mismatch
+ * @param encoder @ref Encoder object to ensure alphabet compatibility.
+ * 
+ * @return a new @ref SubstitutionMatrix
+ * */
+HSubstitutionMatrix makeSubstitutionMatrixBackTranslation( 
+		const Score & match,
+		const Score & mismatch,
+		const Score & approximate_match,
+		const HEncoder & encoder);    
+
 /** return a new matrix read from stream.
  *
  * The format is the output of the 'pam' or 'matblas' programs.

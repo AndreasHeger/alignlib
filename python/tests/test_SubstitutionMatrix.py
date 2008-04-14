@@ -29,7 +29,8 @@ class SubstitutionMatrixCase( unittest.TestCase ):
                     makeSubstitutionMatrixBlosum62,
                     makeSubstitutionMatrixBlosum50,
                     makeSubstitutionMatrixPam250,
-                    makeSubstitutionMatrixPam120 ]
+                    makeSubstitutionMatrixPam120,
+                    makeSubstitutionMatrixBackTranslation ]
                     
     def testMake(self):
         """check if all matrices can be created and are square."""
