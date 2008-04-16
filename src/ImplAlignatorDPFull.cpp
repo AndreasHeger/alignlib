@@ -218,8 +218,8 @@ void ImplAlignatorDPFull::printTraceMatrix( TraceBackLevel level ) const
 			switch (mTraceMatrix[getTraceIndex(level,row,col)])
 			{
 			case TB_STOP:       debug_cerr_add( 5, "o" ); break;
-			case TB_DELETION:   debug_cerr_add( 5, "<" ); break;
-			case TB_INSERTION:  debug_cerr_add( 5, "^" ); break;
+			case TB_DELETION:   debug_cerr_add( 5, "-" ); break;
+			case TB_INSERTION:  debug_cerr_add( 5, "|" ); break;
 			case TB_DELETION_OPEN:   debug_cerr_add( 5, "<" ); break;
 			case TB_INSERTION_OPEN:  debug_cerr_add( 5, "^" ); break;
 			case TB_DELETION_EXTEND:   debug_cerr_add( 5, "-" ); break;
@@ -278,23 +278,27 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 		switch (t) 
 		{
 		case TB_DELETION :
+			if (level != TBL_MATCH)
+			{
+				--col;
+				++ngaps;
+				if (col < 1) --row;
+			}
 			level = TBL_DELETION;
-			--col;
-			++ngaps;
-			if (col < 1) 
-				--row;
 			break;
 		case TB_INSERTION :
+			if (level != TBL_MATCH)
+			{
+				++ngaps;
+				--row;
+			}
 			level = TBL_INSERTION;
-			++ngaps;
-			--row;
 			break;
 		case TB_DELETION_OPEN :
 			level = TBL_MATCH;
 			--col;
 			++ngaps;
-			if (col < 1) 
-				--row;
+			if (col < 1) --row;
 			break;
 		case TB_INSERTION_OPEN :
 			level = TBL_MATCH;
@@ -305,8 +309,7 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 			level = TBL_DELETION;
 			--col;
 			++ngaps;
-			if (col < 1) 
-				--row;
+			if (col < 1) --row;
 			break;
 		case TB_INSERTION_EXTEND :
 			level = TBL_INSERTION;
@@ -386,9 +389,6 @@ void ImplAlignatorDPFull::performAlignmentGlobal(
 		const HAlignandum & pcol )
 {
 	
-	// TODO: Fix end gap treatment for global alignment.
-	// See the python test set.
-
 	debug_func_cerr(5);
 
 	Score row_gop = getRowGop();
@@ -608,10 +608,6 @@ void ImplAlignatorDPFull::performAlignmentGlobal(
 void ImplAlignatorDPFull::performAlignmentWrapped( HAlignment & ali,
 		const HAlignandum & prow, const HAlignandum & pcol )
 {
-	
-	// See the python test set.
-	// TODO: Fix end gap treatment for global alignment.
-
 	debug_func_cerr(5);
 
 	Score row_gop = getRowGop();
