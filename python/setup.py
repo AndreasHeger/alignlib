@@ -12,13 +12,6 @@ import re, sys, os, optparse, subprocess
 
 from types import *
 
-from pyplusplus import module_builder, messages, function_transformers
-from pyplusplus.module_builder import call_policies
-from pyplusplus.decl_wrappers import \
-     return_value_policy, manage_new_object, copy_const_reference, reference_existing_object, \
-     return_self, return_arg
-
-from pygccxml import declarations
 
 import distutils.sysconfig
 import os.path
@@ -428,6 +421,14 @@ def exportEnums( mb ):
     
 def buildModule( include_paths, dest, options) :
     """build module using py++."""
+
+    from pyplusplus import module_builder, messages, function_transformers
+    from pyplusplus.module_builder import call_policies
+    from pyplusplus.decl_wrappers import \
+    return_value_policy, manage_new_object, copy_const_reference, reference_existing_object, return_self, return_arg
+
+    from pygccxml import declarations
+
     
     if options.force:
         if os.path.exists( "cache" ):
