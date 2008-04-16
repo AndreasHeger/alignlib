@@ -237,7 +237,7 @@ void ImplAlignmentVector::updateBoundaries() const
 
 	// no residues in container
 	PAIRVECTOR::const_iterator it(mPairs.begin()), it_end(mPairs.end());
-	while (it != it_end && it->mRow != NO_POS) ++it;
+	while (it != it_end && it->mRow == NO_POS) ++it;
 	if (it == it_end)
 		return;
 	
@@ -275,17 +275,16 @@ void ImplAlignmentVector::removeRowRegion( Position from, Position to)
 	debug_func_cerr(5);
 
 	Position pos;
-
-	if (from < mRowFrom)
+	if (from == NO_POS || from < mRowFrom)
 		from = mRowFrom;
 
-	if (to > mRowTo)
+	if (to == NO_POS || to > mRowTo)
 		to = mRowTo;
 
 	debug_cerr( 5, "deleting in row from " << from << " to " << to );
-	
+		
 	// delete aligned positions
-	for ( pos = from; pos < to; pos++) 
+	for ( Position pos = from; pos < to; ++pos) 
 		mPairs[pos] = ResiduePair();
 
 	updateBoundaries();

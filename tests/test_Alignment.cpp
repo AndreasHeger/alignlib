@@ -77,32 +77,17 @@ bool isIdentical(
 	return is_identical;
 }
 
-// fill alignment with sample data
-void fillAlignment( HAlignment & a)
-{
-	a->addPair( ResiduePair(3,3, 1.0));		
-	a->addPair( ResiduePair(4,4, 1.0));				
-	a->addPair( ResiduePair(5,6, 1.0));
-	a->addPair( ResiduePair(6,7, 1.0));
-	a->addPair( ResiduePair(8,8, 1.0));
-	a->addPair( ResiduePair(9,10, 1.0));
-	a->addPair( ResiduePair(10,11, 1.0));
-	a->addPair( ResiduePair(12,12, 1.0));
-	a->addPair( ResiduePair(13,13, 1.0));
-}
 // tests for both empty and full alignments
-void testAlignment( HAlignment & a)
-{
-#define npairs 9	
-	
-	Position row_pairs[npairs] = {3,4,5,6,8,9,10,12,13};
-	Position col_pairs[npairs] = {3,4,6,7,8,10,11,12,13};
+void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs )
+{	
+	for (int x = 0; x < npairs; ++x)
+		a->addPair( row_pairs[x], col_pairs[x], 1.0 );
 	
 	std::map<Position,int>pairs;
-	if (!a->isEmpty())
-		for (int i = 0; i < npairs; ++i)
-			pairs[row_pairs[i] * 100+col_pairs[i]] = 0;
 	
+	for (int i = 0; i < npairs; ++i)
+		pairs[row_pairs[i] * 100+col_pairs[i]] = 0;
+
 	{ 
 		cout << "testing...writing alignment...";
 		ostringstream result;
@@ -239,51 +224,6 @@ void testAlignment( HAlignment & a)
 
 	}
 
-	{
-		cout << "testing...removeRowRegion()..." ;
-
-		
-		if (!a->isEmpty())
-		{
-			HAlignment a_clone(a->getClone());
-
-			a_clone->removeRowRegion( 3, 5);
-			assert( a_clone->getRowFrom() == 5 );
-			assert( a_clone->getColFrom() == 6 );
-		
-			a_clone->removeRowRegion( 10, 14);
-			assert( a_clone->getRowTo() == 10);
-			assert( a_clone->getColTo() == 11);       
-			a_clone->removeRowRegion( 0, 20 );
-			assert( a_clone->getLength() ==  0 );
-			assert( a_clone->isEmpty()== true);
-		}
-        
-		{
-			HAlignment a_clone(a->getClone());
-			a_clone->removeRowRegion(-1, -3);
-			a_clone->removeRowRegion(20, 30);
-			a_clone->removeRowRegion(0, 2);
-			a_clone->removeRowRegion(1, 2);
-			a_clone->removeRowRegion(2, 1);                               
-			assert( a_clone->getLength() ==  a->getLength() );
-		}
-        
-		cout << "passed" << endl;
-	}
-
-	{
-		cout << "testing...removeColRegion()..." ;
-
-		int i = 0;
-
-		HAlignment  a_clone(a->getClone());
-
-		for (i = 0; i < a->getColTo() + 5; i+=3) 
-			a_clone->removeColRegion(i, i+3);       
-
-		cout << "passed" << endl;
-	}
 
 	// test removing all pairs
 	{
@@ -326,16 +266,120 @@ void testAlignment( HAlignment & a)
 
 }
 
+
+void testAlignmentSpecific1( HAlignment & a, int * row_pairs, int * col_pairs, int npairs )
+{
+	{
+		cout << "testing...removeRowRegion()..." ;
+
+		if (!a->isEmpty())
+		{
+			HAlignment a_clone(a->getClone());
+
+			a_clone->removeRowRegion( 3, 5);
+			BOOST_CHECK_EQUAL( a_clone->getRowFrom() , 5 );
+			BOOST_CHECK_EQUAL( a_clone->getColFrom() , 6 );
+		
+			a_clone->removeRowRegion( 10, 14);
+			BOOST_CHECK_EQUAL( a_clone->getRowTo() , 10);
+			BOOST_CHECK_EQUAL( a_clone->getColTo() , 11);       
+			a_clone->removeRowRegion( 0, 20 );
+			BOOST_CHECK_EQUAL( a_clone->getLength() ,  0 );
+			BOOST_CHECK_EQUAL( a_clone->isEmpty(), true);
+		}
+        
+		{
+			HAlignment a_clone(a->getClone());
+			a_clone->removeRowRegion(-1, -3);
+			a_clone->removeRowRegion(20, 30);
+			a_clone->removeRowRegion(0, 2);
+			a_clone->removeRowRegion(1, 2);
+			a_clone->removeRowRegion(2, 1);                               
+			BOOST_CHECK_EQUAL( a_clone->getLength() ,  a->getLength() );
+		}
+        
+		cout << "passed" << endl;
+	}
+
+	{
+		cout << "testing...removeColRegion()..." ;
+
+		int i = 0;
+
+		HAlignment  a_clone(a->getClone());
+
+		for (i = 0; i < a->getColTo() + 5; i+=3) 
+			a_clone->removeColRegion(i, i+3);       
+
+		cout << "passed" << endl;
+	}
+
+}
+
+void testAlignmentSpecific2( HAlignment & a, int * row_pairs, int * col_pairs, int npairs )
+{
+	{
+		cout << "testing...removeRowRegion()..." ;
+
+		if (!a->isEmpty())
+		{
+			HAlignment a_clone(a->getClone());
+
+			a_clone->removeRowRegion( 3, 20);
+			BOOST_CHECK_EQUAL( a_clone->getRowFrom() , 0 );
+			BOOST_CHECK_EQUAL( a_clone->getColFrom() , 0 );
+		}
+        
+		{
+			HAlignment a_clone(a->getClone());
+			a_clone->removeRowRegion(-1, -3);
+			a_clone->removeRowRegion(20, 30);
+			BOOST_CHECK_EQUAL( a_clone->getLength(), a->getLength() );
+		}
+        
+		cout << "passed" << endl;
+	}
+
+	{
+		cout << "testing...removeColRegion()..." ;
+
+		int i = 0;
+
+		HAlignment  a_clone(a->getClone());
+
+		for (i = 0; i < a->getColTo() + 5; i+=3) 
+			a_clone->removeColRegion(i, i+3);       
+
+		cout << "passed" << endl;
+	}
+
+}
+
+
 //----------------------------------------------------------
 // main test routine for a pairwise alignment
 void runTests( HAlignment & a ) 
 {
-	testAlignment( a );
-	fillAlignment( a );
-	testAlignment( a );
+	testAlignment( a, NULL, NULL, 0 );
+
+	// test for an alignment with gaps
+	{
+		Position row_pairs[9] = {3,4,5,6,8,9,10,12,13};
+		Position col_pairs[9] = {3,4,6,7,8,10,11,12,13};
+
+		testAlignment( a, row_pairs, col_pairs, 9 );
+		testAlignmentSpecific1( a, row_pairs, col_pairs, 9 );		
+	}
+	
 	a->clear();
-	fillAlignment( a );
-	testAlignment( a );
+	// test for alignment starting at 0
+	{
+		Position row_pairs[6] = {0,1,2,3,4,5};
+		Position col_pairs[6] = {0,1,2,3,4,5};
+
+		testAlignment( a, row_pairs, col_pairs, 6 );
+		testAlignmentSpecific2( a, row_pairs, col_pairs, 6 );		
+	}
 }
 
 #define create_test( name, factory ) \
@@ -350,4 +394,3 @@ create_test( MatrixRow, makeAlignmentMatrixRow );
 create_test( MatrixDiagonal, makeAlignmentMatrixDiagonal );
 create_test( MatrixUnsorted, makeAlignmentMatrixUnsorted );
 create_test( Blocks, makeAlignmentBlocks );
-
