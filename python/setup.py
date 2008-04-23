@@ -12,6 +12,16 @@ import re, sys, os, optparse, subprocess
 
 from types import *
 
+try:
+    from pyplusplus import module_builder, messages, function_transformers
+    from pyplusplus.module_builder import call_policies
+    from pyplusplus.decl_wrappers import \
+    return_value_policy, manage_new_object, copy_const_reference, reference_existing_object, return_self, return_arg
+
+    from pygccxml import declarations
+    GLOBAL_HAS_PYPLUSPLUS = True
+except ImportError:
+    GLOBAL_HAS_PYPLUSPLUS = False
 
 import distutils.sysconfig
 import os.path
@@ -421,14 +431,9 @@ def exportEnums( mb ):
     
 def buildModule( include_paths, dest, options) :
     """build module using py++."""
-
-    from pyplusplus import module_builder, messages, function_transformers
-    from pyplusplus.module_builder import call_policies
-    from pyplusplus.decl_wrappers import \
-    return_value_policy, manage_new_object, copy_const_reference, reference_existing_object, return_self, return_arg
-
-    from pygccxml import declarations
-
+    
+    if not GLOBAL_HAS_PYPLUSPLUS:
+        raise "can not build the interface, as py++ is not installed."
     
     if options.force:
         if os.path.exists( "cache" ):
@@ -524,7 +529,7 @@ python-extension alignlib
     outfile.write(jamroot_template % params)
     outfile.close()
     
-    s = subprocess.Popen( "bjam",
+    s = subprocess.Popen( "bjam release",
                     shell = True,
                     stdout = subprocess.PIPE,
                     stderr = subprocess.PIPE,
