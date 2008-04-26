@@ -60,8 +60,9 @@ class ImplLogOddorUniform : public ImplLogOddor
     virtual ~ImplLogOddorUniform ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
-    virtual void fillProfile( ScoreMatrix * profile, 
-			      const FrequencyMatrix * frequencies ) const;
+    virtual void fillProfile( 
+    		ScoreMatrix & profile, 
+    		const FrequencyMatrix & frequencies ) const;
 
 };
 

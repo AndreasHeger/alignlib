@@ -56,23 +56,24 @@ ImplLogOddorGribskov::ImplLogOddorGribskov (const ImplLogOddorGribskov & src ) :
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddorGribskov::fillProfile( ScoreMatrix * profile ,
-		const FrequencyMatrix * frequencies ) const 
+void ImplLogOddorGribskov::fillProfile( 
+		ScoreMatrix & profile ,
+		const FrequencyMatrix & frequencies ) const 
 {
 	debug_func_cerr(5);
 	
 	// simply take the frequencies and divide by Gribskov-frequencies and take log. 
 	// For frequencies of 0, MASK_VALUE is used.
-	Position length = frequencies->getNumRows();
-	Residue width  = frequencies->getNumCols();
+	Position length = frequencies.getNumRows();
+	Residue width  = frequencies.getNumCols();
 
 	if (mSubstitutionMatrix->getNumRows() != width )
 		throw AlignException( "ImplLogOddorGribskov.cpp: frequencies and substitution matrix use different alphabet.");
 	
 	for (Position column = 0; column < length; ++column) 
 	{
-		const Frequency * fcolumn = frequencies->getRow(column);
-		Score * pcolumn = profile->getRow(column);
+		const Frequency * fcolumn = frequencies.getRow(column);
+		Score * pcolumn = profile.getRow(column);
 		for (Residue a = 0; a < width; ++a)
 		{
 			Score w = 0;

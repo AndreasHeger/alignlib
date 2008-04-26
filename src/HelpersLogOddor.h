@@ -91,6 +91,21 @@ HLogOddor makeLogOddorGribskov(
 		const Score & scale_factor = 1.0,
 		const Score & mask_value = -10 ); 
 
+/** return @ref LogOddor object that computes profile scores for Kimmen Sjoerlander's 9-component Dirichlet mixture
+ * 
+ * @param matrix		@ref SubstitutionMatrix object.
+ * @param scale_factor	scores will be multiplied by this value.
+ * @param mask_value	score for a column that is masked.
+ * 
+ * @return a new @ref LogOddor object.
+ */
+HLogOddor makeLogOddorDirichlet( 
+		const Score & scale_factor = 1.0,
+		const Score & mask_value = -10 ); 
+
+
+
+
 /** @} */
 
 /** @addtogroup Defaults

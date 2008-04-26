@@ -4022,6 +4022,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::makeLogOddorDirichlet
+    
+        typedef ::alignlib::HLogOddor ( *makeLogOddorDirichlet_function_type )( ::alignlib::Score const &,::alignlib::Score const & );
+        
+        bp::def( 
+            "makeLogOddorDirichlet"
+            , makeLogOddorDirichlet_function_type( &::alignlib::makeLogOddorDirichlet )
+            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
+    
+    }
+
     { //::alignlib::makeLogOddorGribskov
     
         typedef ::alignlib::HLogOddor ( *makeLogOddorGribskov_function_type )( ::alignlib::HSubstitutionMatrix const &,::alignlib::Score const &,::alignlib::Score const & );

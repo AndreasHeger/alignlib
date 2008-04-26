@@ -52,7 +52,8 @@ class ImplLogOddor : public LogOddor
     // constructors and desctructors
 
     /** default constructor */
-    ImplLogOddor  ( const Score & scale_factor = 1,
+    ImplLogOddor  ( 
+    		const Score & scale_factor = 1,
     		const Score & mask_value = -10 );
     
     /** copy constructor */
@@ -61,7 +62,8 @@ class ImplLogOddor : public LogOddor
     /** destructor */
     virtual ~ImplLogOddor ();
 
-    /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
+    /** copy frequencies to a profile and while doing so, convert the 
+     * frequencies into log-odd-scores */
     virtual void fillProfile( 
     		ScoreMatrix & profile, 
     		const FrequencyMatrix & frequencies ) const;

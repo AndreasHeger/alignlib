@@ -234,13 +234,13 @@ protected:
 	const HLogOddor mLogOddor;
 
 	/** pointer to the location of the counts stored in memory */
-	mutable CountMatrix *mCountMatrix;			
+	mutable CountMatrix * mCountMatrix;			
 
 	/** pointer to the location of the frequencies stored in memory */
-	mutable FrequencyMatrix *mFrequencyMatrix;		
+	mutable FrequencyMatrix * mFrequencyMatrix;		
 
 	/** pointer to the location of the profile stored in memory */
-	mutable ScoreMatrix *mScoreMatrix;		
+	mutable ScoreMatrix * mScoreMatrix;		
 
 };
 

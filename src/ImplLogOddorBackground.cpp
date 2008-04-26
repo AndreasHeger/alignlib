@@ -23,10 +23,10 @@
 
 #include <iostream>
 #include <iomanip>
+#include <iterator>
 #include <math.h>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
 #include "AlignException.h"
 #include "AlignlibDebug.h"
 #include "ImplLogOddorBackground.h"
@@ -54,8 +54,17 @@ ImplLogOddorBackground::ImplLogOddorBackground (
 		const Score & mask_value ) :
 	ImplLogOddor( scale_factor, mask_value ),
 	mBackgroundFrequencies( frequencies )
-	{
-	}
+{
+	debug_func_cerr(5);
+	
+#ifdef DEBUG
+	debug_cerr( 5, "background frequencies");
+	std::copy( mBackgroundFrequencies->begin(), 
+			mBackgroundFrequencies->end(), 
+			std::ostream_iterator<Score>(std::cerr, ",") );
+	std::cerr << std::endl;
+#endif
+}
 
 ImplLogOddorBackground::~ImplLogOddorBackground () 
 {
@@ -69,25 +78,33 @@ ImplLogOddorBackground::ImplLogOddorBackground (const ImplLogOddorBackground & s
 
 //--------------------------------------------------------------------------------------------------------------------------------
 void ImplLogOddorBackground::fillProfile( 
-		ScoreMatrix * profile ,
-		const FrequencyMatrix * frequencies ) const 
+		ScoreMatrix & profile ,
+		const FrequencyMatrix & frequencies ) const 
 		{
 	debug_func_cerr(5);
 	
 	// simply take the frequencies and divide by background-frequencies and take log. 
 	// For frequencies of 0, MASK_VALUE is used.
-	Position length = frequencies->getNumRows();
-	Residue width  = frequencies->getNumCols();
-
-	FrequencyVector & bg = *mBackgroundFrequencies;
+	Position length = frequencies.getNumRows();
+	Residue width  = frequencies.getNumCols();
 	
-	if (bg.size() != width )
-		throw AlignException("ImplLogOddorBackground: the size of alphabet does not correspond to number of supplied background frequencies.");
+	FrequencyVector & bg = *mBackgroundFrequencies;
 
+#ifdef DEBUG
+	debug_cerr( 5, "background frequencies");
+	std::copy( bg.begin(), bg.end(), std::ostream_iterator<Score>(std::cerr, ",") );
+	std::cerr << std::endl;
+#endif
+
+	if (bg.size() != width )
+	{
+		std::cout << "wit=" << (int)width << " size=" << (int)bg.size() << std::endl;
+		throw AlignException("ImplLogOddorBackground: the size of alphabet does not correspond to number of supplied background frequencies.");
+	}
 	for (Position column = 0; column < length; column++) 
 	{
-		const Frequency * fcolumn = frequencies->getRow(column);
-		Score * pcolumn = profile->getRow(column);
+		const Frequency * fcolumn = frequencies.getRow(column);
+		Score * pcolumn = profile.getRow(column);
 		for (Residue i = 0; i < width; ++i)
 		{
 			Frequency f = 0;	

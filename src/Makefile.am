@@ -28,7 +28,7 @@ pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			$(HEADERS_ALIGNMENT) \
 			$(HEADERS_ALIGNANDUM) \
 			$(HEADERS_MALI) \
-			$(HEADERS_Encoder) \
+			$(HEADERS_ENCODER) \
 			$(HEADERS_SUBSTMATRIX) \
 		    $(HEADERS_PHYLOLIB)
 
@@ -55,7 +55,8 @@ HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h \
 			ImplRegularizor.h ImplRegularizorTatusov.h \
 			ImplRegularizorDirichlet.h ImplRegularizorDirichletHash.h \
 			ImplRegularizorDirichletInterpolate.h ImplRegularizorDirichletPrecomputed.h \
-			ImplLogOddor.h ImplLogOddorUniform.h ImplLogOddorGribskov.h ImplLogOddorBackground.h
+			ImplLogOddor.h ImplLogOddorUniform.h \
+			ImplLogOddorGribskov.h ImplLogOddorBackground.h
 
 HEADERS_ALIGNMENT =	Alignment.h HelpersAlignment.h \
 			AlignmentIterator.h AlignmentFormat.h \
@@ -101,7 +102,7 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 			ImplRenderer.h ImplRendererPalette.h ImplRendererMView.h ImplRendererColumn.h \
 			ImplAlignatum.h  
 
-HEADERS_Encoder= Encoder.h HelpersEncoder.h \
+HEADERS_ENCODER= Encoder.h HelpersEncoder.h \
 			ImplEncoder.h
 
 HEADERS_SUBSTMATRIX= HelpersSubstitutionMatrix.h
@@ -116,7 +117,7 @@ PARTS = AlignException.cpp \
 			$(PARTS_ALIGNMENT) \
 			$(PARTS_ALIGNANDUM) \
 			$(PARTS_MALI) \
-			$(PARTS_Encoder) \
+			$(PARTS_ENCODER) \
 			$(PARTS_SUBSTMATRIX) \
 			$(PARTS_PHYLOLIB) \
 			AlignlibDefault.cpp
@@ -140,7 +141,8 @@ PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp He
 			ImplRegularizor.cpp ImplRegularizorTatusov.cpp \
 			ImplRegularizorDirichlet.cpp ImplRegularizorDirichletHash.cpp \
 			ImplRegularizorDirichletInterpolate.cpp ImplRegularizorDirichletPrecomputed.cpp \
-			ImplLogOddor.cpp ImplLogOddorUniform.cpp ImplLogOddorGribskov.cpp ImplLogOddorBackground.cpp			
+			ImplLogOddor.cpp ImplLogOddorUniform.cpp ImplLogOddorGribskov.cpp \
+			ImplLogOddorBackground.cpp ImplLogOddorDirichlet.cpp			
 
 PARTS_ALIGNMENT = Alignment.cpp \
 			HelpersAlignment.cpp \
@@ -187,7 +189,7 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 
 PARTS_STATISTICS =    Statistics.cpp
 
-PARTS_Encoder=	Encoder.cpp \
+PARTS_ENCODER=	Encoder.cpp \
 			HelpersEncoder.cpp ImplEncoder.cpp 
 
 PARTS_SUBSTMATRIX=HelpersSubstitutionMatrix.cpp

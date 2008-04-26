@@ -57,22 +57,23 @@ ImplLogOddorUniform::ImplLogOddorUniform (const ImplLogOddorUniform & src ) :
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddorUniform::fillProfile( ScoreMatrix * profile ,
-		const FrequencyMatrix * frequencies ) const 
+void ImplLogOddorUniform::fillProfile( 
+		ScoreMatrix & profile ,
+		const FrequencyMatrix & frequencies ) const 
 		{
 	debug_func_cerr(5);
 	
 	// simply take the frequencies and divide by Uniform-frequencies and take log. 
 	// For frequencies of 0, MASK_VALUE is used.
-	Position length = frequencies->getNumRows();
-	Residue width  = frequencies->getNumCols();
+	Position length = frequencies.getNumRows();
+	Residue width  = frequencies.getNumCols();
 
 	double background = 1.0 / double(width);
 
 	for (Position column = 0; column < length; column++) 
 	{
-		const Frequency * fcolumn = frequencies->getRow(column);
-		Score * pcolumn = profile->getRow(column);
+		const Frequency * fcolumn = frequencies.getRow(column);
+		Score * pcolumn = profile.getRow(column);
 		for (Residue i = 0; i < width; ++i)
 		{
 			Frequency f = 0;	

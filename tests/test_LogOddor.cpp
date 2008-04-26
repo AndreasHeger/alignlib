@@ -49,12 +49,14 @@ using boost::unit_test::test_suite;
 using namespace std;
 using namespace alignlib;
 
-std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
-std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
+std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY";
+std::string ref_protein20A = "AAAAAAAAAAAAAAAAAAAA";
+
+std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20 + ref_protein20A; 
 
 void test_GenericLogOddor( HLogOddor & logoddor )
 {
-	HAlignandum a(makeProfile( ref_protein20x3, 3,
+	HAlignandum a(makeProfile( ref_protein20x3, 4,
 			getDefaultEncoder(), 
 			getDefaultWeightor(), 
 			getDefaultRegularizor(), 
@@ -84,6 +86,12 @@ BOOST_AUTO_TEST_CASE( test_LogOddorGribskov )
 	test_GenericLogOddor( l ); 
 }
 
+BOOST_AUTO_TEST_CASE( test_LogOddorDirichlet )
+{
+	setDefaultEncoder( getEncoder( Protein20 ) );
+	HLogOddor l = makeLogOddorDirichlet();
+	test_GenericLogOddor( l );
+}
 
 
 

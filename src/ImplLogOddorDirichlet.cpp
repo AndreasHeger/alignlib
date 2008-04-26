@@ -23,6 +23,11 @@
 // Actually this is a bit misleading, there is no new class here, just the data
 // and the implementation of a factory function.
 
+#include <iostream>
+#include <iomanip>
+#include <iterator>
+
+#include "alignlib.h"
 #include "ImplLogOddor.h"
 #include "HelpersLogOddor.h"
 
@@ -35,16 +40,38 @@ namespace alignlib
 
      The 20 residues in here are sorted alphabetically.
   */
-  
-  static const Frequency background[20] = {     
+
+#define ALPHABET_SIZE 20
+
+  static const char alphabet[ALPHABET_SIZE] = "ACDEFGHIKLMNPQRSTVY";
+  static const Frequency background[ALPHABET_SIZE] = 
+  {     
       0.0804111, 0.0131282, 0.0479706, 0.0651176,  0.035627,
       0.0395005, 0.0229268, 0.0781316, 0.0706055,  0.0984159,
       0.0302298, 0.04398  , 0.0227958, 0.0455504,  0.0520589, 
-      0.0672516, 0.0577926, 0.0920675, 0.00737194, 0.029067 };    
+      0.0672516, 0.0577926, 0.0920675, 0.00737194, 0.029067 
+  };    
 
-  LogOddor * makeLogOddorDirichlet( Score scale_factor) 
-  { 
-    return new ImplLogOddor( background, scale_factor ); 
+  HLogOddor makeLogOddorDirichlet( 
+  		const Score & scale, 
+  		const Score & mask_value )
+  {
+	  HEncoder encoder(getDefaultEncoder());
+	  
+	  HFrequencyVector frequencies(new FrequencyVector( encoder->getAlphabetSize(), 0.0));
+	  for (int x = 0; x < ALPHABET_SIZE; ++x)
+		  (*frequencies)[encoder->encode(alphabet[x])] = background[x];
+	  
+#ifdef DEBUG
+	  debug_cerr( 5, "background frequencies");
+	  std::copy( 
+			  frequencies->begin(), 
+			  frequencies->end(), 
+			  std::ostream_iterator<Score>(std::cerr, ",") );
+	  std::cerr << std::endl;
+#endif
+
+  	  return makeLogOddorBackground( frequencies, scale, mask_value );
   }
 
 } // namespace alignlib

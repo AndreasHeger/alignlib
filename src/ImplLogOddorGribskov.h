@@ -61,8 +61,9 @@ class ImplLogOddorGribskov : public ImplLogOddor
     virtual ~ImplLogOddorGribskov ();
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
-    virtual void fillProfile( ScoreMatrix * profile, 
-			      const FrequencyMatrix * frequencies ) const;
+    virtual void fillProfile( 
+    		ScoreMatrix & profile, 
+    		const FrequencyMatrix & frequencies ) const;
 
  private:
     /** sustitution matrix to use */

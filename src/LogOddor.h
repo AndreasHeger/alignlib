@@ -64,7 +64,8 @@ class LogOddor
      * @param scores		@ref ScoreMatrix to be filled.
      * @param frequencies 	@ref @FrequencyMatrix to use for filling.
      * */
-    virtual void fillProfile( ScoreMatrix & scores, 
+    virtual void fillProfile( 
+    		ScoreMatrix & scores, 
     		const FrequencyMatrix & frequencies ) const = 0;
 
 };

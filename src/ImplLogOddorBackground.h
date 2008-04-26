@@ -65,12 +65,12 @@ class ImplLogOddorBackground : public ImplLogOddor
 
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
     virtual void fillProfile( 
-    		ScoreMatrix * profile, 
-    		const FrequencyMatrix * frequencies ) const;
+    		ScoreMatrix & profile, 
+    		const FrequencyMatrix & frequencies ) const;
 
  private:
     /** sustitution matrix to use */
-    const HFrequencyVector & mBackgroundFrequencies;
+    const HFrequencyVector mBackgroundFrequencies;
     
 };
 
