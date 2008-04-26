@@ -71,7 +71,7 @@ void writeProfileBinaryCounts( std::ostream & output, const HAlignandum src) {
 
 	const CountColumn * counts = p->getData().mCountsPointer;
 
-	output.write( (char*)&(counts), p->getLength() * PROFILEWIDTH * sizeof( Count));
+	output.write( (char*)&(counts), p->getLength() * ALPHABET_SIZE * sizeof( Count));
 
 }
 */
@@ -94,16 +94,16 @@ void writeProfileBinaryCountsAsInt( std::ostream & output, const HAlignandum src
 
 	int i, j;
 
-	typedef int TYPE_INT_COUNTS_COLUMN[PROFILEWIDTH];
+	typedef int TYPE_INT_COUNTS_COLUMN[ALPHABET_SIZE];
 
 	// allocate memory for converted profile
 	TYPE_INT_COUNTS_COLUMN * int_counts = new TYPE_INT_COUNTS_COLUMN[ length + 1];
 
 	for (i = 1; i <= length; i++)
-		for (j = 0; j < PROFILEWIDTH; j++) 
+		for (j = 0; j < ALPHABET_SIZE; j++) 
 			int_counts[i][j] = (int)(counts[i][j] * scale_factor);
 
-	output.write( (char*)&(int_counts), length * PROFILEWIDTH * sizeof( int ));
+	output.write( (char*)&(int_counts), length * ALPHABET_SIZE * sizeof( int ));
 
 	delete [] int_counts;
 
@@ -128,7 +128,7 @@ HAlignandum extractProfileBinaryCountsAsInt( std::istream & input,
 	TYPE_INT_COUNTS_COLUMN * int_counts = new TYPE_INT_COUNTS_COLUMN[max_length];
 
 	int i,j;
-	for (i= 0; i < PROFILEWIDTH; i++) 
+	for (i= 0; i < ALPHABET_SIZE; i++) 
 		int_counts[0][i] = 0;
 
 	int col = 0;
@@ -137,7 +137,7 @@ HAlignandum extractProfileBinaryCountsAsInt( std::istream & input,
 		if (input.eof() || input.peek() == EOF)
 			break;
 
-		input.read( (char*)&(int_counts[col]), PROFILEWIDTH * sizeof( int ) );
+		input.read( (char*)&(int_counts[col]), ALPHABET_SIZE * sizeof( int ) );
 		col++;
 	}
 	col--;
@@ -181,7 +181,7 @@ HAlignandum extractProfileBinaryCounts( std::istream & input,
 
 
 	CountColumn * counts = new CountColumn[max_length + 1];
-	for (int i= 0; i < PROFILEWIDTH; i++) 
+	for (int i= 0; i < ALPHABET_SIZE; i++) 
 		counts[0][i] = 0;
 
 	int col = 0;
@@ -190,7 +190,7 @@ HAlignandum extractProfileBinaryCounts( std::istream & input,
 		if (input.eof() || input.peek() == EOF)
 			break;
 
-		input.read( (char*)&(counts[col]), PROFILEWIDTH * sizeof( Count) );
+		input.read( (char*)&(counts[col]), ALPHABET_SIZE * sizeof( Count) );
 		col++;
 	}
 
@@ -226,7 +226,7 @@ HAlignandum rescaleProfileCounts( HAlignandum dest,
 	length = p_source->getFullLength();
 
 	for ( col = 0; col < length; col++) 
-		for (i = 0; i < PROFILEWIDTH; i++) 
+		for (i = 0; i < ALPHABET_SIZE; i++) 
 			p_source->mCounts[col][i] *= scale_factor;
 
 	return dest;
@@ -251,12 +251,12 @@ HAlignandum normalizeProfileCounts( HAlignandum dest,
 	for ( col = 0; col < length; col++) {
 
 		Count ntotal = 0;
-		for (i = 0; i < PROFILEWIDTH; i++) 
+		for (i = 0; i < ALPHABET_SIZE; i++) 
 			ntotal += p_source->mCounts[col][i];
 
 		if (ntotal > 0) {
 			double scale_factor = total_weight / ntotal;
-			for (i = 0; i < PROFILEWIDTH; i++) 
+			for (i = 0; i < ALPHABET_SIZE; i++) 
 				p_source->mCounts[col][i] *= scale_factor;
 		}
 	}
@@ -283,7 +283,7 @@ HAlignandum substituteProfileWithProfile( HAlignandum dest, const HAlignandum so
 		Position row = it->mRow;
 		Position col = it->mCol;
 
-		for (int i = 0; i < PROFILEWIDTH; i++) 
+		for (int i = 0; i < ALPHABET_SIZE; i++) 
 			p_dest->mCounts[col][i] = p_source->mCounts[row][i];
 	}
 
@@ -311,7 +311,7 @@ HAlignandum addProfile2Profile( HAlignandum dest, const HAlignandum source, cons
 		Position row = it->mRow;
 		Position col = it->mCol;
 
-		for (int i = 0; i < PROFILEWIDTH; i++) 
+		for (int i = 0; i < ALPHABET_SIZE; i++) 
 			p_dest->mCounts[col][i] += p_source->mCounts[row][i];
 	}
 
@@ -340,7 +340,7 @@ HAlignandum addSequence2Profile( HAlignandum dest, const HAlignandum source, con
 		Position row = it->mRow;
 		Position col = it->mCol;
 		Residue r = source->asResidue(row);
-		if (r < PROFILEWIDTH)
+		if (r < ALPHABET_SIZE)
 			p_dest->mCounts[col][r] ++;
 
 	}
@@ -393,11 +393,11 @@ ProfileFrequencies * exportProfileFrequencies( HAlignandum dest ) {
 	ProfileFrequencies * result = new ProfileFrequencies(length);
 	unsigned int i = 0;
 
-	(*result)[0].resize( PROFILEWIDTH, 0);
+	(*result)[0].resize( ALPHABET_SIZE, 0);
 
 	for (Position col = from; col < to; ++i, ++col) {
-		(*result)[i].resize( PROFILEWIDTH, 0);
-		for (unsigned int row = 0; row < PROFILEWIDTH; ++row) 
+		(*result)[i].resize( ALPHABET_SIZE, 0);
+		for (unsigned int row = 0; row < ALPHABET_SIZE; ++row) 
 			(*result)[i][row] = profile->mFrequencies[col][row];
 	}
 
@@ -417,7 +417,7 @@ ProfileFrequencies * exportProfileFrequencies( HAlignandum dest ) {
 HAlignandum makeProfile( const CountsMatrix * src) {
 
   // check if counts are ok
-  assert( src->getNumCols() == PROFILEWIDTH );
+  assert( src->getNumCols() == ALPHABET_SIZE );
 
   // type cast to check, if we really have a profile
   ImplProfile * p_dest = dynamic_cast<ImplProfile*>(dest);
@@ -435,7 +435,7 @@ HAlignandum makeProfile( const CountsMatrix * src) {
   unsigned int row, col;
 
   for (row = 0; row < src->getNumRows(); row++)
-    for (col = 0; col < PROFILEWIDTH; col++) 
+    for (col = 0; col < ALPHABET_SIZE; col++) 
       profile_counts[row][col] = src[row][col];
 
   return dest;

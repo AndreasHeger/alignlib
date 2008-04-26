@@ -63,9 +63,11 @@ ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) :
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddor::fillProfile( ScoreMatrix & profile ,
-		const FrequencyMatrix & frequencies ) const 
-		{
+void ImplLogOddor::fillProfile( 
+		ScoreMatrix & profile ,
+		const FrequencyMatrix & frequencies,
+		const HEncoder & encoder) const 
+{
 	debug_func_cerr(5);
 
 	assert( profile.getNumRows() == frequencies.getNumRows() );
@@ -91,7 +93,7 @@ void ImplLogOddor::fillProfile( ScoreMatrix & profile ,
 				pcolumn[i] = mMaskValue;
 		}
 	}
-		}	
+}	
 
 } // namespace alignlib
 

@@ -113,12 +113,13 @@ ImplRegularizorTatusov::ImplRegularizorTatusov (const ImplRegularizorTatusov & s
  *  */      
 void ImplRegularizorTatusov::fillFrequencies( 
 		FrequencyMatrix & frequencies, 
-		const CountMatrix & counts ) const
+		const CountMatrix & counts,
+		const HEncoder & encoder ) const
 {
 	debug_func_cerr(5);
 	
 	/// fill frequencies with raw frequencies
-	ImplRegularizor::fillFrequencies( frequencies, counts );
+	ImplRegularizor::fillFrequencies( frequencies, counts, encoder );
 	
 	Position width = counts.getNumCols();
 	Position length = counts.getNumRows();

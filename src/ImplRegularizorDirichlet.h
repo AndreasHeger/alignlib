@@ -34,11 +34,11 @@
 namespace alignlib 
 {
 
-#define PROFILEWIDTH 20
+#define ALPHABET_SIZE 20
 #define NCOMPONENTS 9
 
     typedef double TYPE_WA_COLUMN[NCOMPONENTS];
-    typedef double TYPE_A_COLUMN[PROFILEWIDTH];
+    typedef double TYPE_A_COLUMN[ALPHABET_SIZE];
     typedef double TYPE_BETA_DIFFERENCES[NCOMPONENTS];
 
   /** Implementation of a class that regularizes count columns based
@@ -67,7 +67,8 @@ class ImplRegularizorDirichlet : public Regularizor
     
     /** copy the counts into the frequencies and regularize them by doing so. */
     virtual void fillFrequencies( FrequencyMatrix & frequencies, 
-				  				  const CountMatrix & counts ) const; 
+				  				  const CountMatrix & counts,
+				  				  const HEncoder & encoder) const; 
 
  private:
 
@@ -103,7 +104,8 @@ class ImplRegularizorDirichlet : public Regularizor
     virtual void fillColumn( Frequency * frequencies, 
 			     		     TYPE_BETA_DIFFERENCES beta_differences, 
 			     		     const Count * n, 
-			     		     Count ntotal ) const;
+			     		     Count ntotal,
+			     		     const HEncoder & encoder ) const;
     
 };
 

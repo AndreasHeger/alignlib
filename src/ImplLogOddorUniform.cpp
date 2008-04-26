@@ -59,8 +59,9 @@ ImplLogOddorUniform::ImplLogOddorUniform (const ImplLogOddorUniform & src ) :
 //--------------------------------------------------------------------------------------------------------------------------------
 void ImplLogOddorUniform::fillProfile( 
 		ScoreMatrix & profile ,
-		const FrequencyMatrix & frequencies ) const 
-		{
+		const FrequencyMatrix & frequencies,
+		const HEncoder & encoder) const 
+{
 	debug_func_cerr(5);
 	
 	// simply take the frequencies and divide by Uniform-frequencies and take log. 
@@ -83,7 +84,7 @@ void ImplLogOddorUniform::fillProfile(
 				pcolumn[i] = mMaskValue;
 		}
 	}
-		}
+}
 
 
 

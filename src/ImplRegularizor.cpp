@@ -80,7 +80,8 @@ double ImplRegularizor::calculateDiversity( const CountMatrix & counts ) const
  *  */      
 void ImplRegularizor::fillFrequencies( 
 		FrequencyMatrix & frequencies, 
-		const CountMatrix & counts ) const
+		const CountMatrix & counts,
+		const HEncoder & encoder) const
 		{
 	debug_func_cerr(5);
 

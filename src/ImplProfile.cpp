@@ -413,13 +413,13 @@ void ImplProfile::prepare() const
 	if (mFrequencyMatrix == NULL) 
 	{
 		allocateFrequencies();
-		mRegularizor->fillFrequencies( *mFrequencyMatrix, *mCountMatrix ); 
+		mRegularizor->fillFrequencies( *mFrequencyMatrix, *mCountMatrix, mEncoder ); 
 	}
 
 	if (!mScoreMatrix) 
 	{
 		allocateScores();
-		mLogOddor->fillProfile( *mScoreMatrix, *mFrequencyMatrix );
+		mLogOddor->fillProfile( *mScoreMatrix, *mFrequencyMatrix, mEncoder );
 	}
 	setPrepared( true );
 }

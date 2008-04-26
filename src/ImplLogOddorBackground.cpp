@@ -41,29 +41,36 @@ namespace alignlib
 //---------------------------------------------------------< factory functions >--------------------------------------
 HLogOddor makeLogOddorBackground( 
 		const HFrequencyVector & frequencies,
+		const std::string & alphabet,
 		const Score & scale, 
 		const Score & mask_value )
 {
-	return HLogOddor(new ImplLogOddorBackground( frequencies, scale, mask_value ));
+	return HLogOddor(new ImplLogOddorBackground( frequencies, alphabet,
+			scale, mask_value ));
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplLogOddorBackground::ImplLogOddorBackground (
 		const HFrequencyVector & frequencies,
+		const std::string & alphabet,
 		const Score & scale_factor, 
 		const Score & mask_value ) :
 	ImplLogOddor( scale_factor, mask_value ),
-	mBackgroundFrequencies( frequencies )
+	mBackgroundFrequencies( frequencies ),
+	mAlphabet( alphabet )
 {
 	debug_func_cerr(5);
 	
 #ifdef DEBUG
-	debug_cerr( 5, "background frequencies");
+	debug_cerr( 5, "background frequencies for alphabet " << mAlphabet );
 	std::copy( mBackgroundFrequencies->begin(), 
 			mBackgroundFrequencies->end(), 
 			std::ostream_iterator<Score>(std::cerr, ",") );
 	std::cerr << std::endl;
 #endif
+	
+	if (mAlphabet.size() != mBackgroundFrequencies->size())
+		throw AlignException("ImplLogOddorBackground.cpp: alphabet and frequency vector have different sizes.");
 }
 
 ImplLogOddorBackground::~ImplLogOddorBackground () 
@@ -72,46 +79,56 @@ ImplLogOddorBackground::~ImplLogOddorBackground ()
 
 ImplLogOddorBackground::ImplLogOddorBackground (const ImplLogOddorBackground & src ) :
 	ImplLogOddor( src ), 
-	mBackgroundFrequencies( src.mBackgroundFrequencies )
+	mBackgroundFrequencies( src.mBackgroundFrequencies ),
+	mAlphabet( src.mAlphabet )
 	{
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
 void ImplLogOddorBackground::fillProfile( 
 		ScoreMatrix & profile ,
-		const FrequencyMatrix & frequencies ) const 
+		const FrequencyMatrix & frequencies,
+		const HEncoder & encoder ) const 
 		{
 	debug_func_cerr(5);
 	
 	// simply take the frequencies and divide by background-frequencies and take log. 
 	// For frequencies of 0, MASK_VALUE is used.
 	Position length = frequencies.getNumRows();
-	Residue width  = frequencies.getNumCols();
+	Residue width   = frequencies.getNumCols();
 	
 	FrequencyVector & bg = *mBackgroundFrequencies;
 
+	// build map of residues to positions
+	HResidueVector map_alphabet2code = encoder->getMap( mAlphabet );
+	
+	// check if alphabet and background are congruent
+	assert( map_alphabet2code->size() == bg.size() );
+	
+	Residue gap_code = encoder->getGapCode();
 #ifdef DEBUG
 	debug_cerr( 5, "background frequencies");
 	std::copy( bg.begin(), bg.end(), std::ostream_iterator<Score>(std::cerr, ",") );
 	std::cerr << std::endl;
 #endif
 
-	if (bg.size() != width )
-	{
-		std::cout << "wit=" << (int)width << " size=" << (int)bg.size() << std::endl;
-		throw AlignException("ImplLogOddorBackground: the size of alphabet does not correspond to number of supplied background frequencies.");
-	}
 	for (Position column = 0; column < length; column++) 
 	{
 		const Frequency * fcolumn = frequencies.getRow(column);
 		Score * pcolumn = profile.getRow(column);
-		for (Residue i = 0; i < width; ++i)
+		
+		// mask all undefined chars and with 0 frequency
+		for (Residue x = 0; x < width; ++x)
+			pcolumn[x] = mMaskValue;
+			
+		for (Residue i = 0; i < bg.size(); ++i)
 		{
-			Frequency f = 0;	
-			if ((f = fcolumn[i]) > 0)
-				pcolumn[i] = log(f / bg[i]) / mScaleFactor;
-			else
-				pcolumn[i] = mMaskValue;
+			Residue x = (*map_alphabet2code)[i];
+			if (x == gap_code)
+				continue;
+			Frequency f = fcolumn[x];	
+			if (f > 0)
+				pcolumn[x] = log(f / bg[i]) / mScaleFactor;
 		}
 	}
 		}

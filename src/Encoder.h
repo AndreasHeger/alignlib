@@ -139,7 +139,16 @@ class Encoder
      * This function will not map gap characters.
      */
     virtual HResidueVector map( const HEncoder & other ) const = 0;
-    
+
+    /** build a map for a list of characters. 
+	 *
+     * All characters than can not be mapped will be mapped to the mask 
+     * character.
+     * 
+     * @return residue code of each charater in alphabet.
+     */
+    virtual HResidueVector getMap( const std::string & alphabet ) const = 0;
+	    
     /** count characters in string. 
      * 
      * @param src 	string

@@ -29,7 +29,6 @@
 #define IMPL_LOGODDOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "LogOddor.h"
 
 namespace alignlib 
@@ -66,7 +65,8 @@ class ImplLogOddor : public LogOddor
      * frequencies into log-odd-scores */
     virtual void fillProfile( 
     		ScoreMatrix & profile, 
-    		const FrequencyMatrix & frequencies ) const;
+    		const FrequencyMatrix & frequencies,
+    		const HEncoder & encoder ) const;
 
  protected:
     

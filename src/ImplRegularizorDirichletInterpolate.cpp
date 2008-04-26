@@ -230,7 +230,7 @@ inline double LookUp( double x )
 inline static double lBeta ( const double * vector, const double length ) {
   double result = 0;
   int i;
-  for (i = 0; i < PROFILEWIDTH; i++) 
+  for (i = 0; i < ALPHABET_SIZE; i++) 
     result += LookUp( vector[i] );
   
   return (result - LookUp( length ));
@@ -247,7 +247,7 @@ inline static double lBetaSum ( const Count * vector1,
     double result = 0;
     int i;
     
-    for (i = 0; i < PROFILEWIDTH; i++)
+    for (i = 0; i < ALPHABET_SIZE; i++)
       result += LookUp( vector1[i] + vector2[i]);
     
     return (result - LookUp( length1 + length2 ));

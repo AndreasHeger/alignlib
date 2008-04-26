@@ -29,7 +29,6 @@
 
 #include <string>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "Encoder.h"
 
 namespace alignlib 
@@ -145,6 +144,15 @@ class ImplEncoder : public Encoder
      */
     virtual HResidueVector map( const HEncoder & other ) const;
     
+    /** build a map for a list of characters. 
+	 *
+     * All characters than can not be mapped will be mapped to the mask 
+     * character.
+     * 
+     * @return residue code of each charater in alphabet.
+     */
+    virtual HResidueVector getMap( const std::string & alphabet ) const ;
+
     /** count characters in string. 
      * 
      * @param src 	string

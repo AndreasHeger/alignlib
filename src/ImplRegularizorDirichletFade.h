@@ -33,8 +33,8 @@
 
 namespace alignlib {
 
-    typedef double TYPE_WA_COLUMN[PROFILEWIDTH];
-    typedef double TYPE_BETA_DIFFERENCES[PROFILEWIDTH][NCOMPONENTS];
+    typedef double TYPE_WA_COLUMN[ALPHABET_SIZE];
+    typedef double TYPE_BETA_DIFFERENCES[ALPHABET_SIZE][NCOMPONENTS];
 
     /** When you use this class as a regularizor, the regularizor is 
 	switched of, when there are more than FADE_CUTOFF observation 

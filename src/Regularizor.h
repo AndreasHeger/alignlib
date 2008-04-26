@@ -63,12 +63,14 @@ class Regularizor
     /** regularize a @ref CountMatrix.
      * 
      * @param frequencies @ref FrequencyMatrix to store result.
-     * @param counts @ref CountMatrix with observed residue counts. 
+     * @param counts @ref CountMatrix with observed residue counts.
+     * @param encoder 	@ref Encoder object.   
      * */
     virtual void fillFrequencies( 
     		FrequencyMatrix & frequencies, 
-    		const CountMatrix & counts ) const = 0;
-
+    		const CountMatrix & counts,
+    		const HEncoder & translator ) const = 0;
+        
 };
 
 }

@@ -29,6 +29,7 @@
 
 #include "alignlib.h"
 #include "ImplLogOddor.h"
+#include "ImplRegularizorDirichlet.h"
 #include "HelpersLogOddor.h"
 
 namespace alignlib 
@@ -41,9 +42,7 @@ namespace alignlib
      The 20 residues in here are sorted alphabetically.
   */
 
-#define ALPHABET_SIZE 20
-
-  static const char alphabet[ALPHABET_SIZE] = "ACDEFGHIKLMNPQRSTVY";
+  static const char alphabet[ALPHABET_SIZE+1] = "ACDEFGHIKLMNPQRSTVWY";
   static const Frequency background[ALPHABET_SIZE] = 
   {     
       0.0804111, 0.0131282, 0.0479706, 0.0651176,  0.035627,
@@ -56,22 +55,16 @@ namespace alignlib
   		const Score & scale, 
   		const Score & mask_value )
   {
-	  HEncoder encoder(getDefaultEncoder());
 	  
-	  HFrequencyVector frequencies(new FrequencyVector( encoder->getAlphabetSize(), 0.0));
+	  HFrequencyVector frequencies(new FrequencyVector( ALPHABET_SIZE, 0.0));
 	  for (int x = 0; x < ALPHABET_SIZE; ++x)
-		  (*frequencies)[encoder->encode(alphabet[x])] = background[x];
+		  (*frequencies)[x] = background[x];
 	  
-#ifdef DEBUG
-	  debug_cerr( 5, "background frequencies");
-	  std::copy( 
-			  frequencies->begin(), 
-			  frequencies->end(), 
-			  std::ostream_iterator<Score>(std::cerr, ",") );
-	  std::cerr << std::endl;
-#endif
-
-  	  return makeLogOddorBackground( frequencies, scale, mask_value );
+  	  return makeLogOddorBackground( 
+  			  frequencies,
+  			  alphabet,
+  			  scale, 
+  			  mask_value );
   }
 
 } // namespace alignlib

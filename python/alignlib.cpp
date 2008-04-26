@@ -2142,6 +2142,16 @@ BOOST_PYTHON_MODULE(alignlib){
                 , getGapCode_function_type( &::alignlib::Encoder::getGapCode ) );
         
         }
+        { //::alignlib::Encoder::getMap
+        
+            typedef ::alignlib::HResidueVector ( ::alignlib::Encoder::*getMap_function_type )( ::std::string const & ) const;
+            
+            Encoder_exposer.def( 
+                "getMap"
+                , getMap_function_type( &::alignlib::Encoder::getMap )
+                , ( bp::arg("alphabet") ) );
+        
+        }
         { //::alignlib::Encoder::getMaskChar
         
             typedef char ( ::alignlib::Encoder::*getMaskChar_function_type )(  ) const;
@@ -2363,12 +2373,12 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::scope LogOddor_scope( LogOddor_exposer );
         { //::alignlib::LogOddor::fillProfile
         
-            typedef void ( ::alignlib::LogOddor::*fillProfile_function_type )( ::alignlib::ScoreMatrix &,::alignlib::FrequencyMatrix const & ) const;
+            typedef void ( ::alignlib::LogOddor::*fillProfile_function_type )( ::alignlib::ScoreMatrix &,::alignlib::FrequencyMatrix const &,::alignlib::HEncoder const & ) const;
             
             LogOddor_exposer.def( 
                 "fillProfile"
                 , fillProfile_function_type( &::alignlib::LogOddor::fillProfile )
-                , ( bp::arg("scores"), bp::arg("frequencies") ) );
+                , ( bp::arg("scores"), bp::arg("frequencies"), bp::arg("translator") ) );
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::LogOddor > >();
@@ -2844,12 +2854,12 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::scope Regularizor_scope( Regularizor_exposer );
         { //::alignlib::Regularizor::fillFrequencies
         
-            typedef void ( ::alignlib::Regularizor::*fillFrequencies_function_type )( ::alignlib::FrequencyMatrix &,::alignlib::CountMatrix const & ) const;
+            typedef void ( ::alignlib::Regularizor::*fillFrequencies_function_type )( ::alignlib::FrequencyMatrix &,::alignlib::CountMatrix const &,::alignlib::HEncoder const & ) const;
             
             Regularizor_exposer.def( 
                 "fillFrequencies"
                 , fillFrequencies_function_type( &::alignlib::Regularizor::fillFrequencies )
-                , ( bp::arg("frequencies"), bp::arg("counts") ) );
+                , ( bp::arg("frequencies"), bp::arg("counts"), bp::arg("translator") ) );
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Regularizor > >();
@@ -4013,12 +4023,12 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::makeLogOddorBackground
     
-        typedef ::alignlib::HLogOddor ( *makeLogOddorBackground_function_type )( ::alignlib::HFrequencyVector const &,::alignlib::Score const &,::alignlib::Score const & );
+        typedef ::alignlib::HLogOddor ( *makeLogOddorBackground_function_type )( ::alignlib::HFrequencyVector const &,::std::string const &,::alignlib::Score const &,::alignlib::Score const & );
         
         bp::def( 
             "makeLogOddorBackground"
             , makeLogOddorBackground_function_type( &::alignlib::makeLogOddorBackground )
-            , ( bp::arg("frequencies"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
+            , ( bp::arg("frequencies"), bp::arg("alphabet"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
     
     }
 

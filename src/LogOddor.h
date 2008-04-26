@@ -63,10 +63,12 @@ class LogOddor
      * 
      * @param scores		@ref ScoreMatrix to be filled.
      * @param frequencies 	@ref @FrequencyMatrix to use for filling.
+     * @param encoder 	@ref Encoder object.  
      * */
     virtual void fillProfile( 
     		ScoreMatrix & scores, 
-    		const FrequencyMatrix & frequencies ) const = 0;
+    		const FrequencyMatrix & frequencies,
+    		const HEncoder & translator ) const = 0;    		
 
 };
 

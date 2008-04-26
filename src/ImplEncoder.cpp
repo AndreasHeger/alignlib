@@ -321,6 +321,26 @@ HResidueVector ImplEncoder::map( const HEncoder & other ) const
 	return map_other2this;
 }
 
+/** build a map for a list of characters. 
+ *
+ * All characters than can not be mapped will be mapped to the mask 
+ * character.
+ * 
+ * @return residue code of each charater in alphabet.
+ */
+HResidueVector ImplEncoder::getMap( const std::string & alphabet ) const
+{
+	debug_func_cerr( 5 );
+
+	HResidueVector map_alphabet( new ResidueVector( alphabet.size(), getMaskCode()) );
+
+	for ( Residue x = 0; x < alphabet.size(); ++x)
+		(*map_alphabet)[x] = encode( alphabet[x] );
+
+	return map_alphabet;
+	
+}
+
 
 
 //--------------------------------------------------------------------------------------------------------------------------------

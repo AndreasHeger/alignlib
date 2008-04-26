@@ -66,13 +66,16 @@ HLogOddor makeLogOddorUniform(
 
 /** return @ref LogOddor object that computes log-odds scores using non-uniform background frequencies.
  * 
- * @param frequencies 	vector with background frequencies.
+ * @param frequencies 	vector with background frequencies ordered according to @param alphabet.
+ * @param alphabet		alphabet that frequencies refer to
  * @param scale_factor	scores will be multiplied by this value.
  * @param mask_value	score for a column that is masked.
  * 
  * @return a new @ref LogOddor object.
  */
-HLogOddor makeLogOddorBackground( const HFrequencyVector & frequencies,
+HLogOddor makeLogOddorBackground( 
+		const HFrequencyVector & frequencies,
+		const std::string & alphabet,
 		const Score & scale_factor = 1.0,
 		const Score & mask_value = -10);
 

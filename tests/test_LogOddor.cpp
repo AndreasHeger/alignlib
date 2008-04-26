@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE( test_LogOddor )
 
 BOOST_AUTO_TEST_CASE( test_LogOddorUniform )
 {
-	HLogOddor l = makeLogOddor();
+	HLogOddor l = makeLogOddorUniform();
 	test_GenericLogOddor( l );
 }
 
@@ -86,12 +86,20 @@ BOOST_AUTO_TEST_CASE( test_LogOddorGribskov )
 	test_GenericLogOddor( l ); 
 }
 
-BOOST_AUTO_TEST_CASE( test_LogOddorDirichlet )
+BOOST_AUTO_TEST_CASE( test_LogOddorDirichlet20 )
 {
 	setDefaultEncoder( getEncoder( Protein20 ) );
 	HLogOddor l = makeLogOddorDirichlet();
 	test_GenericLogOddor( l );
 }
+
+BOOST_AUTO_TEST_CASE( test_LogOddorDirichlet23 )
+{
+	setDefaultEncoder( getEncoder( Protein23 ) );
+	HLogOddor l = makeLogOddorDirichlet();
+	test_GenericLogOddor( l );
+}
+
 
 
 

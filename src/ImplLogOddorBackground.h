@@ -29,7 +29,6 @@
 #define IMPL_LOGODDOR_BACKGROUND_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplLogOddor.h"
 
 namespace alignlib 
@@ -54,6 +53,7 @@ class ImplLogOddorBackground : public ImplLogOddor
     /** default constructor */
     ImplLogOddorBackground  ( 
     		const HFrequencyVector & frequencies,
+    		const std::string & alphabet,
     		const Score & scale_factor = 1,
     		const Score & mask_value = 10);
     
@@ -66,12 +66,15 @@ class ImplLogOddorBackground : public ImplLogOddor
     /** copy frequencies to a profile and while doing so, convert the frequencies into log-odd-scores */
     virtual void fillProfile( 
     		ScoreMatrix & profile, 
-    		const FrequencyMatrix & frequencies ) const;
+    		const FrequencyMatrix & frequencies,
+    		const HEncoder & encoder ) const;
 
  private:
     /** sustitution matrix to use */
     const HFrequencyVector mBackgroundFrequencies;
     
+    /** the alphabet that the frequencies refer to */
+    const std::string mAlphabet;
 };
 
 }

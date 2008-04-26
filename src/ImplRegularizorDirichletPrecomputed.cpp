@@ -39,7 +39,7 @@ namespace alignlib
 		return HRegularizor( new ImplRegularizorDirichletPrecomputed( fade_cutoff ));
 	}
     
-typedef double Score_A_JI[NCOMPONENTS][PROFILEWIDTH];
+typedef double Score_A_JI[NCOMPONENTS][ALPHABET_SIZE];
 typedef double TYPE_WA_COLUMN[NCOMPONENTS];
 
 #define MAX_N		1000		// i.e precomputed for 1000 observations per column
@@ -70,11 +70,11 @@ ImplRegularizorDirichletPrecomputed::ImplRegularizorDirichletPrecomputed ( Count
     
     for (n = 0; n < MAX_N; n++)
       for (j = 0; j < NCOMPONENTS; j++) 
-	for (i = 0; i < PROFILEWIDTH; i++ )
+	for (i = 0; i < ALPHABET_SIZE; i++ )
 	  precomputed_a_jin[n][j][i] = lgamma( (double)n + mA[j][i] );
 
     // wa_jn
-    precomputed_wa_jn = new TYPE_WA_COLUMN[MAX_N_TOTAL * PROFILEWIDTH];
+    precomputed_wa_jn = new TYPE_WA_COLUMN[MAX_N_TOTAL * ALPHABET_SIZE];
     for (n = 0; n < MAX_N; n++)
       for (j = 0; j < NCOMPONENTS; j++) 
 	    precomputed_wa_jn[n][j] = lgamma( mWa[j] + (double)n );
@@ -103,17 +103,17 @@ double ImplRegularizorDirichletPrecomputed::calculateBetaDifferences( TYPE_BETA_
   double max_log_difference = 0;
   int i,j, c;
    
-  int counts[PROFILEWIDTH];
+  int counts[ALPHABET_SIZE];
   int i_ntotal = (int)ntotal;
 
-  for (i = 0; i < PROFILEWIDTH; i++) 
+  for (i = 0; i < ALPHABET_SIZE; i++) 
       counts[i] = (int)n[i];
  
   for (j = 0; j < NCOMPONENTS; j++) {
 	  
       double difference = 0;
 
-      for (i = 0; i < PROFILEWIDTH; i++) 
+      for (i = 0; i < ALPHABET_SIZE; i++) 
 	if ((c = counts[i]) < MAX_N)
 	  difference += precomputed_a_jin[c][j][i];		// lgamma( n[i] + mA[j][i]);
 	else 

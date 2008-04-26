@@ -42,7 +42,7 @@ namespace alignlib {
   static double q[NCOMPONENTS] = { 0.182962,0.057607,0.089823,0.079297,0.083183,0.091122,0.115962,0.06604,0.234006 } ;
  
   /* the mixtures a_i */
-  static double a[NCOMPONENTS][PROFILEWIDTH] = { 
+  static double a[NCOMPONENTS][ALPHABET_SIZE] = { 
     { 0.270671, 0.039848, 0.017576, 0.016415, 0.014268, 0.131916, 0.012391, 0.022599, 0.020358, 0.030727, 
       0.015315, 0.048298, 0.053803, 0.020662, 0.023612, 0.216147, 0.147226, 0.065438, 0.003758, 0.009621 },
     { 0.021465, 0.0103  , 0.011741, 0.010883, 0.385651, 0.016416, 0.076196, 0.035329, 0.013921, 0.093517, 
@@ -68,23 +68,23 @@ extern const ImplRegularizorDirichlet DEFAULT_REGULARIZOR = ImplRegularizorDiric
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplRegularizorDirichlet::ImplRegularizorDirichlet () {
 
-    double x[PROFILEWIDTH];
+    double x[ALPHABET_SIZE];
     double total;
     int i,k;
  
     /* check later on, if mWa has already been calculated before */
 
     /* calculate null model: uniform aa frequencies -> bg[]*/
-    for (i = 0; i < PROFILEWIDTH; i ++)
+    for (i = 0; i < ALPHABET_SIZE; i ++)
         x[i] = 0;
  
     for (k = 0; k < NCOMPONENTS; k++)
-	for (i = 0; i < PROFILEWIDTH; i ++)
+	for (i = 0; i < ALPHABET_SIZE; i ++)
 	    x[i] = x[i] + q[k] * a[k][i];
  
     /* normalize null modell */
     total = 0;
-    for (i = 0; i < PROFILEWIDTH; i++)
+    for (i = 0; i < ALPHABET_SIZE; i++)
         total = total + x[i];
  
     if (total == 0)                             // deal with empty columns
@@ -93,7 +93,7 @@ ImplRegularizorDirichlet::ImplRegularizorDirichlet () {
     /* calculate |aj| -> wa[] */
     for (k = 0; k < NCOMPONENTS; k++) {
         total = 0;
-        for (i = 0; i < PROFILEWIDTH; i ++)
+        for (i = 0; i < ALPHABET_SIZE; i ++)
             total = total + a[k][i];
         mWa[k] = total;
     }
@@ -115,7 +115,7 @@ ImplRegularizorDirichlet::ImplRegularizorDirichlet (const ImplRegularizorDirichl
 static double lBeta ( const double * vector, const double length ) {
   double result = 0;
   int i;
-  for (i = 0; i < PROFILEWIDTH; i++)
+  for (i = 0; i < ALPHABET_SIZE; i++)
     result += lgamma( vector[i] );
  
   return (result - lgamma( length ));
@@ -132,7 +132,7 @@ static double lBetaSum ( const Count * vector1,
     double result = 0;
     int i;
     
-    for (i = 0; i < PROFILEWIDTH; i++)
+    for (i = 0; i < ALPHABET_SIZE; i++)
 	result += lgamma( vector1[i] + vector2[i]);
     
     return (result - lgamma( length1 + length2 ));
@@ -149,7 +149,7 @@ double ImplRegularizorDirichlet::calculateBetaDifferences( TYPE_BETA_DIFFERENCES
     double max_log_difference = 0;
     int i,j;
     
-    for (i = 0; i < PROFILEWIDTH; i++) {
+    for (i = 0; i < ALPHABET_SIZE; i++) {
 	for (j = 0; j < NCOMPONENTS; j++) {
 	    
 	    double difference = lBetaSum( n, ntotal, a[j], mWa[j] ) - lBeta( a[j], mWa[j] );
@@ -177,7 +177,7 @@ void ImplRegularizorDirichlet::fillFrequencies( FrequencyColumn * frequencies,
     Count ntotal;
 
     int i,j;
-    double Xi[PROFILEWIDTH];
+    double Xi[ALPHABET_SIZE];
     
     // helper variables for the conversion of log to floating point
     TYPE_BETA_DIFFERENCES beta_differences;
@@ -189,7 +189,7 @@ void ImplRegularizorDirichlet::fillFrequencies( FrequencyColumn * frequencies,
 	ntotal = 0;
 
 	// get ntotal = number of observations
-	for (i = 0; i < PROFILEWIDTH; i++)
+	for (i = 0; i < ALPHABET_SIZE; i++)
 	    ntotal += n[i];
 
 	// calculate the ratio of the two beta functions. The ratio might get very small, so that floating point
@@ -201,10 +201,10 @@ void ImplRegularizorDirichlet::fillFrequencies( FrequencyColumn * frequencies,
 	
 	// calculate the Xi
 	if (ntotal == 0) {                          // if there were no observations, mask this column
-	  for (i = 0; i < PROFILEWIDTH; i++)
+	  for (i = 0; i < ALPHABET_SIZE; i++)
 	    Xi[i] = 0;                              // i.e. set frequency to 0
 	} else {
-	  for (i = 0; i < PROFILEWIDTH; i++) {
+	  for (i = 0; i < ALPHABET_SIZE; i++) {
 	    Xi[i] = 0;
 	    for (j = 0; j < NCOMPONENTS; j++) {
 	      double exponent = beta_differences[i][j] - max_log_difference;
@@ -215,11 +215,11 @@ void ImplRegularizorDirichlet::fillFrequencies( FrequencyColumn * frequencies,
 	
 	// normalise the Xi
 	ProfileScore xtotal = 0;
-	for (i = 0; i < PROFILEWIDTH; i++)
+	for (i = 0; i < ALPHABET_SIZE; i++)
 	    xtotal += Xi[i];
 	
 	if (xtotal > 0)
-	  for (i = 0; i < PROFILEWIDTH; i++)
+	  for (i = 0; i < ALPHABET_SIZE; i++)
 	    frequencies[column][i] = (Frequency)(Xi[i] / xtotal);
 	
     }   

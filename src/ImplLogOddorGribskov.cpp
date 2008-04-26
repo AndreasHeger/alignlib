@@ -58,7 +58,8 @@ ImplLogOddorGribskov::ImplLogOddorGribskov (const ImplLogOddorGribskov & src ) :
 //--------------------------------------------------------------------------------------------------------------------------------
 void ImplLogOddorGribskov::fillProfile( 
 		ScoreMatrix & profile ,
-		const FrequencyMatrix & frequencies ) const 
+		const FrequencyMatrix & frequencies,
+		const HEncoder & encoder) const 
 {
 	debug_func_cerr(5);
 	
