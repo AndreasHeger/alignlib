@@ -141,6 +141,50 @@ void runTests( HAlignandum & a, const std::string & sample )
 		assert( clone->getLength() == a->getLength() );
 	}
 	checkingEnd();
+
+	{
+		HAlignandum clone(a->getClone());
+		a->setStorageType( Full );
+		checkingStart( "writing" );
+		{
+			std::ofstream outfile;
+			outfile.open( "test_full.out", std::ios::binary );
+			a->save( outfile );
+			outfile.close();
+		}
+		checkingEnd();
+
+		checkingStart( "reading" );
+		{
+			std::ifstream infile;
+			infile.open( "test_full.out", std::ios::binary );
+			HAlignandum a(loadAlignandum( infile ) );
+			infile.close();
+		}
+		checkingEnd();
+	}
+
+	{
+		HAlignandum clone(a->getClone());
+		a->setStorageType( Sparse );
+		checkingStart( "writing" );
+		{
+			std::ofstream outfile;
+			outfile.open( "test_sparse.out", std::ios::binary );
+			a->save( outfile );
+			outfile.close();
+		}
+		checkingEnd();
+
+		checkingStart( "reading" );
+		{
+			std::ifstream infile;
+			infile.open( "test_sparse.out", std::ios::binary );
+			HAlignandum a(loadAlignandum( infile ) );
+			infile.close();
+		}
+		checkingEnd();
+	}
 	
 }
 
@@ -153,8 +197,7 @@ void testAlignandum( HAlignandum & a, const std::string & sample )
 	runTests( a, sample);
 	std::cout << "--- testing released --- " << std::endl;	
 	a->release();
-	runTests( a, sample);
-	
+	runTests( a, sample);	
 }
 
 
@@ -184,8 +227,10 @@ int main ()
 
 	{
 		std::cout << "--- testing Profile----" << std::endl;		
-		HAlignandum a(makeProfile( ref_protein20x3, 3) );
-		testAlignandum( a, ref_protein20  );    
+		// HAlignandum a(makeProfile( ref_protein20x3, 3) );
+		// testAlignandum( a, ref_protein20  );    
+		HAlignandum a(makeProfile( std::string("AAA"), 1) );
+		testAlignandum( a, std::string("AAA")  );    
 	}
 	
 	return EXIT_SUCCESS;

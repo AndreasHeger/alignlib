@@ -18,7 +18,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
-import unittest, sys
+import unittest, sys, os
 from alignlib import *
 
 class AlignandumTestCase( unittest.TestCase ):
@@ -44,7 +44,7 @@ class AlignandumTestCase( unittest.TestCase ):
             self.assertEqual( self.mReferenceSequence[x], self.mAlignandum.asChar(x) )
 
     def testGetLength( self ):
-        self.assertEqual( self.mAlignandum.getLength(), 10 )
+        self.assertEqual( self.mAlignandum.getLength(), len(self.mReferenceSequence) )
 
     def testPrepare( self ):
         # a sequence is always prepared
@@ -57,6 +57,7 @@ class AlignandumTestCase( unittest.TestCase ):
 
         for start, end in ( (0,len(self.mReferenceSequence)),
                             (4,len(self.mReferenceSequence)) ):
+            if start >= end: continue
             self.mAlignandum.useSegment( start, end)
             self.assertEqual( self.mReferenceSequence,
                               self.mAlignandum.asString() )
@@ -86,7 +87,7 @@ class AlignandumTestCase( unittest.TestCase ):
             
         assert( len(alignanda) == 2)
         
-        os.remove( fn )
+        # os.remove( fn )
         
     def testSaveFull( self ):
         self.mAlignandum.setStorageType( Full )
@@ -96,7 +97,7 @@ class AlignandumTestCase( unittest.TestCase ):
         self.mAlignandum.setStorageType( Sparse )
         self.runTestSave( "test_sparse.out" )
 
-class ProfileTestCase( AlignandumTestCase ):
+class Profile1TestCase( AlignandumTestCase ):
 
     def setUp( self ):
         n = len(self.mReferenceSequence)
@@ -119,6 +120,27 @@ class ProfileTestCase( AlignandumTestCase ):
         ## TODO: make this test and the code conforming to use X as mask char
         self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAAXXXXAAA", self.renderSeq() )
+
+class Profile2TestCase( AlignandumTestCase ):
+
+    def setUp( self ):
+        self.mReferenceSequence = "A"
+        n = len(self.mReferenceSequence)
+        self.mAlignandum = makeProfile( "AAA", 3 )
+        
+    def renderSeq( self ):
+        return self.mAlignandum.asString()
+
+    def testPrepare( self ):
+        self.mAlignandum.prepare()
+        self.assertEqual( self.mAlignandum.isPrepared(), True )
+        self.mAlignandum.release()
+        self.assertEqual( self.mAlignandum.isPrepared(), False )        
+
+    def testMask( self ):
+        ## TODO: make this test and the code conforming to use X as mask char
+        self.mAlignandum.mask( 0, 1 )
+        self.assertEqual( "X", self.renderSeq() )
 
 def suite():
     suite = unittest.TestSuite()

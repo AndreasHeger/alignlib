@@ -518,10 +518,11 @@ void ImplProfile::saveSparseMatrix( std::ostream & output, const Matrix<T> * dat
 		const T * column = data->getRow( i );		
 		for (Residue j = 0; j < mProfileWidth; ++j) 
 		{
-			if (column[j] != 0)
+			T v = column[j];
+			if ( v != 0)
 			{
 				output.write( (char*)&j, sizeof(Residue) );
-				output.write( (char*)&column[j], sizeof( T ) );
+				output.write( (char*)&v, sizeof( T ) );
 			}
 		}
 		output.write( (char*)&eol, sizeof( Residue) );
