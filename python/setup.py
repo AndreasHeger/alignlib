@@ -425,7 +425,8 @@ def exportMatrices( mb ):
 
 def exportEnums( mb ):
     """export enums."""
-    enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 'LinkageType', 'AlphabetType' ] )
+    enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 
+                                   'LinkageType', 'AlphabetType', 'StorageType' ] )
     
     mb.enumerations( lambda x: x.name in enumerations_to_export ).include()
     

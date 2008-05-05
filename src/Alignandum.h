@@ -182,6 +182,12 @@ public:
 	 */
 	virtual void save( std::ostream & input ) const = 0;
 
+	/** set the storage type */
+	virtual void setStorageType( const StorageType & storage_type ) = 0;
+
+	/** get the storage type */
+	virtual StorageType getStorageType( ) const = 0;
+
 };
 
 }

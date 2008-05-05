@@ -81,7 +81,7 @@ HAlignandum makeProfile( const Position & length,
 		const HWeightor & weightor,		
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
-		{
+{
 
 	return HAlignandum( new ImplProfile( length, 
 			translator, weightor, regularizor, logoddor ) );
@@ -105,8 +105,7 @@ HAlignandum makeProfile( const std::string & src,
 		const HWeightor & weightor, 
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
-		{
-
+{
 	HMultipleAlignment m( makeMultipleAlignment() );
 	fillMultipleAlignment( 
 			m,
@@ -139,8 +138,7 @@ HAlignandum makeProfile(
 		const HWeightor & weightor, 
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor ) 
-		{
-
+{
 	return HAlignandum( new ImplProfile( mali, 
 			translator, 
 			weightor,
@@ -211,8 +209,6 @@ ImplProfile::ImplProfile(
 	fillCounts( src );
 }
 
-		
-		
 //---------------------------------------------------------------------------------------------------------------
 ImplProfile::ImplProfile(const ImplProfile & src ) : ImplAlignandum( src ), 
 	mRegularizor( src.mRegularizor ),
@@ -508,9 +504,57 @@ void ImplProfile::write( std::ostream & output ) const
 		output << "----------->no profile available<--------------------------" << endl;
 	}
 }
+
+//--------------------------------------------------------------------------------------
+template<class T>
+void ImplProfile::saveSparseMatrix( std::ostream & output, const Matrix<T> * data ) const
+{
+	debug_func_cerr(5);
+	assert (data != NULL);
+
+	Residue eol = NO_RESIDUE;
+	for (Position i = 0; i < getLength(); ++i) 
+	{
+		const T * column = data->getRow( i );		
+		for (Residue j = 0; j < mProfileWidth; ++j) 
+		{
+			if (column[j] != 0)
+			{
+				output.write( (char*)&j, sizeof(Residue) );
+				output.write( (char*)&column[j], sizeof( T ) );
+			}
+		}
+		output.write( (char*)&eol, sizeof( Residue) );
+	}
+}
+ 
+//--------------------------------------------------------------------------------------
+template<class T>
+void ImplProfile::loadSparseMatrix( std::istream & input, Matrix<T> * data ) 
+{
+	debug_func_cerr(5);
+	assert (data != NULL);
+
+	for (Position i = 0; i < getLength(); i++) 
+	{
+		Residue j = NO_RESIDUE;
+		T v = 0;
+		
+		while( true )
+		{
+			input.read( (char*)&j, sizeof( Residue ) );			
+			if ( j == NO_RESIDUE ) break;
+			input.read( (char*)&v, sizeof( T ) );
+			data->setValue( i, j, v);
+		}
+	}
+}
+ 
+
 //--------------------------------------------------------------------------------------
 void ImplProfile::__save( std::ostream & output, MagicNumberType type ) const 
 {
+	debug_func_cerr(5);
 	if (type == MNNoType )
 	{
 		type = MNImplProfile;
@@ -522,39 +566,77 @@ void ImplProfile::__save( std::ostream & output, MagicNumberType type ) const
 
 	size_t size = getFullLength() * mProfileWidth;
 	
-	output.write( (char*)mCountMatrix->getData(), sizeof(Count) * size);
-	if (isPrepared() )
+	if ( mStorageType == Full ) 	
 	{
-		output.write( (char*)mFrequencyMatrix->getData(), sizeof(Frequency) * size);
-		output.write( (char*)mScoreMatrix->getData(), sizeof(Score) * size );	
-	}		
+		output.write( (char*)mCountMatrix->getData(), sizeof(Count) * size);
+		if (isPrepared() )
+		{
+			output.write( (char*)mFrequencyMatrix->getData(), sizeof(Frequency) * size);
+			output.write( (char*)mScoreMatrix->getData(), sizeof(Score) * size );	
+		}
+	}
+	else if ( mStorageType == Sparse )
+	{
+		saveSparseMatrix<Count>( output, mCountMatrix );
+		
+		if (isPrepared() )
+		{
+			saveSparseMatrix<Frequency>( output, mFrequencyMatrix );
+			// can only compress counts and frequencies
+			output.write( (char*)mScoreMatrix->getData(), sizeof(Score) * size );	
+		}		
+	}
 }
 
 //--------------------------------------------------------------------------------------
 void ImplProfile::load( std::istream & input)  
 {
+	debug_func_cerr(5);
 	ImplAlignandum::load( input );
 
 	input.read( (char*)&mProfileWidth, sizeof( Residue ) );
-	
-	allocateCounts();
-	
+
 	size_t size = getFullLength() * mProfileWidth;
-	input.read( (char*)mCountMatrix->getData(), 
-			sizeof( Count) * size );
-
-	if (input.fail() ) 
-		throw AlignException( "incomplete profile in stream.");
-
-	if (isPrepared() )
+	
+	if ( mStorageType == Full ) 	
 	{
-		allocateFrequencies();
-		input.read( (char*)mFrequencyMatrix->getData(), 
-				sizeof( Frequency) * size );
-		allocateScores();
-		input.read( (char*)mScoreMatrix->getData(), 
-				sizeof(Score) * size );
+		allocateCounts();
+		input.read( (char*)mCountMatrix->getData(), 
+					sizeof( Count) * size );
+
+		if (input.fail() ) 
+			throw AlignException( "incomplete profile in stream.");
+
+		if (isPrepared() )
+		{
+			allocateFrequencies();
+			input.read( (char*)mFrequencyMatrix->getData(), 
+						sizeof( Frequency) * size );
+			allocateScores();
+			input.read( (char*)mScoreMatrix->getData(), 
+						sizeof(Score) * size );
+		}
 	}
+	else if ( mStorageType == Sparse )
+	{
+		allocateCounts();
+		loadSparseMatrix<Count>( input, mCountMatrix );
+
+		if (input.fail() ) 
+			throw AlignException( "incomplete profile in stream.");
+
+		if (isPrepared() )
+		{
+			allocateFrequencies();
+			loadSparseMatrix<Frequency>( input, mFrequencyMatrix );
+			allocateScores();
+			input.read( (char*)mScoreMatrix->getData(), 
+					sizeof(Score) * size );
+		}
+		
+	}
+		
+		
 }
 
 //--------------------------------------> I/O <------------------------------------------------------------

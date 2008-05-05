@@ -713,6 +713,12 @@ BOOST_PYTHON_MODULE(alignlib){
         .export_values()
         ;
 
+    bp::enum_< alignlib::StorageType>("StorageType")
+        .value("Full", alignlib::Full)
+        .value("Sparse", alignlib::Sparse)
+        .export_values()
+        ;
+
     { //::alignlib::Alignandum
         typedef bp::class_< alignlib::Alignandum, boost::noncopyable > Alignandum_exposer_t;
         Alignandum_exposer_t Alignandum_exposer = Alignandum_exposer_t( "Alignandum", bp::no_init );
@@ -792,6 +798,15 @@ BOOST_PYTHON_MODULE(alignlib){
                 , getLength_function_type( &::alignlib::Alignandum::getLength ) );
         
         }
+        { //::alignlib::Alignandum::getStorageType
+        
+            typedef ::alignlib::StorageType ( ::alignlib::Alignandum::*getStorageType_function_type )(  ) const;
+            
+            Alignandum_exposer.def( 
+                "getStorageType"
+                , getStorageType_function_type( &::alignlib::Alignandum::getStorageType ) );
+        
+        }
         { //::alignlib::Alignandum::getTo
         
             typedef ::alignlib::Position ( ::alignlib::Alignandum::*getTo_function_type )(  ) const;
@@ -846,6 +861,16 @@ BOOST_PYTHON_MODULE(alignlib){
             Alignandum_exposer.def( 
                 "release"
                 , release_function_type( &::alignlib::Alignandum::release ) );
+        
+        }
+        { //::alignlib::Alignandum::setStorageType
+        
+            typedef void ( ::alignlib::Alignandum::*setStorageType_function_type )( ::alignlib::StorageType const & ) ;
+            
+            Alignandum_exposer.def( 
+                "setStorageType"
+                , setStorageType_function_type( &::alignlib::Alignandum::setStorageType )
+                , ( bp::arg("storage_type") ) );
         
         }
         { //::alignlib::Alignandum::shuffle

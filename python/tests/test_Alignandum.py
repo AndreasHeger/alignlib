@@ -69,21 +69,32 @@ class AlignandumTestCase( unittest.TestCase ):
         self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAAXXXXAAA", self.renderSeq() )
 
-    def testSave(self):
+    def runTestSave( self, fn ):
         
-        outfile = open("test.out", "wb" )
+        outfile = open(fn, "wb" )
         self.mAlignandum.save(outfile)
         self.mAlignandum.save(outfile)
         outfile.close()
     
-        infile = open("test.out", "rb" )
+        infile = open(fn, "rb" )
         alignanda = []
         while 1:
             a = loadAlignandum( infile )
             if not a: break
+            self.assertEqual( str(a), str(self.mAlignandum) )
             alignanda.append( a )
             
         assert( len(alignanda) == 2)
+        
+        os.remove( fn )
+        
+    def testSaveFull( self ):
+        self.mAlignandum.setStorageType( Full )
+        self.runTestSave( "test_full.out" )
+
+    def testSaveSparse( self ):
+        self.mAlignandum.setStorageType( Sparse )
+        self.runTestSave( "test_sparse.out" )
 
 class ProfileTestCase( AlignandumTestCase ):
 

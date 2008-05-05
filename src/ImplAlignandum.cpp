@@ -39,8 +39,10 @@ namespace alignlib
 
 //--------------------------------------------------------------------------------------
 ImplAlignandum::ImplAlignandum( const HEncoder & translator ) : 
-	mFrom(NO_POS), mTo(NO_POS), mLength(0), mIsPrepared(false), 
-	mEncoder(translator) 
+	mFrom(NO_POS), mTo(NO_POS), mLength(0), 
+	mIsPrepared(false), 
+	mEncoder(translator), 
+	mStorageType(Full) 
 {
 	assert( mEncoder != NULL);
 }    
@@ -54,7 +56,8 @@ ImplAlignandum::~ImplAlignandum ()
 //--------------------------------------------------------------------------------------
 ImplAlignandum::ImplAlignandum(const ImplAlignandum & src) :
 	mFrom(src.mFrom), mTo(src.mTo), mLength(src.mLength),
-	mIsPrepared(src.mIsPrepared), mEncoder(src.mEncoder)
+	mIsPrepared(src.mIsPrepared), mEncoder(src.mEncoder),
+	mStorageType( src.mStorageType )
 {
 	debug_func_cerr(5);
 
@@ -152,6 +155,18 @@ void ImplAlignandum::setPrepared( bool flag ) const
 } 
 
 //--------------------------------------------------------------------------------------
+void ImplAlignandum::setStorageType( const StorageType & storage_type )
+{
+	mStorageType = storage_type;
+}
+
+//--------------------------------------------------------------------------------------
+StorageType ImplAlignandum::getStorageType() const
+{
+	return mStorageType;
+}
+
+//--------------------------------------------------------------------------------------
 char ImplAlignandum::asChar( Position pos ) const 
 {
 	return mEncoder->decode( asResidue( pos ));
@@ -233,6 +248,7 @@ void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const
 	output.write( (char*)&mFrom, sizeof(Position) );
 	output.write( (char*)&mTo, sizeof(Position) );
 	output.write( (char*)&mLength, sizeof(Position) );
+	output.write( (char*)&mStorageType, sizeof( StorageType ) );
 	mEncoder->save( output );
 	
 }
@@ -246,7 +262,8 @@ void ImplAlignandum::load( std::istream & input)
 	input.read( (char*)&mFrom, sizeof(Position) );
 	input.read( (char*)&mTo, sizeof(Position) );
 	input.read( (char*)&mLength, sizeof(Position) );
-
+	input.read( (char*)&mStorageType, sizeof( StorageType ) );
+	
 	if (input.fail()) 
 		throw AlignException( "incomplete Alignandum object in stream.");
 	

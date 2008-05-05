@@ -30,8 +30,12 @@ namespace alignlib
 
 #define MAX_DIAGONAL 99999999
 
+
 /* type for the internal representation of residues */  
 typedef unsigned char Residue;
+
+/* invalid residue */
+#define NO_RESIDUE 255
 
 /** type in which calculations are done
  */
@@ -107,6 +111,13 @@ enum AlphabetType
 	Protein20,
 	Protein23,
 	DNA4,
+};
+
+// Profile formats
+enum StorageType
+{
+	Full,
+	Sparse,
 };
 
 /* type of a height of a node in the tree */

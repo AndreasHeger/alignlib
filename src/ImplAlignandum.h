@@ -31,7 +31,6 @@
 #include <iosfwd>
 #include <vector>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "Alignandum.h"
 
 namespace alignlib 
@@ -116,6 +115,12 @@ class ImplAlignandum : public Alignandum
      */
     virtual void load( std::istream & input ) ;
     
+	/** set the storage type */
+	virtual void setStorageType( const StorageType & storage_type );
+
+	/** get the storage type */
+	virtual StorageType getStorageType( ) const;
+
  protected:
     /** the member functions below are protected, because they have to be only accessible for
 	derived classes. They should know, what they are doing. */
@@ -143,6 +148,9 @@ class ImplAlignandum : public Alignandum
     
     /** bitvector keeping track of masked positions */
     std::vector< bool > mMasked;
+    
+	/** The storage type of this object when writing to stream */
+	StorageType mStorageType;
     
  private:
     /** first residue of segment used for aligning */

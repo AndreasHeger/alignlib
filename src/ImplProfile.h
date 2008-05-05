@@ -161,6 +161,7 @@ public:
 	virtual ScoreMatrix * getScoreMatrix() const ;
 	virtual FrequencyMatrix * getFrequencyMatrix() const ;
 	virtual CountMatrix * getCountMatrix() const;
+	
 
 protected:
 
@@ -182,6 +183,14 @@ protected:
 	template<class T>
 	void writeSegment( std::ostream & output, const Matrix<T> * data ) const;
 
+	/** save matrix in sparse format to stream */
+	template<class T>
+	void saveSparseMatrix( std::ostream & output, const Matrix<T> * data ) const;	
+
+	/** load matrix in sparse format to stream */
+	template<class T>
+	void loadSparseMatrix( std::istream & input, Matrix<T> * data );	
+	
 	/** get residue with most counts in column */
 	virtual Residue	getMaximumCount( Position column ) const ;
 
