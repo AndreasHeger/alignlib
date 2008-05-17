@@ -60,7 +60,13 @@ namespace alignlib
 	
 	class Alignandum;
 	typedef boost::shared_ptr<Alignandum>HAlignandum;
-	
+
+	class Sequence;
+	typedef boost::shared_ptr<Sequence>HSequence;
+
+	class Profile;
+	typedef boost::shared_ptr<Profile>HProfile;
+
 	class Alignator;
 	typedef boost::shared_ptr<Alignator>HAlignator;
 	

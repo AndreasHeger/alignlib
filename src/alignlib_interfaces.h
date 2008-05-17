@@ -27,10 +27,13 @@
 #define ALIGNLIB_INTERFACES_H_
 
 #include "Alignandum.h"
-#include "Alignment.h"
 #include "Alignator.h"
 #include "Alignatum.h"
+#include "Alignment.h"
 #include "AlignmentIterator.h"
+#include "DistanceMatrix.h"
+#include "Distor.h"
+#include "Encoder.h"
 #include "Fragmentor.h"
 #include "Iterator2D.h"
 #include "LogOddor.h"
@@ -38,12 +41,11 @@
 #include "MultipleAlignment.h"
 #include "Regularizor.h"
 #include "Renderer.h"
+#include "Profile.h"
 #include "Scorer.h"
-#include "Encoder.h"
-#include "Weightor.h"
-#include "Distor.h"
+#include "Sequence.h"
 #include "Treetor.h"
-#include "DistanceMatrix.h"
 #include "Tree.h"
+#include "Weightor.h"
 
 #endif /*ALIGNLIB_INTERFACES_H_*/

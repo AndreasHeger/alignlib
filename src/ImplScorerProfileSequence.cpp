@@ -37,20 +37,20 @@ namespace alignlib
 
   // factory function for creating iterator over full matrix
   HScorer makeScorerProfileSequence( 
-		  const HAlignandum & row, 
-		  const HAlignandum & col )
+		  const HProfile & row, 
+		  const HSequence & col )
   {
     return HScorer( new ImplScorerProfileSequence( row, col ) );
   }
   
   //--------------------------------------------------------------------------------------
   ImplScorerProfileSequence::ImplScorerProfileSequence( 
-		  const HAlignandum & row,
-		  const HAlignandum & col ) :
+		  const HProfile & row,
+		  const HSequence & col ) :
     ImplScorer( row, col )
   {
-    const HImplProfile s1 = boost::dynamic_pointer_cast<ImplProfile, Alignandum>(row);
-    const HImplSequence s2 = boost::dynamic_pointer_cast<ImplSequence, Alignandum>(col);	
+    const HImplProfile s1 = boost::dynamic_pointer_cast<ImplProfile, Profile>(row);
+    const HImplSequence s2 = boost::dynamic_pointer_cast<ImplSequence, Sequence>(col);	
 
     mRowProfile  = s1->getScoreMatrix();
     mColSequence = s2->getSequence();
@@ -90,7 +90,13 @@ namespace alignlib
 		  const HAlignandum & row, 
 		  const HAlignandum & col) const
   {
-    return HScorer( new ImplScorerProfileSequence( row, col ) ) ;
+	  const HProfile s1 = boost::dynamic_pointer_cast<Profile, Alignandum>(row);
+	  const HSequence s2 = boost::dynamic_pointer_cast<Sequence, Alignandum>(col);	
+
+	  assert( s1 );
+	  assert( s2 );
+
+	  return HScorer( new ImplScorerProfileSequence( s1, s2 ) ) ;
   }
 
   /** return score of matching row to col

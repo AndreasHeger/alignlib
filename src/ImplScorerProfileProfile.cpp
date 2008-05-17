@@ -24,6 +24,7 @@
 #include <iostream>
 #include <iomanip>
 #include "AlignException.h"
+#include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "Encoder.h"
 #include "ImplProfile.h"
@@ -35,19 +36,23 @@ namespace alignlib
 {
 
   // factory function for creating iterator over full matrix
-  Scorer * makeScorerProfileProfile( const HAlignandum row, const HAlignandum col )
+  Scorer * makeScorerProfileProfile( 
+		  const HProfile & row, 
+		  const HProfile & col )
   {
     return new ImplScorerProfileProfile( row, col );
   }
   
   //--------------------------------------------------------------------------------------
   ImplScorerProfileProfile::ImplScorerProfileProfile( 
-		  const HAlignandum & row,
-		  const HAlignandum & col ) :
+		  const HProfile & row,
+		  const HProfile & col ) :
     ImplScorer( row, col )
   {
-    HImplProfile s1 = boost::dynamic_pointer_cast<ImplProfile, Alignandum>(row);
-    HImplProfile s2 = boost::dynamic_pointer_cast<ImplProfile, Alignandum>(col);	
+	debug_func_cerr( 5 );
+	
+    const HImplProfile s1 = boost::dynamic_pointer_cast<ImplProfile, Profile>(row);
+    const HImplProfile s2 = boost::dynamic_pointer_cast<ImplProfile, Profile>(col);	
 
     if (!s1)
       throw AlignException( "ImplScoreProfileProfile.cpp: row not a profile.");
@@ -96,7 +101,14 @@ namespace alignlib
 		  const HAlignandum & row, 
 		  const HAlignandum & col) const
   {
-    return HScorer( new ImplScorerProfileProfile( row, col ) );
+	  debug_func_cerr( 5 );
+	  const HProfile s1 = boost::dynamic_pointer_cast<Profile, Alignandum>(row);
+	  const HProfile s2 = boost::dynamic_pointer_cast<Profile, Alignandum>(col);	
+
+	  assert( s1 );
+	  assert( s2 );
+	  
+	  return HScorer( new ImplScorerProfileProfile( s1, s2 ) );
   }
   
   /** return score of matching row to col

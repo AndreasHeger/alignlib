@@ -20,14 +20,15 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#ifndef IMPL_SEQUENCE_H
+#define IMPL_SEQUENCE_H 1
+
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#ifndef IMPL_SEQUENCE_H
-#define IMPL_SEQUENCE_H 1
-
 #include "alignlib_fwd.h"
+#include "Sequence.h"
 #include "ImplAlignandum.h"
 #include <iosfwd>
 
@@ -38,13 +39,15 @@ namespace alignlib
 	class are created by factory functions. This class implements the
 	part of the interface, that has not been implemented by IAlignandum
 	
+	ImplSequence inherits both from ImplAlignandum and Sequence
+	
 	@author Andreas Heger
 	@version $Id: ImplSequence.h,v 1.2 2004/01/07 14:35:36 aheger Exp $
 	@short Contains sequence, that are to be aligned
      */
 
 
-class ImplSequence : public ImplAlignandum 
+class ImplSequence : public ImplAlignandum, public Sequence 
 {
 
     friend HAlignandum addSequence2Profile( HAlignandum dest, 

@@ -42,8 +42,8 @@ namespace alignlib
       
       /** empty constructor */
       ImplScorerSequenceSequence( 
-    		  const HAlignandum & row, 
-    		  const HAlignandum & col,
+    		  const HSequence & row, 
+    		  const HSequence & col,
     		  const HSubstitutionMatrix & matrix); 
     
       /** destructor */

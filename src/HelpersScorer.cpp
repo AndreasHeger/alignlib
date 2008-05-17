@@ -67,11 +67,13 @@ HScorer makeScorer(
 		const HAlignandum & col, 
 		const HSubstitutionMatrix & matrix)
 {
-	const HImplSequence s1(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(row));  
-	const HImplProfile p1(boost::dynamic_pointer_cast< ImplProfile, Alignandum>(row));  
-	const HImplSequence s2(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(col));  
-	const HImplProfile p2(boost::dynamic_pointer_cast< ImplProfile, Alignandum>(col));  
+	debug_func_cerr( 5 );
+	const HSequence s1(boost::dynamic_pointer_cast< Sequence, Alignandum>(row));  
+	const HProfile  p1(boost::dynamic_pointer_cast< Profile, Alignandum>(row));  
+	const HSequence s2(boost::dynamic_pointer_cast< Sequence, Alignandum>(col));  
+	const HProfile  p2(boost::dynamic_pointer_cast< Profile, Alignandum>(col));  
 
+	debug_cerr( 5, "extracting Alignandum type" << s1 << " " << s2 << " " << p1 << " " << p2 );
 	// setup static pointers to the data locations
 	if (s1 && s2)
 		return HScorer( new ImplScorerSequenceSequence( s1, s2, matrix ) ); 

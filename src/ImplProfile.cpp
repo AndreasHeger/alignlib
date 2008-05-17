@@ -77,10 +77,10 @@ HAlignandum makeProfile()
 //------------------------------------------------------------------------------------------
 /** create empty profile with given length */
 HAlignandum makeProfile( const Position & length,
-		const HEncoder & translator,
-		const HWeightor & weightor,		
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor ) 
+						const HEncoder & translator,
+						const HWeightor & weightor,		
+						const HRegularizor & regularizor,
+						const HLogOddor & logoddor ) 
 {
 
 	return HAlignandum( new ImplProfile( length, 
@@ -265,6 +265,42 @@ FrequencyMatrix * ImplProfile::getFrequencyMatrix() const
 ScoreMatrix * ImplProfile::getScoreMatrix() const
 {
 	return mScoreMatrix;
+}
+
+//--------------------------------------------------------------------------------------
+void ImplProfile::setWeightor( const HWeightor & weightor ) 
+{
+	mWeightor = weightor;
+}
+
+//--------------------------------------------------------------------------------------
+void ImplProfile::setLogOddor( const HLogOddor & logoddor ) 
+{
+	mLogOddor = logoddor;
+}
+
+//--------------------------------------------------------------------------------------
+void ImplProfile::setRegularizor( const HRegularizor & regularizor ) 
+{
+	mRegularizor = regularizor;
+}
+
+//--------------------------------------------------------------------------------------
+HWeightor ImplProfile::getWeightor() const 
+{
+	return mWeightor;
+}
+
+//--------------------------------------------------------------------------------------
+HLogOddor ImplProfile::getLogOddor() const 
+{
+	return mLogOddor;
+}
+
+//--------------------------------------------------------------------------------------
+HRegularizor ImplProfile::getRegularizor() const
+{
+	return mRegularizor;
 }
 
 //--------------------------------------------------------------------------------------

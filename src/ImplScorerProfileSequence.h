@@ -42,7 +42,7 @@ namespace alignlib
     public:
       
       /** empty constructor */
-      ImplScorerProfileSequence(const HAlignandum & row, const HAlignandum & col); 
+      ImplScorerProfileSequence(const HProfile & row, const HSequence & col); 
     
       /** destructor */
       virtual ~ImplScorerProfileSequence ();

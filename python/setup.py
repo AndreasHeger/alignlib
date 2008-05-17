@@ -235,6 +235,8 @@ def exportInterfaceClasses( mb ):
     These classes can not instantiated directly from python.
     """
     classes_to_export = set( ['Alignandum',
+                              'Sequence',
+                              'Profile',
                               'MultipleAlignment',
                               'Alignator',
                               'Iterator',
@@ -311,6 +313,8 @@ def exportHandles( mb ):
     These are shared_ptr<> typedefs.     
     """
     handles_to_export = ['HAlignandum',
+                         'HProfile',
+                         'HSequence',
                          'HMultipleAlignment',
                         'HAlignator',
                         'HEncoder',

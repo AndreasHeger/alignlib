@@ -26,7 +26,7 @@
 #include <cassert>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
+#include "AlignlibDebug.h"
 #include "AlignException.h"
 #include "Alignandum.h"
 #include "Encoder.h"
@@ -41,8 +41,8 @@ namespace alignlib
 
   // factory function for creating iterator over full matrix
   HScorer makeScorerSequenceSequence( 
-		  const HAlignandum & row, 
-		  const HAlignandum & col, 
+		  const HSequence & row, 
+		  const HSequence & col, 
 		  const HSubstitutionMatrix & matrix )
   {
     return HScorer( new ImplScorerSequenceSequence( row, col, matrix ) );
@@ -50,14 +50,14 @@ namespace alignlib
   
   //--------------------------------------------------------------------------------------
   ImplScorerSequenceSequence::ImplScorerSequenceSequence( 
-		  const HAlignandum & row,
-		  const HAlignandum & col,
+		  const HSequence & row,
+		  const HSequence & col,
 		  const HSubstitutionMatrix & matrix) :
     ImplScorer( row, col )
   {
 
-	const HImplSequence s1(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(row));  
-	const HImplSequence s2(boost::dynamic_pointer_cast< ImplSequence, Alignandum>(col));  
+	const HImplSequence s1(boost::dynamic_pointer_cast< ImplSequence, Sequence>(row));  
+	const HImplSequence s2(boost::dynamic_pointer_cast< ImplSequence, Sequence>(col));  
 	
     mRowSequence = s1->getSequence();
     mColSequence = s2->getSequence();
@@ -99,7 +99,15 @@ namespace alignlib
 		  const HAlignandum & row, 
 		  const HAlignandum & col) const
   {
-    return HScorer( new ImplScorerSequenceSequence( row, col, mSubstitutionMatrix ) );
+	  debug_func_cerr( 5 );
+	  
+	  const HSequence s1(boost::dynamic_pointer_cast< Sequence, Alignandum>(row));  
+	  const HSequence s2(boost::dynamic_pointer_cast< Sequence, Alignandum>(col));
+	  
+	  assert( s1 );
+	  assert( s2 );
+
+	  return HScorer( new ImplScorerSequenceSequence( s1, s2, mSubstitutionMatrix ) );
   }
   
   /** return score of matching row to col

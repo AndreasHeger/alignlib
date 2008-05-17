@@ -25,7 +25,6 @@
 #include <iomanip>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
 #include "AlignException.h"
 #include "HelpersScorer.h"
 
@@ -60,33 +59,34 @@ ImplScorer::ImplScorer(
 
 }    
 
-		//--------------------------------------------------------------------------------------
-		ImplScorer::~ImplScorer ()
-		{
-			debug_func_cerr( 5 );
-		}
+//--------------------------------------------------------------------------------------
+ImplScorer::~ImplScorer ()
+{
+	debug_func_cerr( 5 );
+}
 
-		//--------------------------------------------------------------------------------------
-		ImplScorer::ImplScorer(const ImplScorer & src) : Scorer(src)
-		{
-		}
+//--------------------------------------------------------------------------------------
+ImplScorer::ImplScorer(const ImplScorer & src) : Scorer(src)
+{
+}
 
-		HScorer ImplScorer::getNew(
+HScorer ImplScorer::getNew(
 				const HAlignandum & row,
 				const HAlignandum & col) const
-				{
-			return makeScorer( row, col );
-				}
+{
+	debug_func_cerr(5);
+	return makeScorer( row, col );
+}
 
-		HScorer ImplScorer::getClone() const
-		{
-			return HScorer( new ImplScorer(*this) ) ;
-		}
+HScorer ImplScorer::getClone() const
+{
+	return HScorer( new ImplScorer(*this) ) ;
+}
 
-		Score ImplScorer::getScore( Position row, Position col) const
-		{
-			throw AlignException( "asked from a score from the default scorer ");
-		}
+Score ImplScorer::getScore( Position row, Position col) const
+{
+	throw AlignException( "asked from a score from the default scorer ");
+}
 
 }
 

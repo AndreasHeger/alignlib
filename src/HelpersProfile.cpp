@@ -600,7 +600,7 @@ VectorDouble * makeEntropyVector( const CountMatrix * src)
 			total += (*src)[l][c];
 		}
 		double e = 0;
-		unsigned int counts;
+		double counts;
 		for (unsigned int c = 0; c < categories; c++) 
 		{
 			if ( (counts = (*src)[l][c]) > 0) 

@@ -49,7 +49,7 @@ namespace alignlib
     @short protocol class of alignable objects
 */
 
-class ImplAlignandum : public Alignandum 
+class ImplAlignandum : public virtual Alignandum 
 {
     /* friends ---------------------------------------------------------------------------- */
     friend  std::ostream & operator<<( std::ostream &, const ImplAlignandum &);

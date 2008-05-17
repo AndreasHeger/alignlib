@@ -47,6 +47,7 @@ HEADERS_PHYLOLIB=Tree.h HelpersTree.h \
 
 
 HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h \
+			Sequence.h Profile.h \
 			Weightor.h HelpersWeightor.h \
 			Regularizor.h HelpersRegularizor.h \
 			LogOddor.h HelpersLogOddor.h \
@@ -133,6 +134,7 @@ PARTS_PHYLOLIB= Tree.cpp HelpersTree.cpp \
                         ImplTreetorDistanceNJ.cpp
 
 PARTS_ALIGNANDUM =   	Alignandum.cpp HelpersAlignandum.cpp HelpersProfile.cpp HelpersSequence.cpp \
+			Sequence.cpp Profile.cpp \
 			Weightor.cpp HelpersWeightor.cpp \
 			Regularizor.cpp HelpersRegularizor.cpp \
 			LogOddor.cpp HelpersLogOddor.cpp \

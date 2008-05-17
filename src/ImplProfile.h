@@ -20,18 +20,19 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#if HAVE_CONFIG_H
-#include <config.h>
-#endif
 
 #ifndef IMPL_PROFILE_H
 #define IMPL_PROFILE_H 1
 
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <iosfwd>
-#include "alignlib_fwd.h"
 #include "alignlib_fwd.h"
 
 #include "ImplAlignandum.h"
+#include "Profile.h"
 #include "Matrix.h"
 
 namespace alignlib 
@@ -52,7 +53,7 @@ namespace alignlib
     @short base class for profiles
  */
 
-class ImplProfile : public ImplAlignandum 
+class ImplProfile : public ImplAlignandum, public Profile
 {
 
 	friend HAlignandum  extractProfileBinaryCounts( std::istream & input, 
@@ -161,6 +162,30 @@ public:
 	virtual ScoreMatrix * getScoreMatrix() const ;
 	virtual FrequencyMatrix * getFrequencyMatrix() const ;
 	virtual CountMatrix * getCountMatrix() const;
+
+	/** set the @ref Weightor.
+	 */
+	virtual void setWeightor( const HWeightor & weightor );
+
+	/** set the @ref LogOddor.
+	 */
+	virtual void setLogOddor( const HLogOddor & logoddor );
+
+	/** set the @ref Regularizor.
+	 */
+	virtual void setRegularizor( const HRegularizor & regularizor );
+	
+	/** get the @ref LogOddor.
+	 */
+	virtual HWeightor getWeightor() const;
+
+	/** get the @ref LogOddor.
+	 */
+	virtual HLogOddor getLogOddor() const;
+
+	/** get the @ref Regularizor.
+	 */
+	virtual HRegularizor getRegularizor() const;
 	
 
 protected:
@@ -234,13 +259,13 @@ protected:
 
 	/** weightor to use to convert residues to counts 
 	 */
-	const HWeightor mWeightor;
+	HWeightor mWeightor;
 	
 	/** pointer to weighter to use for weighting sequences */
-	const HRegularizor mRegularizor;
+	HRegularizor mRegularizor;
 
 	/** pointer to objects used for calculating log odds scores */
-	const HLogOddor mLogOddor;
+	HLogOddor mLogOddor;
 
 	/** pointer to the location of the counts stored in memory */
 	mutable CountMatrix * mCountMatrix;			

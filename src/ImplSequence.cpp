@@ -44,29 +44,29 @@ namespace alignlib
 //----------------------------------------------------------------------------------
 /** create a sequence from a NULL-terminated string */
 HAlignandum makeSequence( const char * sequence, 
-		const HEncoder & translator ) 
-		{
-		return makeSequence( std::string(sequence), translator );
-		}
+							const HEncoder & translator ) 
+{
+	return makeSequence( std::string(sequence), translator );
+}
 
 HAlignandum makeSequence( const char * sequence )
-		{
-		return makeSequence( std::string(sequence) );
-		}
+{
+	return makeSequence( std::string(sequence) );
+}
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a string */
 HAlignandum makeSequence( 
 		const std::string & sequence,
 		const HEncoder & translator ) 
-		{
+{
 		return HAlignandum( new ImplSequence( sequence, translator ) );
-		}
+}
 
 HAlignandum makeSequence( const std::string & sequence )
-		{
+{
 	return HAlignandum( new ImplSequence( sequence, getDefaultEncoder() ) );
-		}
+}
 
 
 //--------------------------------------------------------------------------------------

@@ -2873,6 +2873,70 @@ BOOST_PYTHON_MODULE(alignlib){
         NormalDistributionParameters_exposer.def_readwrite( "mStandardDeviation", &alignlib::NormalDistributionParameters::mStandardDeviation );
     }
 
+    { //::alignlib::Profile
+        typedef bp::class_< alignlib::Profile, bp::bases< alignlib::Alignandum >, boost::noncopyable > Profile_exposer_t;
+        Profile_exposer_t Profile_exposer = Profile_exposer_t( "Profile", bp::no_init );
+        bp::scope Profile_scope( Profile_exposer );
+        { //::alignlib::Profile::getLogOddor
+        
+            typedef ::alignlib::HLogOddor ( ::alignlib::Profile::*getLogOddor_function_type )(  ) const;
+            
+            Profile_exposer.def( 
+                "getLogOddor"
+                , getLogOddor_function_type( &::alignlib::Profile::getLogOddor ) );
+        
+        }
+        { //::alignlib::Profile::getRegularizor
+        
+            typedef ::alignlib::HRegularizor ( ::alignlib::Profile::*getRegularizor_function_type )(  ) const;
+            
+            Profile_exposer.def( 
+                "getRegularizor"
+                , getRegularizor_function_type( &::alignlib::Profile::getRegularizor ) );
+        
+        }
+        { //::alignlib::Profile::getWeightor
+        
+            typedef ::alignlib::HWeightor ( ::alignlib::Profile::*getWeightor_function_type )(  ) const;
+            
+            Profile_exposer.def( 
+                "getWeightor"
+                , getWeightor_function_type( &::alignlib::Profile::getWeightor ) );
+        
+        }
+        { //::alignlib::Profile::setLogOddor
+        
+            typedef void ( ::alignlib::Profile::*setLogOddor_function_type )( ::alignlib::HLogOddor const & ) ;
+            
+            Profile_exposer.def( 
+                "setLogOddor"
+                , setLogOddor_function_type( &::alignlib::Profile::setLogOddor )
+                , ( bp::arg("logoddor") ) );
+        
+        }
+        { //::alignlib::Profile::setRegularizor
+        
+            typedef void ( ::alignlib::Profile::*setRegularizor_function_type )( ::alignlib::HRegularizor const & ) ;
+            
+            Profile_exposer.def( 
+                "setRegularizor"
+                , setRegularizor_function_type( &::alignlib::Profile::setRegularizor )
+                , ( bp::arg("regularizor") ) );
+        
+        }
+        { //::alignlib::Profile::setWeightor
+        
+            typedef void ( ::alignlib::Profile::*setWeightor_function_type )( ::alignlib::HWeightor const & ) ;
+            
+            Profile_exposer.def( 
+                "setWeightor"
+                , setWeightor_function_type( &::alignlib::Profile::setWeightor )
+                , ( bp::arg("weightor") ) );
+        
+        }
+        Profile_exposer.def( bp::self_ns::str( bp::self ) );
+    }
+
     { //::alignlib::Regularizor
         typedef bp::class_< alignlib::Regularizor, boost::noncopyable > Regularizor_exposer_t;
         Regularizor_exposer_t Regularizor_exposer = Regularizor_exposer_t( "Regularizor", bp::no_init );
@@ -2971,6 +3035,13 @@ BOOST_PYTHON_MODULE(alignlib){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Scorer > >();
+    }
+
+    { //::alignlib::Sequence
+        typedef bp::class_< alignlib::Sequence, bp::bases< alignlib::Alignandum >, boost::noncopyable > Sequence_exposer_t;
+        Sequence_exposer_t Sequence_exposer = Sequence_exposer_t( "Sequence", bp::no_init );
+        bp::scope Sequence_scope( Sequence_exposer );
+        Sequence_exposer.def( bp::self_ns::str( bp::self ) );
     }
 
     { //::alignlib::Tree

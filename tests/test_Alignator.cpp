@@ -209,6 +209,7 @@ BOOST_AUTO_TEST_CASE( global_alignment2)
 		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
 		testPairwiseAlignment( 24, a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 18 );
 	}
+	
 }
 
 BOOST_AUTO_TEST_CASE( alignment_wrap)
@@ -269,6 +270,7 @@ BOOST_AUTO_TEST_CASE( iterative_alignment )
 		std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;			
 	}
 }
+
 
 BOOST_AUTO_TEST_CASE( groupies_alignment)
 {
@@ -435,5 +437,4 @@ BOOST_AUTO_TEST_CASE( alignment_backtranslation )
 		testPairwiseAlignment( 82, a, seq2, seq1, 0,  30, "+30",      0,  29,  "+16-1+13", 45);
 	}
 }
-
 

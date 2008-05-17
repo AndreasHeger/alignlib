@@ -41,7 +41,9 @@ namespace alignlib
     public:
       
       /** empty constructor */
-      ImplScorerProfileProfile(const HAlignandum & row, const HAlignandum & col); 
+      ImplScorerProfileProfile(
+    		  const HProfile & row, 
+    		  const HProfile & col); 
     
       /** destructor */
       virtual ~ImplScorerProfileProfile ();
@@ -59,8 +61,9 @@ namespace alignlib
     		  const HAlignandum & row, 
     		  const HAlignandum & col) const;
     
-      virtual Score getScore( Position row,
-				 Position col ) const;
+      virtual Score getScore( 
+    		  Position row,
+    		  Position col ) const;
 
   protected:
       /** pointer to member data of row/col : AlignandumProfile */

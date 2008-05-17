@@ -26,8 +26,8 @@
 
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
 #include "AlignException.h"
+#include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "Encoder.h"
 #include "ImplSequence.h"
@@ -41,26 +41,31 @@ namespace alignlib
 
   // factory function for creating iterator over full matrix
   HScorer makeScorerSequenceProfile( 
-		  const HAlignandum & row, 
-		  const HAlignandum & col )
+		  const HSequence & row, 
+		  const HProfile & col )
   {
     return HScorer( new ImplScorerSequenceProfile( row, col ) );
   }
   
   //--------------------------------------------------------------------------------------
   ImplScorerSequenceProfile::ImplScorerSequenceProfile( 
-		  const HAlignandum & row,
-		  const HAlignandum & col ) :
+		  const HSequence & row,
+		  const HProfile & col ) :
     ImplScorer( row, col )
   {
-    const HImplSequence s1 = boost::dynamic_pointer_cast<ImplSequence, Alignandum>(row);	
-    const HImplProfile s2 = boost::dynamic_pointer_cast<ImplProfile, Alignandum>(col);
+	debug_func_cerr( 5 );
+	
+    const HImplSequence s1 = boost::dynamic_pointer_cast<ImplSequence, Sequence>(row);	
+    const HImplProfile s2 = boost::dynamic_pointer_cast<ImplProfile, Profile>(col);
 
+    debug_cerr( 5, "cast successfull");
     mRowSequence    = s1->getSequence();
+    debug_cerr( 5, "cast successfull");    
     mColProfile     = s2->getScoreMatrix();
-
+    debug_cerr( 5, "cast successfull");
     mProfileWidth = s2->getEncoder()->getAlphabetSize();
-    
+
+    debug_cerr( 5, "cast successfull");
     if ( s1->getEncoder()->getAlphabetSize() != mProfileWidth ) 
     	throw AlignException( "ImplScorerSequenceProfile.cpp: alphabet size different in row and col");
     
@@ -94,7 +99,15 @@ namespace alignlib
 		  const HAlignandum & row, 
 		  const HAlignandum & col) const
   {
-    return HScorer( new ImplScorerSequenceProfile( row, col ) );
+	  debug_func_cerr( 5 );
+	  
+	  const HSequence s1 = boost::dynamic_pointer_cast<Sequence, Alignandum>(row);	
+	  const HProfile s2 = boost::dynamic_pointer_cast<Profile, Alignandum>(col);
+	  
+	  assert( s1 );
+	  assert( s2 );
+
+	  return HScorer( new ImplScorerSequenceProfile( s1, s2 ) );
   }
 
   /** return score of matching row to col
