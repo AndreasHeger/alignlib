@@ -2935,6 +2935,8 @@ BOOST_PYTHON_MODULE(alignlib){
         
         }
         Profile_exposer.def( bp::self_ns::str( bp::self ) );
+        bp::register_ptr_to_python< boost::shared_ptr< alignlib::Profile > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Profile >, boost::shared_ptr< alignlib::Alignandum > >();
     }
 
     { //::alignlib::Regularizor
@@ -4846,7 +4848,7 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::toProfile
     
-        typedef ::alignlib::HSequence ( *toProfile_function_type )( ::alignlib::HAlignandum & );
+        typedef ::alignlib::HProfile ( *toProfile_function_type )( ::alignlib::HAlignandum & );
         
         bp::def( 
             "toProfile"
