@@ -45,6 +45,13 @@ Profile::Profile(const Profile & src)
 {
 }
    
+//--------------------------------------------------------------------------------------
+HProfile toProfile( HAlignandum & src )
+{
+    return boost::dynamic_pointer_cast<Profile, Alignandum>(src);	
+}
+
+//--------------------------------------------------------------------------------------
 std::ostream & operator<<( std::ostream & output, const Profile & src) 
 {
   src.write( output );

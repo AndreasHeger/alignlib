@@ -85,7 +85,7 @@ class AlignandumTestCase( unittest.TestCase ):
             self.assertEqual( str(a), str(self.mAlignandum) )
             alignanda.append( a )
             
-        assert( len(alignanda) == 2)
+        self.assertEqual( len(alignanda), 2)
         
         # os.remove( fn )
         
@@ -96,6 +96,10 @@ class AlignandumTestCase( unittest.TestCase ):
     def testSaveSparse( self ):
         self.mAlignandum.setStorageType( Sparse )
         self.runTestSave( "test_sparse.out" )
+        
+    def testConversion(self):
+        self.assertNotEqual( toSequence( self.mAlignandum), None )
+        self.assertEqual( toProfile( self.mAlignandum), None )
 
 class Profile1TestCase( AlignandumTestCase ):
 
@@ -121,6 +125,10 @@ class Profile1TestCase( AlignandumTestCase ):
         self.mAlignandum.mask( 3, 7 )
         self.assertEqual( "AAAXXXXAAA", self.renderSeq() )
 
+    def testConversion(self):
+        self.assertEqual( toSequence( self.mAlignandum), None )
+        self.assertNotEqual( toProfile( self.mAlignandum), None )
+
 class Profile2TestCase( AlignandumTestCase ):
 
     def setUp( self ):
@@ -141,6 +149,10 @@ class Profile2TestCase( AlignandumTestCase ):
         ## TODO: make this test and the code conforming to use X as mask char
         self.mAlignandum.mask( 0, 1 )
         self.assertEqual( "X", self.renderSeq() )
+
+    def testConversion(self):
+        self.assertEqual( toSequence( self.mAlignandum), None )
+        self.assertNotEqual( toProfile( self.mAlignandum), None )
 
 def suite():
     suite = unittest.TestSuite()

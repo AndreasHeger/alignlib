@@ -90,6 +90,16 @@ public:
 	
 };
 
+/** @brief cast an @ref Alignandum object to a @ref Profile.
+ * 
+ * If the conversion fails, the returned handle
+ * will point to NULL.
+ * 
+ * @param src the @ref Alignandum object to cast
+ * @return the same object as sequence 
+ */
+HProfile toProfile( HAlignandum & src );
+
 }
 
 

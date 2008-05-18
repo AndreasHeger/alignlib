@@ -3042,6 +3042,8 @@ BOOST_PYTHON_MODULE(alignlib){
         Sequence_exposer_t Sequence_exposer = Sequence_exposer_t( "Sequence", bp::no_init );
         bp::scope Sequence_scope( Sequence_exposer );
         Sequence_exposer.def( bp::self_ns::str( bp::self ) );
+        bp::register_ptr_to_python< boost::shared_ptr< alignlib::Sequence > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Sequence >, boost::shared_ptr< alignlib::Alignandum > >();
     }
 
     { //::alignlib::Tree
@@ -4839,6 +4841,28 @@ BOOST_PYTHON_MODULE(alignlib){
             "splitAlignment"
             , splitAlignment_function_type( &::alignlib::splitAlignment )
             , ( bp::arg("src"), bp::arg("max_gap_width"), bp::arg("split_row")=(bool)(true), bp::arg("split_col")=(bool)(true) ) );
+    
+    }
+
+    { //::alignlib::toProfile
+    
+        typedef ::alignlib::HSequence ( *toProfile_function_type )( ::alignlib::HAlignandum & );
+        
+        bp::def( 
+            "toProfile"
+            , toProfile_function_type( &::alignlib::toProfile )
+            , ( bp::arg("src") ) );
+    
+    }
+
+    { //::alignlib::toSequence
+    
+        typedef ::alignlib::HSequence ( *toSequence_function_type )( ::alignlib::HAlignandum & );
+        
+        bp::def( 
+            "toSequence"
+            , toSequence_function_type( &::alignlib::toSequence )
+            , ( bp::arg("src") ) );
     
     }
 
