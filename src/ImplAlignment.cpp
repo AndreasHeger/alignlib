@@ -297,7 +297,8 @@ void ImplAlignment::calculateLength() const
 }  
 
 //-----------------------------------------------------------------------------------------------------------   
-/** switch row and column in the alignment. Use more efficient implementations in derived classes. */
+/** switch row and column in the alignment. Use more efficient implementations in derived classes. 
+ */
 void ImplAlignment::switchRowCol() 
 {
 
@@ -309,14 +310,12 @@ void ImplAlignment::switchRowCol()
 	AlignmentIterator it_end = copy->end();
 
 	clear();
-	for (;it != it_end; ++it) 
-	{
-		// copy over residue pairs from copy reversing row and column
-		addPair( ResiduePair( it->mCol, it->mRow, it->mScore ) );
-	}	
 
-	std::swap( mRowFrom, mColFrom );
-	std::swap( mRowTo, mColTo );
+	// copy over residue pairs from copy reversing row and column
+	for (;it != it_end; ++it) 
+		addPair( ResiduePair( it->mCol, it->mRow, it->mScore ) );
+
+	setScore( copy->getScore() );
 
 	return;
 }

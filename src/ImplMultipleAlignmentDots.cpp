@@ -327,6 +327,9 @@ void ImplMultipleAlignmentDots::updateRows() const
 		mali_length = std::max( mali_length, mRows[x]->mMapMali2Alignatum->getRowTo());
 
 	// find total/maximum insertions before a given mali column
+	// the first column is ignored
+	// row: position in mali
+	// col: position in sequence
 	std::vector<int> gaps(mali_length + 1, 0);
 
 	for (unsigned int x = 0; x < mRows.size(); ++x) 
@@ -334,7 +337,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 		HAlignment ali = mRows[x]->mMapMali2Alignatum;
 
 		Position last_col = ali->getColFrom();
-
+		
 		for (Position row = ali->getRowFrom() + 1; row < ali->getRowTo(); ++row) 
 		{
 			Position col = ali->mapRowToCol(row);
@@ -362,10 +365,16 @@ void ImplMultipleAlignmentDots::updateRows() const
 		debug_cerr( 5, "col=" << x << " gaps=" << gaps[x]);
 #endif
 
+	for (unsigned int x = 0; x < gaps.size(); ++x) 
+		std::cerr << "col=" << x << " gaps=" << gaps[x] << std::endl;
+
+	
+	// build map of aligned columns to output columns
 	HAlignment map_mali2representation = makeAlignmentVector(); 
 	{
 		Position y = 0;
-		for (Position x = 0; x < mali_length; ++x) {
+		for (Position x = 0; x < mali_length; ++x) 
+		{
 			y += gaps[x];
 			map_mali2representation->addPair( x, y++, 0 );
 		}
@@ -373,6 +382,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 	debug_cerr( 5, "map_mali2representation\n" << *map_mali2representation );
 
+	// map each row in the mali to the representation
 	mLength = map_mali2representation->getColTo();
 
 	std::vector<int>used_gaps(mali_length + 1, 0);
@@ -385,6 +395,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 		combineAlignment( map_alignatum2representation, mRows[x]->mMapMali2Alignatum, map_mali2representation, RR);
 
+		std::cout << "map_alignatum2representation=" << *map_alignatum2representation << std::endl;
 		// map alignatum-object
 		if (mCompressUnalignedColumns) 
 		{
@@ -397,7 +408,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 			HAlignment ali = mRows[x]->mMapMali2Alignatum;
 			// add pairs for gaps 
 			Position last_col = ali->getColFrom();
-			for (Position row = ali->getRowFrom() + 1; row < ali->getRowTo(); ++row) 
+			for (Position row = ali->getRowFrom(); row < ali->getRowTo(); ++row) 
 			{
 				Position col = ali->mapRowToCol(row);
 

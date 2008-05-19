@@ -445,7 +445,7 @@ void AlignmentFormatEmissions::fill( const HAlignment & src)
 
 	Position last_col = it->mCol; 
 	Position len_col = 0;
-
+	
 	while (last_col < mColFrom) 
 	{
 		++it;

@@ -208,20 +208,16 @@ void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs
 	}	
 
 	{ 
-		cout << "testing...switchRowCol()...";
-
 		HAlignment a_clone(a->getClone());
 		a_clone->switchRowCol();    
-		bool passed = isIdentical( a, a_clone, true );
-		a_clone->switchRowCol();    
-		passed &= isIdentical( a, a_clone );
-
-		if (passed)
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;
-
-
+		BOOST_CHECK_EQUAL(a_clone->getColFrom(), a->getRowFrom()); 
+		BOOST_CHECK_EQUAL(a_clone->getColTo(), a->getRowTo()); 
+		BOOST_CHECK_EQUAL(a_clone->getRowFrom(), a->getColFrom()); 		
+		BOOST_CHECK_EQUAL(a_clone->getRowTo(), a->getColTo()); 
+		BOOST_CHECK_EQUAL(a_clone->getLength(), a->getLength()); 
+		BOOST_CHECK_EQUAL(a_clone->getNumGaps(), a->getNumGaps()); 		
+		BOOST_CHECK_EQUAL(a_clone->getNumAligned(), a->getNumAligned()); 				
+		BOOST_CHECK_EQUAL(a_clone->getScore(), a->getScore()); 						
 	}
 
 
