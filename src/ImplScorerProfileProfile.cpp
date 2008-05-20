@@ -60,11 +60,11 @@ namespace alignlib
     if (!s2)
       throw AlignException( "ImplScoreProfileProfile.cpp: col not a profile.");
     
-    mRowProfile     = s1->getScoreMatrix();
-    mRowFrequencies = s1->getFrequencyMatrix();
+    mRowProfile     = s1->exportScoreMatrix();
+    mRowFrequencies = s1->exportFrequencyMatrix();
     
-    mColProfile     = s2->getScoreMatrix();
-    mColFrequencies = s2->getFrequencyMatrix();
+    mColProfile     = s2->exportScoreMatrix();
+    mColFrequencies = s2->exportFrequencyMatrix();
 
     if ( s1->getEncoder()->getAlphabetSize() != 
     	s2->getEncoder()->getAlphabetSize() )

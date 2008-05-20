@@ -159,9 +159,9 @@ public:
 	virtual void load( std::istream & input ) ;    
 
 	/** export member data for Scorer and filler objects */
-	virtual ScoreMatrix * getScoreMatrix() const ;
-	virtual FrequencyMatrix * getFrequencyMatrix() const ;
-	virtual CountMatrix * getCountMatrix() const;
+	virtual ScoreMatrix * exportScoreMatrix() const ;
+	virtual FrequencyMatrix * exportFrequencyMatrix() const ;
+	virtual CountMatrix * exportCountMatrix() const;
 
 	/** set the @ref Weightor.
 	 */
@@ -187,6 +187,20 @@ public:
 	 */
 	virtual HRegularizor getRegularizor() const;
 	
+	/** return a copy of the score matrix for inspection.
+	 * @return a score matrix.
+	 * */
+	virtual HScoreMatrix getScoreMatrix() const ;
+	
+	/** return a copy of the frequency matrix for inspection.
+	 * @return a frequency matrix.
+	 * */
+	virtual HFrequencyMatrix getFrequencyMatrix() const ;
+	
+	/** return a copy of the counts matrix for inspection.
+	 * @return a counts matrix.
+	 * */
+	virtual HCountMatrix getCountMatrix() const;
 
 protected:
 

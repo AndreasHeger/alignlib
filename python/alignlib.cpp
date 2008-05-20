@@ -314,7 +314,7 @@ struct AlignmentFormatDiagonals_wrapper : alignlib::AlignmentFormatDiagonals, bp
         alignlib::AlignmentFormatDiagonals::copy( dest );
     }
 
-    virtual void fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-1, ::alignlib::Position const row_to=-1, ::alignlib::Position const col_from=-1, ::alignlib::Position const col_to=-1, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-99999999 ) {
+    virtual void fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-0x000000001, ::alignlib::Position const row_to=-0x000000001, ::alignlib::Position const col_from=-0x000000001, ::alignlib::Position const col_to=-0x000000001, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-0x005f5e0ff ) {
         if( bp::override func_fill = this->get_override( "fill" ) )
             func_fill( src, reverse, row_from, row_to, col_from, col_to, diagonal_from, diagonal_to );
         else
@@ -322,7 +322,7 @@ struct AlignmentFormatDiagonals_wrapper : alignlib::AlignmentFormatDiagonals, bp
     }
     
     
-    void default_fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-1, ::alignlib::Position const row_to=-1, ::alignlib::Position const col_from=-1, ::alignlib::Position const col_to=-1, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-99999999 ) {
+    void default_fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-0x000000001, ::alignlib::Position const row_to=-0x000000001, ::alignlib::Position const col_from=-0x000000001, ::alignlib::Position const col_to=-0x000000001, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-0x005f5e0ff ) {
         alignlib::AlignmentFormatDiagonals::fill( src, reverse, row_from, row_to, col_from, col_to, diagonal_from, diagonal_to );
     }
 
@@ -645,31 +645,35 @@ alignlib::HEncoder wrapper_for_load_Encoder( PyObject * fp )
       }
 
 BOOST_PYTHON_MODULE(alignlib){
-    bp::class_< std::vector<unsigned int,std::allocator<unsigned int> > >("vector_less_unsigned_int_comma_std_scope_allocator_less_unsigned_int_grate___grate_")    
-        .def( bp::vector_indexing_suite< ::std::vector<unsigned int,std::allocator<unsigned int> >, true >() );
+    { //::std::vector< unsigned int >
+        typedef bp::class_< std::vector< unsigned int > > vector_less__unsigned_int__grate__exposer_t;
+        vector_less__unsigned_int__grate__exposer_t vector_less__unsigned_int__grate__exposer = vector_less__unsigned_int__grate__exposer_t( "vector_less__unsigned_int__grate_" );
+        bp::scope vector_less__unsigned_int__grate__scope( vector_less__unsigned_int__grate__exposer );
+        vector_less__unsigned_int__grate__exposer.def( bp::vector_indexing_suite< ::std::vector< unsigned int > >() );
+    }
 
-    bp::class_< std::vector<unsigned char,std::allocator<unsigned char> > >("vector_less_unsigned_char_comma_std_scope_allocator_less_unsigned_char_grate___grate_")    
-        .def( bp::vector_indexing_suite< ::std::vector<unsigned char,std::allocator<unsigned char> >, true >() );
+    bp::class_< std::vector< unsigned char > >("vector_less__unsigned_char__grate_")    
+        .def( bp::vector_indexing_suite< ::std::vector< unsigned char >, true >() );
 
-    { //::std::vector<std::string, std::allocator<std::string> >
-        typedef bp::class_< std::vector<std::string, std::allocator<std::string> > > Labels_exposer_t;
+    { //::std::vector< std::string >
+        typedef bp::class_< std::vector< std::string > > Labels_exposer_t;
         Labels_exposer_t Labels_exposer = Labels_exposer_t( "Labels" );
         bp::scope Labels_scope( Labels_exposer );
-        Labels_exposer.def( bp::vector_indexing_suite< ::std::vector<std::string, std::allocator<std::string> >, true >() );
+        Labels_exposer.def( bp::vector_indexing_suite< ::std::vector< std::string >, true >() );
     }
 
-    { //::std::vector<int, std::allocator<int> >
-        typedef bp::class_< std::vector<int, std::allocator<int> > > PositionVector_exposer_t;
+    { //::std::vector< int >
+        typedef bp::class_< std::vector< int > > PositionVector_exposer_t;
         PositionVector_exposer_t PositionVector_exposer = PositionVector_exposer_t( "PositionVector" );
         bp::scope PositionVector_scope( PositionVector_exposer );
-        PositionVector_exposer.def( bp::vector_indexing_suite< ::std::vector<int, std::allocator<int> >, true >() );
+        PositionVector_exposer.def( bp::vector_indexing_suite< ::std::vector< int >, true >() );
     }
 
-    { //::std::vector<double, std::allocator<double> >
-        typedef bp::class_< std::vector<double, std::allocator<double> > > vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer_t;
-        vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer_t vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer = vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer_t( "vector_less_double_comma__std_scope_allocator_less_double_grate___grate_" );
-        bp::scope vector_less_double_comma__std_scope_allocator_less_double_grate___grate__scope( vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer );
-        vector_less_double_comma__std_scope_allocator_less_double_grate___grate__exposer.def( bp::vector_indexing_suite< ::std::vector<double, std::allocator<double> >, true >() );
+    { //::std::vector< double >
+        typedef bp::class_< std::vector< double > > vector_less__double__grate__exposer_t;
+        vector_less__double__grate__exposer_t vector_less__double__grate__exposer = vector_less__double__grate__exposer_t( "vector_less__double__grate_" );
+        bp::scope vector_less__double__grate__scope( vector_less__double__grate__exposer );
+        vector_less__double__grate__exposer.def( bp::vector_indexing_suite< ::std::vector< double >, true >() );
     }
 
     bp::enum_< alignlib::AlignmentType>("AlignmentType")
@@ -842,7 +846,7 @@ BOOST_PYTHON_MODULE(alignlib){
             Alignandum_exposer.def( 
                 "mask"
                 , mask_function_type( &::alignlib::Alignandum::mask )
-                , ( bp::arg("from"), bp::arg("to")=-1 ) );
+                , ( bp::arg("from"), bp::arg("to")=-0x000000001 ) );
         
         }
         { //::alignlib::Alignandum::prepare
@@ -900,7 +904,7 @@ BOOST_PYTHON_MODULE(alignlib){
             Alignandum_exposer.def( 
                 "useSegment"
                 , useSegment_function_type( &::alignlib::Alignandum::useSegment )
-                , ( bp::arg("from")=(int)(-1), bp::arg("to")=(int)(-1) ) );
+                , ( bp::arg("from")=(int)(-0x000000001), bp::arg("to")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Alignandum::write
@@ -1642,7 +1646,7 @@ BOOST_PYTHON_MODULE(alignlib){
                 "fill"
                 , fill_function_type(&::alignlib::AlignmentFormatDiagonals::fill)
                 , default_fill_function_type(&AlignmentFormatDiagonals_wrapper::default_fill)
-                , ( bp::arg("src"), bp::arg("reverse"), bp::arg("row_from")=(int const)(-1), bp::arg("row_to")=(int const)(-1), bp::arg("col_from")=(int const)(-1), bp::arg("col_to")=(int const)(-1), bp::arg("diagonal_from")=(long int const)(99999999), bp::arg("diagonal_to")=(long int const)(-99999999) ) );
+                , ( bp::arg("src"), bp::arg("reverse"), bp::arg("row_from")=(int const)(-0x000000001), bp::arg("row_to")=(int const)(-0x000000001), bp::arg("col_from")=(int const)(-0x000000001), bp::arg("col_to")=(int const)(-0x000000001), bp::arg("diagonal_from")=(long int const)(99999999), bp::arg("diagonal_to")=(long int const)(-0x005f5e0ff) ) );
         
         }
         { //::alignlib::AlignmentFormatDiagonals::fill
@@ -2267,27 +2271,27 @@ BOOST_PYTHON_MODULE(alignlib){
             Iterator2D_exposer.def( 
                 "col_back"
                 , col_back_function_type( &::alignlib::Iterator2D::col_back )
-                , ( bp::arg("row")=(int)(-1) ) );
+                , ( bp::arg("row")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_begin
         
-            typedef ::alignlib::const_countable_iterator<int> ( ::alignlib::Iterator2D::*col_begin_function_type )( ::alignlib::Position ) const;
+            typedef ::alignlib::const_countable_iterator< int > ( ::alignlib::Iterator2D::*col_begin_function_type )( ::alignlib::Position ) const;
             
             Iterator2D_exposer.def( 
                 "col_begin"
                 , col_begin_function_type( &::alignlib::Iterator2D::col_begin )
-                , ( bp::arg("row")=(int)(-1) ) );
+                , ( bp::arg("row")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_end
         
-            typedef ::alignlib::const_countable_iterator<int> ( ::alignlib::Iterator2D::*col_end_function_type )( ::alignlib::Position ) const;
+            typedef ::alignlib::const_countable_iterator< int > ( ::alignlib::Iterator2D::*col_end_function_type )( ::alignlib::Position ) const;
             
             Iterator2D_exposer.def( 
                 "col_end"
                 , col_end_function_type( &::alignlib::Iterator2D::col_end )
-                , ( bp::arg("row")=(int)(-1) ) );
+                , ( bp::arg("row")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_front
@@ -2297,7 +2301,7 @@ BOOST_PYTHON_MODULE(alignlib){
             Iterator2D_exposer.def( 
                 "col_front"
                 , col_front_function_type( &::alignlib::Iterator2D::col_front )
-                , ( bp::arg("row")=(int)(-1) ) );
+                , ( bp::arg("row")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_size
@@ -2307,7 +2311,7 @@ BOOST_PYTHON_MODULE(alignlib){
             Iterator2D_exposer.def( 
                 "col_size"
                 , col_size_function_type( &::alignlib::Iterator2D::col_size )
-                , ( bp::arg("row")=(int)(-1) ) );
+                , ( bp::arg("row")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::getClone
@@ -2346,27 +2350,27 @@ BOOST_PYTHON_MODULE(alignlib){
             Iterator2D_exposer.def( 
                 "row_back"
                 , row_back_function_type( &::alignlib::Iterator2D::row_back )
-                , ( bp::arg("col")=(int)(-1) ) );
+                , ( bp::arg("col")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_begin
         
-            typedef ::alignlib::const_countable_iterator<int> ( ::alignlib::Iterator2D::*row_begin_function_type )( ::alignlib::Position ) const;
+            typedef ::alignlib::const_countable_iterator< int > ( ::alignlib::Iterator2D::*row_begin_function_type )( ::alignlib::Position ) const;
             
             Iterator2D_exposer.def( 
                 "row_begin"
                 , row_begin_function_type( &::alignlib::Iterator2D::row_begin )
-                , ( bp::arg("col")=(int)(-1) ) );
+                , ( bp::arg("col")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_end
         
-            typedef ::alignlib::const_countable_iterator<int> ( ::alignlib::Iterator2D::*row_end_function_type )( ::alignlib::Position ) const;
+            typedef ::alignlib::const_countable_iterator< int > ( ::alignlib::Iterator2D::*row_end_function_type )( ::alignlib::Position ) const;
             
             Iterator2D_exposer.def( 
                 "row_end"
                 , row_end_function_type( &::alignlib::Iterator2D::row_end )
-                , ( bp::arg("col")=(int)(-1) ) );
+                , ( bp::arg("col")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_front
@@ -2376,7 +2380,7 @@ BOOST_PYTHON_MODULE(alignlib){
             Iterator2D_exposer.def( 
                 "row_front"
                 , row_front_function_type( &::alignlib::Iterator2D::row_front )
-                , ( bp::arg("col")=(int)(-1) ) );
+                , ( bp::arg("col")=(int)(-0x000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_size
@@ -2386,7 +2390,7 @@ BOOST_PYTHON_MODULE(alignlib){
             Iterator2D_exposer.def( 
                 "row_size"
                 , row_size_function_type( &::alignlib::Iterator2D::row_size )
-                , ( bp::arg("col")=(int)(-1) ) );
+                , ( bp::arg("col")=(int)(-0x000000001) ) );
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Iterator2D > >();
@@ -2409,287 +2413,287 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::LogOddor > >();
     }
 
-    { //::alignlib::Matrix<double>
-        typedef bp::class_< alignlib::Matrix<double> > MatrixDouble_exposer_t;
-        MatrixDouble_exposer_t MatrixDouble_exposer = MatrixDouble_exposer_t( "MatrixDouble", bp::init< unsigned int, unsigned int, bp::optional< alignlib::Score > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=0 )) );
+    { //::alignlib::Matrix< double >
+        typedef bp::class_< alignlib::Matrix< double > > MatrixDouble_exposer_t;
+        MatrixDouble_exposer_t MatrixDouble_exposer = MatrixDouble_exposer_t( "MatrixDouble", bp::init< unsigned int, unsigned int, bp::optional< double > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=0 )) );
         bp::scope MatrixDouble_scope( MatrixDouble_exposer );
-        MatrixDouble_exposer.def( bp::init< alignlib::Matrix<double> const & >(( bp::arg("src") )) );
-        { //::alignlib::Matrix<double>::getNumCols
+        MatrixDouble_exposer.def( bp::init< alignlib::Matrix< double > const & >(( bp::arg("src") )) );
+        { //::alignlib::Matrix< double >::getNumCols
         
-            typedef alignlib::Matrix<double> exported_class_t;
+            typedef alignlib::Matrix< double > exported_class_t;
             typedef unsigned int ( exported_class_t::*getNumCols_function_type )(  ) const;
             
             MatrixDouble_exposer.def( 
                 "getNumCols"
-                , getNumCols_function_type( &::alignlib::Matrix<double>::getNumCols ) );
+                , getNumCols_function_type( &::alignlib::Matrix< double >::getNumCols ) );
         
         }
-        { //::alignlib::Matrix<double>::getNumRows
+        { //::alignlib::Matrix< double >::getNumRows
         
-            typedef alignlib::Matrix<double> exported_class_t;
+            typedef alignlib::Matrix< double > exported_class_t;
             typedef unsigned int ( exported_class_t::*getNumRows_function_type )(  ) const;
             
             MatrixDouble_exposer.def( 
                 "getNumRows"
-                , getNumRows_function_type( &::alignlib::Matrix<double>::getNumRows ) );
+                , getNumRows_function_type( &::alignlib::Matrix< double >::getNumRows ) );
         
         }
-        { //::alignlib::Matrix<double>::getValue
+        { //::alignlib::Matrix< double >::getValue
         
-            typedef alignlib::Matrix<double> exported_class_t;
-            typedef ::alignlib::Score ( exported_class_t::*getValue_function_type )( unsigned int,unsigned int ) const;
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef double ( exported_class_t::*getValue_function_type )( unsigned int,unsigned int ) const;
             
             MatrixDouble_exposer.def( 
                 "getValue"
-                , getValue_function_type( &::alignlib::Matrix<double>::getValue )
+                , getValue_function_type( &::alignlib::Matrix< double >::getValue )
                 , ( bp::arg("row"), bp::arg("col") ) );
         
         }
-        { //::alignlib::Matrix<double>::operator=
+        { //::alignlib::Matrix< double >::operator=
         
-            typedef alignlib::Matrix<double> exported_class_t;
-            typedef ::alignlib::Matrix<double> & ( exported_class_t::*assign_function_type )( ::alignlib::Matrix<double> const & ) ;
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef ::alignlib::Matrix< double > & ( exported_class_t::*assign_function_type )( ::alignlib::Matrix< double > const & ) ;
             
             MatrixDouble_exposer.def( 
                 "assign"
-                , assign_function_type( &::alignlib::Matrix<double>::operator= )
+                , assign_function_type( &::alignlib::Matrix< double >::operator= )
                 , ( bp::arg("src") )
                 , bp::return_self< >() );
         
         }
         MatrixDouble_exposer.def( bp::self == bp::self );
-        { //::alignlib::Matrix<double>::permuteCols
+        { //::alignlib::Matrix< double >::permuteCols
         
-            typedef alignlib::Matrix<double> exported_class_t;
-            typedef void ( exported_class_t::*permuteCols_function_type )( ::std::vector<unsigned int,std::allocator<unsigned int> > & ) ;
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef void ( exported_class_t::*permuteCols_function_type )( ::std::vector< unsigned int > & ) ;
             
             MatrixDouble_exposer.def( 
                 "permuteCols"
-                , permuteCols_function_type( &::alignlib::Matrix<double>::permuteCols )
+                , permuteCols_function_type( &::alignlib::Matrix< double >::permuteCols )
                 , ( bp::arg("map_new2old") ) );
         
         }
-        { //::alignlib::Matrix<double>::permuteRows
+        { //::alignlib::Matrix< double >::permuteRows
         
-            typedef alignlib::Matrix<double> exported_class_t;
-            typedef void ( exported_class_t::*permuteRows_function_type )( ::std::vector<unsigned int,std::allocator<unsigned int> > & ) ;
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef void ( exported_class_t::*permuteRows_function_type )( ::std::vector< unsigned int > & ) ;
             
             MatrixDouble_exposer.def( 
                 "permuteRows"
-                , permuteRows_function_type( &::alignlib::Matrix<double>::permuteRows )
+                , permuteRows_function_type( &::alignlib::Matrix< double >::permuteRows )
                 , ( bp::arg("map_new2old") ) );
         
         }
-        { //::alignlib::Matrix<double>::setValue
+        { //::alignlib::Matrix< double >::setValue
         
-            typedef alignlib::Matrix<double> exported_class_t;
-            typedef void ( exported_class_t::*setValue_function_type )( unsigned int,unsigned int,::alignlib::Score const & ) ;
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef void ( exported_class_t::*setValue_function_type )( unsigned int,unsigned int,double const & ) ;
             
             MatrixDouble_exposer.def( 
                 "setValue"
-                , setValue_function_type( &::alignlib::Matrix<double>::setValue )
+                , setValue_function_type( &::alignlib::Matrix< double >::setValue )
                 , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
         
         }
-        { //::alignlib::Matrix<double>::swapRows
+        { //::alignlib::Matrix< double >::swapRows
         
-            typedef alignlib::Matrix<double> exported_class_t;
+            typedef alignlib::Matrix< double > exported_class_t;
             typedef void ( exported_class_t::*swapRows_function_type )( unsigned int,unsigned int ) ;
             
             MatrixDouble_exposer.def( 
                 "swapRows"
-                , swapRows_function_type( &::alignlib::Matrix<double>::swapRows )
+                , swapRows_function_type( &::alignlib::Matrix< double >::swapRows )
                 , ( bp::arg("x"), bp::arg("y") ) );
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Matrix<double> > >();
     }
 
-    { //::alignlib::Matrix<int>
-        typedef bp::class_< alignlib::Matrix<int> > MatrixInt_exposer_t;
+    { //::alignlib::Matrix< int >
+        typedef bp::class_< alignlib::Matrix< int > > MatrixInt_exposer_t;
         MatrixInt_exposer_t MatrixInt_exposer = MatrixInt_exposer_t( "MatrixInt", bp::init< unsigned int, unsigned int, bp::optional< int > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=(int)(0) )) );
         bp::scope MatrixInt_scope( MatrixInt_exposer );
-        MatrixInt_exposer.def( bp::init< alignlib::Matrix<int> const & >(( bp::arg("src") )) );
-        { //::alignlib::Matrix<int>::getNumCols
+        MatrixInt_exposer.def( bp::init< alignlib::Matrix< int > const & >(( bp::arg("src") )) );
+        { //::alignlib::Matrix< int >::getNumCols
         
-            typedef alignlib::Matrix<int> exported_class_t;
+            typedef alignlib::Matrix< int > exported_class_t;
             typedef unsigned int ( exported_class_t::*getNumCols_function_type )(  ) const;
             
             MatrixInt_exposer.def( 
                 "getNumCols"
-                , getNumCols_function_type( &::alignlib::Matrix<int>::getNumCols ) );
+                , getNumCols_function_type( &::alignlib::Matrix< int >::getNumCols ) );
         
         }
-        { //::alignlib::Matrix<int>::getNumRows
+        { //::alignlib::Matrix< int >::getNumRows
         
-            typedef alignlib::Matrix<int> exported_class_t;
+            typedef alignlib::Matrix< int > exported_class_t;
             typedef unsigned int ( exported_class_t::*getNumRows_function_type )(  ) const;
             
             MatrixInt_exposer.def( 
                 "getNumRows"
-                , getNumRows_function_type( &::alignlib::Matrix<int>::getNumRows ) );
+                , getNumRows_function_type( &::alignlib::Matrix< int >::getNumRows ) );
         
         }
-        { //::alignlib::Matrix<int>::getValue
+        { //::alignlib::Matrix< int >::getValue
         
-            typedef alignlib::Matrix<int> exported_class_t;
+            typedef alignlib::Matrix< int > exported_class_t;
             typedef int ( exported_class_t::*getValue_function_type )( unsigned int,unsigned int ) const;
             
             MatrixInt_exposer.def( 
                 "getValue"
-                , getValue_function_type( &::alignlib::Matrix<int>::getValue )
+                , getValue_function_type( &::alignlib::Matrix< int >::getValue )
                 , ( bp::arg("row"), bp::arg("col") ) );
         
         }
-        { //::alignlib::Matrix<int>::operator=
+        { //::alignlib::Matrix< int >::operator=
         
-            typedef alignlib::Matrix<int> exported_class_t;
-            typedef ::alignlib::Matrix<int> & ( exported_class_t::*assign_function_type )( ::alignlib::Matrix<int> const & ) ;
+            typedef alignlib::Matrix< int > exported_class_t;
+            typedef ::alignlib::Matrix< int > & ( exported_class_t::*assign_function_type )( ::alignlib::Matrix< int > const & ) ;
             
             MatrixInt_exposer.def( 
                 "assign"
-                , assign_function_type( &::alignlib::Matrix<int>::operator= )
+                , assign_function_type( &::alignlib::Matrix< int >::operator= )
                 , ( bp::arg("src") )
                 , bp::return_self< >() );
         
         }
         MatrixInt_exposer.def( bp::self == bp::self );
-        { //::alignlib::Matrix<int>::permuteCols
+        { //::alignlib::Matrix< int >::permuteCols
         
-            typedef alignlib::Matrix<int> exported_class_t;
-            typedef void ( exported_class_t::*permuteCols_function_type )( ::std::vector<unsigned int,std::allocator<unsigned int> > & ) ;
+            typedef alignlib::Matrix< int > exported_class_t;
+            typedef void ( exported_class_t::*permuteCols_function_type )( ::std::vector< unsigned int > & ) ;
             
             MatrixInt_exposer.def( 
                 "permuteCols"
-                , permuteCols_function_type( &::alignlib::Matrix<int>::permuteCols )
+                , permuteCols_function_type( &::alignlib::Matrix< int >::permuteCols )
                 , ( bp::arg("map_new2old") ) );
         
         }
-        { //::alignlib::Matrix<int>::permuteRows
+        { //::alignlib::Matrix< int >::permuteRows
         
-            typedef alignlib::Matrix<int> exported_class_t;
-            typedef void ( exported_class_t::*permuteRows_function_type )( ::std::vector<unsigned int,std::allocator<unsigned int> > & ) ;
+            typedef alignlib::Matrix< int > exported_class_t;
+            typedef void ( exported_class_t::*permuteRows_function_type )( ::std::vector< unsigned int > & ) ;
             
             MatrixInt_exposer.def( 
                 "permuteRows"
-                , permuteRows_function_type( &::alignlib::Matrix<int>::permuteRows )
+                , permuteRows_function_type( &::alignlib::Matrix< int >::permuteRows )
                 , ( bp::arg("map_new2old") ) );
         
         }
-        { //::alignlib::Matrix<int>::setValue
+        { //::alignlib::Matrix< int >::setValue
         
-            typedef alignlib::Matrix<int> exported_class_t;
+            typedef alignlib::Matrix< int > exported_class_t;
             typedef void ( exported_class_t::*setValue_function_type )( unsigned int,unsigned int,int const & ) ;
             
             MatrixInt_exposer.def( 
                 "setValue"
-                , setValue_function_type( &::alignlib::Matrix<int>::setValue )
+                , setValue_function_type( &::alignlib::Matrix< int >::setValue )
                 , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
         
         }
-        { //::alignlib::Matrix<int>::swapRows
+        { //::alignlib::Matrix< int >::swapRows
         
-            typedef alignlib::Matrix<int> exported_class_t;
+            typedef alignlib::Matrix< int > exported_class_t;
             typedef void ( exported_class_t::*swapRows_function_type )( unsigned int,unsigned int ) ;
             
             MatrixInt_exposer.def( 
                 "swapRows"
-                , swapRows_function_type( &::alignlib::Matrix<int>::swapRows )
+                , swapRows_function_type( &::alignlib::Matrix< int >::swapRows )
                 , ( bp::arg("x"), bp::arg("y") ) );
         
         }
     }
 
-    { //::alignlib::Matrix<unsigned>
-        typedef bp::class_< alignlib::Matrix<unsigned> > MatrixUInt_exposer_t;
+    { //::alignlib::Matrix< unsigned int >
+        typedef bp::class_< alignlib::Matrix< unsigned int > > MatrixUInt_exposer_t;
         MatrixUInt_exposer_t MatrixUInt_exposer = MatrixUInt_exposer_t( "MatrixUInt", bp::init< unsigned int, unsigned int, bp::optional< unsigned int > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=(unsigned int)(0) )) );
         bp::scope MatrixUInt_scope( MatrixUInt_exposer );
-        MatrixUInt_exposer.def( bp::init< alignlib::Matrix<unsigned> const & >(( bp::arg("src") )) );
-        { //::alignlib::Matrix<unsigned>::getNumCols
+        MatrixUInt_exposer.def( bp::init< alignlib::Matrix< unsigned int > const & >(( bp::arg("src") )) );
+        { //::alignlib::Matrix< unsigned int >::getNumCols
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
             typedef unsigned int ( exported_class_t::*getNumCols_function_type )(  ) const;
             
             MatrixUInt_exposer.def( 
                 "getNumCols"
-                , getNumCols_function_type( &::alignlib::Matrix<unsigned>::getNumCols ) );
+                , getNumCols_function_type( &::alignlib::Matrix< unsigned int >::getNumCols ) );
         
         }
-        { //::alignlib::Matrix<unsigned>::getNumRows
+        { //::alignlib::Matrix< unsigned int >::getNumRows
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
             typedef unsigned int ( exported_class_t::*getNumRows_function_type )(  ) const;
             
             MatrixUInt_exposer.def( 
                 "getNumRows"
-                , getNumRows_function_type( &::alignlib::Matrix<unsigned>::getNumRows ) );
+                , getNumRows_function_type( &::alignlib::Matrix< unsigned int >::getNumRows ) );
         
         }
-        { //::alignlib::Matrix<unsigned>::getValue
+        { //::alignlib::Matrix< unsigned int >::getValue
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
             typedef unsigned int ( exported_class_t::*getValue_function_type )( unsigned int,unsigned int ) const;
             
             MatrixUInt_exposer.def( 
                 "getValue"
-                , getValue_function_type( &::alignlib::Matrix<unsigned>::getValue )
+                , getValue_function_type( &::alignlib::Matrix< unsigned int >::getValue )
                 , ( bp::arg("row"), bp::arg("col") ) );
         
         }
-        { //::alignlib::Matrix<unsigned>::operator=
+        { //::alignlib::Matrix< unsigned int >::operator=
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
-            typedef ::alignlib::Matrix<unsigned> & ( exported_class_t::*assign_function_type )( ::alignlib::Matrix<unsigned> const & ) ;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
+            typedef ::alignlib::Matrix< unsigned int > & ( exported_class_t::*assign_function_type )( ::alignlib::Matrix< unsigned int > const & ) ;
             
             MatrixUInt_exposer.def( 
                 "assign"
-                , assign_function_type( &::alignlib::Matrix<unsigned>::operator= )
+                , assign_function_type( &::alignlib::Matrix< unsigned int >::operator= )
                 , ( bp::arg("src") )
                 , bp::return_self< >() );
         
         }
         MatrixUInt_exposer.def( bp::self == bp::self );
-        { //::alignlib::Matrix<unsigned>::permuteCols
+        { //::alignlib::Matrix< unsigned int >::permuteCols
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
-            typedef void ( exported_class_t::*permuteCols_function_type )( ::std::vector<unsigned int,std::allocator<unsigned int> > & ) ;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
+            typedef void ( exported_class_t::*permuteCols_function_type )( ::std::vector< unsigned int > & ) ;
             
             MatrixUInt_exposer.def( 
                 "permuteCols"
-                , permuteCols_function_type( &::alignlib::Matrix<unsigned>::permuteCols )
+                , permuteCols_function_type( &::alignlib::Matrix< unsigned int >::permuteCols )
                 , ( bp::arg("map_new2old") ) );
         
         }
-        { //::alignlib::Matrix<unsigned>::permuteRows
+        { //::alignlib::Matrix< unsigned int >::permuteRows
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
-            typedef void ( exported_class_t::*permuteRows_function_type )( ::std::vector<unsigned int,std::allocator<unsigned int> > & ) ;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
+            typedef void ( exported_class_t::*permuteRows_function_type )( ::std::vector< unsigned int > & ) ;
             
             MatrixUInt_exposer.def( 
                 "permuteRows"
-                , permuteRows_function_type( &::alignlib::Matrix<unsigned>::permuteRows )
+                , permuteRows_function_type( &::alignlib::Matrix< unsigned int >::permuteRows )
                 , ( bp::arg("map_new2old") ) );
         
         }
-        { //::alignlib::Matrix<unsigned>::setValue
+        { //::alignlib::Matrix< unsigned int >::setValue
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
             typedef void ( exported_class_t::*setValue_function_type )( unsigned int,unsigned int,unsigned int const & ) ;
             
             MatrixUInt_exposer.def( 
                 "setValue"
-                , setValue_function_type( &::alignlib::Matrix<unsigned>::setValue )
+                , setValue_function_type( &::alignlib::Matrix< unsigned int >::setValue )
                 , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
         
         }
-        { //::alignlib::Matrix<unsigned>::swapRows
+        { //::alignlib::Matrix< unsigned int >::swapRows
         
-            typedef alignlib::Matrix<unsigned> exported_class_t;
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
             typedef void ( exported_class_t::*swapRows_function_type )( unsigned int,unsigned int ) ;
             
             MatrixUInt_exposer.def( 
                 "swapRows"
-                , swapRows_function_type( &::alignlib::Matrix<unsigned>::swapRows )
+                , swapRows_function_type( &::alignlib::Matrix< unsigned int >::swapRows )
                 , ( bp::arg("x"), bp::arg("y") ) );
         
         }
@@ -2877,6 +2881,24 @@ BOOST_PYTHON_MODULE(alignlib){
         typedef bp::class_< alignlib::Profile, bp::bases< alignlib::Alignandum >, boost::noncopyable > Profile_exposer_t;
         Profile_exposer_t Profile_exposer = Profile_exposer_t( "Profile", bp::no_init );
         bp::scope Profile_scope( Profile_exposer );
+        { //::alignlib::Profile::getCountMatrix
+        
+            typedef ::alignlib::HCountMatrix ( ::alignlib::Profile::*getCountMatrix_function_type )(  ) const;
+            
+            Profile_exposer.def( 
+                "getCountMatrix"
+                , getCountMatrix_function_type( &::alignlib::Profile::getCountMatrix ) );
+        
+        }
+        { //::alignlib::Profile::getFrequencyMatrix
+        
+            typedef ::alignlib::HFrequencyMatrix ( ::alignlib::Profile::*getFrequencyMatrix_function_type )(  ) const;
+            
+            Profile_exposer.def( 
+                "getFrequencyMatrix"
+                , getFrequencyMatrix_function_type( &::alignlib::Profile::getFrequencyMatrix ) );
+        
+        }
         { //::alignlib::Profile::getLogOddor
         
             typedef ::alignlib::HLogOddor ( ::alignlib::Profile::*getLogOddor_function_type )(  ) const;
@@ -2893,6 +2915,15 @@ BOOST_PYTHON_MODULE(alignlib){
             Profile_exposer.def( 
                 "getRegularizor"
                 , getRegularizor_function_type( &::alignlib::Profile::getRegularizor ) );
+        
+        }
+        { //::alignlib::Profile::getScoreMatrix
+        
+            typedef ::alignlib::HScoreMatrix ( ::alignlib::Profile::*getScoreMatrix_function_type )(  ) const;
+            
+            Profile_exposer.def( 
+                "getScoreMatrix"
+                , getScoreMatrix_function_type( &::alignlib::Profile::getScoreMatrix ) );
         
         }
         { //::alignlib::Profile::getWeightor
@@ -3449,7 +3480,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "copyAlignment"
             , copyAlignment_function_type( &::alignlib::copyAlignment )
-            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-1), bp::arg("row_to")=(int)(-1), bp::arg("col_from")=(int)(-1), bp::arg("col_to")=(int)(-1), bp::arg("diagonal_from")=(long int)(-99999999), bp::arg("diagonal_to")=(long int)(99999999) ) );
+            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x000000001), bp::arg("row_to")=(int)(-0x000000001), bp::arg("col_from")=(int)(-0x000000001), bp::arg("col_to")=(int)(-0x000000001), bp::arg("diagonal_from")=(long int)(-0x005f5e0ff), bp::arg("diagonal_to")=(long int)(99999999) ) );
     
     }
 
@@ -3460,7 +3491,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "copyAlignmentWithoutRegion"
             , copyAlignmentWithoutRegion_function_type( &::alignlib::copyAlignmentWithoutRegion )
-            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-1), bp::arg("row_to")=(int)(-1), bp::arg("col_from")=(int)(-1), bp::arg("col_to")=(int)(-1), bp::arg("diagonal_from")=(long int)(1), bp::arg("diagonal_to")=(long int)(0) ) );
+            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x000000001), bp::arg("row_to")=(int)(-0x000000001), bp::arg("col_from")=(int)(-0x000000001), bp::arg("col_to")=(int)(-0x000000001), bp::arg("diagonal_from")=(long int)(1), bp::arg("diagonal_to")=(long int)(0) ) );
     
     }
 
@@ -3482,7 +3513,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "expandAlignment"
             , expandAlignment_function_type( &::alignlib::expandAlignment )
-            , ( bp::arg("map_row2combined"), bp::arg("map_col2combined"), bp::arg("src"), bp::arg("insert_gaps_row")=(bool const)(true), bp::arg("insert_gaps_col")=(bool const)(true), bp::arg("use_end_row")=(bool const)(false), bp::arg("use_end_col")=(bool const)(false), bp::arg("row_length")=(int const)(-1), bp::arg("col_length")=(int const)(-1) ) );
+            , ( bp::arg("map_row2combined"), bp::arg("map_col2combined"), bp::arg("src"), bp::arg("insert_gaps_row")=(bool const)(true), bp::arg("insert_gaps_col")=(bool const)(true), bp::arg("use_end_row")=(bool const)(false), bp::arg("use_end_col")=(bool const)(false), bp::arg("row_length")=(int const)(-0x000000001), bp::arg("col_length")=(int const)(-0x000000001) ) );
     
     }
 
@@ -3515,7 +3546,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "fillAlignmentRepeatUnit"
             , fillAlignmentRepeatUnit_function_type( &::alignlib::fillAlignmentRepeatUnit )
-            , ( bp::arg("dest"), bp::arg("source"), bp::arg("first_row_residue")=(int const)(-1), bp::arg("skip_negative_ends")=(bool const)(false) ) );
+            , ( bp::arg("dest"), bp::arg("source"), bp::arg("first_row_residue")=(int const)(-0x000000001), bp::arg("skip_negative_ends")=(bool const)(false) ) );
     
     }
 
@@ -3842,7 +3873,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("from")=(int const)(-1), bp::arg("to")=(int const)(-1) ) );
+            , ( bp::arg("src"), bp::arg("from")=(int const)(-0x000000001), bp::arg("to")=(int const)(-0x000000001) ) );
     
     }
 
@@ -3864,7 +3895,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("from")=(int const)(-1), bp::arg("to")=(int const)(-1) ) );
+            , ( bp::arg("src"), bp::arg("from")=(int const)(-0x000000001), bp::arg("to")=(int const)(-0x000000001) ) );
     
     }
 
@@ -4117,7 +4148,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeLogOddor"
             , makeLogOddor_function_type( &::alignlib::makeLogOddor )
-            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
+            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
     
     }
 
@@ -4128,7 +4159,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeLogOddorBackground"
             , makeLogOddorBackground_function_type( &::alignlib::makeLogOddorBackground )
-            , ( bp::arg("frequencies"), bp::arg("alphabet"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
+            , ( bp::arg("frequencies"), bp::arg("alphabet"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
     
     }
 
@@ -4139,7 +4170,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeLogOddorDirichlet"
             , makeLogOddorDirichlet_function_type( &::alignlib::makeLogOddorDirichlet )
-            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
+            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
     
     }
 
@@ -4150,7 +4181,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeLogOddorGribskov"
             , makeLogOddorGribskov_function_type( &::alignlib::makeLogOddorGribskov )
-            , ( bp::arg("matrix"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
+            , ( bp::arg("matrix"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
     
     }
 
@@ -4161,7 +4192,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeLogOddorUniform"
             , makeLogOddorUniform_function_type( &::alignlib::makeLogOddorUniform )
-            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-10 ) );
+            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
     
     }
 
@@ -4182,7 +4213,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeMultipleAlignmentDots"
             , makeMultipleAlignmentDots_function_type( &::alignlib::makeMultipleAlignmentDots )
-            , ( bp::arg("compress_unaligend_columns")=(bool)(true), bp::arg("max_insertion_length")=(int)(-1) ) );
+            , ( bp::arg("compress_unaligend_columns")=(bool)(true), bp::arg("max_insertion_length")=(int)(-0x000000001) ) );
     
     }
 
@@ -4485,7 +4516,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "makeSubstitutionMatrix"
             , makeSubstitutionMatrix_function_type( &::alignlib::makeSubstitutionMatrix )
-            , ( bp::arg("alphabet_size"), bp::arg("match")=1, bp::arg("mismatch")=-1 ) );
+            , ( bp::arg("alphabet_size"), bp::arg("match")=1, bp::arg("mismatch")=-0x000000001 ) );
     
     }
 
@@ -4677,7 +4708,7 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "removeFragments"
             , removeFragments_function_type( &::alignlib::removeFragments )
-            , ( bp::arg("dest"), bp::arg("fragment_length"), bp::arg("min_gap_length"), bp::arg("row_length")=(int const)(-1) ) );
+            , ( bp::arg("dest"), bp::arg("fragment_length"), bp::arg("min_gap_length"), bp::arg("row_length")=(int const)(-0x000000001) ) );
     
     }
 

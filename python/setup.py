@@ -293,7 +293,11 @@ def exportInterfaceClasses( mb ):
 
         ## do not wrap constructors, because compilation will fail for
         ## abstract classes.
-        cls.constructors().exclude()
+        try:
+            cls.constructors().exclude()
+        except RuntimeError:
+            print "no construtors for %s" % c
+            
 
     ## export load/save functionality
     classes_with_load_save = ("Alignandum", "Encoder")         
@@ -399,7 +403,7 @@ def exportMatrices( mb ):
     
     ## Deal with templated matrix class
     template_translations = { 'Matrix<double>' : 'MatrixDouble',
-                              'Matrix<unsigned>' : 'MatrixUInt',  
+                              'Matrix<unsigned int>' : 'MatrixUInt',  
                               'Matrix<int>' : 'MatrixInt',
                               }
 
@@ -410,6 +414,7 @@ def exportMatrices( mb ):
     mb.decls( lambda x: x.name in declarations_to_export ).include()
 
     for old, new in template_translations.items():
+        print old, new
         cls = mb.class_( old )
         cls.rename( new )
         cls.alias = new

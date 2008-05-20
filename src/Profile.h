@@ -86,7 +86,20 @@ public:
 	 */
 	virtual HRegularizor getRegularizor() const = 0;
 
-
+	/** return a copy of the score matrix for inspection.
+	 * @return a score matrix.
+	 * */
+	virtual HScoreMatrix getScoreMatrix() const = 0;
+	
+	/** return a copy of the frequency matrix for inspection.
+	 * @return a frequency matrix.
+	 * */
+	virtual HFrequencyMatrix getFrequencyMatrix() const = 0;
+	
+	/** return a copy of the counts matrix for inspection.
+	 * @return a counts matrix.
+	 * */
+	virtual HCountMatrix getCountMatrix() const = 0;
 	
 };
 

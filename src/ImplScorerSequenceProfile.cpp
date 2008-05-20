@@ -61,7 +61,7 @@ namespace alignlib
     debug_cerr( 5, "cast successfull");
     mRowSequence    = s1->getSequence();
     debug_cerr( 5, "cast successfull");    
-    mColProfile     = s2->getScoreMatrix();
+    mColProfile     = s2->exportScoreMatrix();
     debug_cerr( 5, "cast successfull");
     mProfileWidth = s2->getEncoder()->getAlphabetSize();
 

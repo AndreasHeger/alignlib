@@ -129,6 +129,12 @@ class Profile1TestCase( AlignandumTestCase ):
         self.assertEqual( toSequence( self.mAlignandum), None )
         self.assertNotEqual( toProfile( self.mAlignandum), None )
 
+    def testGetCounts(self):
+        p = toProfile( self.mAlignandum )
+        counts = p.getCountMatrix()
+        self.assertEqual( counts.getNumRows(), p.getLength() )
+        self.assertEqual( counts.getNumCols(), p.getEncoder().getAlphabetSize() )
+
 class Profile2TestCase( AlignandumTestCase ):
 
     def setUp( self ):

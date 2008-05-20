@@ -250,22 +250,41 @@ HAlignandum ImplProfile::getClone() const
 }
 
 //--------------------------------------------------------------------------------------
-CountMatrix * ImplProfile::getCountMatrix() const
+CountMatrix * ImplProfile::exportCountMatrix() const
 {
 	return mCountMatrix;
 }
 
 //--------------------------------------------------------------------------------------
-FrequencyMatrix * ImplProfile::getFrequencyMatrix() const
+FrequencyMatrix * ImplProfile::exportFrequencyMatrix() const
 {
 	return mFrequencyMatrix;
 }
 
 //--------------------------------------------------------------------------------------
-ScoreMatrix * ImplProfile::getScoreMatrix() const
+ScoreMatrix * ImplProfile::exportScoreMatrix() const
 {
 	return mScoreMatrix;
 }
+
+//--------------------------------------------------------------------------------------
+HCountMatrix ImplProfile::getCountMatrix() const
+{
+	return HCountMatrix( new CountMatrix(*mCountMatrix));
+}
+
+//--------------------------------------------------------------------------------------
+HFrequencyMatrix ImplProfile::getFrequencyMatrix() const
+{
+	return HFrequencyMatrix( new FrequencyMatrix(*mFrequencyMatrix));
+}
+
+//--------------------------------------------------------------------------------------
+HScoreMatrix ImplProfile::getScoreMatrix() const
+{
+	return HScoreMatrix( new ScoreMatrix( *mScoreMatrix ));
+}
+
 
 //--------------------------------------------------------------------------------------
 void ImplProfile::setWeightor( const HWeightor & weightor ) 

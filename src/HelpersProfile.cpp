@@ -459,7 +459,7 @@ std::string calculateConservation(
 
 	profile->prepare();
 
-	const FrequencyMatrix * frequencies = profile->getFrequencyMatrix();
+	const FrequencyMatrix * frequencies = profile->exportFrequencyMatrix();
 
 	Position length = frequencies->getNumRows();
 	Residue width = frequencies->getNumCols();

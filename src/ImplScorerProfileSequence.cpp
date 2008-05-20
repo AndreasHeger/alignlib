@@ -52,7 +52,7 @@ namespace alignlib
     const HImplProfile s1 = boost::dynamic_pointer_cast<ImplProfile, Profile>(row);
     const HImplSequence s2 = boost::dynamic_pointer_cast<ImplSequence, Sequence>(col);	
 
-    mRowProfile  = s1->getScoreMatrix();
+    mRowProfile  = s1->exportScoreMatrix();
     mColSequence = s2->getSequence();
 
     mProfileWidth = s1->getEncoder()->getAlphabetSize();
