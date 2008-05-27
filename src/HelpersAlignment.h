@@ -195,6 +195,8 @@ typedef enum { RR, RC, CR, CC } CombinationMode;
  * This function checks if two alignments overlap
  * by at least @param min_overlap residues.
  * 
+ * The two aligments must be sorted according to the parameter @param mode.
+ * 
  * @param src1 @ref Alignment object with input.
  * @param src2 @ref Alignment object with input.
  * @param mode Combination mode, see @ref combineAlignment.
@@ -206,6 +208,27 @@ bool hasAlignmentOverlap(
 		const HAlignment & src2, 
 		const CombinationMode mode,
 		int min_overlap = 1);
+
+/** return shortest distance between two @Alignment objects 
+ * 
+ * This function returns the shortes distance between two @Aligment objects.
+ * 
+ * The distance of overlapping alignments is 0; the distance of 
+ * adjacent aligments is 1, and so on.
+ * 
+ * The function works also for interleaved alignments.
+ * 
+ * The two aligments must be sorted according to the parameter @param mode.
+ * 
+ * @param src1 @ref Alignment object with input.
+ * @param src2 @ref Alignment object with input.
+ * @param mode Combination mode, see @ref combineAlignment.
+ * @return the shortest distance between any two residues in the two alignments.
+ */
+Position getAlignmentShortestDistance( 
+			const HAlignment & src1, 
+			const HAlignment & src2, 
+			const CombinationMode mode );
 
 /** combine two @Alignment objects. 
  * 

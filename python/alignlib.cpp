@@ -3605,6 +3605,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::getAlignmentShortestDistance
+    
+        typedef ::alignlib::Position ( *getAlignmentShortestDistance_function_type )( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const );
+        
+        bp::def( 
+            "getAlignmentShortestDistance"
+            , getAlignmentShortestDistance_function_type( &::alignlib::getAlignmentShortestDistance )
+            , ( bp::arg("src1"), bp::arg("src2"), bp::arg("mode") ) );
+    
+    }
+
     { //::alignlib::getDefaultDistor
     
         typedef ::alignlib::HDistor ( *getDefaultDistor_function_type )(  );
