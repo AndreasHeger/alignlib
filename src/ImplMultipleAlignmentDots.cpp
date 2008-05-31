@@ -32,7 +32,7 @@
 
 #include "ImplMultipleAlignmentDots.h"
 #include "HelpersMultipleAlignment.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Alignatum.h"
 #include "HelpersAlignatum.h"
 #include "Alignandum.h"
@@ -140,7 +140,7 @@ Position ImplMultipleAlignmentDots::getLength() const
 void ImplMultipleAlignmentDots::setLength( Position length) 
 {
 	if (mLength != 0)
-		throw AlignException("In ImplMultipleAlignmentDots.cpp: length given for DotsMali");
+		throw AlignlibException("In ImplMultipleAlignmentDots.cpp: length given for DotsMali");
 	mLength = 0;
 }
 
@@ -224,7 +224,7 @@ void ImplMultipleAlignmentDots::add( const HMultipleAlignment & src )
 	debug_func_cerr(5);
 
 	// TODO: implement this function.
-	throw AlignException( "not implemented yet." );
+	throw AlignlibException( "not implemented yet." );
 }
 
 

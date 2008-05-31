@@ -30,7 +30,7 @@
 #include "AlignlibDebug.h"
 #include "ImplAlignmentBlocks.h"
 #include "AlignmentIterator.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 using namespace std;
 
@@ -422,7 +422,7 @@ void ImplAlignmentBlocks::updateBoundaries() const
     	const Position col_to = col_from + it->mSize;
     	Position d = 0;
     	if ((d = row_from - row_last) < 0)
-    		throw AlignException( "__FILE__:__LINE__ overlapping blocks in row");
+    		throw AlignlibException( "__FILE__:__LINE__ overlapping blocks in row");
     	
     	// check for extension
     	if ( d == 0 && (col_from - col_last) == 0)

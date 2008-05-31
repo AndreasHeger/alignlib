@@ -23,7 +23,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Alignandum.h"
 #include "Encoder.h"
 #include "ImplSequence.h"
@@ -58,7 +58,7 @@ namespace alignlib
     mProfileWidth = s1->getEncoder()->getAlphabetSize();
     
     if ( mProfileWidth != s2->getEncoder()->getAlphabetSize() )
-    	throw AlignException( "ImplScorerProfileSequence.cpp: alphabet size different in row and col");
+    	throw AlignlibException( "ImplScorerProfileSequence.cpp: alphabet size different in row and col");
     
   }    
   

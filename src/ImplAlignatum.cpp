@@ -38,7 +38,7 @@
 #include "HelpersAlignatum.h"
 #include "HelpersEncoder.h"
 #include "HelpersRenderer.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 using namespace std;
 
@@ -152,11 +152,11 @@ namespace alignlib
 
       // bail out on empty alignments
       if ( map_old2new->getLength() == 0)
-    	  throw AlignException( "attempting to map an Alignatum object with an empty alignment ");
+    	  throw AlignlibException( "attempting to map an Alignatum object with an empty alignment ");
 
       // check if alignment is out-of-bounds
       if( map_old2new->getRowTo() > mLength )
-    	  throw AlignException("alignment out of bounds.");
+    	  throw AlignlibException("alignment out of bounds.");
       
       Position length = std::max( new_length, map_old2new->getColTo());
 

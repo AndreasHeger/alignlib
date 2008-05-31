@@ -27,7 +27,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "ImplAlignandum.h"
 #include "Encoder.h"
 #include "HelpersEncoder.h"
@@ -265,7 +265,7 @@ void ImplAlignandum::load( std::istream & input)
 	input.read( (char*)&mStorageType, sizeof( StorageType ) );
 	
 	if (input.fail()) 
-		throw AlignException( "incomplete Alignandum object in stream.");
+		throw AlignlibException( "incomplete Alignandum object in stream.");
 	
 	mEncoder = loadEncoder( input );
 	

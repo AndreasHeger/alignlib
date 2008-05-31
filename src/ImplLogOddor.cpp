@@ -28,7 +28,7 @@
 #include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 #include "Matrix.h"
 #include "ImplLogOddor.h"

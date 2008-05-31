@@ -28,7 +28,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Alignandum.h"
 #include "Encoder.h"
 #include "HelpersAlignandum.h"
@@ -50,12 +50,12 @@ namespace alignlib
 		MagicNumberType magic_number;
 
 		if (input.eof())
-			throw AlignException( "unknown object found in stream" );
+			throw AlignlibException( "unknown object found in stream" );
 
 		input.read( (char*)&magic_number, sizeof(MagicNumberType) );
 			
 		if (input.eof())		
-			throw AlignException( "unknown object found in stream" );
+			throw AlignlibException( "unknown object found in stream" );
 		
 		switch (magic_number)
 		{
@@ -79,7 +79,7 @@ namespace alignlib
 				break;
 			}
 			default:
-				throw AlignException( "unknown object found in stream" );
+				throw AlignlibException( "unknown object found in stream" );
 		}	
 		
 	}	

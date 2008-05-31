@@ -30,7 +30,7 @@
 #include "alignlib_interfaces.h"
 #include "alignlib_default.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 #include "Encoder.h"
 #include "HelpersEncoder.h"
@@ -184,8 +184,8 @@ HSubstitutionMatrix makeSubstitutionMatrix(
 		int alphabet_size, 
 		Score match,
 		Score mismatch ) 
-		{
-
+{
+	debug_func_cerr( 5 );
 	HSubstitutionMatrix matrix(new SubstitutionMatrix( alphabet_size, alphabet_size, mismatch ));
 
 	unsigned int row;
@@ -193,7 +193,7 @@ HSubstitutionMatrix makeSubstitutionMatrix(
 		matrix->setValue(row,row, match);
 
 	return matrix;
-		}
+}
 
 // define make functions for hard-coded substitution matrices
 // define factory functions with/without a translator
@@ -227,6 +227,8 @@ HSubstitutionMatrix makeSubstitutionMatrix(
 		const ScoreVector & scores,
 		int nrows, int ncols)
 {
+	debug_func_cerr( 5 );
+	
 	assert( nrows * ncols == scores.size() );
 	HSubstitutionMatrix matrix(new SubstitutionMatrix( nrows, ncols, 0));
 	
@@ -325,21 +327,27 @@ HSubstitutionMatrix makeSubstitutionMatrixBackTranslation(
 		const Score & approximate_match,
 		const HEncoder & encoder)    
 {
-
+	debug_func_cerr( 5 );
+	
 	HSubstitutionMatrix matrix(makeSubstitutionMatrix( 
-			encoder->getAlphabetSize(), 
+			std::max(encoder->getAlphabetSize(), (int)encoder->getGapCode() + 1), 
 			match,
 			mismatch ));
 
+	// 
 	// AGCTN <-> W
 	setMatrixScores( matrix, encoder, approximate_match, "AGCTN", "W");
 	// AG <-> V
-	setMatrixScores( matrix, encoder, match, "AG", "V");
+	setMatrixScores( matrix, encoder, match, "AG", "R");
 	// CT <-> Y
 	setMatrixScores( matrix, encoder, match, "CT", "Y");
 	// ACGTNVY <-> N
-	setMatrixScores( matrix, encoder, match, "ACGTNVY", "N");
-	
+	setMatrixScores( matrix, encoder, match, "ACGTNRY", "N");
+	// ACGTNVY <-> -
+	setMatrixScores( matrix, encoder, 0, "ACGTNRY", "-");
+	// - <-> -
+	setMatrixScores( matrix, encoder, match, "-", "-");
+
 	return matrix;
 }
 

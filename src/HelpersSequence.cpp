@@ -29,7 +29,7 @@
 #include "Matrix.h"
 
 #include "HelpersAlignandum.h" 
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 #include "Encoder.h"
 #include "HelpersEncoder.h" 

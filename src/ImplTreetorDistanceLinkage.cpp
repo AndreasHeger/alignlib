@@ -19,7 +19,7 @@
 #include "Distor.h"
 #include "HelpersDistor.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "HelpersTreetor.h"
 
 #define MIN(x,y) (x < y ) ? x : y 
@@ -144,7 +144,7 @@ void ImplTreetorDistanceLinkage::updateDistanceMatrix(
       break;
 
     default:
-      throw AlignException( "Unkown method in ImplTreetorDistanceLinkage" );
+      throw AlignlibException( "Unkown method in ImplTreetorDistanceLinkage" );
       break;
 
     }	

@@ -31,7 +31,7 @@
 #include "AlignlibDebug.h"
 #include "AlignmentIterator.h"
 #include "Alignment.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 using namespace std;
 

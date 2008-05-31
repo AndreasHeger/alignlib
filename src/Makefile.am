@@ -16,7 +16,7 @@ AM_CXXFLAGS = $(BOOST_CPPFLAGS)
 include_HEADERS = alignlib.h
 
 pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
-			AlignException.h \
+			AlignlibException.h \
 			AlignlibDebug.h \
 			AlignlibMethods.h \
 			Matrix.h \
@@ -108,7 +108,7 @@ HEADERS_ENCODER= Encoder.h HelpersEncoder.h \
 
 HEADERS_SUBSTMATRIX= HelpersSubstitutionMatrix.h
 
-PARTS = AlignException.cpp \
+PARTS = AlignlibException.cpp \
 			AlignlibDebug.cpp \
 			$(PARTS_ALIGNATOR) \
 			$(PARTS_ITERATOR) \

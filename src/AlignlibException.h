@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: AlignException.cpp,v 1.2 2004/01/07 14:35:31 aheger Exp $
+  $Id: AlignlibException.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
   
@@ -20,21 +20,40 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-
-#include <iostream>
-#include "AlignException.h"
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
+#if HAVE_CONFIG_H
+#include <config.h>
 #endif
 
-using namespace std;
+#ifndef _ALIGNEXCEPTION_H
+#define _ALIGNEXCEPTION_H 1
+#include <exception>
 
-namespace alignlib {
+namespace alignlib 
+{
 
-AlignException::AlignException( const char *msg ) {
-  cerr << "Error: " << msg << "\n";
+/**
+   Base class for exceptions thrown by alignlib.
+   
+
+   @author Andreas Heger
+   @version $Id: AlignlibException.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
+   @short Base class for exceptions thrown by alignlib.
+
+*/
+class AlignlibException : public std::exception
+{
+ public:
+    AlignlibException( const char *);
+
+    virtual const char * what() const throw();
+    
+    virtual ~AlignlibException() throw();
+    
+ private:
+	 std::string mMessage; 
+};
+
 }
 
-} // namespace alignlib
+#endif /* _ALIGNEXCEPTION_H */
+

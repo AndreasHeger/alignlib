@@ -19,7 +19,7 @@
 #include "alignlib_types.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "AlignmentFormat.h"
 #include "HelpersEncoder.h"
 #include "HelpersAlignment.h"
@@ -507,7 +507,7 @@ void AlignmentFormatEmissions::copy( HAlignment & dest ) const
 	AlignmentFormat::copy( dest );
 
 	if (mRowFrom == NO_POS || mColFrom == NO_POS)
-		throw AlignException( "AlignmentFormat.cpp: alignment ranges not defined." );
+		throw AlignlibException( "AlignmentFormat.cpp: alignment ranges not defined." );
 
 	std::istringstream is_row( mRowAlignment.c_str() );   
 	std::istringstream is_col( mColAlignment.c_str() );  
@@ -700,10 +700,10 @@ mColAlignment( col )
 							if (src->isEmpty()) return;
 
 							if (src->getRowTo() > row->getFullLength() )
-								throw AlignException("alignment for row is out of bounds.");
+								throw AlignlibException("alignment for row is out of bounds.");
 
 							if (src->getColTo() > col->getFullLength() )	
-								throw AlignException("alignment for col is out of bounds.");	
+								throw AlignlibException("alignment for col is out of bounds.");	
 
 							HAlignment map_row2new = makeAlignmentVector();
 							HAlignment map_col2new = makeAlignmentVector();
@@ -731,7 +731,7 @@ mColAlignment( col )
 							AlignmentFormat::copy( dest );
 
 							if (mRowFrom == NO_POS || mColFrom == NO_POS)
-								throw AlignException( "AlignmentFormat.cpp: alignment ranges not defined." );
+								throw AlignlibException( "AlignmentFormat.cpp: alignment ranges not defined." );
 
 							char gap_char = getDefaultEncoder()->getGapChar();
 
@@ -955,7 +955,7 @@ void AlignmentFormatDiagonals::copy(
 	AlignmentFormat::copy( dest );
 
 	if (mRowFrom == NO_POS || mColFrom == NO_POS)
-		throw AlignException( "AlignmentFormat.cpp: alignment ranges not defined." );
+		throw AlignlibException( "AlignmentFormat.cpp: alignment ranges not defined." );
 
 	std::istringstream is_ali( mAlignment.c_str() );   
 

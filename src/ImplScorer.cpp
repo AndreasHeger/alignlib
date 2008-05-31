@@ -25,7 +25,7 @@
 #include <iomanip>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "HelpersScorer.h"
 
 #include "ImplScorer.h"
@@ -85,7 +85,7 @@ HScorer ImplScorer::getClone() const
 
 Score ImplScorer::getScore( Position row, Position col) const
 {
-	throw AlignException( "asked from a score from the default scorer ");
+	throw AlignlibException( "asked from a score from the default scorer ");
 }
 
 }

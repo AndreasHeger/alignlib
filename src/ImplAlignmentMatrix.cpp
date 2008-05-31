@@ -30,7 +30,7 @@
 #include "AlignlibDebug.h"
 #include "ImplAlignmentMatrix.h"
 #include "AlignmentIterator.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 using namespace std;
 

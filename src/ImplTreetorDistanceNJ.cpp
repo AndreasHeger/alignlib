@@ -16,7 +16,7 @@
 #include "DistanceMatrix.h"
 #include "Distor.h"
 #include "HelpersDistor.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "AlignlibDebug.h"
 
 using namespace std;

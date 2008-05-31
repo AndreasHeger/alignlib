@@ -26,7 +26,7 @@
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "ImplAlignmentMatrixUnsorted.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 
 using namespace std;

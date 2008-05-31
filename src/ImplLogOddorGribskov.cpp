@@ -24,7 +24,7 @@
 #include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "ImplLogOddorGribskov.h"
 #include "HelpersLogOddor.h"
 #include "Matrix.h"
@@ -69,7 +69,7 @@ void ImplLogOddorGribskov::fillProfile(
 	Residue width  = frequencies.getNumCols();
 
 	if (mSubstitutionMatrix->getNumRows() != width )
-		throw AlignException( "ImplLogOddorGribskov.cpp: frequencies and substitution matrix use different alphabet.");
+		throw AlignlibException( "ImplLogOddorGribskov.cpp: frequencies and substitution matrix use different alphabet.");
 	
 	for (Position column = 0; column < length; ++column) 
 	{

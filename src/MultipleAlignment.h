@@ -81,7 +81,7 @@ class MultipleAlignment
 
     /** sets the length of the multiple alignment. 
      * 
-     * @exception AlignException raised if alignment is not empty.
+     * @exception AlignlibException raised if alignment is not empty.
 	*/
     virtual void setLength( Position length) = 0;
 

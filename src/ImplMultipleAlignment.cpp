@@ -36,7 +36,7 @@
 #include "HelpersMultipleAlignment.h"
 #include "HelpersEncoder.h"
 #include "HelpersRenderer.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Alignatum.h"
 #include "Alignandum.h"
 #include "Alignment.h"
@@ -98,7 +98,7 @@ Position ImplMultipleAlignment::getLength() const {
 void ImplMultipleAlignment::setLength( Position length) 
 {
 	if (mLength != 0)
-		throw AlignException("In ImplMultipleAlignment.cpp: length given for non-empty alignment");
+		throw AlignlibException("In ImplMultipleAlignment.cpp: length given for non-empty alignment");
 	mLength = length;
 }
 
@@ -159,7 +159,7 @@ void ImplMultipleAlignment::add( const HAlignatum & src )
 		// that the multiple alignment and the aligned string have to have the
 		// same length.
 		if (mLength != src->getAlignedLength())
-			throw AlignException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
+			throw AlignlibException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
 	
 		mRows.push_back( src );
 	}
@@ -265,7 +265,7 @@ void ImplMultipleAlignment::add( const HMultipleAlignment & src)
 	// that the multiple alignment and the aligned string have to have the
 	// same length.
 	if (mLength != copy->getLength())
-		throw AlignException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
+		throw AlignlibException("In ImplMultipleAlignment.cpp: wrong length of aligned object for adding to MA");
 	
 	for (int row = 0; row < copy->getNumSequences(); row++) 
 		mRows.push_back( copy->getRow(row)->getClone() );
@@ -303,7 +303,7 @@ void ImplMultipleAlignment::add(
 		mLength = copy->getLength();
 
 	if ( mRows.empty() )
-		throw AlignException("In ImplMultipleAlignment.cpp: cannot add mali to empty mali with mapping");
+		throw AlignlibException("In ImplMultipleAlignment.cpp: cannot add mali to empty mali with mapping");
 
 	// the string is not prealigned to the multiple alignment. We have to
 	// do this by ourselves.

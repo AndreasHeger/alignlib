@@ -23,7 +23,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "Encoder.h"
@@ -55,10 +55,10 @@ namespace alignlib
     const HImplProfile s2 = boost::dynamic_pointer_cast<ImplProfile, Profile>(col);	
 
     if (!s1)
-      throw AlignException( "ImplScoreProfileProfile.cpp: row not a profile.");
+      throw AlignlibException( "ImplScoreProfileProfile.cpp: row not a profile.");
     
     if (!s2)
-      throw AlignException( "ImplScoreProfileProfile.cpp: col not a profile.");
+      throw AlignlibException( "ImplScoreProfileProfile.cpp: col not a profile.");
     
     mRowProfile     = s1->exportScoreMatrix();
     mRowFrequencies = s1->exportFrequencyMatrix();
@@ -68,7 +68,7 @@ namespace alignlib
 
     if ( s1->getEncoder()->getAlphabetSize() != 
     	s2->getEncoder()->getAlphabetSize() )
-    	throw AlignException( "ImplScorerProfileProfile.cpp: alphabet size different in row and col");
+    	throw AlignlibException( "ImplScorerProfileProfile.cpp: alphabet size different in row and col");
         
     mProfileWidth = s1->getEncoder()->getAlphabetSize();
   }    

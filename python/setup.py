@@ -485,6 +485,9 @@ def buildModule( include_paths, dest, options) :
 
     exportEnums( mb )
     
+    my_exception = mb.class_( 'AlignlibException' )
+    my_exception.translate_exception_to_string( 'PyExc_RuntimeError', 'exc.what()')
+    
     ######################################################################
     #Well, don't you want to see what is going on?
     if options.verbose:

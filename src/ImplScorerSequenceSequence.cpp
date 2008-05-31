@@ -27,7 +27,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Alignandum.h"
 #include "Encoder.h"
 #include "Matrix.h"
@@ -64,11 +64,11 @@ namespace alignlib
 
     mSubstitutionMatrix = matrix;
     
-    if ( mSubstitutionMatrix->getNumRows() != row->getEncoder()->getAlphabetSize() )
-    	throw AlignException( "ImplScorerSequenceSequence.cpp: alphabet size different in substitution matrix and row");
+    if ( mSubstitutionMatrix->getNumRows() < row->getEncoder()->getAlphabetSize() )
+    	throw AlignlibException( "ImplScorerSequenceSequence.cpp: alphabet size in substitution matrix too small for row");
     
-    if ( mSubstitutionMatrix->getNumCols() != col->getEncoder()->getAlphabetSize() )
-    	throw AlignException( "ImplScorerSequenceSequence.cpp: alphabet size different in substitution matrix and col");
+    if ( mSubstitutionMatrix->getNumCols() < col->getEncoder()->getAlphabetSize() )
+    	throw AlignlibException( "ImplScorerSequenceSequence.cpp: alphabet size in substitution matrix too small for col");
     
   }    
   

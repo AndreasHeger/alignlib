@@ -26,7 +26,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "ImplRegularizorTatusov.h"
 #include "HelpersSubstitutionMatrix.h"
 
@@ -125,7 +125,7 @@ void ImplRegularizorTatusov::fillFrequencies(
 	Position length = counts.getNumRows();
 
 	if (width != 20)
-		throw AlignException( "ImplRegularizorTatusov.cpp: width of profile has to be 20" );
+		throw AlignlibException( "ImplRegularizorTatusov.cpp: width of profile has to be 20" );
 	
 	// get nc - the alignment diversity
 	double nc = calculateDiversity( counts );	

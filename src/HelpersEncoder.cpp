@@ -26,7 +26,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Encoder.h"
 #include "ImplEncoder.h"
 #include "HelpersEncoder.h"
@@ -52,7 +52,7 @@ const HEncoder makeEncoder( const AlphabetType & alphabet_type )
 		t = new ImplEncoder( DNA4, "ACGT", "-.", "N" );
 		break;
 	default:
-		throw AlignException( "unknown alphabet" );
+		throw AlignlibException( "unknown alphabet" );
 	}
 	return HEncoder( t );
 }
@@ -83,7 +83,7 @@ const HEncoder getEncoder( const AlphabetType & alphabet_type )
 	case DNA4: 
 		return translator_dna_4; break;
 	}
-	throw AlignException( "unknown alphabet" );
+	throw AlignlibException( "unknown alphabet" );
 }
 
 
@@ -95,12 +95,12 @@ const HEncoder loadEncoder( std::istream & input )
 	AlphabetType alphabet_type;
 
 	if (input.eof()) 
-		throw AlignException("HelpersEncoder.cpp: incomplete translator.");
+		throw AlignlibException("HelpersEncoder.cpp: incomplete translator.");
 
 	input.read( (char*)&alphabet_type, sizeof(AlphabetType) );
 
 	if (input.eof()) 
-		throw AlignException("HelpersEncoder.cpp: incomplete translator - could not read alphabet type.");
+		throw AlignlibException("HelpersEncoder.cpp: incomplete translator - could not read alphabet type.");
 
 	HEncoder result;
 
@@ -123,7 +123,7 @@ const HEncoder loadEncoder( std::istream & input )
 		input.read( mask_chars, sizeof(char) * size);
 
 		if (input.eof())
-			throw AlignException( "HelpersEncoder.cpp: incomplete translator ");
+			throw AlignlibException( "HelpersEncoder.cpp: incomplete translator ");
 
 		result = HEncoder( new ImplEncoder( alphabet_type, alphabet, gap_chars, mask_chars ) );
 
@@ -143,7 +143,7 @@ const HEncoder loadEncoder( std::istream & input )
 		result = getEncoder( DNA4 );
 		break;
 	default:
-		throw AlignException( "HelpersEncoder: unknown object found in stream" );
+		throw AlignlibException( "HelpersEncoder: unknown object found in stream" );
 	}	
 	return result;
 }	

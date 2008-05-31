@@ -27,7 +27,7 @@
 #include <math.h>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "AlignlibDebug.h"
 #include "ImplLogOddorBackground.h"
 #include "HelpersLogOddor.h"
@@ -70,7 +70,7 @@ ImplLogOddorBackground::ImplLogOddorBackground (
 #endif
 	
 	if (mAlphabet.size() != mBackgroundFrequencies->size())
-		throw AlignException("ImplLogOddorBackground.cpp: alphabet and frequency vector have different sizes.");
+		throw AlignlibException("ImplLogOddorBackground.cpp: alphabet and frequency vector have different sizes.");
 }
 
 ImplLogOddorBackground::~ImplLogOddorBackground () 

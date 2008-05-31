@@ -17,7 +17,7 @@
 #include "alignlib_interfaces.h"
 #include "ImplDistanceMatrixSymmetric.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 using namespace std;
 
@@ -72,7 +72,7 @@ ImplDistanceMatrixSymmetric::ImplDistanceMatrixSymmetric( const ImplDistanceMatr
 	mMatrix = new DistanceMatrixValue[ mSize ];
 
 	if (!mMatrix)
-		throw AlignException("Out of memory in ImplDistanceMatrixSymmetric");
+		throw AlignlibException("Out of memory in ImplDistanceMatrixSymmetric");
 
 	DistanceMatrixSize i, j;
 	DistanceMatrixSize index = 0;

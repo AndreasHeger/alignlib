@@ -28,7 +28,7 @@
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignmentIterator.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "ImplAlignmentMatrixRow.h"
 
 using namespace std;

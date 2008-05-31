@@ -71,7 +71,7 @@ void ImplRegularizorDirichletFade::fillFrequencies( Frequency * frequencies,
 {
 	
 	if (width != ALPHABET_SIZE)
-		throw AlignException( "ImplRegularizorDirichletFade.cpp: profile width of profile has to be 20.")
+		throw AlignlibException( "ImplRegularizorDirichletFade.cpp: profile width of profile has to be 20.")
 		
     Position column;
     Count ntotal;

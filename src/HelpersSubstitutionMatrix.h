@@ -159,7 +159,7 @@ HSubstitutionMatrix makeSubstitutionMatrixBackTranslation(
  *  
  * @param input			stream to read from.
  * @param translator	@ref Encoder
- * @exception AlignException if matrix in stream is incomplete.
+ * @exception AlignlibException if matrix in stream is incomplete.
  * @return a new @ref SubstitutionMatrix
  * 
  */

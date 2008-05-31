@@ -155,7 +155,7 @@ bool testWrappedAlignment(int test_id,
 	}
 }
 
-
+/*
 BOOST_AUTO_TEST_CASE( global_alignment2)
 {
 	HSubstitutionMatrix matrix = makeSubstitutionMatrix( 
@@ -417,7 +417,7 @@ BOOST_AUTO_TEST_CASE( global_alignment)
 
 	}
 }
-
+*/
 BOOST_AUTO_TEST_CASE( alignment_backtranslation )
 {
 	HSubstitutionMatrix matrix = makeSubstitutionMatrixBackTranslation( 
@@ -436,5 +436,25 @@ BOOST_AUTO_TEST_CASE( alignment_backtranslation )
 		testPairwiseAlignment( 81, a, seq1, seq2, 0,  29, "+16-1+13", 0,  30,  "+30", 45 );
 		testPairwiseAlignment( 82, a, seq2, seq1, 0,  30, "+30",      0,  29,  "+16-1+13", 45);
 	}
+}
+
+BOOST_AUTO_TEST_CASE( alignment_backtranslation_with_gaps )
+{
+        HSubstitutionMatrix matrix = makeSubstitutionMatrixBackTranslation(
+                        2, -10, 1, getDefaultEncoder() );
+
+        setDefaultSubstitutionMatrix( matrix );
+
+        HAlignandum seq1 = makeSequence( "TTGGCTGTGAATCTATTCCATCTGTGAGTG" );
+        HAlignandum seq2 = makeSequence( "WTWGCWGTWWWW---ATWCCWWWWGTWWWW" );
+
+        Score gop = -2;
+        Score gep = -1;
+
+        {
+        	HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, false, false );
+        	testPairwiseAlignment( 83, a, seq1, seq2, 0,  29, "+14-1+15", 0,  30,  "+30", 35 );
+        	testPairwiseAlignment( 84, a, seq2, seq1, 0,  30, "+30",      0,  29,  "+14-1+15", 35);
+        }
 }
 

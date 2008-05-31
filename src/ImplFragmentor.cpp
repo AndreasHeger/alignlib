@@ -31,7 +31,7 @@
 #include "HelpersAlignment.h"
 
 #include "Alignandum.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 #include "ImplFragmentor.h"
 

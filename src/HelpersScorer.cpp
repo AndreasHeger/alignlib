@@ -35,7 +35,7 @@
 #include "ImplScorerSequenceProfile.h"
 #include "ImplScorerProfileSequence.h"
 #include "ImplScorerProfileProfile.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 using namespace std;
 
@@ -87,7 +87,7 @@ HScorer makeScorer(
 	if (p1 && s2) 
 		return HScorer( new ImplScorerProfileSequence( p1, s2 ) );
 
-	throw AlignException("HelpersScorer.cpp: Could not guess scoring method");
+	throw AlignlibException("HelpersScorer.cpp: Could not guess scoring method");
 }
 
 HScorer makeScorer( const HAlignandum & row, const HAlignandum & col )

@@ -30,7 +30,7 @@
 #include "HelpersAlignandum.h"
 #include "ImplMultipleAlignment.h"
 #include "ImplMultipleAlignmentDots.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Alignatum.h"
 #include "HelpersAlignatum.h"
 #include "Alignandum.h"
@@ -110,7 +110,7 @@ HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali, const char * f
 
     ifstream fin( filename);  
     if (!fin)       
-	throw AlignException("Could not open file in fillMultipleAlignment");
+	throw AlignlibException("Could not open file in fillMultipleAlignment");
 
     while (!fin.eof()) {                          // while (fin) does not work!!       
 	// read in lines at a time:
@@ -139,7 +139,7 @@ HMultipleAlignment fillMultipleAlignment( HMultipleAlignment ali,
 
     ifstream fin( filename);  
     if (!fin)       
-	throw AlignException("Could not open file in fillMultipleAlignment");
+	throw AlignlibException("Could not open file in fillMultipleAlignment");
 
     while (!fin.eof()) {                          // while (fin) does not work!!       
 	// get an empty copy Alignatum

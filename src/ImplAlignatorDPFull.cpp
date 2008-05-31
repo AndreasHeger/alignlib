@@ -27,7 +27,7 @@
 #include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -327,7 +327,7 @@ void ImplAlignatorDPFull::traceBack( HAlignment & result,
 			col = mIterator->col_back( row );
 			break;
 		default:
-			throw AlignException("Unknown matrix command in TraceBack");
+			throw AlignlibException("Unknown matrix command in TraceBack");
 			break;
 		}
 		if (row < row_from) break;

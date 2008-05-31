@@ -24,7 +24,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "AlignlibDebug.h"
 #include "ImplWeightor.h"
 
@@ -96,9 +96,9 @@ void ImplWeightor::fillCounts(
 	debug_func_cerr(5);
 
 	if (translator->getAlphabetSize() != dest.getNumCols())
-		throw AlignException( "count matrix and alphabet have different size.");
+		throw AlignlibException( "count matrix and alphabet have different size.");
 	if (src->getLength() != dest.getNumRows())
-		throw AlignException( "count matrix and multiple alignment have different size.");
+		throw AlignlibException( "count matrix and multiple alignment have different size.");
 	
 	int nsequences = src->getNumSequences();
 

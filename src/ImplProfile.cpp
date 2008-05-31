@@ -28,7 +28,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "ImplProfile.h"
 #include "Encoder.h"
 #include "HelpersEncoder.h"
@@ -661,7 +661,7 @@ void ImplProfile::load( std::istream & input)
 					sizeof( Count) * size );
 
 		if (input.fail() ) 
-			throw AlignException( "incomplete profile in stream.");
+			throw AlignlibException( "incomplete profile in stream.");
 
 		if (isPrepared() )
 		{
@@ -679,7 +679,7 @@ void ImplProfile::load( std::istream & input)
 		loadSparseMatrix<Count>( input, mCountMatrix );
 
 		if (input.fail() ) 
-			throw AlignException( "incomplete profile in stream.");
+			throw AlignlibException( "incomplete profile in stream.");
 
 		if (isPrepared() )
 		{

@@ -19,7 +19,7 @@
 #include "alignlib_interfaces.h"
 #include "ImplDistanceMatrix.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 using namespace std;
 
@@ -77,7 +77,7 @@ ImplDistanceMatrix::ImplDistanceMatrix (const ImplDistanceMatrix & src ) :
 	mMatrix = new DistanceMatrixValue[ mSize ];
 
 	if (!mMatrix)
-		throw AlignException("Out of memory in ImplDistanceMatrix::AllocateMemory");
+		throw AlignlibException("Out of memory in ImplDistanceMatrix::AllocateMemory");
 
 	memcpy( mMatrix, src.mMatrix, mSize * sizeof( DistanceMatrixValue) );
 
@@ -175,7 +175,7 @@ void ImplDistanceMatrix::allocateMemory()
 	mMatrix = new DistanceMatrixValue[ mSize ];
 
 	if (!mMatrix)
-		throw AlignException("Out of memory in ImplDistanceMatrix::allocateMemory");
+		throw AlignlibException("Out of memory in ImplDistanceMatrix::allocateMemory");
 
 }
 

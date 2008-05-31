@@ -30,7 +30,7 @@
 
 #include "HelpersAlignandum.h"
 #include "ImplSequence.h" 
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "Encoder.h"
 #include "HelpersEncoder.h"
 
@@ -198,7 +198,7 @@ void ImplSequence::load( std::istream & input)
 		input.read( (char*)&mSequence[x], sizeof(Residue) );
 	
 	if (input.fail()) 
-		throw AlignException( "incomplete sequence in stream.");
+		throw AlignlibException( "incomplete sequence in stream.");
 	
 }
 

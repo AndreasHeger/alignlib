@@ -26,7 +26,7 @@
 #ifndef ALIGNLIB_FUNCTIONS_H_
 #define ALIGNLIB_FUNCTIONS_H_
 
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "AlignlibDebug.h"
 #include "AlignlibMethods.h"
 

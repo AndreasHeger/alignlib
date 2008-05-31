@@ -17,7 +17,7 @@
 #include "alignlib_interfaces.h"
 #include "ImplDistor.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "DistanceMatrix.h"
 
 using namespace std;
@@ -46,7 +46,7 @@ void ImplDistor::calculateMatrix(
     DistanceMatrixSize width = multali->getNumSequences();
 
     if (matrix->getWidth() != width)
-	throw AlignException( "Multiple alignment and matrix have different size in ImplDistor::operator()");
+	throw AlignlibException( "Multiple alignment and matrix have different size in ImplDistor::operator()");
 
     for (i = 0; i < width - 1; i++) 
       for (j = i + 1; j < width; j++) 

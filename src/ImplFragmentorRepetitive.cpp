@@ -34,7 +34,7 @@
 #include "AlignmentIterator.h"
 
 #include "Alignandum.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 
 #include "HelpersSubstitutionMatrix.h"
 

@@ -26,7 +26,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
-#include "AlignException.h"
+#include "AlignlibException.h"
 #include "ImplEncoder.h"
 
 using namespace std;
@@ -96,13 +96,13 @@ ImplEncoder::ImplEncoder ( const AlphabetType & alphabet_type,
 	
 	// assertions to check for empty input
 	if (mGapChars.size() == 0)
-		throw AlignException( "ImplEncoder.cpp: no gap characters specified.");
+		throw AlignlibException( "ImplEncoder.cpp: no gap characters specified.");
 	
 	if (mMaskChars.size() == 0)
-		throw AlignException( "ImplEncoder.cpp: no mask characters specified.");
+		throw AlignlibException( "ImplEncoder.cpp: no mask characters specified.");
 	
 	if (mAlphabet.size() == 0 )
-		throw AlignException( "ImplEncoder.cpp: alphabet is empty.");
+		throw AlignlibException( "ImplEncoder.cpp: alphabet is empty.");
 	
 	// build encoding and decoding table
 	mTableSize = std::numeric_limits<char>::max();
