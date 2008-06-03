@@ -453,8 +453,8 @@ BOOST_AUTO_TEST_CASE( alignment_backtranslation_with_gaps )
 
         {
         	HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, false, false, false, false );
-        	testPairwiseAlignment( 83, a, seq1, seq2, 0,  29, "+14-1+15", 0,  30,  "+30", 35 );
-        	testPairwiseAlignment( 84, a, seq2, seq1, 0,  30, "+30",      0,  29,  "+14-1+15", 35);
+        	testPairwiseAlignment( 83, a, seq1, seq2, 0,  29, "+14-3+15", 0,  30,  "+12-2+18", 29 );
+        	testPairwiseAlignment( 84, a, seq2, seq1, 0,  30, "+15-2+15", 0,  29,  "+12-3+17", 29 );
         }
 }
 

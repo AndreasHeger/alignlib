@@ -344,7 +344,7 @@ HSubstitutionMatrix makeSubstitutionMatrixBackTranslation(
 	// ACGTNVY <-> N
 	setMatrixScores( matrix, encoder, match, "ACGTNRY", "N");
 	// ACGTNVY <-> -
-	setMatrixScores( matrix, encoder, 0, "ACGTNRY", "-");
+	setMatrixScores( matrix, encoder, mismatch, "ACGTNRY", "-");
 	// - <-> -
 	setMatrixScores( matrix, encoder, match, "-", "-");
 
