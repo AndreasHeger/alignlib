@@ -363,11 +363,10 @@ void ImplMultipleAlignmentDots::updateRows() const
 #ifdef DEBUG
 	for (unsigned int x = 0; x < gaps.size(); ++x) 
 		debug_cerr( 5, "col=" << x << " gaps=" << gaps[x]);
-#endif
 
 	for (unsigned int x = 0; x < gaps.size(); ++x) 
 		std::cerr << "col=" << x << " gaps=" << gaps[x] << std::endl;
-
+#endif
 	
 	// build map of aligned columns to output columns
 	HAlignment map_mali2representation = makeAlignmentVector(); 
@@ -395,7 +394,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 		combineAlignment( map_alignatum2representation, mRows[x]->mMapMali2Alignatum, map_mali2representation, RR);
 
-		std::cout << "map_alignatum2representation=" << *map_alignatum2representation << std::endl;
+		debug_cerr( 5, "map_alignatum2representation=\n" << *map_alignatum2representation );
 		// map alignatum-object
 		if (mCompressUnalignedColumns) 
 		{
