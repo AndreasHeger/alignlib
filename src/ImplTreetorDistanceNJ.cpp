@@ -11,6 +11,8 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <cstring>
+#include <limits>
 #include "ImplTreetorDistanceNJ.h"
 #include "Tree.h"
 #include "DistanceMatrix.h"

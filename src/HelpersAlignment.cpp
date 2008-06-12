@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <sstream>
 #include <iomanip>
+#include <limits>
 #include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
 #include "HelpersAlignment.h"
@@ -206,7 +207,6 @@ void copyAlignment( HAlignment & dest,
 {
 	debug_func_cerr(5);
 
-
 	dest->clear();
 
 	AlignmentIterator it(src->begin());
@@ -219,15 +219,16 @@ void copyAlignment( HAlignment & dest,
 
 		// apply filter
 		if (filter) 
-			switch (mode) {
-			case RR:
-				if (filter->mapRowToCol( p.mRow )) keep = false; break;
-			case CR:
-				if (filter->mapRowToCol( p.mCol )) keep = false; break;
-			case RC:
-				if (filter->mapColToRow( p.mRow )) keep = false; break;
-			case CC:
-				if (filter->mapColToRow( p.mCol )) keep = false; break;
+			switch (mode) 
+			{
+				case RR:
+					if (filter->mapRowToCol( p.mRow ) == NO_POS ) keep = false; break;
+				case CR:
+					if (filter->mapRowToCol( p.mCol ) == NO_POS ) keep = false; break;
+				case RC:
+					if (filter->mapColToRow( p.mRow ) == NO_POS ) keep = false; break;
+				case CC:
+					if (filter->mapColToRow( p.mCol ) == NO_POS ) keep = false; break;
 			}
 
 		if (keep)

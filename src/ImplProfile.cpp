@@ -24,7 +24,7 @@
 #include <iostream>
 #include <iomanip>
 #include <stdio.h>
-
+#include <limits>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"

@@ -29,6 +29,7 @@
 
 #include <iostream>
 #include <cassert>
+#include <cstring>
 #include <vector>
 #include <algorithm>
 

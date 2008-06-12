@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <cstring> // for memcpy
 #include <cassert>
+#include <limits>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "ImplDistanceMatrix.h"

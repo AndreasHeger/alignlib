@@ -23,6 +23,8 @@
 
 #include <string.h>
 #include <iostream>
+#include <cstring>
+#include <limits>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"

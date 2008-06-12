@@ -78,6 +78,24 @@ BOOST_AUTO_TEST_CASE( test_hasAlignmentOverlap )
 	}
 }
 
+BOOST_AUTO_TEST_CASE( test_copyAlignmet1 )
+{
+	HAlignment ali1( makeAlignmentVector() );
+	ali1->addDiagonal( 0, 10, 0);
+	HAlignment dest( makeAlignmentVector() );
+	
+	for (int x = 0; x < 10; ++x)
+	{
+		HAlignment ali2( makeAlignmentVector() );
+		ali2->addDiagonal( x, x+10, 0);		
+
+		copyAlignment( dest, ali1, ali2, RR );
+		
+		BOOST_CHECK_EQUAL(  dest->getNumAligned(), 10 - x );
+	}
+}
+
+
 BOOST_AUTO_TEST_CASE( test_getAlignmentShortestDistance )
 {
 	HAlignment ali1( makeAlignmentVector() );

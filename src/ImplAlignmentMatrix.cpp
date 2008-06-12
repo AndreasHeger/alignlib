@@ -24,6 +24,8 @@
 #include <iostream> 
 #include <algorithm>
 #include <set>
+#include <limits>
+#include <cstring>
 #include <cassert>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
@@ -84,7 +86,7 @@ ImplAlignmentMatrix::ImplAlignmentMatrix( const ImplAlignmentMatrix & src) :
 	if (src.mIndex) 
 	{
 		mIndex = new Dot[mAllocatedIndexSize];
-		memcpy( mIndex, src.mIndex, sizeof(Dot) * (mAllocatedIndexSize));
+		std::memcpy( mIndex, src.mIndex, sizeof(Dot) * (mAllocatedIndexSize));
 	}
 	}
 
