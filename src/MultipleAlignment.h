@@ -115,6 +115,16 @@ class MultipleAlignment
      * */
     virtual void eraseRow( int row ) = 0;
 
+    /** return true, if a column is aligned.
+     * 
+     * Unaligned columns result from adding 
+     * new sequences to the multiple alignment.
+     * 
+     * @return true, if column @col is aligned. 
+     * */
+    virtual bool isAligned( const Position & col ) = 0;
+    
+    
     /* ------------------ mutators ----------------------------------------------------------- */
 
     /*------------------- functions for adding new members to the multiple alignment---------*/

@@ -186,7 +186,8 @@ namespace alignlib
       // add unaligned characters
       if (unaligned_chars) 
       {
-
+    	  
+          debug_cerr( 5, "adding unaligned chars" );
           AlignmentIterator it = map_old2new->begin();
           AlignmentIterator it_end = map_old2new->end();
 
@@ -199,13 +200,15 @@ namespace alignlib
           {
             Position old = it->mRow-1;
             Position nnew = it->mCol-1;      
+            debug_cerr( 5, "delta_old=" << old - last_old << " delta_new=" << nnew - last_new);
             while (old - last_old > 0 && nnew - last_new > 0) 
             {
-              old--;
-              nnew--;
-              if (mRepresentation[old] >= 'A' &&
-                  mRepresentation[old] <= 'Z' )
-                new_representation[nnew] = mRepresentation[old] - 'A' + 'a';
+              if (mRepresentation[old] >= 'A' && mRepresentation[old] <= 'Z' )
+                  new_representation[nnew] = mRepresentation[old] - 'A' + 'a';
+              else
+                  new_representation[nnew] = 'x';
+              --old;
+              --nnew;
             }
             last_old = it->mRow;
             last_new = it->mCol;

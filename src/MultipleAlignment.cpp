@@ -45,7 +45,8 @@ MultipleAlignment::MultipleAlignment(const MultipleAlignment & src)
 {
 }
    
-std::ostream & operator<<( std::ostream & output, const MultipleAlignment & src) {
+std::ostream & operator<<( std::ostream & output, const MultipleAlignment & src) 
+{
   src.write( output );
   return output;
 }

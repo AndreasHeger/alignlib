@@ -27,7 +27,6 @@
 #include <cassert>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
 #include "ImplMultipleAlignmentDots.h"
@@ -41,151 +40,101 @@
 #include "AlignmentIterator.h"
 #include "HelpersEncoder.h"
 #include "HelpersRenderer.h"
-
+#include "AlignmentFormat.h"
 using namespace std;
 
 namespace alignlib 
 {
 
-MaliRow::MaliRow( MaliRow & src ) :
+ImplMultipleAlignmentDots::MaliRow::MaliRow( MaliRow & src ) :
 	mAlignatumInput(src.mAlignatumInput), 
-	mMapMali2Alignatum(src.mMapMali2Alignatum), 
-	mAlignatumOutput(src.mAlignatumOutput) 	
-	{
-	}
+	mMapMali2Alignatum(src.mMapMali2Alignatum) 
+{
+}
 
-MaliRow::MaliRow( const HAlignatum & input, 
-				  const HAlignment & map_alignatum2mali, 
-				  const HAlignatum & output) : 
+ImplMultipleAlignmentDots::MaliRow::MaliRow( 
+		const HAlignatum & input, 
+		const HAlignment & map_alignatum2mali ) : 
 	mAlignatumInput(input), 
-	mMapMali2Alignatum(map_alignatum2mali), 
-	mAlignatumOutput(output) 
-	{
-		debug_func_cerr(5);	
-	}
+	mMapMali2Alignatum(map_alignatum2mali)
+{
+	debug_func_cerr(5);	
+}
 
-MaliRow::MaliRow( const HAlignatum & input, 
-				  const HAlignment & map_alignatum2mali ) : 
-	mAlignatumInput(input), 
-	mMapMali2Alignatum(map_alignatum2mali), 
-	mAlignatumOutput(makeAlignatum()) 
-	{
-		debug_func_cerr(5);	
-	}
-
-MaliRow::~MaliRow()
+ImplMultipleAlignmentDots::MaliRow::~MaliRow()
 {
 	debug_func_cerr(5);	
 }
 
 /* factory functions */
-HMultipleAlignment makeMultipleAlignmentDots( bool compress_unaligned_columns,
+HMultipleAlignment makeMultipleAlignmentDots( 
+		bool compress_unaligned_columns,
 		int max_insertion_length) 
 {
+	debug_func_cerr( 5 );
+	debug_cerr(5, "creating: compressed=" << compress_unaligned_columns << " max_insert=" << max_insertion_length );
 	return HMultipleAlignment( new ImplMultipleAlignmentDots( compress_unaligned_columns, max_insertion_length ) );
 }
 
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplMultipleAlignmentDots::ImplMultipleAlignmentDots ( bool compress_unaligned_columns,
-		int max_insertion_length) : 
-			mLength(0), mRenderer( getDefaultRenderer() ),
+ImplMultipleAlignmentDots::ImplMultipleAlignmentDots ( 
+		const bool compress_unaligned_columns,
+		const int max_insertion_length) : ImplMultipleAlignment(),
 			mCompressUnalignedColumns( compress_unaligned_columns),
-			mMaxInsertionLength( max_insertion_length) 
-			{
-			}
+			mMaxInsertionLength( max_insertion_length),
+			mIsDirty( false )
+{
+	debug_cerr(5, "creating: compressed=" << mCompressUnalignedColumns << " max_insert=" << mMaxInsertionLength );
+	debug_func_cerr( 5 );
+}
 
 //--------------------------------------------------------------------------------------------------------------
 ImplMultipleAlignmentDots::~ImplMultipleAlignmentDots () 
 {
 	debug_func_cerr( 5 );
-	freeMemory();
 }
 
 //--------------------------------------------------------------------------------------------------------------
 ImplMultipleAlignmentDots::ImplMultipleAlignmentDots (const ImplMultipleAlignmentDots & src ) : 
-	mLength (src.mLength), 
-	mRenderer( src.mRenderer), 
+	ImplMultipleAlignment( src ),
 	mCompressUnalignedColumns( src.mCompressUnalignedColumns ),
-	mMaxInsertionLength( src.mMaxInsertionLength )
+	mMaxInsertionLength( src.mMaxInsertionLength ),
+	mIsDirty( src.mIsDirty )
 	{
 	debug_func_cerr( 5 );
 
-	// clear old entries
-	freeMemory();
-
 	// add clones of the new entries
-	for (unsigned int row = 0; row < src.mRows.size(); row++) 
-		mRows.push_back( HMaliRow( new MaliRow( 
-				src.mRows[row]->mAlignatumInput->getClone(), 
-				src.mRows[row]->mMapMali2Alignatum->getClone(), 
-				src.mRows[row]->mAlignatumOutput->getClone())));
-	}
+	for (unsigned int row = 0; row < src.mRowData.size(); row++) 
+		mRowData.push_back( HMaliRow( new MaliRow( 
+				src.mRowData[row]->mAlignatumInput->getClone(), 
+				src.mRowData[row]->mMapMali2Alignatum->getClone() ) )); 
+	
+}
 
 //--------------------------------------------------------------------------------------------------------------
 void ImplMultipleAlignmentDots::freeMemory() 
 {
+	ImplMultipleAlignment::freeMemory();
 	debug_func_cerr(5);
-	mRows.clear();
+	mRowData.clear();
+	mIsDirty = false;
 }
 
-//--------------------------------------------------------------------------------------------------------------
-Position ImplMultipleAlignmentDots::getLength() const 
-{
-	updateRows();
-	return mLength;
-}
-
-//--------------------------------------------------------------------------------------------------------------
-void ImplMultipleAlignmentDots::setLength( Position length) 
-{
-	if (mLength != 0)
-		throw AlignlibException("In ImplMultipleAlignmentDots.cpp: length given for DotsMali");
-	mLength = 0;
-}
-
-//--------------------------------------------------------------------------------------------------------------
-int ImplMultipleAlignmentDots::getNumSequences() const 
-{
-	return mRows.size();
-}
-
-//-----------------------------------------------------------------------------------------------------------  
-const std::string & ImplMultipleAlignmentDots::operator[]( int row ) const 
-{
-	updateRows();
-	return mRows[row]->mAlignatumOutput->getString();
-}
-
-//-----------------------------------------------------------------------------------------------------------
-HAlignatum ImplMultipleAlignmentDots::getRow( int row ) const 
-{
-	updateRows();
-	return mRows[row]->mAlignatumOutput;
-}
-
-//-----------------------------------------------------------------------------------------------------------
-void ImplMultipleAlignmentDots::clear() 
-{
-	freeMemory();
-	mLength = 0;
-}
 
 //--------------------------------------------------------------------------------------------
 void ImplMultipleAlignmentDots::eraseRow( int row ) 
 {
-	if (row < 0 || row >= mRows.size() )
+	ImplMultipleAlignment::eraseRow( row );
+	if (row < 0 || row >= getNumSequences() )
 		return;
 
-	mRows.erase( mRows.begin() + row );
-	if (mRows.size() == 0)
-		mLength = 0;
+	mRowData.erase( mRowData.begin() + row );
 }	
+
 
 //------------------------------------------------------------------------------------
 /* add single entry to *this multiple alignment given an alignment.
-   in the alignment, the other alignment is in row, *this alignment is in col.
-   In contrast to the next method, here src has not to be realigned
  */
 void ImplMultipleAlignmentDots::add( const HAlignatum & src,
 		const HAlignment & alignment,
@@ -197,23 +146,23 @@ void ImplMultipleAlignmentDots::add( const HAlignatum & src,
 {
 	debug_func_cerr(5);
 
-	mRows.push_back( HMaliRow( new MaliRow(src, alignment->getClone())) );
-	mLength = 0;
+	mRowData.push_back( HMaliRow( new MaliRow(src->getClone(), alignment->getClone())) );
+	mRows.push_back( makeAlignatum() );
+	mIsDirty = true;
 }
  
 //------------------------------------------------------------------------------------
-/* add single entry to *this multiple alignment given an alignment.
-   in the alignment, the other alignment is in row, *this alignment is in col.
-   In contrast to the next method, here src has not to be realigned
+/* add single entry to *this multiple alignment 
  */
 void ImplMultipleAlignmentDots::add( const HAlignatum & src )
 {
 	debug_func_cerr(5);
-
+	
 	HAlignment ali(makeAlignmentVector());
 	addDiagonal2Alignment( ali, 0, src->getFullLength(), 0);
-	mRows.push_back( HMaliRow( new MaliRow(src, ali)) );
-	mLength = 0;
+	mRowData.push_back( HMaliRow( new MaliRow(src, ali)) );	
+	mRows.push_back( makeAlignatum() );
+	mIsDirty = true;
 }
 
 //------------------------------------------------------------------------------------
@@ -226,7 +175,6 @@ void ImplMultipleAlignmentDots::add( const HMultipleAlignment & src )
 	// TODO: implement this function.
 	throw AlignlibException( "not implemented yet." );
 }
-
 
 //------------------------------------------------------------------------------------
 /** Add a full multiple alignment to the another alignment.
@@ -243,34 +191,32 @@ void ImplMultipleAlignmentDots::add(
 	debug_func_cerr(5);
 
 	// do not add empty mali
-	if (src->getNumSequences() == 0) 
-		return;
+	if (src->isEmpty()) return;
 
 	HImplMultipleAlignmentDots src_mali = boost::dynamic_pointer_cast<ImplMultipleAlignmentDots, MultipleAlignment>(src);
 
 	for (int x = 0; x < src_mali->getNumSequences(); ++x) 
 	{
-		HAlignatum alignatum(src_mali->mRows[x]->mAlignatumInput->getClone());
 		HAlignment map_mali2src = makeAlignmentVector();
 
 		if (mali_is_in_row)
 			combineAlignment( map_mali2src,
 					alignment,
-					src_mali->mRows[x]->mMapMali2Alignatum,
+					src_mali->mRowData[x]->mMapMali2Alignatum,
 					CR);
 		else
 			combineAlignment( map_mali2src,
 					alignment,
-					src_mali->mRows[x]->mMapMali2Alignatum,
+					src_mali->mRowData[x]->mMapMali2Alignatum,
 					RR);
 
-		add( alignatum, map_mali2src,
-				true,
-				insert_gaps_mali, insert_gaps_alignatum,
-				use_end_mali, use_end_alignatum);
+		add( src_mali->mRowData[x]->mAlignatumInput,
+			 map_mali2src,
+			 true,
+			 insert_gaps_mali, insert_gaps_alignatum,
+			 use_end_mali, use_end_alignatum);
 	}
-	mLength = 0;  
-
+	mIsDirty = true;  
 }
 
 //---------------------------------------------------------------------------------------
@@ -282,49 +228,30 @@ HMultipleAlignment ImplMultipleAlignmentDots::getClone() const
 //---------------------------------------------------------------------------------------
 HMultipleAlignment ImplMultipleAlignmentDots::getNew() const 
 {
-	return HMultipleAlignment( new ImplMultipleAlignmentDots() );
+	return HMultipleAlignment( new ImplMultipleAlignmentDots( mCompressUnalignedColumns, mMaxInsertionLength ) );
 }    
-
-//---------------------------------------------------------------------------------------
-bool ImplMultipleAlignmentDots::isEmpty() const 
-{
-	return mRows.empty();
-}
-
-//---------------------------------------------------------------------------------------
-void ImplMultipleAlignmentDots::registerRenderer( const HRenderer & renderer) 
-{
-	mRenderer = renderer;
-}
 
 //---------------------------------------------------------< Input/Output routines >--------
 
-//------------------------------------------------------------------------------------
-void ImplMultipleAlignmentDots::write( std::ostream & output ) const
+//---------------------------------------------------------------------------------------
+void ImplMultipleAlignmentDots::update() const 
 {
 	debug_func_cerr(5);
-
-	updateRows();
-
-	for (unsigned int row = 0; row < mRows.size(); row++) 
-	{
-		mRows[row]->mAlignatumOutput->write( output );
-		output << std::endl;
-	}
-}		
-
-//---------------------------------------------------------------------------------------
-void ImplMultipleAlignmentDots::updateRows() const 
-{
-
+	
 	// do nothing, if no changes
-	if (mLength != 0) return;
+	if (!mIsDirty) return;
 
+	if (isEmpty())
+	{
+		mLength = 0;
+		return;
+	}	
+	
 	Position mali_length = 0;
 
 	// find number of aligned columns in mali
 	for (unsigned int x = 0; x < mRows.size(); ++x) 
-		mali_length = std::max( mali_length, mRows[x]->mMapMali2Alignatum->getRowTo());
+		mali_length = std::max( mali_length, mRowData[x]->mMapMali2Alignatum->getRowTo());
 
 	// find total/maximum insertions before a given mali column
 	// the first column is ignored
@@ -334,7 +261,7 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 	for (unsigned int x = 0; x < mRows.size(); ++x) 
 	{
-		HAlignment ali = mRows[x]->mMapMali2Alignatum;
+		HAlignment ali = mRowData[x]->mMapMali2Alignatum;
 
 		Position last_col = ali->getColFrom();
 		
@@ -358,14 +285,15 @@ void ImplMultipleAlignmentDots::updateRows() const
 		}
 	}
 
-	debug_cerr( 5, "length=" << mali_length );
+	debug_cerr( 5, "length=" << mali_length << " compress=" << mCompressUnalignedColumns );
 
-#ifdef DEBUG
+#ifdef DEBUG	
 	for (unsigned int x = 0; x < gaps.size(); ++x) 
 		debug_cerr( 5, "col=" << x << " gaps=" << gaps[x]);
+	for (unsigned int x = 0; x < mRows.size(); ++x) 
+		debug_cerr( 5, "row=" << x << " ali=" << AlignmentFormatEmissions( mRowData[x]->mMapMali2Alignatum ) 
+				<< " seq=" << (*mRowData[x]->mAlignatumInput) );
 
-	for (unsigned int x = 0; x < gaps.size(); ++x) 
-		std::cerr << "col=" << x << " gaps=" << gaps[x] << std::endl;
 #endif
 	
 	// build map of aligned columns to output columns
@@ -381,6 +309,15 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 	debug_cerr( 5, "map_mali2representation\n" << *map_mali2representation );
 
+	// record aligned columns
+	{
+		mIsAligned.clear();
+		mIsAligned.resize( map_mali2representation->getColTo(), false);
+		AlignmentIterator it(map_mali2representation->begin()), end(map_mali2representation->end());
+		for( ; it != end; ++it)
+			mIsAligned[it->mCol] = true;
+	}
+	
 	// map each row in the mali to the representation
 	mLength = map_mali2representation->getColTo();
 
@@ -388,23 +325,23 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 	for (unsigned int x = 0; x < mRows.size(); ++x) 
 	{
-		mRows[x]->mAlignatumOutput = mRows[x]->mAlignatumInput->getClone();
+		mRows[x] = mRowData[x]->mAlignatumInput->getClone();
 
 		HAlignment map_alignatum2representation = makeAlignmentVector(); 
 
-		combineAlignment( map_alignatum2representation, mRows[x]->mMapMali2Alignatum, map_mali2representation, RR);
+		combineAlignment( map_alignatum2representation, mRowData[x]->mMapMali2Alignatum, map_mali2representation, RR);
 
 		debug_cerr( 5, "map_alignatum2representation=\n" << *map_alignatum2representation );
 		// map alignatum-object
 		if (mCompressUnalignedColumns) 
 		{
-			mRows[x]->mAlignatumOutput->mapOnAlignment( map_alignatum2representation, 
+			mRows[x]->mapOnAlignment( map_alignatum2representation, 
 					mLength,
 					true );
 		} 
 		else 
 		{
-			HAlignment ali = mRows[x]->mMapMali2Alignatum;
+			HAlignment ali = mRowData[x]->mMapMali2Alignatum;
 			// add pairs for gaps 
 			Position last_col = ali->getColFrom();
 			for (Position row = ali->getRowFrom(); row < ali->getRowTo(); ++row) 
@@ -415,14 +352,16 @@ void ImplMultipleAlignmentDots::updateRows() const
 				{
 					unsigned int u = map_mali2representation->mapRowToCol(row) - gaps[row] + used_gaps[row];
 					unsigned int d = col - last_col - 1;
-					while (col - last_col - 1 > 0) {
+					while (col - last_col - 1 > 0) 
+					{
 						map_alignatum2representation->addPair( ++last_col, u++, 0);
 					}
 					used_gaps[row] += d;
 					last_col = col;
 				}
 			}				   
-			mRows[x]->mAlignatumOutput->mapOnAlignment( map_alignatum2representation, 
+			mRows[x]->mapOnAlignment( 
+					map_alignatum2representation, 
 					mLength,
 					false );	
 
@@ -430,6 +369,9 @@ void ImplMultipleAlignmentDots::updateRows() const
 
 		debug_cerr( 5, "map_alignatum2representation\n" << *map_alignatum2representation );
 	}
+	
+	mIsDirty = false;
+	
 }
 
 } // namespace alignlib

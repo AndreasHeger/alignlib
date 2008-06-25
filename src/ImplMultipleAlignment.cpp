@@ -28,7 +28,6 @@
 #include <cassert>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
-#include "alignlib_fwd.h"
 #include "AlignlibDebug.h"
 
 #include "HelpersAlignandum.h"
@@ -80,6 +79,9 @@ ImplMultipleAlignment::ImplMultipleAlignment (const ImplMultipleAlignment & src 
 	// add clones of the new entries
 	for (unsigned int row = 0; row < src.mRows.size(); row++) 
 		add( src.mRows[row]->getClone() );
+
+	mIsAligned.clear();
+	std::copy(src.mIsAligned.begin(), src.mIsAligned.end(), std::back_inserter( mIsAligned ));
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -87,11 +89,19 @@ void ImplMultipleAlignment::freeMemory()
 {
 	debug_func_cerr(5);
 	mRows.clear();
+	mIsAligned.clear();
 }
 
 //--------------------------------------------------------------------------------------------------------------
-Position ImplMultipleAlignment::getLength() const {
+Position ImplMultipleAlignment::getLength() const 
+{
+	update();
 	return mLength;
+}
+
+//--------------------------------------------------------------------------------------------------------------
+void ImplMultipleAlignment::update() const
+{
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -109,13 +119,29 @@ int ImplMultipleAlignment::getNumSequences() const
 }
 
 //-----------------------------------------------------------------------------------------------------------
-const std::string & ImplMultipleAlignment::operator[]( int row ) const {
+const std::string & ImplMultipleAlignment::operator[]( int row ) const 
+{
+	if (isEmpty())
+		throw AlignlibException("In ImplMultipleAlignment.cpp: alignment is empty");
+	
+	if (row < 0 || row >= mRows.size() )
+		throw AlignlibException("In ImplMultipleAlignment.cpp: out-of-range access");
+	
+	update();
+	
 	return mRows[row]->getString();
 }
 
 //-----------------------------------------------------------------------------------------------------------
 HAlignatum ImplMultipleAlignment::getRow( int row ) const 
 {
+	if (isEmpty())
+		throw AlignlibException("In ImplMultipleAlignment.cpp: alignment is empty");
+	if (row < 0 || row >= mRows.size() )
+		throw AlignlibException("In ImplMultipleAlignment.cpp: out-of-range access");
+	
+	update();
+	
 	return mRows[row];
 }
 
@@ -129,12 +155,23 @@ void ImplMultipleAlignment::clear()
 //-----------------------------------------------------------------------------------------------------------
 void ImplMultipleAlignment::eraseRow( int row ) 
 {
+	if (isEmpty())
+		throw AlignlibException("In ImplMultipleAlignment.cpp: alignment is empty");
 	if (row < 0 || row >= mRows.size() )
-		return;
+		throw AlignlibException("In ImplMultipleAlignment.cpp: out-of-range access");
 
 	mRows.erase( mRows.begin() + row );
 	if (mRows.size() == 0)
 		mLength = 0;
+}
+
+//-----------------------------------------------------------------------------------------------------------
+bool ImplMultipleAlignment::isAligned( const Position & col )
+{
+	update();
+	if (col < 0 || col >= getLength())
+		throw AlignlibException("In ImplMultipleAlignment.cpp: out-of-range access");
+	return mIsAligned[ col ];
 }
 
 //------------------------------------------------------------------------------------
@@ -151,7 +188,9 @@ void ImplMultipleAlignment::add( const HAlignatum & src )
 	if ( mRows.empty() && mLength == 0) 
 	{
 		mLength = src->getAlignedLength();
-		mRows.push_back( src );
+		mRows.push_back( src->getClone() );
+		mIsAligned.clear();
+		mIsAligned.resize( mLength, true );
 	}
 	else
 	{
@@ -231,12 +270,40 @@ void ImplMultipleAlignment::add(
 	mRows.push_back( src );	
 
 	mLength = src->getAlignedLength();
+	
+	updateAligned( map_this2new, map_alignatum2new );
 
 }
 
-//------------------------------------------------------------------------------------
-/** Add a full multiple alignment to the another alignment.
- */
+void ImplMultipleAlignment::updateAligned( 
+		const HAlignment & map_this2new,
+		const HAlignment & map_other2new)
+{
+
+	mIsAligned.clear();
+	mIsAligned.resize( mLength, true);
+	return;
+	
+	// update aligned columns 
+	// aligned = previously aligned or now aligned
+	std::vector<bool> cp1( mLength, false);
+	{
+		AlignmentIterator it( map_this2new->begin() ), end( map_this2new->end());	
+		for( ; it != end; ++it) cp1[it->mCol] = mIsAligned[it->mRow];
+	}
+	std::vector<bool> cp2( mLength, false);
+	{
+		AlignmentIterator it( map_other2new->begin() ), end( map_other2new->end());	
+		for( ; it != end; ++it) cp2[it->mCol] = true;
+	}
+	mIsAligned.clear();
+	mIsAligned.resize( mLength, false);
+
+	for (Position x = 0; x < mLength; ++x)
+		mIsAligned[x] = cp1[x] && cp2[x];
+		
+}
+
 //------------------------------------------------------------------------------------
 /** Add a full multiple alignment to the another alignment.
  */
@@ -261,7 +328,7 @@ void ImplMultipleAlignment::add( const HMultipleAlignment & src)
 	if ( mRows.empty() )
 		mLength = copy->getLength();
 
-	// add a aligantum objects without mapping. ultiple alignment. Precondition is
+	// add a aligantum objects without mapping. Precondition is
 	// that the multiple alignment and the aligned string have to have the
 	// same length.
 	if (mLength != copy->getLength())
@@ -269,6 +336,10 @@ void ImplMultipleAlignment::add( const HMultipleAlignment & src)
 	
 	for (int row = 0; row < copy->getNumSequences(); row++) 
 		mRows.push_back( copy->getRow(row)->getClone() );
+	
+	for (Position x = 0; x < mLength; ++x)
+		mIsAligned[x] = true;
+
 }
 
 //------------------------------------------------------------------------------------
@@ -348,7 +419,8 @@ void ImplMultipleAlignment::add(
 		new_alignatum->mapOnAlignment( map_alignatum2new, mLength );
 		mRows.push_back( new_alignatum );
 	}
-
+	
+	updateAligned( map_this2new, map_alignatum2new );
 }
 
 //---------------------------------------------------------------------------------------
@@ -360,7 +432,7 @@ HMultipleAlignment ImplMultipleAlignment::getClone() const
 //---------------------------------------------------------------------------------------
 HMultipleAlignment ImplMultipleAlignment::getNew() const 
 {
-	return HMultipleAlignment( new ImplMultipleAlignment() );
+	return HMultipleAlignment( new ImplMultipleAlignment( ) );
 }    
 
 //---------------------------------------------------------------------------------------
@@ -387,7 +459,9 @@ void ImplMultipleAlignment::write( std::ostream & output ) const
 		mRows[row]->write( output );    
 		output << std::endl;
 	}
-
+	Position l = getLength();
+	for (unsigned int col = 0; col < l; ++col) 
+		output << mIsAligned[col];
 }
 
 } // namespace alignlib

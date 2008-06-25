@@ -33,7 +33,7 @@
 #include <list>
 
 #include "alignlib_fwd.h" 
-#include "MultipleAlignment.h"
+#include "ImplMultipleAlignment.h"
 
 namespace alignlib 
 {
@@ -58,38 +58,28 @@ namespace alignlib
     @short an implementation for multiple alignments
 */
 
-class Alignandum;
-class Alignatum;
-class Alignment;	
-class Renderer;
-
 /** Lazily maps input to output via alignment. 
  */
-struct MaliRow 
+
+class ImplMultipleAlignmentDots : public ImplMultipleAlignment 
 {
-  MaliRow( const HAlignatum & input, 
-		   const HAlignment & map_alignatum2mali ); 
-  
-  MaliRow( const HAlignatum & input, 
-		   const HAlignment & map_alignatum2mali, 
-		   const HAlignatum & output);
 
-  MaliRow( MaliRow & src );
-  
-  ~MaliRow();
-  
-  /** the sequence */
-  HAlignatum mAlignatumInput; 
-  /** the dots */
-  HAlignment mMapMali2Alignatum;
-  /** the rendered Alignatum. Needed, for returning as reference */
-  HAlignatum mAlignatumOutput;
-};
+	struct MaliRow 
+	{
+		MaliRow( const HAlignatum & input, 
+				const HAlignment & map_alignatum2mali ); 
+	  
+		MaliRow( MaliRow & src );
+	  
+		~MaliRow();
+	  
+		/** the raw input */
+		HAlignatum mAlignatumInput; 
+		/** the dots */
+		HAlignment mMapMali2Alignatum;
+	};
 
-typedef boost::shared_ptr< MaliRow > HMaliRow;
-
-class ImplMultipleAlignmentDots : public MultipleAlignment 
-{
+	typedef boost::shared_ptr< MaliRow > HMaliRow;
 
 	typedef std::vector< HMaliRow > RowVector;
 	
@@ -111,32 +101,10 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
 
     //---------------------------------------------------------------------------------------
     /*------- accessors --------------------------------------------------------------------*/
-    /** returns the length of the multiple alignment. All objects in a multiple alignment have
-	the same length */
-    virtual Position getLength() const;
-
-    /** sets the length of the multiple alignment. Raises an exception, if the mali is not empty
-	*/
-    virtual void setLength( Position length);
-
-    /** returns the width of the multiple alignment, i.e., the number of objects in this multiple
-	alignment */
-    virtual int getNumSequences() const;
-    
-    /** returns a const reference to the object at row in the multiple alignment. This allows treating
-	the multiple alignment as a two-dimensional matrix. Since string does define operator[] as well, you
-	can access the symbol in column c and row r by calling 
-	symbol =  multiple_alignment[r][c]
-    */
-    virtual const std::string & operator[]( int row ) const;		
-
-    /** returns a pointer to the object at row from the multiple alignment. The pointer is not const,
-	so you are free to do all sort of ugly stuff.*/
-    virtual HAlignatum getRow( int row ) const;
     
     /** erases an entry form the multiple alignment */
     virtual void eraseRow( int row );
-
+    
     /* ------------------ mutators ----------------------------------------------------------- */
 
     /*------------------- functions for adding new members to the multiple alignment---------*/
@@ -187,47 +155,31 @@ class ImplMultipleAlignmentDots : public MultipleAlignment
      */
     virtual void add( const HMultipleAlignment & src );
     
-    /** register a new renderer */
-    virtual void registerRenderer( const HRenderer & renderer );
-
-    /** returns true, if there are no aligned objects in this alignment */
-    virtual bool isEmpty() const;
-
-    /** clears the multiple alignment */
-    virtual void clear();
-
     /** returns a clone of this object */
     virtual HMultipleAlignment getClone() const;
     
     /** returns an empty version of this object */
     virtual HMultipleAlignment getNew() const;
-
-    /** Write the multiple alignment to a stream
-     */
-    virtual void write( std::ostream & output ) const; 
     
  protected:
     /** render the multiple alignment */
-    virtual void updateRows() const;
+    virtual void update() const;
     
     /** free all memory. Tell all stored objects to destruct themselves */
     virtual void freeMemory();
 
  private:
-    /** the length of the multiple alignment */
-    mutable int mLength;                       
-    
     /** I store an array of vectors. The pointers can not be const, because sequences are told to rescale. */
-    mutable RowVector mRows;             
-
-    /** the Renderer */
-    HRenderer mRenderer;
+    mutable RowVector mRowData;             
 
     /** whether or not to compress unaligned columns */
     bool mCompressUnalignedColumns;
 
     /** maximal length of an insertion */
     int mMaxInsertionLength;
+    
+    /** flag for object status */
+    mutable bool mIsDirty;
     
 };
 

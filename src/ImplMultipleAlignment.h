@@ -94,6 +94,15 @@ class ImplMultipleAlignment : public MultipleAlignment
     /** erases an entry form the multiple alignment */
     virtual void eraseRow( int row );
 
+    /** return true, if a column is aligned.
+     * 
+     * Unaligned columns result from adding 
+     * new sequences to the multiple alignment.
+     * 
+     * @return true, if column @col is aligned. 
+     * */
+    virtual bool isAligned( const Position & col );
+
     /* ------------------ mutators ----------------------------------------------------------- */
 
     /*------------------- functions for adding new members to the multiple alignment---------*/
@@ -163,17 +172,30 @@ class ImplMultipleAlignment : public MultipleAlignment
     
  protected:
     /** free all memory. Tell all stored objects to destruct themselves */
-    void freeMemory();
+    virtual void freeMemory();
 
- private:
-    /** the length of the multiple alignment */
-    int mLength;                       
-    
+    /** update */
+    virtual void update() const;
+
     /** I store an array of handles to alignatum objects. */
-    std::vector<HAlignatum> mRows;             
+    mutable std::vector<HAlignatum> mRows;             
+
+    /** flag for recording aligned columns */
+    mutable std::vector<bool> mIsAligned;
+
+    /** the length of the multiple alignment */
+    mutable int mLength;                       
+    
 
     /** the Renderer */
     HRenderer mRenderer;
+        
+ private:
+	 
+	 /** update the aligned flag mapping onto new */
+	 virtual void updateAligned( 
+			 const HAlignment & map_this2new,
+			 const HAlignment & map_other2new);
     
 };
 

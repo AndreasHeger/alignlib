@@ -43,6 +43,7 @@
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
 #include "AlignlibDebug.h"
+#include "AlignlibException.h"
 
 using namespace std;
 using namespace alignlib;
@@ -50,7 +51,160 @@ using namespace alignlib;
 const char FILE_SEQ[] = "data/test.seq";
 const char FILE_FASTA[] = "data/test.fasta";
 
+#define BOOST_TEST_MAIN
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
+class my_exception{};
+
+void addAndVerify( 
+		const HMultipleAlignment & r,
+		const HAlignment & map_a2b,
+		const std::string & in1,
+		const std::string & in2,
+		const std::string & out1,
+		const std::string & out2,
+		bool insert_gaps_mali = true,
+		bool insert_gaps_alignatum= true,
+		bool use_end_mali = false,
+		bool use_end_alignatum = false)
+{
+	HMultipleAlignment clone1(r->getNew());		
+	clone1->add(makeAlignatum(in1));
+	clone1->add(makeAlignatum(in1));
+	
+	HMultipleAlignment clone2(r->getNew());		
+	clone2->add(makeAlignatum(in2));
+	clone2->add(makeAlignatum(in2));
+	
+	clone1->add( clone2, map_a2b, 
+				true,
+				insert_gaps_mali,
+				insert_gaps_alignatum,
+				use_end_mali,
+				use_end_alignatum );
+	
+	BOOST_CHECK_EQUAL( (*clone1)[0], out1);
+	BOOST_CHECK_EQUAL( (*clone1)[3], out2);
+	
+	std::cout << *clone1 << std::endl;
+}
+
+void test_GenericMultipleAlignment( 
+		const HMultipleAlignment & r, 
+		bool is_compressed = false )
+{	
+	
+	int nseqs = 3;
+	std::string ref("ABCDEFGHIJ");
+
+	// checking an empty alignment
+	{
+		HMultipleAlignment clone(r->getNew());
+		BOOST_CHECK_EQUAL( clone->getLength(), 0);
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), 0);
+	}
+
+	// checking out-of-range access of an empty alignment
+	{ 
+		HMultipleAlignment clone(r->getNew());
+		BOOST_CHECK_THROW( (*clone)[0],  AlignlibException);
+		BOOST_CHECK_THROW( (*clone)[1],  AlignlibException);
+		BOOST_CHECK_THROW( clone->getRow(0),  AlignlibException);
+		BOOST_CHECK_THROW( clone->getRow(1),  AlignlibException);
+	}
+
+	// check adding without gaps and out-of-range accs
+	{
+		HMultipleAlignment clone(r->getNew());
+		for (int x = 0; x < nseqs; ++x)
+		{
+			clone->add(makeAlignatum(ref));
+			BOOST_CHECK_EQUAL( (*clone)[x], ref );
+		}
+		BOOST_CHECK_EQUAL( clone->getLength(), ref.size());
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), nseqs);
+		BOOST_CHECK_THROW( (*clone)[nseqs+1], AlignlibException);		
+		BOOST_CHECK_THROW( (*clone)[-1], AlignlibException);		
+		
+	}
+
+	// check cloning
+	{
+		HMultipleAlignment clone;
+		{
+			HMultipleAlignment xclone(r->getNew());
+			for (int x = 0; x < nseqs; ++x)
+			{
+				xclone->add(makeAlignatum(ref));
+			}
+			clone = xclone->getClone();
+			BOOST_CHECK_EQUAL( clone->getLength(), xclone->getLength());
+			BOOST_CHECK_EQUAL( clone->getNumSequences(), xclone->getNumSequences());
+			for (int x = 0; x < nseqs; ++x)
+				BOOST_CHECK_EQUAL( (*clone)[x], (*xclone)[x] );			
+		}
+		BOOST_CHECK_EQUAL( clone->getLength(), ref.size());
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), nseqs);
+	}
+
+	// check building alignments
+	{
+		HAlignment map_a2b(makeAlignmentVector());
+		map_a2b->addDiagonal(0, ref.size(), 0);
+		addAndVerify( r, map_a2b, ref, ref, ref, ref );
+	}
+
+	{
+		HAlignment map_a2b(makeAlignmentVector());
+		map_a2b->addDiagonal(0, ref.size(), 2);
+		addAndVerify( r, map_a2b, ref, "XXABCDEFGHIJ", ref, ref );
+	}
+
+	{
+		HAlignment map_a2b(makeAlignmentVector());
+		map_a2b->addDiagonal(0, 3, 0);
+		map_a2b->addDiagonal(5, ref.size(), 0);
+		addAndVerify( r, map_a2b, ref, ref, "ABCDE--FGHIJ", "ABC--DEFGHIJ", true, true, false, false );
+	}
+
+	{
+		HAlignment map_a2b(makeAlignmentVector());
+		map_a2b->addDiagonal(0, 3, 0);
+		map_a2b->addDiagonal(5, ref.size(), 0);
+		addAndVerify( r, map_a2b, ref, ref, "ABC--FGHIJ", "ABCDEFGHIJ", true, false, false, false );
+	}
+
+	{
+		HAlignment map_a2b(makeAlignmentVector());
+		map_a2b->addDiagonal(0, 3, 0);
+		map_a2b->addDiagonal(5, ref.size(), 0);
+		addAndVerify( r, map_a2b, ref, ref, "ABCDEFGHIJ", "ABC--FGHIJ", false, true, false, false );
+	}
+
+
+}
+
+BOOST_AUTO_TEST_CASE( test_MultipleAlignment )
+{
+	HMultipleAlignment r( makeMultipleAlignment());	
+	test_GenericMultipleAlignment( r );
+}
+
+BOOST_AUTO_TEST_CASE( test_MultipleAlignmentDots )
+{
+	HMultipleAlignment r( makeMultipleAlignmentDots( false ));
+	test_GenericMultipleAlignment( r );
+}
+
+BOOST_AUTO_TEST_CASE( test_MultipleAlignmentDotsCompressed )
+{
+	HMultipleAlignment r( makeMultipleAlignmentDots( true ));
+	test_GenericMultipleAlignment( r, true );
+}
+
+
+/*
 int main () 
 {
 
@@ -287,7 +441,7 @@ int main ()
 	
 }
 
-
+*/
 
 
 
