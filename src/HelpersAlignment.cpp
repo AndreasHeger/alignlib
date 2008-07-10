@@ -331,27 +331,27 @@ Position getAlignmentShortestDistance(
 	// check if ranges overlap
 	// add +1, so that adjacent alignments where To() == From() 
 	// have a distance of 1 
-	Position d = NO_POS;
+	Position d = 0;
 	switch (mode) 
 	{			
 	case RR:
-		if (d = src2->getRowFrom() - src1->getRowTo() + 1> 0 ) return d;					
-		if (d = src1->getRowFrom() - src2->getRowTo() + 1> 0 ) return d;													
+		d = std::min(src1->getRowTo(), src2->getRowTo()) - std::max(src1->getRowFrom(),src2->getRowFrom() );
 		break;
 	case CR:
-		if (d = src2->getRowFrom() - src1->getColTo() + 1> 0 ) return d;					
-		if (d = src1->getColFrom() - src2->getRowTo() + 1> 0 ) return d;													
+		d = std::min(src1->getColTo(), src2->getRowTo()) - std::max(src1->getColFrom(),src2->getRowFrom() );
 		break;
 	case RC:
-		if (d = src2->getColFrom() - src1->getRowTo() + 1> 0 ) return d;					
-		if (d = src1->getRowFrom() - src2->getColTo() + 1> 0 ) return d;													
+		d = std::min(src1->getRowTo(), src2->getColTo()) - std::max(src1->getRowFrom(),src2->getColFrom() );
 		break;
 	case CC:
-		if (d = src2->getColFrom() - src1->getColTo() + 1> 0 ) return d;					
-		if (d = src1->getColFrom() - src2->getColTo() + 1> 0 ) return d;													
+		d = std::min(src1->getColTo(), src2->getColTo()) - std::max(src1->getColFrom(),src2->getColFrom() );
 		break;
 	}
-				
+	
+	debug_cerr(5, "alignments are non-overlapping: distance = " << -d+1);
+	
+	if (d <= 0) return -d+1;
+		
 	debug_cerr(5, "checking distance on residue level");
 	
 	// get closest distance

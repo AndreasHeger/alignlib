@@ -99,41 +99,41 @@ BOOST_AUTO_TEST_CASE( test_copyAlignmet1 )
 BOOST_AUTO_TEST_CASE( test_getAlignmentShortestDistance )
 {
 	HAlignment ali1( makeAlignmentVector() );
-	ali1->addDiagonal( 10, 20, 0);
-	ali1->addDiagonal( 30, 40, 0);
+	ali1->addDiagonal( 20, 30, 0);
+	ali1->addDiagonal( 40, 50, 0);
 	
 	{
 		// adjacent before
 		HAlignment ali2( makeAlignmentVector() );
 		ali2->addDiagonal( 0, 10, 0);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RR), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, CC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RR), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, CC), 1);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RR), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, CC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RR), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, CC), 11);
 	}
 
 	{
 		// adjacent after
 		HAlignment ali2( makeAlignmentVector() );
-		ali2->addDiagonal( 40, 50, 0);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RR), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, CC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RR), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 1);
-		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, CC), 1);
+		ali2->addDiagonal( 60, 70, 0);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RR), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, CC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RR), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 11);
+		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, CC), 11);
 	}
 
 	{
 		// inserted
 		HAlignment ali2( makeAlignmentVector() );
-		ali2->addDiagonal( 20, 30, 0);
+		ali2->addDiagonal( 30, 40, 0);
 		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RR), 1);
 		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 1);
 		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali1, ali2, RC), 1);
