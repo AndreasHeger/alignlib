@@ -101,7 +101,7 @@ enum MagicNumberType
 	MNNoType,
 	MNImplAlignandum,
 	MNImplSequence,
-	MNImplProfile,
+	MNImplProfile
 };
 
 // Known alphabets
@@ -110,14 +110,14 @@ enum AlphabetType
 	User,
 	Protein20,
 	Protein23,
-	DNA4,
+	DNA4
 };
 
 // Profile formats
 enum StorageType
 {
 	Full,
-	Sparse,
+	Sparse
 };
 
 /* type of a height of a node in the tree */
