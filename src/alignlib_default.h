@@ -24,6 +24,6 @@
  */
 #define DEFINE_DEFAULT(handle,get,set) \
 	handle get(); \
-	void set( const handle &);
+	void set( const handle &)
 
 #endif /*ALIGNLIB_DEFAULT_H_*/
