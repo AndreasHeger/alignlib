@@ -87,6 +87,18 @@ HAlignandum makeSequence( const std::string & sequence );
 HAlignandum makeSequence( const std::string & sequence,
 		const HEncoder & encoder );
 
+/** create a sequence from a fasta file
+ * 
+ * @param input input stream
+ * @param description string to store description in.
+ * @param encoder @ref Encoder object to use.
+ * @return a new @ref Alignandum object. Returns an empty pointer if no sequence has been read.
+ */    
+HAlignandum makeSequenceFromFasta( 
+		std::istream & input, 
+		std::string & description,
+		const HEncoder & encoder ) ;
+
 /** mutate a sequence according to a substitution matrix 
  * 
  * Initializes random generator with seed, if seed > 0.

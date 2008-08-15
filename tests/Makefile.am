@@ -19,6 +19,7 @@ programs=test_Fragmentor \
 		test_MultipleAlignment \
 		test_Alignandum \
 		test_HelpersAlignment \
+		test_HelpersAlignandum \
 		test_Statistics \
 		test_SubstitutionMatrix \
 		test_Iterator \
@@ -54,6 +55,7 @@ test_MultipleAlignment_SOURCES = test_MultipleAlignment.cpp
 test_Alignandum_SOURCES = test_Alignandum.cpp 
 test_Statistics_SOURCES = test_Statistics.cpp
 test_HelpersAlignment_SOURCES = test_HelpersAlignment.cpp
+test_HelpersAlignandum_SOURCES = test_HelpersAlignandum.cpp
 test_SubstitutionMatrix_SOURCES = test_SubstitutionMatrix.cpp
 test_Iterator_SOURCES = test_Iterator.cpp
 test_Treetor_SOURCES = test_Treetor.cpp

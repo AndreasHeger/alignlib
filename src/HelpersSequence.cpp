@@ -57,9 +57,10 @@ HAlignandum extractSequence( std::istream & input, const HEncoder & translator )
 */
 
 //----------------------------------------------------------------------------------
-/** create a sequence from a stream, put description into field description. Return Null, if unsuccessfull */
-/*
-HAlignandum extractSequenceFasta( std::istream & input, 
+/** create a sequence from a stream, put description into field description. 
+ * Return False, if unsuccessfull, true if successful. */
+HAlignandum makeSequenceFromFasta( 
+		std::istream & input, 
 		std::string & description,
 		const HEncoder & translator ) 
 		{
@@ -74,7 +75,7 @@ HAlignandum extractSequenceFasta( std::istream & input,
 	}
 
 	if (input.eof())
-		return NULL;
+		return HAlignandum();
 
 	input.get();
 	input.getline(buffer, MAX_CHUNK);
@@ -87,8 +88,8 @@ HAlignandum extractSequenceFasta( std::istream & input,
 
 	// build the sequence character-wise
 	while ( (input.peek() != '>') && 
-			!input.eof() ) {
-
+			!input.eof() ) 
+	{
 		input.getline( buffer, MAX_CHUNK);
 
 		for (unsigned int i = 0; i < strlen(buffer); i++) 
@@ -99,11 +100,10 @@ HAlignandum extractSequenceFasta( std::istream & input,
 	delete [] buffer;
 
 	if (sequence.size() > 0)
-		return makeSequence( sequence.c_str(), translator );
+		return makeSequence( sequence.c_str(), translator ); 
 	else
-		return NULL;
-		}
-*/
+		return HAlignandum();
+}
 
 /* TODO: This routine should be replaced by something, that
      a. uses a different random generator
