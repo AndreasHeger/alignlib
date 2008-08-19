@@ -209,6 +209,20 @@ bool hasAlignmentOverlap(
 		const CombinationMode mode,
 		int min_overlap = 1);
 
+/** return number of shared resides between two @Alignment objects 
+ * 
+ * The two aligments must be sorted according to the parameter @param mode.
+ * 
+ * @param src1 @ref Alignment object with input.
+ * @param src2 @ref Alignment object with input.
+ * @param mode Combination mode, see @ref combineAlignment.
+ * @return returns the number of overlapping residues.
+ */
+Position getAlignmentOverlap( 
+			const HAlignment & src1, 
+			const HAlignment & src2, 
+			const CombinationMode mode );
+
 /** return shortest distance between two @Alignment objects 
  * 
  * This function returns the shortes distance between two @Aligment objects.

@@ -78,6 +78,22 @@ BOOST_AUTO_TEST_CASE( test_hasAlignmentOverlap )
 	}
 }
 
+BOOST_AUTO_TEST_CASE( test_getAlignmentOverlap )
+{
+	HAlignment ali1( makeAlignmentVector() );
+	ali1->addDiagonal( 0, 10, 20);
+	
+	for (int x = 0; x < 10; ++x)
+	{
+		HAlignment ali2( makeAlignmentVector() );
+		ali2->addDiagonal( x, x+10, 20);		
+		BOOST_CHECK_EQUAL( getAlignmentOverlap( ali1, ali2, RR ), 10 - x);
+		BOOST_CHECK_EQUAL( getAlignmentOverlap( ali1, ali2, CR ), 0);
+		BOOST_CHECK_EQUAL( getAlignmentOverlap( ali1, ali2, RC ), 0);
+		BOOST_CHECK_EQUAL( getAlignmentOverlap( ali1, ali2, CC ), 10 - x);
+	}
+}
+
 BOOST_AUTO_TEST_CASE( test_copyAlignmet1 )
 {
 	HAlignment ali1( makeAlignmentVector() );
