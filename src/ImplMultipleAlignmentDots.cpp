@@ -194,7 +194,7 @@ void ImplMultipleAlignmentDots::add(
 	if (src->isEmpty()) return;
 
 	HImplMultipleAlignmentDots src_mali = boost::dynamic_pointer_cast<ImplMultipleAlignmentDots, MultipleAlignment>(src);
-
+	
 	for (int x = 0; x < src_mali->getNumSequences(); ++x) 
 	{
 		HAlignment map_mali2src = makeAlignmentVector();

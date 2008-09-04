@@ -22,6 +22,7 @@
 
 
 #include <iostream> 
+#include <iterator>
 #include <iomanip>
 #include <algorithm>
 #include <set>
@@ -208,17 +209,29 @@ ResiduePair ImplAlignmentBlocks::getPair( const ResiduePair & p) const
 //----------------------------------------------------------------------------------------------------------
 BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & previous) const
 {
+	debug_func_cerr(5);
+	
 	if (pos <= mRowFrom && pos > mRowTo)
 		return mBlocks.end();
 
 	// do quick lookup first - is pos in the last block previously found?
-	// if not, check adjacent block. If not found, do a full binary search.
+	// if not, check adjacent block. If not found there, do a full binary search.
 	// The lookup is messy, as the binary_search returns the block after
 	// pos, unless pos coincides directly with mRowStart of the block.
 	// The cached lookup has to have the same behaviour.
 	BlockIterator it(mLastLookupBlock);
 		
-	if (!mChangedLength && it != mBlocks.end())
+	size_t n = mBlocks.size();
+	
+	if (n == 0)
+	{
+		return mBlocks.end();
+	}
+	else if (n == 1)
+	{
+		it = mBlocks.begin();
+	}
+	else if (!mChangedLength && it != mBlocks.end())
 	{
 		// coordinate is before current block
 		if (pos < it->mRowStart)
@@ -229,11 +242,14 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 			// but check			
 			assert( it != mBlocks.end());
 
+			// if not within this block, do binary search
 			if (pos < it->mRowStart)
 			{
+				// do binary seach
 				it = std::lower_bound( mBlocks.begin(), it,
 										Block( pos, 0, 0),
 										ComparatorBlock() );
+				assert( it != mBlocks.end() );
 				if (it->mRowStart != pos)
 					--it;
 			}
@@ -252,12 +268,13 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 			}
 			else
 			{
-				// if not within next block, do a full search
+				// if not within next block, do a binary search
 				if (pos >= it->mRowStart + it->mSize )
 				{
 					it = std::lower_bound( it, mBlocks.end(), 
 							Block( pos, 0, 0),
 							ComparatorBlock() );
+					assert( it != mBlocks.end() );
 					if (it->mRowStart != pos)
 						--it;
 				}
@@ -266,9 +283,13 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 	}
 	else
 	{
-		it = std::lower_bound( mBlocks.begin(), mBlocks.end(), 
+		// this fails if there is only a single block and pos > mRowFrom
+		it = std::lower_bound( 
+				mBlocks.begin(), mBlocks.end(), 
 				Block( pos, 0, 0),
 				ComparatorBlock() );
+		
+		assert( it != mBlocks.end() );
 		if (it->mRowStart != pos)
 			--it;
 	}

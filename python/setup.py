@@ -452,6 +452,7 @@ def buildModule( include_paths, dest, options) :
     #Creating an instance of class that will help you to expose your declarations
     mb = module_builder.module_builder_t( [r"includes.h"]
                                           , gccxml_path=r""
+                                          , cflags = options.gccxml_options
                                           , cache="cache"
                                           , start_with_declarations=( "alignlib","py_details" )
                                           , working_directory=r"."
@@ -570,10 +571,15 @@ if __name__ == "__main__":
     parser.add_option( "--verbose", dest="verbose", action="store_true",
                        help="output details." )
     
+    parser.add_option( "--gccxml-options", dest="gccxml_options", type="string",
+                        help="flags to be passed to gccxml." )
+    
     parser.set_defaults( extension_name = "alignlib",
                          force = False, 
                          src_dir = "../src",
                          boost_dir = None,
+                         compiler = None,
+                         gccxml_options = "",
                          alignlib_lib_dir = "../src/.libs",
                          alignlib_include_dirs = ["../src", ],
                          build_dir = ".",

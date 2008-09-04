@@ -665,107 +665,107 @@ AlignmentFormatExplicit::AlignmentFormatExplicit(
 		const std::string & row,
 		const Position col_from,
 		const std::string & col) 
-: AlignmentFormat(), 
-mRowAlignment( row ), 
-mColAlignment( col )
+	: AlignmentFormat(), 
+	mRowAlignment( row ), 
+	mColAlignment( col )
 {
-							mRowFrom = row_from;
-							mColFrom = col_from;
-							mRowTo = row_from + getDefaultEncoder()->countChars( mRowAlignment );
-							mColTo = col_from + getDefaultEncoder()->countChars( mColAlignment );
+			mRowFrom = row_from;
+			mColFrom = col_from;
+			mRowTo = row_from + getDefaultEncoder()->countChars( mRowAlignment );
+			mColTo = col_from + getDefaultEncoder()->countChars( mColAlignment );
+			
+}
 
-							}
+AlignmentFormatExplicit::~AlignmentFormatExplicit () 
+{
+}
 
-						AlignmentFormatExplicit::~AlignmentFormatExplicit () 
-						{
-						}
+AlignmentFormatExplicit::AlignmentFormatExplicit (const AlignmentFormatExplicit & src ) :
+	AlignmentFormat( src ), 
+	mRowAlignment( src.mRowAlignment ), 
+	mColAlignment( src.mColAlignment )
+{
+}
 
-						AlignmentFormatExplicit::AlignmentFormatExplicit (const AlignmentFormatExplicit & src ) :
-							AlignmentFormat( src ), 
-							mRowAlignment( src.mRowAlignment ), 
-							mColAlignment( src.mColAlignment )
-							{
-							}
+void AlignmentFormatExplicit::fill( 
+		const HAlignment & src,
+		const HAlignandum & row,
+		const HAlignandum & col )
+{
+	debug_func_cerr(5);
+	
+	AlignmentFormat::fill( src );
+	
+	// sanity checks
+	if (src->isEmpty()) return;
+	
+	if (src->getRowTo() > row->getFullLength() )
+		throw AlignlibException("alignment for row is out of bounds.");
 
-						void AlignmentFormatExplicit::fill( 
-								const HAlignment & src,
-								const HAlignandum & row,
-								const HAlignandum & col )
-						{
-							debug_func_cerr(5);
+	if (src->getColTo() > col->getFullLength() )	
+		throw AlignlibException("alignment for col is out of bounds.");	
 
-							AlignmentFormat::fill( src );
+	HAlignment map_row2new = makeAlignmentVector();
+	HAlignment map_col2new = makeAlignmentVector();
 
-							// sanity checks
-							if (src->isEmpty()) return;
+	expandAlignment( map_row2new, 
+			map_col2new, 
+			src, 
+			true, true);
 
-							if (src->getRowTo() > row->getFullLength() )
-								throw AlignlibException("alignment for row is out of bounds.");
+	HAlignatum row_alignatum = makeAlignatum( row, map_row2new);
+	HAlignatum col_alignatum = makeAlignatum( col, map_col2new);
 
-							if (src->getColTo() > col->getFullLength() )	
-								throw AlignlibException("alignment for col is out of bounds.");	
+	mRowAlignment = row_alignatum->getString();
+	mColAlignment = col_alignatum->getString();
 
-							HAlignment map_row2new = makeAlignmentVector();
-							HAlignment map_col2new = makeAlignmentVector();
-
-							expandAlignment( map_row2new, 
-									map_col2new, 
-									src, 
-									true, true);
-
-							HAlignatum row_alignatum = makeAlignatum( row, map_row2new);
-							HAlignatum col_alignatum = makeAlignatum( col, map_col2new);
-
-							mRowAlignment = row_alignatum->getString();
-							mColAlignment = col_alignatum->getString();
-
-							return;
-						}
+	return;
+}
 
 
-						//--------------------------------------------------------------------------------------------------------------------------------
-						void AlignmentFormatExplicit::copy( HAlignment & dest ) const 
-						{
-							debug_func_cerr(5);
+//--------------------------------------------------------------------------------------------------------------------------------
+void AlignmentFormatExplicit::copy( HAlignment & dest ) const 
+{
+	debug_func_cerr(5);
 
-							AlignmentFormat::copy( dest );
+	AlignmentFormat::copy( dest );
 
-							if (mRowFrom == NO_POS || mColFrom == NO_POS)
-								throw AlignlibException( "AlignmentFormat.cpp: alignment ranges not defined." );
+	if (mRowFrom == NO_POS || mColFrom == NO_POS)
+		throw AlignlibException( "AlignmentFormat.cpp: alignment ranges not defined." );
 
-							char gap_char = getDefaultEncoder()->getGapChar();
+	char gap_char = getDefaultEncoder()->getGapChar();
 
-							Position row = mRowFrom;   
-							Position col = mColFrom;   
+	Position row = mRowFrom;   
+	Position col = mColFrom;   
 
-							for (unsigned int i = 0; i < mRowAlignment.size(); i++) 
-							{
+	for (unsigned int i = 0; i < mRowAlignment.size(); i++) 
+	{
 
-								if (mRowAlignment[i] != gap_char && mColAlignment[i] != gap_char) 
-									dest->addPair( ResiduePair (row, col) );         
+		if (mRowAlignment[i] != gap_char && mColAlignment[i] != gap_char) 
+			dest->addPair( ResiduePair (row, col) );         
+		
+		if (mRowAlignment[i] != gap_char) 
+			row++;
+		
+		if (mColAlignment[i] != gap_char) 
+			col++;
+	}
+	
+	return;	
+}
 
-								if (mRowAlignment[i] != gap_char) 
-									row++;
-
-								if (mColAlignment[i] != gap_char) 
-									col++;
-							}
-
-							return;	
-						}
-
-						//--------------------------------------------------------------------------------------------------------------------------------
-						void AlignmentFormatExplicit::save(std::ostream & output ) const 
-						{
-							output 
-							<< mRowFrom << "\t" << mRowTo << "\t" << mRowAlignment << "\n" 
+//--------------------------------------------------------------------------------------------------------------------------------
+void AlignmentFormatExplicit::save(std::ostream & output ) const 
+{
+	output 
+	<< mRowFrom << "\t" << mRowTo << "\t" << mRowAlignment << "\n" 
 							<< mColFrom << "\t" << mColTo << "\t" << mColAlignment;
-						}
+}
 
-						void AlignmentFormatExplicit::load(std::istream & input ) 
-						{
-							input >> mRowFrom >> mRowTo >> mRowAlignment >> mColFrom >> mColTo >> mColAlignment;
-						}
+void AlignmentFormatExplicit::load(std::istream & input ) 
+{
+	input >> mRowFrom >> mRowTo >> mRowAlignment >> mColFrom >> mColTo >> mColAlignment;
+}
 
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
