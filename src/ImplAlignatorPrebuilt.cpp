@@ -64,11 +64,13 @@ HAlignator ImplAlignatorPrebuilt::getClone() const
 }
 
 //----------------------------------------------------------------------------------------------------------
-void ImplAlignatorPrebuilt::align( HAlignment & result,
+void ImplAlignatorPrebuilt::align( 
+		HAlignment & result,
 		const HAlignandum & row, 
 		const HAlignandum & col ) 
 {
-
+	debug_func_cerr(5);
+	
 	startUp(result, row, col );
 
 	debug_cerr( 10, "input dots" << *mAlignment );

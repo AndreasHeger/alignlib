@@ -133,7 +133,6 @@ void ImplAlignatorDP::align(
 {
 	debug_func_cerr(5);
 
-
 	/* try casting down the hiearchy of Alignandum-objects and then using a switch statement 
      register the correct match function. There are different implementations for this:
      1. multiple dispatch, but then everytime I write code for aligning/creating dots, ...
@@ -158,7 +157,7 @@ void ImplAlignatorDP::startUp(HAlignment & ali,
 		const HAlignandum & row, 
 		const HAlignandum & col) 
 {
-
+    debug_func_cerr(5);
 	ImplAlignator::startUp(ali, row, col );  
 
 	mRowLength = mIterator->row_size();
@@ -189,7 +188,8 @@ void ImplAlignatorDP::cleanUp(HAlignment & ali,
 		const HAlignandum & row, 
 		const HAlignandum & col )
 {
-
+    debug_func_cerr(5);
+    
 	if (mCC != NULL) 
 	{ 
 		mCC += (mIterator->col_front() - 1); 

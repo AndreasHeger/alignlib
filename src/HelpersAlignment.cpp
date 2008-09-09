@@ -104,7 +104,6 @@ void copyAlignment(
 {
 	debug_func_cerr(5);
 
-
 	// check parameters for filters and set them to sensible values
 	if (col_from < src->getColFrom() || col_from == NO_POS)
 		col_from = src->getColFrom();

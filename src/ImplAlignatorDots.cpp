@@ -116,8 +116,8 @@ void ImplAlignatorDots::startUp(HAlignment & ali,
 		  const HAlignandum & row, 
 		  const HAlignandum & col )
   {
-    ImplAlignator::startUp(ali, row, col);  
     debug_func_cerr(5);
+    ImplAlignator::startUp(ali, row, col);  
 
     mRowLength = mIterator->row_size();
     mColLength = mIterator->col_size();

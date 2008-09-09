@@ -35,11 +35,15 @@ namespace alignlib
 {
 
   /** This alignator object is initialized with an alignment. No
-      matter what the alignable objects are, a copy of the alignment
-      is returned. 
+      matter what the alignable objects are, a copy of the prebuilt
+      alignment is returned. 
+      
+      This class makes a copy of the alignment. It might be possible
+      to use reference counted smart pointers, but I ran into trouble
+      with python.
       
       You can use this class for passing a pre-built alignment 
-      to an @ref Alignator, that relies on helper @ref Alignator
+      to an @ref Alignator that relies on helper @ref Alignator
       objects for computation. 
       
       @author Andreas Heger
@@ -75,7 +79,7 @@ class ImplAlignatorPrebuilt : public ImplAlignator
     virtual HAlignator getClone() const;
     
  private:
-    const HAlignment & mAlignment;
+    const HAlignment mAlignment;
 
 };
 
