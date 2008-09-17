@@ -202,6 +202,23 @@ public:
 	 * */
 	virtual HCountMatrix getCountMatrix() const;
 
+	/** add an @ref Alignandum object to the profile
+	 * 
+	 * Note that this function will simply add the counts 
+	 * of the two profiles. A sequence is regarded as a
+	 * profile with single counts in each column.
+	 * 
+	 * @param src the object to be added.
+	 * @param a mapping giving column correspondencies
+	 * */
+	virtual void add( const HAlignandum & src, const HAlignment & map_src2dest );
+	
+	/** resize profile to new length - the old data is discarded.
+	 * 
+	 * @param length new length of profile
+	 */
+	virtual void resize( Position length );
+
 protected:
 
 	/** allocate counts for a segment */
@@ -254,12 +271,6 @@ protected:
 	/** fill count matrix */
 	virtual void fillCounts( const HMultipleAlignment & src );
 
-	 /** re-set the length of the object
-	  * 
-	  * This method allocates the memory needed. 
-	  */
-	 virtual void resize( Position length );
-	
 	/** save state of object into stream
 	 */
 	virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;

@@ -52,6 +52,12 @@ HSequence toSequence( HAlignandum & src )
 }
 
 //--------------------------------------------------------------------------------------
+const HSequence toSequence( const HAlignandum & src )
+{
+    return boost::dynamic_pointer_cast<Sequence, Alignandum>(src);	
+}
+
+//--------------------------------------------------------------------------------------
 std::ostream & operator<<( std::ostream & output, const Sequence & src) 
 {
   src.write( output );

@@ -70,12 +70,19 @@ public:
 		assert( row < mRows );
 		return (&mMatrix[(row * mCols)]); 
 	}
-
+	
 	T getValue( unsigned int row, unsigned int col) const
 	{
 		assert( row < mRows);
 		assert( col < mCols);
 		return mMatrix[(row * mCols) + col ];
+	}
+
+	void addValue( unsigned int row, unsigned int col, const T & value)
+	{
+		assert( row < mRows );
+		assert( col < mCols );
+		mMatrix[(row * mCols) + col] += value;
 	}
 
 	void setValue( unsigned int row, unsigned int col, const T & value)

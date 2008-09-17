@@ -101,6 +101,22 @@ public:
 	 * */
 	virtual HCountMatrix getCountMatrix() const = 0;
 	
+	/** add an @ref Alignandum object to the profile
+	 * 
+	 * Note that this function will simply add the counts 
+	 * of the two profiles. A sequence is regarded as a
+	 * profile with single counts in each column.
+	 * 
+	 * @param src the object to be added.
+	 * @param a mapping giving column correspondencies
+	 */
+	virtual void add( const HAlignandum & src, const HAlignment & map_src2dest ) = 0;
+	
+	/** resize profile to new length - the old data is discarded.
+	 * 
+	 * @param length new length of profile
+	 */
+	virtual void resize( Position length ) = 0;
 };
 
 /** @brief cast an @ref Alignandum object to a @ref Profile.
@@ -112,6 +128,18 @@ public:
  * @return the same object as sequence 
  */
 HProfile toProfile( HAlignandum & src );
+
+/** @brief cast an @ref Alignandum object to a @ref Profile.
+ * 
+ * If the conversion fails, the returned handle
+ * will point to NULL.
+ * 
+ * @param src the @ref Alignandum object to cast
+ * @return the same object as sequence 
+ */
+const HProfile toProfile( const HAlignandum & src );
+
+
 
 }
 

@@ -695,6 +695,55 @@ void ImplProfile::load( std::istream & input)
 		
 }
 
-//--------------------------------------> I/O <------------------------------------------------------------
+//------------------------------------------------------------------------------------------
+void ImplProfile::add( const HAlignandum & source, const HAlignment & map_source2dest ) 
+{
+
+	assert( source->getEncoder()->getAlphabetSize() == getEncoder()->getAlphabetSize());
+	
+	assert (map_source2dest->getRowTo() <= source->getLength() );
+	assert (map_source2dest->getColTo() <= getLength() );
+	
+	const HSequence sequence(toSequence( source ));
+	if (sequence)
+	{
+		AlignmentIterator it(map_source2dest->begin());
+		AlignmentIterator it_end(map_source2dest->end());
+
+		for (; it != it_end; ++it) 
+		{
+			Position row = it->mRow;
+			Position col = it->mCol;
+			Residue i = sequence->asResidue(row);
+			mCountMatrix->addValue(col,i,1);
+		}
+	}
+	else
+	{
+		const HProfile profile(toProfile(source));
+		if (profile)
+		{
+			AlignmentIterator it(map_source2dest->begin());
+			AlignmentIterator it_end(map_source2dest->end());
+
+			HCountMatrix m(profile->getCountMatrix());
+			for (; it != it_end; ++it) 
+			{
+				Position row = it->mRow;
+				Position col = it->mCol;
+				for (Residue i = 0; i < mProfileWidth; i++)
+					mCountMatrix->addValue(col,i,(*m)[row][i]);
+			}
+		}
+		else
+			throw AlignlibException( "can not guess type of src - neither profile nor sequence");
+	}
+
+	if (isPrepared()) 
+	{
+		release();	// first release, otherwise it won't calculate anew
+		prepare();
+	}
+}
 
 } // namespace alignlib
