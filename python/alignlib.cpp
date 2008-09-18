@@ -2418,6 +2418,17 @@ BOOST_PYTHON_MODULE(alignlib){
         MatrixDouble_exposer_t MatrixDouble_exposer = MatrixDouble_exposer_t( "MatrixDouble", bp::init< unsigned int, unsigned int, bp::optional< double > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=0 )) );
         bp::scope MatrixDouble_scope( MatrixDouble_exposer );
         MatrixDouble_exposer.def( bp::init< alignlib::Matrix< double > const & >(( bp::arg("src") )) );
+        { //::alignlib::Matrix< double >::addValue
+        
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef void ( exported_class_t::*addValue_function_type )( unsigned int,unsigned int,double const & ) ;
+            
+            MatrixDouble_exposer.def( 
+                "addValue"
+                , addValue_function_type( &::alignlib::Matrix< double >::addValue )
+                , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
+        
+        }
         { //::alignlib::Matrix< double >::getNumCols
         
             typedef alignlib::Matrix< double > exported_class_t;
@@ -2514,6 +2525,17 @@ BOOST_PYTHON_MODULE(alignlib){
         MatrixInt_exposer_t MatrixInt_exposer = MatrixInt_exposer_t( "MatrixInt", bp::init< unsigned int, unsigned int, bp::optional< int > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=(int)(0) )) );
         bp::scope MatrixInt_scope( MatrixInt_exposer );
         MatrixInt_exposer.def( bp::init< alignlib::Matrix< int > const & >(( bp::arg("src") )) );
+        { //::alignlib::Matrix< int >::addValue
+        
+            typedef alignlib::Matrix< int > exported_class_t;
+            typedef void ( exported_class_t::*addValue_function_type )( unsigned int,unsigned int,int const & ) ;
+            
+            MatrixInt_exposer.def( 
+                "addValue"
+                , addValue_function_type( &::alignlib::Matrix< int >::addValue )
+                , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
+        
+        }
         { //::alignlib::Matrix< int >::getNumCols
         
             typedef alignlib::Matrix< int > exported_class_t;
@@ -2609,6 +2631,17 @@ BOOST_PYTHON_MODULE(alignlib){
         MatrixUInt_exposer_t MatrixUInt_exposer = MatrixUInt_exposer_t( "MatrixUInt", bp::init< unsigned int, unsigned int, bp::optional< unsigned int > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=(unsigned int)(0) )) );
         bp::scope MatrixUInt_scope( MatrixUInt_exposer );
         MatrixUInt_exposer.def( bp::init< alignlib::Matrix< unsigned int > const & >(( bp::arg("src") )) );
+        { //::alignlib::Matrix< unsigned int >::addValue
+        
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
+            typedef void ( exported_class_t::*addValue_function_type )( unsigned int,unsigned int,unsigned int const & ) ;
+            
+            MatrixUInt_exposer.def( 
+                "addValue"
+                , addValue_function_type( &::alignlib::Matrix< unsigned int >::addValue )
+                , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
+        
+        }
         { //::alignlib::Matrix< unsigned int >::getNumCols
         
             typedef alignlib::Matrix< unsigned int > exported_class_t;
@@ -2808,16 +2841,6 @@ BOOST_PYTHON_MODULE(alignlib){
                 , ( bp::arg("row") ) );
         
         }
-        { //::alignlib::MultipleAlignment::isAligned
-        
-            typedef bool ( ::alignlib::MultipleAlignment::*isAligned_function_type )( ::alignlib::Position const & ) ;
-            
-            MultipleAlignment_exposer.def( 
-                "isAligned"
-                , isAligned_function_type( &::alignlib::MultipleAlignment::isAligned )
-                , ( bp::arg("col") ) );
-        
-        }
         { //::alignlib::MultipleAlignment::isEmpty
         
             typedef bool ( ::alignlib::MultipleAlignment::*isEmpty_function_type )(  ) const;
@@ -2891,6 +2914,16 @@ BOOST_PYTHON_MODULE(alignlib){
         typedef bp::class_< alignlib::Profile, bp::bases< alignlib::Alignandum >, boost::noncopyable > Profile_exposer_t;
         Profile_exposer_t Profile_exposer = Profile_exposer_t( "Profile", bp::no_init );
         bp::scope Profile_scope( Profile_exposer );
+        { //::alignlib::Profile::add
+        
+            typedef void ( ::alignlib::Profile::*add_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const & ) ;
+            
+            Profile_exposer.def( 
+                "add"
+                , add_function_type( &::alignlib::Profile::add )
+                , ( bp::arg("src"), bp::arg("map_src2dest") ) );
+        
+        }
         { //::alignlib::Profile::getCountMatrix
         
             typedef ::alignlib::HCountMatrix ( ::alignlib::Profile::*getCountMatrix_function_type )(  ) const;
@@ -2943,6 +2976,16 @@ BOOST_PYTHON_MODULE(alignlib){
             Profile_exposer.def( 
                 "getWeightor"
                 , getWeightor_function_type( &::alignlib::Profile::getWeightor ) );
+        
+        }
+        { //::alignlib::Profile::resize
+        
+            typedef void ( ::alignlib::Profile::*resize_function_type )( ::alignlib::Position ) ;
+            
+            Profile_exposer.def( 
+                "resize"
+                , resize_function_type( &::alignlib::Profile::resize )
+                , ( bp::arg("length") ) );
         
         }
         { //::alignlib::Profile::setLogOddor
@@ -3406,6 +3449,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::calculateConservation
+    
+        typedef ::std::string ( *calculateConservation_function_type )( ::alignlib::HMultipleAlignment const &,::alignlib::Frequency const );
+        
+        bp::def( 
+            "calculateConservation"
+            , calculateConservation_function_type( &::alignlib::calculateConservation )
+            , ( bp::arg("mali"), bp::arg("min_frequency") ) );
+    
+    }
+
     { //::alignlib::calculatePercentIdentity
     
         typedef double ( *calculatePercentIdentity_function_type )( ::alignlib::HAlignment const &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const & );
@@ -3612,17 +3666,6 @@ BOOST_PYTHON_MODULE(alignlib){
             "flattenAlignment"
             , flattenAlignment_function_type( &::alignlib::flattenAlignment )
             , ( bp::arg("dest") ) );
-    
-    }
-
-    { //::alignlib::getAlignmentOverlap
-    
-        typedef ::alignlib::Position ( *getAlignmentOverlap_function_type )( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const );
-        
-        bp::def( 
-            "getAlignmentOverlap"
-            , getAlignmentOverlap_function_type( &::alignlib::getAlignmentOverlap )
-            , ( bp::arg("src1"), bp::arg("src2"), bp::arg("mode") ) );
     
     }
 
@@ -4530,17 +4573,6 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
-    { //::alignlib::makeSequenceFromFasta
-    
-        typedef ::alignlib::HAlignandum ( *makeSequenceFromFasta_function_type )( ::std::istream &,::std::string &,::alignlib::HEncoder const & );
-        
-        bp::def( 
-            "makeSequenceFromFasta"
-            , makeSequenceFromFasta_function_type( &::alignlib::makeSequenceFromFasta )
-            , ( bp::arg("input"), bp::arg("description"), bp::arg("encoder") ) );
-    
-    }
-
     { //::alignlib::makeSubstitutionMatrix
     
         typedef ::alignlib::HSubstitutionMatrix ( *makeSubstitutionMatrix_function_type )( ::alignlib::ScoreVector const &,int,int );
@@ -4922,11 +4954,33 @@ BOOST_PYTHON_MODULE(alignlib){
 
     { //::alignlib::toProfile
     
+        typedef ::alignlib::HProfile const ( *toProfile_function_type )( ::alignlib::HAlignandum const & );
+        
+        bp::def( 
+            "toProfile"
+            , toProfile_function_type( &::alignlib::toProfile )
+            , ( bp::arg("src") ) );
+    
+    }
+
+    { //::alignlib::toProfile
+    
         typedef ::alignlib::HProfile ( *toProfile_function_type )( ::alignlib::HAlignandum & );
         
         bp::def( 
             "toProfile"
             , toProfile_function_type( &::alignlib::toProfile )
+            , ( bp::arg("src") ) );
+    
+    }
+
+    { //::alignlib::toSequence
+    
+        typedef ::alignlib::HSequence const ( *toSequence_function_type )( ::alignlib::HAlignandum const & );
+        
+        bp::def( 
+            "toSequence"
+            , toSequence_function_type( &::alignlib::toSequence )
             , ( bp::arg("src") ) );
     
     }

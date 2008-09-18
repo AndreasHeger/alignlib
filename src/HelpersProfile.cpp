@@ -369,54 +369,6 @@ HAlignandum makeProfile( const CountsMatrix * src) {
 
 //------------------------------------------------------------------------------------------------------------------------
 /*
-std::string calculateConservation( 
-		const HMultipleAlignment mali, 
-		const HEncoder & translator,
-		Frequency min_frequency) 
-{
-	ImplProfile * profile = dynamic_cast<ImplProfile*>
-		(makeProfile( mali, 
-				translator, 
-				makeWeightor(),
-				makeRegularizor(), 
-				makeLogOddor() ));
-
-	profile->prepare();
-
-	const FrequencyMatrix * frequencies = profile->exportFrequencyMatrix();
-
-	Position length = frequencies->getNumRows();
-	Residue width = frequencies->getNumCols();
-
-	char * buffer = new char[length + 1];
-	
-	for (Position col = 0; col < length; col++) 
-	{
-		Frequency max_frequency = 0;
-		Frequency f;
-		Residue max_residue = translator->getGapCode();
-		
-		const Frequency * fcolumn = frequencies->getRow(col);
-		for (Position row = 0; row < width; row++) 
-		{
-			if ( (f = fcolumn[row]) > max_frequency && 
-					f >= min_frequency) 
-			{
-				max_frequency = f;
-				max_residue = row;
-			}
-		}
-		buffer[col-1] = translator->decode( max_residue );
-	}
-
-	buffer[length] = '\0';
-
-	std::string seq(buffer);
-	delete [] buffer;
-	delete profile;
-
-	return seq;
-}
 */
 
 // TODO: sort out categories and alphabet-size

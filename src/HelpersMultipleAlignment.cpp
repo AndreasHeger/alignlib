@@ -32,6 +32,7 @@
 #include "ImplMultipleAlignmentDots.h"
 #include "AlignlibException.h"
 #include "Alignatum.h"
+#include "Profile.h"
 #include "HelpersAlignatum.h"
 #include "Alignandum.h"
 #include "Alignment.h"
@@ -40,6 +41,12 @@
 
 #include "Regularizor.h"
 #include "HelpersRegularizor.h"
+
+#include "Weightor.h"
+#include "HelpersWeightor.h"
+
+#include "LogOddor.h"
+#include "HelpersLogOddor.h"
 
 #include "Encoder.h"
 #include "HelpersEncoder.h"
@@ -100,6 +107,56 @@ void fillMultipleAlignment(
 	delete [] buffer;
 
 	return;
+}
+
+std::string calculateConservation( 
+		const HMultipleAlignment & mali, 
+		const Frequency min_frequency )
+{
+	debug_func_cerr(5);
+	const HEncoder encoder(getDefaultEncoder());
+	
+	HProfile profile( toProfile( 
+			(makeProfile( mali, 
+					getDefaultEncoder(),
+					makeWeightor(),
+					makeRegularizor(), 
+					makeLogOddor() ))));
+
+	profile->prepare();
+
+	const HFrequencyMatrix frequencies(profile->getFrequencyMatrix());
+	
+	Position length = frequencies->getNumRows();
+	Residue width = frequencies->getNumCols();
+
+	char * buffer = new char[length + 1];
+	
+	for (Position col = 0; col < length; col++) 
+	{
+		Frequency max_frequency = 0;
+		Frequency f;
+		Residue max_residue = encoder->getGapCode();
+		
+		const Frequency * fcolumn = frequencies->getRow(col);
+		for (Position row = 0; row < width; row++) 
+		{
+			if ( (f = fcolumn[row]) > max_frequency && 
+					f >= min_frequency) 
+			{
+				max_frequency = f;
+				max_residue = row;
+			}
+		}
+		buffer[col-1] = encoder->decode( max_residue );
+	}
+
+	buffer[length] = '\0';
+
+	std::string seq(buffer);
+	delete [] buffer;
+
+	return seq;
 }
 
 /*

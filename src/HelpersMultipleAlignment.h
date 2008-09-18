@@ -101,6 +101,17 @@ void copyMultipleAlignment(
 		unsigned int last_row = 0 );
 /** @} */
 
+/** calculate conserved residues in a multiple alignment.
+ 	get Convservation-string for multiple alignment. This returns a string, where 
+	each residue is marked, which is conserved at least > cutoff %
+	@param mali mali to calculate conservation for
+	@param min_frequency minimum frequency of a conserved column
+	@returns a string marking conserved positions
+	*/        
+    std::string calculateConservation( 
+    		const HMultipleAlignment & mali, 
+    		const Frequency min_frequency);
+
 /** a vector for storing double values. */
 typedef std::vector<double> VectorDouble;
 
@@ -127,13 +138,6 @@ typedef std::vector<double> VectorDouble;
     HMultipleAlignment extractMultipleAlignmentFasta( HMultipleAlignment ali, 
 						       std::istream & input );
  */
-/** get Convservation-string for multiple alignment. This returns a string, where 
-	each residue is marked, which is conserved at least > cutoff % */        
-/*
-    std::string calculateConservation( const HMultipleAlignment & mali, 
-    		Frequency min_frequency);
- */
-
 /** calculate counts in mali categorised. The first row in Matrix is empty, so that
 	the numbering is consistent with the numbering of columns in the multiple alignment.
 	Only include num_rows rows in the alignment. If num_rows is not set (0), all
