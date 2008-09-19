@@ -2841,6 +2841,16 @@ BOOST_PYTHON_MODULE(alignlib){
                 , ( bp::arg("row") ) );
         
         }
+        { //::alignlib::MultipleAlignment::isAligned
+        
+            typedef bool ( ::alignlib::MultipleAlignment::*isAligned_function_type )( ::alignlib::Position const & ) ;
+            
+            MultipleAlignment_exposer.def( 
+                "isAligned"
+                , isAligned_function_type( &::alignlib::MultipleAlignment::isAligned )
+                , ( bp::arg("col") ) );
+        
+        }
         { //::alignlib::MultipleAlignment::isEmpty
         
             typedef bool ( ::alignlib::MultipleAlignment::*isEmpty_function_type )(  ) const;
@@ -3666,6 +3676,17 @@ BOOST_PYTHON_MODULE(alignlib){
             "flattenAlignment"
             , flattenAlignment_function_type( &::alignlib::flattenAlignment )
             , ( bp::arg("dest") ) );
+    
+    }
+
+    { //::alignlib::getAlignmentOverlap
+    
+        typedef ::alignlib::Position ( *getAlignmentOverlap_function_type )( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const );
+        
+        bp::def( 
+            "getAlignmentOverlap"
+            , getAlignmentOverlap_function_type( &::alignlib::getAlignmentOverlap )
+            , ( bp::arg("src1"), bp::arg("src2"), bp::arg("mode") ) );
     
     }
 
@@ -4570,6 +4591,17 @@ BOOST_PYTHON_MODULE(alignlib){
             "makeSequence"
             , makeSequence_function_type( &::alignlib::makeSequence )
             , ( bp::arg("sequence") ) );
+    
+    }
+
+    { //::alignlib::makeSequenceFromFasta
+    
+        typedef ::alignlib::HAlignandum ( *makeSequenceFromFasta_function_type )( ::std::istream &,::std::string &,::alignlib::HEncoder const & );
+        
+        bp::def( 
+            "makeSequenceFromFasta"
+            , makeSequenceFromFasta_function_type( &::alignlib::makeSequenceFromFasta )
+            , ( bp::arg("input"), bp::arg("description"), bp::arg("encoder") ) );
     
     }
 
