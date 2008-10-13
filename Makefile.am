@@ -10,7 +10,7 @@
 
 
 EXTRA_DIST = configure
-SUBDIRS = m4 doc src tests bench python
+SUBDIRS = m4 doc alignlib tests bench python
 
 ## include own m4 directory (necessary for correct dependency)
 ACLOCAL_AMFLAGS=-I m4

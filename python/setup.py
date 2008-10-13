@@ -576,12 +576,12 @@ if __name__ == "__main__":
     
     parser.set_defaults( extension_name = "alignlib",
                          force = False, 
-                         src_dir = "../src",
+                         src_dir = "../alignlib",
                          boost_dir = None,
                          compiler = None,
                          gccxml_options = "",
-                         alignlib_lib_dir = "../src/.libs",
-                         alignlib_include_dirs = ["../src", ],
+                         alignlib_lib_dir = "../alignlib/.libs",
+                         alignlib_include_dirs = ["../alignlib", ],
                          build_dir = ".",
                          verbose = False,
                          )

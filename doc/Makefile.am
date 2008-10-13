@@ -17,7 +17,7 @@ else
 hdir=
 endif
 
-SOURCE=$(wildcard $(top_srcdir)/src/*.h) $(wildcard $(top_srcdir)/src/*.cpp) 
+SOURCE=$(wildcard $(top_srcdir)/alignlib/*.h) $(wildcard $(top_srcdir)/alignlib/*.cpp) 
 PYTHONSOURCES=$(wildcard $(top_srcdir)/interfaces/python/*.i)
 
 ## kept here for old times sake

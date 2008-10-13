@@ -10,7 +10,7 @@
 
 EXTRA_DIST=data/PAM30 data/BLOSUM62
 
-AM_CPPFLAGS = -I$(top_srcdir)/src
+AM_CPPFLAGS = -I$(top_srcdir)/alignlib
 
 programs=test_Fragmentor \
 		test_AlignatorDots \
@@ -44,7 +44,7 @@ noinst_PROGRAMS = ${programs}
 
 TESTS = $(check_PROGRAMS)
 
-LDADD = $(top_srcdir)/src/.libs/libalignlib.a -lm
+LDADD = $(top_srcdir)/alignlib/.libs/libalignlib.a -lm
 
 test_Fragmentor_SOURCES = test_Fragmentor.cpp 
 test_AlignatorDots_SOURCES = test_AlignatorDots.cpp 
