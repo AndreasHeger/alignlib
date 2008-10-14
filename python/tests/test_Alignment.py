@@ -125,7 +125,6 @@ class AlignmentTestCase( unittest.TestCase ):
             y = self.mAlignment.mapRowToCol( x )
             if y >= 0:
                 z = ali.mapRowToCol( y )
-                print x, y, z
                 self.assertEqual( x, z )
                 
             y = self.mAlignment.mapColToRow( x )            

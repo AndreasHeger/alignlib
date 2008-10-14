@@ -32,6 +32,7 @@ class AlignlibExceptionTestCase( unittest.TestCase ):
         
     def testException( self ):
         r = makeAlignmentVector()
+        sys.stderr = None
         f = AlignmentFormatEmissions()
         self.failUnlessRaises( RuntimeError, f.copy, r )
                             

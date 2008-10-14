@@ -25,24 +25,24 @@ class SubstitutionMatrixCase( unittest.TestCase ):
 
     def setUp( self ):
 
-        self.mMatrices = [ lambda : makeSubstitutionMatrix( 23, 1, -1 ),
-                    makeSubstitutionMatrixBlosum62,
-                    makeSubstitutionMatrixBlosum50,
-                    makeSubstitutionMatrixPam250,
-                    makeSubstitutionMatrixPam120,
-                    lambda : makeSubstitutionMatrixBackTranslation( 1, -1, 0.5, getEncoder( Protein23) ), 
+        self.mMatrices = [ (lambda : makeSubstitutionMatrix( 23, 1, -1 ), 23),
+                          (makeSubstitutionMatrixBlosum62, 23),
+                          (makeSubstitutionMatrixBlosum50, 23),
+                          (makeSubstitutionMatrixPam250, 23),
+                          (makeSubstitutionMatrixPam120, 23),
+                          (lambda : makeSubstitutionMatrixBackTranslation( 1, -1, 0.5, getEncoder( Protein23) ), 128), 
                    ]
                     
     def testMake(self):
         """check if all matrices can be created and are square."""
-        for matrix in self.mMatrices:
+        for matrix, size in self.mMatrices:
             m = matrix()
-            assert( m.getNumRows() == m.getNumCols() )
-            assert( m.getNumRows() == 23 )    
+            self.assertEqual( m.getNumRows(), m.getNumCols() )
+            self.assertEqual( m.getNumRows(), size )    
         
     def testSetDefault(self):
         
-        for matrix in self.mMatrices:
+        for matrix, size in self.mMatrices:
             setDefaultSubstitutionMatrix( matrix() )
             
     def testGetDefault(self):
