@@ -26,6 +26,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibException.h"
+#include "AlignlibDebug.h"
 #include "HelpersScorer.h"
 
 #include "ImplScorer.h"

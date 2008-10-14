@@ -38,7 +38,7 @@
 #include "Alignment.h"
 #include "AlignmentIterator.h"
 #include "HelpersMultipleAlignment.h"
-
+#include "AlignlibDebug.h"
 #include "Regularizor.h"
 #include "HelpersRegularizor.h"
 
