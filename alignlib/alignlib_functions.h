@@ -27,7 +27,6 @@
 #define ALIGNLIB_FUNCTIONS_H_
 
 #include "AlignlibException.h"
-#include "AlignlibDebug.h"
 #include "AlignlibMethods.h"
 
 #include "HelpersAlignandum.h"
