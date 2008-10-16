@@ -17,6 +17,7 @@ programs=test_Fragmentor \
 		test_Alignment \
 		test_Alignator \
 		test_MultipleAlignment \
+		test_MultipleAlignmentFormat \
 		test_Alignandum \
 		test_HelpersAlignment \
 		test_HelpersAlignandum \
@@ -37,6 +38,7 @@ programs=test_Fragmentor \
 		test_AlignmentFormat \
 		test_AlignlibException
 
+
 check_PROGRAMS = ${programs}
 
 ## test programs get automatically built but not installed
@@ -52,6 +54,7 @@ test_Alignment_SOURCES = test_Alignment.cpp
 test_Alignatum_SOURCES = test_Alignatum.cpp
 test_Alignator_SOURCES = test_Alignator.cpp 
 test_MultipleAlignment_SOURCES = test_MultipleAlignment.cpp 
+test_MultipleAlignmentFormat_SOURCES = test_MultipleAlignmentFormat.cpp 
 test_Alignandum_SOURCES = test_Alignandum.cpp 
 test_Statistics_SOURCES = test_Statistics.cpp
 test_HelpersAlignment_SOURCES = test_HelpersAlignment.cpp

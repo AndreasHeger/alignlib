@@ -49,6 +49,7 @@
 #include "HelpersTree.h"
 
 #include "AlignmentFormat.h"
+#include "MultipleAlignmentFormat.h"
 #include "Statistics.h"
 
 #endif /*ALIGNLIB_FUNCTIONS_H_*/

@@ -101,7 +101,8 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 			ImplMultipleAlignment.h \
 			ImplMultipleAlignmentDots.h \
 			ImplRenderer.h ImplRendererPalette.h ImplRendererMView.h ImplRendererColumn.h \
-			ImplAlignatum.h  
+			ImplAlignatum.h  \
+			MultipleAlignmentFormat.h
 
 HEADERS_ENCODER= Encoder.h HelpersEncoder.h \
 			ImplEncoder.h
@@ -187,7 +188,8 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 			ImplMultipleAlignmentDots.cpp \
 			ImplRenderer.cpp ImplRendererPalette.cpp \
 			ImplRendererMView.cpp ImplRendererColumn.cpp \
-			ImplAlignatum.cpp 
+			ImplAlignatum.cpp \
+			MultipleAlignmentFormat.cpp
 
 PARTS_STATISTICS =    Statistics.cpp
 
