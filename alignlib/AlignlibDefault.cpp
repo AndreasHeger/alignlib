@@ -30,7 +30,7 @@
 #include "HelpersEncoder.h"
 #include "HelpersDistor.h"
 #include "HelpersRegularizor.h"
-#include "HelpersRenderer.h"
+#include "HelpersPalette.h"
 #include "HelpersIterator2D.h"
 #include "HelpersScorer.h"
 #include "HelpersLogOddor.h"
@@ -48,8 +48,8 @@ namespace alignlib
 IMPLEMENT_DEFAULT( HIterator2D, makeIterator2DFull(), getDefaultIterator2D, setDefaultIterator2D, default_iterator2d );
 IMPLEMENT_DEFAULT( HLogOddor, makeLogOddor(), getDefaultLogOddor, setDefaultLogOddor, default_logoddor );
 IMPLEMENT_DEFAULT( HRegularizor, makeRegularizor(), getDefaultRegularizor, setDefaultRegularizor, default_regularizor );
-IMPLEMENT_DEFAULT( HRenderer, makeRenderer(), getDefaultRenderer, setDefaultRenderer, default_renderer );
 IMPLEMENT_DEFAULT( HWeightor, makeWeightor(), getDefaultWeightor, setDefaultWeightor, default_weightor );
+IMPLEMENT_DEFAULT( HPalette, makePalette(), getDefaultPalette, setDefaultPalette, default_palette );
 IMPLEMENT_DEFAULT( HScorer, makeScorer(), getDefaultScorer, setDefaultScorer, default_scorer )
 IMPLEMENT_DEFAULT( HDistor, makeDistorClustal(), getDefaultDistor, setDefaultDistor, default_distor );
 

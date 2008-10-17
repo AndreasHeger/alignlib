@@ -26,6 +26,8 @@
 
 #include "alignlib_types.h"
 #include <vector>
+#include <map>
+#include <string>
 #include <boost/shared_ptr.hpp>
 
 namespace alignlib
@@ -138,8 +140,11 @@ namespace alignlib
      */
     typedef std::vector<Node> NodeVector;
     typedef boost::shared_ptr<NodeVector>HNodeVector;
-
     
+    /** A palette for colouring residues */
+    typedef std::map<unsigned char,std::string>Palette;
+    typedef boost::shared_ptr<Palette>HPalette;    
+
 }
 
 

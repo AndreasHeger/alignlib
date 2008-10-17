@@ -37,7 +37,6 @@
 #include "Renderer.h"
 #include "HelpersAlignatum.h"
 #include "HelpersEncoder.h"
-#include "HelpersRenderer.h"
 #include "AlignlibException.h"
 
 using namespace std;

@@ -44,12 +44,11 @@ using namespace alignlib;
 HMultipleAlignment buildAlignment()
 {
 	HMultipleAlignment a(makeMultipleAlignment());
-	int nseqs = 3;
-	std::string ref("ABCDEFGHIJ");
-	for (int x = 0; x < nseqs; ++x)
-	{
-		a->add(makeAlignatum(ref));
-	}
+	a->add(makeAlignatum("AACDEFGHIJK"));
+	a->add(makeAlignatum("AACDEFGHIJK"));
+	a->add(makeAlignatum("ABCDE-GHIJK"));
+	a->add(makeAlignatum("ACCDE-GHLJF"));
+	a->add(makeAlignatum("ADCDE-GHLJC"));
 	return a;
 }
 
@@ -74,4 +73,18 @@ BOOST_AUTO_TEST_CASE( test_MultipleAlignmentFormatPlain )
 	testWriteRead( f, ali );
 }
 
+BOOST_AUTO_TEST_CASE( test_MultipleAlignmentFormatHTML )
+{
+	HMultipleAlignment ali(buildAlignment());	
+	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatHTML(ali, getDefaultPalette()));	
+	testWriteRead( f, ali );
+}
+
+
+BOOST_AUTO_TEST_CASE( test_MultipleAlignmentFormatMView )
+{
+	HMultipleAlignment ali(buildAlignment());	
+	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatHTML(ali, makePaletteMView()));	
+	testWriteRead( f, ali );
+}
 

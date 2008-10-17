@@ -38,7 +38,7 @@
 #include "HelpersLogOddor.h"
 #include "HelpersMultipleAlignment.h"
 #include "HelpersRegularizor.h"
-#include "HelpersRenderer.h"
+#include "HelpersPalette.h"
 #include "HelpersScorer.h"
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersEncoder.h"

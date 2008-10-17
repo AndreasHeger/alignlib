@@ -197,9 +197,6 @@ class MultipleAlignment
     */
     virtual void clear() = 0;
 
-    /** register a new renderer */
-    virtual void registerRenderer( const HRenderer & renderer ) = 0;
-    
     /** returns a clone of this object 
      * @return a copy of this object.
      * */

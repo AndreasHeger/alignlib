@@ -34,7 +34,6 @@
 #include "ImplMultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
 #include "HelpersEncoder.h"
-#include "HelpersRenderer.h"
 #include "AlignlibException.h"
 #include "Alignatum.h"
 #include "Alignandum.h"
@@ -58,7 +57,7 @@ HMultipleAlignment makeMultipleAlignment()
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplMultipleAlignment::ImplMultipleAlignment () : 
-	mLength(0), mRenderer(getDefaultRenderer())
+	mLength(0)
 {
 }
 
@@ -70,8 +69,8 @@ ImplMultipleAlignment::~ImplMultipleAlignment ()
 
 //--------------------------------------------------------------------------------------------------------------
 ImplMultipleAlignment::ImplMultipleAlignment (const ImplMultipleAlignment & src ) : 
-	mLength (src.mLength), 
-	mRenderer( src.mRenderer) {
+	mLength (src.mLength) {
+	
 
 	// clear old entries
 	freeMemory();
@@ -439,12 +438,6 @@ HMultipleAlignment ImplMultipleAlignment::getNew() const
 bool ImplMultipleAlignment::isEmpty() const 
 {
 	return mRows.empty();
-}
-
-//---------------------------------------------------------------------------------------
-void ImplMultipleAlignment::registerRenderer( const HRenderer & renderer) 
-{
-	mRenderer = renderer;
 }
 
 //---------------------------------------------------------< Input/Output routines >--------

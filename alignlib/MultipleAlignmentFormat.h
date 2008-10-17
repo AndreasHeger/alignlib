@@ -94,7 +94,7 @@ struct MultipleAlignmentFormat
 };
 
 /**
-	Data structure for plain multiple alignment.
+	Plain multiple alignment format.
 	
 	The mali is output in rows.
 	
@@ -128,6 +128,41 @@ struct MultipleAlignmentFormatPlain : public MultipleAlignmentFormat
 	 */
 	virtual void copy( HMultipleAlignment & dest ) const;
 
+};
+
+/**
+	HTML formatted output. Residues are colored according to a palette
+		
+   	@author Andreas Heger
+   	@version $Id$
+   	@short Plain multiple alignment format
+ 
+*/ 
+struct MultipleAlignmentFormatHTML : public MultipleAlignmentFormat
+{
+	// constructors and desctructors
+	MultipleAlignmentFormatHTML ();
+
+	MultipleAlignmentFormatHTML( const HMultipleAlignment & src, const HPalette & palette );
+	
+	MultipleAlignmentFormatHTML( std::istream & src);
+
+	MultipleAlignmentFormatHTML( const std::string & src);
+	
+	MultipleAlignmentFormatHTML (const MultipleAlignmentFormatHTML &);
+
+	virtual ~MultipleAlignmentFormatHTML ();
+
+	/** fill blocks from alignment
+		@param src Alignment to parse
+	 */
+	virtual void fill( const HMultipleAlignment & src, const HPalette & palette);
+
+	/** fill Alignment object with blocks
+	 * 	@param dest Alignment 
+	 */
+	virtual void copy( HMultipleAlignment & dest ) const;
+	
 };
 
 

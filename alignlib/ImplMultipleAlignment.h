@@ -150,9 +150,6 @@ class ImplMultipleAlignment : public MultipleAlignment
      */
     virtual void add( const HMultipleAlignment & src );
     
-    /** register a new renderer */
-    virtual void registerRenderer( const HRenderer & renderer );
-
     /** returns true, if there are no aligned objects in this alignment */
     virtual bool isEmpty() const;
 
@@ -186,10 +183,6 @@ class ImplMultipleAlignment : public MultipleAlignment
     /** the length of the multiple alignment */
     mutable int mLength;                       
     
-
-    /** the Renderer */
-    HRenderer mRenderer;
-        
  private:
 	 
 	 /** update the aligned flag mapping onto new */

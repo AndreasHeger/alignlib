@@ -39,7 +39,6 @@
 #include "HelpersAlignment.h"
 #include "AlignmentIterator.h"
 #include "HelpersEncoder.h"
-#include "HelpersRenderer.h"
 #include "AlignmentFormat.h"
 using namespace std;
 

@@ -134,21 +134,20 @@ std::string calculateConservation(
 	
 	for (Position col = 0; col < length; col++) 
 	{
-		Frequency max_frequency = 0;
+		Frequency max_frequency = min_frequency;
 		Frequency f;
 		Residue max_residue = encoder->getGapCode();
 		
 		const Frequency * fcolumn = frequencies->getRow(col);
 		for (Position row = 0; row < width; row++) 
 		{
-			if ( (f = fcolumn[row]) > max_frequency && 
-					f >= min_frequency) 
+			if ( (f = fcolumn[row]) >= max_frequency ) 
 			{
 				max_frequency = f;
 				max_residue = row;
 			}
 		}
-		buffer[col-1] = encoder->decode( max_residue );
+		buffer[col] = encoder->decode( max_residue );
 	}
 
 	buffer[length] = '\0';

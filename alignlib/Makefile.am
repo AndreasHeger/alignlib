@@ -96,12 +96,11 @@ HEADERS_FRAGMENTOR=     Fragmentor.h HelpersFragmentor.h \
 HEADERS_STATISTICS=	Statistics.h
 
 HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
-			Renderer.h HelpersRenderer.h \
 			Alignatum.h HelpersAlignatum.h \
 			ImplMultipleAlignment.h \
 			ImplMultipleAlignmentDots.h \
-			ImplRenderer.h ImplRendererPalette.h ImplRendererMView.h ImplRendererColumn.h \
 			ImplAlignatum.h  \
+			HelpersPalette.h \
 			MultipleAlignmentFormat.h
 
 HEADERS_ENCODER= Encoder.h HelpersEncoder.h \
@@ -183,12 +182,10 @@ PARTS_FRAGMENTOR =	Fragmentor.cpp HelpersFragmentor.cpp \
 
 PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 			Alignatum.cpp HelpersAlignatum.cpp \
-			Renderer.cpp HelpersRenderer.cpp \
 			ImplMultipleAlignment.cpp \
 			ImplMultipleAlignmentDots.cpp \
-			ImplRenderer.cpp ImplRendererPalette.cpp \
-			ImplRendererMView.cpp ImplRendererColumn.cpp \
 			ImplAlignatum.cpp \
+			HelpersPalette.cpp \
 			MultipleAlignmentFormat.cpp
 
 PARTS_STATISTICS =    Statistics.cpp
