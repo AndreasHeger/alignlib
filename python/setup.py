@@ -193,7 +193,7 @@ def exportFunctions( mb ):
     #######################################################################################
     #######################################################################################
     ## patches to exclude problematic functions
-    for prefix in ("getMapResidue", "makeRendererColumn", "makeAlignatorDotsWrap", "getDefaultPalette" ):
+    for prefix in ("getMapResidue", "makeAlignatorDotsWrap", "getDefaultPalette" ):
         try:
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).exclude()
         except RuntimeError:
@@ -246,7 +246,6 @@ def exportInterfaceClasses( mb ):
                               'AlignmentIterator',
                               'Scorer',
                               'Weightor',
-                              'Renderer',
                               'LogOddor',
                               'Regularizor',
                               'Iterator2D',
@@ -326,7 +325,6 @@ def exportHandles( mb ):
                         'HAlignment',
                               'HScorer',
                               'HWeightor',
-                              'HRenderer',
                               'HLogOddor',
                               'HRegularizor',
                               'HIterator2D',

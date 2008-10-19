@@ -2860,16 +2860,6 @@ BOOST_PYTHON_MODULE(alignlib){
                 , isEmpty_function_type( &::alignlib::MultipleAlignment::isEmpty ) );
         
         }
-        { //::alignlib::MultipleAlignment::registerRenderer
-        
-            typedef void ( ::alignlib::MultipleAlignment::*registerRenderer_function_type )( ::alignlib::HRenderer const & ) ;
-            
-            MultipleAlignment_exposer.def( 
-                "registerRenderer"
-                , registerRenderer_function_type( &::alignlib::MultipleAlignment::registerRenderer )
-                , ( bp::arg("renderer") ) );
-        
-        }
         { //::alignlib::MultipleAlignment::setLength
         
             typedef void ( ::alignlib::MultipleAlignment::*setLength_function_type )( ::alignlib::Position ) ;
@@ -3048,23 +3038,6 @@ BOOST_PYTHON_MODULE(alignlib){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Regularizor > >();
-    }
-
-    { //::alignlib::Renderer
-        typedef bp::class_< alignlib::Renderer, boost::noncopyable > Renderer_exposer_t;
-        Renderer_exposer_t Renderer_exposer = Renderer_exposer_t( "Renderer", bp::no_init );
-        bp::scope Renderer_scope( Renderer_exposer );
-        { //::alignlib::Renderer::render
-        
-            typedef ::std::string ( ::alignlib::Renderer::*render_function_type )( ::std::string const &,::alignlib::Position,::alignlib::Position ) const;
-            
-            Renderer_exposer.def( 
-                "render"
-                , render_function_type( &::alignlib::Renderer::render )
-                , ( bp::arg("representation"), bp::arg("segment_start"), bp::arg("segment_end") ) );
-        
-        }
-        bp::register_ptr_to_python< boost::shared_ptr< alignlib::Renderer > >();
     }
 
     { //::alignlib::ResiduePair
@@ -3751,16 +3724,6 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
-    { //::alignlib::getDefaultRenderer
-    
-        typedef ::alignlib::HRenderer ( *getDefaultRenderer_function_type )(  );
-        
-        bp::def( 
-            "getDefaultRenderer"
-            , getDefaultRenderer_function_type( &::alignlib::getDefaultRenderer ) );
-    
-    }
-
     { //::alignlib::getDefaultScorer
     
         typedef ::alignlib::HScorer ( *getDefaultScorer_function_type )(  );
@@ -4335,6 +4298,26 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::makePalette
+    
+        typedef ::alignlib::HPalette ( *makePalette_function_type )(  );
+        
+        bp::def( 
+            "makePalette"
+            , makePalette_function_type( &::alignlib::makePalette ) );
+    
+    }
+
+    { //::alignlib::makePaletteMView
+    
+        typedef ::alignlib::HPalette ( *makePaletteMView_function_type )(  );
+        
+        bp::def( 
+            "makePaletteMView"
+            , makePaletteMView_function_type( &::alignlib::makePaletteMView ) );
+    
+    }
+
     { //::alignlib::makeProfile
     
         typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::alignlib::HMultipleAlignment const & );
@@ -4494,27 +4477,6 @@ BOOST_PYTHON_MODULE(alignlib){
             "makeRegularizorTatusov"
             , makeRegularizorTatusov_function_type( &::alignlib::makeRegularizorTatusov )
             , ( bp::arg("matrix"), bp::arg("background"), bp::arg("beta"), bp::arg("lambda") ) );
-    
-    }
-
-    { //::alignlib::makeRenderer
-    
-        typedef ::alignlib::HRenderer ( *makeRenderer_function_type )(  );
-        
-        bp::def( 
-            "makeRenderer"
-            , makeRenderer_function_type( &::alignlib::makeRenderer ) );
-    
-    }
-
-    { //::alignlib::makeRendererMView
-    
-        typedef ::alignlib::HRenderer ( *makeRendererMView_function_type )( ::std::string const & );
-        
-        bp::def( 
-            "makeRendererMView"
-            , makeRendererMView_function_type( &::alignlib::makeRendererMView )
-            , ( bp::arg("consensus") ) );
     
     }
 
@@ -4896,6 +4858,17 @@ BOOST_PYTHON_MODULE(alignlib){
     
     }
 
+    { //::alignlib::setDefaultPalette
+    
+        typedef void ( *setDefaultPalette_function_type )( ::alignlib::HPalette const & );
+        
+        bp::def( 
+            "setDefaultPalette"
+            , setDefaultPalette_function_type( &::alignlib::setDefaultPalette )
+            , ( bp::arg("arg0") ) );
+    
+    }
+
     { //::alignlib::setDefaultRegularizor
     
         typedef void ( *setDefaultRegularizor_function_type )( ::alignlib::HRegularizor const & );
@@ -4903,17 +4876,6 @@ BOOST_PYTHON_MODULE(alignlib){
         bp::def( 
             "setDefaultRegularizor"
             , setDefaultRegularizor_function_type( &::alignlib::setDefaultRegularizor )
-            , ( bp::arg("arg0") ) );
-    
-    }
-
-    { //::alignlib::setDefaultRenderer
-    
-        typedef void ( *setDefaultRenderer_function_type )( ::alignlib::HRenderer const & );
-        
-        bp::def( 
-            "setDefaultRenderer"
-            , setDefaultRenderer_function_type( &::alignlib::setDefaultRenderer )
             , ( bp::arg("arg0") ) );
     
     }
