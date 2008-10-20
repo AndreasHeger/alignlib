@@ -40,7 +40,6 @@
 #include "Matrix.h"
 #include "MultipleAlignment.h"
 #include "Regularizor.h"
-#include "Renderer.h"
 #include "Profile.h"
 #include "Scorer.h"
 #include "Sequence.h"

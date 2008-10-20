@@ -34,7 +34,6 @@
 #include "Alignment.h"
 #include "AlignmentIterator.h"
 #include "Alignandum.h"
-#include "Renderer.h"
 #include "HelpersAlignatum.h"
 #include "HelpersEncoder.h"
 #include "AlignlibException.h"

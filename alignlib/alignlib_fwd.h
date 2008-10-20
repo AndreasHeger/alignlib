@@ -47,10 +47,7 @@ namespace alignlib
 	
 	class MultipleAlignment;
 	typedef boost::shared_ptr<MultipleAlignment>HMultipleAlignment;
-	
-	class Renderer;
-	typedef boost::shared_ptr<Renderer>HRenderer;	
-	
+		
 	class Alignment;
 	typedef boost::shared_ptr<Alignment>HAlignment;
 	

@@ -30,7 +30,6 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "Alignatum.h"
 
 namespace alignlib 
