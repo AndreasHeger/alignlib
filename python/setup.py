@@ -535,7 +535,7 @@ python-extension alignlib
 
     params = { "boost_dir" : options.boost_dir,
                 "alignlib_dir" : options.alignlib_lib_dir,
-                "includes" : "<include>" + "<include>".join( options.alignlib_include_dirs) }
+                "includes" : "<include>" + "\n<include>".join( options.alignlib_include_dirs) }
 
     outfile = open("Jamroot", "w" )
     outfile.write(jamroot_template % params)
