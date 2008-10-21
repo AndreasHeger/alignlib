@@ -616,7 +616,10 @@ if __name__ == "__main__":
             
             if options.force or not os.path.exists( module_name):
                 print "building module %s" % module_name        
-                buildModule( include_paths = [src_dir, options.boost_dir ], dest = module_name, options = options )
+                buildModule( include_paths = [src_dir, 
+                                              os.path.abspath( ".." ), 
+                                              options.boost_dir ], 
+                                              dest = module_name, options = options )
                 
             if command == "generate-interface": break                
         
