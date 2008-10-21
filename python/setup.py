@@ -579,7 +579,7 @@ if __name__ == "__main__":
                          compiler = None,
                          gccxml_options = "",
                          alignlib_lib_dir = "../alignlib/.libs",
-                         alignlib_include_dirs = ["../alignlib", ],
+                         alignlib_include_dirs = ["..", "../alignlib", ],
                          build_dir = ".",
                          verbose = False,
                          )
