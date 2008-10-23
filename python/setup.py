@@ -630,7 +630,7 @@ if __name__ == "__main__":
             if command == "install":
             
                 python_lib = distutils.sysconfig.get_python_lib()
-                    
+                python_lib_data = python_lib + "/alignlib"
                 results = []
                 for root, dirs, files in os.walk('.'):
         
@@ -649,6 +649,9 @@ if __name__ == "__main__":
                 print "installing %s in %s" % (results[0], python_lib )
                 try:
                     shutil.copy( results[0], python_lib )
+                    if not os.path.exists( python_lib_data ):  
+                        os.mkdir( python_lib_data ) 
+                    shutil.copy( "exposed_decl.pypp.txt", python_lib_data )
                 except IOError, msg:
                     print "installation failed: %s" % str(msg)
                     
