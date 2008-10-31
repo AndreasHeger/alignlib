@@ -11,6 +11,7 @@
 EXTRA_DIST=data/PAM30 data/BLOSUM62
 
 AM_CPPFLAGS = -I$(top_srcdir)/alignlib
+AM_CXXFLAGS = $(BOOST_CPPFLAGS)
 
 programs=test_Fragmentor \
 		test_AlignatorDots \
