@@ -19,6 +19,7 @@ pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			AlignlibException.h \
 			AlignlibDebug.h \
 			AlignlibMethods.h \
+			AlignlibIndex.h \
 			Matrix.h \
 			$(HEADERS_ALIGNATOR) \
 			$(HEADERS_ITERATOR) \
@@ -121,7 +122,8 @@ PARTS = AlignlibException.cpp \
 			$(PARTS_ENCODER) \
 			$(PARTS_SUBSTMATRIX) \
 			$(PARTS_PHYLOLIB) \
-			AlignlibDefault.cpp
+			AlignlibDefault.cpp \
+			AlignlibIndex.cpp
 
 PARTS_PHYLOLIB= Tree.cpp HelpersTree.cpp \
                         ImplTree.cpp \

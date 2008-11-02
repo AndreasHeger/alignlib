@@ -37,7 +37,8 @@ programs=test_Fragmentor \
 		test_Matrix \
 		test_Defaults \
 		test_AlignmentFormat \
-		test_AlignlibException
+		test_AlignlibException \
+		test_Index
 
 
 check_PROGRAMS = ${programs}
@@ -74,3 +75,4 @@ test_Matrix_SOURCES = test_Matrix.cpp
 test_Defaults_SOURCES = test_Defaults.cpp
 test_AlignmentFormat_SOURCES = test_AlignmentFormat.cpp
 test_AlignlibException_SOURCES = test_AlignlibException.cpp
+test_Index_SOURCES = test_Index.cpp
