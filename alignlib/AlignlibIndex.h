@@ -51,7 +51,11 @@ namespace alignlib
 		typedef typename std::map<T, FileIndex>::iterator MapToken2IndexIterator;
 		
 	public:
-		
+
+		/** open an index
+		 * */
+		Index();
+
 		/** create an index from data
 		 * @param data FILE handle to data file 
 		 * */
@@ -62,6 +66,10 @@ namespace alignlib
 		 * @param data FILE handle to data file 
 		 */			
 		Index( std::FILE * index, std::FILE * data );
+	
+		/** copy constructor
+		 * */
+		Index( const Index<T,Recorder> & src);
 		
 		/** destructor */
 		~Index();
@@ -88,10 +96,20 @@ namespace alignlib
 		 * @param token Token to look up.
 		 */		
 		void goTo( const T & token ) const;
-		
+
+		/** @brief return True if token is in index
+		 * 
+		 * @param token Token to look up
+		 */		
+		bool hasToken( const T & token ) const;
+
 		/** @brief return the size (number of entries) in the index
 		 */
 		long size() const;
+		
+		/** assign index to data
+		 */
+		void setData( FILE * data);
 		
 	private:
 		/** handle to DATA file */
@@ -121,13 +139,13 @@ namespace alignlib
 			delete [] mBuffer;
 		}
 		
-		T operator()() 
+		int operator()( T * result ) 
 		{
-			debug_func_cerr(5);
 			
 			char * x = std::fgets( mBuffer, mMaxLineLength, mFile );
+			
 			if (x == NULL)
-				throw AlignlibException( "file exhausted.");
+				return 0;
 			
 			std::istringstream istream( mBuffer );
 			
@@ -135,10 +153,8 @@ namespace alignlib
 			for( int c = 0; c < Column; ++ c)
 				istream >> s;				
 
-			T result;
-			istream >> result;
-			
-			return result;
+			istream >> *result;
+			return 1;
 		}
 		
 	private:
@@ -151,7 +167,13 @@ namespace alignlib
 	FILE * openFileForWrite( const std::string & filename );
 
 	#define REPORT_STEP 10000
-	
+
+	template< class T, class Recorder> Index<T, Recorder>::Index() :
+		mData(NULL)
+	{
+		debug_func_cerr(5);
+	}
+
 	template< class T, class Recorder> Index<T, Recorder>::Index(std::FILE * data) :
 		mData(data)
 	{
@@ -167,6 +189,12 @@ namespace alignlib
 		load(index);
 	}
 
+	template< class T, class Recorder> Index<T, Recorder>::Index( const Index<T,Recorder> & src) :
+		mData(src.mData), mIndex( src.mIndex )
+	{
+		debug_func_cerr(5);
+	}
+
 	template< class T, class Recorder> Index<T, Recorder>::~Index()
 	{
 	}
@@ -175,6 +203,9 @@ namespace alignlib
 	{
 		debug_func_cerr(5);
 
+		if (mData == NULL)
+			throw AlignlibException( "Index::create() called on undefined index - no file given" );
+		
 		long iteration = 0;
 
 		FileIndex index;
@@ -185,13 +216,15 @@ namespace alignlib
 
 		// TODO: find a way to set this to a generic default value
 		T last = 0;
+		T token = 0;
 		while (!feof(mData))
 		{
 			++iteration;
 
 			fgetpos(mData, &index);
 			
-			T token(recorder());
+			if (recorder( &token ) == 0)
+				break;
 
 			if (!(iteration % REPORT_STEP))
 			{
@@ -220,6 +253,9 @@ namespace alignlib
 	{
 		debug_func_cerr(5);
 
+		if (mData == NULL)
+			throw AlignlibException( "Index::save() called on undefined index - no file given" );
+
 		MapToken2IndexIterator it(mIndex.begin()), end(mIndex.end());
 
 		for (; it != end; ++it)
@@ -241,16 +277,31 @@ namespace alignlib
 			std::FILE * index)
 	{
 		debug_func_cerr(5);
+		if (mData == NULL)
+			throw AlignlibException( "Index::save() called on undefined index - no file given");		
+	}
+
+	template< class T, class Recorder> void Index<T, Recorder>::setData(
+			std::FILE * data)
+	{
+		debug_func_cerr(5);
+		mIndex.clear();
+		mData = data;
 	}
 
 	template< class T, class Recorder> 
 	long Index<T, Recorder>::size() const
 	{
-		debug_func_cerr(5);
+		debug_func_cerr(5);		
 		return mIndex.size();
 	}
 			
 
+	template< class T, class Recorder> bool Index<T, Recorder>::hasToken( const T & token ) const
+	{
+		return mIndex.find(token) != mIndex.end();
+	}
+	
 	template< class T, class Recorder> void Index<T, Recorder>::goTo(const T & token) const
 	{
 		debug_func_cerr(5);
@@ -261,7 +312,10 @@ namespace alignlib
 		if (it != mIndex.end())
 			fsetpos(mData, &(it->second));
 		else
+		{
+			debug_cerr( 5, "could not find " << token)
 			throw AlignlibException( "index lookup error.");
+		}
 	}
 
 
