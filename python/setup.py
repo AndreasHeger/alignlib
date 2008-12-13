@@ -150,7 +150,7 @@ def exportLoad( mb, classes, options, generic = True ):
             params['function'] = "load%s" % c
         
         declaration_code = \
-    """
+"""
       alignlib::H%(class)s wrapper_for_load_%(class)s( PyObject * fp )
       {
           if (!PyFile_Check(fp))
@@ -466,7 +466,7 @@ def buildModule( include_paths, dest, options) :
         mb.print_declarations()
 
     addStreamBufClasses( mb )
-    
+            
     exportFunctions( mb )
     
     exportClasses( mb )
@@ -492,16 +492,36 @@ def buildModule( include_paths, dest, options) :
     if options.verbose:
         print "# declarations after building interface."        
         mb.print_declarations()
-    
+
         
     #Creating code creator. After this step you should not modify/customize declarations.
     mb.build_code_creator( module_name='alignlib' )
     mb.code_creator.add_include( "iostream" )
     mb.code_creator.add_include( "cstdio" )
-    
+    mb.split_module( "build" )
+
     #Writing code to file.
     mb.write_module( dest )
 
+    # patch the output. Explict declarations were repeated
+    # after splitting the module.
+    
+    lines = open( dest, "r").readlines()
+    keep = True
+    outfile = open( dest, "w" )
+    pattern = "class std_obuf: public std::streambuf"
+    
+    x = 0
+    for line in lines:
+        x += 1
+        if keep: outfile.write(line)
+
+        if line.startswith( pattern ):
+            if keep: keep = False
+            else: break
+
+    outfile.write( "".join(lines[x:]))        
+    outfile.close()
 
 def compileModule( module_name, options ):
     
@@ -619,7 +639,8 @@ if __name__ == "__main__":
                 buildModule( include_paths = [src_dir, 
                                               os.path.abspath( ".." ), 
                                               options.boost_dir ], 
-                                              dest = module_name, options = options )
+                                              dest = module_name, 
+                                              options = options )
                 
             if command == "generate-interface": break                
         
