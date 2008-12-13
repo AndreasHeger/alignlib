@@ -8,7 +8,7 @@ The following commands are available:
 * install: install the extension
 """
 
-import re, sys, os, optparse, subprocess
+import re, sys, os, optparse, subprocess, glob
 
 from types import *
 
@@ -54,11 +54,11 @@ def checkRequisites( options ):
         print "could not find library directory %s" % options.alignlib_lib_dir
     elif not os.path.exists( options.alignlib_lib_dir + "/libalignlib.so" ):
         nerrors += 1
-        print "could not find alinglib shared library %s/libalignlib.so" % options.alignlib_lib_dir
+        print "could not find alignlib shared library %s/libalignlib.so" % options.alignlib_lib_dir
         
     return nerrors
 
-def addStreamBufClasses( mb ):
+def addStreamBufClasses( cls ):
     """add wrappers to export mapping from c++ streams to python file objects."""
     declaration_code = \
     """
@@ -100,7 +100,8 @@ def addStreamBufClasses( mb ):
       };
             
     """
-    mb.add_declaration_code ( declaration_code, tail=True )
+    cls.add_declaration_code ( declaration_code )
+    # mb.add_declaration_code ( declaration_code, tail = True )
 
 def exportSave( mb, classes, options, generic = True):
     """export save method in classes Alignandum."""
@@ -122,14 +123,18 @@ def exportSave( mb, classes, options, generic = True):
     """
 
     ## add declaration code only once, as it is templated
-    mb.add_declaration_code( declaration_code, tail=True )
+    # mb.add_declaration_code( declaration_code, tail=True )
 
     for c in classes:
         cls = mb.class_(c)
         cls.include_files.append( "streambuf" )
         registration_code = 'def( "save", wrapper_for_save<alignlib::%s> )' % cls.name
         cls.member_function( "save" ).exclude()
+        # the order is important
+        addStreamBufClasses( cls )
+        cls.add_declaration_code( declaration_code )
         cls.add_registration_code( registration_code )
+
 
 def exportLoad( mb, classes, options, generic = True ):
     """export load functions.
@@ -546,15 +551,18 @@ project
 # Declare a Python extension called hello.
 python-extension alignlib 
   : # source 
-    alignlib.cpp
+    %(sources)s
   : # requirements 
   <library-file>%(alignlib_dir)s/libalignlib.so
+  <include>.
+  <include>..
   %(includes)s 
   ;
   """
 
     params = { "boost_dir" : options.boost_dir,
                 "alignlib_dir" : options.alignlib_lib_dir,
+                "sources": " ".join( glob.glob( "build/*.cpp" ) ),
                 "includes" : "<include>" + "\n<include>".join( options.alignlib_include_dirs) }
 
     outfile = open("Jamroot", "w" )
@@ -599,7 +607,7 @@ if __name__ == "__main__":
                          compiler = None,
                          gccxml_options = "",
                          alignlib_lib_dir = "../alignlib/.libs",
-                         alignlib_include_dirs = ["..", "../alignlib", ],
+                         alignlib_include_dirs = [ "../alignlib", ],
                          build_dir = ".",
                          verbose = False,
                          )

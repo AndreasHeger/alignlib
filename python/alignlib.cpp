@@ -127,19 +127,6 @@ class std_obuf: public std::streambuf
           
       };
 
-template<class T>
-      void wrapper_for_save(const T & a, PyObject* fp) 
-      {
-        if (!PyFile_Check(fp)) 
-        {
-          throw boost::python::error_already_set();
-        }
-        std::FILE* f = PyFile_AsFile(fp);
-        std_obuf buf(f);
-        std::ostream os(&buf);
-        a.save( os );
-      }
-
 alignlib::HAlignandum wrapper_for_load_Alignandum( PyObject * fp )
       {
           if (!PyFile_Check(fp))

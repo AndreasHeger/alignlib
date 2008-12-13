@@ -9,6 +9,56 @@
 
 namespace bp = boost::python;
 
+class std_obuf: public std::streambuf 
+        {
+      public:
+        std_obuf(std::FILE* file): m_file(file) {}
+      protected:
+        std::streambuf::int_type overflow(std::streambuf::int_type c) 
+        {
+          return std::fputc(c, m_file) ==EOF? std::streambuf::traits_type::eof(): c;
+        }
+      private:
+        FILE* m_file;
+      };
+
+    class std_ibuf: public std::streambuf 
+        {
+      public:
+          std_ibuf(std::FILE* file): m_file(file) {}
+      protected:
+          std::streambuf::int_type underflow() { 
+           int c = std::getc(m_file);
+           if (c != EOF) 
+               std::ungetc(c, m_file);
+            return c;
+           }
+
+          std::streambuf::int_type uflow() {
+           return std::getc(m_file);
+          }
+
+          std::streambuf::int_type pbackfail(int c = EOF) {
+            return c != EOF ? std::ungetc(c, m_file) : EOF;
+          }
+    private:
+          FILE* m_file;      
+          
+      };
+
+template<class T>
+      void wrapper_for_save(const T & a, PyObject* fp) 
+      {
+        if (!PyFile_Check(fp)) 
+        {
+          throw boost::python::error_already_set();
+        }
+        std::FILE* f = PyFile_AsFile(fp);
+        std_obuf buf(f);
+        std::ostream os(&buf);
+        a.save( os );
+      }
+
 void register_Alignandum_class(){
 
     { //::alignlib::Alignandum

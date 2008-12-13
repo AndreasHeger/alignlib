@@ -19,10 +19,11 @@ project
 # Declare a Python extension called hello.
 python-extension alignlib 
   : # source 
-    alignlib.cpp
+    build/Sequence.pypp.cpp build/alignlib.main.cpp build/ResiduePair.pypp.cpp build/Distor.pypp.cpp build/Alignator.pypp.cpp build/Tree.pypp.cpp build/vector_less__unsigned_char__greater_.pypp.cpp build/MatrixInt.pypp.cpp build/AlignmentFormatDiagonals.pypp.cpp build/DistanceMatrix.pypp.cpp build/NormalDistributionParameters.pypp.cpp build/MatrixDouble.pypp.cpp build/Alignandum.pypp.cpp build/LogOddor.pypp.cpp build/EVDParameters.pypp.cpp build/AlignmentIterator.pypp.cpp build/AlignmentFormat.pypp.cpp build/Labels.pypp.cpp build/Profile.pypp.cpp build/AlignmentFormatBlat.pypp.cpp build/Coordinate.pypp.cpp build/MatrixUInt.pypp.cpp build/AlignmentFormatEmissions.pypp.cpp build/Alignatum.pypp.cpp build/Alignment.pypp.cpp build/Fragmentor.pypp.cpp build/Iterator2D.pypp.cpp build/Treetor.pypp.cpp build/Encoder.pypp.cpp build/alignlib_enumerations.pypp.cpp build/MultipleAlignment.pypp.cpp build/Scorer.pypp.cpp build/vector_less__double__greater_.pypp.cpp build/vector_less__unsigned_int__greater_.pypp.cpp build/alignlib_free_functions.pypp.cpp build/Regularizor.pypp.cpp build/AlignmentFormatExplicit.pypp.cpp build/Weightor.pypp.cpp build/PositionVector.pypp.cpp build/AlignmentFormatBlocks.pypp.cpp
   : # requirements 
   <library-file>../alignlib/.libs/libalignlib.so
+  <include>.
   <include>..
-<include>../alignlib 
+  <include>../alignlib 
   ;
   
