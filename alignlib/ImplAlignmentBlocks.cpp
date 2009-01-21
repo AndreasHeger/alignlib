@@ -21,7 +21,7 @@
  */
 
 
-#include <iostream> 
+#include <iostream>
 #include <iterator>
 #include <iomanip>
 #include <algorithm>
@@ -35,59 +35,59 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //------------------------------factory functions -----------------------------
-HAlignment makeAlignmentBlocks() 
+HAlignment makeAlignmentBlocks()
 {
 	return HAlignment( new ImplAlignmentBlocks() );
 }
 
 struct ComparatorBlock
 {
-  bool operator()( const Block & x, const Block & y) const 
-  { 
-    return x.mRowStart < y.mRowStart; 
-  } 
+  bool operator()( const Block & x, const Block & y) const
+  {
+    return x.mRowStart < y.mRowStart;
+  }
 };
 
-bool operator==( const Block & x, const Block & y) 
-{ 
-	return (x.mRowStart == y.mRowStart) && 
+bool operator==( const Block & x, const Block & y)
+{
+	return (x.mRowStart == y.mRowStart) &&
 		(x.mColStart == y.mColStart) &&
 		(x.mSize == y.mSize);
 }
-bool operator!=( const Block & x, const Block & y) 
-{ 
+bool operator!=( const Block & x, const Block & y)
+{
 	return !(x == y);
 }
 
-std::ostream & operator<< (std::ostream & output, const Block & src) 
+std::ostream & operator<< (std::ostream & output, const Block & src)
 {
   output << src.mRowStart << "\t" << std::setw(5) << src.mColStart << "\t" << std::setprecision(4) << src.mSize;
   return output;
 }
 //------------------------------------< constructors and destructors >-----
-ImplAlignmentBlocks::ImplAlignmentBlocks() : 
+ImplAlignmentBlocks::ImplAlignmentBlocks() :
 	ImplAlignment(), mLastLookupBlock(mBlocks.end())
 {
-	
+
 }
 
-ImplAlignmentBlocks::ImplAlignmentBlocks( const ImplAlignmentBlocks& src) : 
+ImplAlignmentBlocks::ImplAlignmentBlocks( const ImplAlignmentBlocks& src) :
 	ImplAlignment( src )
 {
 	debug_func_cerr(5);
 	mBlocks.clear();
-	std::copy( 
-			src.mBlocks.begin(), 
+	std::copy(
+			src.mBlocks.begin(),
 			src.mBlocks.end(),
 			std::back_inserter(mBlocks) );
 	mLastLookupBlock = mBlocks.end();
 }
 
-ImplAlignmentBlocks::~ImplAlignmentBlocks( ) 
+ImplAlignmentBlocks::~ImplAlignmentBlocks( )
 {
 	debug_func_cerr(5);
 	clear();
@@ -99,20 +99,20 @@ HAlignment ImplAlignmentBlocks::getNew() const
 	return HAlignment( new ImplAlignmentBlocks() );
 }
 
-HAlignment ImplAlignmentBlocks::getClone() const 
+HAlignment ImplAlignmentBlocks::getClone() const
 {
 	return HAlignment( new ImplAlignmentBlocks( *this ) );
 }
 
-//-----------------------------------------------------------------------------------------------------------   
+//-----------------------------------------------------------------------------------------------------------
 AlignmentIterator ImplAlignmentBlocks::begin() const
-{	
-	return AlignmentIterator( new ImplAlignmentBlocksIterator( mBlocks.begin(), mBlocks.end() )); 
+{
+	return AlignmentIterator( new ImplAlignmentBlocksIterator( mBlocks.begin(), mBlocks.end() ));
 }
 
-AlignmentIterator ImplAlignmentBlocks::end() const 
-{ 
-	return AlignmentIterator( new ImplAlignmentBlocksIterator( mBlocks.end(), mBlocks.end() )); 
+AlignmentIterator ImplAlignmentBlocks::end() const
+{
+	return AlignmentIterator( new ImplAlignmentBlocksIterator( mBlocks.end(), mBlocks.end() ));
 }
 
 //----------------> accessors <------------------------------------------------------------------------------
@@ -121,27 +121,27 @@ ResiduePair ImplAlignmentBlocks::front() const { return ResiduePair( mRowFrom, m
 ResiduePair ImplAlignmentBlocks::back()  const { return ResiduePair( mRowTo, mColTo) ; }
 
 //----------------------------------------------------------------------------------------------------------------------
-void ImplAlignmentBlocks::addPair( const ResiduePair & pair ) 
-{ 
+void ImplAlignmentBlocks::addPair( const ResiduePair & pair )
+{
 	debug_func_cerr( 5 );
 
-    debug_cerr( 5, "adding pair " <<  pair << " to container of size " 
+    debug_cerr( 5, "adding pair " <<  pair << " to container of size "
     		<< mBlocks.size() << " coords=" << mRowFrom << "-" << mRowTo << ":" << mColFrom << "-" << mColTo );
-	
+
 	ImplAlignment::addPair( pair );
 
 	mBlocks.push_back( Block( pair.mRow, pair.mCol, 1));
-} 
+}
 
-//--------------------------------------------------------------------------------------------------------------  
-void ImplAlignmentBlocks::addDiagonal( 
-		Position row_from, 
-		Position row_to, 
-		Position col_offset) 
+//--------------------------------------------------------------------------------------------------------------
+void ImplAlignmentBlocks::addDiagonal(
+		Position row_from,
+		Position row_to,
+		Position col_offset)
 {
 	if (row_from == NO_POS || row_to == NO_POS)
 		return;
-	
+
 	Position col_from = row_from + col_offset;
 	Position col_to   = row_to + col_offset;
 
@@ -154,37 +154,37 @@ void ImplAlignmentBlocks::addDiagonal(
 	}
 	else
 	{
-		if (row_from < mRowFrom) 
+		if (row_from < mRowFrom)
 			mRowFrom = row_from;
 		if (row_to > mRowTo )
 			mRowTo = row_to;
-		if (col_from < mColFrom) 
+		if (col_from < mColFrom)
 			mColFrom = col_from;
-		if (col_to > mColTo)   
+		if (col_to > mColTo)
 			mColTo = col_to;
-	}	
+	}
 
-	mBlocks.push_back( Block( row_from, col_from, row_to - row_from ) ); 
-	
+	mBlocks.push_back( Block( row_from, col_from, row_to - row_from ) );
+
 	setChangedLength();
 }
 
 //--------------------------------------------------------------------------------------------------------------
-void ImplAlignmentBlocks::moveAlignment( Position row_offset, Position col_offset) 
+void ImplAlignmentBlocks::moveAlignment( Position row_offset, Position col_offset)
 {
 	debug_func_cerr(5);
 
 	BlockIterator it(mBlocks.begin()), it_end(mBlocks.end());
 
 	// copy pointers from copy into mPairs
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		it->mRowStart += row_offset;
 		it->mColStart += col_offset;
 	}
 
 	// set new alignment coordinates
-	mRowFrom += row_offset;  
+	mRowFrom += row_offset;
 	mRowTo   += row_offset;
 	mColFrom += col_offset;
 	mColTo += col_offset;
@@ -193,7 +193,7 @@ void ImplAlignmentBlocks::moveAlignment( Position row_offset, Position col_offse
 
 //----------------------------------------------------------------------------------------------------------
 /** retrieves a pair of residues from the alignment */
-ResiduePair ImplAlignmentBlocks::getPair( const ResiduePair & p) const 
+ResiduePair ImplAlignmentBlocks::getPair( const ResiduePair & p) const
 {
 	if (p.mRow != NO_POS)
 	{
@@ -204,13 +204,14 @@ ResiduePair ImplAlignmentBlocks::getPair( const ResiduePair & p) const
 	{
 		return ResiduePair();
 	}
-} 
+}
 
 //----------------------------------------------------------------------------------------------------------
 BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & previous) const
 {
 	debug_func_cerr(5);
-	
+
+	// out of range
 	if (pos <= mRowFrom && pos > mRowTo)
 		return mBlocks.end();
 
@@ -220,26 +221,29 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 	// pos, unless pos coincides directly with mRowStart of the block.
 	// The cached lookup has to have the same behaviour.
 	BlockIterator it(mLastLookupBlock);
-		
+
 	size_t n = mBlocks.size();
-	
+
 	if (n == 0)
 	{
+		// empty alignment
 		return mBlocks.end();
 	}
 	else if (n == 1)
 	{
+		// only one block
 		it = mBlocks.begin();
 	}
 	else if (!mChangedLength && it != mBlocks.end())
 	{
+		// update from a previous search
 		// coordinate is before current block
 		if (pos < it->mRowStart)
 		{
 			// check previous block
 			--it;
 			// can't reach end, as otherwise mRowFrom > pos
-			// but check			
+			// but check
 			assert( it != mBlocks.end());
 
 			// if not within this block, do binary search
@@ -271,7 +275,7 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 				// if not within next block, do a binary search
 				if (pos >= it->mRowStart + it->mSize )
 				{
-					it = std::lower_bound( it, mBlocks.end(), 
+					it = std::lower_bound( it, mBlocks.end(),
 							Block( pos, 0, 0),
 							ComparatorBlock() );
 					assert( it != mBlocks.end() );
@@ -279,26 +283,30 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 						--it;
 				}
 			}
-		}	
+		}
 	}
 	else
 	{
+		// find new coordinate
 		// this fails if there is only a single block and pos > mRowFrom
-		it = std::lower_bound( 
-				mBlocks.begin(), mBlocks.end(), 
+		// std::copy( mBlocks.begin(), mBlocks.end(), std::ostream_iterator<Block>(std::cerr, ",") );
+		// std::cerr << pos << std::endl;
+		it = std::lower_bound(
+				mBlocks.begin(), mBlocks.end(),
 				Block( pos, 0, 0),
 				ComparatorBlock() );
-		
-		assert( it != mBlocks.end() );
-		if (it->mRowStart != pos)
+
+		if (it == mBlocks.end())
+			--it;
+		else if (it->mRowStart != pos)
 			--it;
 	}
-	
-	debug_cerr( 5, "looking for " << pos << " found=" << *it );	
+
+	debug_cerr( 5, "looking for " << pos << " found=" << *it );
 	mLastLookupBlock = it;
-	
+
 	if (it == mBlocks.end()) return it;
-	
+
 	if (pos > it->mRowStart + it->mSize)
 		return (previous ? it : mBlocks.end());
 	else
@@ -306,15 +314,15 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 }
 
 //----------------------------------------------------------------------------------------------------------
-void ImplAlignmentBlocks::removePair( const ResiduePair & old_pair ) 
-{ 	
-	debug_func_cerr( 5 );	
+void ImplAlignmentBlocks::removePair( const ResiduePair & old_pair )
+{
+	debug_func_cerr( 5 );
 	Position pos = old_pair.mRow;
-	
+
 	BlockIterator it = find( pos );
-	
+
 	// residue not within block
-	if (it == mBlocks.end()) 
+	if (it == mBlocks.end())
 		return;
 
 	debug_cerr( 5, "query=" << pos<< " block=" << *it);
@@ -334,33 +342,33 @@ void ImplAlignmentBlocks::removePair( const ResiduePair & old_pair )
 		it->shortenRight( old_size - new_size + 1);
 		++it;
 		mBlocks.insert( it, Block( new_row_start, new_col_start, old_size - new_size));
-	}	
+	}
 
-	ImplAlignment::removePair( old_pair );	
-} 
+	ImplAlignment::removePair( old_pair );
+}
 
 //----------------------------------------------------------------------------------------------------------------
-void ImplAlignmentBlocks::clearContainer() 
-{ 
+void ImplAlignmentBlocks::clearContainer()
+{
 	debug_func_cerr( 5 );
 	mBlocks.clear();
 }
 
 //----------------------------------------------------------------------------------------------------------------
-void ImplAlignmentBlocks::clear() 
+void ImplAlignmentBlocks::clear()
 {
-	debug_func_cerr( 5 );	
+	debug_func_cerr( 5 );
 	ImplAlignment::clear();
 	clearContainer();
 }
 
 //--------------> mapping functions <----------------------------------------------------------------------------
-Position ImplAlignmentBlocks::mapRowToCol( Position pos, SearchType search ) const 
+Position ImplAlignmentBlocks::mapRowToCol( Position pos, SearchType search ) const
 {
-	debug_func_cerr( 5 );	
+	debug_func_cerr( 5 );
   if (mRowFrom == NO_POS) return NO_POS;
   if (isEmpty()) return NO_POS;
-  
+
   if ( search == LEFT && pos >= mRowTo)
 	  return mColTo;
 
@@ -373,7 +381,7 @@ Position ImplAlignmentBlocks::mapRowToCol( Position pos, SearchType search ) con
 
   debug_cerr( 5, "query=" << pos<< " block=" << *it);
 
-  // residue within block 
+  // residue within block
   if (it->mRowStart + it->mSize > pos)
 	  return pos + (it->getDiagonal());
 
@@ -381,7 +389,7 @@ Position ImplAlignmentBlocks::mapRowToCol( Position pos, SearchType search ) con
   if (search == LEFT)
   {
 	  return it->mColStart + it->mSize - 1;
-  }	
+  }
   else if (search == RIGHT)
   {
 	  ++it;
@@ -393,15 +401,15 @@ Position ImplAlignmentBlocks::mapRowToCol( Position pos, SearchType search ) con
   }
 }
 
-//-----------------------------------------------------------------------------------------------------------   
-void ImplAlignmentBlocks::calculateLength() const 
+//-----------------------------------------------------------------------------------------------------------
+void ImplAlignmentBlocks::calculateLength() const
 {
 	updateBoundaries();
 	mChangedLength = false;
 }
 
-//-----------------------------------------------------------------------------------------------------------   
-void ImplAlignmentBlocks::updateBoundaries() const 
+//-----------------------------------------------------------------------------------------------------------
+void ImplAlignmentBlocks::updateBoundaries() const
 {
 	debug_func_cerr( 5 );
 
@@ -420,19 +428,19 @@ void ImplAlignmentBlocks::updateBoundaries() const
 	std::sort( mBlocks.begin(), mBlocks.end(), ComparatorBlock() );
 
 	BlockIterator it(mBlocks.begin()), it_end(mBlocks.end());
-		
+
 	// extent of current block
 	Position row_last = it->mRowStart + it->mSize;
 	Position col_last = it->mColStart + it->mSize;
 	mColFrom = it->mColStart;
 	mColTo = col_last;
-	
+
 	BlockIterator current_block (it);
 	debug_cerr( 5, "block=" << *it);
 	++it;
 	Position naligned=0;
 	Position ngaps=0;
-	
+
 	for (; it != it_end; ++it )
 	{
 		debug_cerr( 5, "block=" << *it);
@@ -444,7 +452,7 @@ void ImplAlignmentBlocks::updateBoundaries() const
     	Position d = 0;
     	if ((d = row_from - row_last) < 0)
     		throw AlignlibException( "__FILE__:__LINE__ overlapping blocks in row");
-    	
+
     	// check for extension
     	if ( d == 0 && (col_from - col_last) == 0)
     	{
@@ -464,17 +472,17 @@ void ImplAlignmentBlocks::updateBoundaries() const
     		current_block->mRowStart = row_from;
     		current_block->mColStart = col_from;
     	}
-    	
+
     	// get maximum boundaries
     	if (col_from < mColFrom) mColFrom = col_from;
-    	if (col_to   > mColTo)   mColTo = col_to;		
+    	if (col_to   > mColTo)   mColTo = col_to;
 	}
-	
+
 	current_block->mSize = row_last - current_block->mRowStart;
 	naligned += current_block->mSize;
 	++current_block;
 	mBlocks.erase( current_block, mBlocks.end());
-	
+
 	mRowFrom = mBlocks.front().mRowStart;
 	mRowTo   = mBlocks.back().mRowStart + mBlocks.back().mSize;
 
@@ -482,15 +490,15 @@ void ImplAlignmentBlocks::updateBoundaries() const
 
 	setLength( naligned + ngaps );
 	setNumGaps( ngaps );
-	debug_cerr( 5, "last block: row=" << mBlocks.back() );	
-	debug_cerr( 5, "new alignment coordinates: row=" << mRowFrom << "-" << mRowTo 
-			<< " col=" << mColFrom << "-" << mColTo 
-			<< " naligned=" << naligned << " gaps=" << ngaps);	
+	debug_cerr( 5, "last block: row=" << mBlocks.back() );
+	debug_cerr( 5, "new alignment coordinates: row=" << mRowFrom << "-" << mRowTo
+			<< " col=" << mColFrom << "-" << mColTo
+			<< " naligned=" << naligned << " gaps=" << ngaps);
 }
 
 /*
-//-----------------------------------------------------------------------------------------------------------   
-void ImplAlignmentBlocks::removeRowRegion( Position from, Position to) 
+//-----------------------------------------------------------------------------------------------------------
+void ImplAlignmentBlocks::removeRowRegion( Position from, Position to)
 {
 	debug_func_cerr(5);
 
