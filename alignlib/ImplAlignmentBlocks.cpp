@@ -278,8 +278,9 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 					it = std::lower_bound( it, mBlocks.end(),
 							Block( pos, 0, 0),
 							ComparatorBlock() );
-					assert( it != mBlocks.end() );
-					if (it->mRowStart != pos)
+					if (it == mBlocks.end())
+						--it;
+					else if (it->mRowStart != pos)
 						--it;
 				}
 			}
