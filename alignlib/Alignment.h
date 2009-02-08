@@ -31,19 +31,19 @@
 #include <string>
 #include "alignlib_fwd.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
 	/**
    	@short A residuepair containing row, column, and a score.
-   	
+
    	This encapsulates the most basic information for an aligned residue pair.
-   	
+
    	Use an @ref ResidueDecorator object to attach more information to
    	a residue pair.
 	 */
 
-struct ResiduePair 
+struct ResiduePair
 {
 	/** Base class for residue aligned residues.
 	 */
@@ -51,52 +51,52 @@ struct ResiduePair
 	friend std::ostream & operator<< (std::ostream &, const ResiduePair &);
 
 	/** empty constructor.
-	 * 
+	 *
 	 * An empty residue pair has NO_POS as row and column and a score of 0.
 	 */
 	ResiduePair() : mRow(NO_POS), mCol(NO_POS), mScore(0) {}
-	
+
 	ResiduePair( Position a, Position b, Score c = 0) : mRow(a), mCol(b), mScore(c) {}
-		
-	/** copy constructor. 
+
+	/** copy constructor.
 	 */
-	ResiduePair( const ResiduePair & src) : 
+	ResiduePair( const ResiduePair & src) :
 		mRow(src.mRow), mCol(src.mCol), mScore(src.mScore) {}
 
-	/** assignment operator. 
+	/** assignment operator.
 	*/
-	ResiduePair& operator=( const ResiduePair & src) 
-	{ 
-		mRow = src.mRow; 
-		mCol = src.mCol; 
-		mScore = src.mScore; 
+	ResiduePair& operator=( const ResiduePair & src)
+	{
+		mRow = src.mRow;
+		mCol = src.mCol;
+		mScore = src.mScore;
 		return *this;
 	}
-	
+
 	/** return the diagonal of this residue pair.
 	 */
 	Position getDiagonal() const
 	{
 		return mCol - mRow;
 	}
-	
+
 	/** the row coordinate of this residue pair
 	 */
 	Position mRow;
-	
+
 	/** the col coordinates of this residue pair
 	 */
 	Position mCol;
-	
+
 	/** the score of this residue pair
 	 */
 	Score mScore;
 };
 
-bool operator==( const ResiduePair & x, const ResiduePair & y); 
-bool operator!=( const ResiduePair & x, const ResiduePair & y); 
+bool operator==( const ResiduePair & x, const ResiduePair & y);
+bool operator!=( const ResiduePair & x, const ResiduePair & y);
 
-/**     
+/**
     @short Protocol class for pairwise alignments.
 
     Tthe purpose of this class to provide a mapping between
@@ -111,15 +111,15 @@ bool operator!=( const ResiduePair & x, const ResiduePair & y);
     since the implementation differs between the different
     container types, I went for passive iterators, unlike
     the STL iterators, which are active. A passive iterator
-    relies on the collection to manage its advancement and 
+    relies on the collection to manage its advancement and
     therefore has to cooperate closely with its container.
 
-    This class is a protocol class and as such defines only 
+    This class is a protocol class and as such defines only
     the general interface.
 
  */
 
-class Alignment 
+class Alignment
 {
 	friend std::ostream & operator<<(std::ostream &output, const Alignment &);
 
@@ -147,14 +147,14 @@ public:
 	//------------------------------------------------------------------------------------------------------------
 	/**
        @short Iterator over an alignment.
-       
+
        Only const iterators are provide. Changing mRow or mCol would
        leave the container in an undefined state.
-       
+
        If you need to modify the score of a @ref ResiduePair returned
        by an iterator, cast away the const-ness.
 	 */
-	class Iterator 
+	class Iterator
 	{
 	public:
 		Iterator() {};
@@ -180,11 +180,11 @@ public:
 
 	/** returns an iterator pointing to the first element in the container
 	 */
-	virtual AlignmentIterator begin() const = 0; 
+	virtual AlignmentIterator begin() const = 0;
 
 	/** returns an iterator pointing one past the last element in the container.
 	 */
-	virtual AlignmentIterator end() const = 0; 
+	virtual AlignmentIterator end() const = 0;
 
 	//----------------> accessors <------------------------------------------------------------------------------
 
@@ -192,25 +192,25 @@ public:
 	 */
 	virtual Score getScore() const = 0;
 
-	/** get the length of an alignment 
+	/** get the length of an alignment
 
      The length of an alignment is the number of aligned residue pairs plus
      the number gaps.
 	 */
 	virtual Position getLength() const = 0 ;
 
-	/** get the number of gaps in the alignment 
-	 * 
+	/** get the number of gaps in the alignment
+	 *
 	 * Gaps are counted in either sequence.
 	 * */
 	virtual Position getNumGaps() const = 0;
 
-    /** get the number of aligned positions in the alignment. 
+    /** get the number of aligned positions in the alignment.
      * */
     virtual Position getNumAligned() const = 0;
-	
-	/** set the alignment score. 
-	 * 
+
+	/** set the alignment score.
+	 *
 	 * @param score score to set.
 	 * */
 	virtual void setScore( Score score ) = 0;
@@ -218,123 +218,153 @@ public:
 	/** returns true, if alignment is empty */
 	virtual bool isEmpty() const = 0;
 
-	/** returns the first residue aligned in row 
+	/** returns the first residue aligned in row
 	 * */
 	virtual Position getRowFrom() const = 0;
 
-	/** returns one past the last residue aligned in row 
+	/** returns one past the last residue aligned in row
 	 * */
 	virtual Position getRowTo() const = 0;
 
-	/** returns the first residue aligned in col 
+	/** returns the first residue aligned in col
 	 * */
 	virtual Position getColFrom() const = 0;
 
-	/** returns one past the last residue aligned in col 
+	/** returns one past the last residue aligned in col
 	 * */
 	virtual Position getColTo() const = 0;
 
-	/** returns a copy of the first aligned pair. 
+	/** returns a copy of the first aligned pair.
 	 * */
 	virtual ResiduePair front() const = 0;
 
-	/** returns a copy of the last aligned pair 
+	/** returns a copy of the last aligned pair
 	 * */
 	virtual ResiduePair back() const = 0;
 
-	/** adds a pair of residues to the alignment 
-	 * 
+	/** adds a pair of residues to the alignment
+	 *
 	 * @param pair The residue pair to be added.
 	 * */
-	virtual void addPair( const ResiduePair & pair ) = 0; 
+	virtual void addPair( const ResiduePair & pair ) = 0;
 
 	/** adds a pair of residues to the alignment */
-	virtual void addPair( Position row, Position col, Score score = 0) = 0; 
+	virtual void addPair( Position row, Position col, Score score = 0) = 0;
 
 	/** adds a diagonal to the alignment.
-	 *  
+	 *
 	 * @param row_from	  	row start
 	 * @param row_to	  	row end
 	 * @param col_offset	column offset.
 	*/
-	virtual void addDiagonal( 
-			Position row_from, 
-			Position row_to, 
+	virtual void addDiagonal(
+			Position row_from,
+			Position row_to,
 			Position col_offset = 0) = 0;
-	
+
 	/** removes a residue pair from the alignment
-	 * 
-	 * @param pair @ref ResiduePair to be removed. 
+	 *
+	 * @param pair @ref ResiduePair to be removed.
 	*/
 	virtual void removePair( const ResiduePair & pair ) = 0;
 
-	/** retrieves a copy of a residue pair. 
-	 * 
+	/** retrieves a copy of a residue pair.
+	 *
 	 * Different containers will match residue pairs differently
 	 * (by row, col, or diagonal).
-	 *  
+	 *
 	 * @param row row of residue pair
 	 * */
 	virtual ResiduePair getPair( const ResiduePair & p) const = 0;
 
-	/** move alignment 
-	 * 
+	/** move alignment
+	 *
 	 * @param row_offset	add row_offset to row coordinates.
 	 * @param col_offset	add col_offset to col coordinates.
 	 * */
 	virtual void moveAlignment( Position row_offset, Position col_offset) = 0;
 
-	/** maps a residue from row to column. 
-	 * 
-	 * @param pos 		Position to map. 
+	/** maps a residue from row to column.
+	 *
+	 * @param pos 		Position to map.
 	 * @param search 	If pos does not map to a residue directly, search
 	 * 					in direction given by search.
-	 * 
+	 *
 	 * returns NO_POS if mapping failed.
 	 * */
 	virtual Position mapRowToCol( Position pos, SearchType search = NO_SEARCH ) const = 0;
 
 	/** maps a residue from row to column.
-	 * 
-	 * @param pos 		Position to map. 
+	 *
+	 * This operator is synonymous to mapRowToCol( pos ).
+	 *
+	 * @param pos 		Position to map.
+	 * returns NO_POS if mapping failed.
+	 * */
+    virtual Position operator[]( const Position & pos ) const = 0;
+
+	/** maps a residue from row to column.
+	 *
+	 * @param pos 		Position to map.
 	 * @param search 	If pos does not map to a residue directly, search
 	 * 					in direction given by search.
-	 * 
+	 *
 	 * returns NO_POS if mapping failed.
 	 */
 	virtual Position mapColToRow( Position pos, SearchType search = NO_SEARCH ) const = 0;
 
 	/** removes a row-region in an alignment
-	 * 
+	 *
 	 * @param from	start of region in row to remove
 	 * @param to 	end of region in row to remove
 	 */
-	
+
 	virtual void removeRowRegion( Position from, Position to ) = 0;
 
-	/** removes a col-region in an alignment 
-	 * 
+	/** removes a col-region in an alignment
+	 *
 	 * @param from	start of region in col to remove
 	 * @param to 	end of region in col to remove
 	 * */
 	virtual void removeColRegion( Position from, Position to) = 0;
 
-	/** switch row and column in the alignment 
+	/** insert position in row. Aligned residues are shifted downwards
+	 *
+	 * @param position	position at which to insert residues. If this position
+	 *              was aligned, it will now be unaligned
+	 * @param residues  number of residues to insert.
+	 */
+	virtual void insertRow(
+			const Position & from,
+			const Position & residues = 1) = 0;
+
+	/** insert residues in col. Aligned residues are shifted downwards
+	 *
+	 * @param from	position at which to add residues. If this position
+	 *              was aligned, it will now be unaligned
+	 * @param distance shift residues by by distance
+	 * */
+	virtual void insertCol(
+			const Position & from,
+			const Position & residues = 1) = 0;
+
+
+	/** switch row and column in the alignment
 	 * */
 	virtual void switchRowCol() = 0;
 
-	/** clear the current alignemnt 
+	/** clear the current alignemnt
 	*/
 	virtual void clear() = 0;
 
 	/*-----------------> I/O <------------------------------------------------------------------------------ */
 	/** write human readable representation of alignment to stream
-	 * 
+	 *
 	 * @param output stream to output the alignment.
-	 * 
+	 *
 	 * see @ref AlignmentFormat for formatted output of alignments.
 	 */
-	virtual void write(std::ostream & output ) const = 0;	       
+	virtual void write(std::ostream & output ) const = 0;
 
 };
 

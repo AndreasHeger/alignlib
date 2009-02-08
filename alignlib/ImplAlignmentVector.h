@@ -39,10 +39,10 @@ class Alignandum;
 
 /** alignment, where residues are kept in a vector.
 
-    Residues are kept in a vector. 
+    Residues are kept in a vector.
 
     It is not assumed that the alignment is linear, meaning that
-    for all i < j : col[i] < col[j] 
+    for all i < j : col[i] < col[j]
 
     The advantages:
     @li mapping is much faster
@@ -60,7 +60,7 @@ class Alignandum;
     @version $Id: ImplAlignmentVector.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
     @short protocol class for aligned objects
  */
-class ImplAlignmentVector : public ImplAlignment 
+class ImplAlignmentVector : public ImplAlignment
 {
 
 	typedef std::vector<ResiduePair> PAIRVECTOR;
@@ -97,20 +97,20 @@ public:
 		ImplAlignmentVector_Iterator(const PAIRVECTOR & container,
 				Position current,
 				Position from,
-				Position to) : 
+				Position to) :
 					mContainer( container ),
-					mCurrentRow( current ), 
-					mFirstRow( from), 
-					mLastRow( to ) 
-					{ 
-			if (mCurrentRow >= mLastRow || to == NO_POS || mContainer.size() == 0) 
+					mCurrentRow( current ),
+					mFirstRow( from),
+					mLastRow( to )
+					{
+			if (mCurrentRow >= mLastRow || to == NO_POS || mContainer.size() == 0)
 				mCurrentRow = NO_POS;
 		};
 
-		ImplAlignmentVector_Iterator( const ImplAlignmentVector_Iterator & src ) : 
+		ImplAlignmentVector_Iterator( const ImplAlignmentVector_Iterator & src ) :
 			mContainer( src.mContainer),
-			mCurrentRow( src.mCurrentRow), 
-			mFirstRow( src.mFirstRow), 
+			mCurrentRow( src.mCurrentRow),
+			mFirstRow( src.mFirstRow),
 			mLastRow( src.mLastRow) {};
 
 			virtual ~ImplAlignmentVector_Iterator() {};
@@ -118,38 +118,38 @@ public:
 			virtual Iterator * getClone() const {return new ImplAlignmentVector_Iterator( *this );}
 
 			/** dereference operator: runtime error, if out of bounds? */
-			virtual const ResiduePair & getReference() const 
-			{ 
+			virtual const ResiduePair & getReference() const
+			{
 				assert( mCurrentRow >= 0 );
 				return mContainer[mCurrentRow];
 			}
 
 			/** for indirection */
 			virtual const ResiduePair * getPointer() const
-			{ 
-				if (mCurrentRow != NO_POS) 
-					return &mContainer[mCurrentRow]; 
-				else 
+			{
+				if (mCurrentRow != NO_POS)
+					return &mContainer[mCurrentRow];
+				else
 					return NULL;
 			}
 
 			/** advance one position, until you find an aligned pair */
-			virtual void next() 
-			{ 
+			virtual void next()
+			{
 				mCurrentRow++;
-				while (mCurrentRow < mLastRow && mContainer[mCurrentRow].mRow == NO_POS ) 
+				while (mCurrentRow < mLastRow && mContainer[mCurrentRow].mRow == NO_POS )
 					mCurrentRow++;
-				if (mCurrentRow >= mLastRow) 
+				if (mCurrentRow >= mLastRow)
 					mCurrentRow = NO_POS;
 			}
 
 			/** step back one position, until you find an aligned pair */
-			virtual void previous() 
-			{ 
-				mCurrentRow--; 
-				while (mCurrentRow >= mFirstRow && mContainer[mCurrentRow].mRow == NO_POS) 
+			virtual void previous()
+			{
+				mCurrentRow--;
+				while (mCurrentRow >= mFirstRow && mContainer[mCurrentRow].mRow == NO_POS)
 					mCurrentRow--;
-				if (mCurrentRow < mFirstRow) 
+				if (mCurrentRow < mFirstRow)
 					mCurrentRow = NO_POS;
 			}
 
@@ -161,10 +161,10 @@ public:
 	};
 
 	/** return const iterator */
-	virtual AlignmentIterator begin() const; 
+	virtual AlignmentIterator begin() const;
 
 	/** return const iterator */
-	virtual AlignmentIterator end() const; 
+	virtual AlignmentIterator end() const;
 
 	//----------------> accessors <------------------------------------------------------------------------------
 
@@ -176,7 +176,7 @@ public:
 	virtual ResiduePair back() const;
 
 	/** adds a pair of residue to the alignment */
-	virtual void addPair( const ResiduePair & pair ); 
+	virtual void addPair( const ResiduePair & pair );
 
 	/** removes a pair of residues from the alignment */
 	virtual void removePair( const ResiduePair & old_pair );
@@ -184,7 +184,7 @@ public:
 	/** retrieves a pair of residues from the alignment */
 	virtual ResiduePair getPair( const ResiduePair & p) const;
 
-	/** maps a residue from row to column. returns 0, if not found. This is quick, since there is 
+	/** maps a residue from row to column. returns 0, if not found. This is quick, since there is
 	only one lookup in the array needed.*/
 	virtual Position mapRowToCol( Position pos, SearchType search = NO_SEARCH ) const;
 
@@ -197,6 +197,26 @@ public:
 	/** removes a column-region in an alignment */
 	virtual void removeColRegion( Position from, Position to);
 
+	/** insert position in row. Aligned residues are shifted downwards
+	 *
+	 * @param position	position at which to insert residues. If this position
+	 *              was aligned, it will now be unaligned
+	 * @param residues  number of residues to insert.
+	 */
+	virtual void insertRow(
+			const Position & from,
+			const Position & residues = 1);
+
+	/** insert residues in col. Aligned residues are shifted downwards
+	 *
+	 * @param from	position at which to add residues. If this position
+	 *              was aligned, it will now be unaligned
+	 * @param distance shift residues by by distance
+	 * */
+	virtual void insertCol(
+			const Position & from,
+			const Position & residues = 1);
+
 	/** clear the current alignemnt */
 	void clear();
 	protected:
@@ -206,7 +226,7 @@ public:
 
 		/** update boundaries in case alignment length has changed */
 		virtual void updateBoundaries() const;
-		
+
 	private:
 
 		/** clear container */

@@ -35,28 +35,31 @@ namespace alignlib
 	/** actor objects and their handles */
 	class Encoder;
 	typedef boost::shared_ptr<Encoder>HEncoder;
-	
+
 	class Weightor;
 	typedef boost::shared_ptr<Weightor>HWeightor;
-	
+
 	class Regularizor;
 	typedef boost::shared_ptr<Regularizor>HRegularizor;
-	
+
 	class LogOddor;
 	typedef boost::shared_ptr<LogOddor>HLogOddor;
-	
+
 	class MultipleAlignment;
 	typedef boost::shared_ptr<MultipleAlignment>HMultipleAlignment;
-		
+
+	class MultAlignment;
+	typedef boost::shared_ptr<MultAlignment>HMultAlignment;
+
 	class Alignment;
 	typedef boost::shared_ptr<Alignment>HAlignment;
-	
+
 	class AlignmentIterator;
 	typedef boost::shared_ptr<AlignmentIterator>HAlignmentIterator;
-	
+
 	class Alignatum;
 	typedef boost::shared_ptr<Alignatum>HAlignatum;
-	
+
 	class Alignandum;
 	typedef boost::shared_ptr<Alignandum>HAlignandum;
 
@@ -68,79 +71,79 @@ namespace alignlib
 
 	class Alignator;
 	typedef boost::shared_ptr<Alignator>HAlignator;
-	
+
 	class Scorer;
 	typedef boost::shared_ptr<Scorer>HScorer;
-	
+
 	class Treetor;
 	typedef boost::shared_ptr<Treetor>HTreetor;
-	
+
 	class Tree;
 	typedef boost::shared_ptr<Tree>HTree;
-	
+
 	class Distor;
 	typedef boost::shared_ptr<Distor>HDistor;
 
 	class DistanceMatrix;
 	typedef boost::shared_ptr<DistanceMatrix>HDistanceMatrix;
-	
+
 	class Fragmentor;
 	typedef boost::shared_ptr<Fragmentor>HFragmentor;
-	
+
 	class Iterator2D;
 	typedef boost::shared_ptr<Iterator2D>HIterator2D;
-	
+
 	/** various matrix definitions */
 	template<class T> class Matrix;
-	
+
 	typedef Matrix<Score> ScoreMatrix;
     typedef boost::shared_ptr<ScoreMatrix>HScoreMatrix;
-	  
+
 	typedef Matrix<Frequency> FrequencyMatrix;
     typedef boost::shared_ptr<FrequencyMatrix>HFrequencyMatrix;
-	
+
 	typedef Matrix<Count> CountMatrix;
     typedef boost::shared_ptr<CountMatrix>HCountMatrix;
-	
+
     typedef Matrix<Score> MutationMatrix;
     typedef boost::shared_ptr<MutationMatrix>HMutationMatrix;
-    
-    typedef Matrix<Score> SubstitutionMatrix;	
+
+    typedef Matrix<Score> SubstitutionMatrix;
     typedef boost::shared_ptr<SubstitutionMatrix>HSubstitutionMatrix;
-    
+
     /** A vector of Residues */
     typedef std::vector< Residue > ResidueVector;
     typedef boost::shared_ptr<ResidueVector>HResidueVector;
 
     /** A vector of Frequencies */
     typedef std::vector< Frequency> FrequencyVector;
-    typedef boost::shared_ptr<FrequencyVector>HFrequencyVector;    
-    
+    typedef boost::shared_ptr<FrequencyVector>HFrequencyVector;
+
     /** A vector of aligned fragmens */
     typedef std::vector<HAlignment> FragmentVector;
-    typedef boost::shared_ptr<FragmentVector>HFragmentVector;    
+    typedef boost::shared_ptr<FragmentVector>HFragmentVector;
 
     /** A vector of positions */
     typedef std::vector< Position > PositionVector;
-    typedef boost::shared_ptr<PositionVector>HPositionVector;    
+    typedef boost::shared_ptr<PositionVector>HPositionVector;
 
     /** A vector of scores */
     typedef std::vector< Score > ScoreVector;
-    typedef boost::shared_ptr<ScoreVector>HScoreVector;    
+    typedef boost::shared_ptr<ScoreVector>HScoreVector;
 
     /** A vector with sequence weights
      */
     typedef std::vector< SequenceWeight > SequenceWeights;
-    typedef boost::shared_ptr<SequenceWeights>HSequenceWeights;    
+    typedef boost::shared_ptr<SequenceWeights>HSequenceWeights;
 
     /** A vector with nodes
      */
     typedef std::vector<Node> NodeVector;
     typedef boost::shared_ptr<NodeVector>HNodeVector;
-    
+
     /** A palette for colouring residues */
     typedef std::map<unsigned char,std::string>Palette;
-    typedef boost::shared_ptr<Palette>HPalette;    
+    typedef boost::shared_ptr<Palette>HPalette;
 
 }
 
