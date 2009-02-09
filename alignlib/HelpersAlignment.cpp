@@ -34,13 +34,13 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
-bool checkAlignmentIdentity( 
-		const HAlignment & a, 
-		const HAlignment & b, 
-		const bool invert) 
+bool checkAlignmentIdentity(
+		const HAlignment & a,
+		const HAlignment & b,
+		const bool invert)
 {
 
 	AlignmentIterator it1(a->begin());
@@ -51,15 +51,15 @@ bool checkAlignmentIdentity(
 
 	bool is_identical = true;
 
-	for (; it1 != it1_end && is_identical; ++it1, ++it2) 
+	for (; it1 != it1_end && it2 != it2_end && is_identical; ++it1, ++it2)
 	{
-		if (!invert) 
+		if (!invert)
 		{
-			if (it1->mRow != it2->mRow && it1->mCol != it2->mCol) 
+			if (it1->mRow != it2->mRow && it1->mCol != it2->mCol)
 				is_identical = false;
-		} else 
+		} else
 		{
-			if (it1->mRow != it2->mCol && it1->mCol != it2->mRow) 
+			if (it1->mRow != it2->mCol && it1->mCol != it2->mRow)
 				is_identical = false;
 		}
 	}
@@ -68,16 +68,16 @@ bool checkAlignmentIdentity(
 }
 
 //---------------------------------------------------------------------------------------------------------
-void readAlignmentPairs( 
-		HAlignment & dest, 
-		std::istream & input, 
-		bool reverse ) 
+void readAlignmentPairs(
+		HAlignment & dest,
+		std::istream & input,
+		bool reverse )
 {
 	debug_func_cerr(5);
 
 	dest->clear();
 
-	while (input) 
+	while (input)
 	{
 		Position row, col;
 		Score score;
@@ -92,15 +92,15 @@ void readAlignmentPairs(
 
 
 //-----------------------------------------------------------------------------------------------
-void copyAlignment( 
-		HAlignment & dest, 
+void copyAlignment(
+		HAlignment & dest,
 		const HAlignment & src,
 		Position row_from,
 		Position row_to,
 		Position col_from,
 		Position col_to,
 		Diagonal diagonal_from,
-		Diagonal diagonal_to ) 
+		Diagonal diagonal_to )
 {
 	debug_func_cerr(5);
 
@@ -114,7 +114,7 @@ void copyAlignment(
 	if (row_to > src->getRowTo() || row_to == NO_POS)
 		row_to = src->getRowTo();
 
-	if (diagonal_from > diagonal_to) 
+	if (diagonal_from > diagonal_to)
 	{
 		diagonal_from = std::numeric_limits<Position>::min();
 		diagonal_to   = std::numeric_limits<Position>::max();
@@ -125,7 +125,7 @@ void copyAlignment(
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		const ResiduePair & p = *it;
 
@@ -134,9 +134,9 @@ void copyAlignment(
 		Position this_row      = p.mRow;
 		Position this_col      = p.mCol;
 
-		if (this_col < col_from || this_col >= col_to) 
+		if (this_col < col_from || this_col >= col_to)
 			continue;
-		if (this_row < row_from || this_row >= row_to) 
+		if (this_row < row_from || this_row >= row_to)
 			continue;
 		if (this_diagonal < diagonal_from || this_diagonal > diagonal_to)
 			continue;
@@ -148,15 +148,15 @@ void copyAlignment(
 	return;
 }
 //-----------------------------------------------------------------------------------------------
-void copyAlignmentWithoutRegion( 
-		HAlignment & dest, 
+void copyAlignmentWithoutRegion(
+		HAlignment & dest,
 		const HAlignment & src,
 		Position row_from,
 		Position row_to,
 		Position col_from,
 		Position col_to,
 		Diagonal diagonal_from,
-		Diagonal diagonal_to ) 
+		Diagonal diagonal_to )
 {
 	debug_func_cerr(5);
 
@@ -176,7 +176,7 @@ void copyAlignmentWithoutRegion(
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		const ResiduePair & p = *it;
 
@@ -185,9 +185,9 @@ void copyAlignmentWithoutRegion(
 		Position this_row      = p.mRow;
 		Position this_col      = p.mCol;
 
-		if (this_col >= col_from && this_col < col_to) 
+		if (this_col >= col_from && this_col < col_to)
 			continue;
-		if (this_row >= row_from && this_row < row_to) 
+		if (this_row >= row_from && this_row < row_to)
 			continue;
 		if (this_diagonal >= diagonal_from && this_diagonal <= diagonal_to)
 			continue;
@@ -199,10 +199,10 @@ void copyAlignmentWithoutRegion(
 	return;
 }
 //-----------------------------------------------------------------------------------------------
-void copyAlignment( HAlignment & dest, 
+void copyAlignment( HAlignment & dest,
 		const HAlignment & src,
-		const HAlignment & filter, 
-		const CombinationMode mode ) 
+		const HAlignment & filter,
+		const CombinationMode mode )
 {
 	debug_func_cerr(5);
 
@@ -211,14 +211,14 @@ void copyAlignment( HAlignment & dest,
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		const ResiduePair & p = *it;
 		bool keep = true;
 
 		// apply filter
-		if (filter) 
-			switch (mode) 
+		if (filter)
+			switch (mode)
 			{
 				case RR:
 					if (filter->mapRowToCol( p.mRow ) == NO_POS ) keep = false; break;
@@ -238,9 +238,9 @@ void copyAlignment( HAlignment & dest,
 }
 
 //----------------------------------------------------------------------------------
-void addAlignment2Alignment( 
-		HAlignment & dest, 
-		const HAlignment & src ) 
+void addAlignment2Alignment(
+		HAlignment & dest,
+		const HAlignment & src )
 {
 	debug_func_cerr(5);
 
@@ -248,7 +248,7 @@ void addAlignment2Alignment(
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 		dest->addPair( ResiduePair(*it) );
 
 	dest->setScore( dest->getScore() + src->getScore());
@@ -256,18 +256,18 @@ void addAlignment2Alignment(
 	return;
 }
 //----------------------------------------------------------------------------------
-void addMappedAlignment2Alignment( 
-		HAlignment & dest, 
-		const HAlignment & src, 
+void addMappedAlignment2Alignment(
+		HAlignment & dest,
+		const HAlignment & src,
 		const HAlignment & map_src2new,
-		const CombinationMode mode ) 
+		const CombinationMode mode )
 {
 	debug_func_cerr(5);
 
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		Position row = (*it).mRow;
 		Position col = (*it).mCol;
@@ -290,18 +290,18 @@ void addMappedAlignment2Alignment(
 }
 
 //----------------------------------------------------------------------------------
-void addMappedAlignments2Alignment( 
-		HAlignment & dest, 
-		const HAlignment & src, 
-		const HAlignment & map_src_row2dest_row, 
-		const HAlignment & map_src_col2dest_col ) 
+void addMappedAlignments2Alignment(
+		HAlignment & dest,
+		const HAlignment & src,
+		const HAlignment & map_src_row2dest_row,
+		const HAlignment & map_src_col2dest_col )
 {
 	debug_func_cerr(5);
 
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		Position row = map_src_row2dest_row->mapRowToCol((*it).mRow);
 		Position col = map_src_col2dest_col->mapRowToCol((*it).mCol);
@@ -317,9 +317,9 @@ void addMappedAlignments2Alignment(
 }
 
 //-----------------------------------------------------------------------------------------
-Position getAlignmentShortestDistance( 
-			const HAlignment & src1, 
-			const HAlignment & src2, 
+Position getAlignmentShortestDistance(
+			const HAlignment & src1,
+			const HAlignment & src2,
 			const CombinationMode mode )
 {
 	debug_func_cerr(5);
@@ -328,11 +328,11 @@ Position getAlignmentShortestDistance(
 	Position map2 = 0;
 
 	// check if ranges overlap
-	// add +1, so that adjacent alignments where To() == From() 
-	// have a distance of 1 
+	// add +1, so that adjacent alignments where To() == From()
+	// have a distance of 1
 	Position d = 0;
-	switch (mode) 
-	{			
+	switch (mode)
+	{
 	case RR:
 		d = std::min(src1->getRowTo(), src2->getRowTo()) - std::max(src1->getRowFrom(),src2->getRowFrom() );
 		break;
@@ -346,13 +346,13 @@ Position getAlignmentShortestDistance(
 		d = std::min(src1->getColTo(), src2->getColTo()) - std::max(src1->getColFrom(),src2->getColFrom() );
 		break;
 	}
-	
+
 	debug_cerr(5, "alignments are non-overlapping: distance = " << -d+1);
-	
+
 	if (d <= 0) return -d+1;
-		
+
 	debug_cerr(5, "checking distance on residue level");
-	
+
 	// get closest distance
 	AlignmentIterator it1(src1->begin());
 	AlignmentIterator it1_end(src1->end());
@@ -360,7 +360,7 @@ Position getAlignmentShortestDistance(
 	AlignmentIterator it2_end(src2->end());
 
 	d = std::numeric_limits<Position>::max();
-	while ( it1 != it1_end && it2 != it2_end ) 
+	while ( it1 != it1_end && it2 != it2_end )
 	{
 		const ResiduePair & x_pair = *it1;
 		const ResiduePair & y_pair = *it2;
@@ -368,11 +368,11 @@ Position getAlignmentShortestDistance(
 		Position map1 = NO_POS;
 		Position map2 = NO_POS;
 
-		switch (mode) 
-		{			
+		switch (mode)
+		{
 		case RR:
-			map1 = x_pair.mRow; 
-			map2 = y_pair.mRow; 
+			map1 = x_pair.mRow;
+			map2 = y_pair.mRow;
 			break;
 		case CR:
 			map1 = x_pair.mCol;
@@ -388,12 +388,12 @@ Position getAlignmentShortestDistance(
 			break;
 		}
 
-		if (map1 == map2) 
+		if (map1 == map2)
 		{
 			return 0;
 		}
-		else 
-		{ 			
+		else
+		{
 			if (map1 < map2)
 			{
 				++it1;
@@ -410,16 +410,16 @@ Position getAlignmentShortestDistance(
 }
 
 //-----------------------------------------------------------------------------------------
-Position getAlignmentOverlap( 
-			const HAlignment & src1, 
-			const HAlignment & src2, 
+Position getAlignmentOverlap(
+			const HAlignment & src1,
+			const HAlignment & src2,
 			const CombinationMode mode )
 {
 	debug_func_cerr(5);
-	
+
 	// check if ranges overlap
-	switch (mode) 
-	{			
+	switch (mode)
+	{
 	case RR:
 		if (src1->getRowFrom() >= src2->getRowTo() ||
 				src2->getRowFrom() >= src1->getRowTo() )
@@ -441,7 +441,7 @@ Position getAlignmentOverlap(
 			return 0;
 		break;
 	}
-				
+
 	// check if enough residues overlap
 	AlignmentIterator it1(src1->begin());
 	AlignmentIterator it1_end(src1->end());
@@ -449,7 +449,7 @@ Position getAlignmentOverlap(
 	AlignmentIterator it2_end(src2->end());
 
 	int noverlap = 0;
-	while ( it1 != it1_end && it2 != it2_end ) 
+	while ( it1 != it1_end && it2 != it2_end )
 	{
 		const ResiduePair & x_pair = *it1;
 		const ResiduePair & y_pair = *it2;
@@ -457,11 +457,11 @@ Position getAlignmentOverlap(
 		Position map1 = NO_POS;
 		Position map2 = NO_POS;
 
-		switch (mode) 
-		{			
+		switch (mode)
+		{
 		case RR:
-			map1 = x_pair.mRow; 
-			map2 = y_pair.mRow; 
+			map1 = x_pair.mRow;
+			map2 = y_pair.mRow;
 			break;
 		case CR:
 			map1 = x_pair.mCol;
@@ -477,17 +477,17 @@ Position getAlignmentOverlap(
 			break;
 		}
 
-		if (map1 == map2) 
+		if (map1 == map2)
 		{
 			++noverlap;
 			++it1;
 			++it2;
 		}
-		else 
-		{ 
-			if (map1 < map2) 
+		else
+		{
+			if (map1 < map2)
 				++it1;
-			else 
+			else
 				++it2;
 		}
 	}
@@ -495,17 +495,17 @@ Position getAlignmentOverlap(
 }
 
 //-----------------------------------------------------------------------------------------
-bool hasAlignmentOverlap( 
-		const HAlignment & src1, 
-		const HAlignment & src2, 
+bool hasAlignmentOverlap(
+		const HAlignment & src1,
+		const HAlignment & src2,
 		const CombinationMode mode,
-		const int min_overlap ) 
+		const int min_overlap )
 {
 	debug_func_cerr(5);
 
 	// check if ranges overlap
-	switch (mode) 
-	{			
+	switch (mode)
+	{
 	case RR:
 		if (src1->getRowFrom() > src2->getRowTo() - min_overlap ||
 				src2->getRowFrom() > src1->getRowTo() - min_overlap )
@@ -527,7 +527,7 @@ bool hasAlignmentOverlap(
 			return false;
 		break;
 	}
-				
+
 	// check if enough residues overlap
 	AlignmentIterator it1(src1->begin());
 	AlignmentIterator it1_end(src1->end());
@@ -535,7 +535,7 @@ bool hasAlignmentOverlap(
 	AlignmentIterator it2_end(src2->end());
 
 	int noverlap = 0;
-	while ( it1 != it1_end && it2 != it2_end ) 
+	while ( it1 != it1_end && it2 != it2_end )
 	{
 		const ResiduePair & x_pair = *it1;
 		const ResiduePair & y_pair = *it2;
@@ -543,11 +543,11 @@ bool hasAlignmentOverlap(
 		Position map1 = NO_POS;
 		Position map2 = NO_POS;
 
-		switch (mode) 
-		{			
+		switch (mode)
+		{
 		case RR:
-			map1 = x_pair.mRow; 
-			map2 = y_pair.mRow; 
+			map1 = x_pair.mRow;
+			map2 = y_pair.mRow;
 			break;
 		case CR:
 			map1 = x_pair.mCol;
@@ -563,18 +563,18 @@ bool hasAlignmentOverlap(
 			break;
 		}
 
-		if (map1 == map2) 
+		if (map1 == map2)
 		{
 			if( ++noverlap >= min_overlap )
 				return true;
 			++it1;
 			++it2;
 		}
-		else 
-		{ 
-			if (map1 < map2) 
+		else
+		{
+			if (map1 < map2)
 				++it1;
-			else 
+			else
 				++it2;
 		}
 	}
@@ -582,11 +582,11 @@ bool hasAlignmentOverlap(
 }
 
 //-----------------------------------------------------------------------------------------
-void combineAlignment( 
-		HAlignment & dest, 
-		const HAlignment & src1, 
-		const HAlignment & src2, 
-		const CombinationMode mode ) 
+void combineAlignment(
+		HAlignment & dest,
+		const HAlignment & src1,
+		const HAlignment & src2,
+		const CombinationMode mode )
 {
 	debug_func_cerr(5);
 
@@ -597,7 +597,7 @@ void combineAlignment(
 	AlignmentIterator it2(src2->begin());
 	AlignmentIterator it2_end(src2->end());
 
-	while ( it1 != it1_end && it2 != it2_end ) 
+	while ( it1 != it1_end && it2 != it2_end )
 	{
 
 		const ResiduePair & x_pair = *it1;
@@ -609,7 +609,7 @@ void combineAlignment(
 		Position map2 = NO_POS;
 		Position value2 = NO_POS;
 
-		switch (mode) 
+		switch (mode)
 		{
 
 		case RR:
@@ -635,17 +635,17 @@ void combineAlignment(
 
 		// cout << "map1:" << map1 << " value1:" << value1 << " map2:" << map2 << " value2:" << value2 << endl;
 
-		if (map1 == map2) 
+		if (map1 == map2)
 		{
-			dest->addPair( ResiduePair(value1, value2, 0)); 
+			dest->addPair( ResiduePair(value1, value2, 0));
 			++it1;
 			++it2;
-		} 
-		else 
-		{ 
-			if (map1 < map2) 
+		}
+		else
+		{
+			if (map1 < map2)
 				++it1;
-			else 
+			else
 				++it2;
 		}
 
@@ -655,20 +655,20 @@ void combineAlignment(
 }
 
 //------------------------------------------------------------------------------------------------------------
-void writeAlignmentTable( 
-		std::ostream & output, 
+void writeAlignmentTable(
+		std::ostream & output,
 		const HAlignment & src,
 		unsigned int ncols,
-		bool with_scores) 
+		bool with_scores)
 {
 	debug_func_cerr(5);
 
-	if (src->isEmpty()) 
+	if (src->isEmpty())
 		return;
 
-	output << "length=" << src->getLength() 
-	<< " score=" << src->getScore() 
-	<< " gaps=" << src->getNumGaps() 
+	output << "length=" << src->getLength()
+	<< " score=" << src->getScore()
+	<< " gaps=" << src->getNumGaps()
 	<< endl;
 
 	AlignmentIterator it = src->begin();
@@ -676,17 +676,17 @@ void writeAlignmentTable(
 
 	unsigned int col = 0;
 
-	for (; it!=it_end; ++it) 
+	for (; it!=it_end; ++it)
 	{
 		output << std::setw(6) << it->mRow << std::setw(6) << it->mCol;
-		if (with_scores) 
+		if (with_scores)
 			output << setw(6) << setprecision(2) << it->mScore;
-		if (++col == ncols) 
+		if (++col == ncols)
 		{
 			output << endl;
 			col = 0;
-		} 
-		else 
+		}
+		else
 		{
 			output << '|';
 		}
@@ -698,11 +698,11 @@ void writeAlignmentTable(
 
 
 //--------------------------------------------------------------------------------------------------------------
-void writeWraparoundAlignment( std::ostream & output, 
-		const HAlignandum & row, 
-		const HAlignandum & col, 
+void writeWraparoundAlignment( std::ostream & output,
+		const HAlignandum & row,
+		const HAlignandum & col,
 		const HAlignment & ali,
-		size_t max_insert_length ) 
+		size_t max_insert_length )
 {
 	debug_func_cerr(5);
 
@@ -730,7 +730,7 @@ void writeWraparoundAlignment( std::ostream & output,
 	int last_col = it->mCol - 1;
 	int last_row = it->mRow - 1;
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		int current_col = it->mCol;
 		int current_row = it->mRow;
@@ -743,7 +743,7 @@ void writeWraparoundAlignment( std::ostream & output,
 		if (row_ins > max_insert_length) row_ins = max_insert_length;
 
 		// if ( (col_ins > 1) && (inserts[current_col] < col_ins)) inserts[current_col] = col_ins;
-		if ( (row_ins > 1) && (inserts[current_col] < row_ins)) 
+		if ( (row_ins > 1) && (inserts[current_col] < row_ins))
 			inserts[current_col] = row_ins;
 
 		col_counts[current_col]++;
@@ -772,7 +772,7 @@ void writeWraparoundAlignment( std::ostream & output,
 	last_col = it->mCol - 1;
 	last_row = it->mRow - 1;
 	int repeat_no = 0;
-	for (; it != it_end; ++it) {                         
+	for (; it != it_end; ++it) {
 		int current_col = it->mCol;
 		int current_row = it->mRow;
 
@@ -813,7 +813,7 @@ void writeWraparoundAlignment( std::ostream & output,
 	// write result to stream
 
 	int pos = 0;
-	for (i = 0; i <= nrepeats; i++) 
+	for (i = 0; i <= nrepeats; i++)
 	{
 		output << std::string( &buffer[pos], ali_len - 1) << endl;
 		pos += ali_len;
@@ -828,10 +828,10 @@ void writeWraparoundAlignment( std::ostream & output,
 }
 
 //---------------------------------------------------------------------------------------
-void filterAlignmentRemovePairs( 
-		HAlignment & dest, 
-		const HAlignment & filter, 
-		const CombinationMode mode ) 
+void filterAlignmentRemovePairs(
+		HAlignment & dest,
+		const HAlignment & filter,
+		const CombinationMode mode )
 {
 	debug_func_cerr(5);
 
@@ -844,11 +844,11 @@ void filterAlignmentRemovePairs(
 	AlignmentIterator it1(dest->begin());
 	AlignmentIterator it1_end(dest->end());
 
-	while ( it1 != dest->end()) 
+	while ( it1 != dest->end())
 	{
 
 		const ResiduePair & x_pair = *it1;
-		switch (mode) 
+		switch (mode)
 		{
 
 		case RR:
@@ -876,10 +876,10 @@ void filterAlignmentRemovePairs(
 
 //-------------------------------------------------------------------------------------------------
 // this works only for pairswise alignments, where both alignments are sorted by row.
-void filterAlignmentRemovePairwiseSorted( 
-		HAlignment & dest, 
-		const HAlignment & filter, 
-		const CombinationMode mode ) 
+void filterAlignmentRemovePairwiseSorted(
+		HAlignment & dest,
+		const HAlignment & filter,
+		const CombinationMode mode )
 {
 	debug_func_cerr(5);
 
@@ -894,7 +894,7 @@ void filterAlignmentRemovePairwiseSorted(
 	AlignmentIterator it2(filter->begin());
 	AlignmentIterator it2_end(filter->end());
 
-	while ( it1 != it1_end && it2 != it2_end ) 
+	while ( it1 != it1_end && it2 != it2_end )
 	{
 
 		const ResiduePair & x_pair = *it1;
@@ -903,27 +903,27 @@ void filterAlignmentRemovePairwiseSorted(
 		Position map1 = 0;
 		Position map2 = 0;
 
-		switch (mode) 
+		switch (mode)
 		{
 
 		case RR:
 			map1 = x_pair.mRow;
-			map2 = y_pair.mRow; 
+			map2 = y_pair.mRow;
 			break;
 
 		case CR:
-			map1 = x_pair.mCol; 
+			map1 = x_pair.mCol;
 			map2 = y_pair.mRow;
 			break;
 
 		case RC:
-			map1 = x_pair.mRow; 
+			map1 = x_pair.mRow;
 			map2 = y_pair.mCol;
 			break;
 
 		case CC:
 			map1 = x_pair.mCol;
-			map2 = y_pair.mCol; 
+			map2 = y_pair.mCol;
 			break;
 		}
 
@@ -933,10 +933,10 @@ void filterAlignmentRemovePairwiseSorted(
 			dest->removePair( x_pair );
 			it1++;
 			it2++;
-		} else { 
-			if (map1 < map2) 
+		} else {
+			if (map1 < map2)
 				it1++;
-			else 
+			else
 				it2++;
 		}
 
@@ -945,22 +945,22 @@ void filterAlignmentRemovePairwiseSorted(
 	return;
 }
 
-void addDiagonal2Alignment( 
-		HAlignment & dest, 
-		Position row_from, 
-		Position row_to, 
-		Position col_offset) 
+void addDiagonal2Alignment(
+		HAlignment & dest,
+		Position row_from,
+		Position row_to,
+		Position col_offset)
 {
 	debug_func_cerr(5);
 
 	dest->addDiagonal( row_from, row_to, col_offset );
-	
+
 	return;
 }
 
 //-------------------------------------------------------------------------------------------------
 
-void fillAlignmentGaps( 
+void fillAlignmentGaps(
 		HAlignment & dest,
 		const HAlignator &  alignator,
 		const HAlignandum & row,
@@ -988,11 +988,11 @@ void fillAlignmentGaps(
 		{
 			temp_map_row2col->clear();
 			row->useSegment( last_row + 1, it->mRow);
-			col->useSegment( last_col + 1, it->mCol);	    
+			col->useSegment( last_col + 1, it->mCol);
 			alignator->align( temp_map_row2col, row, col );
 			addAlignment2Alignment( dest, temp_map_row2col );
-			debug_cerr( 5, "filling gap between " << 
-					last_row << "-" << it->mRow << " and " << last_col << "-" << it->mCol << 
+			debug_cerr( 5, "filling gap between " <<
+					last_row << "-" << it->mRow << " and " << last_col << "-" << it->mCol <<
 					" with " << temp_map_row2col->getNumAligned() << " pairs");
 
 		}
@@ -1009,10 +1009,10 @@ void fillAlignmentGaps(
 
 //-------------------------------------------------------------------------------------------------
 // calculate percent identity, normalised on alignment mLength
-double calculatePercentIdentity( 
+double calculatePercentIdentity(
 		const HAlignment & src,
-		const HAlignandum & row, 
-		const HAlignandum & col) 
+		const HAlignandum & row,
+		const HAlignandum & col)
 {
 
 	if (src->getLength() == 0) return 0;
@@ -1027,7 +1027,7 @@ double calculatePercentIdentity(
 		ResiduePair p = *it;
 
 		naligned++;
-		if ( row->asResidue(p.mRow) == col->asResidue(p.mCol) ) 
+		if ( row->asResidue(p.mRow) == col->asResidue(p.mCol) )
 			nidentities++;
 	}
 
@@ -1036,7 +1036,7 @@ double calculatePercentIdentity(
 
 
 //----------------------------------------------------------------------------------------------------
-double calculatePercentSimilarity( const HAlignment & src) 
+double calculatePercentSimilarity( const HAlignment & src)
 {
 
 	if (src->getLength() == 0) return 0;
@@ -1051,17 +1051,17 @@ double calculatePercentSimilarity( const HAlignment & src)
 	{
 		naligned ++;
 
-		if ((*it).mScore > 0) 
+		if ((*it).mScore > 0)
 			nsimilarities++;
 	}
 	return (double)nsimilarities / (double)naligned;
 }
 
 //----------------------------------------------------------------------------------------------------
-void rescoreAlignment( 
+void rescoreAlignment(
 		HAlignment & dest,
 		const HAlignandum & row,
-		const HAlignandum & col, 
+		const HAlignandum & col,
 		const HScorer & scorer )
 {
 	debug_func_cerr(5);
@@ -1071,17 +1071,17 @@ void rescoreAlignment(
 
 	for (; it != it_end; ++it)
 	{
-		ResiduePair & p = const_cast<ResiduePair &>(*it);	
-		p.mScore = scorer->getScore( p.mRow, p.mCol ); 
-	}	
+		ResiduePair & p = const_cast<ResiduePair &>(*it);
+		p.mScore = scorer->getScore( p.mRow, p.mCol );
+	}
 
 	return;
 }
 
 //----------------------------------------------------------------------------------------------------
-void rescoreAlignment( 
+void rescoreAlignment(
 		HAlignment & dest,
-		const Score score ) 
+		const Score score )
 {
 	debug_func_cerr(5);
 
@@ -1090,7 +1090,7 @@ void rescoreAlignment(
 
 	for (; it != it_end; ++it)
 	{
-		ResiduePair & p = const_cast<ResiduePair &>(*it);	
+		ResiduePair & p = const_cast<ResiduePair &>(*it);
 		p.mScore = score;
 	}
 
@@ -1099,10 +1099,10 @@ void rescoreAlignment(
 
 
 //----------------------------------------------------------------------------------------------------
-void calculateAffineScore( 
+void calculateAffineScore(
 		HAlignment & dest,
-		const Score gop, 
-		const Score gep) 
+		const Score gop,
+		const Score gep)
 {
 	debug_func_cerr(5);
 
@@ -1114,7 +1114,7 @@ void calculateAffineScore(
 	Position last_row = std::numeric_limits<Position>::max();
 	Position last_col = std::numeric_limits<Position>::max();
 
-	for (; it != it_end; ++it) 
+	for (; it != it_end; ++it)
 	{
 		Position d;
 		Position row = it->mRow;
@@ -1138,11 +1138,11 @@ void calculateAffineScore(
 //----------------------------------------------------------------------------------------------------
 /*fill an alignment with a repeat unit from a wrap-around alignment */
 /* code still broken with the skip_negative_ends */
-void fillAlignmentRepeatUnit( 
-		HAlignment & dest, 
+void fillAlignmentRepeatUnit(
+		HAlignment & dest,
 		const HAlignment & src,
 		Position first_row_residue,
-		bool skip_negative_ends) 
+		bool skip_negative_ends)
 {
 	debug_func_cerr( 5 );
 
@@ -1160,18 +1160,18 @@ void fillAlignmentRepeatUnit(
 	Position last_col = it->mCol - 1;
 
 	skip_negative_ends = false;
-	if (skip_negative_ends) 
-		while ( (it != it_end) && (it->mCol > last_col) ) 
+	if (skip_negative_ends)
+		while ( (it != it_end) && (it->mCol > last_col) )
 		{
 			if (it->mScore > 0) break;
 			last_col = it->mCol;
 		}
 
 	Position last_positive = it->mRow;
-	while ( (it != it_end) && (it->mCol > last_col) ) 
+	while ( (it != it_end) && (it->mCol > last_col) )
 	{
 		last_col = it->mCol;
-		dest->addPair( ResiduePair(it->mRow, last_col, it->mScore) );         
+		dest->addPair( ResiduePair(it->mRow, last_col, it->mScore) );
 		if (it->mScore > 0) last_positive = it->mRow;
 		++it;
 	}
@@ -1183,27 +1183,27 @@ void fillAlignmentRepeatUnit(
 }
 
 //------------------------------------------------------------------------------------------------------
-inline Position insertResidues( HAlignment & dest, 
-		Position last_res, 
-		Position current_res, 
-		Position current_combined) 
+inline Position insertResidues( HAlignment & dest,
+		Position last_res,
+		Position current_res,
+		Position current_combined)
 {
 
-	for( Position i = last_res; i < current_res; i++) 
+	for( Position i = last_res; i < current_res; i++)
 		dest->addPair( ResiduePair(i, current_combined++, 0.0));
 	return current_combined;
 }
 
 
-/* 
- */    
-void expandAlignment( HAlignment & dest1, 
-		HAlignment & dest2, 
+/*
+ */
+void expandAlignment( HAlignment & dest1,
+		HAlignment & dest2,
 		const HAlignment & src,
 		bool insert_gaps_row,
-		bool insert_gaps_col, 
+		bool insert_gaps_col,
 		bool use_end_row,
-		bool use_end_col, 
+		bool use_end_col,
 		Position row_length,
 		Position col_length)
 {
@@ -1230,7 +1230,7 @@ void expandAlignment( HAlignment & dest1,
 	Position last_col = current_col;
 
 	// iteration over alignmnet
-	for ( ; it != it_end; ++it ) 
+	for ( ; it != it_end; ++it )
 	{
 		Score current_score = it->mScore;
 		current_row = it->mRow;
@@ -1239,10 +1239,10 @@ void expandAlignment( HAlignment & dest1,
 		// add gaps before match:
 		// 1. row
 		if (insert_gaps_col)
-			current_combined = insertResidues( dest1, last_row, current_row, current_combined);	
+			current_combined = insertResidues( dest1, last_row, current_row, current_combined);
 
 		// 2. col
-		if (insert_gaps_row) 
+		if (insert_gaps_row)
 			current_combined = insertResidues( dest2, last_col, current_col, current_combined);
 
 		// add match
@@ -1269,7 +1269,7 @@ void expandAlignment( HAlignment & dest1,
      Only use with AlignmentVector
 
  */
-void flattenAlignment( HAlignment & dest ) 
+void flattenAlignment( HAlignment & dest )
 {
 	debug_func_cerr( 5 );
 
@@ -1297,7 +1297,7 @@ void flattenAlignment( HAlignment & dest )
 		}
 
 		// patch, as iterator becomes invalidated
-		if (current_row == max_row) 
+		if (current_row == max_row)
 			break;
 
 	}
@@ -1310,10 +1310,10 @@ void flattenAlignment( HAlignment & dest )
 /* split an alignment, if there are gaps larger than a certain threshold either in row or
     col or both.
  */
-HFragmentVector splitAlignment( 
-		const HAlignment & src, 
+HFragmentVector splitAlignment(
+		const HAlignment & src,
 		const int max_gap_width,
-		bool split_row, bool split_col) 
+		bool split_row, bool split_col)
 {
 	debug_func_cerr( 5 );
 
@@ -1348,18 +1348,18 @@ HFragmentVector splitAlignment(
 
 	}
 
-	result->push_back( current_ali );    
+	result->push_back( current_ali );
 
 	return result;
 }
 
 //-----------------------------------------------------------------------------------------
 /* split an alignment at points of intersection with another alignment.
- */ 
-HFragmentVector splitAlignment( 
-		const HAlignment & src1, 
-		const HAlignment & src2, 
-		const CombinationMode mode ) 
+ */
+HFragmentVector splitAlignment(
+		const HAlignment & src1,
+		const HAlignment & src2,
+		const CombinationMode mode )
 {
 
 	debug_func_cerr( 5 );
@@ -1375,7 +1375,7 @@ HFragmentVector splitAlignment(
 	bool in_row1 = true;
 	bool in_row2 = true;
 
-	switch (mode) 
+	switch (mode)
 	{
 	case RR: break;
 	case CR:
@@ -1390,7 +1390,7 @@ HFragmentVector splitAlignment(
 
 	HAlignment current_ali = src1->getNew();
 
-	for (; it1 != it1_end; ++it1) 
+	for (; it1 != it1_end; ++it1)
 	{
 
 		const ResiduePair & p = *it1;
@@ -1398,19 +1398,19 @@ HFragmentVector splitAlignment(
 		Position current_pos = (in_row1) ? p.mRow : p.mCol;
 
 		// if there is an intersection, save current alignment
-		if (current_pos > other_pos) 
+		if (current_pos > other_pos)
 		{
 
-			/* test if alignment has residues in it 
+			/* test if alignment has residues in it
 	 (might not be the case in first iteration). */
-			if (current_ali->getLength() > 0) 
+			if (current_ali->getLength() > 0)
 			{
-				result->push_back( current_ali );      
+				result->push_back( current_ali );
 				current_ali = src1->getNew();
 			}
 
 			// advance to next pos in other alignment
-			while ( other_pos < current_pos && ++it2 != it2_end) 
+			while ( other_pos < current_pos && ++it2 != it2_end)
 				other_pos = (in_row2) ? it2->mRow : it2->mCol;
 
 			if (it2 == it2_end)
@@ -1420,16 +1420,16 @@ HFragmentVector splitAlignment(
 		current_ali->addPair( ResiduePair(p) );
 	}
 
-	result->push_back( current_ali );    
+	result->push_back( current_ali );
 
 	return result;
 
 }
 
 //-----------------------------------------------------------------------------------------
-void fillAlignmentGaps( 
-		HAlignment & dest, 
-		const Position max_length ) 
+void fillAlignmentGaps(
+		HAlignment & dest,
+		const Position max_length )
 {
 	debug_func_cerr(5);
 
@@ -1441,7 +1441,7 @@ void fillAlignmentGaps(
 	Position last_row = it->mRow;
 	Position last_col = it->mCol;
 
-	for (; it != it_end; ++it ) 
+	for (; it != it_end; ++it )
 	{
 
 		Position this_row = it->mRow;
@@ -1449,11 +1449,11 @@ void fillAlignmentGaps(
 
 		Position gap_row = this_row - last_row - 1;
 
-		if ( gap_row > 0 && 
+		if ( gap_row > 0 &&
 				gap_row <= max_length &&
-				gap_row == (this_col - last_col - 1) ) 
+				gap_row == (this_col - last_col - 1) )
 		{
-			while (++last_row < this_row) 
+			while (++last_row < this_row)
 			{
 				++last_col;
 				dest->addPair( ResiduePair(last_row, last_col, 0));
@@ -1464,13 +1464,13 @@ void fillAlignmentGaps(
 		last_col = this_col;
 	}
 
-	return;	
+	return;
 }
 
 /* remove small fragments from alignment.
     This method removes fragments from an alignment. A fragment
     is a part of an alignment, that is short (max_fragment_length)
-    and surrounded by large gaps (min_gap_length). 
+    and surrounded by large gaps (min_gap_length).
     Fragments are only removed in col.
  */
 
@@ -1480,7 +1480,7 @@ void removeFragments( HAlignment & dest,
 		Position row_length ) {
 
 
-	/* use a sliding window of size window_size, and count 
+	/* use a sliding window of size window_size, and count
      the following indicators for the central residue:
 
      num_left_gaps: number of gaps on left hand side of first
@@ -1498,7 +1498,7 @@ void removeFragments( HAlignment & dest,
 
 	 */
 
-	if (row_length == 0) 
+	if (row_length == 0)
 		row_length = dest->getRowTo();
 
 	for (Position this_pos = dest->getRowFrom(); this_pos < dest->getRowTo(); this_pos ++) {
@@ -1526,22 +1526,22 @@ void removeFragments( HAlignment & dest,
 
 		unsigned int num_right_gaps = window_size - (right_pos - this_pos);
 
-		if (right_pos == dest->getRowTo()) 
+		if (right_pos == dest->getRowTo())
 		{
 			num_right_gaps = row_length - right_pos;
-		} else 
+		} else
 		{
 			Position x = right_pos;
-			while (x < dest->getRowTo() && dest->mapRowToCol( ++x ) == NO_POS) num_right_gaps ++;    
+			while (x < dest->getRowTo() && dest->mapRowToCol( ++x ) == NO_POS) num_right_gaps ++;
 		}
 
-		// std::cout << "center=" << this_pos << " left=" << left_pos << " gl=" << num_left_gaps 
+		// std::cout << "center=" << this_pos << " left=" << left_pos << " gl=" << num_left_gaps
 		// << " right=" << right_pos << " gr=" << num_right_gaps << endl;
 
 		//------------------------------------------------------------------------
 		// check if region is to be deleted
 		if ( (num_left_gaps > min_gap_length) &&
-				(num_right_gaps > min_gap_length) ) 
+				(num_right_gaps > min_gap_length) )
 		{
 			dest->removeRowRegion( left_pos, right_pos );
 			this_pos += window_size;
@@ -1550,7 +1550,7 @@ void removeFragments( HAlignment & dest,
 		// go to next non-gap position
 		while (this_pos <= dest->getColTo() && dest->mapRowToCol(this_pos) == NO_POS) this_pos++;
 
-	}      
+	}
 
 }
 
@@ -1559,10 +1559,10 @@ void removeFragments( HAlignment & dest,
     residues as long as the score increases when these
     residues are removed.
  */
-void pruneAlignment( 
-		HAlignment & src, 
+void pruneAlignment(
+		HAlignment & src,
 		Score gop,
-		Score gep ) 
+		Score gep )
 {
 	debug_func_cerr(5);
 
@@ -1582,15 +1582,15 @@ void pruneAlignment(
 
 		for (; it != it_end, score > 0; ++it) {
 
-			const ResiduePair & p = *it;    
+			const ResiduePair & p = *it;
 			// apply filter
 			Position this_row      = p.mRow;
 			Position this_col      = p.mCol;
 			Position d;
 
-			if ( (d = this_row - last_row - 1) > 0) 
+			if ( (d = this_row - last_row - 1) > 0)
 				score -= gop + d * gep;
-			if ( (d = this_col - last_col - 1) > 0) 
+			if ( (d = this_col - last_col - 1) > 0)
 				score -= gop + d * gep;
 
 			score -= p.mScore;
@@ -1599,26 +1599,26 @@ void pruneAlignment(
 			last_col = this_col;
 		}
 
-		if (--last_row >= src->getRowFrom()) 
+		if (--last_row >= src->getRowFrom())
 			src->removeRowRegion( src->getRowFrom(), last_row );
-		if (--last_col >= src->getColFrom()) 
+		if (--last_col >= src->getColFrom())
 			src->removeColRegion( src->getColFrom(), last_col );
 	}
 
 	//-----------------------------------------------------------
 	// remove starting from right. Ideally you would use reverse
-	// iterators, but as I have not implemented them yet, I use this 
+	// iterators, but as I have not implemented them yet, I use this
 	// patch.
 	{
 
 		Position last_row = src->getRowTo();
-		Position last_col = src->getColTo();    
-		const ResiduePair & p = src->getPair( ResiduePair( last_row, last_col) );      
+		Position last_col = src->getColTo();
+		const ResiduePair & p = src->getPair( ResiduePair( last_row, last_col) );
 		Score score = -p.mScore;
 
 		Position this_row = last_row - 1;
 
-		for (; last_row >= src->getRowFrom(), score > 0; --this_row) 
+		for (; last_row >= src->getRowFrom(), score > 0; --this_row)
 		{
 
 			Position this_col = src->mapRowToCol( this_row );
@@ -1626,15 +1626,15 @@ void pruneAlignment(
 			if (!this_col)
 				continue;
 
-			const ResiduePair & p = src->getPair( ResiduePair( this_row, this_col) );      
+			const ResiduePair & p = src->getPair( ResiduePair( this_row, this_col) );
 
 			// apply filter
 
 			Position d;
 
-			if ( (d = last_row - this_row - 1) > 0) 
+			if ( (d = last_row - this_row - 1) > 0)
 				score -= gop + d * gep;
-			if ( (d = last_col - this_col - 1) > 0) 
+			if ( (d = last_col - this_col - 1) > 0)
 				score -= gop + d * gep;
 
 			score -= p.mScore;
@@ -1643,11 +1643,11 @@ void pruneAlignment(
 			last_col = this_col;
 		}
 
-		if (++last_row <= src->getRowTo()) 
+		if (++last_row <= src->getRowTo())
 			src->removeRowRegion( last_row, src->getRowTo() );
-		if (++last_col <= src->getColTo()) 
+		if (++last_col <= src->getColTo())
 			src->removeColRegion( last_col, src->getColTo() );
-	}    
+	}
 
 }
 
