@@ -77,6 +77,101 @@ bool isIdentical(
 	return is_identical;
 }
 
+void checkInsert( const HAlignment & a )
+{
+	if (a->isEmpty()) return;
+
+	int insert = 3;
+	// insert at start of row
+	{
+		HAlignment a_clone(a->getClone());
+		a_clone->insertRow( 0, insert);
+		BOOST_CHECK_EQUAL( a->getRowFrom() + insert, a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo() + insert, a_clone->getRowTo());
+		BOOST_CHECK_EQUAL( a->getColFrom(), a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo(), a_clone->getColTo() );
+	}
+
+	// insert in middle of row
+	{
+		HAlignment a_clone(a->getClone());
+		Position middle = (Position)((a_clone->getRowTo() - a_clone->getRowFrom()) / 2);
+		a_clone->insertRow( middle, insert);
+		BOOST_CHECK_EQUAL( a->getRowFrom(), a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo() + insert, a_clone->getRowTo() );
+		BOOST_CHECK_EQUAL( NO_POS, a_clone->mapRowToCol( middle ) );
+		BOOST_CHECK_EQUAL( a->mapRowToCol( middle ), a_clone->mapRowToCol( middle + insert ) );
+		BOOST_CHECK_EQUAL( a->getColFrom(), a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo(), a_clone->getColTo() );
+	}
+
+	// insert at end of row: no insertion
+	{
+		HAlignment a_clone(a->getClone());
+		a_clone->insertRow( a_clone->getRowTo(), insert);
+		BOOST_CHECK_EQUAL( a->getRowFrom(), a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo(), a_clone->getRowTo() );
+		BOOST_CHECK_EQUAL( a->getColFrom(), a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo(), a_clone->getColTo() );
+	}
+
+	// insert before row start: the whole alignment shifts
+	{
+		HAlignment a_clone(a->getClone());
+		a_clone->insertRow( a_clone->getRowFrom() - 1, insert);
+		BOOST_CHECK_EQUAL( a->getRowFrom() + insert, a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo() + insert, a_clone->getRowTo());
+		BOOST_CHECK_EQUAL( a->getColFrom(), a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo(), a_clone->getColTo() );
+	}
+
+	// insert at start of col
+	{
+		HAlignment a_clone(a->getClone());
+		a_clone->insertCol( 0, insert);
+		BOOST_CHECK_EQUAL( a->getColFrom() + insert, a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo() + insert, a_clone->getColTo());
+		BOOST_CHECK_EQUAL( a->getRowFrom(), a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo(), a_clone->getRowTo() );
+	}
+
+	// insert in middle of row
+	{
+		HAlignment a_clone(a->getClone());
+		Position middle = (Position)((a_clone->getColTo() - a_clone->getColFrom()) / 2);
+		a_clone->insertCol( middle, insert);
+		BOOST_CHECK_EQUAL( a->getColFrom(), a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo() + insert, a_clone->getColTo() );
+		BOOST_CHECK_EQUAL( NO_POS, a_clone->mapColToRow( middle ) );
+		BOOST_CHECK_EQUAL( a->mapColToRow( middle ), a_clone->mapColToRow( middle + insert ) );
+		BOOST_CHECK_EQUAL( a->getRowFrom(), a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo(), a_clone->getRowTo() );
+	}
+
+	// insert at end of row: no insertion
+	{
+		HAlignment a_clone(a->getClone());
+		a_clone->insertCol( a_clone->getColTo(), insert);
+		BOOST_CHECK_EQUAL( a->getColFrom(), a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo(), a_clone->getColTo() );
+		BOOST_CHECK_EQUAL( a->getRowFrom(), a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo(), a_clone->getRowTo() );
+	}
+
+	// insert before Col start: the whole alignment shifts
+	{
+		HAlignment a_clone(a->getClone());
+		a_clone->insertCol( a_clone->getColFrom() - 1, insert);
+		BOOST_CHECK_EQUAL( a->getColFrom() + insert, a_clone->getColFrom() );
+		BOOST_CHECK_EQUAL( a->getColTo() + insert, a_clone->getColTo());
+		BOOST_CHECK_EQUAL( a->getRowFrom(), a_clone->getRowFrom() );
+		BOOST_CHECK_EQUAL( a->getRowTo(), a_clone->getRowTo() );
+	}
+
+}
+
+
+
 // tests for both empty and full alignments
 void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs )
 {
@@ -220,6 +315,8 @@ void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs
 		BOOST_CHECK_EQUAL(a_clone->getScore(), a->getScore());
 	}
 
+	// test inserting of residues
+	checkInsert( a );
 
 	// test removing all pairs
 	{

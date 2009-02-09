@@ -229,6 +229,8 @@ void ImplAlignmentVector::updateBoundaries() const
 {
 	debug_func_cerr( 5 );
 
+	debug_cerr( 5, "old alignment coordinates: row=" << mRowFrom << "-" << mRowTo << " col=" << mColFrom << "-" << mColTo );
+
 	mRowFrom = mRowTo = mColFrom = mColTo = NO_POS;
 
 	// ignore empty alignments
@@ -320,11 +322,12 @@ void ImplAlignmentVector::insertRow(
 		const Position & from,
 		const Position & residues )
 {
-	if (from >= getRowTo()) return;
-	Position p = std::max( from, getRowFrom());
+	if (from >= mRowTo) return;
+	Position p = std::max( from, mRowFrom);
 
 	for (Position x = p; x < mRowTo; ++x)
-		mPairs[x].mRow += residues;
+		if (mPairs[x].mRow != NO_POS)
+			mPairs[x].mRow += residues;
 
 	mPairs.insert( mPairs.begin() + p, residues, ResiduePair() );
 
@@ -339,8 +342,8 @@ void ImplAlignmentVector::insertCol(
 		const Position & residues )
 {
 	debug_func_cerr( 5 );
-	if (from >= getColTo()) return;
-	Position p = std::max( from, getColFrom());
+	if (from >= mColTo) return;
+	Position p = std::max( from, mColFrom);
 
 	for (Position x = mRowFrom; x < mRowTo; ++x)
 	{
