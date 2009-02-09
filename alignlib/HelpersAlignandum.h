@@ -30,87 +30,87 @@
 
 #include "alignlib_fwd.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
 /**
- * 
+ *
  * @defgroup FactoryAlignandum Factory functions for Alignandum objects.
- * @{ 
- *  
- * 
+ * @{
+ *
+ *
 */
 
-/** load an @ref Alignandum object from stream. 
- * 
+/** load an @ref Alignandum object from stream.
+ *
  * @param stream stream to read an @ref Alignandum object from.
  * @exception AlignlibException	no complete object in stream.
- * @return a new Alignandum object. 
- */	
+ * @return a new Alignandum object.
+ */
 HAlignandum loadAlignandum( std::istream & stream );
 
 /** create a sequence.
  *
  * The default @ref Encoder object is used.
- *  
+ *
  * @param sequence NULL terminated C-string.
  * @return a new @ref Alignandum object.
  */
-HAlignandum makeSequence( const char * sequence ); 
+HAlignandum makeSequence( const char * sequence );
 
 /** create a sequence.
- * 
+ *
  * @param sequence NULL terminated C-string.
  * @param encoder @ref Encoder object to use.
- * 
+ *
  * @return a new @ref Alignandum object.
  */
 
-HAlignandum makeSequence( const char * sequence, 
+HAlignandum makeSequence( const char * sequence,
 		const HEncoder & encoder );
 
 /** create a sequence.
  *
  * The default @ref Encoder object is used.
- *  
+ *
  * @param sequence string.
  * @return a new @ref Alignandum object.
  */
 HAlignandum makeSequence( const std::string & sequence );
 
 /** create a sequence.
- * 
+ *
  * @param sequence string.
  * @param encoder @ref Encoder object to use.
  * @return a new @ref Alignandum object.
- */    
+ */
 HAlignandum makeSequence( const std::string & sequence,
 		const HEncoder & encoder );
 
 /** create a sequence from a fasta file
- * 
+ *
  * @param input input stream
  * @param description string to store description in.
  * @param encoder @ref Encoder object to use.
  * @return a new @ref Alignandum object. Returns an empty pointer if no sequence has been read.
- */    
-HAlignandum makeSequenceFromFasta( 
-		std::istream & input, 
+ */
+HAlignandum makeSequenceFromFasta(
+		std::istream & input,
 		std::string & description,
 		const HEncoder & encoder ) ;
 
-/** mutate a sequence according to a substitution matrix 
- * 
+/** mutate a sequence according to a substitution matrix
+ *
  * Initializes random generator with seed, if seed > 0.
  * */
-HAlignandum makeMutatedSequence( 
-		HAlignandum src, 
+HAlignandum makeMutatedSequence(
+		HAlignandum src,
 		const HMutationMatrix & matrix,
 		const long seed = 0);
 
 
 /** create a new profile.
- * 
+ *
  * @param encoder @ref Encoder object to use.
  * @param weightor @ref Weightor object to use.
  * @param regularizor @ref Regularizor object to use.
@@ -124,15 +124,15 @@ HAlignandum makeProfile(
 		const HLogOddor & logoddor);
 
 /** create a new profile.
- * 
+ *
  * The object is initialized with default objects.
- * 
+ *
  * @return a new @ref Alignandum object. The profile is empty.
  */
 HAlignandum makeProfile();
 
 /** create a new profile of a given length.
- * 
+ *
  * @param encoder @ref encoder object to use.
  * @param weightor @ref Weightor object to use.
  * @param regularizor @ref Regularizor object to use.
@@ -141,7 +141,7 @@ HAlignandum makeProfile();
  */
 HAlignandum makeProfile( const Position & length,
 		const HEncoder & encoder,
-		const HWeightor & weightor,    		
+		const HWeightor & weightor,
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor);
 
@@ -150,11 +150,11 @@ HAlignandum makeProfile( const Position & length,
  * The object is initialized with default objects.
  * @param length	length of the profile.
  * @return a new @ref Alignandum object. The profile is empty, but has a set length.
- */    
+ */
 HAlignandum makeProfile( const Position & length );
 
 /** create a new profile from a string of concatenated sequences.
- * 
+ *
  * @param sequences sequences for filling the profile.
  * @param nsequences number of concatenated sequences.
  * @param encoder @ref encoder object to use.
@@ -162,12 +162,12 @@ HAlignandum makeProfile( const Position & length );
  * @param regularizor @ref Regularizor object to use.
  * @param logoddor @ref LogOddor object to use.
  * @return a new @ref Alignandum object filled with sequences.
- */    
-HAlignandum makeProfile( 
-		const std::string & sequences, 
+ */
+HAlignandum makeProfile(
+		const std::string & sequences,
 		int nsequences,
-		const HEncoder & encoder, 
-		const HWeightor & weightor, 
+		const HEncoder & encoder,
+		const HWeightor & weightor,
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor);
 
@@ -178,14 +178,14 @@ HAlignandum makeProfile(
  * @param sequences sequences for filling the profile.
  * @param nsequences number of concatenated sequences.
  * @return a new @ref Alignandum object filled with sequences.
- */    
+ */
 
-HAlignandum makeProfile( 
-		const std::string & sequences, 
-		int nsequences );        
+HAlignandum makeProfile(
+		const std::string & sequences,
+		int nsequences );
 
 /** create a new profile from a @ref MultipleAlignment.
- * 
+ *
  * @param mali multiple alignment.
  * @param nsequences number of concatenated sequences.
  * @param encoder @ref encoder object to use.
@@ -193,24 +193,50 @@ HAlignandum makeProfile(
  * @param regularizor @ref Regularizor object to use.
  * @param logoddor @ref LogOddor object to use.
  * @return a new @ref Alignandum object filled from a multiple alignment.
- */    
-HAlignandum makeProfile( 
+ */
+HAlignandum makeProfile(
 		const HMultipleAlignment & mali,
 		const HEncoder & encoder,
-		const HWeightor & weightor, 
+		const HWeightor & weightor,
 		const HRegularizor & regularizor,
 		const HLogOddor & logoddor );
 
 /** create a new profile from a @ref MultipleAlignment.
- * 
+ *
  * The object is initialized with default objects.
- * 
+ *
  * @param mali multiple alignment.
  * @return a new @ref Alignandum object filled from a multiple alignment.
- */    
+ */
 
-HAlignandum makeProfile( 
+HAlignandum makeProfile(
 		const HMultipleAlignment & mali );
+
+/** create a new profile from two @ref Alignandum objects.
+ *
+ * @param seqa first sequence/profile
+ * @param map_seqa2profile map of first sequence/profile to new profile
+ * @param seqb first sequence/profile
+ * @param map_seqb2profile map of first sequence/profile to new profile
+ *
+ * @return a new @ref Alignandum object filled from a multiple alignment.
+ */
+HAlignandum makeProfile(
+		const HAlignandum & seqa,
+		const HAlignment & map_seqa2profile,
+		const HAlignandum & seqb,
+		const HAlignment & map_seqb2profile );
+
+/** create a new profile from several @ref Alignandum objects.
+ *
+ * @param @ref MultAlignment mapping the sequences to the multiple alignment
+ * @param @ref vector of @ref Alignandum objects in the multiple alignment
+ *
+ * @return a new @ref Alignandum object filled from a multiple alignment.
+ */
+HAlignandum makeProfile(
+		const HMultAlignment & mali,
+		const HAlignandumVector & sequences );
 
 
 /**

@@ -35,10 +35,10 @@
 #include "Profile.h"
 #include "Matrix.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
-/** 
+/**
     Basic implementation for (sequence) profiles, i.e. position specific scoring matrices.
     A profile stores counts, frequencies, and profile-scores for a
     profile and uses different helper objects for the calculation
@@ -56,28 +56,28 @@ namespace alignlib
 class ImplProfile : public ImplAlignandum, public Profile
 {
 
-	friend HAlignandum  extractProfileBinaryCounts( std::istream & input, 
+	friend HAlignandum  extractProfileBinaryCounts( std::istream & input,
 			const Position length,
 			const Regularizor *,
 			const LogOddor *);
 
-	friend HAlignandum  extractProfileBinaryCountsAsInt( std::istream & input, 
+	friend HAlignandum  extractProfileBinaryCountsAsInt( std::istream & input,
 			const Position length,
-			int bytes, 
+			int bytes,
 			float scale_factor,
 			const Regularizor *,
 			const LogOddor *);
 
-	friend HAlignandum addProfile2Profile( HAlignandum dest, 
-			const HAlignandum source, 
+	friend HAlignandum addProfile2Profile( HAlignandum dest,
+			const HAlignandum source,
 			const HAlignment map_source2dest );
 
-	friend HAlignandum addSequence2Profile( HAlignandum dest, 
-			const HAlignandum source, 
+	friend HAlignandum addSequence2Profile( HAlignandum dest,
+			const HAlignandum source,
 			const HAlignment map_source2dest );
 
-	friend HAlignandum substituteProfileWithProfile( HAlignandum dest, 
-			const HAlignandum source, 
+	friend HAlignandum substituteProfileWithProfile( HAlignandum dest,
+			const HAlignandum source,
 			const HAlignment map_source2dest );
 
 	friend HAlignandum rescaleProfileCounts( HAlignandum dest, double scale_factor);
@@ -97,26 +97,26 @@ public:
 	/* constructors and desctructors------------------------------------------------------- */
 
 	/** constructor */
-	ImplProfile( 
+	ImplProfile(
 			const HEncoder & translator,
 			const HWeightor & weightor,
-			const HRegularizor & regularizor, 
-			const HLogOddor & logoddor );	
+			const HRegularizor & regularizor,
+			const HLogOddor & logoddor );
 
-	ImplProfile( 
+	ImplProfile(
 			const HMultipleAlignment & src,
 			const HEncoder & translator,
 			const HWeightor & weightor,
-			const HRegularizor & regularizor, 
-			const HLogOddor & logoddor );	
+			const HRegularizor & regularizor,
+			const HLogOddor & logoddor );
 
-	ImplProfile( 
+	ImplProfile(
 			const Position & length,
 			const HEncoder & translator,
 			const HWeightor & weightor,
-			const HRegularizor & regularizor, 
-			const HLogOddor & logoddor );	
-	
+			const HRegularizor & regularizor,
+			const HLogOddor & logoddor );
+
 	/** copy constructor */
 	ImplProfile( const ImplProfile &);
 
@@ -133,17 +133,17 @@ public:
 
 	/** load data into cache, if cacheable type. In this implementation of profiles, this
 	will also calculate the profile */
-	virtual void prepare() const;						
+	virtual void prepare() const;
 
 	/** discard cache, if cacheable type. In this implementation of profiles, this will
      delete the frequencies and profile-types. Only the counts are stored, so that the
      profile can be reconstituted. */
-	virtual void release() const;					       
+	virtual void release() const;
 
 	/** write important member data in a minimally formated way to a stream. Important
 	in this sense means data that the user is interested, not internal state variables,
 	that would be needed to accurately reconstitute the object.
-	Use different "factory" functions to format the output in a way, that you would 
+	Use different "factory" functions to format the output in a way, that you would
 	like to have it (see writeSequenceFasta(...) for an example)
 	 */
 	virtual void write( std::ostream & output ) const;
@@ -156,7 +156,7 @@ public:
 
 	/** save state of object into stream
 	 */
-	virtual void load( std::istream & input ) ;    
+	virtual void load( std::istream & input ) ;
 
 	/** export member data for Scorer and filler objects */
 	virtual ScoreMatrix * exportScoreMatrix() const ;
@@ -174,7 +174,7 @@ public:
 	/** set the @ref Regularizor.
 	 */
 	virtual void setRegularizor( const HRegularizor & regularizor );
-	
+
 	/** get the @ref LogOddor.
 	 */
 	virtual HWeightor getWeightor() const;
@@ -186,35 +186,39 @@ public:
 	/** get the @ref Regularizor.
 	 */
 	virtual HRegularizor getRegularizor() const;
-	
+
 	/** return a copy of the score matrix for inspection.
 	 * @return a score matrix.
 	 * */
 	virtual HScoreMatrix getScoreMatrix() const ;
-	
+
 	/** return a copy of the frequency matrix for inspection.
 	 * @return a frequency matrix.
 	 * */
 	virtual HFrequencyMatrix getFrequencyMatrix() const ;
-	
+
 	/** return a copy of the counts matrix for inspection.
 	 * @return a counts matrix.
 	 * */
 	virtual HCountMatrix getCountMatrix() const;
 
 	/** add an @ref Alignandum object to the profile
-	 * 
-	 * Note that this function will simply add the counts 
+	 *
+	 * Note that this function will simply add the counts
 	 * of the two profiles. A sequence is regarded as a
 	 * profile with single counts in each column.
-	 * 
+	 *
 	 * @param src the object to be added.
 	 * @param a mapping giving column correspondencies
+	 * @param reverse_mapping - mapping is in reverse order
 	 * */
-	virtual void add( const HAlignandum & src, const HAlignment & map_src2dest );
-	
+	virtual void add(
+			const HAlignandum & src,
+			const HAlignment & map_src2dest,
+			const bool reverse_mapping = false );
+
 	/** resize profile to new length - the old data is discarded.
-	 * 
+	 *
 	 * @param length new length of profile
 	 */
 	virtual void resize( Position length );
@@ -231,7 +235,7 @@ protected:
 
 	/** mask a column */
 	template<class T>
-	void setColumnToValue( Matrix<T> * data, 
+	void setColumnToValue( Matrix<T> * data,
 			const Position & column,
 			const T & value );
 
@@ -241,12 +245,12 @@ protected:
 
 	/** save matrix in sparse format to stream */
 	template<class T>
-	void saveSparseMatrix( std::ostream & output, const Matrix<T> * data ) const;	
+	void saveSparseMatrix( std::ostream & output, const Matrix<T> * data ) const;
 
 	/** load matrix in sparse format to stream */
 	template<class T>
-	void loadSparseMatrix( std::istream & input, Matrix<T> * data );	
-	
+	void loadSparseMatrix( std::istream & input, Matrix<T> * data );
+
 	/** get residue with most counts in column */
 	virtual Residue	getMaximumCount( Position column ) const ;
 
@@ -256,8 +260,8 @@ protected:
 	/** get residue with highest frequency in column */
 	virtual Residue	getMaximumFrequency( Position column ) const ;
 
-	/** allocate memory for counts 
-	 * 
+	/** allocate memory for counts
+	 *
 	 * Also sets the width of the profile.
 	 * */
 	virtual void allocateCounts() const;
@@ -275,17 +279,17 @@ protected:
 	 */
 	virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
 
-	/** width of a profile column 
-	 * 
-	 * This width is set from the alphabet size of the translator and is set if 
+	/** width of a profile column
+	 *
+	 * This width is set from the alphabet size of the translator and is set if
 	 * allocateCounts() is called.
 	 * */
 	mutable Residue mProfileWidth;
 
-	/** weightor to use to convert residues to counts 
+	/** weightor to use to convert residues to counts
 	 */
 	HWeightor mWeightor;
-	
+
 	/** pointer to weighter to use for weighting sequences */
 	HRegularizor mRegularizor;
 
@@ -293,13 +297,13 @@ protected:
 	HLogOddor mLogOddor;
 
 	/** pointer to the location of the counts stored in memory */
-	mutable CountMatrix * mCountMatrix;			
+	mutable CountMatrix * mCountMatrix;
 
 	/** pointer to the location of the frequencies stored in memory */
-	mutable FrequencyMatrix * mFrequencyMatrix;		
+	mutable FrequencyMatrix * mFrequencyMatrix;
 
 	/** pointer to the location of the profile stored in memory */
-	mutable ScoreMatrix * mScoreMatrix;		
+	mutable ScoreMatrix * mScoreMatrix;
 
 };
 

@@ -39,6 +39,7 @@
 #include "LogOddor.h"
 #include "Matrix.h"
 #include "MultipleAlignment.h"
+#include "MultAlignment.h"
 #include "Regularizor.h"
 #include "Profile.h"
 #include "Scorer.h"

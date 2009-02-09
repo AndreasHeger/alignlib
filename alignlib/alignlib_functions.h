@@ -37,6 +37,7 @@
 #include "HelpersIterator2D.h"
 #include "HelpersLogOddor.h"
 #include "HelpersMultipleAlignment.h"
+#include "HelpersMultAlignment.h"
 #include "HelpersRegularizor.h"
 #include "HelpersPalette.h"
 #include "HelpersScorer.h"

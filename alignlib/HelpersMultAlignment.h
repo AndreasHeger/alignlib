@@ -25,8 +25,8 @@
 #include <config.h>
 #endif
 
-#ifndef HELPERS_MULTIPLE_ALIGNMENT_H
-#define HELPERS_MULTIPLE_ALIGNMENT_H 1
+#ifndef HELPERS_MULT_ALIGNMENT_H
+#define HELPERS_MULT_ALIGNMENT_H 1
 
 #include <vector>
 #include "alignlib_fwd.h"

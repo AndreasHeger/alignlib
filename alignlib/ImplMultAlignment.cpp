@@ -248,8 +248,8 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 	{
 		if (sequences->size() != getNumSequences())
 			throw AlignlibException( "ImplMultAlignment.cpp: number of sequences given does not match number of sequences in MultAlignment");
-		insert_termini = true;
 	}
+
 
 	Position mali_length = 0;
 

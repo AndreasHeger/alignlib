@@ -127,6 +127,11 @@ namespace alignlib
     typedef std::vector<HAlignandum> AlignandumVector;
     typedef boost::shared_ptr<AlignandumVector>HAlignandumVector;
 
+    /** A vector of @ref MultAlignment objects
+     */
+    typedef std::vector< HMultAlignment > MultAlignments;
+    typedef boost::shared_ptr<HMultAlignment>HMultAlignments;
+
     /** A vector of positions */
     typedef std::vector< Position > PositionVector;
     typedef boost::shared_ptr<PositionVector>HPositionVector;

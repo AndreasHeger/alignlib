@@ -39,7 +39,8 @@ programs=test_Fragmentor \
 		test_AlignmentFormat \
 		test_AlignlibException \
 		test_Index \
-		test_MultAlignment
+		test_MultAlignment \
+		test_Profile 
 
 
 check_PROGRAMS = ${programs}
@@ -78,3 +79,4 @@ test_AlignmentFormat_SOURCES = test_AlignmentFormat.cpp
 test_AlignlibException_SOURCES = test_AlignlibException.cpp
 test_Index_SOURCES = test_Index.cpp
 test_MultAlignment_SOURCES = test_MultAlignment.cpp
+test_Profile_SOURCES = test_Profile.cpp
