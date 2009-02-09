@@ -42,6 +42,7 @@
 #include "AlignmentIterator.h"
 #include "AlignlibException.h"
 #include "HelpersAlignment.h"
+#include "AlignmentFormat.h"
 
 using namespace std;
 
@@ -232,6 +233,156 @@ bool ImplMultAlignment::isEmpty() const
 {
 	return mRows.empty();
 }
+
+
+//---------------------------------------------------------------------------------------
+void ImplMultAlignment::expand( const HAlignandumVector & sequences )
+{
+
+	debug_func_cerr(5);
+
+	if (isEmpty()) return;
+
+	bool insert_termini = false;
+	if (sequences->size() != 0)
+	{
+		if (sequences->size() != getNumSequences())
+			throw AlignlibException( "ImplMultAlignment.cpp: number of sequences given does not match number of sequences in MultAlignment");
+		insert_termini = true;
+	}
+
+	Position mali_length = 0;
+
+	// find number of aligned columns in mali
+	for (unsigned int x = 0; x < mRows.size(); ++x)
+		mali_length = std::max( mali_length, mRows[x]->getRowTo());
+
+	// find total/maximum insertions before a given mali column
+	// row: position in mali
+	// col: position in sequence
+	std::vector<int> gaps(mali_length + 1, 0);
+
+	for (unsigned int x = 0; x < mRows.size(); ++x)
+	{
+		HAlignment map_mali2row = mRows[x];
+
+		Position last_col = map_mali2row->getColFrom();
+
+		if (insert_termini)
+			gaps[0] += last_col;
+
+		for (Position row = map_mali2row->getRowFrom() + 1; row < map_mali2row->getRowTo(); ++row)
+		{
+			Position col = map_mali2row->mapRowToCol(row);
+			if (col != NO_POS)
+			{
+				gaps[row] += col - last_col - 1;
+			}
+			last_col = col;
+		}
+
+		if (insert_termini)
+			gaps[mali_length] += (*sequences)[x]->getLength() - map_mali2row->getColTo();
+
+	}
+
+	debug_cerr( 5, "length=" << mali_length << " insert_termini=" << insert_termini);
+
+#ifdef DEBUG
+	for (unsigned int x = 0; x < gaps.size(); ++x)
+		debug_cerr( 5, "col=" << x << " gaps=" << gaps[x]);
+#endif
+
+	// build map of aligned columns to output columns in mali
+	// record gaps before each position
+	HAlignment map_mali_old2new = makeAlignmentVector();
+	{
+		Position y = 0;
+		for (Position x = 0; x < mali_length; ++x)
+		{
+			y += gaps[x];
+			map_mali_old2new->addPair( x, y++, 0 );
+		}
+	}
+
+	debug_cerr( 5, "map_mali_old2new\n" << *map_mali_old2new );
+
+	// remap each row to the new mali
+	mLength = 0;
+
+	std::vector<int>used_gaps(mali_length + 1, 0);
+
+	for (unsigned int x = 0; x < mRows.size(); ++x)
+	{
+		HAlignment old_map_mali2row = mRows[x];
+		HAlignment new_map_mali2row = old_map_mali2row->getNew();
+
+		// build new alignment by mapping the existing aligned columns
+		combineAlignment( new_map_mali2row,
+						  map_mali_old2new,
+						  old_map_mali2row,
+						  RR);
+
+		debug_cerr( 5, "map_mali2row after mapping aligned columns=\n" << *new_map_mali2row );
+
+		// add residues for unaligned positions
+		// insert before start
+		if (insert_termini)
+		{
+			unsigned int u = used_gaps[0];
+			Position col = old_map_mali2row->getColFrom();
+			Position s = 0;
+			while (s < col)
+			{
+				new_map_mali2row->addPair( u++, s++, 0);
+			}
+			used_gaps[0] = u;
+		}
+
+		debug_cerr( 5, "here");
+		// insert gaps between aligned positions
+		Position last_col = old_map_mali2row->getColFrom();
+		for (Position row = old_map_mali2row->getRowFrom() + 1; row < old_map_mali2row->getRowTo(); ++row)
+		{
+			Position col = old_map_mali2row->mapRowToCol(row);
+
+			if (col != NO_POS)
+			{
+				unsigned int u = map_mali_old2new->mapRowToCol(row) - gaps[row] + used_gaps[row];
+				unsigned int d = col - last_col - 1;
+				while (col - last_col - 1 > 0)
+				{
+					new_map_mali2row->addPair( u++, ++last_col, 0);
+				}
+				used_gaps[row] += d;
+				last_col = col;
+			}
+		}
+
+		if (insert_termini)
+		{
+			Position end = mali_length;
+			Position start = end + used_gaps[ mali_length ];
+			debug_cerr( 5, "end=" << (int)end << " start=" << (int)start
+					<< "to=" << (int)(start + (*sequences)[x]->getLength() - old_map_mali2row->getColTo()));
+			new_map_mali2row->addDiagonal( start,
+					start + ((*sequences)[x]->getLength() - old_map_mali2row->getColTo()),
+											start - old_map_mali2row->getColTo() );
+		}
+
+		debug_cerr( 5, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
+
+		mRows[x] = new_map_mali2row;
+		mLength = std::max( mLength, new_map_mali2row->getRowTo() );
+	}
+
+
+	// by definition all columns will be aligned
+	mIsAligned.clear();
+	mIsAligned.resize( mLength, true);
+
+}
+
 
 //---------------------------------------------------------< Input/Output routines >--------
 

@@ -119,13 +119,22 @@ namespace alignlib
     typedef std::vector< Frequency> FrequencyVector;
     typedef boost::shared_ptr<FrequencyVector>HFrequencyVector;
 
-    /** A vector of aligned fragmens */
+    /** A vector of aligned fragments */
     typedef std::vector<HAlignment> FragmentVector;
     typedef boost::shared_ptr<FragmentVector>HFragmentVector;
+
+    /** A vector of @ref Alignandum objects */
+    typedef std::vector<HAlignandum> AlignandumVector;
+    typedef boost::shared_ptr<AlignandumVector>HAlignandumVector;
 
     /** A vector of positions */
     typedef std::vector< Position > PositionVector;
     typedef boost::shared_ptr<PositionVector>HPositionVector;
+
+    /** A vector of positions */
+    class Segment;
+    typedef std::vector< Segment > SegmentVector;
+    typedef boost::shared_ptr<SegmentVector>HSegmentVector;
 
     /** A vector of scores */
     typedef std::vector< Score > ScoreVector;

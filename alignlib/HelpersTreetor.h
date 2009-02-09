@@ -21,31 +21,31 @@
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
 /**
- * 
+ *
  * @defgroup FactoryTreetor Factory functions for Treetor objects.
- * @{ 
+ * @{
  */
 
 /** make a Treetor using linkage clustering methods.
- * 
+ *
  * @param distor @ref Distor object to compute distance.
- * @param method @ref LinkageType 
+ * @param method @ref LinkageType
  * @return a new @ref Treetor object.
 * */
 HTreetor makeTreetorDistanceLinkage(
-		const HDistor & distor,     		
-		LinkageType method = UPGMA ); 
+		const HDistor & distor,
+		LinkageType method = UPGMA );
 
-/** make a Treetor using the neighbour-joining algorithm. 
- * 
+/** make a Treetor using the neighbour-joining algorithm.
+ *
  * @param distor @ref Distor object to compute distance.
- * @return a new @ref Treetor object. 
+ * @return a new @ref Treetor object.
  * */
-HTreetor makeTreetorDistanceNJ( const HDistor & distor );    
+HTreetor makeTreetorDistanceNJ( const HDistor & distor );
 
 /** @} */
 
@@ -53,9 +53,7 @@ HTreetor makeTreetorDistanceNJ( const HDistor & distor );
  * @{
  */
 
-DEFINE_DEFAULT( HTreetor, 
-		getDefaultTreetor,
-		setDefaultTreetor );
+DEFINE_DEFAULT( HTreetor, getDefaultTreetor, setDefaultTreetor );
 
 /** @} */
 }

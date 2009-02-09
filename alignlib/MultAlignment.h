@@ -117,6 +117,19 @@ class MultAlignment
 
     /* ------------------ mutators ----------------------------------------------------------- */
 
+    /** expand multiple alignment
+     *
+     * This will add columns into the multiple alignment for unaligned positions
+     * in the rows.
+     *
+     * @param sequences  	a list of sequences. If this array is not null,
+     * 						sequence lengths from this array will be used to expand
+     * 						the multiple alignment before the first and after the last
+     * 						column.
+     * */
+    virtual void expand(
+    		const HAlignandumVector & sequences ) = 0;
+
     /*------------------- functions for adding new members to the multiple alignment---------*/
 
 

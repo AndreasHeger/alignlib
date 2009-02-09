@@ -111,6 +111,19 @@ class ImplMultAlignment : public MultAlignment
      * */
     virtual bool isAligned( const Position & col );
 
+    /** expand multiple alignment
+     *
+     * This will add columns into the multiple alignment for unaligned positions
+     * in the rows.
+     *
+     * @param sequences  	a list of sequences. If this array is not null,
+     * 						sequence lengths from this array will be used to expand
+     * 						the multiple alignment before the first and after the last
+     * 						column.
+     * */
+    virtual void expand(
+    		const HAlignandumVector & sequences );
+
     /* ------------------ mutators ----------------------------------------------------------- */
 
     /** add an @ref Alignment object to the multiple alignment.

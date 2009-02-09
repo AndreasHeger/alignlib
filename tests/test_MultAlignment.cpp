@@ -57,6 +57,120 @@ using boost::unit_test::test_suite;
 
 class my_exception{};
 
+// test expansion of multiple alignment
+void test_Expand(
+		const HMultAlignment & r )
+{
+
+	HMultAlignment copy(r->getNew());
+	{
+
+		{
+			HAlignment ali(makeAlignmentVector());
+			ali->addDiagonal( 0,3,+2 );
+			ali->addDiagonal( 3,6,+4 );
+			copy->add( ali );
+		}
+		{
+			HAlignment ali(makeAlignmentVector());
+			ali->addDiagonal( 0,1,+1 );
+			ali->addDiagonal( 1,6,+3 );
+			copy->add( ali );
+			copy->add( ali );
+		}
+	}
+
+	// Input:
+	// 012345
+	// 234789
+	// 145678
+	// 145678
+
+	/*
+	// expansion within mali
+	// Output:
+	// 0123456789 10 11
+	// 2----34567 8  9
+	// 123--45--6 7  8
+	// 1--2345--6 7  8
+	{
+		HMultAlignment clone(copy->getClone());
+
+		clone->expand( HAlignandumVector(new AlignandumVector()));
+		{
+			HAlignment ali_test(makeAlignmentVector());
+			ali_test->addDiagonal( 0,1,+2 );
+			ali_test->addDiagonal( 5,11,-2 );
+			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(0)), true);
+
+		}
+
+		{
+			HAlignment ali_test(makeAlignmentVector());
+			ali_test->addDiagonal( 0,3,+1 );
+			ali_test->addDiagonal( 5,7,-1 );
+			ali_test->addDiagonal( 9,11,-3 );
+			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(1)), true);
+		}
+		{
+			HAlignment ali_test(makeAlignmentVector());
+			ali_test->addDiagonal( 0,1,+1 );
+			ali_test->addDiagonal( 3,7,-1 );
+			ali_test->addDiagonal( 9,11,-3 );
+			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(2)), true);
+		}
+		std::cout << *clone << std::endl;
+	}
+	 */
+	// expansion within and outside of mali
+	// Output:
+	// 0123456789 10 11 12 13 14 15 16 17 18
+  	// 01--2----3 4  5   6  7  8  9  -  -
+	// --0-123--4 5  -   -  6  7  8  9  -
+	// ---01--234 5  -   -  6  7  8  -  9
+	{
+		HMultAlignment clone(copy->getClone());
+
+		HAlignandumVector seqs(new AlignandumVector());
+		seqs->push_back( makeSequence( "AAAAAAAAAA" ) );
+		seqs->push_back( makeSequence( "AAAAAAAAAA" ) );
+		seqs->push_back( makeSequence( "AAAAAAAAAA" ) );
+
+		clone->expand( seqs );
+		{
+			HAlignment ali_test(makeAlignmentVector());
+			ali_test->addDiagonal( 0,2, 0 );
+			ali_test->addDiagonal( 4,5,-2 );
+			ali_test->addDiagonal( 9,15,-6 );
+			ali_test->addDiagonal( 16,17,-7 );
+			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(0)), true);
+		}
+
+		{
+			HAlignment ali_test(makeAlignmentVector());
+			ali_test->addDiagonal( 2, 3, -2 );
+			ali_test->addDiagonal( 4, 7, -3 );
+			ali_test->addDiagonal( 9,11, -5 );
+			ali_test->addDiagonal(13,17, -7 );
+			std::cout << *(clone->getRow(1));
+			std::cout << *ali_test;
+			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(1)), true);
+		}
+		{
+			HAlignment ali_test(makeAlignmentVector());
+			ali_test->addDiagonal( 3,5,-3 );
+			ali_test->addDiagonal( 7,11,-5 );
+			ali_test->addDiagonal( 13,16,-7 );
+			ali_test->addDiagonal( 17,18,-8 );
+
+			//BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(2)), true);
+		}
+		std::cout << *clone << std::endl;
+	}
+
+
+}
+
 void test_GenericMultAlignment(
 		const HMultAlignment & r )
 {
@@ -153,6 +267,8 @@ void test_GenericMultAlignment(
 		BOOST_CHECK_EQUAL( clone2->getNumSequences(), 2 * nseqs);
 		BOOST_CHECK_EQUAL( checkAlignmentIdentity( map_b2a, (*clone2)[nseqs+1] ), true );
 	}
+
+	test_Expand( r );
 
 }
 

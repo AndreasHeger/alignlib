@@ -42,6 +42,7 @@
 #include "Regularizor.h"
 #include "Profile.h"
 #include "Scorer.h"
+#include "Segment.h"
 #include "Sequence.h"
 #include "Treetor.h"
 #include "Tree.h"
