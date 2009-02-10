@@ -31,7 +31,7 @@ namespace alignlib
 #define MAX_DIAGONAL 99999999
 
 
-/* type for the internal representation of residues */  
+/* type for the internal representation of residues */
 typedef unsigned char Residue;
 
 /* invalid residue */
@@ -43,16 +43,16 @@ typedef double Score;
 
 /** type of a diagonal index. Has to be a signed type, as diagonals can be positive or negative
  */
-typedef long Diagonal;	
+typedef long Diagonal;
 
 /* type of a dot index, has to be signed, since NODOT is -1 */
-typedef long Dot;	
+typedef long Dot;
 
 /* type of a fragment index, has to be signed, since NOFRAGMENT is -1 */
-typedef long Fragment;	
+typedef long Fragment;
 
 /* type of a position in a sequence, negative positions are invalid positions, thus use a signed type. */
-typedef int Position;	
+typedef int Position;
 
 /* invalid position */
 #define NO_POS -1
@@ -130,7 +130,7 @@ typedef double TreeWeight;
 typedef unsigned long Node;
 
 
-struct Coordinate 
+struct Coordinate
 {
 	unsigned long row;
 	unsigned long col;
@@ -139,6 +139,16 @@ struct Coordinate
 typedef double DistanceMatrixValue;
 
 typedef unsigned long DistanceMatrixSize;
-} 
+
+/** enum describing the ways that two pairwise alignments can be combined
+ *
+ *    - RR: row with row
+ *    - RC: row with column
+ *    - CR: column with row
+ *    - CC: column with column
+ */
+typedef enum { RR, RC, CR, CC } CombinationMode;
+
+}
 
 #endif /*ALIGNLIB_DECLS_H_*/

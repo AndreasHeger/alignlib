@@ -356,5 +356,54 @@ void ImplAlignmentVector::insertCol(
 	return;
 }
 
+//-----------------------------------------------------------------------------------------------------------
+void ImplAlignmentVector::map(
+		const HAlignment & other,
+		const CombinationMode & mode )
+{
+	debug_func_cerr(5);
+
+	// mapping is efficient for mode C{R,C}, for all others
+	// revert to the default mapping mode.
+	if (mode == RR || mode == RC)
+		return ImplAlignment::map( other, mode );
+
+	if (mode == CR)
+	{
+		for (Position x = 0; x < mPairs.size(); ++x)
+			if (mPairs[x].mRow != NO_POS)
+			{
+				Position p = mapRowToCol(mPairs[x].mCol);
+				if (p != NO_POS)
+					mPairs[x].mCol = p;
+				else
+				{
+					mPairs[x].mRow = mPairs[x].mCol = NO_POS;
+					mPairs[x].mScore = 0;
+				}
+
+			}
+	}
+	else if (mode == CC )
+	{
+		for (Position x = 0; x < mPairs.size(); ++x)
+			if (mPairs[x].mRow != NO_POS)
+			{
+				Position p = mapColToRow(mPairs[x].mCol);
+				if (p != NO_POS)
+					mPairs[x].mCol = p;
+				else
+				{
+					mPairs[x].mRow = mPairs[x].mCol = NO_POS;
+					mPairs[x].mScore = 0;
+				}
+			}
+	}
+
+	updateBoundaries();
+	setChangedLength();
+	return;
+}
+
 } // namespace alignlib
 

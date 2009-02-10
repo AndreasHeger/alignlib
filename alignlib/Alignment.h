@@ -357,6 +357,19 @@ public:
 	*/
 	virtual void clear() = 0;
 
+	/** apply a map to the alignment.
+	 *
+	 * This method maps all rows/columns with a map
+	 * in another alignment.
+	 *
+	 * @param other @ref Alignment to map with
+	 * @param mode Combination mode.
+	 *
+	 * */
+	virtual void map(
+			const HAlignment & other,
+			const CombinationMode & mode ) = 0;
+
 	/*-----------------> I/O <------------------------------------------------------------------------------ */
 	/** write human readable representation of alignment to stream
 	 *

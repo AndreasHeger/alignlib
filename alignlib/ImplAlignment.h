@@ -174,6 +174,20 @@ class ImplAlignment : public Alignment
     /** removes a pair */
     virtual void removePair( const ResiduePair & pair );
 
+    /** apply a map to the alignment.
+     *
+     * This method maps all rows/columns with a map
+     * in another alignment.
+     *
+     * @param other @ref Alignment to map with
+     * @param mode Combination mode.
+     *
+     * */
+    virtual void map(
+    		const HAlignment & other,
+    		const CombinationMode & mode );
+
+
     /*-----------------> I/O <------------------------------------------------------------------------------ */
     virtual void write(std::ostream & output ) const;
 

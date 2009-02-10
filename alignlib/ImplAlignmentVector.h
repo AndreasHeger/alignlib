@@ -217,6 +217,19 @@ public:
 			const Position & from,
 			const Position & residues = 1);
 
+    /** apply a map to the alignment.
+     *
+     * This method maps all rows/columns with a map
+     * in another alignment.
+     *
+     * @param other @ref Alignment to map with
+     * @param mode Combination mode.
+     *
+     * */
+    virtual void map(
+    		const HAlignment & other,
+    		const CombinationMode & mode );
+
 	/** clear the current alignemnt */
 	void clear();
 	protected:

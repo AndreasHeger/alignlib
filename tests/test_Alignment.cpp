@@ -170,6 +170,58 @@ void checkInsert( const HAlignment & a )
 
 }
 
+void checkMap( const HAlignment & a )
+{
+	if (a->isEmpty()) return;
+
+	{
+		HAlignment clone(a->getClone());
+		clone->map( a, RR);
+		AlignmentIterator it(clone->begin()), end(clone->end());
+		for (;it!=end;++it)
+			BOOST_CHECK_EQUAL( it->mRow, it->mCol );
+	}
+
+	{
+		HAlignment clone(a->getClone());
+		clone->map( a, CC);
+		AlignmentIterator it(clone->begin()), end(clone->end());
+		for (;it!=end;++it)
+			BOOST_CHECK_EQUAL( it->mRow, it->mCol );
+	}
+
+	{
+		HAlignment clone(a->getClone());
+		clone->map( a, RC);
+		AlignmentIterator it(a->begin()), end(a->end());
+		for (;it!=end;++it)
+		{
+			if (it->mRow == it->mCol)
+				BOOST_CHECK_EQUAL( it->mRow, clone->mapRowToCol(it->mRow) );
+			else if (a->mapColToRow( it->mRow ) != NO_POS)
+				BOOST_CHECK_EQUAL( a->mapColToRow(it->mRow), clone->mapRowToCol(it->mCol) );
+			else
+				BOOST_CHECK_EQUAL( NO_POS, clone->mapColToRow(it->mCol) );
+		}
+	}
+
+	{
+		HAlignment clone(a->getClone());
+		clone->map( a, CR);
+		AlignmentIterator it(a->begin()), end(a->end());
+		for (;it!=end;++it)
+		{
+			if (it->mRow == it->mCol)
+				BOOST_CHECK_EQUAL( it->mRow, clone->mapRowToCol(it->mRow) );
+			else if (a->mapRowToCol( it->mCol ) != NO_POS)
+				BOOST_CHECK_EQUAL( a->mapRowToCol(it->mCol), clone->mapRowToCol(it->mRow) );
+			else
+				BOOST_CHECK_EQUAL( NO_POS, clone->mapRowToCol(it->mRow) );
+		}
+	}
+
+
+}
 
 
 // tests for both empty and full alignments
@@ -346,6 +398,8 @@ void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs
 		BOOST_CHECK_EQUAL(a_clone->getNumAligned() , 0);
 		BOOST_CHECK_EQUAL(a_clone->isEmpty(), true );
 	}
+
+	checkMap( a );
 
 	if ( a->isEmpty() )
 		return;

@@ -482,7 +482,6 @@ void ImplAlignment::insertCol(
 
 	mScore = copy->getScore();
 
-
 	for (; it != it_end && (*it).mCol < p; ++it)
 		addPair( ResiduePair(*it) );
 
@@ -496,6 +495,83 @@ void ImplAlignment::insertCol(
 	return;
 }
 
+//-----------------------------------------------------------------------------------------------------------
+/** This is a generic routine. It creates a new alignment by making a copy of the old one.
+ */
+void ImplAlignment::map(
+		const HAlignment & other,
+		const CombinationMode & mode )
+{
+	debug_func_cerr(5);
+
+	const HAlignment copy = getClone();
+
+	clear();
+
+	AlignmentIterator it1(copy->begin());
+	AlignmentIterator it1_end(copy->end());
+	AlignmentIterator it2(other->begin());
+	AlignmentIterator it2_end(other->end());
+
+	while ( it1 != it1_end && it2 != it2_end )
+	{
+
+		const ResiduePair & x_pair = *it1;
+		const ResiduePair & y_pair = *it2;
+
+		Position map1 = NO_POS;
+		Position value1 = NO_POS;
+
+		Position map2 = NO_POS;
+		Position value2 = NO_POS;
+
+		switch (mode)
+		{
+
+		case RR:
+			map1 = x_pair.mRow; value1 = x_pair.mCol;
+			map2 = y_pair.mRow; value2 = y_pair.mCol;
+			break;
+
+		case CR:
+			map1 = x_pair.mCol; value1 = x_pair.mRow;
+			map2 = y_pair.mRow; value2 = y_pair.mCol;
+			break;
+
+		case RC:
+			map1 = x_pair.mRow; value1 = x_pair.mCol;
+			map2 = y_pair.mCol; value2 = y_pair.mRow;
+			break;
+
+		case CC:
+			map1 = x_pair.mCol; value1 = x_pair.mRow;
+			map2 = y_pair.mCol; value2 = y_pair.mRow;
+			break;
+		}
+
+		assert( value1 != NO_POS);
+		assert( value2 != NO_POS);
+
+		// cout << "map1:" << map1 << " value1:" << value1 << " map2:" << map2 << " value2:" << value2 << endl;
+
+		if (map1 == map2)
+		{
+			addPair( ResiduePair(value1, value2, 0));
+			++it1;
+			++it2;
+		}
+		else
+		{
+			if (map1 < map2)
+				++it1;
+			else
+				++it2;
+		}
+
+	}
+
+	return;
+}
 
 //--------------------------------------------------------------------------------------------------------------
 
