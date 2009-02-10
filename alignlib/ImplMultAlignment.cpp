@@ -179,29 +179,60 @@ void ImplMultAlignment::updateAligned(
 /** Add a full multiple alignment to the another alignment.
  */
 void ImplMultAlignment::add(
-		const HMultAlignment & src,
-		const HAlignment & map_mali2sequence )
+		const HMultAlignment & other,
+		const HAlignment & map_this2other )
 {
 	debug_func_cerr(5);
 
 	// do not add empty mali
-	if (src->isEmpty()) return;
+	if (other->isEmpty()) return;
 
-	for (int x = 0; x < src->getNumSequences(); ++x)
+	for (int x = 0; x < other->getNumSequences(); ++x)
 	{
-		HAlignment new_map_mali2sequence(src->getRow(x)->getNew());
+		HAlignment new_map_mali2sequence(other->getRow(x)->getNew());
 
 		combineAlignment(
 				new_map_mali2sequence,
-				map_mali2sequence,
-				src->getRow(x),
+				map_this2other,
+				other->getRow(x),
 				CR);
 
 		mRows.push_back( new_map_mali2sequence );
 	}
 
-	mLength = std::max( mLength, map_mali2sequence->getRowTo() );
-	updateAligned( map_mali2sequence );
+	mLength = std::max( mLength, map_this2other->getRowTo() );
+	updateAligned( map_this2other );
+}
+
+//------------------------------------------------------------------------------------
+/** Add a full multiple alignment to the another alignment.
+ */
+void ImplMultAlignment::add(
+		const HMultAlignment & other,
+		const HAlignment & map_this2new,
+		const HAlignment & map_other2new )
+{
+	debug_func_cerr(5);
+
+	// do not add empty mali
+	if (other->isEmpty()) return;
+
+	// map this alignment
+	for (int x = 0; x < getNumSequences(); ++x)
+	{
+		mRows[x]->map( map_this2new, RR );
+	}
+
+	for (int x = 0; x < other->getNumSequences(); ++x)
+	{
+		HAlignment new_map_mali2sequence(other->getRow(x)->getClone());
+		new_map_mali2sequence->map( map_other2new, RR);
+		mRows.push_back( new_map_mali2sequence );
+	}
+
+	mLength = std::max( mLength, map_this2new->getRowTo() );
+	mLength = std::max( mLength, map_other2new->getRowTo() );
+	updateAligned( map_this2new );
 }
 
 //------------------------------------------------------------------------------------

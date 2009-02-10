@@ -143,12 +143,28 @@ class ImplMultAlignment : public MultAlignment
      * sequence positions are aligned in @param src, but that column is not
      * in map_mali2sequence, then the alignment of these two residues is lost.
      *
-	@param src	 @ref Alignment object to add.
-	@param alignment @ref Alignment that maps src to mali.
+	@param other	 @ref MultAlignment object to add.
+	@param map_this2other @ref Alignment that maps this mali to the other.
     */
     virtual void add(
-    		const HMultAlignment & src,
-    		const HAlignment & map_mali2sequence );
+    		const HMultAlignment & other,
+    		const HAlignment & map_this2other );
+
+    /** add a @ref MultAlignment object to the multiple alignment.
+     *
+     * The alignment object maps the sequence to multiple alignment columns.
+     * Note that some alignment information can be potentially lost. If two
+     * sequence positions are aligned in @param src, but that column is not
+     * in map_mali2sequence, then the alignment of these two residues is lost.
+     *
+	@param other	 @ref MultAlignment object to add.
+	@param map_this2new @ref Alignment that maps this mali to the new.
+	@param map_other2new @ref Alignment that maps this mali to the new.
+    */
+    virtual void add(
+    		const HMultAlignment & other,
+    		const HAlignment & map_this2new,
+			const HAlignment & map_other2new);
 
 
     /** returns true, if the alignment is empty.
