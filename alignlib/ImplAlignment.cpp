@@ -529,8 +529,8 @@ void ImplAlignment::map(
 		{
 
 		case RR:
-			map1 = x_pair.mRow; value1 = x_pair.mCol;
-			map2 = y_pair.mRow; value2 = y_pair.mCol;
+			map1 = x_pair.mRow; value2 = x_pair.mCol;
+			map2 = y_pair.mRow; value1 = y_pair.mCol;
 			break;
 
 		case CR:
@@ -539,8 +539,8 @@ void ImplAlignment::map(
 			break;
 
 		case RC:
-			map1 = x_pair.mRow; value1 = x_pair.mCol;
-			map2 = y_pair.mCol; value2 = y_pair.mRow;
+			map1 = x_pair.mRow; value2 = x_pair.mCol;
+			map2 = y_pair.mCol; value1 = y_pair.mRow;
 			break;
 
 		case CC:
@@ -552,7 +552,7 @@ void ImplAlignment::map(
 		assert( value1 != NO_POS);
 		assert( value2 != NO_POS);
 
-		// cout << "map1:" << map1 << " value1:" << value1 << " map2:" << map2 << " value2:" << value2 << endl;
+		debug_cerr( 5, "map1:" << map1 << " value1:" << value1 << " map2:" << map2 << " value2:" << value2 );
 
 		if (map1 == map2)
 		{

@@ -21,6 +21,7 @@ pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			AlignlibMethods.h \
 			AlignlibIndex.h \
 			Matrix.h \
+			Segment.h \
 			$(HEADERS_ALIGNATOR) \
 			$(HEADERS_ITERATOR) \
 			$(HEADERS_SCORER) \
@@ -125,6 +126,7 @@ PARTS = AlignlibException.cpp \
 			$(PARTS_SUBSTMATRIX) \
 			$(PARTS_PHYLOLIB) \
 			AlignlibDefault.cpp \
+			Segment.cpp \
 			AlignlibIndex.cpp
 
 PARTS_PHYLOLIB= Tree.cpp HelpersTree.cpp \

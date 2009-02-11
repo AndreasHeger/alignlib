@@ -177,6 +177,7 @@ void checkMap( const HAlignment & a )
 	{
 		HAlignment clone(a->getClone());
 		clone->map( a, RR);
+		BOOST_CHECK_EQUAL( clone->getNumAligned(), a->getNumAligned() );
 		AlignmentIterator it(clone->begin()), end(clone->end());
 		for (;it!=end;++it)
 			BOOST_CHECK_EQUAL( it->mRow, it->mCol );
@@ -185,6 +186,7 @@ void checkMap( const HAlignment & a )
 	{
 		HAlignment clone(a->getClone());
 		clone->map( a, CC);
+		BOOST_CHECK_EQUAL( clone->getNumAligned(), a->getNumAligned() );
 		AlignmentIterator it(clone->begin()), end(clone->end());
 		for (;it!=end;++it)
 			BOOST_CHECK_EQUAL( it->mRow, it->mCol );
@@ -199,7 +201,7 @@ void checkMap( const HAlignment & a )
 			if (it->mRow == it->mCol)
 				BOOST_CHECK_EQUAL( it->mRow, clone->mapRowToCol(it->mRow) );
 			else if (a->mapColToRow( it->mRow ) != NO_POS)
-				BOOST_CHECK_EQUAL( a->mapColToRow(it->mRow), clone->mapRowToCol(it->mCol) );
+				BOOST_CHECK_EQUAL( a->mapColToRow(it->mRow), clone->mapColToRow(it->mCol) );
 			else
 				BOOST_CHECK_EQUAL( NO_POS, clone->mapColToRow(it->mCol) );
 		}

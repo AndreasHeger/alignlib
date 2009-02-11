@@ -168,10 +168,23 @@ void ImplMultAlignment::updateAligned(
 		const HAlignment & map_mali2sequence )
 {
 	debug_func_cerr(5);
-	mIsAligned.clear();
 	mIsAligned.resize( mLength, false);
 	AlignmentIterator it( map_mali2sequence->begin() ), end( map_mali2sequence->end());
 	for( ; it != end; ++it) mIsAligned[it->mRow] = true;
+	return;
+}
+
+//-----------------------------------------------------------------------------------------------------------
+void ImplMultAlignment::buildAligned()
+{
+	debug_func_cerr(5);
+	mIsAligned.clear();
+	mIsAligned.resize( mLength, false);
+	for (int x = 0; x < mRows.size(); ++ x)
+	{
+		AlignmentIterator it( mRows[x]->begin() ), end( mRows[x]->end());
+		for( ; it != end; ++it) mIsAligned[it->mRow] = true;
+	}
 	return;
 }
 
@@ -201,7 +214,7 @@ void ImplMultAlignment::add(
 	}
 
 	mLength = std::max( mLength, map_this2other->getRowTo() );
-	updateAligned( map_this2other );
+	buildAligned();
 }
 
 //------------------------------------------------------------------------------------
@@ -230,9 +243,8 @@ void ImplMultAlignment::add(
 		mRows.push_back( new_map_mali2sequence );
 	}
 
-	mLength = std::max( mLength, map_this2new->getRowTo() );
-	mLength = std::max( mLength, map_other2new->getRowTo() );
-	updateAligned( map_this2new );
+	mLength = std::max( map_this2new->getColTo(), map_other2new->getColTo() );
+	buildAligned();
 }
 
 //------------------------------------------------------------------------------------
@@ -279,8 +291,8 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 	{
 		if (sequences->size() != getNumSequences())
 			throw AlignlibException( "ImplMultAlignment.cpp: number of sequences given does not match number of sequences in MultAlignment");
+		insert_termini = true;
 	}
-
 
 	Position mali_length = 0;
 
@@ -365,12 +377,12 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 			Position s = 0;
 			while (s < col)
 			{
+				assert( new_map_mali2row->mapRowToCol(u) == NO_POS);
 				new_map_mali2row->addPair( u++, s++, 0);
 			}
 			used_gaps[0] = u;
 		}
 
-		debug_cerr( 5, "here");
 		// insert gaps between aligned positions
 		Position last_col = old_map_mali2row->getColFrom();
 		for (Position row = old_map_mali2row->getRowFrom() + 1; row < old_map_mali2row->getRowTo(); ++row)
@@ -392,13 +404,19 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 
 		if (insert_termini)
 		{
-			Position end = mali_length;
+			Position end = map_mali_old2new->getColTo();
+			Position residues = (*sequences)[x]->getLength() - old_map_mali2row->getColTo();
 			Position start = end + used_gaps[ mali_length ];
-			debug_cerr( 5, "end=" << (int)end << " start=" << (int)start
-					<< "to=" << (int)(start + (*sequences)[x]->getLength() - old_map_mali2row->getColTo()));
-			new_map_mali2row->addDiagonal( start,
-					start + ((*sequences)[x]->getLength() - old_map_mali2row->getColTo()),
-											start - old_map_mali2row->getColTo() );
+			debug_cerr( 5, "adding terminal residues:"
+					<< " end=" << end
+					<< " start=" << start
+					<< " to=" << start + residues
+					<< " diag=" << old_map_mali2row->getColTo() - start);
+			new_map_mali2row->addDiagonal(
+					start,
+					start + residues,
+					old_map_mali2row->getColTo() - start );
+			used_gaps[mali_length] += residues;
 		}
 
 		debug_cerr( 5, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
@@ -411,11 +429,37 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 	// by definition all columns will be aligned
 	mIsAligned.clear();
 	mIsAligned.resize( mLength, true);
-
 }
 
 
 //---------------------------------------------------------< Input/Output routines >--------
+
+HPositionMatrix ImplMultAlignment::getPositionMatrix( const bool & transpose ) const
+{
+	debug_func_cerr(5);
+	PositionMatrix * matrix;
+	if (transpose)
+	{
+		matrix = new PositionMatrix( getLength(), getNumSequences(), NO_POS);
+		for( int x = 0; x < mRows.size(); ++x)
+		{
+			AlignmentIterator it(mRows[x]->begin()), end(mRows[x]->end());
+			for( ; it!= end; ++it)
+				matrix->setValue( it->mRow, x, it->mCol );
+		}
+	}
+	else
+	{
+		matrix = new PositionMatrix( getNumSequences(), getLength(), NO_POS);
+		for( int x = 0; x < mRows.size(); ++x)
+		{
+			AlignmentIterator it(mRows[x]->begin()), end(mRows[x]->end());
+			for( ; it!= end; ++it)
+				matrix->setValue( x, it->mRow, it->mCol );
+		}
+	}
+	return HPositionMatrix( matrix );
+}
 
 //------------------------------------------------------------------------------------
 void ImplMultAlignment::write( std::ostream & output ) const

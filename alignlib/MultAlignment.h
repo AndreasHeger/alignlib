@@ -157,6 +157,22 @@ class MultAlignment
     		const HMultAlignment & src,
     		const HAlignment & map_mali2sequence ) = 0;
 
+    /** add a @ref MultAlignment object to the multiple alignment.
+     *
+     * The alignment object maps the sequence to multiple alignment columns.
+     * Note that some alignment information can be potentially lost. If two
+     * sequence positions are aligned in @param src, but that column is not
+     * in map_mali2sequence, then the alignment of these two residues is lost.
+     *
+	@param other	 @ref MultAlignment object to add.
+	@param map_this2new @ref Alignment that maps this mali to the new.
+	@param map_other2new @ref Alignment that maps this mali to the new.
+    */
+    virtual void add(
+    		const HMultAlignment & other,
+    		const HAlignment & map_this2new,
+			const HAlignment & map_other2new) = 0;
+
     /** returns true, if the alignment is empty.
      *
      * @return true, if the alignment is emtpy.
@@ -182,6 +198,18 @@ class MultAlignment
      * @param output output stream.
     */
     virtual void write( std::ostream & output ) const = 0;
+
+    /** return multiple alignment as a matrix.
+     *
+     *  The default orientation is row/col, i.e. matrix[0][10] refers
+     *  to the tenth column in the first sequence.
+     *
+     *  Unaligned positions are set to NO_POS.
+     *
+     * @param transpose if set to true, the transposed matrix is returned
+     * @return a position matrix.
+     */
+    virtual HPositionMatrix getPositionMatrix( const bool & transpose = false) const = 0;
 };
 
 }

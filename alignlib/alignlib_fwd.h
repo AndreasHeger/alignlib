@@ -105,6 +105,9 @@ namespace alignlib
 	typedef Matrix<Count> CountMatrix;
     typedef boost::shared_ptr<CountMatrix>HCountMatrix;
 
+	typedef Matrix<Position> PositionMatrix;
+    typedef boost::shared_ptr<PositionMatrix>HPositionMatrix;
+
     typedef Matrix<Score> MutationMatrix;
     typedef boost::shared_ptr<MutationMatrix>HMutationMatrix;
 

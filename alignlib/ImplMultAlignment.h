@@ -193,6 +193,18 @@ class ImplMultAlignment : public MultAlignment
     */
     virtual void write( std::ostream & output ) const ;
 
+    /** return multiple alignment as a matrix.
+         *
+         *  The default orientation is row/col, i.e. matrix[0][10] refers
+         *  to the tenth column in the first sequence.
+         *
+         *  Unaligned positions are set to NO_POS.
+         *
+         * @param transpose if set to true, the transposed matrix is returned
+         * @return a position matrix.
+         */
+     virtual HPositionMatrix getPositionMatrix( const bool & transpose = false ) const;
+
  protected:
     /** free all memory. Tell all stored objects to destruct themselves */
     virtual void freeMemory();
@@ -211,6 +223,9 @@ class ImplMultAlignment : public MultAlignment
 	 /** update the aligned flag mapping onto new */
 	 virtual void updateAligned(
 			 const HAlignment & map_mali2sequence );
+
+	 /** re-build the aligned flag*/
+	 virtual void buildAligned();
 
 };
 

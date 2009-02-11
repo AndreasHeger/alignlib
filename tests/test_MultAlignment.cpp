@@ -32,6 +32,7 @@
 #include <sstream>
 #include <cassert>
 
+#include "Matrix.h"
 #include "Alignandum.h"
 #include "HelpersAlignandum.h"
 #include "Alignator.h"
@@ -86,7 +87,6 @@ void test_Expand(
 	// 145678
 	// 145678
 
-	/*
 	// expansion within mali
 	// Output:
 	// 0123456789 10 11
@@ -100,7 +100,7 @@ void test_Expand(
 		{
 			HAlignment ali_test(makeAlignmentVector());
 			ali_test->addDiagonal( 0,1,+2 );
-			ali_test->addDiagonal( 5,11,-2 );
+			ali_test->addDiagonal( 5,12,-2 );
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(0)), true);
 
 		}
@@ -109,22 +109,21 @@ void test_Expand(
 			HAlignment ali_test(makeAlignmentVector());
 			ali_test->addDiagonal( 0,3,+1 );
 			ali_test->addDiagonal( 5,7,-1 );
-			ali_test->addDiagonal( 9,11,-3 );
+			ali_test->addDiagonal( 9,12,-3 );
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(1)), true);
 		}
 		{
 			HAlignment ali_test(makeAlignmentVector());
 			ali_test->addDiagonal( 0,1,+1 );
 			ali_test->addDiagonal( 3,7,-1 );
-			ali_test->addDiagonal( 9,11,-3 );
+			ali_test->addDiagonal( 9,12,-3 );
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(2)), true);
 		}
-		std::cout << *clone << std::endl;
 	}
-	 */
+
 	// expansion within and outside of mali
 	// Output:
-	// 0123456789 10 11 12 13 14 15 16 17 18
+	// 0123456789 10 11 12 13 14 15 16 17
   	// 01--2----3 4  5   6  7  8  9  -  -
 	// --0-123--4 5  -   -  6  7  8  9  -
 	// ---01--234 5  -   -  6  7  8  -  9
@@ -141,8 +140,7 @@ void test_Expand(
 			HAlignment ali_test(makeAlignmentVector());
 			ali_test->addDiagonal( 0,2, 0 );
 			ali_test->addDiagonal( 4,5,-2 );
-			ali_test->addDiagonal( 9,15,-6 );
-			ali_test->addDiagonal( 16,17,-7 );
+			ali_test->addDiagonal( 9,16,-6 );
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(0)), true);
 		}
 
@@ -152,8 +150,6 @@ void test_Expand(
 			ali_test->addDiagonal( 4, 7, -3 );
 			ali_test->addDiagonal( 9,11, -5 );
 			ali_test->addDiagonal(13,17, -7 );
-			std::cout << *(clone->getRow(1));
-			std::cout << *ali_test;
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(1)), true);
 		}
 		{
@@ -162,12 +158,9 @@ void test_Expand(
 			ali_test->addDiagonal( 7,11,-5 );
 			ali_test->addDiagonal( 13,16,-7 );
 			ali_test->addDiagonal( 17,18,-8 );
-
-			//BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(2)), true);
+			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(2)), true);
 		}
-		std::cout << *clone << std::endl;
 	}
-
 
 }
 
@@ -268,7 +261,53 @@ void test_GenericMultAlignment(
 		BOOST_CHECK_EQUAL( checkAlignmentIdentity( map_b2a, (*clone2)[nseqs+1] ), true );
 	}
 
-	test_Expand( r );
+	// check adding mali to mali with gaps, out-of-range access and aligned columns
+	{
+		HMultAlignment clone1(r->getNew());
+		HMultAlignment clone2(r->getNew());
+		// build alignment of the form
+		// xxxxxxxxxx
+		// xxxxxxxxxx
+		for (int x = 0; x < nseqs; ++x)
+		{
+			HAlignment ali(makeAlignmentVector());
+			ali->addDiagonal( 0, nseqs, 0);
+			clone1->add(ali);
+		}
+		// build alignment of the form
+		// xxxxxxxxxx---
+		// -xxxxxxxxxx--
+		// --xxxxxxxxxx-
+		// ---xxxxxxxxxx
+		for (int x = 0; x < nseqs; ++x)
+		{
+			HAlignment ali(makeAlignmentVector());
+			ali->addDiagonal( x, nseqs + x, 0);
+			clone2->add(ali);
+		}
+
+		HAlignment map_old2new(makeAlignmentVector());
+		int half = (int)(nseqs / 2);
+		map_old2new->addDiagonal( 0, half, 0);
+		map_old2new->addDiagonal( nseqs, nseqs + half, -half );
+
+		clone2->add( clone1, map_old2new, map_old2new );
+		BOOST_CHECK_EQUAL( clone2->getLength(), nseqs);
+		BOOST_CHECK_EQUAL( clone2->getNumSequences(), 2 * nseqs);
+		for (int x = 0; x < map_old2new->getColTo(); ++x)
+		{
+			Position pos = map_old2new->mapColToRow( x );
+			if (pos == NO_POS)
+				BOOST_CHECK_EQUAL( clone2->isAligned( x ), false );
+			else
+			{
+				BOOST_CHECK_EQUAL( clone2->isAligned( x ), true );
+			}
+		}
+		HPositionMatrix matrix(clone2->getPositionMatrix());
+	}
+
+	// test_Expand( r );
 
 }
 

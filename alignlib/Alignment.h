@@ -362,6 +362,15 @@ public:
 	 * This method maps all rows/columns with a map
 	 * in another alignment.
 	 *
+	 * The alignment mode denotes whether row or col are mapped.
+	 * The first letter denotes whether row or col are mapped.
+	 * The second letter denotes whether row or col in other are
+	 *   matched up to the value that is replaced.
+	 *
+	 * RR: row is replaced with corresponding R->C from other
+	 * RC: row is replaced with corresponding C->R from other
+	 * CC: col is replaced with corresponding R->R from other
+	 * CR: col is replaced with corresonding R->C from other.
 	 * @param other @ref Alignment to map with
 	 * @param mode Combination mode.
 	 *
