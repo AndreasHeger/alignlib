@@ -49,6 +49,12 @@ bool checkAlignmentIdentity(
 	AlignmentIterator it2(b->begin());
 	AlignmentIterator it2_end(b->end());
 
+	if (a->getRowFrom() != b->getRowFrom() ||
+			a->getRowTo() != b->getRowTo() ||
+			a->getColFrom() != b->getColFrom() ||
+			a->getColTo() != b->getColTo() )
+		return false;
+
 	bool is_identical = true;
 
 	for (; it1 != it1_end && it2 != it2_end && is_identical; ++it1, ++it2)
