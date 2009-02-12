@@ -10,83 +10,89 @@
 
 #include "cstdio"
 
-#include "build/Alignandum.pypp.hpp"
+#include "modules/Alignandum.pypp.hpp"
 
-#include "build/Alignator.pypp.hpp"
+#include "modules/Alignator.pypp.hpp"
 
-#include "build/Alignatum.pypp.hpp"
+#include "modules/Alignatum.pypp.hpp"
 
-#include "build/Alignment.pypp.hpp"
+#include "modules/Alignment.pypp.hpp"
 
-#include "build/AlignmentFormat.pypp.hpp"
+#include "modules/AlignmentFormat.pypp.hpp"
 
-#include "build/AlignmentFormatBlat.pypp.hpp"
+#include "modules/AlignmentFormatBlat.pypp.hpp"
 
-#include "build/AlignmentFormatBlocks.pypp.hpp"
+#include "modules/AlignmentFormatBlocks.pypp.hpp"
 
-#include "build/AlignmentFormatDiagonals.pypp.hpp"
+#include "modules/AlignmentFormatDiagonals.pypp.hpp"
 
-#include "build/AlignmentFormatEmissions.pypp.hpp"
+#include "modules/AlignmentFormatEmissions.pypp.hpp"
 
-#include "build/AlignmentFormatExplicit.pypp.hpp"
+#include "modules/AlignmentFormatExplicit.pypp.hpp"
 
-#include "build/AlignmentIterator.pypp.hpp"
+#include "modules/AlignmentIterator.pypp.hpp"
 
-#include "build/Coordinate.pypp.hpp"
+#include "modules/Coordinate.pypp.hpp"
 
-#include "build/DistanceMatrix.pypp.hpp"
+#include "modules/DistanceMatrix.pypp.hpp"
 
-#include "build/Distor.pypp.hpp"
+#include "modules/Distor.pypp.hpp"
 
-#include "build/EVDParameters.pypp.hpp"
+#include "modules/EVDParameters.pypp.hpp"
 
-#include "build/Encoder.pypp.hpp"
+#include "modules/Encoder.pypp.hpp"
 
-#include "build/Fragmentor.pypp.hpp"
+#include "modules/Fragmentor.pypp.hpp"
 
-#include "build/Iterator2D.pypp.hpp"
+#include "modules/Iterator2D.pypp.hpp"
 
-#include "build/Labels.pypp.hpp"
+#include "modules/LogOddor.pypp.hpp"
 
-#include "build/LogOddor.pypp.hpp"
+#include "modules/MatrixDouble.pypp.hpp"
 
-#include "build/MatrixDouble.pypp.hpp"
+#include "modules/MatrixInt.pypp.hpp"
 
-#include "build/MatrixInt.pypp.hpp"
+#include "modules/MatrixUInt.pypp.hpp"
 
-#include "build/MatrixUInt.pypp.hpp"
+#include "modules/MultAlignment.pypp.hpp"
 
-#include "build/MultipleAlignment.pypp.hpp"
+#include "modules/MultAlignmentFormatPlain.pypp.hpp"
 
-#include "build/NormalDistributionParameters.pypp.hpp"
+#include "modules/MultipleAlignment.pypp.hpp"
 
-#include "build/PositionVector.pypp.hpp"
+#include "modules/NormalDistributionParameters.pypp.hpp"
 
-#include "build/Profile.pypp.hpp"
+#include "modules/PositionVector.pypp.hpp"
 
-#include "build/Regularizor.pypp.hpp"
+#include "modules/Profile.pypp.hpp"
 
-#include "build/ResiduePair.pypp.hpp"
+#include "modules/Regularizor.pypp.hpp"
 
-#include "build/Scorer.pypp.hpp"
+#include "modules/ResiduePair.pypp.hpp"
 
-#include "build/Sequence.pypp.hpp"
+#include "modules/Scorer.pypp.hpp"
 
-#include "build/Tree.pypp.hpp"
+#include "modules/Segment.pypp.hpp"
 
-#include "build/Treetor.pypp.hpp"
+#include "modules/Sequence.pypp.hpp"
 
-#include "build/Weightor.pypp.hpp"
+#include "modules/Tree.pypp.hpp"
 
-#include "build/alignlib_enumerations.pypp.hpp"
+#include "modules/Treetor.pypp.hpp"
 
-#include "build/alignlib_free_functions.pypp.hpp"
+#include "modules/Weightor.pypp.hpp"
 
-#include "build/vector_less__double__greater_.pypp.hpp"
+#include "modules/alignlib_enumerations.pypp.hpp"
 
-#include "build/vector_less__unsigned_char__greater_.pypp.hpp"
+#include "modules/alignlib_free_functions.pypp.hpp"
 
-#include "build/vector_less__unsigned_int__greater_.pypp.hpp"
+#include "modules/vector_less__double__greater_.pypp.hpp"
+
+#include "modules/vector_less__std_scope_string__greater_.pypp.hpp"
+
+#include "modules/vector_less__unsigned_char__greater_.pypp.hpp"
+
+#include "modules/vector_less__unsigned_int__greater_.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -164,7 +170,7 @@ BOOST_PYTHON_MODULE(alignlib){
 
     register_vector_less__unsigned_char__greater__class();
 
-    register_Labels_class();
+    register_vector_less__std_scope_string__greater__class();
 
     register_PositionVector_class();
 
@@ -214,6 +220,10 @@ BOOST_PYTHON_MODULE(alignlib){
 
     register_MatrixUInt_class();
 
+    register_MultAlignment_class();
+
+    register_MultAlignmentFormatPlain_class();
+
     register_MultipleAlignment_class();
 
     register_NormalDistributionParameters_class();
@@ -225,6 +235,8 @@ BOOST_PYTHON_MODULE(alignlib){
     register_ResiduePair_class();
 
     register_Scorer_class();
+
+    register_Segment_class();
 
     register_Sequence_class();
 

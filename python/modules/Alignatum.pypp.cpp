@@ -24,6 +24,16 @@ void register_Alignatum_class(){
                 , ( bp::arg("front"), bp::arg("back") ) );
         
         }
+        { //::alignlib::Alignatum::fillAlignment
+        
+            typedef void ( ::alignlib::Alignatum::*fillAlignment_function_type )( ::alignlib::HAlignment &,bool const ) const;
+            
+            Alignatum_exposer.def( 
+                "fillAlignment"
+                , fillAlignment_function_type( &::alignlib::Alignatum::fillAlignment )
+                , ( bp::arg("dest"), bp::arg("invert")=(bool const)(false) ) );
+        
+        }
         { //::alignlib::Alignatum::getAlignedLength
         
             typedef ::alignlib::Position ( ::alignlib::Alignatum::*getAlignedLength_function_type )(  ) const;

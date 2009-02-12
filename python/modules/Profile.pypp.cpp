@@ -16,12 +16,12 @@ void register_Profile_class(){
         bp::scope Profile_scope( Profile_exposer );
         { //::alignlib::Profile::add
         
-            typedef void ( ::alignlib::Profile::*add_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const & ) ;
+            typedef void ( ::alignlib::Profile::*add_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const &,bool const ) ;
             
             Profile_exposer.def( 
                 "add"
                 , add_function_type( &::alignlib::Profile::add )
-                , ( bp::arg("src"), bp::arg("map_src2dest") ) );
+                , ( bp::arg("src"), bp::arg("map_src2dest"), bp::arg("reverse_mapping")=(bool const)(false) ) );
         
         }
         { //::alignlib::Profile::getCountMatrix

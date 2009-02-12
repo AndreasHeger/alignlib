@@ -131,6 +131,17 @@ void register_free_functions(){
     
     }
 
+    { //::alignlib::checkMultAlignmentIdentity
+    
+        typedef bool ( *checkMultAlignmentIdentity_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HMultAlignment const & );
+        
+        bp::def( 
+            "checkMultAlignmentIdentity"
+            , checkMultAlignmentIdentity_function_type( &::alignlib::checkMultAlignmentIdentity )
+            , ( bp::arg("a"), bp::arg("b") ) );
+    
+    }
+
     { //::alignlib::combineAlignment
     
         typedef void ( *combineAlignment_function_type )( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const );
@@ -560,34 +571,45 @@ void register_free_functions(){
 
     { //::alignlib::makeAlignatum
     
-        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::alignlib::HAlignandum const &,::alignlib::Position const,::alignlib::Position const );
+        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::alignlib::HAlignandum const &,::alignlib::Position const &,::alignlib::Position const & );
         
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("from")=(int const)(-0x000000001), bp::arg("to")=(int const)(-0x000000001) ) );
+            , ( bp::arg("src"), bp::arg("from")=-0x000000001, bp::arg("to")=-0x000000001 ) );
     
     }
 
     { //::alignlib::makeAlignatum
     
-        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const &,::alignlib::Position const );
+        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const &,::alignlib::Position const & );
         
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("map_this2new"), bp::arg("max_length")=(int const)(0) ) );
+            , ( bp::arg("src"), bp::arg("map_this2new"), bp::arg("max_length")=0 ) );
     
     }
 
     { //::alignlib::makeAlignatum
     
-        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::std::string const &,::alignlib::Position const,::alignlib::Position const );
+        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::std::string const &,::alignlib::HAlignment const &,::alignlib::Position const & );
         
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("from")=(int const)(-0x000000001), bp::arg("to")=(int const)(-0x000000001) ) );
+            , ( bp::arg("src"), bp::arg("map_src2aligned"), bp::arg("max_length")=0 ) );
+    
+    }
+
+    { //::alignlib::makeAlignatum
+    
+        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::std::string const &,::alignlib::Position const &,::alignlib::Position const & );
+        
+        bp::def( 
+            "makeAlignatum"
+            , makeAlignatum_function_type( &::alignlib::makeAlignatum )
+            , ( bp::arg("src"), bp::arg("from")=-0x000000001, bp::arg("to")=-0x000000001 ) );
     
     }
 
@@ -888,6 +910,16 @@ void register_free_functions(){
     
     }
 
+    { //::alignlib::makeMultAlignment
+    
+        typedef ::alignlib::HMultAlignment ( *makeMultAlignment_function_type )(  );
+        
+        bp::def( 
+            "makeMultAlignment"
+            , makeMultAlignment_function_type( &::alignlib::makeMultAlignment ) );
+    
+    }
+
     { //::alignlib::makeMultipleAlignment
     
         typedef ::alignlib::HMultipleAlignment ( *makeMultipleAlignment_function_type )(  );
@@ -948,6 +980,28 @@ void register_free_functions(){
         bp::def( 
             "makePaletteMView"
             , makePaletteMView_function_type( &::alignlib::makePaletteMView ) );
+    
+    }
+
+    { //::alignlib::makeProfile
+    
+        typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HAlignandumVector const & );
+        
+        bp::def( 
+            "makeProfile"
+            , makeProfile_function_type( &::alignlib::makeProfile )
+            , ( bp::arg("mali"), bp::arg("sequences") ) );
+    
+    }
+
+    { //::alignlib::makeProfile
+    
+        typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const &,::alignlib::HAlignandum const &,::alignlib::HAlignment const & );
+        
+        bp::def( 
+            "makeProfile"
+            , makeProfile_function_type( &::alignlib::makeProfile )
+            , ( bp::arg("seqa"), bp::arg("map_seqa2profile"), bp::arg("seqb"), bp::arg("map_seqb2profile") ) );
     
     }
 

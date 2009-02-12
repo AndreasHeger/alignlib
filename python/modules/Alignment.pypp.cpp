@@ -189,6 +189,26 @@ void register_Alignment_class(){
                 , getScore_function_type( &::alignlib::Alignment::getScore ) );
         
         }
+        { //::alignlib::Alignment::insertCol
+        
+            typedef void ( ::alignlib::Alignment::*insertCol_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) ;
+            
+            Alignment_exposer.def( 
+                "insertCol"
+                , insertCol_function_type( &::alignlib::Alignment::insertCol )
+                , ( bp::arg("from"), bp::arg("residues")=1 ) );
+        
+        }
+        { //::alignlib::Alignment::insertRow
+        
+            typedef void ( ::alignlib::Alignment::*insertRow_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) ;
+            
+            Alignment_exposer.def( 
+                "insertRow"
+                , insertRow_function_type( &::alignlib::Alignment::insertRow )
+                , ( bp::arg("from"), bp::arg("residues")=1 ) );
+        
+        }
         { //::alignlib::Alignment::isEmpty
         
             typedef bool ( ::alignlib::Alignment::*isEmpty_function_type )(  ) const;
@@ -196,6 +216,16 @@ void register_Alignment_class(){
             Alignment_exposer.def( 
                 "isEmpty"
                 , isEmpty_function_type( &::alignlib::Alignment::isEmpty ) );
+        
+        }
+        { //::alignlib::Alignment::map
+        
+            typedef void ( ::alignlib::Alignment::*map_function_type )( ::alignlib::HAlignment const &,::alignlib::CombinationMode const & ) ;
+            
+            Alignment_exposer.def( 
+                "map"
+                , map_function_type( &::alignlib::Alignment::map )
+                , ( bp::arg("other"), bp::arg("mode") ) );
         
         }
         { //::alignlib::Alignment::mapColToRow

@@ -114,6 +114,7 @@ void register_MatrixInt_class(){
                 , ( bp::arg("x"), bp::arg("y") ) );
         
         }
+        bp::register_ptr_to_python< boost::shared_ptr< alignlib::Matrix<int> > >();
     }
 
 }
