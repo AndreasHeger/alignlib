@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id$
+  $Id: HelpersMultipleAlignment.cpp,v 1.5 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -20,38 +20,39 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/** include file factory and helper functions
- */
 
-#ifndef ALIGNLIB_FUNCTIONS_H_
-#define ALIGNLIB_FUNCTIONS_H_
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <vector>
+#include <algorithm>
 
 #include "AlignlibException.h"
-#include "AlignlibMethods.h"
-
-#include "HelpersAlignandum.h"
+#include "Alignandum.h"
+#include "Alignment.h"
 #include "HelpersAlignment.h"
-#include "HelpersAlignator.h"
-#include "HelpersAlignatum.h"
-#include "HelpersFragmentor.h"
-#include "HelpersIterator2D.h"
-#include "HelpersLogOddor.h"
-#include "HelpersMultipleAlignment.h"
+#include "AlignmentIterator.h"
 #include "HelpersMultAlignment.h"
-#include "HelpersRegularizor.h"
-#include "HelpersPalette.h"
-#include "HelpersScorer.h"
-#include "HelpersSubstitutionMatrix.h"
-#include "HelpersEncoder.h"
-#include "HelpersWeightor.h"
-#include "HelpersDistor.h"
-#include "HelpersTreetor.h"
-#include "HelpersDistanceMatrix.h"
-#include "HelpersTree.h"
+#include "AlignlibDebug.h"
 
-#include "AlignmentFormat.h"
-#include "MultipleAlignmentFormat.h"
-#include "MultAlignmentFormat.h"
-#include "Statistics.h"
+using namespace std;
 
-#endif /*ALIGNLIB_FUNCTIONS_H_*/
+namespace alignlib
+{
+
+bool checkMultAlignmentIdentity(
+		const HMultAlignment & a,
+		const HMultAlignment & b )
+{
+	if (a->getNumSequences() != b->getNumSequences()) return false;
+	if (a->getLength() != b->getLength()) return false;
+
+	bool is_identical = true;
+	for (int x = 0; x < a->getNumSequences() && is_identical; ++x)
+		is_identical = checkAlignmentIdentity( (*a)[x], (*b)[x] );
+	return is_identical;
+}
+
+
+} // namespace alignlib
+

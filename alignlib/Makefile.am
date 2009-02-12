@@ -103,7 +103,7 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 			ImplMultipleAlignmentDots.h \
 			ImplAlignatum.h  \
 			HelpersPalette.h \
-			MultipleAlignmentFormat.h \
+			MultipleAlignmentFormat.h MultAlignmentFormat.h \
 			MultAlignment.h HelpersMultAlignment.h \
 			ImplMultAlignment.h
 
@@ -192,8 +192,8 @@ PARTS_MALI =		MultipleAlignment.cpp HelpersMultipleAlignment.cpp \
 			ImplMultipleAlignmentDots.cpp \
 			ImplAlignatum.cpp \
 			HelpersPalette.cpp \
-			MultipleAlignmentFormat.cpp \
-			MultAlignment.cpp \
+			MultipleAlignmentFormat.cpp MultAlignmentFormat.cpp \
+			MultAlignment.cpp HelpersMultAlignment.cpp \
 			ImplMultAlignment.cpp
 
 PARTS_STATISTICS =    Statistics.cpp

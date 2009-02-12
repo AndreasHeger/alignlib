@@ -30,55 +30,67 @@
 
 #include "alignlib_fwd.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
 /**
- * 
+ *
  * @defgroup FactoryAlignatum Factory functions for Alignatum objects.
- * @{ 
- *  
- */ 
+ * @{
+ *
+ */
 
 /** make an @ref Alignatum object from a string.
- * 
+ *
  * @param src  string to initialize with
  * @param from first residue
  * @param to   last residue
- * @return a new @ref Alignatum object.  
- */
-HAlignatum makeAlignatum( 
-		const std::string & src, 
-		const Position from = NO_POS, 
-		const Position to = NO_POS);
-
-/** make an @ref Alignatum object from an @ref Alignandum object.
- * 
- * @param src  @ref Alignandum object.
- * @param map_this2new @ref Alignment object mapping src to the new object.
- * @param max_length maximum length of object. Adds additional gap characters to the end. 
- * @return a new @ref Alignatum object.  
+ * @return a new @ref Alignatum object.
  */
 HAlignatum makeAlignatum(
-		const HAlignandum & src, 
-		const HAlignment & map_this2new,
-		const Position max_length = 0);
+		const std::string & src,
+		const Position & from = NO_POS,
+		const Position & to = NO_POS);
 
-/** return a new @ref Alignatum object from an @ref Alignandum object.
- * 
+/** make an @ref Alignatum object from a string.
+ *
+ * @param src  string to initialize with
+ * @param map_src2alignment  mapping of string to alignment.
+ * @param max_length maximum length of object. Adds additional gap characters to the end.
+ * @return a new @ref Alignatum object.
+ */
+HAlignatum makeAlignatum(
+		const std::string & src,
+		const HAlignment & map_src2aligned,
+		const Position & max_length = 0);
+
+/** make an @ref Alignatum object from an @ref Alignandum object.
+ *
  * @param src  @ref Alignandum object.
- * @param from first residue
- * @param to   last residue
- * @return a new @ref Alignatum object.  
+ * @param map_this2new @ref Alignment object mapping src to the new object.
+ * @param max_length maximum length of object. Adds additional gap characters to the end.
+ * @return a new @ref Alignatum object.
  */
 HAlignatum makeAlignatum(
 		const HAlignandum & src,
-		const Position from = NO_POS,
-		const Position to = NO_POS);
+		const HAlignment & map_this2new,
+		const Position & max_length = 0);
+
+/** return a new @ref Alignatum object from an @ref Alignandum object.
+ *
+ * @param src  @ref Alignandum object.
+ * @param from first residue
+ * @param to   last residue
+ * @return a new @ref Alignatum object.
+ */
+HAlignatum makeAlignatum(
+		const HAlignandum & src,
+		const Position & from = NO_POS,
+		const Position & to = NO_POS);
 
 /** return a new @ref @Alignatum object.
- * 
- * @return a new @ref Alignatum object.  
+ *
+ * @return a new @ref Alignatum object.
  */
 HAlignatum makeAlignatum();
 

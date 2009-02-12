@@ -58,12 +58,15 @@ struct MultAlignmentFormat
 	// constructors and desctructors
 	MultAlignmentFormat ();
 
-	MultAlignmentFormat( const HMultAlignment & src);
+	MultAlignmentFormat(
+			const HMultAlignment & src,
+			const HStringVector & sequences );
 
 	MultAlignmentFormat( std::istream & src);
 
 	MultAlignmentFormat( const std::string & src);
 
+	/** copy constructor */
 	MultAlignmentFormat( const MultAlignmentFormat &);
 
 	virtual ~MultAlignmentFormat();
@@ -72,13 +75,17 @@ struct MultAlignmentFormat
 	 *
 	 *	@param src Mult alignment to parse
 	 */
-	virtual void fill( const HMultAlignment & src);
+	virtual void fill(
+			const HMultAlignment & src,
+			const HStringVector & sequences);
 
 	/** fill alignment from format
 	 *
-	 * 	@param dest Alignment
+	 * @param dest Alignment
+	 * @param templ template @ref Alignment to use in multiplea alignment
 	 */
-	virtual void copy( HMultAlignment & dest ) const;
+	virtual void copy( HMultAlignment & dest,
+			const HAlignment & templ) const;
 
 	/** save alignment to stream
 	 */
@@ -88,8 +95,9 @@ struct MultAlignmentFormat
 	 */
 	virtual void load( std::istream &);
 
-	/** string representation of the mali */
-	std::string mRepresentation;
+	/** Representation of the mali using Alignatum objects
+	 */
+	AlignatumVector mData;
 
 };
 
@@ -108,12 +116,15 @@ struct MultAlignmentFormatPlain : public MultAlignmentFormat
 	// constructors and desctructors
 	MultAlignmentFormatPlain ();
 
-	MultAlignmentFormatPlain( const HMultAlignment & src);
+	MultAlignmentFormatPlain(
+			const HMultAlignment & src,
+			const HStringVector & sequences );
 
 	MultAlignmentFormatPlain( std::istream & src);
 
 	MultAlignmentFormatPlain( const std::string & src);
 
+	/** copy constructor */
 	MultAlignmentFormatPlain (const MultAlignmentFormatPlain &);
 
 	virtual ~MultAlignmentFormatPlain ();
@@ -121,47 +132,17 @@ struct MultAlignmentFormatPlain : public MultAlignmentFormat
 	/** fill blocks from alignment
 		@param src Alignment to parse
 	 */
-	virtual void fill( const HMultAlignment & src);
+	virtual void fill(
+			const HMultAlignment & src,
+			const HStringVector & sequences);
 
-	/** fill Alignment object with blocks
-	 * 	@param dest Alignment
+	/** save alignment to stream
 	 */
-	virtual void copy( HMultAlignment & dest ) const;
+	virtual void save( std::ostream & ) const;
 
-};
-
-/**
-	HTML formatted output. Residues are colored according to a palette
-
-   	@author Andreas Heger
-   	@version $Id$
-   	@short Plain Mult alignment format
-
-*/
-struct MultAlignmentFormatHTML : public MultAlignmentFormat
-{
-	// constructors and desctructors
-	MultAlignmentFormatHTML ();
-
-	MultAlignmentFormatHTML( const HMultAlignment & src, const HPalette & palette );
-
-	MultAlignmentFormatHTML( std::istream & src);
-
-	MultAlignmentFormatHTML( const std::string & src);
-
-	MultAlignmentFormatHTML (const MultAlignmentFormatHTML &);
-
-	virtual ~MultAlignmentFormatHTML ();
-
-	/** fill blocks from alignment
-		@param src Alignment to parse
+	/** load alignment from stream
 	 */
-	virtual void fill( const HMultAlignment & src, const HPalette & palette);
-
-	/** fill Alignment object with blocks
-	 * 	@param dest Alignment
-	 */
-	virtual void copy( HMultAlignment & dest ) const;
+	virtual void load( std::istream &);
 
 };
 

@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: MultipleAlignmentFormat.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 
 #include <iostream>
@@ -20,78 +20,99 @@
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "AlignlibException.h"
-#include "MultipleAlignmentFormat.h"
-#include "HelpersMultipleAlignment.h"
+#include "Alignatum.h"
+#include "HelpersAlignatum.h"
+#include "MultAlignmentFormat.h"
+#include "HelpersMultAlignment.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-MultipleAlignmentFormat::MultipleAlignmentFormat() : mRepresentation("")
-{
-}
-
-MultipleAlignmentFormat::MultipleAlignmentFormat( const MultipleAlignmentFormat & src) :
-	mRepresentation(src.mRepresentation)
+MultAlignmentFormat::MultAlignmentFormat()
 {
 }
 
-MultipleAlignmentFormat::MultipleAlignmentFormat( std::istream & input ) 
+MultAlignmentFormat::MultAlignmentFormat( const MultAlignmentFormat & src)
+{
+	mData.clear();
+	for (int x = 0; x < src.mData.size(); ++x)
+		mData.push_back( src.mData[x]->getClone());
+}
+
+MultAlignmentFormat::MultAlignmentFormat( std::istream & input )
 {
 	load( input );
 }
 
-MultipleAlignmentFormat::MultipleAlignmentFormat( const std::string & src) 
+MultAlignmentFormat::MultAlignmentFormat( const std::string & src)
 {
 	std::istringstream i(src.c_str());
 	load( i );
 }
 
-MultipleAlignmentFormat::MultipleAlignmentFormat( const HMultipleAlignment & src) 
+MultAlignmentFormat::MultAlignmentFormat(
+		const HMultAlignment & src,
+		const HStringVector & sequences )
 {
-	fill( src );
+	fill( src, sequences );
 }
 
-MultipleAlignmentFormat::~MultipleAlignmentFormat()
+MultAlignmentFormat::~MultAlignmentFormat()
 {
 }
 
-void MultipleAlignmentFormat::fill( const HMultipleAlignment & src )
+void MultAlignmentFormat::fill(
+		const HMultAlignment & src,
+		const HStringVector & sequences)
 {
 	debug_func_cerr( 5 );
+	if (sequences->size() != src->getNumSequences())
+		throw AlignlibException("MultAlignmentFormat.cpp: number of sequences in src and sequences do not match");
+
+	for (int x = 0; x < src->getNumSequences(); ++x )
+		if ( (*src)[x]->getColTo() > (*sequences)[x].size())
+			throw AlignlibException("MultAlignmentFormat.cpp: sequence length in mali longer than in provided sequence");
+
+	mData.clear();
 }
 
-void MultipleAlignmentFormat::copy( HMultipleAlignment & dest ) const
+void MultAlignmentFormat::copy( HMultAlignment & dest, const HAlignment & templ ) const
 {
 	debug_func_cerr( 5 );
 	dest->clear();
+	AlignatumVector::const_iterator it(mData.begin()), end(mData.end());
+	for (; it!=end; ++it)
+	{
+		HAlignment ali (templ->getNew());
+		(*it)->fillAlignment( ali, true );
+		dest->add( ali );
+	}
 }
 
-void MultipleAlignmentFormat::load( std::istream & input)
+void MultAlignmentFormat::load( std::istream & input)
 {
 	debug_func_cerr( 5 );
-	input >> mRepresentation;
 }
 
-void MultipleAlignmentFormat::save( std::ostream & output) const
+void MultAlignmentFormat::save( std::ostream & output) const
 {
 	debug_func_cerr( 5 );
-	output << mRepresentation;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::ostream & operator<< (std::ostream & output, const MultipleAlignmentFormat & src)
+std::ostream & operator<< (std::ostream & output, const MultAlignmentFormat & src)
 {
 	src.save( output );
 	return output;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::istream & operator>> (std::istream & input, MultipleAlignmentFormat & dest) 
+std::istream & operator>> (std::istream & input, MultAlignmentFormat & dest)
 {
 	dest.load( input );
 	return input;
@@ -100,158 +121,88 @@ std::istream & operator>> (std::istream & input, MultipleAlignmentFormat & dest)
 //--------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------
-MultipleAlignmentFormatPlain::MultipleAlignmentFormatPlain() 
-: MultipleAlignmentFormat()
+MultAlignmentFormatPlain::MultAlignmentFormatPlain()
+: MultAlignmentFormat()
 {
 }
 
-MultipleAlignmentFormatPlain::MultipleAlignmentFormatPlain( std::istream & input ) 
-: MultipleAlignmentFormat()
+MultAlignmentFormatPlain::MultAlignmentFormatPlain( std::istream & input )
+: MultAlignmentFormat()
 {
 	load( input );
 }
 
-MultipleAlignmentFormatPlain::MultipleAlignmentFormatPlain( const std::string & src) 
-: MultipleAlignmentFormat()
+MultAlignmentFormatPlain::MultAlignmentFormatPlain( const std::string & src)
+: MultAlignmentFormat()
 	{
 	std::istringstream i(src.c_str());
 	load( i );
 	}
 
-MultipleAlignmentFormatPlain::MultipleAlignmentFormatPlain( const HMultipleAlignment & src) 
-: MultipleAlignmentFormat()
+MultAlignmentFormatPlain::MultAlignmentFormatPlain(
+		const HMultAlignment & src,
+		const HStringVector & sequences )
+: MultAlignmentFormat()
 {
-	fill( src );
+	// this is a call to a virtual function within
+	// constructor. These are dangerous if the base
+	// class wants to use a derived function. This
+	// is not the case. To ensure this, the empty constructor
+	// is called.
+	fill( src, sequences );
 }
 
 
-MultipleAlignmentFormatPlain::~MultipleAlignmentFormatPlain () 
+MultAlignmentFormatPlain::~MultAlignmentFormatPlain ()
 {
 }
 
-MultipleAlignmentFormatPlain::MultipleAlignmentFormatPlain (const MultipleAlignmentFormatPlain & src ) 
-: MultipleAlignmentFormat( src )
+MultAlignmentFormatPlain::MultAlignmentFormatPlain (const MultAlignmentFormatPlain & src )
+: MultAlignmentFormat( src )
 {
 }
 
-void MultipleAlignmentFormatPlain::fill( const HMultipleAlignment & src)
+void MultAlignmentFormatPlain::fill(
+		const HMultAlignment & src,
+		const HStringVector & sequences
+)
 {
 	debug_func_cerr(5);
 
-	MultipleAlignmentFormat::fill( src );
- 	for (int x = 0; x < src->getNumSequences(); ++x)
+	MultAlignmentFormat::fill( src, sequences );
+ 	for (int x = 0; x < sequences->size(); ++x)
+ 	{
+ 		HAlignment map_src2mali( (*src)[x]->getClone());
+ 		map_src2mali->switchRowCol();
+		mData.push_back( makeAlignatum( (*sequences)[x], map_src2mali, src->getLength() ));
+ 	}
+}
+
+void MultAlignmentFormatPlain::load( std::istream & input)
+{
+	debug_func_cerr( 5 );
+	std::string s;
+	mData.clear();
+	Position from, to;
+	input >> from >> s >> to;
+	while (!input.fail())
 	{
-		mRepresentation += src->getRow(x)->getString() + '\n'; 
+		mData.push_back( makeAlignatum(s, from, to) );
+		input >> from >> s >> to;
 	}
-	
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------
-void MultipleAlignmentFormatPlain::copy( HMultipleAlignment & dest ) const 
+void MultAlignmentFormatPlain::save( std::ostream & output) const
 {
-	debug_func_cerr(5);
-
-	MultipleAlignmentFormat::copy( dest );
-	assert( false );
+	debug_func_cerr( 5 );
+	for (int x = 0; x < mData.size(); ++x)
+		output << *(mData[x]) << std::endl;
 }
+
 
 //--------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------------------
-MultipleAlignmentFormatHTML::MultipleAlignmentFormatHTML() 
-: MultipleAlignmentFormat()
-{
-}
-
-MultipleAlignmentFormatHTML::MultipleAlignmentFormatHTML( std::istream & input ) 
-: MultipleAlignmentFormat()
-{
-	load( input );
-}
-
-MultipleAlignmentFormatHTML::MultipleAlignmentFormatHTML( const std::string & src) 
-: MultipleAlignmentFormat()
-	{
-	std::istringstream i(src.c_str());
-	load( i );
-	}
-
-MultipleAlignmentFormatHTML::MultipleAlignmentFormatHTML( 
-		const HMultipleAlignment & src, 
-		const HPalette & palette ) 
-: MultipleAlignmentFormat()
-{
-	fill( src, palette );
-}
-
-
-MultipleAlignmentFormatHTML::~MultipleAlignmentFormatHTML () 
-{
-}
-
-MultipleAlignmentFormatHTML::MultipleAlignmentFormatHTML (const MultipleAlignmentFormatHTML & src ) 
-: MultipleAlignmentFormat( src )
-{
-}
-
-void MultipleAlignmentFormatHTML::fill( 
-		const HMultipleAlignment & src,
-		const HPalette & palette )
-{
-	// TODO: speed up with streams or raw C char buffers
-	debug_func_cerr(5);
-
-	MultipleAlignmentFormat::fill( src );
-
-	std::string consensus = calculateConservation( src, 0.5 );
-	
-	debug_cerr( 5, "consensus is " << consensus );
-	
-	for (int x = 0; x < src->getNumSequences(); ++x)
-	{
-		std::string row = src->getRow(x)->getString(); 
-		unsigned char last_color = 0;
-		mRepresentation += "<FONT COLOR=\"" + (*palette)[last_color] + "\">";
-		
-		assert( consensus.size() == row.size() );
-		
-		for (int i = 0; i < row.size(); ++i) 
-		{
-			
-			// map character to code
-			unsigned char this_char = row[i];			
-			unsigned char color_char = 0;
-
-			// color by consensus
-			if (consensus[i] == this_char &&
-					palette->find(this_char) != palette->end())
-			{
-				color_char = this_char;
-			}
-
-			if (last_color != color_char) 
-			{
-				mRepresentation += "</FONT><FONT COLOR=\"" + (*palette)[color_char] + "\">";
-				last_color = color_char;
-			}
-			mRepresentation += this_char;
-		}
-		mRepresentation += "</FONT>\n";		  			
-	}
-	
-}
-
-//--------------------------------------------------------------------------------------------------------------------------------
-void MultipleAlignmentFormatHTML::copy( HMultipleAlignment & dest ) const 
-{
-	debug_func_cerr(5);
-
-	MultipleAlignmentFormat::copy( dest );
-	assert( false );
-}
-
-
-
 
 
 } // namespace alignlib

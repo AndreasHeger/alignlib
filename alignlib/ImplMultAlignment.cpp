@@ -254,7 +254,7 @@ void ImplMultAlignment::add(
 		const HAlignment & map_mali2sequence )
 {
 	debug_func_cerr(5);
-	mRows.push_back( map_mali2sequence );
+	mRows.push_back( map_mali2sequence->getClone() );
 	mLength = std::max( mLength, map_mali2sequence->getRowTo() );
 	updateAligned( map_mali2sequence );
 }

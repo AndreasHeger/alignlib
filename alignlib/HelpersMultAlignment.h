@@ -59,6 +59,19 @@ HMultAlignment makeMultAlignment();
  *
  */
 
+/** check if two multiple alignments are identical
+ *
+ * This function iterates over both multiple alignments and checks if the
+ * the same coordinates are returned.
+ *
+ * @param a @ref Alignment object.
+ * @param b @ref Alignment object.
+ * @return true, if both alignments are identical.
+ */
+bool checkMultAlignmentIdentity(
+		const HMultAlignment & a,
+		const HMultAlignment & b );
+
 /** @} */
 }
 #endif	/* HELPERS_MULTIPLE_ALIGNMENT_H */

@@ -130,6 +130,14 @@ namespace alignlib
     typedef std::vector<HAlignandum> AlignandumVector;
     typedef boost::shared_ptr<AlignandumVector>HAlignandumVector;
 
+    /** A vector of @ref Alignatum objects */
+    typedef std::vector<HAlignatum> AlignatumVector;
+    typedef boost::shared_ptr<AlignatumVector>HAlignatumVector;
+
+    /** A vector of @ref Alignandum objects */
+    typedef std::vector<std::string> StringVector;
+    typedef boost::shared_ptr<StringVector>HStringVector;
+
     /** A vector of @ref MultAlignment objects
      */
     typedef std::vector< HMultAlignment > MultAlignments;
