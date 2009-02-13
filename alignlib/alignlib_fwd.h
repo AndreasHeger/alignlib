@@ -72,6 +72,9 @@ namespace alignlib
 	class Alignator;
 	typedef boost::shared_ptr<Alignator>HAlignator;
 
+	class MultipleAlignator;
+	typedef boost::shared_ptr<MultipleAlignator>HMultipleAlignator;
+
 	class Scorer;
 	typedef boost::shared_ptr<Scorer>HScorer;
 

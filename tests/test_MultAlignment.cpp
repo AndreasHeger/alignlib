@@ -58,8 +58,41 @@ using boost::unit_test::test_suite;
 
 class my_exception{};
 
+// simple test of expansion: only one sequence without gaps
+void test_Expand0( const HMultAlignment & r )
+{
+	{
+		HMultAlignment clone(r->getNew());
+		{
+			HAlignment ali(makeAlignmentVector());
+			ali->addDiagonal( 0,8,0);
+			clone->add( ali );
+		}
+		HMultAlignment clone2(clone->getClone());
+		clone2->expand( HAlignandumVector(new AlignandumVector()));
+		BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
+	}
+	// check for double expansion
+	{
+		HMultAlignment clone(r->getNew());
+		{
+			HAlignment ali(makeAlignmentVector());
+			ali->addDiagonal( 0,4,0);
+			ali->addDiagonal( 4,8,4);
+			clone->add( ali );
+		}
+		HMultAlignment clone2(clone->getClone());
+		clone2->expand( HAlignandumVector(new AlignandumVector()));
+		BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), false);
+		clone->expand( HAlignandumVector(new AlignandumVector()));
+		BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
+		clone->expand( HAlignandumVector(new AlignandumVector()));
+		BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
+	}
+}
+
 // test expansion of multiple alignment
-void test_Expand(
+void test_Expand1(
 		const HMultAlignment & r )
 {
 
@@ -119,6 +152,11 @@ void test_Expand(
 			ali_test->addDiagonal( 9,12,-3 );
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(2)), true);
 		}
+		{
+			HMultAlignment clone2(clone->getClone());
+			clone2->expand( HAlignandumVector(new AlignandumVector()));
+			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
+		}
 	}
 
 	// expansion within and outside of mali
@@ -160,8 +198,12 @@ void test_Expand(
 			ali_test->addDiagonal( 17,18,-8 );
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(2)), true);
 		}
+		{
+			HMultAlignment clone2(clone->getClone());
+			clone2->expand( seqs );
+			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
+		}
 	}
-
 }
 
 void test_GenericMultAlignment(
@@ -307,7 +349,8 @@ void test_GenericMultAlignment(
 		HPositionMatrix matrix(clone2->getPositionMatrix());
 	}
 
-	// test_Expand( r );
+	test_Expand0( r );
+	test_Expand1( r );
 
 }
 

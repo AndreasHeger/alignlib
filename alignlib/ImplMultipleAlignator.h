@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id$
+  $Id: ImplAlignator.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -25,57 +25,37 @@
 #include <config.h>
 #endif
 
-#ifndef MULTIPLEALIGNATOR_H
-#define MULTIPLEALIGNATOR_H 1
+#ifndef IMPL_MULTIPLEALIGNATOR_H
+#define IMPL_MULTIPLEALIGNATOR_H 1
 
 #include "alignlib_fwd.h"
+#include "MultipleAlignator.h"
 
 namespace alignlib
 {
-
   /**
-       @short Protocol class for objects that perform multiple alignment.
+     @short base implementation class for MultipleAlignator objects.
 
-	   MultipleAlignator objects align multiple @ref Alignandum objects. The default way to use it
+     This class implements some common behaviour of MultipleAlignator
+     objects.
 
-       @code
- 	   HAlignandumVector sequences();
-	   sequences->push_back( makeSomeAlignandumObject(...));
-	   sequences->push_back( makeSomeAlignandumObject(...));
-	   sequences->push_back( makeSomeAlignandumObject(...));
-       HAlignator a( makeSomeAlignator(...) );
-       HMultipleAlignment r( makeSomeMultipleAlignment(...) );
-
-       a->align( r, sequences );
-	   @endcode
-
-       This class is a protocol class and as such defines only the interface.
-
-       @author Andreas Heger
-       @version $Id$
-       @see Alignandum
-       @see Alignment
+     @author Andreas Heger
+     @version $Id$
   */
-  class MultipleAlignator
+
+  class ImplMultipleAlignator : public MultipleAlignator
     {
       /* class member functions-------------------------------------------------------------- */
-
     public:
       /* constructors and desctructors------------------------------------------------------- */
-
-      /** empty constructor */
-      MultipleAlignator();
+      /** constructor */
+      ImplMultipleAlignator();
 
       /** destructor */
-      virtual ~MultipleAlignator ();
+      virtual ~ImplMultipleAlignator();
 
       /** copy constructor */
-      MultipleAlignator( const MultipleAlignator & src);
-
-      //------------------------------------------------------------------------------------------------------------
-      /** return an identical copy
-       */
-      virtual HMultipleAlignator getClone() const = 0;
+      ImplMultipleAlignator( const ImplMultipleAlignator & src);
 
       /** align @ref Alignandum objects and store result in @ref Alignment
        *
@@ -84,7 +64,7 @@ namespace alignlib
       */
       virtual void align(
     		  HMultAlignment & dest,
-    		  const HAlignandumVector & sequences ) const = 0;
+    		  const HAlignandumVector & sequences ) const;
 
       /** align @ref strings and store result in @ref Alignment
        *
@@ -96,11 +76,9 @@ namespace alignlib
       */
       virtual void align(
     		  HMultAlignment & dest,
-    		  const HStringVector & sequences ) const = 0;
-
-      /* accessors */
-
+    		  const HStringVector & sequences ) const;
     };
+
 }
 
-#endif /* ALIGNATOR_H */
+#endif /* IMPL_MULTIPLEALIGNATOR_H */

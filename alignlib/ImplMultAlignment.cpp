@@ -320,8 +320,8 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 			if (col != NO_POS)
 			{
 				gaps[row] += col - last_col - 1;
+				last_col = col;
 			}
-			last_col = col;
 		}
 
 		if (insert_termini)

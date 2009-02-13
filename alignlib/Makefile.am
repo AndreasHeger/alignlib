@@ -32,7 +32,8 @@ pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			$(HEADERS_MALI) \
 			$(HEADERS_ENCODER) \
 			$(HEADERS_SUBSTMATRIX) \
-		    $(HEADERS_PHYLOLIB)
+		    $(HEADERS_PHYLOLIB) \
+		    $(HEADERS_MULTIPLE_ALIGNATOR)
 
 HEADERS_ALIGNLIB= alignlib.h alignlib_fwd.h alignlib_default.h \
 					alignlib_functions.h alignlib_types.h alignlib_interfaces.h
@@ -112,6 +113,12 @@ HEADERS_ENCODER= Encoder.h HelpersEncoder.h \
 
 HEADERS_SUBSTMATRIX= HelpersSubstitutionMatrix.h
 
+HEADERS_MULTIPLE_ALIGNATOR= HelpersMultipleAlignator.h \
+			MultipleAlignator.h \
+			ImplMultipleAlignator.h \
+			ImplMultipleAlignatorSimple.h \
+			ImplMultipleAlignatorPileup.h 
+
 PARTS = AlignlibException.cpp \
 			AlignlibDebug.cpp \
 			$(PARTS_ALIGNATOR) \
@@ -125,6 +132,7 @@ PARTS = AlignlibException.cpp \
 			$(PARTS_ENCODER) \
 			$(PARTS_SUBSTMATRIX) \
 			$(PARTS_PHYLOLIB) \
+			$(PARTS_MULTIPLE_ALIGNATOR) \
 			AlignlibDefault.cpp \
 			Segment.cpp \
 			AlignlibIndex.cpp
@@ -203,6 +211,12 @@ PARTS_ENCODER=	Encoder.cpp \
 
 PARTS_SUBSTMATRIX=HelpersSubstitutionMatrix.cpp
 
+PARTS_MULTIPLE_ALIGNATOR= HelpersMultipleAlignator.cpp \
+			MultipleAlignator.cpp \
+			ImplMultipleAlignator.cpp \
+			ImplMultipleAlignatorSimple.cpp \ 
+			ImplMultipleAlignatorPileup.cpp
+			
 lib_LTLIBRARIES = libalignlib.la  
 
 libalignlib_la_SOURCES = $(PARTS)

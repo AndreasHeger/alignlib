@@ -41,7 +41,8 @@ programs=test_Fragmentor \
 		test_Index \
 		test_MultAlignment \
 		test_MultAlignmentFormat \
-		test_Profile 
+		test_Profile \
+		test_MultipleAlignator 
 
 
 check_PROGRAMS = ${programs}
@@ -82,3 +83,4 @@ test_Index_SOURCES = test_Index.cpp
 test_MultAlignment_SOURCES = test_MultAlignment.cpp
 test_MultAlignmentFormat_SOURCES = test_MultAlignmentFormat.cpp
 test_Profile_SOURCES = test_Profile.cpp
+test_MultipleAlignator_SOURCES = test_MultipleAlignator.cpp 
