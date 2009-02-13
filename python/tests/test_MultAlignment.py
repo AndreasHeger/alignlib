@@ -25,20 +25,19 @@ class MultAlignmentTestCase( unittest.TestCase ):
 
     mReferenceSequence = "0123456789"
     mNumSequences = 3
-
+        
     def setUp( self ):
-        
         self.mAlignandum = makeSequence( self.mReferenceSequence )
+        self.mContainer = makeAlignmentVector()
         
-
-    def constructMali(self, container = makeAlignmentVector):
+    def constructMali(self):
         mali = makeMultAlignment()
-        ali = container()
+        ali = self.mContainer.getNew()
         ali.addDiagonal( 0,3,+2 );
         ali.addDiagonal( 3,6,+4 );
         mali.add( ali );
 
-        ali = container()
+        ali = self.mContainer.getNew()
         ali.addDiagonal( 0,1,+1 );
         ali.addDiagonal( 1,6,+3 );
         mali.add( ali );
@@ -76,6 +75,31 @@ class MultAlignmentTestCase( unittest.TestCase ):
         self.assertEqual( result[0], ["0", "01--2----3456789--", "10" ] )
         self.assertEqual( result[1], ["0", "--0-123--45--6789-", "10" ] )
         self.assertEqual( result[2], ["0", "---01--2345--678-9", "10" ] )
+
+class MultAlignmentBlocksTestCase( MultAlignmentTestCase ):
+    def setUp( self ):
+        MultAlignmentTestCase.setUp( self )
+        self.mContainer = makeAlignmentBlocks()
+
+class MultAlignmentSetTestCase( MultAlignmentTestCase ):
+    def setUp( self ):
+        MultAlignmentTestCase.setUp( self )
+        self.mContainer = makeAlignmentSet()
+
+class MultAlignmentHashTestCase( MultAlignmentTestCase ):
+    def setUp( self ):
+        MultAlignmentTestCase.setUp( self )
+        self.mContainer = makeAlignmentHash()
+
+class MultAlignmentSetColTestCase( MultAlignmentTestCase ):
+    def setUp( self ):
+        MultAlignmentTestCase.setUp( self )
+        self.mContainer = makeAlignmentSetCol()
+
+class MultAlignmentHashDiagonalTestCase( MultAlignmentTestCase ):
+    def setUp( self ):
+        MultAlignmentTestCase.setUp( self )
+        self.mContainer = makeAlignmentHashDiagonal()
 
 def suite():
     suite = unittest.TestSuite()
