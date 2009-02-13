@@ -45,6 +45,20 @@ struct AlignmentFormatBlat_wrapper : alignlib::AlignmentFormatBlat, bp::wrapper<
     
     }
 
+    virtual ::alignlib::Position applyOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_applyOffset = this->get_override( "applyOffset" ) )
+            return func_applyOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlat::applyOffset( pos, offset );
+    }
+
+    virtual ::alignlib::Position removeOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_removeOffset = this->get_override( "removeOffset" ) )
+            return func_removeOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlat::removeOffset( pos, offset );
+    }
+
     virtual void copy( ::alignlib::HAlignment & dest ) const  {
         if( bp::override func_copy = this->get_override( "copy" ) )
             func_copy( dest );
@@ -108,6 +122,26 @@ void register_AlignmentFormatBlat_class(){
         AlignmentFormatBlat_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
         bp::implicitly_convertible< std::string const &, alignlib::AlignmentFormatBlat >();
         AlignmentFormatBlat_exposer.def( bp::init< alignlib::AlignmentFormatBlat const & >(( bp::arg("arg0") )) );
+        { //::alignlib::AlignmentFormatBlat::applyOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlat_wrapper::*applyOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlat_exposer.def( 
+                "applyOffset"
+                , applyOffset_function_type( &AlignmentFormatBlat_wrapper::applyOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
+        
+        }
+        { //::alignlib::AlignmentFormatBlat::removeOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlat_wrapper::*removeOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlat_exposer.def( 
+                "removeOffset"
+                , removeOffset_function_type( &AlignmentFormatBlat_wrapper::removeOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
+        
+        }
         { //::alignlib::AlignmentFormatBlocks::copy
         
             typedef void ( ::alignlib::AlignmentFormatBlocks::*copy_function_type )( ::alignlib::HAlignment & ) const;

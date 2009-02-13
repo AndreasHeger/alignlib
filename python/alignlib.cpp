@@ -16,6 +16,8 @@
 
 #include "modules/Alignatum.pypp.hpp"
 
+#include "modules/AlignatumVector.pypp.hpp"
+
 #include "modules/Alignment.pypp.hpp"
 
 #include "modules/AlignmentFormat.pypp.hpp"
@@ -55,6 +57,8 @@
 #include "modules/MatrixUInt.pypp.hpp"
 
 #include "modules/MultAlignment.pypp.hpp"
+
+#include "modules/MultAlignmentFormat.pypp.hpp"
 
 #include "modules/MultAlignmentFormatPlain.pypp.hpp"
 
@@ -176,6 +180,8 @@ BOOST_PYTHON_MODULE(alignlib){
 
     register_vector_less__double__greater__class();
 
+    register_AlignatumVector_class();
+
     register_Alignandum_class();
 
     register_Alignator_class();
@@ -222,6 +228,8 @@ BOOST_PYTHON_MODULE(alignlib){
 
     register_MultAlignment_class();
 
+    register_MultAlignmentFormat_class();
+
     register_MultAlignmentFormatPlain_class();
 
     register_MultipleAlignment_class();
@@ -259,6 +267,33 @@ BOOST_PYTHON_MODULE(alignlib){
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::FragmentVector> >();
 
+    { //::std::vector<HAlignandum, std::allocator<HAlignandum> >
+            typedef bp::class_< std::vector<alignlib::HAlignandum, std::allocator<alignlib::HAlignandum> > > AlignandumVector_exposer_t;
+            AlignandumVector_exposer_t AlignandumVector_exposer = AlignandumVector_exposer_t( "AlignandumVector" );
+            bp::scope AlignandumVector_scope( AlignandumVector_exposer );
+            AlignandumVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::HAlignandum, std::allocator<alignlib::HAlignandum> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::AlignandumVector> >();
+
+    { //::std::vector<HAlignatum, std::allocator<HAlignatum> >
+            typedef bp::class_< std::vector<alignlib::HAlignatum, std::allocator<alignlib::HAlignatum> > > AlignatumVector_exposer_t;
+            AlignatumVector_exposer_t AlignatumVector_exposer = AlignatumVector_exposer_t( "AlignatumVector" );
+            bp::scope AlignatumVector_scope( AlignatumVector_exposer );
+            AlignatumVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::HAlignatum, std::allocator<alignlib::HAlignatum> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::AlignatumVector> >();
+
+    { //::std::vector<std::string, std::allocator<std::string> >
+            typedef bp::class_< std::vector<std::string, std::allocator<std::string> > > StringVector_exposer_t;
+            StringVector_exposer_t StringVector_exposer = StringVector_exposer_t( "StringVector" );
+            bp::scope StringVector_scope( StringVector_exposer );
+            StringVector_exposer.def( bp::vector_indexing_suite< ::std::vector<std::string, std::allocator<std::string> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::StringVector> >();
+
     register_free_functions();
 
     bp::def( "loadAlignandum", wrapper_for_load_Alignandum );
@@ -273,4 +308,31 @@ BOOST_PYTHON_MODULE(alignlib){
             }
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::FragmentVector> >();
+
+    { //::std::vector<HAlignandum, std::allocator<HAlignandum> >
+            typedef bp::class_< std::vector<alignlib::HAlignandum, std::allocator<alignlib::HAlignandum> > > AlignandumVector_exposer_t;
+            AlignandumVector_exposer_t AlignandumVector_exposer = AlignandumVector_exposer_t( "AlignandumVector" );
+            bp::scope AlignandumVector_scope( AlignandumVector_exposer );
+            AlignandumVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::HAlignandum, std::allocator<alignlib::HAlignandum> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::AlignandumVector> >();
+
+    { //::std::vector<HAlignatum, std::allocator<HAlignatum> >
+            typedef bp::class_< std::vector<alignlib::HAlignatum, std::allocator<alignlib::HAlignatum> > > AlignatumVector_exposer_t;
+            AlignatumVector_exposer_t AlignatumVector_exposer = AlignatumVector_exposer_t( "AlignatumVector" );
+            bp::scope AlignatumVector_scope( AlignatumVector_exposer );
+            AlignatumVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::HAlignatum, std::allocator<alignlib::HAlignatum> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::AlignatumVector> >();
+
+    { //::std::vector<std::string, std::allocator<std::string> >
+            typedef bp::class_< std::vector<std::string, std::allocator<std::string> > > StringVector_exposer_t;
+            StringVector_exposer_t StringVector_exposer = StringVector_exposer_t( "StringVector" );
+            bp::scope StringVector_scope( StringVector_exposer );
+            StringVector_exposer.def( bp::vector_indexing_suite< ::std::vector<std::string, std::allocator<std::string> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::StringVector> >();
 }

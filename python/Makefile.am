@@ -11,7 +11,7 @@
 # using htmldir directly does not work
 # all: documentation
 
-EXTRA_DIST=setup.py includes.h alignlib.cpp
+EXTRA_DIST=setup.py build.py includes.h alignlib.cpp modules
 
 python:
 	python setup.py build

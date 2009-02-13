@@ -16,8 +16,6 @@
 
 #include "modules/Alignatum.pypp.hpp"
 
-#include "modules/AlignatumVector.pypp.hpp"
-
 #include "modules/Alignment.pypp.hpp"
 
 #include "modules/AlignmentFormat.pypp.hpp"
@@ -57,8 +55,6 @@
 #include "modules/MatrixUInt.pypp.hpp"
 
 #include "modules/MultAlignment.pypp.hpp"
-
-#include "modules/MultAlignmentFormat.pypp.hpp"
 
 #include "modules/MultAlignmentFormatPlain.pypp.hpp"
 
@@ -180,8 +176,6 @@ BOOST_PYTHON_MODULE(alignlib){
 
     register_vector_less__double__greater__class();
 
-    register_AlignatumVector_class();
-
     register_Alignandum_class();
 
     register_Alignator_class();
@@ -227,8 +221,6 @@ BOOST_PYTHON_MODULE(alignlib){
     register_MatrixUInt_class();
 
     register_MultAlignment_class();
-
-    register_MultAlignmentFormat_class();
 
     register_MultAlignmentFormatPlain_class();
 

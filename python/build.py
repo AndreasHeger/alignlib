@@ -214,7 +214,8 @@ def exportClasses( mb ):
                               'AlignmentFormatBlat',
                               'AlignmentFormatExplicit',
                               'AlignmentFormatDiagonals',
-                              'AlignmentFormatEmissions', 
+                              'AlignmentFormatEmissions',
+                              'MultAlignmentFormat',
                               'MultAlignmentFormatPlain' ,] )
     
     ## include all classes
@@ -223,12 +224,15 @@ def exportClasses( mb ):
     ## add __str__ function for functions having defined the '<<' operator
     ## This automatically maps std::ostream to a string
     mb.free_operators( lambda x: x.name == "operator<<" ).include()    
+
+    mb.member_functions( lambda x: x.name in ("applyOffset", "removeOffset" ) ).exclude()
     
     classes_with_load_save = set( ['AlignmentFormat',
                               'AlignmentFormatBlocks',
                               'AlignmentFormatExplicit',
                               'AlignmentFormatDiagonals',
                               'AlignmentFormatEmissions',
+                              'MultAlignmentFormat',
                               'MultAlignmentFormatPlain', ] )
 
 #    exportLoad( mb, 
@@ -343,7 +347,7 @@ def exportHandles( mb ):
                          'HTree',
                          'HPhyloMatrix',
                          'HFragmentVector',
-                         'HSegmentVector' ]
+                         'HSegmentVector', ]
 
     for handle in handles_to_export:
         
@@ -387,7 +391,12 @@ def exportContainers( mb ):
 #        cls.rename( new )
 #        cls.alias = new
 
-    vectors_to_export = ( { 'name' : 'FragmentVector', 'handle' : 'HAlignment' }, )
+
+
+    vectors_to_export = ( { 'name' : 'FragmentVector', 'handle' : 'HAlignment' }, 
+                          { 'name' : 'AlignandumVector', 'handle' : 'HAlignandum' },
+                          { 'name' : 'AlignatumVector', 'handle' : 'HAlignatum' } )
+
 
     for data in vectors_to_export:
         
@@ -403,6 +412,26 @@ def exportContainers( mb ):
         """ % data
 
         mb.add_registration_code( code, tail=True )
+
+
+    atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
+                                 ) 
+
+    for data in atomic_vectors_to_export:
+        
+        code = """
+        { //::std::vector<%(content)s, std::allocator<%(content)s> >
+        typedef bp::class_< std::vector<%(content)s, std::allocator<%(content)s> > > %(name)s_exposer_t;
+        %(name)s_exposer_t %(name)s_exposer = %(name)s_exposer_t( "%(name)s" );
+        bp::scope %(name)s_scope( %(name)s_exposer );
+        %(name)s_exposer.def( bp::vector_indexing_suite< ::std::vector<%(content)s, std::allocator<%(content)s> >, true >() );
+        }
+
+        bp::register_ptr_to_python< boost::shared_ptr<alignlib::%(name)s> >();
+        """ % data
+
+        mb.add_registration_code( code, tail=True )
+
 
 def exportMatrices( mb ):
     """include matrix classes.
@@ -421,7 +450,6 @@ def exportMatrices( mb ):
     mb.decls( lambda x: x.name in declarations_to_export ).include()
 
     for old, new in template_translations.items():
-        print old, new
         cls = mb.class_( old )
         cls.rename( new )
         cls.alias = new

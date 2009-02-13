@@ -81,24 +81,12 @@ struct MultAlignmentFormatPlain_wrapper : alignlib::MultAlignmentFormatPlain, bp
         alignlib::MultAlignmentFormatPlain::save( boost::ref(arg0) );
     }
 
-    virtual void copy( ::alignlib::HMultAlignment & dest, ::alignlib::HAlignment const & templ ) const  {
-        if( bp::override func_copy = this->get_override( "copy" ) )
-            func_copy( dest, templ );
-        else
-            this->alignlib::MultAlignmentFormat::copy( dest, templ );
-    }
-    
-    
-    void default_copy( ::alignlib::HMultAlignment & dest, ::alignlib::HAlignment const & templ ) const  {
-        alignlib::MultAlignmentFormat::copy( dest, templ );
-    }
-
 };
 
 void register_MultAlignmentFormatPlain_class(){
 
     { //::alignlib::MultAlignmentFormatPlain
-        typedef bp::class_< MultAlignmentFormatPlain_wrapper, bp::bases< alignlib::MultAlignmentFormat > > MultAlignmentFormatPlain_exposer_t;
+        typedef bp::class_< MultAlignmentFormatPlain_wrapper > MultAlignmentFormatPlain_exposer_t;
         MultAlignmentFormatPlain_exposer_t MultAlignmentFormatPlain_exposer = MultAlignmentFormatPlain_exposer_t( "MultAlignmentFormatPlain", bp::init< >() );
         bp::scope MultAlignmentFormatPlain_scope( MultAlignmentFormatPlain_exposer );
         MultAlignmentFormatPlain_exposer.def( bp::init< alignlib::HMultAlignment const &, alignlib::HStringVector const & >(( bp::arg("src"), bp::arg("sequences") )) );
@@ -143,18 +131,7 @@ void register_MultAlignmentFormatPlain_class(){
                 , ( bp::arg("arg0") ) );
         
         }
-        { //::alignlib::MultAlignmentFormat::copy
-        
-            typedef void ( ::alignlib::MultAlignmentFormat::*copy_function_type )( ::alignlib::HMultAlignment &,::alignlib::HAlignment const & ) const;
-            typedef void ( MultAlignmentFormatPlain_wrapper::*default_copy_function_type )( ::alignlib::HMultAlignment &,::alignlib::HAlignment const & ) const;
-            
-            MultAlignmentFormatPlain_exposer.def( 
-                "copy"
-                , copy_function_type(&::alignlib::MultAlignmentFormat::copy)
-                , default_copy_function_type(&MultAlignmentFormatPlain_wrapper::default_copy)
-                , ( bp::arg("dest"), bp::arg("templ") ) );
-        
-        }
+        MultAlignmentFormatPlain_exposer.def( bp::self_ns::str( bp::self ) );
     }
 
 }

@@ -45,6 +45,13 @@ struct AlignmentFormatBlocks_wrapper : alignlib::AlignmentFormatBlocks, bp::wrap
     
     }
 
+    virtual ::alignlib::Position applyOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_applyOffset = this->get_override( "applyOffset" ) )
+            return func_applyOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlocks::applyOffset( pos, offset );
+    }
+
     virtual void copy( ::alignlib::HAlignment & dest ) const  {
         if( bp::override func_copy = this->get_override( "copy" ) )
             func_copy( dest );
@@ -81,6 +88,13 @@ struct AlignmentFormatBlocks_wrapper : alignlib::AlignmentFormatBlocks, bp::wrap
         alignlib::AlignmentFormatBlocks::load( boost::ref(arg0) );
     }
 
+    virtual ::alignlib::Position removeOffset( ::alignlib::Position const & pos, ::alignlib::Position const & offset ) const {
+        if( bp::override func_removeOffset = this->get_override( "removeOffset" ) )
+            return func_removeOffset( pos, offset );
+        else
+            return this->alignlib::AlignmentFormatBlocks::removeOffset( pos, offset );
+    }
+
     virtual void save( ::std::ostream & arg0 ) const  {
         if( bp::override func_save = this->get_override( "save" ) )
             func_save( boost::ref(arg0) );
@@ -108,6 +122,16 @@ void register_AlignmentFormatBlocks_class(){
         AlignmentFormatBlocks_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
         bp::implicitly_convertible< std::string const &, alignlib::AlignmentFormatBlocks >();
         AlignmentFormatBlocks_exposer.def( bp::init< alignlib::AlignmentFormatBlocks const & >(( bp::arg("arg0") )) );
+        { //::alignlib::AlignmentFormatBlocks::applyOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlocks_wrapper::*applyOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlocks_exposer.def( 
+                "applyOffset"
+                , applyOffset_function_type( &AlignmentFormatBlocks_wrapper::applyOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
+        
+        }
         { //::alignlib::AlignmentFormatBlocks::copy
         
             typedef void ( ::alignlib::AlignmentFormatBlocks::*copy_function_type )( ::alignlib::HAlignment & ) const;
@@ -142,6 +166,16 @@ void register_AlignmentFormatBlocks_class(){
                 , load_function_type(&::alignlib::AlignmentFormatBlocks::load)
                 , default_load_function_type(&AlignmentFormatBlocks_wrapper::default_load)
                 , ( bp::arg("arg0") ) );
+        
+        }
+        { //::alignlib::AlignmentFormatBlocks::removeOffset
+        
+            typedef ::alignlib::Position ( AlignmentFormatBlocks_wrapper::*removeOffset_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
+            
+            AlignmentFormatBlocks_exposer.def( 
+                "removeOffset"
+                , removeOffset_function_type( &AlignmentFormatBlocks_wrapper::removeOffset )
+                , ( bp::arg("pos"), bp::arg("offset") ) );
         
         }
         { //::alignlib::AlignmentFormatBlocks::save
