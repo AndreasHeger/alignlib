@@ -46,7 +46,7 @@ namespace alignlib
   //----------------------------------------------------------------------------------------
   ImplMultipleAlignatorSimple::ImplMultipleAlignatorSimple(
 		  const HAlignator & alignator ) :
-  mAlignator( alignator )
+		mAlignator( alignator )
   {
 	  debug_func_cerr( 5 );
   }
@@ -88,15 +88,12 @@ namespace alignlib
 	  // as we go along.
 	  for (int x = 1; x < sequences.size(); ++x)
 	  {
-
 		  result->expand( aligned );
-		  debug_cerr( 5, "align: x=" << x << " expanded=\n" << *(result->getPositionMatrix()) )
 		  HAlignandum profile( makeProfile( result, aligned ));
 		  HAlignment ali(makeAlignmentVector());
 		  mAlignator->align( ali, profile, sequences[x]);
 		  result->add( ali );
 		  aligned->push_back( sequences[x] );
-		  debug_cerr( 5, "align: x=" << x << " mali=\n" << *(result->getPositionMatrix()) )
 	  }
 	  result->expand(aligned);
   }

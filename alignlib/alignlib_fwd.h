@@ -173,6 +173,10 @@ namespace alignlib
     typedef std::map<unsigned char,std::string>Palette;
     typedef boost::shared_ptr<Palette>HPalette;
 
+    /** A vector of counts */
+    typedef std::vector<std::size_t> CountVector;
+    typedef boost::shared_ptr<CountVector>HCountVector;
+
 }
 
 

@@ -37,6 +37,7 @@
 #include "HelpersIterator2D.h"
 #include "HelpersLogOddor.h"
 #include "HelpersMultipleAlignment.h"
+#include "HelpersMultipleAlignator.h"
 #include "HelpersMultAlignment.h"
 #include "HelpersRegularizor.h"
 #include "HelpersPalette.h"
@@ -52,7 +53,6 @@
 #include "AlignmentFormat.h"
 #include "MultipleAlignmentFormat.h"
 #include "MultAlignmentFormat.h"
-#include "HelpersMultipleAlignator.h"
 #include "Statistics.h"
 
 #endif /*ALIGNLIB_FUNCTIONS_H_*/

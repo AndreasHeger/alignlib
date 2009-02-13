@@ -425,10 +425,23 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 		mLength = std::max( mLength, new_map_mali2row->getRowTo() );
 	}
 
-
 	// by definition all columns will be aligned
 	mIsAligned.clear();
 	mIsAligned.resize( mLength, true);
+}
+
+//---------------------------------------------------------------------------------------
+void ImplMultAlignment::shrink()
+{
+	HCountVector counts(getColumnCounts());
+	HAlignment map_old2new(makeAlignmentVector());
+	Position n = 0;
+	for (Position x = 0; x < counts->size(); ++ x)
+		if ((*counts)[x] > 1)
+			map_old2new->addPair( x, n++, 0);
+	map( map_old2new, RC );
+	mLength = map_old2new->getColTo();
+	buildAligned();
 }
 
 
@@ -475,6 +488,54 @@ void ImplMultAlignment::write( std::ostream & output ) const
 	for (unsigned int col = 0; col < l; ++col)
 		output << mIsAligned[col];
 }
+
+//-----------------------------------------------------------------------------------------------------------
+void ImplMultAlignment::map( const HAlignment & other,
+		const CombinationMode & mode)
+{
+	debug_func_cerr(5);
+
+	switch (mode)
+	{
+		case CR:
+			for (int x = 0; x < mRows.size(); ++ x)
+				mRows[x]->map( other, RC);
+			break;
+		case RC:
+			for (int x = 0; x < mRows.size(); ++ x)
+				mRows[x]->map( other, RR);
+			break;
+		default:
+			throw AlignlibException( "ImplMultAlignment.cpp: invalid mapping, only CR and RC are eligible.");
+	}
+}
+
+
+//-----------------------------------------------------------------------------------------------------------
+HCountVector ImplMultAlignment::getColumnCounts() const
+{
+	debug_func_cerr(5);
+	CountVector * v = new CountVector( getLength(), 0);
+
+	for (int x = 0; x < mRows.size(); ++ x)
+	{
+		AlignmentIterator it( mRows[x]->begin() ), end( mRows[x]->end());
+		for( ; it != end; ++it) (*v)[it->mRow] += 1;
+	}
+	return HCountVector( v );
+}
+
+//-----------------------------------------------------------------------------------------------------------
+HCountVector ImplMultAlignment::getRowCounts() const
+{
+	debug_func_cerr(5);
+	CountVector * v = new CountVector( getNumSequences(), 0);
+
+	for (int x = 0; x < mRows.size(); ++ x)
+		(*v)[x] = mRows[x]->getNumAligned();
+	return HCountVector( v );
+}
+
 
 } // namespace alignlib
 

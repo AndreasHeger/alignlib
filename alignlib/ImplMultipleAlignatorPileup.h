@@ -74,7 +74,7 @@ namespace alignlib
 
     private:
     	// object used to build a tree
-		const HAlignator & mAlignator;
+		const HAlignator mAlignator;
 
     };
 

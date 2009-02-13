@@ -124,6 +124,29 @@ class ImplMultAlignment : public MultAlignment
     virtual void expand(
     		const HAlignandumVector & sequences );
 
+    /** shrink multiple alignment
+     *
+     * All columns that contain only one alignment positions will be removed.
+     * */
+    virtual void shrink();
+
+	/** apply a map to the multiple alignment.
+	 *
+	 * This method maps multiple alignment columns to new positions.
+	 *
+	 * The alignment mode denotes whether row or col are mapped.
+	 * Only alignment modes CR and RC are applicable.
+	 *
+	 * RC: multiple alignment column is replaced with corresponding R->C from other
+	 * CR: multiple alignment column is replaced with corresponding C->R from other.
+	 * @param other @ref Alignment to map with
+	 * @param mode Combination mode.
+	 *
+	 * */
+	virtual void map(
+			const HAlignment & other,
+			const CombinationMode & mode );
+
     /* ------------------ mutators ----------------------------------------------------------- */
 
     /** add an @ref Alignment object to the multiple alignment.
@@ -204,6 +227,23 @@ class ImplMultAlignment : public MultAlignment
          * @return a position matrix.
          */
      virtual HPositionMatrix getPositionMatrix( const bool & transpose = false ) const;
+
+     /** return column counts.
+      *
+      *  Return a vector with the number of aligned residues per column
+      *
+      * @return a vector of counts.
+      */
+     virtual HCountVector getColumnCounts() const;
+
+     /** return row counts.
+      *
+      *  Return a vector with the number of aligned residues per row
+      *
+      * @return a vector of counts.
+      */
+     virtual HCountVector getRowCounts() const;
+
 
  protected:
     /** free all memory. Tell all stored objects to destruct themselves */

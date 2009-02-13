@@ -250,6 +250,7 @@ def exportInterfaceClasses( mb ):
                               'MultipleAlignment',
                               'MultAlignment',
                               'Alignator',
+                              'MultipleAlignator',
                               'Iterator',
                               'Encoder',
                               'Fragmentor',
@@ -333,6 +334,7 @@ def exportHandles( mb ):
                          'HMultipleAlignment',
                          'HMultAlignment',
                          'HAlignator',
+                         'HMultipleAlignator',
                          'HEncoder',
                          'HFragmentor',
                          'HAlignment',
@@ -415,8 +417,7 @@ def exportContainers( mb ):
 
 
     atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
-                                 ) 
-
+                                 )  
     for data in atomic_vectors_to_export:
         
         code = """
@@ -525,19 +526,17 @@ def buildModule( include_paths, dest, options) :
     my_exception.translate_exception_to_string( 'PyExc_RuntimeError', 'exc.what()')
     
     ######################################################################
-    #Well, don't you want to see what is going on?
     if options.verbose:
         print "# declarations after building interface."        
         mb.print_declarations()
 
-        
-    #Creating code creator. After this step you should not modify/customize declarations.
+    # creating code creator. After this step you should not modify/customize declarations.
     mb.build_code_creator( module_name='alignlib' )
     mb.code_creator.add_include( "iostream" )
     mb.code_creator.add_include( "cstdio" )
     mb.split_module( "modules" )
 
-    #Writing code to file.
+    # Writing code to file.
     mb.write_module( dest )
 
     # patch the output. Explict declarations were repeated

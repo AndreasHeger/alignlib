@@ -9,6 +9,7 @@
 ~@destructor_t@~basic_string@ ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  )  ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) 
 +@destructor_t@~Treetor@ ( ::alignlib::Treetor::* )(  )  ( ::alignlib::Treetor::* )(  ) 
 +@destructor_t@~MultAlignmentFormat@ ( ::alignlib::MultAlignmentFormat::* )(  )  ( ::alignlib::MultAlignmentFormat::* )(  ) 
++@destructor_t@~MultipleAlignator@ ( ::alignlib::MultipleAlignator::* )(  )  ( ::alignlib::MultipleAlignator::* )(  ) 
 +@destructor_t@~MultAlignment@ ( ::alignlib::MultAlignment::* )(  )  ( ::alignlib::MultAlignment::* )(  ) 
 +@destructor_t@~MultipleAlignment@ ( ::alignlib::MultipleAlignment::* )(  )  ( ::alignlib::MultipleAlignment::* )(  ) 
 +@destructor_t@~AlignmentFormatDiagonals@ ( ::alignlib::AlignmentFormatDiagonals::* )(  )  ( ::alignlib::AlignmentFormatDiagonals::* )(  ) 
@@ -19,6 +20,7 @@
 ~@destructor_t@~_Vector_base@ ( ::std::_Vector_base<double, std::allocator<double> >::* )(  )  ( ::std::_Vector_base<double, std::allocator<double> >::* )(  ) 
 ~@destructor_t@~_Vector_base@ ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )(  )  ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )(  ) 
 ~@destructor_t@~_Vector_base@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
+~@destructor_t@~_Vector_base@ ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )(  )  ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )(  ) 
 ~@destructor_t@~_Vector_base@ ( ::std::_Vector_base<int, std::allocator<int> >::* )(  )  ( ::std::_Vector_base<int, std::allocator<int> >::* )(  ) 
 ~@destructor_t@~_Vector_base@ ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )(  )  ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )(  ) 
 ~@destructor_t@~_Vector_base@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) 
@@ -38,6 +40,7 @@
 ~@destructor_t@~_Vector_impl@ ( ::std::_Vector_base<double, std::allocator<double> >::_Vector_impl::* )(  )  ( ::std::_Vector_base<double, std::allocator<double> >::_Vector_impl::* )(  ) 
 ~@destructor_t@~_Vector_impl@ ( ::std::_Vector_base<std::string, std::allocator<std::string> >::_Vector_impl::* )(  )  ( ::std::_Vector_base<std::string, std::allocator<std::string> >::_Vector_impl::* )(  ) 
 ~@destructor_t@~_Vector_impl@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )(  )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )(  ) 
+~@destructor_t@~_Vector_impl@ ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )(  )  ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )(  ) 
 ~@destructor_t@~_Vector_impl@ ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )(  )  ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )(  ) 
 ~@destructor_t@~_Vector_impl@ ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::_Vector_impl::* )(  )  ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::_Vector_impl::* )(  ) 
 ~@destructor_t@~_Vector_impl@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::_Vector_impl::* )(  )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::_Vector_impl::* )(  ) 
@@ -45,6 +48,7 @@
 ~@destructor_t@~new_allocator@ ( ::__gnu_cxx::new_allocator<double>::* )(  )  ( ::__gnu_cxx::new_allocator<double>::* )(  ) 
 ~@destructor_t@~new_allocator@ ( ::__gnu_cxx::new_allocator<std::string>::* )(  )  ( ::__gnu_cxx::new_allocator<std::string>::* )(  ) 
 ~@destructor_t@~new_allocator@ ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  )  ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  ) 
+~@destructor_t@~new_allocator@ ( ::__gnu_cxx::new_allocator<unsigned int>::* )(  )  ( ::__gnu_cxx::new_allocator<unsigned int>::* )(  ) 
 ~@destructor_t@~new_allocator@ ( ::__gnu_cxx::new_allocator<int>::* )(  )  ( ::__gnu_cxx::new_allocator<int>::* )(  ) 
 ~@destructor_t@~new_allocator@ ( ::__gnu_cxx::new_allocator<unsigned long>::* )(  )  ( ::__gnu_cxx::new_allocator<unsigned long>::* )(  ) 
 ~@destructor_t@~new_allocator@ ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )(  )  ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )(  ) 
@@ -54,6 +58,7 @@
 ~@destructor_t@~vector@ ( ::std::vector<double, std::allocator<double> >::* )(  )  ( ::std::vector<double, std::allocator<double> >::* )(  ) 
 ~@destructor_t@~vector@ ( ::std::vector<std::string, std::allocator<std::string> >::* )(  )  ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) 
 ~@destructor_t@~vector@ ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  )  ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
+~@destructor_t@~vector@ ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  )  ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
 ~@destructor_t@~vector@ ( ::std::vector<int, std::allocator<int> >::* )(  )  ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@destructor_t@~vector@ ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  )  ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
 ~@destructor_t@~vector@ ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  )  ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) 
@@ -62,6 +67,7 @@
 +@destructor_t@~Matrix@ ( ::alignlib::Matrix<unsigned int>::* )(  )  ( ::alignlib::Matrix<unsigned int>::* )(  ) 
 ~@destructor_t@~exception@ ( ::std::exception::* )(  )  ( ::std::exception::* )(  ) 
 +@destructor_t@~LogOddor@ ( ::alignlib::LogOddor::* )(  )  ( ::alignlib::LogOddor::* )(  ) 
+~@destructor_t@~__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  )  ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) 
 ~@destructor_t@~__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  )  ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) 
 ~@destructor_t@~forward_iterator_tag@ ( ::std::forward_iterator_tag::* )(  )  ( ::std::forward_iterator_tag::* )(  ) 
 ~@destructor_t@~AlignlibException@ ( ::alignlib::AlignlibException::* )(  )  ( ::alignlib::AlignlibException::* )(  ) 
@@ -75,6 +81,7 @@
 ~@destructor_t@~allocator@ ( ::std::allocator<double>::* )(  )  ( ::std::allocator<double>::* )(  ) 
 ~@destructor_t@~allocator@ ( ::std::allocator<std::string>::* )(  )  ( ::std::allocator<std::string>::* )(  ) 
 ~@destructor_t@~allocator@ ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  )  ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  ) 
+~@destructor_t@~allocator@ ( ::std::allocator<unsigned int>::* )(  )  ( ::std::allocator<unsigned int>::* )(  ) 
 ~@destructor_t@~allocator@ ( ::std::allocator<int>::* )(  )  ( ::std::allocator<int>::* )(  ) 
 ~@destructor_t@~allocator@ ( ::std::allocator<unsigned long>::* )(  )  ( ::std::allocator<unsigned long>::* )(  ) 
 ~@destructor_t@~allocator@ ( ::std::allocator<boost::shared_ptr<alignlib::Alignment> >::* )(  )  ( ::std::allocator<boost::shared_ptr<alignlib::Alignment> >::* )(  ) 
@@ -94,6 +101,7 @@
 ~@typedef_t@iterator@::std::vector< double >::iterator
 ~@typedef_t@iterator@::std::vector< std::string >::iterator
 ~@typedef_t@iterator@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::iterator
+~@typedef_t@iterator@::std::vector< unsigned int >::iterator
 ~@typedef_t@iterator@::std::vector< int >::iterator
 ~@typedef_t@iterator@::std::vector< unsigned long >::iterator
 ~@typedef_t@iterator@::std::vector< boost::shared_ptr<alignlib::Alignment> >::iterator
@@ -103,6 +111,7 @@
 ~@typedef_t@const_iterator@::std::vector< double >::const_iterator
 ~@typedef_t@const_iterator@::std::vector< std::string >::const_iterator
 ~@typedef_t@const_iterator@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::const_iterator
+~@typedef_t@const_iterator@::std::vector< unsigned int >::const_iterator
 ~@typedef_t@const_iterator@::std::vector< int >::const_iterator
 ~@typedef_t@const_iterator@::std::vector< unsigned long >::const_iterator
 ~@typedef_t@const_iterator@::std::vector< boost::shared_ptr<alignlib::Alignment> >::const_iterator
@@ -111,6 +120,7 @@
 ~@typedef_t@pointer@::std::vector< double >::pointer
 ~@typedef_t@pointer@::std::vector< std::string >::pointer
 ~@typedef_t@pointer@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::pointer
+~@typedef_t@pointer@::std::vector< unsigned int >::pointer
 ~@typedef_t@pointer@::std::vector< int >::pointer
 ~@typedef_t@pointer@::std::vector< unsigned long >::pointer
 ~@typedef_t@pointer@::std::vector< boost::shared_ptr<alignlib::Alignment> >::pointer
@@ -118,14 +128,17 @@
 ~@typedef_t@pointer@::std::string::pointer
 ~@typedef_t@pointer@::std::allocator< std::string >::pointer
 ~@typedef_t@pointer@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >::pointer
+~@typedef_t@pointer@::std::allocator< unsigned int >::pointer
 ~@typedef_t@pointer@::std::allocator< int >::pointer
 ~@typedef_t@pointer@::std::allocator< unsigned long >::pointer
 ~@typedef_t@pointer@::std::allocator< boost::shared_ptr< alignlib::Alignment > >::pointer
 ~@typedef_t@pointer@::std::allocator< char >::pointer
+~@typedef_t@pointer@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >::pointer
 ~@typedef_t@pointer@::__gnu_cxx::new_allocator< double >::pointer
 ~@typedef_t@pointer@::__gnu_cxx::__normal_iterator< char*, std::string >::pointer
 ~@typedef_t@pointer@::__gnu_cxx::new_allocator< std::string >::pointer
 ~@typedef_t@pointer@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >::pointer
+~@typedef_t@pointer@::__gnu_cxx::new_allocator< unsigned int >::pointer
 ~@typedef_t@pointer@::__gnu_cxx::new_allocator< int >::pointer
 ~@typedef_t@pointer@::__gnu_cxx::new_allocator< unsigned long >::pointer
 ~@typedef_t@pointer@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >::pointer
@@ -143,17 +156,19 @@
 ~@typedef_t@_Atomic_word@::_Atomic_word
 ~@typedef_t@HScoreVector@::alignlib::HScoreVector
 ~@typedef_t@HLogOddor@::alignlib::HLogOddor
-~@typedef_t@HAlignatum@::alignlib::HAlignatum
+~@typedef_t@HCountVector@::alignlib::HCountVector
 ~@typedef_t@traits_type@::std::string::traits_type
 ~@typedef_t@HWeightor@::alignlib::HWeightor
 ~@typedef_t@HStringVector@::alignlib::HStringVector
 ~@typedef_t@ResidueVector@::alignlib::ResidueVector
+~@typedef_t@CountVector@::alignlib::CountVector
 ~@typedef_t@Residue@::alignlib::Residue
 ~@typedef_t@HScoreMatrix@::alignlib::HScoreMatrix
 ~@typedef_t@Labels@::alignlib::Labels
 ~@typedef_t@reference@::std::vector< double >::reference
 ~@typedef_t@reference@::std::vector< std::string >::reference
 ~@typedef_t@reference@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::reference
+~@typedef_t@reference@::std::vector< unsigned int >::reference
 ~@typedef_t@reference@::std::vector< int >::reference
 ~@typedef_t@reference@::std::vector< unsigned long >::reference
 ~@typedef_t@reference@::std::vector< boost::shared_ptr<alignlib::Alignment> >::reference
@@ -161,14 +176,17 @@
 ~@typedef_t@reference@::std::string::reference
 ~@typedef_t@reference@::std::allocator< std::string >::reference
 ~@typedef_t@reference@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >::reference
+~@typedef_t@reference@::std::allocator< unsigned int >::reference
 ~@typedef_t@reference@::std::allocator< int >::reference
 ~@typedef_t@reference@::std::allocator< unsigned long >::reference
 ~@typedef_t@reference@::std::allocator< boost::shared_ptr< alignlib::Alignment > >::reference
 ~@typedef_t@reference@::std::allocator< char >::reference
+~@typedef_t@reference@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >::reference
 ~@typedef_t@reference@::__gnu_cxx::new_allocator< double >::reference
 ~@typedef_t@reference@::__gnu_cxx::__normal_iterator< char*, std::string >::reference
 ~@typedef_t@reference@::__gnu_cxx::new_allocator< std::string >::reference
 ~@typedef_t@reference@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >::reference
+~@typedef_t@reference@::__gnu_cxx::new_allocator< unsigned int >::reference
 ~@typedef_t@reference@::__gnu_cxx::new_allocator< int >::reference
 ~@typedef_t@reference@::__gnu_cxx::new_allocator< unsigned long >::reference
 ~@typedef_t@reference@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >::reference
@@ -176,13 +194,16 @@
 ~@typedef_t@HDistanceMatrix@::alignlib::HDistanceMatrix
 ~@typedef_t@HTree@::alignlib::HTree
 ~@typedef_t@HDistor@::alignlib::HDistor
+~@typedef_t@HAlignatum@::alignlib::HAlignatum
 ~@typedef_t@int_type@::std::char_traits< char >::int_type
 ~@typedef_t@HMultipleAlignment@::alignlib::HMultipleAlignment
+~@typedef_t@HMultipleAlignator@::alignlib::HMultipleAlignator
 ~@typedef_t@HMultAlignment@::alignlib::HMultAlignment
 ~@typedef_t@HScorer@::alignlib::HScorer
 ~@typedef_t@value_type@::std::vector< double >::value_type
 ~@typedef_t@value_type@::std::vector< std::string >::value_type
 ~@typedef_t@value_type@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::value_type
+~@typedef_t@value_type@::std::vector< unsigned int >::value_type
 ~@typedef_t@value_type@::std::vector< int >::value_type
 ~@typedef_t@value_type@::std::vector< unsigned long >::value_type
 ~@typedef_t@value_type@::std::vector< boost::shared_ptr<alignlib::Alignment> >::value_type
@@ -190,14 +211,17 @@
 ~@typedef_t@value_type@::std::string::value_type
 ~@typedef_t@value_type@::std::allocator< std::string >::value_type
 ~@typedef_t@value_type@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >::value_type
+~@typedef_t@value_type@::std::allocator< unsigned int >::value_type
 ~@typedef_t@value_type@::std::allocator< int >::value_type
 ~@typedef_t@value_type@::std::allocator< unsigned long >::value_type
 ~@typedef_t@value_type@::std::allocator< boost::shared_ptr< alignlib::Alignment > >::value_type
 ~@typedef_t@value_type@::std::allocator< char >::value_type
+~@typedef_t@value_type@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >::value_type
 ~@typedef_t@value_type@::__gnu_cxx::new_allocator< double >::value_type
 ~@typedef_t@value_type@::__gnu_cxx::__normal_iterator< char*, std::string >::value_type
 ~@typedef_t@value_type@::__gnu_cxx::new_allocator< std::string >::value_type
 ~@typedef_t@value_type@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >::value_type
+~@typedef_t@value_type@::__gnu_cxx::new_allocator< unsigned int >::value_type
 ~@typedef_t@value_type@::__gnu_cxx::new_allocator< int >::value_type
 ~@typedef_t@value_type@::__gnu_cxx::new_allocator< unsigned long >::value_type
 ~@typedef_t@value_type@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >::value_type
@@ -214,6 +238,7 @@
 ~@typedef_t@difference_type@::std::vector< double >::difference_type
 ~@typedef_t@difference_type@::std::vector< std::string >::difference_type
 ~@typedef_t@difference_type@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::difference_type
+~@typedef_t@difference_type@::std::vector< unsigned int >::difference_type
 ~@typedef_t@difference_type@::std::vector< int >::difference_type
 ~@typedef_t@difference_type@::std::vector< unsigned long >::difference_type
 ~@typedef_t@difference_type@::std::vector< boost::shared_ptr<alignlib::Alignment> >::difference_type
@@ -221,14 +246,17 @@
 ~@typedef_t@difference_type@::std::string::difference_type
 ~@typedef_t@difference_type@::std::allocator< std::string >::difference_type
 ~@typedef_t@difference_type@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >::difference_type
+~@typedef_t@difference_type@::std::allocator< unsigned int >::difference_type
 ~@typedef_t@difference_type@::std::allocator< int >::difference_type
 ~@typedef_t@difference_type@::std::allocator< unsigned long >::difference_type
 ~@typedef_t@difference_type@::std::allocator< boost::shared_ptr< alignlib::Alignment > >::difference_type
 ~@typedef_t@difference_type@::std::allocator< char >::difference_type
+~@typedef_t@difference_type@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >::difference_type
 ~@typedef_t@difference_type@::__gnu_cxx::new_allocator< double >::difference_type
 ~@typedef_t@difference_type@::__gnu_cxx::__normal_iterator< char*, std::string >::difference_type
 ~@typedef_t@difference_type@::__gnu_cxx::new_allocator< std::string >::difference_type
 ~@typedef_t@difference_type@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >::difference_type
+~@typedef_t@difference_type@::__gnu_cxx::new_allocator< unsigned int >::difference_type
 ~@typedef_t@difference_type@::__gnu_cxx::new_allocator< int >::difference_type
 ~@typedef_t@difference_type@::__gnu_cxx::new_allocator< unsigned long >::difference_type
 ~@typedef_t@difference_type@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >::difference_type
@@ -239,6 +267,7 @@
 ~@typedef_t@const_reference@::std::vector< double >::const_reference
 ~@typedef_t@const_reference@::std::vector< std::string >::const_reference
 ~@typedef_t@const_reference@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::const_reference
+~@typedef_t@const_reference@::std::vector< unsigned int >::const_reference
 ~@typedef_t@const_reference@::std::vector< int >::const_reference
 ~@typedef_t@const_reference@::std::vector< unsigned long >::const_reference
 ~@typedef_t@const_reference@::std::vector< boost::shared_ptr<alignlib::Alignment> >::const_reference
@@ -246,6 +275,7 @@
 ~@typedef_t@const_reference@::std::string::const_reference
 ~@typedef_t@const_reference@::std::allocator< std::string >::const_reference
 ~@typedef_t@const_reference@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >::const_reference
+~@typedef_t@const_reference@::std::allocator< unsigned int >::const_reference
 ~@typedef_t@const_reference@::std::allocator< int >::const_reference
 ~@typedef_t@const_reference@::std::allocator< unsigned long >::const_reference
 ~@typedef_t@const_reference@::std::allocator< boost::shared_ptr< alignlib::Alignment > >::const_reference
@@ -253,6 +283,7 @@
 ~@typedef_t@const_reference@::__gnu_cxx::new_allocator< double >::const_reference
 ~@typedef_t@const_reference@::__gnu_cxx::new_allocator< std::string >::const_reference
 ~@typedef_t@const_reference@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >::const_reference
+~@typedef_t@const_reference@::__gnu_cxx::new_allocator< unsigned int >::const_reference
 ~@typedef_t@const_reference@::__gnu_cxx::new_allocator< int >::const_reference
 ~@typedef_t@const_reference@::__gnu_cxx::new_allocator< unsigned long >::const_reference
 ~@typedef_t@const_reference@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >::const_reference
@@ -262,6 +293,7 @@
 ~@typedef_t@const_pointer@::std::vector< double >::const_pointer
 ~@typedef_t@const_pointer@::std::vector< std::string >::const_pointer
 ~@typedef_t@const_pointer@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::const_pointer
+~@typedef_t@const_pointer@::std::vector< unsigned int >::const_pointer
 ~@typedef_t@const_pointer@::std::vector< int >::const_pointer
 ~@typedef_t@const_pointer@::std::vector< unsigned long >::const_pointer
 ~@typedef_t@const_pointer@::std::vector< boost::shared_ptr<alignlib::Alignment> >::const_pointer
@@ -269,6 +301,7 @@
 ~@typedef_t@const_pointer@::std::string::const_pointer
 ~@typedef_t@const_pointer@::std::allocator< std::string >::const_pointer
 ~@typedef_t@const_pointer@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >::const_pointer
+~@typedef_t@const_pointer@::std::allocator< unsigned int >::const_pointer
 ~@typedef_t@const_pointer@::std::allocator< int >::const_pointer
 ~@typedef_t@const_pointer@::std::allocator< unsigned long >::const_pointer
 ~@typedef_t@const_pointer@::std::allocator< boost::shared_ptr< alignlib::Alignment > >::const_pointer
@@ -276,6 +309,7 @@
 ~@typedef_t@const_pointer@::__gnu_cxx::new_allocator< double >::const_pointer
 ~@typedef_t@const_pointer@::__gnu_cxx::new_allocator< std::string >::const_pointer
 ~@typedef_t@const_pointer@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >::const_pointer
+~@typedef_t@const_pointer@::__gnu_cxx::new_allocator< unsigned int >::const_pointer
 ~@typedef_t@const_pointer@::__gnu_cxx::new_allocator< int >::const_pointer
 ~@typedef_t@const_pointer@::__gnu_cxx::new_allocator< unsigned long >::const_pointer
 ~@typedef_t@const_pointer@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >::const_pointer
@@ -297,6 +331,7 @@
 ~@typedef_t@allocator_type@::std::vector< double >::allocator_type
 ~@typedef_t@allocator_type@::std::vector< std::string >::allocator_type
 ~@typedef_t@allocator_type@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::allocator_type
+~@typedef_t@allocator_type@::std::vector< unsigned int >::allocator_type
 ~@typedef_t@allocator_type@::std::vector< int >::allocator_type
 ~@typedef_t@allocator_type@::std::vector< unsigned long >::allocator_type
 ~@typedef_t@allocator_type@::std::vector< boost::shared_ptr<alignlib::Alignment> >::allocator_type
@@ -304,6 +339,7 @@
 ~@typedef_t@allocator_type@::std::_Vector_base< std::string, std::allocator< std::string > >::allocator_type
 ~@typedef_t@allocator_type@::std::string::allocator_type
 ~@typedef_t@allocator_type@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::allocator_type
+~@typedef_t@allocator_type@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::allocator_type
 ~@typedef_t@allocator_type@::std::_Vector_base< int, std::allocator< int > >::allocator_type
 ~@typedef_t@allocator_type@::std::_Vector_base< unsigned long, std::allocator< unsigned long > >::allocator_type
 ~@typedef_t@allocator_type@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >::allocator_type
@@ -321,6 +357,7 @@
 ~@typedef_t@const_reverse_iterator@::std::vector< double >::const_reverse_iterator
 ~@typedef_t@const_reverse_iterator@::std::vector< std::string >::const_reverse_iterator
 ~@typedef_t@const_reverse_iterator@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::const_reverse_iterator
+~@typedef_t@const_reverse_iterator@::std::vector< unsigned int >::const_reverse_iterator
 ~@typedef_t@const_reverse_iterator@::std::vector< int >::const_reverse_iterator
 ~@typedef_t@const_reverse_iterator@::std::vector< unsigned long >::const_reverse_iterator
 ~@typedef_t@const_reverse_iterator@::std::vector< boost::shared_ptr<alignlib::Alignment> >::const_reverse_iterator
@@ -328,6 +365,7 @@
 ~@typedef_t@reverse_iterator@::std::vector< double >::reverse_iterator
 ~@typedef_t@reverse_iterator@::std::vector< std::string >::reverse_iterator
 ~@typedef_t@reverse_iterator@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::reverse_iterator
+~@typedef_t@reverse_iterator@::std::vector< unsigned int >::reverse_iterator
 ~@typedef_t@reverse_iterator@::std::vector< int >::reverse_iterator
 ~@typedef_t@reverse_iterator@::std::vector< unsigned long >::reverse_iterator
 ~@typedef_t@reverse_iterator@::std::vector< boost::shared_ptr<alignlib::Alignment> >::reverse_iterator
@@ -337,6 +375,7 @@
 ~@typedef_t@size_type@::std::vector< double >::size_type
 ~@typedef_t@size_type@::std::vector< std::string >::size_type
 ~@typedef_t@size_type@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::size_type
+~@typedef_t@size_type@::std::vector< unsigned int >::size_type
 ~@typedef_t@size_type@::std::vector< int >::size_type
 ~@typedef_t@size_type@::std::vector< unsigned long >::size_type
 ~@typedef_t@size_type@::std::vector< boost::shared_ptr<alignlib::Alignment> >::size_type
@@ -344,6 +383,7 @@
 ~@typedef_t@size_type@::std::string::size_type
 ~@typedef_t@size_type@::std::allocator< std::string >::size_type
 ~@typedef_t@size_type@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >::size_type
+~@typedef_t@size_type@::std::allocator< unsigned int >::size_type
 ~@typedef_t@size_type@::std::allocator< int >::size_type
 ~@typedef_t@size_type@::std::allocator< unsigned long >::size_type
 ~@typedef_t@size_type@::std::allocator< boost::shared_ptr< alignlib::Alignment > >::size_type
@@ -351,6 +391,7 @@
 ~@typedef_t@size_type@::__gnu_cxx::new_allocator< double >::size_type
 ~@typedef_t@size_type@::__gnu_cxx::new_allocator< std::string >::size_type
 ~@typedef_t@size_type@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >::size_type
+~@typedef_t@size_type@::__gnu_cxx::new_allocator< unsigned int >::size_type
 ~@typedef_t@size_type@::__gnu_cxx::new_allocator< int >::size_type
 ~@typedef_t@size_type@::__gnu_cxx::new_allocator< unsigned long >::size_type
 ~@typedef_t@size_type@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >::size_type
@@ -360,6 +401,7 @@
 ~@typedef_t@_Base@::std::vector< double >::_Base
 ~@typedef_t@_Base@::std::vector< std::string >::_Base
 ~@typedef_t@_Base@::std::vector< boost::shared_ptr<alignlib::Alignatum> >::_Base
+~@typedef_t@_Base@::std::vector< unsigned int >::_Base
 ~@typedef_t@_Base@::std::vector< int >::_Base
 ~@typedef_t@_Base@::std::vector< unsigned long >::_Base
 ~@typedef_t@_Base@::std::vector< boost::shared_ptr<alignlib::Alignment> >::_Base
@@ -368,6 +410,7 @@
 ~@typedef_t@HSegmentVector@::alignlib::HSegmentVector
 ~@typedef_t@MultAlignments@::alignlib::MultAlignments
 ~@typedef_t@HFrequencyVector@::alignlib::HFrequencyVector
+~@typedef_t@iterator_category@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >::iterator_category
 ~@typedef_t@iterator_category@::__gnu_cxx::__normal_iterator< char*, std::string >::iterator_category
 ~@typedef_t@mbstate_t@::mbstate_t
 ~@typedef_t@HAlignatumVector@::alignlib::HAlignatumVector
@@ -390,6 +433,7 @@
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< const long unsigned int*, std::vector< long unsigned int > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const long unsigned int*, std::vector< long unsigned int > > >
 ~@class_declaration_t@shared_ptr< boost::shared_ptr< alignlib::MultAlignment > >@::boost::shared_ptr< boost::shared_ptr< alignlib::MultAlignment > >
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< const std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > >
+~@class_declaration_t@shared_ptr< alignlib::Alignator >@::boost::shared_ptr< alignlib::Alignator >
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< const double*, std::vector< double > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const double*, std::vector< double > > >
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< int*, std::vector< int > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< int*, std::vector< int > > >
 ~@class_declaration_t@shared_ptr< std::vector< std::string > >@::boost::shared_ptr< std::vector< std::string > >
@@ -417,10 +461,12 @@
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > >
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > >
 ~@class_declaration_t@shared_ptr< alignlib::Iterator2D >@::boost::shared_ptr< alignlib::Iterator2D >
+~@class_declaration_t@shared_ptr< std::vector< unsigned int > >@::boost::shared_ptr< std::vector< unsigned int > >
 ~@class_declaration_t@__normal_iterator< int*, std::vector< int > >@::__gnu_cxx::__normal_iterator< int*, std::vector< int > >
 ~@class_declaration_t@shared_ptr< alignlib::Alignment >@::boost::shared_ptr< alignlib::Alignment >
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< const char*, std::basic_string< char, std::char_traits< char >, std::allocator< char > > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const char*, std::basic_string< char, std::char_traits< char >, std::allocator< char > > > >
-~@class_declaration_t@shared_ptr< std::vector< boost::shared_ptr<alignlib::Alignment> > >@::boost::shared_ptr< std::vector< boost::shared_ptr<alignlib::Alignment> > >
+~@class_declaration_t@__normal_iterator< const unsigned int*, std::vector< unsigned int > >@::__gnu_cxx::__normal_iterator< const unsigned int*, std::vector< unsigned int > >
+~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > >
 ~@class_declaration_t@__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >@::__gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >
 ~@class_declaration_t@shared_ptr< alignlib::Alignandum >@::boost::shared_ptr< alignlib::Alignandum >
 ~@class_declaration_t@shared_ptr< alignlib::Tree >@::boost::shared_ptr< alignlib::Tree >
@@ -436,7 +482,9 @@
 ~@class_declaration_t@map< unsigned char, std::string >@::std::map< unsigned char, std::string >
 ~@class_declaration_t@shared_ptr< alignlib::Treetor >@::boost::shared_ptr< alignlib::Treetor >
 ~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > >
+~@class_declaration_t@shared_ptr< std::vector< boost::shared_ptr<alignlib::Alignment> > >@::boost::shared_ptr< std::vector< boost::shared_ptr<alignlib::Alignment> > >
 ~@class_declaration_t@shared_ptr< alignlib::Fragmentor >@::boost::shared_ptr< alignlib::Fragmentor >
+~@class_declaration_t@shared_ptr< alignlib::MultipleAlignator >@::boost::shared_ptr< alignlib::MultipleAlignator >
 ~@class_declaration_t@__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >@::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >
 ~@class_declaration_t@vector< alignlib::Segment >@::std::vector< alignlib::Segment >
 ~@class_declaration_t@shared_ptr< alignlib::AlignmentIterator >@::boost::shared_ptr< alignlib::AlignmentIterator >
@@ -445,7 +493,7 @@
 ~@class_declaration_t@shared_ptr< std::vector< double > >@::boost::shared_ptr< std::vector< double > >
 ~@class_declaration_t@__normal_iterator< long unsigned int*, std::vector< long unsigned int > >@::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > >
 ~@class_declaration_t@shared_ptr< alignlib::Alignatum >@::boost::shared_ptr< alignlib::Alignatum >
-~@class_declaration_t@shared_ptr< alignlib::Alignator >@::boost::shared_ptr< alignlib::Alignator >
+~@class_declaration_t@reverse_iterator< __gnu_cxx::__normal_iterator< const unsigned int*, std::vector< unsigned int > > >@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const unsigned int*, std::vector< unsigned int > > >
 ~@class_declaration_t@__normal_iterator< const double*, std::vector< double > >@::__gnu_cxx::__normal_iterator< const double*, std::vector< double > >
 ~@class_declaration_t@shared_ptr< std::map< unsigned char, std::string > >@::boost::shared_ptr< std::map< unsigned char, std::string > >
 ~@class_declaration_t@__normal_iterator< const boost::shared_ptr< alignlib::Alignment >, std::vector< boost::shared_ptr<alignlib::Alignment> > >@::__gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignment >, std::vector< boost::shared_ptr<alignlib::Alignment> > >
@@ -482,6 +530,7 @@
 ~@variable_t@_M_finish@::std::_Vector_base< double, std::allocator< double > >::_Vector_impl::_M_finish
 ~@variable_t@_M_finish@::std::_Vector_base< std::string, std::allocator< std::string > >::_Vector_impl::_M_finish
 ~@variable_t@_M_finish@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_Vector_impl::_M_finish
+~@variable_t@_M_finish@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_Vector_impl::_M_finish
 ~@variable_t@_M_finish@::std::_Vector_base< int, std::allocator< int > >::_Vector_impl::_M_finish
 ~@variable_t@_M_finish@::std::_Vector_base< unsigned long, std::allocator< unsigned long > >::_Vector_impl::_M_finish
 ~@variable_t@_M_finish@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >::_Vector_impl::_M_finish
@@ -492,6 +541,7 @@
 ~@variable_t@_M_start@::std::_Vector_base< double, std::allocator< double > >::_Vector_impl::_M_start
 ~@variable_t@_M_start@::std::_Vector_base< std::string, std::allocator< std::string > >::_Vector_impl::_M_start
 ~@variable_t@_M_start@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_Vector_impl::_M_start
+~@variable_t@_M_start@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_Vector_impl::_M_start
 ~@variable_t@_M_start@::std::_Vector_base< int, std::allocator< int > >::_Vector_impl::_M_start
 ~@variable_t@_M_start@::std::_Vector_base< unsigned long, std::allocator< unsigned long > >::_Vector_impl::_M_start
 ~@variable_t@_M_start@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >::_Vector_impl::_M_start
@@ -511,16 +561,19 @@
 +@variable_t@mIterator@::alignlib::AlignmentIterator::mIterator
 ~@variable_t@_S_max_size@::std::string::_Rep::_S_max_size
 ~@variable_t@_S_empty_rep_storage@::std::string::_Rep::_S_empty_rep_storage
+~@variable_t@_M_current@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >::_M_current
 ~@variable_t@_M_current@::__gnu_cxx::__normal_iterator< char*, std::string >::_M_current
 ~@variable_t@_M_end_of_storage@::std::_Vector_base< double, std::allocator< double > >::_Vector_impl::_M_end_of_storage
 ~@variable_t@_M_end_of_storage@::std::_Vector_base< std::string, std::allocator< std::string > >::_Vector_impl::_M_end_of_storage
 ~@variable_t@_M_end_of_storage@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_Vector_impl::_M_end_of_storage
+~@variable_t@_M_end_of_storage@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_Vector_impl::_M_end_of_storage
 ~@variable_t@_M_end_of_storage@::std::_Vector_base< int, std::allocator< int > >::_Vector_impl::_M_end_of_storage
 ~@variable_t@_M_end_of_storage@::std::_Vector_base< unsigned long, std::allocator< unsigned long > >::_Vector_impl::_M_end_of_storage
 ~@variable_t@_M_end_of_storage@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >::_Vector_impl::_M_end_of_storage
 ~@variable_t@_M_impl@::std::_Vector_base< double, std::allocator< double > >::_M_impl
 ~@variable_t@_M_impl@::std::_Vector_base< std::string, std::allocator< std::string > >::_M_impl
 ~@variable_t@_M_impl@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_M_impl
+~@variable_t@_M_impl@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_M_impl
 ~@variable_t@_M_impl@::std::_Vector_base< int, std::allocator< int > >::_M_impl
 ~@variable_t@_M_impl@::std::_Vector_base< unsigned long, std::allocator< unsigned long > >::_M_impl
 ~@variable_t@_M_impl@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >::_M_impl
@@ -531,96 +584,102 @@
 ~@variable_t@mMessage@::alignlib::AlignlibException::mMessage
 +@variable_t@col@::alignlib::Coordinate::col
 ~@variable_t@_M_p@::std::string::_Alloc_hider::_M_p
-+@class_t@MultAlignmentFormatPlain@::alignlib::MultAlignmentFormatPlain
-~@class_t@MultipleAlignmentFormatHTML@::alignlib::MultipleAlignmentFormatHTML
 ~@class_t@_Vector_base< unsigned long, std::allocator< unsigned long > >@::std::_Vector_base< unsigned long, std::allocator< unsigned long > >
-~@class_t@allocator< boost::shared_ptr< alignlib::Alignment > >@::std::allocator< boost::shared_ptr< alignlib::Alignment > >
 +@class_t@EVDParameters@::alignlib::EVDParameters
-~@class_t@char_traits< char >@::std::char_traits< char >
-~@class_t@MultipleAlignmentFormatPlain@::alignlib::MultipleAlignmentFormatPlain
-~@class_t@vector< unsigned long >@::std::vector< unsigned long >
-+@class_t@MultAlignment@::alignlib::MultAlignment
-+@class_t@Iterator2D@::alignlib::Iterator2D
-+@class_t@ResiduePair@::alignlib::ResiduePair
-+@class_t@AlignmentFormatBlocks@::alignlib::AlignmentFormatBlocks
-+@class_t@AlignmentIterator@::alignlib::AlignmentIterator
-~@class_t@MultipleAlignmentFormat@::alignlib::MultipleAlignmentFormat
-~@class_t@__normal_iterator< char*, std::string >@::__gnu_cxx::__normal_iterator< char*, std::string >
-+@class_t@AlignmentFormatBlat@::alignlib::AlignmentFormatBlat
-~@class_t@allocator< unsigned long >@::std::allocator< unsigned long >
-~@class_t@allocator< std::string >@::std::allocator< std::string >
-~@class_t@_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >
-+@class_t@vector< boost::shared_ptr<alignlib::Alignatum> >@::std::vector< boost::shared_ptr<alignlib::Alignatum> >
-~@class_t@new_allocator< boost::shared_ptr< alignlib::Alignment > >@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >
-+@class_t@Profile@::alignlib::Profile
-~@class_t@new_allocator< unsigned long >@::__gnu_cxx::new_allocator< unsigned long >
-+@class_t@Alignator@::alignlib::Alignator
-~@class_t@allocator< char >@::std::allocator< char >
-+@class_t@AlignmentFormat@::alignlib::AlignmentFormat
-+@class_t@Matrix< unsigned int >@::alignlib::Matrix< unsigned int >
-+@class_t@AlignmentFormatEmissions@::alignlib::AlignmentFormatEmissions
++@class_t@Weightor@::alignlib::Weightor
++@class_t@Alignatum@::alignlib::Alignatum
 +@class_t@Encoder@::alignlib::Encoder
-~@class_t@basic_streambuf< char, std::char_traits< char > >@::std::basic_streambuf< char, std::char_traits< char > >
-~@class_t@_Rep_base@::std::string::_Rep_base
 +@class_t@LogOddor@::alignlib::LogOddor
-~@class_t@new_allocator< boost::shared_ptr< alignlib::Alignatum > >@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >
 +@class_t@Scorer@::alignlib::Scorer
-~@class_t@basic_ostream< char, std::char_traits< char > >@::std::basic_ostream< char, std::char_traits< char > >
-~@class_t@allocator< double >@::std::allocator< double >
-+@class_t@Segment@::alignlib::Segment
-~@class_t@allocator< boost::shared_ptr< alignlib::Alignatum > >@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >
-~@class_t@__mbstate_t@::__mbstate_t
++@class_t@vector< double >@::std::vector< double >
 +@class_t@Matrix< int >@::alignlib::Matrix< int >
-~@class_t@_Vector_base< double, std::allocator< double > >@::std::_Vector_base< double, std::allocator< double > >
+~@class_t@allocator< char >@::std::allocator< char >
 ~@class_t@string@::std::string
 ~@class_t@AlignlibException@::alignlib::AlignlibException
-+@class_t@NormalDistributionParameters@::alignlib::NormalDistributionParameters
-~@class_t@allocator< int >@::std::allocator< int >
-~@class_t@_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >
-~@class_t@_Vector_base< int, std::allocator< int > >@::std::_Vector_base< int, std::allocator< int > >
-+@class_t@Tree@::alignlib::Tree
-~@class_t@input_iterator_tag@::std::input_iterator_tag
-~@class_t@basic_istream< char, std::char_traits< char > >@::std::basic_istream< char, std::char_traits< char > >
-+@class_t@AlignmentFormatExplicit@::alignlib::AlignmentFormatExplicit
-~@class_t@new_allocator< int >@::__gnu_cxx::new_allocator< int >
-~@class_t@vector< boost::shared_ptr<alignlib::Alignment> >@::std::vector< boost::shared_ptr<alignlib::Alignment> >
-~@class_t@new_allocator< std::string >@::__gnu_cxx::new_allocator< std::string >
-+@class_t@Weightor@::alignlib::Weightor
-+@class_t@Coordinate@::alignlib::Coordinate
-+@class_t@Distor@::alignlib::Distor
-~@class_t@forward_iterator_tag@::std::forward_iterator_tag
-+@class_t@vector< std::string >@::std::vector< std::string >
-~@class_t@_Vector_base< std::string, std::allocator< std::string > >@::std::_Vector_base< std::string, std::allocator< std::string > >
-~@class_t@new_allocator< double >@::__gnu_cxx::new_allocator< double >
-~@class_t@('/usr/include/wchar.h', 82)@::__mbstate_t
-~@class_t@exception@::std::exception
-+@class_t@vector< unsigned int >@::std::vector< unsigned int >
-+@class_t@DistanceMatrix@::alignlib::DistanceMatrix
-~@class_t@Iterator@::alignlib::Alignment::Iterator
-+@class_t@AlignmentFormatDiagonals@::alignlib::AlignmentFormatDiagonals
-+@class_t@Sequence@::alignlib::Sequence
-+@class_t@vector< double >@::std::vector< double >
-+@class_t@Alignatum@::alignlib::Alignatum
-~@class_t@_Rep@::std::string::_Rep
-+@class_t@Matrix< double >@::alignlib::Matrix< double >
-+@class_t@vector< int >@::std::vector< int >
-~@class_t@random_access_iterator_tag@::std::random_access_iterator_tag
-~@class_t@_Alloc_hider@::std::string::_Alloc_hider
-+@class_t@MultipleAlignment@::alignlib::MultipleAlignment
-+@class_t@Treetor@::alignlib::Treetor
-+@class_t@Alignandum@::alignlib::Alignandum
-+@class_t@MultAlignmentFormat@::alignlib::MultAlignmentFormat
-+@class_t@Regularizor@::alignlib::Regularizor
 ~@class_t@_Vector_impl@::std::_Vector_base< double, std::allocator< double > >::_Vector_impl
 ~@class_t@_Vector_impl@::std::_Vector_base< std::string, std::allocator< std::string > >::_Vector_impl
 ~@class_t@_Vector_impl@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_Vector_impl
+~@class_t@_Vector_impl@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_Vector_impl
 ~@class_t@_Vector_impl@::std::_Vector_base< int, std::allocator< int > >::_Vector_impl
 ~@class_t@_Vector_impl@::std::_Vector_base< unsigned long, std::allocator< unsigned long > >::_Vector_impl
 ~@class_t@_Vector_impl@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >::_Vector_impl
-~@class_t@new_allocator< char >@::__gnu_cxx::new_allocator< char >
+~@class_t@basic_istream< char, std::char_traits< char > >@::std::basic_istream< char, std::char_traits< char > >
+~@class_t@allocator< unsigned int >@::std::allocator< unsigned int >
+~@class_t@vector< unsigned long >@::std::vector< unsigned long >
+~@class_t@Iterator@::alignlib::Alignment::Iterator
++@class_t@vector< unsigned int >@::std::vector< unsigned int >
++@class_t@MultipleAlignment@::alignlib::MultipleAlignment
++@class_t@Alignandum@::alignlib::Alignandum
 ~@class_t@bidirectional_iterator_tag@::std::bidirectional_iterator_tag
-+@class_t@Alignment@::alignlib::Alignment
 +@class_t@Fragmentor@::alignlib::Fragmentor
+~@class_t@__normal_iterator< unsigned int*, std::vector< unsigned int > >@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >
+~@class_t@MultipleAlignmentFormatPlain@::alignlib::MultipleAlignmentFormatPlain
++@class_t@MultAlignment@::alignlib::MultAlignment
++@class_t@AlignmentFormatBlocks@::alignlib::AlignmentFormatBlocks
+~@class_t@__normal_iterator< char*, std::string >@::__gnu_cxx::__normal_iterator< char*, std::string >
++@class_t@AlignmentFormatBlat@::alignlib::AlignmentFormatBlat
+~@class_t@_Vector_base< int, std::allocator< int > >@::std::_Vector_base< int, std::allocator< int > >
++@class_t@Iterator2D@::alignlib::Iterator2D
++@class_t@AlignmentFormat@::alignlib::AlignmentFormat
+~@class_t@_Alloc_hider@::std::string::_Alloc_hider
+~@class_t@_Rep_base@::std::string::_Rep_base
+~@class_t@allocator< boost::shared_ptr< alignlib::Alignatum > >@::std::allocator< boost::shared_ptr< alignlib::Alignatum > >
++@class_t@NormalDistributionParameters@::alignlib::NormalDistributionParameters
++@class_t@Tree@::alignlib::Tree
+~@class_t@forward_iterator_tag@::std::forward_iterator_tag
+~@class_t@_Vector_base< unsigned int, std::allocator< unsigned int > >@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >
++@class_t@DistanceMatrix@::alignlib::DistanceMatrix
+~@class_t@('/usr/include/wchar.h', 82)@::__mbstate_t
+~@class_t@_Rep@::std::string::_Rep
+~@class_t@allocator< std::string >@::std::allocator< std::string >
++@class_t@Treetor@::alignlib::Treetor
+~@class_t@allocator< double >@::std::allocator< double >
+~@class_t@_Vector_base< std::string, std::allocator< std::string > >@::std::_Vector_base< std::string, std::allocator< std::string > >
+~@class_t@new_allocator< char >@::__gnu_cxx::new_allocator< char >
++@class_t@Alignment@::alignlib::Alignment
+~@class_t@char_traits< char >@::std::char_traits< char >
++@class_t@AlignmentIterator@::alignlib::AlignmentIterator
+~@class_t@MultipleAlignmentFormat@::alignlib::MultipleAlignmentFormat
++@class_t@vector< boost::shared_ptr<alignlib::Alignatum> >@::std::vector< boost::shared_ptr<alignlib::Alignatum> >
+~@class_t@_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >
++@class_t@MultipleAlignator@::alignlib::MultipleAlignator
+~@class_t@new_allocator< boost::shared_ptr< alignlib::Alignatum > >@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > >
+~@class_t@__mbstate_t@::__mbstate_t
+~@class_t@allocator< unsigned long >@::std::allocator< unsigned long >
+~@class_t@new_allocator< boost::shared_ptr< alignlib::Alignment > >@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > >
+~@class_t@allocator< int >@::std::allocator< int >
+~@class_t@vector< boost::shared_ptr<alignlib::Alignment> >@::std::vector< boost::shared_ptr<alignlib::Alignment> >
++@class_t@Coordinate@::alignlib::Coordinate
++@class_t@vector< std::string >@::std::vector< std::string >
+~@class_t@exception@::std::exception
++@class_t@Matrix< unsigned int >@::alignlib::Matrix< unsigned int >
++@class_t@Matrix< double >@::alignlib::Matrix< double >
++@class_t@MultAlignmentFormat@::alignlib::MultAlignmentFormat
++@class_t@MultAlignmentFormatPlain@::alignlib::MultAlignmentFormatPlain
++@class_t@ResiduePair@::alignlib::ResiduePair
+~@class_t@new_allocator< double >@::__gnu_cxx::new_allocator< double >
++@class_t@vector< int >@::std::vector< int >
++@class_t@Profile@::alignlib::Profile
+~@class_t@new_allocator< unsigned int >@::__gnu_cxx::new_allocator< unsigned int >
++@class_t@AlignmentFormatEmissions@::alignlib::AlignmentFormatEmissions
+~@class_t@basic_streambuf< char, std::char_traits< char > >@::std::basic_streambuf< char, std::char_traits< char > >
++@class_t@Segment@::alignlib::Segment
+~@class_t@_Vector_base< double, std::allocator< double > >@::std::_Vector_base< double, std::allocator< double > >
+~@class_t@new_allocator< unsigned long >@::__gnu_cxx::new_allocator< unsigned long >
+~@class_t@_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >@::std::_Vector_base< boost::shared_ptr< alignlib::Alignment >, std::allocator< boost::shared_ptr< alignlib::Alignment > > >
+~@class_t@input_iterator_tag@::std::input_iterator_tag
++@class_t@AlignmentFormatExplicit@::alignlib::AlignmentFormatExplicit
++@class_t@Regularizor@::alignlib::Regularizor
++@class_t@Distor@::alignlib::Distor
++@class_t@Alignator@::alignlib::Alignator
++@class_t@AlignmentFormatDiagonals@::alignlib::AlignmentFormatDiagonals
++@class_t@Sequence@::alignlib::Sequence
+~@class_t@new_allocator< std::string >@::__gnu_cxx::new_allocator< std::string >
+~@class_t@random_access_iterator_tag@::std::random_access_iterator_tag
+~@class_t@MultipleAlignmentFormatHTML@::alignlib::MultipleAlignmentFormatHTML
+~@class_t@basic_ostream< char, std::char_traits< char > >@::std::basic_ostream< char, std::char_traits< char > >
+~@class_t@new_allocator< int >@::__gnu_cxx::new_allocator< int >
+~@class_t@allocator< boost::shared_ptr< alignlib::Alignment > >@::std::allocator< boost::shared_ptr< alignlib::Alignment > >
 +@member_function_t@calculateTree@void ( ::alignlib::Treetor::* )( ::alignlib::HTree &,::alignlib::HMultipleAlignment const & ) constvoid ( ::alignlib::Treetor::* )( ::alignlib::HTree &,::alignlib::HMultipleAlignment const & ) const
 +@member_function_t@addPair@void ( ::alignlib::Alignment::* )( ::alignlib::ResiduePair const & ) void ( ::alignlib::Alignment::* )( ::alignlib::ResiduePair const & ) 
 +@member_function_t@addPair@void ( ::alignlib::Alignment::* )( ::alignlib::Position,::alignlib::Position,::alignlib::Score ) void ( ::alignlib::Alignment::* )( ::alignlib::Position,::alignlib::Position,::alignlib::Score ) 
@@ -639,6 +698,8 @@
 ~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*, std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
 ~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const boost::shared_ptr<alignlib::Alignatum>*, std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
+~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const unsigned int*, std::vector< unsigned int > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< int*, std::vector< int > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const int*, std::vector< int > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const int*, std::vector<int, std::allocator<int> > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@rbegin@::std::reverse_iterator< __gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<long unsigned int*, std::vector<long unsigned int, std::allocator<long unsigned int> > > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
@@ -661,6 +722,7 @@
 ~@member_function_t@find@::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char,::size_t ) const::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char,::size_t ) const
 ~@member_function_t@find@char const * (*)( char const *,::size_t,char const & )char const * (*)( char const *,::size_t,char const & )
 ~@member_function_t@previous@void ( ::alignlib::Alignment::Iterator::* )(  ) void ( ::alignlib::Alignment::Iterator::* )(  ) 
++@member_function_t@getRowCounts@::alignlib::HCountVector ( ::alignlib::MultAlignment::* )(  ) const::alignlib::HCountVector ( ::alignlib::MultAlignment::* )(  ) const
 +@member_function_t@getNumLeaves@::alignlib::Node ( ::alignlib::Tree::* )(  ) const::alignlib::Node ( ::alignlib::Tree::* )(  ) const
 +@member_function_t@getNumLeaves@::alignlib::Node ( ::alignlib::Tree::* )( ::alignlib::Node ) const::alignlib::Node ( ::alignlib::Tree::* )( ::alignlib::Node ) const
 ~@member_function_t@_M_grab@char * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )( ::std::allocator< char > const &,::std::allocator< char > const & ) char * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )( ::std::allocator<char> const &,::std::allocator<char> const & ) 
@@ -682,6 +744,7 @@
 ~@member_function_t@swap@void ( ::std::vector<double, std::allocator<double> >::* )( ::std::vector< double > & ) void ( ::std::vector<double, std::allocator<double> >::* )( ::std::vector<double, std::allocator<double> > & ) 
 ~@member_function_t@swap@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::std::vector< std::string > & ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::std::vector<std::string, std::allocator<std::string> > & ) 
 ~@member_function_t@swap@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::vector< boost::shared_ptr<alignlib::Alignatum> > & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > & ) 
+~@member_function_t@swap@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::vector< unsigned int > & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::vector<unsigned int, std::allocator<unsigned int> > & ) 
 ~@member_function_t@swap@void ( ::std::vector<int, std::allocator<int> >::* )( ::std::vector< int > & ) void ( ::std::vector<int, std::allocator<int> >::* )( ::std::vector<int, std::allocator<int> > & ) 
 ~@member_function_t@swap@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::std::vector< unsigned long > & ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::std::vector<unsigned long, std::allocator<unsigned long> > & ) 
 ~@member_function_t@swap@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::std::vector< boost::shared_ptr<alignlib::Alignment> > & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > > & ) 
@@ -689,6 +752,7 @@
 ~@member_function_t@pop_back@void ( ::std::vector<double, std::allocator<double> >::* )(  ) void ( ::std::vector<double, std::allocator<double> >::* )(  ) 
 ~@member_function_t@pop_back@void ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) 
 ~@member_function_t@pop_back@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
+~@member_function_t@pop_back@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
 ~@member_function_t@pop_back@void ( ::std::vector<int, std::allocator<int> >::* )(  ) void ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@pop_back@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
 ~@member_function_t@pop_back@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) 
@@ -704,6 +768,7 @@
 ~@member_function_t@save@void ( ::alignlib::Encoder::* )( ::std::ostream & ) constvoid ( ::alignlib::Encoder::* )( ::std::ostream & ) const
 ~@member_function_t@eof@int (*)(  )int (*)(  )
 +@member_function_t@resetRanges@void ( ::alignlib::Iterator2D::* )( ::alignlib::HAlignandum const &,::alignlib::HAlignandum const & ) void ( ::alignlib::Iterator2D::* )( ::alignlib::HAlignandum const &,::alignlib::HAlignandum const & ) 
++@member_function_t@getRoot@::alignlib::Node ( ::alignlib::Tree::* )(  ) const::alignlib::Node ( ::alignlib::Tree::* )(  ) const
 +@member_function_t@getColFrom@::alignlib::Position ( ::alignlib::Alignment::* )(  ) const::alignlib::Position ( ::alignlib::Alignment::* )(  ) const
 +@member_function_t@row_end@::alignlib::const_countable_iterator< int > ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const::alignlib::const_countable_iterator<int> ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const
 ~@member_function_t@_M_clone@char * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )( ::std::allocator< char > const &,::size_t ) char * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )( ::std::allocator<char> const &,::size_t ) 
@@ -713,6 +778,7 @@
 +@member_function_t@col_size@::alignlib::Position ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const::alignlib::Position ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const
 +@member_function_t@getFrequencyMatrix@::alignlib::HFrequencyMatrix ( ::alignlib::Profile::* )(  ) const::alignlib::HFrequencyMatrix ( ::alignlib::Profile::* )(  ) const
 +@member_function_t@isMasked@bool ( ::alignlib::Alignandum::* )( ::alignlib::Position const & ) constbool ( ::alignlib::Alignandum::* )( ::alignlib::Position const & ) const
+~@member_function_t@base@unsigned int * const & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) constunsigned int * const & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) const
 ~@member_function_t@base@char * const & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) constchar * const & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) const
 +@member_function_t@getPair@::alignlib::ResiduePair ( ::alignlib::Alignment::* )( ::alignlib::ResiduePair const & ) const::alignlib::ResiduePair ( ::alignlib::Alignment::* )( ::alignlib::ResiduePair const & ) const
 +@member_function_t@front@::alignlib::ResiduePair ( ::alignlib::Alignment::* )(  ) const::alignlib::ResiduePair ( ::alignlib::Alignment::* )(  ) const
@@ -722,6 +788,8 @@
 ~@member_function_t@front@::std::string const & ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@front@::boost::shared_ptr< alignlib::Alignatum > & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) ::boost::shared_ptr<alignlib::Alignatum> & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
 ~@member_function_t@front@::boost::shared_ptr< alignlib::Alignatum > const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::boost::shared_ptr<alignlib::Alignatum> const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@front@unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
+~@member_function_t@front@unsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) constunsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@front@int & ( ::std::vector<int, std::allocator<int> >::* )(  ) int & ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@front@int const & ( ::std::vector<int, std::allocator<int> >::* )(  ) constint const & ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@front@long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
@@ -757,6 +825,7 @@
 ~@member_function_t@allocate@double * ( ::__gnu_cxx::new_allocator<double>::* )( ::size_t,void const * ) double * ( ::__gnu_cxx::new_allocator<double>::* )( ::size_t,void const * ) 
 ~@member_function_t@allocate@::std::string * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::size_t,void const * ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::size_t,void const * ) 
 ~@member_function_t@allocate@::boost::shared_ptr< alignlib::Alignatum > * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::size_t,void const * ) ::boost::shared_ptr<alignlib::Alignatum> * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@unsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::size_t,void const * ) unsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::size_t,void const * ) 
 ~@member_function_t@allocate@int * ( ::__gnu_cxx::new_allocator<int>::* )( ::size_t,void const * ) int * ( ::__gnu_cxx::new_allocator<int>::* )( ::size_t,void const * ) 
 ~@member_function_t@allocate@long unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::size_t,void const * ) long unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::size_t,void const * ) 
 ~@member_function_t@allocate@::boost::shared_ptr< alignlib::Alignment > * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::size_t,void const * ) ::boost::shared_ptr<alignlib::Alignment> * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::size_t,void const * ) 
@@ -770,6 +839,8 @@
 ~@member_function_t@address@::std::string const * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::string const & ) const::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) const
 ~@member_function_t@address@::boost::shared_ptr< alignlib::Alignatum > * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr< alignlib::Alignatum > & ) const::boost::shared_ptr<alignlib::Alignatum> * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr<alignlib::Alignatum> & ) const
 ~@member_function_t@address@::boost::shared_ptr< alignlib::Alignatum > const * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr< alignlib::Alignatum > const & ) const::boost::shared_ptr<alignlib::Alignatum> const * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr<alignlib::Alignatum> const & ) const
+~@member_function_t@address@unsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int & ) constunsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int & ) const
+~@member_function_t@address@unsigned int const * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int const & ) constunsigned int const * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int const & ) const
 ~@member_function_t@address@int * ( ::__gnu_cxx::new_allocator<int>::* )( int & ) constint * ( ::__gnu_cxx::new_allocator<int>::* )( int & ) const
 ~@member_function_t@address@int const * ( ::__gnu_cxx::new_allocator<int>::* )( int const & ) constint const * ( ::__gnu_cxx::new_allocator<int>::* )( int const & ) const
 ~@member_function_t@address@long unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int & ) constlong unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int & ) const
@@ -791,6 +862,8 @@
 ~@member_function_t@begin@::__gnu_cxx::__normal_iterator< const std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::__gnu_cxx::__normal_iterator<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@begin@::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
 ~@member_function_t@begin@::__gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::__gnu_cxx::__normal_iterator<const boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@begin@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
+~@member_function_t@begin@::__gnu_cxx::__normal_iterator< const unsigned int*, std::vector< unsigned int > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const::__gnu_cxx::__normal_iterator<const unsigned int*,std::vector<unsigned int, std::allocator<unsigned int> > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@begin@::__gnu_cxx::__normal_iterator< int*, std::vector< int > > ( ::std::vector<int, std::allocator<int> >::* )(  ) ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > > ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@begin@::__gnu_cxx::__normal_iterator< const int*, std::vector< int > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const::__gnu_cxx::__normal_iterator<const int*,std::vector<int, std::allocator<int> > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@begin@::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
@@ -806,6 +879,8 @@
 ~@member_function_t@erase@::__gnu_cxx::__normal_iterator< std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator< std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > >,::__gnu_cxx::__normal_iterator< std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > ) ::__gnu_cxx::__normal_iterator<std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator<std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >,::__gnu_cxx::__normal_iterator<std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > ) 
 ~@member_function_t@erase@::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ) ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ) 
 ~@member_function_t@erase@::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >,::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ) ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > >,::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ) 
+~@member_function_t@erase@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ) 
+~@member_function_t@erase@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >,::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >,::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ) 
 ~@member_function_t@erase@::__gnu_cxx::__normal_iterator< int*, std::vector< int > > ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator< int*, std::vector< int > > ) ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > > ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > > ) 
 ~@member_function_t@erase@::__gnu_cxx::__normal_iterator< int*, std::vector< int > > ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator< int*, std::vector< int > >,::__gnu_cxx::__normal_iterator< int*, std::vector< int > > ) ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > > ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > >,::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > > ) 
 ~@member_function_t@erase@::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > ) ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > > ) 
@@ -818,6 +893,7 @@
 ~@member_function_t@_M_deallocate@void ( ::std::_Vector_base<double, std::allocator<double> >::* )( double *,::size_t ) void ( ::std::_Vector_base<double, std::allocator<double> >::* )( double *,::size_t ) 
 ~@member_function_t@_M_deallocate@void ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )( ::std::string *,::size_t ) void ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > *,::size_t ) 
 ~@member_function_t@_M_deallocate@void ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::boost::shared_ptr< alignlib::Alignatum > *,::size_t ) void ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::boost::shared_ptr<alignlib::Alignatum> *,::size_t ) 
+~@member_function_t@_M_deallocate@void ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( unsigned int *,::size_t ) void ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( unsigned int *,::size_t ) 
 ~@member_function_t@_M_deallocate@void ( ::std::_Vector_base<int, std::allocator<int> >::* )( int *,::size_t ) void ( ::std::_Vector_base<int, std::allocator<int> >::* )( int *,::size_t ) 
 ~@member_function_t@_M_deallocate@void ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )( long unsigned int *,::size_t ) void ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )( long unsigned int *,::size_t ) 
 ~@member_function_t@_M_deallocate@void ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::boost::shared_ptr< alignlib::Alignment > *,::size_t ) void ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::boost::shared_ptr<alignlib::Alignment> *,::size_t ) 
@@ -860,6 +936,7 @@
 ~@member_function_t@deallocate@void ( ::__gnu_cxx::new_allocator<double>::* )( double *,::size_t ) void ( ::__gnu_cxx::new_allocator<double>::* )( double *,::size_t ) 
 ~@member_function_t@deallocate@void ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::string *,::size_t ) void ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > *,::size_t ) 
 ~@member_function_t@deallocate@void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr< alignlib::Alignatum > *,::size_t ) void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr<alignlib::Alignatum> *,::size_t ) 
+~@member_function_t@deallocate@void ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int *,::size_t ) void ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int *,::size_t ) 
 ~@member_function_t@deallocate@void ( ::__gnu_cxx::new_allocator<int>::* )( int *,::size_t ) void ( ::__gnu_cxx::new_allocator<int>::* )( int *,::size_t ) 
 ~@member_function_t@deallocate@void ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int *,::size_t ) void ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int *,::size_t ) 
 ~@member_function_t@deallocate@void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::boost::shared_ptr< alignlib::Alignment > *,::size_t ) void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::boost::shared_ptr<alignlib::Alignment> *,::size_t ) 
@@ -874,6 +951,7 @@
 ~@member_function_t@_M_allocate@double * ( ::std::_Vector_base<double, std::allocator<double> >::* )( ::size_t ) double * ( ::std::_Vector_base<double, std::allocator<double> >::* )( ::size_t ) 
 ~@member_function_t@_M_allocate@::std::string * ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )( ::size_t ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > * ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )( ::size_t ) 
 ~@member_function_t@_M_allocate@::boost::shared_ptr< alignlib::Alignatum > * ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) ::boost::shared_ptr<alignlib::Alignatum> * ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) 
+~@member_function_t@_M_allocate@unsigned int * ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) unsigned int * ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) 
 ~@member_function_t@_M_allocate@int * ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::size_t ) int * ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::size_t ) 
 ~@member_function_t@_M_allocate@long unsigned int * ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) long unsigned int * ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) 
 ~@member_function_t@_M_allocate@::boost::shared_ptr< alignlib::Alignment > * ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) ::boost::shared_ptr<alignlib::Alignment> * ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) 
@@ -889,6 +967,8 @@
 ~@member_function_t@resize@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) 
 ~@member_function_t@resize@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr<alignlib::Alignatum> const & ) 
 ~@member_function_t@resize@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) 
+~@member_function_t@resize@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const & ) 
+~@member_function_t@resize@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) 
 ~@member_function_t@resize@void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const & ) void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const & ) 
 ~@member_function_t@resize@void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) 
 ~@member_function_t@resize@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t,long unsigned int const & ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t,long unsigned int const & ) 
@@ -904,7 +984,7 @@
 +@member_function_t@getMaskCode@::alignlib::Residue ( ::alignlib::Encoder::* )(  ) const::alignlib::Residue ( ::alignlib::Encoder::* )(  ) const
 +@member_function_t@getColTo@::alignlib::Position ( ::alignlib::Alignment::* )(  ) const::alignlib::Position ( ::alignlib::Alignment::* )(  ) const
 ~@member_function_t@_M_set_leaked@void ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )(  ) void ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )(  ) 
-~@member_function_t@getPointer@::alignlib::ResiduePair const * ( ::alignlib::Alignment::Iterator::* )(  ) const::alignlib::ResiduePair const * ( ::alignlib::Alignment::Iterator::* )(  ) const
++@member_function_t@setLength@void ( ::alignlib::MultipleAlignment::* )( ::alignlib::Position ) void ( ::alignlib::MultipleAlignment::* )( ::alignlib::Position ) 
 +@member_function_t@getScoreMatrix@::alignlib::HScoreMatrix ( ::alignlib::Profile::* )(  ) const::alignlib::HScoreMatrix ( ::alignlib::Profile::* )(  ) const
 ~@member_function_t@_M_replace_aux@::std::string & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t,::size_t,::size_t,char ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t,::size_t,::size_t,char ) 
 ~@member_function_t@c_str@char const * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) constchar const * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) const
@@ -917,6 +997,8 @@
 ~@member_function_t@insert@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator< std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > >,::size_t,::std::string const & ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator<std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >,::size_t,::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@insert@::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >,::boost::shared_ptr< alignlib::Alignatum > const & ) ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > >,::boost::shared_ptr<alignlib::Alignatum> const & ) 
 ~@member_function_t@insert@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >,::size_t,::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > >,::size_t,::boost::shared_ptr<alignlib::Alignatum> const & ) 
+~@member_function_t@insert@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >,unsigned int const & ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >,unsigned int const & ) 
+~@member_function_t@insert@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >,::size_t,unsigned int const & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >,::size_t,unsigned int const & ) 
 ~@member_function_t@insert@::__gnu_cxx::__normal_iterator< int*, std::vector< int > > ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator< int*, std::vector< int > >,int const & ) ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > > ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > >,int const & ) 
 ~@member_function_t@insert@void ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator< int*, std::vector< int > >,::size_t,int const & ) void ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > >,::size_t,int const & ) 
 ~@member_function_t@insert@::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > >,long unsigned int const & ) ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > >,long unsigned int const & ) 
@@ -944,6 +1026,7 @@
 ~@member_function_t@assign@void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t,double const & ) void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t,double const & ) 
 ~@member_function_t@assign@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t,::std::string const & ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t,::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@assign@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr<alignlib::Alignatum> const & ) 
+~@member_function_t@assign@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const & ) 
 ~@member_function_t@assign@void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const & ) void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const & ) 
 ~@member_function_t@assign@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t,long unsigned int const & ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t,long unsigned int const & ) 
 ~@member_function_t@assign@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t,::boost::shared_ptr< alignlib::Alignment > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t,::boost::shared_ptr<alignlib::Alignment> const & ) 
@@ -967,6 +1050,7 @@
 ~@member_function_t@_M_range_check@void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t ) constvoid ( ::std::vector<double, std::allocator<double> >::* )( ::size_t ) const
 ~@member_function_t@_M_range_check@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) constvoid ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) const
 ~@member_function_t@_M_range_check@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) constvoid ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) const
+~@member_function_t@_M_range_check@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) constvoid ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) const
 ~@member_function_t@_M_range_check@void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) constvoid ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) const
 ~@member_function_t@_M_range_check@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) constvoid ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) const
 ~@member_function_t@_M_range_check@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) constvoid ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) const
@@ -979,6 +1063,7 @@
 ~@member_function_t@push_back@void ( ::std::vector<double, std::allocator<double> >::* )( double const & ) void ( ::std::vector<double, std::allocator<double> >::* )( double const & ) 
 ~@member_function_t@push_back@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::std::string const & ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@push_back@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::boost::shared_ptr<alignlib::Alignatum> const & ) 
+~@member_function_t@push_back@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( unsigned int const & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( unsigned int const & ) 
 ~@member_function_t@push_back@void ( ::std::vector<int, std::allocator<int> >::* )( int const & ) void ( ::std::vector<int, std::allocator<int> >::* )( int const & ) 
 ~@member_function_t@push_back@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( long unsigned int const & ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( long unsigned int const & ) 
 ~@member_function_t@push_back@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::boost::shared_ptr< alignlib::Alignment > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::boost::shared_ptr<alignlib::Alignment> const & ) 
@@ -986,7 +1071,7 @@
 ~@member_function_t@_M_is_leaked@bool ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )(  ) constbool ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )(  ) const
 +@member_function_t@getPositionMatrix@::alignlib::HPositionMatrix ( ::alignlib::MultAlignment::* )( bool const & ) const::alignlib::HPositionMatrix ( ::alignlib::MultAlignment::* )( bool const & ) const
 +@member_function_t@getNumGaps@::alignlib::Position ( ::alignlib::Alignment::* )(  ) const::alignlib::Position ( ::alignlib::Alignment::* )(  ) const
-+@member_function_t@getRoot@::alignlib::Node ( ::alignlib::Tree::* )(  ) const::alignlib::Node ( ::alignlib::Tree::* )(  ) const
+~@member_function_t@next@void ( ::alignlib::Alignment::Iterator::* )(  ) void ( ::alignlib::Alignment::Iterator::* )(  ) 
 +@member_function_t@setWidth@void ( ::alignlib::DistanceMatrix::* )( ::alignlib::DistanceMatrixSize ) void ( ::alignlib::DistanceMatrix::* )( ::alignlib::DistanceMatrixSize ) 
 ~@member_function_t@append@::std::string & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::string const & ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@append@::std::string & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::string const &,::size_t,::size_t ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &,::size_t,::size_t ) 
@@ -996,6 +1081,7 @@
 ~@member_function_t@size@::size_t ( ::std::vector<double, std::allocator<double> >::* )(  ) const::size_t ( ::std::vector<double, std::allocator<double> >::* )(  ) const
 ~@member_function_t@size@::size_t ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::size_t ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@size@::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@size@::size_t ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const::size_t ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@size@::size_t ( ::std::vector<int, std::allocator<int> >::* )(  ) const::size_t ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@size@::size_t ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) const::size_t ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) const
 ~@member_function_t@size@::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const
@@ -1010,11 +1096,12 @@
 ~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<double>::* )( double *,double const & ) void ( ::__gnu_cxx::new_allocator<double>::* )( double *,double const & ) 
 ~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::string *,::std::string const & ) void ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > *,::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr< alignlib::Alignatum > *,::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr<alignlib::Alignatum> *,::boost::shared_ptr<alignlib::Alignatum> const & ) 
+~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int *,unsigned int const & ) void ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int *,unsigned int const & ) 
 ~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<int>::* )( int *,int const & ) void ( ::__gnu_cxx::new_allocator<int>::* )( int *,int const & ) 
 ~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int *,long unsigned int const & ) void ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int *,long unsigned int const & ) 
 ~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::boost::shared_ptr< alignlib::Alignment > *,::boost::shared_ptr< alignlib::Alignment > const & ) void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::boost::shared_ptr<alignlib::Alignment> *,::boost::shared_ptr<alignlib::Alignment> const & ) 
 ~@member_function_t@construct@void ( ::__gnu_cxx::new_allocator<char>::* )( char *,char const & ) void ( ::__gnu_cxx::new_allocator<char>::* )( char *,char const & ) 
-~@member_function_t@next@void ( ::alignlib::Alignment::Iterator::* )(  ) void ( ::alignlib::Alignment::Iterator::* )(  ) 
+~@member_function_t@getPointer@::alignlib::ResiduePair const * ( ::alignlib::Alignment::Iterator::* )(  ) const::alignlib::ResiduePair const * ( ::alignlib::Alignment::Iterator::* )(  ) const
 +@member_function_t@decode@::std::string ( ::alignlib::Encoder::* )( ::alignlib::ResidueVector const & ) const::std::string ( ::alignlib::Encoder::* )( ::alignlib::ResidueVector const & ) const
 +@member_function_t@decode@char ( ::alignlib::Encoder::* )( ::alignlib::Residue const ) constchar ( ::alignlib::Encoder::* )( ::alignlib::Residue const ) const
 +@member_function_t@getMinimum@::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::* )(  ) const::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::* )(  ) const
@@ -1023,6 +1110,7 @@
 ~@member_function_t@max_size@::size_t ( ::std::vector<double, std::allocator<double> >::* )(  ) const::size_t ( ::std::vector<double, std::allocator<double> >::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::size_t ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@max_size@::size_t ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const::size_t ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::std::vector<int, std::allocator<int> >::* )(  ) const::size_t ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) const::size_t ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const
@@ -1030,6 +1118,7 @@
 ~@member_function_t@max_size@::size_t ( ::__gnu_cxx::new_allocator<double>::* )(  ) const::size_t ( ::__gnu_cxx::new_allocator<double>::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::__gnu_cxx::new_allocator<std::string>::* )(  ) const::size_t ( ::__gnu_cxx::new_allocator<std::string>::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  ) const::size_t ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  ) const
+~@member_function_t@max_size@::size_t ( ::__gnu_cxx::new_allocator<unsigned int>::* )(  ) const::size_t ( ::__gnu_cxx::new_allocator<unsigned int>::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::__gnu_cxx::new_allocator<int>::* )(  ) const::size_t ( ::__gnu_cxx::new_allocator<int>::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::__gnu_cxx::new_allocator<unsigned long>::* )(  ) const::size_t ( ::__gnu_cxx::new_allocator<unsigned long>::* )(  ) const
 ~@member_function_t@max_size@::size_t ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )(  ) const::size_t ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )(  ) const
@@ -1042,6 +1131,7 @@
 ~@member_function_t@empty@bool ( ::std::vector<double, std::allocator<double> >::* )(  ) constbool ( ::std::vector<double, std::allocator<double> >::* )(  ) const
 ~@member_function_t@empty@bool ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) constbool ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@empty@bool ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) constbool ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@empty@bool ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) constbool ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@empty@bool ( ::std::vector<int, std::allocator<int> >::* )(  ) constbool ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@empty@bool ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) constbool ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) const
 ~@member_function_t@empty@bool ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) constbool ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const
@@ -1057,6 +1147,8 @@
 ~@member_function_t@back@::std::string const & ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@back@::boost::shared_ptr< alignlib::Alignatum > & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) ::boost::shared_ptr<alignlib::Alignatum> & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
 ~@member_function_t@back@::boost::shared_ptr< alignlib::Alignatum > const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::boost::shared_ptr<alignlib::Alignatum> const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@back@unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
+~@member_function_t@back@unsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) constunsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@back@int & ( ::std::vector<int, std::allocator<int> >::* )(  ) int & ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@back@int const & ( ::std::vector<int, std::allocator<int> >::* )(  ) constint const & ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@back@long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
@@ -1085,10 +1177,13 @@
 ~@member_function_t@removeOffset@::alignlib::Position ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::Position const &,::alignlib::Position const & ) const::alignlib::Position ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::Position const &,::alignlib::Position const & ) const
 ~@member_function_t@_M_leak_hard@void ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) void ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) 
 +@member_function_t@row_begin@::alignlib::const_countable_iterator< int > ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const::alignlib::const_countable_iterator<int> ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const
++@member_function_t@align@void ( ::alignlib::MultipleAlignator::* )( ::alignlib::HMultAlignment &,::alignlib::HAlignandumVector const & ) constvoid ( ::alignlib::MultipleAlignator::* )( ::alignlib::HMultAlignment &,::alignlib::HAlignandumVector const & ) const
++@member_function_t@align@void ( ::alignlib::MultipleAlignator::* )( ::alignlib::HMultAlignment &,::alignlib::HStringVector const & ) constvoid ( ::alignlib::MultipleAlignator::* )( ::alignlib::HMultAlignment &,::alignlib::HStringVector const & ) const
 +@member_function_t@align@void ( ::alignlib::Alignator::* )( ::alignlib::HAlignment &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const & ) void ( ::alignlib::Alignator::* )( ::alignlib::HAlignment &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const & ) 
 ~@member_function_t@_M_fill_insert@void ( ::std::vector<double, std::allocator<double> >::* )( ::__gnu_cxx::__normal_iterator< double*, std::vector< double > >,::size_t,double const & ) void ( ::std::vector<double, std::allocator<double> >::* )( ::__gnu_cxx::__normal_iterator<double*,std::vector<double, std::allocator<double> > >,::size_t,double const & ) 
 ~@member_function_t@_M_fill_insert@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator< std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > >,::size_t,::std::string const & ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator<std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >,::size_t,::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@_M_fill_insert@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >,::size_t,::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > >,::size_t,::boost::shared_ptr<alignlib::Alignatum> const & ) 
+~@member_function_t@_M_fill_insert@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >,::size_t,unsigned int const & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >,::size_t,unsigned int const & ) 
 ~@member_function_t@_M_fill_insert@void ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator< int*, std::vector< int > >,::size_t,int const & ) void ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > >,::size_t,int const & ) 
 ~@member_function_t@_M_fill_insert@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > >,::size_t,long unsigned int const & ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > >,::size_t,long unsigned int const & ) 
 ~@member_function_t@_M_fill_insert@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignment >, std::vector< boost::shared_ptr<alignlib::Alignment> > >,::size_t,::boost::shared_ptr< alignlib::Alignment > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignment>*,std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > > >,::size_t,::boost::shared_ptr<alignlib::Alignment> const & ) 
@@ -1096,7 +1191,6 @@
 +@member_function_t@getValue@int ( ::alignlib::Matrix<int>::* )( unsigned int,unsigned int ) constint ( ::alignlib::Matrix<int>::* )( unsigned int,unsigned int ) const
 +@member_function_t@getValue@unsigned int ( ::alignlib::Matrix<unsigned int>::* )( unsigned int,unsigned int ) constunsigned int ( ::alignlib::Matrix<unsigned int>::* )( unsigned int,unsigned int ) const
 +@member_function_t@setNumLeaves@void ( ::alignlib::Tree::* )( unsigned int ) void ( ::alignlib::Tree::* )( unsigned int ) 
-+@member_function_t@setLength@void ( ::alignlib::MultipleAlignment::* )( ::alignlib::Position ) void ( ::alignlib::MultipleAlignment::* )( ::alignlib::Position ) 
 +@member_function_t@col_end@::alignlib::const_countable_iterator< int > ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const::alignlib::const_countable_iterator<int> ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const
 ~@member_function_t@_M_refdata@char * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )(  ) char * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep::* )(  ) 
 +@member_function_t@mapRowToCol@::alignlib::Position ( ::alignlib::Alignment::* )( ::alignlib::Position,::alignlib::SearchType ) const::alignlib::Position ( ::alignlib::Alignment::* )( ::alignlib::Position,::alignlib::SearchType ) const
@@ -1121,6 +1215,8 @@
 ~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >*, std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*, std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
 ~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const boost::shared_ptr<alignlib::Alignatum>*, std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
+~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const unsigned int*, std::vector< unsigned int > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< int*, std::vector< int > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< const int*, std::vector< int > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const::std::reverse_iterator<__gnu_cxx::__normal_iterator<const int*, std::vector<int, std::allocator<int> > > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@rend@::std::reverse_iterator< __gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) ::std::reverse_iterator<__gnu_cxx::__normal_iterator<long unsigned int*, std::vector<long unsigned int, std::allocator<long unsigned int> > > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
@@ -1138,6 +1234,7 @@
 ~@member_function_t@_M_fill_assign@void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t,double const & ) void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t,double const & ) 
 ~@member_function_t@_M_fill_assign@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t,::std::string const & ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t,::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@_M_fill_assign@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr<alignlib::Alignatum> const & ) 
+~@member_function_t@_M_fill_assign@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const & ) 
 ~@member_function_t@_M_fill_assign@void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const & ) void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const & ) 
 ~@member_function_t@_M_fill_assign@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t,long unsigned int const & ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t,long unsigned int const & ) 
 ~@member_function_t@_M_fill_assign@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t,::boost::shared_ptr< alignlib::Alignment > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t,::boost::shared_ptr<alignlib::Alignment> const & ) 
@@ -1148,6 +1245,8 @@
 ~@member_function_t@at@::std::string const & ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) const::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) const
 ~@member_function_t@at@::boost::shared_ptr< alignlib::Alignatum > & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) ::boost::shared_ptr<alignlib::Alignatum> & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) 
 ~@member_function_t@at@::boost::shared_ptr< alignlib::Alignatum > const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) const::boost::shared_ptr<alignlib::Alignatum> const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) const
+~@member_function_t@at@unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) 
+~@member_function_t@at@unsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) constunsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) const
 ~@member_function_t@at@int & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) int & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) 
 ~@member_function_t@at@int const & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) constint const & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) const
 ~@member_function_t@at@long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) 
@@ -1159,6 +1258,7 @@
 ~@member_function_t@_M_insert_aux@void ( ::std::vector<double, std::allocator<double> >::* )( ::__gnu_cxx::__normal_iterator< double*, std::vector< double > >,double const & ) void ( ::std::vector<double, std::allocator<double> >::* )( ::__gnu_cxx::__normal_iterator<double*,std::vector<double, std::allocator<double> > >,double const & ) 
 ~@member_function_t@_M_insert_aux@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator< std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > >,::std::string const & ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::__gnu_cxx::__normal_iterator<std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >,::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_function_t@_M_insert_aux@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > >,::boost::shared_ptr< alignlib::Alignatum > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > >,::boost::shared_ptr<alignlib::Alignatum> const & ) 
+~@member_function_t@_M_insert_aux@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > >,unsigned int const & ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >,unsigned int const & ) 
 ~@member_function_t@_M_insert_aux@void ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator< int*, std::vector< int > >,int const & ) void ( ::std::vector<int, std::allocator<int> >::* )( ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > >,int const & ) 
 ~@member_function_t@_M_insert_aux@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > >,long unsigned int const & ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > >,long unsigned int const & ) 
 ~@member_function_t@_M_insert_aux@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignment >, std::vector< boost::shared_ptr<alignlib::Alignment> > >,::boost::shared_ptr< alignlib::Alignment > const & ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignment>*,std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > > >,::boost::shared_ptr<alignlib::Alignment> const & ) 
@@ -1166,6 +1266,7 @@
 ~@member_function_t@get_allocator@::std::allocator< std::string > ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )(  ) const::std::allocator<std::string> ( ::std::_Vector_base<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@get_allocator@::std::allocator< char > ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) const::std::allocator<char> ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) const
 ~@member_function_t@get_allocator@::std::allocator< boost::shared_ptr< alignlib::Alignatum > > ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::std::allocator<boost::shared_ptr<alignlib::Alignatum> > ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@get_allocator@::std::allocator< unsigned int > ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )(  ) const::std::allocator<unsigned int> ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@get_allocator@::std::allocator< int > ( ::std::_Vector_base<int, std::allocator<int> >::* )(  ) const::std::allocator<int> ( ::std::_Vector_base<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@get_allocator@::std::allocator< unsigned long > ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )(  ) const::std::allocator<unsigned long> ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::* )(  ) const
 ~@member_function_t@get_allocator@::std::allocator< boost::shared_ptr< alignlib::Alignment > > ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const::std::allocator<boost::shared_ptr<alignlib::Alignment> > ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const
@@ -1192,6 +1293,8 @@
 ~@member_function_t@end@::__gnu_cxx::__normal_iterator< const std::basic_string< char, std::char_traits< char >, std::allocator< char > >, std::vector< std::string > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::__gnu_cxx::__normal_iterator<const std::basic_string<char, std::char_traits<char>, std::allocator<char> >*,std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > > ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@end@::__gnu_cxx::__normal_iterator< boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) ::__gnu_cxx::__normal_iterator<boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
 ~@member_function_t@end@::__gnu_cxx::__normal_iterator< const boost::shared_ptr< alignlib::Alignatum >, std::vector< boost::shared_ptr<alignlib::Alignatum> > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::__gnu_cxx::__normal_iterator<const boost::shared_ptr<alignlib::Alignatum>*,std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > > ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@end@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
+~@member_function_t@end@::__gnu_cxx::__normal_iterator< const unsigned int*, std::vector< unsigned int > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const::__gnu_cxx::__normal_iterator<const unsigned int*,std::vector<unsigned int, std::allocator<unsigned int> > > ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@end@::__gnu_cxx::__normal_iterator< int*, std::vector< int > > ( ::std::vector<int, std::allocator<int> >::* )(  ) ::__gnu_cxx::__normal_iterator<int*,std::vector<int, std::allocator<int> > > ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@end@::__gnu_cxx::__normal_iterator< const int*, std::vector< int > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const::__gnu_cxx::__normal_iterator<const int*,std::vector<int, std::allocator<int> > > ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@end@::__gnu_cxx::__normal_iterator< long unsigned int*, std::vector< long unsigned int > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) ::__gnu_cxx::__normal_iterator<long unsigned int*,std::vector<long unsigned int, std::allocator<long unsigned int> > > ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
@@ -1236,6 +1339,7 @@
 ~@member_function_t@destroy@void ( ::__gnu_cxx::new_allocator<double>::* )( double * ) void ( ::__gnu_cxx::new_allocator<double>::* )( double * ) 
 ~@member_function_t@destroy@void ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::string * ) void ( ::__gnu_cxx::new_allocator<std::string>::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > * ) 
 ~@member_function_t@destroy@void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr< alignlib::Alignatum > * ) void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::boost::shared_ptr<alignlib::Alignatum> * ) 
+~@member_function_t@destroy@void ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int * ) void ( ::__gnu_cxx::new_allocator<unsigned int>::* )( unsigned int * ) 
 ~@member_function_t@destroy@void ( ::__gnu_cxx::new_allocator<int>::* )( int * ) void ( ::__gnu_cxx::new_allocator<int>::* )( int * ) 
 ~@member_function_t@destroy@void ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int * ) void ( ::__gnu_cxx::new_allocator<unsigned long>::* )( long unsigned int * ) 
 ~@member_function_t@destroy@void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::boost::shared_ptr< alignlib::Alignment > * ) void ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::boost::shared_ptr<alignlib::Alignment> * ) 
@@ -1244,9 +1348,11 @@
 ~@member_function_t@getData@int * ( ::alignlib::Matrix<int>::* )(  ) constint * ( ::alignlib::Matrix<int>::* )(  ) const
 ~@member_function_t@getData@unsigned int * ( ::alignlib::Matrix<unsigned int>::* )(  ) constunsigned int * ( ::alignlib::Matrix<unsigned int>::* )(  ) const
 +@member_function_t@shrink@void ( ::alignlib::DistanceMatrix::* )(  ) void ( ::alignlib::DistanceMatrix::* )(  ) 
++@member_function_t@shrink@void ( ::alignlib::MultAlignment::* )(  ) void ( ::alignlib::MultAlignment::* )(  ) 
 ~@member_function_t@setData@void ( ::alignlib::Matrix<double>::* )( double * ) void ( ::alignlib::Matrix<double>::* )( double * ) 
 ~@member_function_t@setData@void ( ::alignlib::Matrix<int>::* )( int * ) void ( ::alignlib::Matrix<int>::* )( int * ) 
 ~@member_function_t@setData@void ( ::alignlib::Matrix<unsigned int>::* )( unsigned int * ) void ( ::alignlib::Matrix<unsigned int>::* )( unsigned int * ) 
++@member_function_t@map@void ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignment const &,::alignlib::CombinationMode const & ) void ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignment const &,::alignlib::CombinationMode const & ) 
 +@member_function_t@map@void ( ::alignlib::Alignment::* )( ::alignlib::HAlignment const &,::alignlib::CombinationMode const & ) void ( ::alignlib::Alignment::* )( ::alignlib::HAlignment const &,::alignlib::CombinationMode const & ) 
 +@member_function_t@map@::alignlib::HResidueVector ( ::alignlib::Encoder::* )( ::alignlib::HEncoder const & ) const::alignlib::HResidueVector ( ::alignlib::Encoder::* )( ::alignlib::HEncoder const & ) const
 +@member_function_t@setElement@void ( ::alignlib::DistanceMatrix::* )( ::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixValue ) void ( ::alignlib::DistanceMatrix::* )( ::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixValue ) 
@@ -1264,6 +1370,7 @@
 ~@member_function_t@capacity@::size_t ( ::std::vector<double, std::allocator<double> >::* )(  ) const::size_t ( ::std::vector<double, std::allocator<double> >::* )(  ) const
 ~@member_function_t@capacity@::size_t ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const::size_t ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) const
 ~@member_function_t@capacity@::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) const
+~@member_function_t@capacity@::size_t ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const::size_t ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) const
 ~@member_function_t@capacity@::size_t ( ::std::vector<int, std::allocator<int> >::* )(  ) const::size_t ( ::std::vector<int, std::allocator<int> >::* )(  ) const
 ~@member_function_t@capacity@::size_t ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) const::size_t ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) const
 ~@member_function_t@capacity@::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const::size_t ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) const
@@ -1273,6 +1380,7 @@
 +@member_function_t@row_front@::alignlib::Position ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const::alignlib::Position ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const
 +@member_function_t@expand@void ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignandumVector const & ) void ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignandumVector const & ) 
 +@member_function_t@setHeight@void ( ::alignlib::Tree::* )( ::alignlib::Node,::alignlib::TreeHeight ) void ( ::alignlib::Tree::* )( ::alignlib::Node,::alignlib::TreeHeight ) 
++@member_function_t@getColumnCounts@::alignlib::HCountVector ( ::alignlib::MultAlignment::* )(  ) const::alignlib::HCountVector ( ::alignlib::MultAlignment::* )(  ) const
 +@member_function_t@getMaskChar@char ( ::alignlib::Encoder::* )(  ) constchar ( ::alignlib::Encoder::* )(  ) const
 +@member_function_t@removeColRegion@void ( ::alignlib::Alignment::* )( ::alignlib::Position,::alignlib::Position ) void ( ::alignlib::Alignment::* )( ::alignlib::Position,::alignlib::Position ) 
 +@member_function_t@getMaximumPossibleDistance@::alignlib::DistanceMatrixValue ( ::alignlib::Distor::* )(  ) const::alignlib::DistanceMatrixValue ( ::alignlib::Distor::* )(  ) const
@@ -1283,6 +1391,7 @@
 ~@member_function_t@clear@void ( ::std::vector<double, std::allocator<double> >::* )(  ) void ( ::std::vector<double, std::allocator<double> >::* )(  ) 
 ~@member_function_t@clear@void ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )(  ) 
 ~@member_function_t@clear@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )(  ) 
+~@member_function_t@clear@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )(  ) 
 ~@member_function_t@clear@void ( ::std::vector<int, std::allocator<int> >::* )(  ) void ( ::std::vector<int, std::allocator<int> >::* )(  ) 
 ~@member_function_t@clear@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )(  ) 
 ~@member_function_t@clear@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )(  ) 
@@ -1290,6 +1399,7 @@
 +@member_function_t@mask@void ( ::alignlib::Alignandum::* )( ::alignlib::Position const &,::alignlib::Position const & ) void ( ::alignlib::Alignandum::* )( ::alignlib::Position const &,::alignlib::Position const & ) 
 +@member_function_t@setStorageType@void ( ::alignlib::Alignandum::* )( ::alignlib::StorageType const & ) void ( ::alignlib::Alignandum::* )( ::alignlib::StorageType const & ) 
 +@member_function_t@isValidChar@bool ( ::alignlib::Encoder::* )( char const ) constbool ( ::alignlib::Encoder::* )( char const ) const
++@member_function_t@getClone@::alignlib::HMultipleAlignator ( ::alignlib::MultipleAlignator::* )(  ) const::alignlib::HMultipleAlignator ( ::alignlib::MultipleAlignator::* )(  ) const
 +@member_function_t@getClone@::alignlib::HMultipleAlignment ( ::alignlib::MultipleAlignment::* )(  ) const::alignlib::HMultipleAlignment ( ::alignlib::MultipleAlignment::* )(  ) const
 +@member_function_t@getClone@::alignlib::HAlignator ( ::alignlib::Alignator::* )(  ) const::alignlib::HAlignator ( ::alignlib::Alignator::* )(  ) const
 +@member_function_t@getClone@::alignlib::HScorer ( ::alignlib::Scorer::* )(  ) const::alignlib::HScorer ( ::alignlib::Scorer::* )(  ) const
@@ -1307,6 +1417,7 @@
 ~@member_function_t@reserve@void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t ) void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t ) 
 ~@member_function_t@reserve@void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) void ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) 
 ~@member_function_t@reserve@void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) 
+~@member_function_t@reserve@void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) void ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) 
 ~@member_function_t@reserve@void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) void ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) 
 ~@member_function_t@reserve@void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) void ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) 
 ~@member_function_t@reserve@void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) void ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) 
@@ -1335,6 +1446,9 @@
 ~@constructor_t@MultipleAlignmentFormatPlain@ ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::std::istream & )  ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::std::istream & ) 
 ~@constructor_t@MultipleAlignmentFormatPlain@ ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::std::string const & )  ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::std::string const & ) 
 ~@constructor_t@MultipleAlignmentFormatPlain@ ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::alignlib::MultipleAlignmentFormatPlain const & )  ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::alignlib::MultipleAlignmentFormatPlain const & ) 
+~@constructor_t@__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > const & )  ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > const & ) 
+~@constructor_t@__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  )  ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) 
+~@constructor_t@__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( unsigned int * const & )  ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( unsigned int * const & ) 
 ~@constructor_t@__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::__gnu_cxx::__normal_iterator< char*, std::string > const & )  ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::__gnu_cxx::__normal_iterator<char*, std::string> const & ) 
 ~@constructor_t@__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  )  ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) 
 ~@constructor_t@__normal_iterator@ ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( char * const & )  ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( char * const & ) 
@@ -1369,6 +1483,8 @@
 ~@constructor_t@allocator@ ( ::std::allocator<std::string>::* )( ::std::allocator< std::string > const & )  ( ::std::allocator<std::string>::* )( ::std::allocator<std::string> const & ) 
 ~@constructor_t@allocator@ ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  )  ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  ) 
 ~@constructor_t@allocator@ ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::std::allocator< boost::shared_ptr< alignlib::Alignatum > > const & )  ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
+~@constructor_t@allocator@ ( ::std::allocator<unsigned int>::* )(  )  ( ::std::allocator<unsigned int>::* )(  ) 
+~@constructor_t@allocator@ ( ::std::allocator<unsigned int>::* )( ::std::allocator< unsigned int > const & )  ( ::std::allocator<unsigned int>::* )( ::std::allocator<unsigned int> const & ) 
 ~@constructor_t@allocator@ ( ::std::allocator<int>::* )(  )  ( ::std::allocator<int>::* )(  ) 
 ~@constructor_t@allocator@ ( ::std::allocator<int>::* )( ::std::allocator< int > const & )  ( ::std::allocator<int>::* )( ::std::allocator<int> const & ) 
 ~@constructor_t@allocator@ ( ::std::allocator<unsigned long>::* )(  )  ( ::std::allocator<unsigned long>::* )(  ) 
@@ -1386,12 +1502,16 @@
 +@constructor_t@AlignmentFormat@ ( ::alignlib::AlignmentFormat::* )( ::std::istream & )  ( ::alignlib::AlignmentFormat::* )( ::std::istream & ) 
 +@constructor_t@AlignmentFormat@ ( ::alignlib::AlignmentFormat::* )( ::std::string const & )  ( ::alignlib::AlignmentFormat::* )( ::std::string const & ) 
 +@constructor_t@AlignmentFormat@ ( ::alignlib::AlignmentFormat::* )( ::alignlib::AlignmentFormat const & )  ( ::alignlib::AlignmentFormat::* )( ::alignlib::AlignmentFormat const & ) 
+~@constructor_t@MultipleAlignator@ ( ::alignlib::MultipleAlignator::* )(  )  ( ::alignlib::MultipleAlignator::* )(  ) 
+~@constructor_t@MultipleAlignator@ ( ::alignlib::MultipleAlignator::* )( ::alignlib::MultipleAlignator const & )  ( ::alignlib::MultipleAlignator::* )( ::alignlib::MultipleAlignator const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<double, std::allocator<double> >::_Vector_impl::* )( ::std::_Vector_base< double, std::allocator< double > >::_Vector_impl const & )  ( ::std::_Vector_base<double, std::allocator<double> >::_Vector_impl::* )( ::std::_Vector_base<double, std::allocator<double> >::_Vector_impl const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<double, std::allocator<double> >::_Vector_impl::* )( ::std::allocator< double > const & )  ( ::std::_Vector_base<double, std::allocator<double> >::_Vector_impl::* )( ::std::allocator<double> const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<std::string, std::allocator<std::string> >::_Vector_impl::* )( ::std::_Vector_base< std::string, std::allocator< std::string > >::_Vector_impl const & )  ( ::std::_Vector_base<std::string, std::allocator<std::string> >::_Vector_impl::* )( ::std::_Vector_base<std::string, std::allocator<std::string> >::_Vector_impl const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<std::string, std::allocator<std::string> >::_Vector_impl::* )( ::std::allocator< std::string > const & )  ( ::std::_Vector_base<std::string, std::allocator<std::string> >::_Vector_impl::* )( ::std::allocator<std::string> const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )( ::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_Vector_impl const & )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )( ::std::allocator< boost::shared_ptr< alignlib::Alignatum > > const & )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
+~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )( ::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_Vector_impl const & )  ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl const & ) 
+~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )( ::std::allocator< unsigned int > const & )  ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )( ::std::allocator<unsigned int> const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )( ::std::_Vector_base< int, std::allocator< int > >::_Vector_impl const & )  ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )( ::std::allocator< int > const & )  ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )( ::std::allocator<int> const & ) 
 ~@constructor_t@_Vector_impl@ ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::_Vector_impl::* )( ::std::_Vector_base< unsigned long, std::allocator< unsigned long > >::_Vector_impl const & )  ( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::_Vector_impl::* )( ::std::_Vector_base<unsigned long, std::allocator<unsigned long> >::_Vector_impl const & ) 
@@ -1420,6 +1540,9 @@
 ~@constructor_t@_Vector_base@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > > const & )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > const & ) 
 ~@constructor_t@_Vector_base@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::allocator< boost::shared_ptr< alignlib::Alignatum > > const & )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
 ~@constructor_t@_Vector_base@ ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::std::allocator< boost::shared_ptr< alignlib::Alignatum > > const & )  ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::std::allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
+~@constructor_t@_Vector_base@ ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::std::_Vector_base< unsigned int, std::allocator< unsigned int > > const & )  ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> > const & ) 
+~@constructor_t@_Vector_base@ ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::std::allocator< unsigned int > const & )  ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::std::allocator<unsigned int> const & ) 
+~@constructor_t@_Vector_base@ ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,::std::allocator< unsigned int > const & )  ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,::std::allocator<unsigned int> const & ) 
 ~@constructor_t@_Vector_base@ ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::std::_Vector_base< int, std::allocator< int > > const & )  ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::std::_Vector_base<int, std::allocator<int> > const & ) 
 ~@constructor_t@_Vector_base@ ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::std::allocator< int > const & )  ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::std::allocator<int> const & ) 
 ~@constructor_t@_Vector_base@ ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::size_t,::std::allocator< int > const & )  ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::size_t,::std::allocator<int> const & ) 
@@ -1488,6 +1611,8 @@
 ~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<std::string>::* )( ::__gnu_cxx::new_allocator< std::string > const & )  ( ::__gnu_cxx::new_allocator<std::string>::* )( ::__gnu_cxx::new_allocator<std::string> const & ) 
 ~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  )  ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )(  ) 
 ~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > > const & )  ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
+~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<unsigned int>::* )(  )  ( ::__gnu_cxx::new_allocator<unsigned int>::* )(  ) 
+~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::__gnu_cxx::new_allocator< unsigned int > const & )  ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::__gnu_cxx::new_allocator<unsigned int> const & ) 
 ~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<int>::* )(  )  ( ::__gnu_cxx::new_allocator<int>::* )(  ) 
 ~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<int>::* )( ::__gnu_cxx::new_allocator< int > const & )  ( ::__gnu_cxx::new_allocator<int>::* )( ::__gnu_cxx::new_allocator<int> const & ) 
 ~@constructor_t@new_allocator@ ( ::__gnu_cxx::new_allocator<unsigned long>::* )(  )  ( ::__gnu_cxx::new_allocator<unsigned long>::* )(  ) 
@@ -1518,6 +1643,10 @@
 ~@constructor_t@vector@ ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr< alignlib::Alignatum > const &,::std::allocator< boost::shared_ptr< alignlib::Alignatum > > const & )  ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t,::boost::shared_ptr<alignlib::Alignatum> const &,::std::allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
 ~@constructor_t@vector@ ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t )  ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) 
 ~@constructor_t@vector@ ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::vector< boost::shared_ptr<alignlib::Alignatum> > const & )  ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > const & ) 
+~@constructor_t@vector@ ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::allocator< unsigned int > const & )  ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::allocator<unsigned int> const & ) 
+~@constructor_t@vector@ ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const &,::std::allocator< unsigned int > const & )  ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t,unsigned int const &,::std::allocator<unsigned int> const & ) 
+~@constructor_t@vector@ ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t )  ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) 
+~@constructor_t@vector@ ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::vector< unsigned int > const & )  ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::vector<unsigned int, std::allocator<unsigned int> > const & ) 
 ~@constructor_t@vector@ ( ::std::vector<int, std::allocator<int> >::* )( ::std::allocator< int > const & )  ( ::std::vector<int, std::allocator<int> >::* )( ::std::allocator<int> const & ) 
 ~@constructor_t@vector@ ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const &,::std::allocator< int > const & )  ( ::std::vector<int, std::allocator<int> >::* )( ::size_t,int const &,::std::allocator<int> const & ) 
 ~@constructor_t@vector@ ( ::std::vector<int, std::allocator<int> >::* )( ::size_t )  ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) 
@@ -1567,29 +1696,39 @@
 ~@free_operator_t@operator>>@::std::istream & (*)( ::std::istream &,::alignlib::MultAlignmentFormat & )::std::istream & (*)( ::std::istream &,::alignlib::MultAlignmentFormat & )
 ~@free_operator_t@operator>>@::std::istream & (*)( ::std::istream &,::alignlib::MultipleAlignmentFormat & )::std::istream & (*)( ::std::istream &,::alignlib::MultipleAlignmentFormat & )
 ~@free_operator_t@operator>>@::std::istream & (*)( ::std::istream &,::alignlib::AlignmentFormat & )::std::istream & (*)( ::std::istream &,::alignlib::AlignmentFormat & )
+~@member_operator_t@operator-=@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) 
 ~@member_operator_t@operator-=@::__gnu_cxx::__normal_iterator< char*, std::string > & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) ::__gnu_cxx::__normal_iterator<char*, std::string> & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) 
 ~@member_operator_t@operator++@::alignlib::AlignmentIterator & ( ::alignlib::AlignmentIterator::* )(  ) ::alignlib::AlignmentIterator & ( ::alignlib::AlignmentIterator::* )(  ) 
 ~@member_operator_t@operator++@::alignlib::AlignmentIterator ( ::alignlib::AlignmentIterator::* )( int ) ::alignlib::AlignmentIterator ( ::alignlib::AlignmentIterator::* )( int ) 
+~@member_operator_t@operator++@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) 
+~@member_operator_t@operator++@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( int ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( int ) 
 ~@member_operator_t@operator++@::__gnu_cxx::__normal_iterator< char*, std::string > & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) ::__gnu_cxx::__normal_iterator<char*, std::string> & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) 
 ~@member_operator_t@operator++@::__gnu_cxx::__normal_iterator< char*, std::string > ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( int ) ::__gnu_cxx::__normal_iterator<char*, std::string> ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( int ) 
 ~@member_operator_t@operator->@::alignlib::ResiduePair const * ( ::alignlib::AlignmentIterator::* )(  ) const::alignlib::ResiduePair const * ( ::alignlib::AlignmentIterator::* )(  ) const
+~@member_operator_t@operator->@unsigned int * ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) constunsigned int * ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) const
 ~@member_operator_t@operator->@char * ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) constchar * ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) const
 +@member_operator_t@operator!=@bool ( ::alignlib::AlignmentIterator::* )( ::alignlib::AlignmentIterator const & ) constbool ( ::alignlib::AlignmentIterator::* )( ::alignlib::AlignmentIterator const & ) const
 ~@member_operator_t@operator+=@::std::string & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::string const & ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) 
 ~@member_operator_t@operator+=@::std::string & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char const * ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char const * ) 
 ~@member_operator_t@operator+=@::std::string & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char ) 
+~@member_operator_t@operator+=@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) 
 ~@member_operator_t@operator+=@::__gnu_cxx::__normal_iterator< char*, std::string > & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) ::__gnu_cxx::__normal_iterator<char*, std::string> & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) 
 ~@member_operator_t@operator--@::alignlib::AlignmentIterator & ( ::alignlib::AlignmentIterator::* )(  ) ::alignlib::AlignmentIterator & ( ::alignlib::AlignmentIterator::* )(  ) 
 ~@member_operator_t@operator--@::alignlib::AlignmentIterator ( ::alignlib::AlignmentIterator::* )( int ) ::alignlib::AlignmentIterator ( ::alignlib::AlignmentIterator::* )( int ) 
+~@member_operator_t@operator--@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) 
+~@member_operator_t@operator--@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( int ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( int ) 
 ~@member_operator_t@operator--@::__gnu_cxx::__normal_iterator< char*, std::string > & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) ::__gnu_cxx::__normal_iterator<char*, std::string> & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) 
 ~@member_operator_t@operator--@::__gnu_cxx::__normal_iterator< char*, std::string > ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( int ) ::__gnu_cxx::__normal_iterator<char*, std::string> ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( int ) 
 +@member_operator_t@operator==@bool ( ::alignlib::Matrix<double>::* )( ::alignlib::Matrix< double > const & ) constbool ( ::alignlib::Matrix<double>::* )( ::alignlib::Matrix<double> const & ) const
 +@member_operator_t@operator==@bool ( ::alignlib::Matrix<int>::* )( ::alignlib::Matrix< int > const & ) constbool ( ::alignlib::Matrix<int>::* )( ::alignlib::Matrix<int> const & ) const
 +@member_operator_t@operator==@bool ( ::alignlib::AlignmentIterator::* )( ::alignlib::AlignmentIterator const & ) constbool ( ::alignlib::AlignmentIterator::* )( ::alignlib::AlignmentIterator const & ) const
 +@member_operator_t@operator==@bool ( ::alignlib::Matrix<unsigned int>::* )( ::alignlib::Matrix< unsigned int > const & ) constbool ( ::alignlib::Matrix<unsigned int>::* )( ::alignlib::Matrix<unsigned int> const & ) const
+~@member_operator_t@operator+@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) const::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) const
 ~@member_operator_t@operator+@::__gnu_cxx::__normal_iterator< char*, std::string > ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) const::__gnu_cxx::__normal_iterator<char*, std::string> ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) const
 ~@member_operator_t@operator*@::alignlib::ResiduePair const & ( ::alignlib::AlignmentIterator::* )(  ) const::alignlib::ResiduePair const & ( ::alignlib::AlignmentIterator::* )(  ) const
+~@member_operator_t@operator*@unsigned int & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) constunsigned int & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )(  ) const
 ~@member_operator_t@operator*@char & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) constchar & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )(  ) const
+~@member_operator_t@operator-@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) const::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) const
 ~@member_operator_t@operator-@::__gnu_cxx::__normal_iterator< char*, std::string > ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) const::__gnu_cxx::__normal_iterator<char*, std::string> ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) const
 ~@member_operator_t@operator[]@double * ( ::alignlib::Matrix<double>::* )( unsigned int ) double * ( ::alignlib::Matrix<double>::* )( unsigned int ) 
 ~@member_operator_t@operator[]@double const * ( ::alignlib::Matrix<double>::* )( unsigned int ) constdouble const * ( ::alignlib::Matrix<double>::* )( unsigned int ) const
@@ -1606,6 +1745,8 @@
 ~@member_operator_t@operator[]@::std::string const & ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) const::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::size_t ) const
 ~@member_operator_t@operator[]@::boost::shared_ptr< alignlib::Alignatum > & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) ::boost::shared_ptr<alignlib::Alignatum> & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) 
 ~@member_operator_t@operator[]@::boost::shared_ptr< alignlib::Alignatum > const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) const::boost::shared_ptr<alignlib::Alignatum> const & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::size_t ) const
+~@member_operator_t@operator[]@unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) unsigned int & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) 
+~@member_operator_t@operator[]@unsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) constunsigned int const & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::size_t ) const
 ~@member_operator_t@operator[]@int & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) int & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) 
 ~@member_operator_t@operator[]@int const & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) constint const & ( ::std::vector<int, std::allocator<int> >::* )( ::size_t ) const
 ~@member_operator_t@operator[]@long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) long unsigned int & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::size_t ) 
@@ -1614,6 +1755,7 @@
 ~@member_operator_t@operator[]@::boost::shared_ptr< alignlib::Alignment > const & ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) const::boost::shared_ptr<alignlib::Alignment> const & ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::size_t ) const
 ~@member_operator_t@operator[]@char const & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t ) constchar const & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t ) const
 ~@member_operator_t@operator[]@char & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t ) char & ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t ) 
+~@member_operator_t@operator[]@unsigned int & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) constunsigned int & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::ptrdiff_t const & ) const
 ~@member_operator_t@operator[]@char & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) constchar & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::ptrdiff_t const & ) const
 +@member_operator_t@operator=@::alignlib::Matrix< double > & ( ::alignlib::Matrix<double>::* )( ::alignlib::Matrix< double > const & ) ::alignlib::Matrix<double> & ( ::alignlib::Matrix<double>::* )( ::alignlib::Matrix<double> const & ) 
 +@member_operator_t@operator=@::alignlib::LogOddor & ( ::alignlib::LogOddor::* )( ::alignlib::LogOddor const & ) ::alignlib::LogOddor & ( ::alignlib::LogOddor::* )( ::alignlib::LogOddor const & ) 
@@ -1633,6 +1775,7 @@
 +@member_operator_t@operator=@::alignlib::AlignmentIterator & ( ::alignlib::AlignmentIterator::* )( ::alignlib::AlignmentIterator const & ) ::alignlib::AlignmentIterator & ( ::alignlib::AlignmentIterator::* )( ::alignlib::AlignmentIterator const & ) 
 +@member_operator_t@operator=@::alignlib::AlignmentFormatExplicit & ( ::alignlib::AlignmentFormatExplicit::* )( ::alignlib::AlignmentFormatExplicit const & ) ::alignlib::AlignmentFormatExplicit & ( ::alignlib::AlignmentFormatExplicit::* )( ::alignlib::AlignmentFormatExplicit const & ) 
 +@member_operator_t@operator=@::alignlib::AlignmentFormatBlat & ( ::alignlib::AlignmentFormatBlat::* )( ::alignlib::AlignmentFormatBlat const & ) ::alignlib::AlignmentFormatBlat & ( ::alignlib::AlignmentFormatBlat::* )( ::alignlib::AlignmentFormatBlat const & ) 
++@member_operator_t@operator=@::alignlib::MultipleAlignator & ( ::alignlib::MultipleAlignator::* )( ::alignlib::MultipleAlignator const & ) ::alignlib::MultipleAlignator & ( ::alignlib::MultipleAlignator::* )( ::alignlib::MultipleAlignator const & ) 
 +@member_operator_t@operator=@::alignlib::MultipleAlignment & ( ::alignlib::MultipleAlignment::* )( ::alignlib::MultipleAlignment const & ) ::alignlib::MultipleAlignment & ( ::alignlib::MultipleAlignment::* )( ::alignlib::MultipleAlignment const & ) 
 +@member_operator_t@operator=@::alignlib::Coordinate & ( ::alignlib::Coordinate::* )( ::alignlib::Coordinate const & ) ::alignlib::Coordinate & ( ::alignlib::Coordinate::* )( ::alignlib::Coordinate const & ) 
 +@member_operator_t@operator=@::alignlib::Alignator & ( ::alignlib::Alignator::* )( ::alignlib::Alignator const & ) ::alignlib::Alignator & ( ::alignlib::Alignator::* )( ::alignlib::Alignator const & ) 
@@ -1661,6 +1804,7 @@
 ~@member_operator_t@operator=@::std::vector< double > & ( ::std::vector<double, std::allocator<double> >::* )( ::std::vector< double > const & ) ::std::vector<double, std::allocator<double> > & ( ::std::vector<double, std::allocator<double> >::* )( ::std::vector<double, std::allocator<double> > const & ) 
 ~@member_operator_t@operator=@::std::vector< std::string > & ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::std::vector< std::string > const & ) ::std::vector<std::string, std::allocator<std::string> > & ( ::std::vector<std::string, std::allocator<std::string> >::* )( ::std::vector<std::string, std::allocator<std::string> > const & ) 
 ~@member_operator_t@operator=@::std::vector< boost::shared_ptr<alignlib::Alignatum> > & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::vector< boost::shared_ptr<alignlib::Alignatum> > const & ) ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > & ( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::vector<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > const & ) 
+~@member_operator_t@operator=@::std::vector< unsigned int > & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::vector< unsigned int > const & ) ::std::vector<unsigned int, std::allocator<unsigned int> > & ( ::std::vector<unsigned int, std::allocator<unsigned int> >::* )( ::std::vector<unsigned int, std::allocator<unsigned int> > const & ) 
 ~@member_operator_t@operator=@::std::vector< int > & ( ::std::vector<int, std::allocator<int> >::* )( ::std::vector< int > const & ) ::std::vector<int, std::allocator<int> > & ( ::std::vector<int, std::allocator<int> >::* )( ::std::vector<int, std::allocator<int> > const & ) 
 ~@member_operator_t@operator=@::std::vector< unsigned long > & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::std::vector< unsigned long > const & ) ::std::vector<unsigned long, std::allocator<unsigned long> > & ( ::std::vector<unsigned long, std::allocator<unsigned long> >::* )( ::std::vector<unsigned long, std::allocator<unsigned long> > const & ) 
 ~@member_operator_t@operator=@::std::vector< boost::shared_ptr<alignlib::Alignment> > & ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::std::vector< boost::shared_ptr<alignlib::Alignment> > const & ) ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > > & ( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > >::* )( ::std::vector<boost::shared_ptr<alignlib::Alignment>, std::allocator<boost::shared_ptr<alignlib::Alignment> > > const & ) 
@@ -1679,6 +1823,9 @@
 ~@member_operator_t@operator=@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_Vector_impl & ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )( ::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > >::_Vector_impl const & ) ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl & ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl::* )( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::_Vector_impl const & ) 
 ~@member_operator_t@operator=@::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > > & ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::_Vector_base< boost::shared_ptr< alignlib::Alignatum >, std::allocator< boost::shared_ptr< alignlib::Alignatum > > > const & ) ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > & ( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > >::* )( ::std::_Vector_base<boost::shared_ptr<alignlib::Alignatum>, std::allocator<boost::shared_ptr<alignlib::Alignatum> > > const & ) 
 ~@member_operator_t@operator=@::std::allocator< boost::shared_ptr< alignlib::Alignatum > > & ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::std::allocator< boost::shared_ptr< alignlib::Alignatum > > const & ) ::std::allocator<boost::shared_ptr<alignlib::Alignatum> > & ( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::std::allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
+~@member_operator_t@operator=@::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_Vector_impl & ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )( ::std::_Vector_base< unsigned int, std::allocator< unsigned int > >::_Vector_impl const & ) ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl & ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl::* )( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::_Vector_impl const & ) 
+~@member_operator_t@operator=@::std::_Vector_base< unsigned int, std::allocator< unsigned int > > & ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::std::_Vector_base< unsigned int, std::allocator< unsigned int > > const & ) ::std::_Vector_base<unsigned int, std::allocator<unsigned int> > & ( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> >::* )( ::std::_Vector_base<unsigned int, std::allocator<unsigned int> > const & ) 
+~@member_operator_t@operator=@::std::allocator< unsigned int > & ( ::std::allocator<unsigned int>::* )( ::std::allocator< unsigned int > const & ) ::std::allocator<unsigned int> & ( ::std::allocator<unsigned int>::* )( ::std::allocator<unsigned int> const & ) 
 ~@member_operator_t@operator=@::std::exception & ( ::std::exception::* )( ::std::exception const & ) ::std::exception & ( ::std::exception::* )( ::std::exception const & ) 
 ~@member_operator_t@operator=@::std::_Vector_base< int, std::allocator< int > >::_Vector_impl & ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )( ::std::_Vector_base< int, std::allocator< int > >::_Vector_impl const & ) ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl & ( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl::* )( ::std::_Vector_base<int, std::allocator<int> >::_Vector_impl const & ) 
 ~@member_operator_t@operator=@::std::_Vector_base< int, std::allocator< int > > & ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::std::_Vector_base< int, std::allocator< int > > const & ) ::std::_Vector_base<int, std::allocator<int> > & ( ::std::_Vector_base<int, std::allocator<int> >::* )( ::std::_Vector_base<int, std::allocator<int> > const & ) 
@@ -1695,10 +1842,12 @@
 ~@member_operator_t@operator=@::std::bidirectional_iterator_tag & ( ::std::bidirectional_iterator_tag::* )( ::std::bidirectional_iterator_tag const & ) ::std::bidirectional_iterator_tag & ( ::std::bidirectional_iterator_tag::* )( ::std::bidirectional_iterator_tag const & ) 
 ~@member_operator_t@operator=@::std::forward_iterator_tag & ( ::std::forward_iterator_tag::* )( ::std::forward_iterator_tag const & ) ::std::forward_iterator_tag & ( ::std::forward_iterator_tag::* )( ::std::forward_iterator_tag const & ) 
 ~@member_operator_t@operator=@::std::input_iterator_tag & ( ::std::input_iterator_tag::* )( ::std::input_iterator_tag const & ) ::std::input_iterator_tag & ( ::std::input_iterator_tag::* )( ::std::input_iterator_tag const & ) 
+~@member_operator_t@operator=@::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::__gnu_cxx::__normal_iterator< unsigned int*, std::vector< unsigned int > > const & ) ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > & ( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > >::* )( ::__gnu_cxx::__normal_iterator<unsigned int*, std::vector<unsigned int, std::allocator<unsigned int> > > const & ) 
 ~@member_operator_t@operator=@::__gnu_cxx::new_allocator< double > & ( ::__gnu_cxx::new_allocator<double>::* )( ::__gnu_cxx::new_allocator< double > const & ) ::__gnu_cxx::new_allocator<double> & ( ::__gnu_cxx::new_allocator<double>::* )( ::__gnu_cxx::new_allocator<double> const & ) 
 ~@member_operator_t@operator=@::__gnu_cxx::__normal_iterator< char*, std::string > & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::__gnu_cxx::__normal_iterator< char*, std::string > const & ) ::__gnu_cxx::__normal_iterator<char*, std::string> & ( ::__gnu_cxx::__normal_iterator<char*, std::string>::* )( ::__gnu_cxx::__normal_iterator<char*, std::string> const & ) 
 ~@member_operator_t@operator=@::__gnu_cxx::new_allocator< std::string > & ( ::__gnu_cxx::new_allocator<std::string>::* )( ::__gnu_cxx::new_allocator< std::string > const & ) ::__gnu_cxx::new_allocator<std::string> & ( ::__gnu_cxx::new_allocator<std::string>::* )( ::__gnu_cxx::new_allocator<std::string> const & ) 
 ~@member_operator_t@operator=@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > > & ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignatum > > const & ) ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> > & ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> > const & ) 
+~@member_operator_t@operator=@::__gnu_cxx::new_allocator< unsigned int > & ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::__gnu_cxx::new_allocator< unsigned int > const & ) ::__gnu_cxx::new_allocator<unsigned int> & ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::__gnu_cxx::new_allocator<unsigned int> const & ) 
 ~@member_operator_t@operator=@::__gnu_cxx::new_allocator< int > & ( ::__gnu_cxx::new_allocator<int>::* )( ::__gnu_cxx::new_allocator< int > const & ) ::__gnu_cxx::new_allocator<int> & ( ::__gnu_cxx::new_allocator<int>::* )( ::__gnu_cxx::new_allocator<int> const & ) 
 ~@member_operator_t@operator=@::__gnu_cxx::new_allocator< unsigned long > & ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::__gnu_cxx::new_allocator< unsigned long > const & ) ::__gnu_cxx::new_allocator<unsigned long> & ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::__gnu_cxx::new_allocator<unsigned long> const & ) 
 ~@member_operator_t@operator=@::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > > & ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::__gnu_cxx::new_allocator< boost::shared_ptr< alignlib::Alignment > > const & ) ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> > & ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> > const & ) 
@@ -1738,6 +1887,7 @@
 +@free_function_t@makeLogOddorGribskov@::alignlib::HLogOddor (*)( ::alignlib::HSubstitutionMatrix const &,::alignlib::Score const &,::alignlib::Score const & )::alignlib::HLogOddor (*)( ::alignlib::HSubstitutionMatrix const &,::alignlib::Score const &,::alignlib::Score const & )
 +@free_function_t@addMappedAlignments2Alignment@void (*)( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::HAlignment const & )void (*)( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::HAlignment const & )
 +@free_function_t@setDefaultWeightor@void (*)( ::alignlib::HWeightor const & )void (*)( ::alignlib::HWeightor const & )
++@free_function_t@makeMultipleAlignatorSimple@::alignlib::HMultipleAlignator (*)( ::alignlib::HAlignator const & )::alignlib::HMultipleAlignator (*)( ::alignlib::HAlignator const & )
 +@free_function_t@makeLogOddorUniform@::alignlib::HLogOddor (*)( ::alignlib::Score const &,::alignlib::Score const & )::alignlib::HLogOddor (*)( ::alignlib::Score const &,::alignlib::Score const & )
 +@free_function_t@calculatePercentSimilarity@double (*)( ::alignlib::HAlignment const & )double (*)( ::alignlib::HAlignment const & )
 +@free_function_t@makeRegularizorDirichletPrecomputed@::alignlib::HRegularizor (*)( ::alignlib::Count )::alignlib::HRegularizor (*)( ::alignlib::Count )
@@ -1835,6 +1985,7 @@
 +@free_function_t@makeSubstitutionMatrixPam120@::alignlib::HSubstitutionMatrix (*)( ::alignlib::HEncoder const & )::alignlib::HSubstitutionMatrix (*)( ::alignlib::HEncoder const & )
 +@free_function_t@makeSubstitutionMatrixPam120@::alignlib::HSubstitutionMatrix (*)(  )::alignlib::HSubstitutionMatrix (*)(  )
 +@free_function_t@makePaletteMView@::alignlib::HPalette (*)(  )::alignlib::HPalette (*)(  )
++@free_function_t@makeMultipleAlignatorPileup@::alignlib::HMultipleAlignator (*)( ::alignlib::HAlignator const & )::alignlib::HMultipleAlignator (*)( ::alignlib::HAlignator const & )
 +@free_function_t@makeSubstitutionMatrix@::alignlib::HSubstitutionMatrix (*)( ::alignlib::ScoreVector const &,int,int )::alignlib::HSubstitutionMatrix (*)( ::alignlib::ScoreVector const &,int,int )
 +@free_function_t@makeSubstitutionMatrix@::alignlib::HSubstitutionMatrix (*)( int,::alignlib::Score const,::alignlib::Score const )::alignlib::HSubstitutionMatrix (*)( int,::alignlib::Score const,::alignlib::Score const )
 +@free_function_t@makeMultipleAlignment@::alignlib::HMultipleAlignment (*)(  )::alignlib::HMultipleAlignment (*)(  )

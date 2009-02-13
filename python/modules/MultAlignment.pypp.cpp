@@ -82,6 +82,15 @@ void register_MultAlignment_class(){
                 , getClone_function_type( &::alignlib::MultAlignment::getClone ) );
         
         }
+        { //::alignlib::MultAlignment::getColumnCounts
+        
+            typedef ::alignlib::HCountVector ( ::alignlib::MultAlignment::*getColumnCounts_function_type )(  ) const;
+            
+            MultAlignment_exposer.def( 
+                "getColumnCounts"
+                , getColumnCounts_function_type( &::alignlib::MultAlignment::getColumnCounts ) );
+        
+        }
         { //::alignlib::MultAlignment::getLength
         
             typedef ::alignlib::Position ( ::alignlib::MultAlignment::*getLength_function_type )(  ) const;
@@ -129,6 +138,15 @@ void register_MultAlignment_class(){
                 , ( bp::arg("row") ) );
         
         }
+        { //::alignlib::MultAlignment::getRowCounts
+        
+            typedef ::alignlib::HCountVector ( ::alignlib::MultAlignment::*getRowCounts_function_type )(  ) const;
+            
+            MultAlignment_exposer.def( 
+                "getRowCounts"
+                , getRowCounts_function_type( &::alignlib::MultAlignment::getRowCounts ) );
+        
+        }
         { //::alignlib::MultAlignment::isAligned
         
             typedef bool ( ::alignlib::MultAlignment::*isAligned_function_type )( ::alignlib::Position const & ) ;
@@ -146,6 +164,25 @@ void register_MultAlignment_class(){
             MultAlignment_exposer.def( 
                 "isEmpty"
                 , isEmpty_function_type( &::alignlib::MultAlignment::isEmpty ) );
+        
+        }
+        { //::alignlib::MultAlignment::map
+        
+            typedef void ( ::alignlib::MultAlignment::*map_function_type )( ::alignlib::HAlignment const &,::alignlib::CombinationMode const & ) ;
+            
+            MultAlignment_exposer.def( 
+                "map"
+                , map_function_type( &::alignlib::MultAlignment::map )
+                , ( bp::arg("other"), bp::arg("mode") ) );
+        
+        }
+        { //::alignlib::MultAlignment::shrink
+        
+            typedef void ( ::alignlib::MultAlignment::*shrink_function_type )(  ) ;
+            
+            MultAlignment_exposer.def( 
+                "shrink"
+                , shrink_function_type( &::alignlib::MultAlignment::shrink ) );
         
         }
         { //::alignlib::MultAlignment::write

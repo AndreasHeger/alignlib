@@ -920,6 +920,28 @@ void register_free_functions(){
     
     }
 
+    { //::alignlib::makeMultipleAlignatorPileup
+    
+        typedef ::alignlib::HMultipleAlignator ( *makeMultipleAlignatorPileup_function_type )( ::alignlib::HAlignator const & );
+        
+        bp::def( 
+            "makeMultipleAlignatorPileup"
+            , makeMultipleAlignatorPileup_function_type( &::alignlib::makeMultipleAlignatorPileup )
+            , ( bp::arg("alignator") ) );
+    
+    }
+
+    { //::alignlib::makeMultipleAlignatorSimple
+    
+        typedef ::alignlib::HMultipleAlignator ( *makeMultipleAlignatorSimple_function_type )( ::alignlib::HAlignator const & );
+        
+        bp::def( 
+            "makeMultipleAlignatorSimple"
+            , makeMultipleAlignatorSimple_function_type( &::alignlib::makeMultipleAlignatorSimple )
+            , ( bp::arg("alignator") ) );
+    
+    }
+
     { //::alignlib::makeMultipleAlignment
     
         typedef ::alignlib::HMultipleAlignment ( *makeMultipleAlignment_function_type )(  );

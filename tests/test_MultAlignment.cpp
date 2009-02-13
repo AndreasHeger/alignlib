@@ -72,6 +72,7 @@ void test_Expand0( const HMultAlignment & r )
 		clone2->expand( HAlignandumVector(new AlignandumVector()));
 		BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
 	}
+
 	// check for double expansion
 	{
 		HMultAlignment clone(r->getNew());
@@ -135,7 +136,6 @@ void test_Expand1(
 			ali_test->addDiagonal( 0,1,+2 );
 			ali_test->addDiagonal( 5,12,-2 );
 			BOOST_CHECK_EQUAL( checkAlignmentIdentity( ali_test, clone->getRow(0)), true);
-
 		}
 
 		{
@@ -157,6 +157,20 @@ void test_Expand1(
 			clone2->expand( HAlignandumVector(new AlignandumVector()));
 			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
 		}
+
+		// check if collapse gets us back to start
+		{
+			clone->shrink();
+			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, copy), true);
+		}
+
+		// check if collapse is not over-eager
+		{
+			clone->shrink();
+			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, copy), true);
+		}
+
+
 	}
 
 	// expansion within and outside of mali
@@ -203,6 +217,17 @@ void test_Expand1(
 			clone2->expand( seqs );
 			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
 		}
+		// check if collapse gets us back to start
+		{
+			clone->shrink();
+			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, copy), true);
+		}
+
+		// check if collapse is not over-eager
+		{
+			clone->shrink();
+			BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, copy), true);
+		}
 	}
 }
 
@@ -216,6 +241,8 @@ void test_GenericMultAlignment(
 		HMultAlignment clone(r->getNew());
 		BOOST_CHECK_EQUAL( clone->getLength(), 0);
 		BOOST_CHECK_EQUAL( clone->getNumSequences(), 0);
+		BOOST_CHECK_EQUAL( clone->getLength(), clone->getColumnCounts()->size() );
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), clone->getRowCounts()->size() );
 	}
 
 	// checking out-of-range access of an empty alignment
@@ -243,6 +270,20 @@ void test_GenericMultAlignment(
 		BOOST_CHECK_THROW( (*clone)[-1], AlignlibException);
 		for (int x = 0; x < nseqs; ++x)
 			BOOST_CHECK_EQUAL( clone->isAligned(x), true );
+
+		BOOST_CHECK_EQUAL( clone->getLength(), clone->getColumnCounts()->size() );
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), clone->getRowCounts()->size() );
+		{
+			HCountVector counts(clone->getColumnCounts());
+			for (int x = 0; x < counts->size(); ++x)
+				BOOST_CHECK_EQUAL( (*counts)[x], nseqs );
+		}
+		{
+			HCountVector counts(clone->getRowCounts());
+			for (int x = 0; x < counts->size(); ++x)
+				BOOST_CHECK_EQUAL( (*counts)[x], nseqs );
+		}
+
 	}
 
 	// check adding with gaps, out-of-range access and aligned columns
@@ -265,6 +306,24 @@ void test_GenericMultAlignment(
 		BOOST_CHECK_EQUAL( clone->getNumSequences(), nseqs);
 		BOOST_CHECK_THROW( (*clone)[nseqs+1], AlignlibException);
 		BOOST_CHECK_THROW( (*clone)[-1], AlignlibException);
+
+		BOOST_CHECK_EQUAL( clone->getLength(), clone->getColumnCounts()->size() );
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), clone->getRowCounts()->size() );
+		{
+			HCountVector counts(clone->getColumnCounts());
+			for (int x = 0; x < nseqs; ++x)
+				BOOST_CHECK_EQUAL( (*counts)[x], nseqs );
+			for (int x = 0; x < nseqs; ++x)
+				BOOST_CHECK_EQUAL( (*counts)[nseqs+x], nseqs - x - 1);
+			for (int x = 2*nseqs; x < 3*nseqs; ++x)
+				BOOST_CHECK_EQUAL( (*counts)[x], nseqs );
+		}
+		{
+			HCountVector counts(clone->getRowCounts());
+			for (int x = 0; x < counts->size(); ++x)
+				BOOST_CHECK_EQUAL( (*counts)[x], nseqs + nseqs + x);
+		}
+
 	}
 
 	// check adding mali to mali with gaps, out-of-range access and aligned columns

@@ -130,6 +130,29 @@ class MultAlignment
     virtual void expand(
     		const HAlignandumVector & sequences ) = 0;
 
+    /** shrink multiple alignment
+     *
+     * All columns that contain only one alignment positions will be removed.
+     * */
+    virtual void shrink() = 0;
+
+	/** apply a map to the multiple alignment.
+	 *
+	 * This method maps multiple alignment columns to new positions.
+	 *
+	 * The alignment mode denotes whether row or col are mapped.
+	 * Only alignment modes CR and RC are applicable.
+	 *
+	 * RC: multiple alignment column is replaced with corresponding R->C from other
+	 * CR: multiple alignment column is replaced with corresponding C->R from other.
+	 * @param other @ref Alignment to map with
+	 * @param mode Combination mode.
+	 *
+	 * */
+	virtual void map(
+			const HAlignment & other,
+			const CombinationMode & mode ) = 0;
+
     /*------------------- functions for adding new members to the multiple alignment---------*/
 
 
@@ -210,6 +233,24 @@ class MultAlignment
      * @return a position matrix.
      */
     virtual HPositionMatrix getPositionMatrix( const bool & transpose = false) const = 0;
+
+    /** return column counts.
+     *
+     *  Return a vector with the number of aligned residues per column
+     *
+     * @return a vector of counts.
+     */
+    virtual HCountVector getColumnCounts() const = 0;
+
+    /** return row counts.
+     *
+     *  Return a vector with the number of aligned residues per row
+     *
+     * @return a vector of counts.
+     */
+    virtual HCountVector getRowCounts() const = 0;
+
+
 };
 
 }

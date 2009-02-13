@@ -370,7 +370,7 @@ public:
 	 * RR: row is replaced with corresponding R->C from other
 	 * RC: row is replaced with corresponding C->R from other
 	 * CC: col is replaced with corresponding R->R from other
-	 * CR: col is replaced with corresonding R->C from other.
+	 * CR: col is replaced with corresponding R->C from other.
 	 * @param other @ref Alignment to map with
 	 * @param mode Combination mode.
 	 *
