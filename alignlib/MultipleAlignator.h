@@ -29,6 +29,7 @@
 #define MULTIPLEALIGNATOR_H 1
 
 #include "alignlib_fwd.h"
+#include "Macros.h"
 
 namespace alignlib
 {
@@ -72,10 +73,7 @@ namespace alignlib
       /** copy constructor */
       MultipleAlignator( const MultipleAlignator & src);
 
-      //------------------------------------------------------------------------------------------------------------
-      /** return an identical copy
-       */
-      virtual HMultipleAlignator getClone() const = 0;
+      DEFINE_ABSTRACT_CLONE( HMultipleAlignator );
 
       /** align @ref Alignandum objects and store result in @ref Alignment
        *

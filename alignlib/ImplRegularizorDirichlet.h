@@ -4,17 +4,17 @@
   $Id: ImplRegularizorDirichlet.h,v 1.2 2004/01/07 14:35:35 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -31,7 +31,7 @@
 #include "alignlib_fwd.h"
 #include "Regularizor.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
 #define ALPHABET_SIZE 20
@@ -44,31 +44,33 @@ namespace alignlib
   /** Implementation of a class that regularizes count columns based
       on the 9-component Dirichlet-mixture by Kimmen Sjoerlander. This
       profile is only defined for the 20 amino acid residues.
-      
+
       @author Andreas Heger
       @version $Id: ImplRegularizorDirichlet.h,v 1.2 2004/01/07 14:35:35 aheger Exp $
       @short protocol class for sequence weighters
-      
+
   */
 
-class ImplRegularizorDirichlet : public Regularizor 
+class ImplRegularizorDirichlet : public Regularizor
 {
  public:
     // constructors and desctructors
 
     /** default constructor */
-    ImplRegularizorDirichlet  ( Count fade_cutoff );
-    
+    ImplRegularizorDirichlet  ( const Count & fade_cutoff = -1 );
+
     /** copy constructor */
     ImplRegularizorDirichlet  (const ImplRegularizorDirichlet &);
 
     /** destructor */
     virtual ~ImplRegularizorDirichlet ();
-    
+
+    DEFINE_CLONE( HRegularizor );
+
     /** copy the counts into the frequencies and regularize them by doing so. */
-    virtual void fillFrequencies( FrequencyMatrix & frequencies, 
+    virtual void fillFrequencies( FrequencyMatrix & frequencies,
 				  				  const CountMatrix & counts,
-				  				  const HEncoder & encoder) const; 
+				  				  const HEncoder & encoder) const;
 
  private:
 
@@ -76,7 +78,7 @@ class ImplRegularizorDirichlet : public Regularizor
     Count mFadeCutoff;
 
  protected:
-    /** helper array, contains the |a_j|. Static, because I need only one for all regularizers. 
+    /** helper array, contains the |a_j|. Static, because I need only one for all regularizers.
 	declaring the array puts it not in the heap. Can not be private, because derived classes
 	need to access it. The same applies to mA.
     */
@@ -87,26 +89,26 @@ class ImplRegularizorDirichlet : public Regularizor
 
     /** helper array, contains lgamma(|a_j]) */
     double * mLGamma_Wa;
-    
+
     /** helper array, contains sum_i(lgamma(a_ji) */
     double * mSumLGamma_Ai;
 
     /** This function encapsulates that part of the algorithm, that needs to access the lgamma-function. It
 	has been externalized, so that it can be overloaded to implement different speed-ups.
-	
+
 	It returns the maximum difference.
 
 	The implemention here uses the lgamma-function directly and is therefore quite slow.
     */
     virtual double calculateBetaDifferences(  TYPE_BETA_DIFFERENCES beta_differences, const Count * n, Count ntotal ) const;
-    
+
     /** fill one frequencies column with the Dirichlet-Mixture */
-    virtual void fillColumn( Frequency * frequencies, 
-			     		     TYPE_BETA_DIFFERENCES beta_differences, 
-			     		     const Count * n, 
+    virtual void fillColumn( Frequency * frequencies,
+			     		     TYPE_BETA_DIFFERENCES beta_differences,
+			     		     const Count * n,
 			     		     Count ntotal,
 			     		     const HEncoder & encoder ) const;
-    
+
 };
 
 }

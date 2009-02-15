@@ -18,38 +18,42 @@
 #include <iosfwd>
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplTreetor.h"
 
-namespace alignlib 
+namespace alignlib
 {
-    
+
 /**
    Base class for algorithms that generate trees based on distance matrices.
-   
+
    This class needs a distance matrix to work on. The matrix is copied, when
    it is supplied in the factory function.
 
    @author Andreas Heger
    @version $Id: ImplTreetorDistance.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short contains a matrix
-*/ 
+*/
 
-class ImplTreetorDistance : public ImplTreetor 
+class ImplTreetorDistance : public ImplTreetor
 {
 
   /* class member functions-------------------------------------------------------------- */
  public:
   /* constructors and desctructors------------------------------------------------------- */
 
-  /** constructor */
-  ImplTreetorDistance( const HDistor & distor );
+	 /** constructor */
+	 ImplTreetorDistance();
+
+	 /** constructor */
+	 ImplTreetorDistance( const HDistor & distor );
 
   /** copy constructor */
   ImplTreetorDistance (const ImplTreetorDistance & src);
-  
+
   /** destructor */
   virtual ~ImplTreetorDistance ();
+
+  DEFINE_CLONE( HTreetor );
 
   /* member access functions--------------------------------------------------------------- */
   /** create a tree with distance in matrix. The algorithm is generic, the different clustering
@@ -60,13 +64,13 @@ class ImplTreetorDistance : public ImplTreetor
   */
 
   /** create a tree from a multiple alignment */
-  virtual void calculateTree( 
-		  HTree & dest, 
-		  const HMultipleAlignment & src) const; 
+  virtual void calculateTree(
+		  HTree & dest,
+		  const HMultipleAlignment & src) const;
 
  protected:
   /** initialize helper variables that you might need */
-  virtual void startUp( HTree & dest, 
+  virtual void startUp( HTree & dest,
 		  const HMultipleAlignment & src) const;
 
   /** clean up helper variables */
@@ -81,13 +85,13 @@ class ImplTreetorDistance : public ImplTreetor
   /** update the distance matrix and other helper variables */
   virtual void updateDistanceMatrix(
 		  const HTree & tree,
-		  DistanceMatrixSize cluster_1, 
+		  DistanceMatrixSize cluster_1,
 		  DistanceMatrixSize cluster_2 ) const = 0;
 
   /** join two nodes and return the index of the added node */
-  virtual Node joinNodes( 
+  virtual Node joinNodes(
 		  HTree & tree,
-		  DistanceMatrixSize cluster_i, 
+		  DistanceMatrixSize cluster_i,
 		  DistanceMatrixSize cluster_2 ) const = 0;
 
   // member data
@@ -108,10 +112,10 @@ class ImplTreetorDistance : public ImplTreetor
 
   /** working copy of distance matrix */
   mutable HDistanceMatrix mWorkMatrix;
-  
+
   /** indices, mapping rows in distance matrix to nodes in tree*/
   mutable Node * mIndices;
-  
+
 };
 
 }

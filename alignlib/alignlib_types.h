@@ -149,6 +149,16 @@ typedef unsigned long DistanceMatrixSize;
  */
 typedef enum { RR, RC, CR, CC } CombinationMode;
 
+/** enum describing various toolkits
+ *
+ */
+enum ToolkitType
+{
+	ProteinAlignment,
+	DNAAlignment,
+	Genomics
+};
+
 }
 
 #endif /*ALIGNLIB_DECLS_H_*/

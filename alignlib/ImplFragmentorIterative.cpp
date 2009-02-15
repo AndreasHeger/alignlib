@@ -42,22 +42,24 @@
 #include "Alignator.h"
 #include "HelpersAlignator.h"
 
+#include "HelpersToolkit.h"
+
 #include "ImplFragmentorIterative.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 /*---------------------factory functions ---------------------------------- */
 
 /** make an alignator object, which does a dot-alignment. The default version can be given an AlignmentMatrix-
       object */
-HFragmentor makeFragmentorIterative( 
-		const HAlignment & dots, 
-		Score min_score, 
-		Score gop, Score 
-		gep) 
+HFragmentor makeFragmentorIterative(
+		const HAlignment & dots,
+		Score min_score,
+		Score gop, Score
+		gep)
 {
 	return HFragmentor( new ImplFragmentorIterative( dots, min_score, gop, gep) );
 }
@@ -65,46 +67,56 @@ HFragmentor makeFragmentorIterative(
 
 //----------------------------------------------------------------------------------------------------
 
-ImplFragmentorIterative::ImplFragmentorIterative( 
-		const HAlignment & dots, 
-		Score min_score, 
-		Score gop, 
+ImplFragmentorIterative::ImplFragmentorIterative() :
+			ImplFragmentor(),
+			mDots(getDefaultToolkit()->getAlignment()),
+			mMinScore( 0),
+			mGop(0),
+			mGep(0) {
+		}
+
+ImplFragmentorIterative::ImplFragmentorIterative(
+		const HAlignment & dots,
+		Score min_score,
+		Score gop,
 		Score gep) :
 			ImplFragmentor(),
 			mDots(dots),
 			mMinScore( min_score),
-			mGop(gop), 
+			mGop(gop),
 			mGep(gep) {
 		}
 
 
-		ImplFragmentorIterative::~ImplFragmentorIterative() 
+		ImplFragmentorIterative::~ImplFragmentorIterative()
 		{
 			debug_func_cerr(5);
 
 		}
 
-		ImplFragmentorIterative::ImplFragmentorIterative( const ImplFragmentorIterative & src ) : 
-			ImplFragmentor(src), 
-			mDots(src.mDots), 
+		ImplFragmentorIterative::ImplFragmentorIterative( const ImplFragmentorIterative & src ) :
+			ImplFragmentor(src),
+			mDots(src.mDots),
 			mMinScore( src.mMinScore ),
 			mGop(src.mGop),
 			mGep(src.mGep) {
 		}
 
+		IMPLEMENT_CLONE( HFragmentor, ImplFragmentorIterative);
+
 		//------------------------------------------------------------------------------------------------
 		void ImplFragmentorIterative::performFragmentation(
 				const HAlignment & sample,
-				const HAlignandum & row, 
-				const HAlignandum & col ) 
+				const HAlignandum & row,
+				const HAlignandum & col )
 		{
 			// TODO: check for copy or reference
 			HAlignment original_dots = mDots;
-			// true, if mDots contains a copy of orignal alignata object. 
+			// true, if mDots contains a copy of orignal alignata object.
 			// Make sure, you do not delete it.
 			bool is_copy = false;
 
-			while ( 1 ) 
+			while ( 1 )
 			{
 				HAlignator dottor(makeAlignatorPrebuilt( mDots ));
 				HAlignator alignator(makeAlignatorDots( dottor, mGop, mGep ));
@@ -113,19 +125,19 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 				alignator->align( result, row, col );
 
 #ifdef DEBUG
-				cout << "starting alignment" << *mDots << endl;	
+				cout << "starting alignment" << *mDots << endl;
 				cout << "result" << *result << endl;
 #endif
 
-				if (result->getScore() >= mMinScore) 
+				if (result->getScore() >= mMinScore)
 				{
 					mFragments->push_back( result );
 
-					// delete dots from dot-plot. Delete all dots in region      
+					// delete dots from dot-plot. Delete all dots in region
 					HAlignment copy = makeAlignmentMatrixUnsorted();
 
-					copyAlignmentWithoutRegion( copy, 
-							mDots, 
+					copyAlignmentWithoutRegion( copy,
+							mDots,
 							result->getRowFrom(),
 							result->getRowTo(),
 							result->getColFrom(),
@@ -135,7 +147,7 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 					mDots = copy;
 					is_copy = true;
 
-				} else 
+				} else
 				{
 					break;
 				}

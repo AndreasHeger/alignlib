@@ -30,6 +30,7 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
+#include "Macros.h"
 
 namespace alignlib
 {
@@ -135,14 +136,7 @@ public:
 	/** destructor */
 	virtual ~Alignment();
 
-	//------------------------------------------------------------------------------------------------------------
-	/** returns a new empty Alignment of the same type.
-	 */
-	virtual HAlignment getNew() const = 0;
-
-	/** returns an identical copy
-	 */
-	virtual HAlignment getClone() const = 0;
+    DEFINE_ABSTRACT_CLONE( HAlignment );
 
 	//------------------------------------------------------------------------------------------------------------
 	/**

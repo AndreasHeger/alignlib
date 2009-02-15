@@ -44,21 +44,21 @@ HScorer makeScorer( )
 }
 
 //--------------------------------------------------------------------------------------
-ImplScorer::ImplScorer() 
+ImplScorer::ImplScorer()
 : Scorer()
 {
-	debug_func_cerr( 5 );		  
-}    
+	debug_func_cerr( 5 );
+}
 
 //--------------------------------------------------------------------------------------
-ImplScorer::ImplScorer( 
+ImplScorer::ImplScorer(
 		const HAlignandum & row,
 		const HAlignandum & col )
 : Scorer()
 {
 			debug_func_cerr( 5 );
 
-}    
+}
 
 //--------------------------------------------------------------------------------------
 ImplScorer::~ImplScorer ()
@@ -79,12 +79,9 @@ HScorer ImplScorer::getNew(
 	return makeScorer( row, col );
 }
 
-HScorer ImplScorer::getClone() const
-{
-	return HScorer( new ImplScorer(*this) ) ;
-}
+IMPLEMENT_CLONE( HScorer, ImplScorer );
 
-Score ImplScorer::getScore( Position row, Position col) const
+Score ImplScorer::getScore( const Position & row, const Position & col) const
 {
 	throw AlignlibException( "asked from a score from the default scorer ");
 }

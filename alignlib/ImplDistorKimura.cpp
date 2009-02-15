@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: ImplDistorKimura.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 
 #include <iostream>
@@ -22,57 +22,59 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 #define MAX_DIFFERENCE 0.85
 #define MAX_DISTANCE 5.2030
 
 //-------------------------> factory functions <-------------------------------------------------------------------------------
-HDistor makeDistorKimura() 
+HDistor makeDistorKimura()
 {
   return HDistor( new ImplDistorKimura() );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplDistorKimura::ImplDistorKimura () : ImplDistor() 
-{
-	debug_func_cerr( 5 );	
-}
-		       
-ImplDistorKimura::~ImplDistorKimura () 
+ImplDistorKimura::ImplDistorKimura () : ImplDistor()
 {
 	debug_func_cerr( 5 );
 }
 
-ImplDistorKimura::ImplDistorKimura (const ImplDistorKimura & src ) : 
+ImplDistorKimura::~ImplDistorKimura ()
+{
+	debug_func_cerr( 5 );
+}
+
+ImplDistorKimura::ImplDistorKimura (const ImplDistorKimura & src ) :
 	ImplDistor( src ) {
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------
+IMPLEMENT_CLONE( HDistor, ImplDistorKimura );
 
 //--------------------------------------------------------------------------------------------------------------------------------
-DistanceMatrixValue ImplDistorKimura::getMaximumPossibleDistance() const 
+DistanceMatrixValue ImplDistorKimura::getMaximumPossibleDistance() const
 {
     return MAX_DISTANCE;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 DistanceMatrixValue ImplDistorKimura::calculateDistance(
-		const std::string & s_row_1, 
-		const std::string & s_row_2) const 
+		const std::string & s_row_1,
+		const std::string & s_row_2) const
 		{
 
   unsigned int i;
   unsigned int identities = 0;		// number of identities
   unsigned int n_nongaps = 0;		// normalize over non-gap-positions
-  
+
   unsigned char gap_char = alignlib::getDefaultEncoder()->getGapChar();
-  
+
   for (i = 0; i < s_row_1.length(); i++) {
-    if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char)) 
+    if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char))
     {
       n_nongaps ++;
-      if (s_row_1[i] == s_row_2[i]) 
+      if (s_row_1[i] == s_row_2[i])
 	identities++;
     }
   }
@@ -86,8 +88,8 @@ DistanceMatrixValue ImplDistorKimura::calculateDistance(
     pdiff = 1.0 - (double)identities / (double)n_nongaps;
   else
     pdiff = 1.0;
-  
-  if (pdiff > MAX_DIFFERENCE) 
+
+  if (pdiff > MAX_DIFFERENCE)
     return MAX_DISTANCE;
   else
     return -log( 1.0 - pdiff - 0.2 * pdiff * pdiff);

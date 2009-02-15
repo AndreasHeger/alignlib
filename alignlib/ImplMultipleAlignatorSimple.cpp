@@ -61,8 +61,7 @@ namespace alignlib
   {
   }
 
-  HMultipleAlignator ImplMultipleAlignatorSimple::getClone() const
-  {	return HMultipleAlignator( new ImplMultipleAlignatorSimple(*this)); }
+  IMPLEMENT_CLONE( HMultipleAlignator, ImplMultipleAlignatorSimple );
 
   //--------------------------------------------------------------------------
   void ImplMultipleAlignatorSimple::align(

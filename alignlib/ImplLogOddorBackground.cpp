@@ -31,18 +31,19 @@
 #include "AlignlibDebug.h"
 #include "ImplLogOddorBackground.h"
 #include "HelpersLogOddor.h"
+#include "HelpersEncoder.h"
 #include "Matrix.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //---------------------------------------------------------< factory functions >--------------------------------------
-HLogOddor makeLogOddorBackground( 
+HLogOddor makeLogOddorBackground(
 		const HFrequencyVector & frequencies,
 		const std::string & alphabet,
-		const Score & scale, 
+		const Score & scale,
 		const Score & mask_value )
 {
 	return HLogOddor(new ImplLogOddorBackground( frequencies, alphabet,
@@ -53,58 +54,69 @@ HLogOddor makeLogOddorBackground(
 ImplLogOddorBackground::ImplLogOddorBackground (
 		const HFrequencyVector & frequencies,
 		const std::string & alphabet,
-		const Score & scale_factor, 
+		const Score & scale_factor,
 		const Score & mask_value ) :
 	ImplLogOddor( scale_factor, mask_value ),
 	mBackgroundFrequencies( frequencies ),
 	mAlphabet( alphabet )
 {
 	debug_func_cerr(5);
-	
+
 #ifdef DEBUG
 	debug_cerr( 5, "background frequencies for alphabet " << mAlphabet );
-	std::copy( mBackgroundFrequencies->begin(), 
-			mBackgroundFrequencies->end(), 
+	std::copy( mBackgroundFrequencies->begin(),
+			mBackgroundFrequencies->end(),
 			std::ostream_iterator<Score>(std::cerr, ",") );
 	std::cerr << std::endl;
 #endif
-	
+
 	if (mAlphabet.size() != mBackgroundFrequencies->size())
 		throw AlignlibException("ImplLogOddorBackground.cpp: alphabet and frequency vector have different sizes.");
 }
 
-ImplLogOddorBackground::~ImplLogOddorBackground () 
+ImplLogOddorBackground::ImplLogOddorBackground (
+		const Score & scale_factor,
+		const Score & mask_value ) :
+			ImplLogOddor( scale_factor, mask_value )
+{
+	mAlphabet = getDefaultEncoder()->getAlphabet();
+	mBackgroundFrequencies = HFrequencyVector( new FrequencyVector( mAlphabet.size(), 1.0 / mAlphabet.size()));
+}
+
+ImplLogOddorBackground::~ImplLogOddorBackground ()
 {
 }
 
 ImplLogOddorBackground::ImplLogOddorBackground (const ImplLogOddorBackground & src ) :
-	ImplLogOddor( src ), 
+	ImplLogOddor( src ),
 	mBackgroundFrequencies( src.mBackgroundFrequencies ),
 	mAlphabet( src.mAlphabet )
 	{
 	}
 
+IMPLEMENT_CLONE( HLogOddor, ImplLogOddorBackground );
+
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddorBackground::fillProfile( 
+void ImplLogOddorBackground::fillProfile(
 		ScoreMatrix & profile ,
 		const FrequencyMatrix & frequencies,
-		const HEncoder & encoder ) const 
+		const HEncoder & encoder ) const
 		{
 	debug_func_cerr(5);
-	
-	// simply take the frequencies and divide by background-frequencies and take log. 
+
+	// simply take the frequencies and divide by background-frequencies and take log.
 	// For frequencies of 0, MASK_VALUE is used.
 	Position length = frequencies.getNumRows();
 	Residue width   = frequencies.getNumCols();
-	
+
 	FrequencyVector & bg = *mBackgroundFrequencies;
 
 	// build map of residues to positions
 	HResidueVector map_alphabet2code = encoder->getMap( mAlphabet );
-	
+
 	// check if alphabet and background are congruent
 	assert( map_alphabet2code->size() == bg.size() );
-	
+
 	Residue gap_code = encoder->getGapCode();
 #ifdef DEBUG
 	debug_cerr( 5, "background frequencies");
@@ -112,21 +124,21 @@ void ImplLogOddorBackground::fillProfile(
 	std::cerr << std::endl;
 #endif
 
-	for (Position column = 0; column < length; column++) 
+	for (Position column = 0; column < length; column++)
 	{
 		const Frequency * fcolumn = frequencies.getRow(column);
 		Score * pcolumn = profile.getRow(column);
-		
+
 		// mask all undefined chars and with 0 frequency
 		for (Residue x = 0; x < width; ++x)
 			pcolumn[x] = mMaskValue;
-			
+
 		for (Residue i = 0; i < bg.size(); ++i)
 		{
 			Residue x = (*map_alphabet2code)[i];
 			if (x == gap_code)
 				continue;
-			Frequency f = fcolumn[x];	
+			Frequency f = fcolumn[x];
 			if (f > 0)
 				pcolumn[x] = log(f / bg[i]) / mScaleFactor;
 		}

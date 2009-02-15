@@ -26,11 +26,11 @@ namespace alignlib {
    @author Andreas Heger
    @version $Id: ImplDistanceMatrixSymmetric.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short contains a DistanceMatrix
-*/ 
+*/
 
 class ImplDistanceMatrixSymmetric : public ImplDistanceMatrix {
  public:
-  
+
   /* constructors and desctructors------------------------------------------------------- */
 
   /** empty constructor */
@@ -48,6 +48,8 @@ class ImplDistanceMatrixSymmetric : public ImplDistanceMatrix {
   /** destructor */
   virtual ~ImplDistanceMatrixSymmetric ();
 
+  DEFINE_CLONE( HDistanceMatrix );
+
   /* member access functions--------------------------------------------------------------- */
 
   /** delete last row/column from DistanceMatrix */
@@ -57,15 +59,15 @@ class ImplDistanceMatrixSymmetric : public ImplDistanceMatrix {
   virtual void swap( DistanceMatrixSize col_1, DistanceMatrixSize col_2 );
 
  protected:
-  
+
   /** get row for given index */
   virtual DistanceMatrixSize getRow( DistanceMatrixSize index ) const;
- 
+
   /** get column for given index */
   virtual DistanceMatrixSize getColumn( DistanceMatrixSize index ) const;
- 
+
   /** return mapped index for row and column */
-  virtual DistanceMatrixSize getIndex(DistanceMatrixSize row, DistanceMatrixSize col) const;   
+  virtual DistanceMatrixSize getIndex(DistanceMatrixSize row, DistanceMatrixSize col) const;
 
   /** calculate the size of the DistanceMatrix */
   virtual void calculateSize();

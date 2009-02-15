@@ -20,9 +20,9 @@
 
 #include "Treetor.h"
 
-namespace alignlib 
+namespace alignlib
 {
-    
+
 /**
    base class for algorithms that generate trees.
 
@@ -32,8 +32,8 @@ namespace alignlib
    @author Andreas Heger
    @version $Id: ImplTreetor.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short Algorithm class that generates trees.
-*/ 
-class ImplTreetor : public Treetor 
+*/
+class ImplTreetor : public Treetor
 {
 
   /* class member functions-------------------------------------------------------------- */
@@ -46,14 +46,14 @@ class ImplTreetor : public Treetor
 
   /** copy constructor */
   ImplTreetor (const ImplTreetor & src);
-  
+
   /** destructor */
   virtual ~ImplTreetor ();
 
   /** create a tree from a multiple alignment */
-  virtual void calculateTree( 
-		  HTree & dest, 
-		  const HMultipleAlignment & src ) const = 0; 
+  virtual void calculateTree(
+		  HTree & dest,
+		  const HMultipleAlignment & src ) const = 0;
 
  private:
 

@@ -33,24 +33,24 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplEncoder::ImplEncoder () : 
-	mAlphabetType( User ), mAlphabet( ""), mGapChars( "" ), mMaskChars(""), 
-	mTableSize(0), mEncodingTable(0), mDecodingTable(0), mAlphabetSize( 0 ) 
+ImplEncoder::ImplEncoder () :
+	mAlphabetType( User ), mAlphabet( ""), mGapChars( "" ), mMaskChars(""),
+	mTableSize(0), mEncodingTable(0), mDecodingTable(0), mAlphabetSize( 0 )
 	{
 	debug_func_cerr( 5 );
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplEncoder::~ImplEncoder () 
+ImplEncoder::~ImplEncoder ()
 {
 	debug_func_cerr( 5 );
 	if ( mEncodingTable != NULL )
 		delete [] mEncodingTable;
-	
+
 	if ( mDecodingTable != NULL )
 		delete [] mDecodingTable;
 }
@@ -64,19 +64,19 @@ ImplEncoder::ImplEncoder (const ImplEncoder & src ) :
 	mAlphabetSize( src.mAlphabetSize )
 {
 	debug_func_cerr( 5 );
-	
+
 	if (src.mEncodingTable != NULL)
 	{
 		mEncodingTable = new Residue[ mTableSize ];
-		memcpy( mEncodingTable, 
-				src.mEncodingTable, 
+		memcpy( mEncodingTable,
+				src.mEncodingTable,
 				sizeof(char) * mTableSize );
 		mDecodingTable = new char[ mTableSize ];
-		memcpy( mDecodingTable, 
-				src.mDecodingTable, 
+		memcpy( mDecodingTable,
+				src.mDecodingTable,
 				sizeof(char) * mTableSize );
-		
-		
+
+
 	}
 	mAlphabetType = src.mAlphabetType;
 }
@@ -86,29 +86,29 @@ ImplEncoder::ImplEncoder ( const AlphabetType & alphabet_type,
 								 const std::string & alphabet,
 								 const std::string & gap_chars,
 								 const std::string & mask_chars ) :
-									 mAlphabetType( alphabet_type ), 
-									 mAlphabet( alphabet ), 
+									 mAlphabetType( alphabet_type ),
+									 mAlphabet( alphabet ),
 									 mGapChars( gap_chars ),
 									 mMaskChars( mask_chars ),
 									 mEncodingTable( NULL ),
 									 mAlphabetSize( 0 )
 {
-	
+
 	debug_func_cerr( 5 );
-	
+
 	// assertions to check for empty input
 	if (mGapChars.size() == 0)
 		throw AlignlibException( "ImplEncoder.cpp: no gap characters specified.");
-	
+
 	if (mMaskChars.size() == 0)
 		throw AlignlibException( "ImplEncoder.cpp: no mask characters specified.");
-	
+
 	if (mAlphabet.size() == 0 )
 		throw AlignlibException( "ImplEncoder.cpp: alphabet is empty.");
-	
+
 	// build encoding and decoding table
 	mTableSize = std::numeric_limits<char>::max();
-		
+
 	mEncodingTable = new Residue[ mTableSize + 1 ];
 	mDecodingTable = new char[ mTableSize + 1];
 
@@ -118,7 +118,7 @@ ImplEncoder::ImplEncoder ( const AlphabetType & alphabet_type,
 		mDecodingTable[x] = mMaskChars[0];
 	}
 	 mAlphabetSize = 0;
-	
+
 	for ( Residue x = 0; x < mAlphabet.size() ; ++x)
 	{
 		mEncodingTable[(unsigned int)toupper(mAlphabet[x])] = mAlphabetSize;
@@ -126,10 +126,10 @@ ImplEncoder::ImplEncoder ( const AlphabetType & alphabet_type,
 		mDecodingTable[mAlphabetSize] = mAlphabet[x];
 		++mAlphabetSize;
 	}
-	
+
 	Residue mask_code = mAlphabetSize;
-	char mask_char = mMaskChars[0]; 
-	
+	char mask_char = mMaskChars[0];
+
 	// masking characters can appear in the alphabet (to ensure they use a specific index)
 	for ( Residue x = 0; x < mMaskChars.size() ; ++x)
 	{
@@ -141,37 +141,40 @@ ImplEncoder::ImplEncoder ( const AlphabetType & alphabet_type,
 			++mAlphabetSize;
 		}
 	}
-		
+
 	// set all unknown characters to the masking character
 	for ( Residue x = 0; x <= mTableSize; ++x )
 		if (mEncodingTable[x] == mTableSize)
 			mEncodingTable[x] = mask_code;
-	
+
 	// map gap characters to maximum index
 	for ( Residue x = 0; x < mGapChars.size(); ++x)
 		mEncodingTable[(unsigned int)mGapChars[x]] = mTableSize;
 	mDecodingTable[mTableSize] = mGapChars[0];
-	
+
 	mGapCode = encode( mGapChars[0] );
 	mMaskCode = encode( mMaskChars[0] );
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
+IMPLEMENT_CLONE( HEncoder, ImplEncoder );
+
+//--------------------------------------------------------------------------------------------------------------------------------
 char ImplEncoder::operator[]( const Residue & residue ) const
 {
-	return mDecodingTable[residue]; 
+	return mDecodingTable[residue];
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 Residue ImplEncoder::operator[]( const char & c ) const
 {
-	return mEncodingTable[(unsigned int)c]; 	
+	return mEncodingTable[(unsigned int)c];
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-char ImplEncoder::decode( const Residue residue) const 
-{ 
-	return mDecodingTable[residue]; 
+char ImplEncoder::decode( const Residue residue) const
+{
+	return mDecodingTable[residue];
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -179,7 +182,7 @@ Position ImplEncoder::countChars( const std::string & ali ) const
 {
 
 	Position nchars = 0;
-	for (unsigned int i = 0; i < ali.size(); i++) 
+	for (unsigned int i = 0; i < ali.size(); i++)
 		if (encode(ali[i]) != mGapCode)
 			++nchars;
 	return nchars;
@@ -187,30 +190,30 @@ Position ImplEncoder::countChars( const std::string & ali ) const
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplEncoder::decode( const ResidueVector & src ) const 
+std::string ImplEncoder::decode( const ResidueVector & src ) const
 {
 	debug_func_cerr(5);
 
 	char * result = new char[src.size() + 1];
 
 	int i;
-	for (i = 0; i < src.size(); i++) 
+	for (i = 0; i < src.size(); i++)
 		result[i] = mDecodingTable[src[i]];
 
-	result[src.size()] = '\0'; 
+	result[src.size()] = '\0';
 	std::string s( result );
 	delete [] result;
 	return s;
-}    
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue ImplEncoder::encode( const char residue) const 
-{ 
-	return mEncodingTable[(unsigned int)residue]; 
-}  
+Residue ImplEncoder::encode( const char residue) const
+{
+	return mEncodingTable[(unsigned int)residue];
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ResidueVector ImplEncoder::encode( const std::string & src ) const 
+ResidueVector ImplEncoder::encode( const std::string & src ) const
 {
 	// TODO: this is inefficient, as ResidueVector is copied on return.
 	// Solution? use dest as argument.
@@ -222,11 +225,11 @@ ResidueVector ImplEncoder::encode( const std::string & src ) const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-bool ImplEncoder::isValidChar( const char query ) const 
+bool ImplEncoder::isValidChar( const char query ) const
 {
 	return ( mAlphabet.find( query ) != std::string::npos ||
 			mMaskChars.find( query ) != std::string::npos );
-}    
+}
 
 //--------------------------------------------------------------------------------------------------------------------------------
 int ImplEncoder::getAlphabetSize() const
@@ -247,43 +250,43 @@ AlphabetType ImplEncoder::getAlphabetType() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue ImplEncoder::getMaskCode() const 
+Residue ImplEncoder::getMaskCode() const
 {
 	return mMaskCode;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-Residue ImplEncoder::getGapCode() const 
+Residue ImplEncoder::getGapCode() const
 {
 	return mGapCode;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplEncoder::getMaskChars() const 
+std::string ImplEncoder::getMaskChars() const
 {
 	return mMaskChars;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-std::string ImplEncoder::getGapChars() const 
+std::string ImplEncoder::getGapChars() const
 {
 	return mGapChars;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-char ImplEncoder::getMaskChar() const 
+char ImplEncoder::getMaskChar() const
 {
 	return mMaskChars[0];
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-char ImplEncoder::getGapChar() const 
+char ImplEncoder::getGapChar() const
 {
 	return mGapChars[0];
 }
 
 //--------------------------------------------------------------------------------------
-void ImplEncoder::write( std::ostream & output ) const 
+void ImplEncoder::write( std::ostream & output ) const
 {
 	for ( Residue x = 0; x < mAlphabet.size(); ++x )
 		output << (int)x << '\t' << mAlphabet[x] << '\t' << (int)encode(mAlphabet[x]) << '\t' << decode(encode(mAlphabet[x]))<< std::endl;
@@ -291,20 +294,20 @@ void ImplEncoder::write( std::ostream & output ) const
 	output << getGapChar() << '\t' << (int)getGapCode() << std::endl;
 	output << getMaskChar() << '\t' << (int)getMaskCode() << std::endl;
 }
-	
+
 //--------------------------------------------------------------------------------------
-void ImplEncoder::save( std::ostream & output ) const 
+void ImplEncoder::save( std::ostream & output ) const
 {
 	debug_func_cerr( 5 );
 	output.write( (char *)&mAlphabetType, sizeof( AlphabetType) );
-	
+
 	if ( mAlphabetType == User )
-	{	
+	{
 		output.write( (char *)mAlphabet.size(), sizeof( size_t ) );
 		output.write( (char *)mAlphabet.c_str(), mAlphabet.size() * sizeof( char ) );
-		output.write( (char *)mGapChars.size(), sizeof( size_t ) );		
+		output.write( (char *)mGapChars.size(), sizeof( size_t ) );
 		output.write( (char *)mGapChars.c_str(), mGapChars.size() * sizeof( char ) );
-		output.write( (char *)mMaskChars.size(), sizeof( size_t ) );		
+		output.write( (char *)mMaskChars.size(), sizeof( size_t ) );
 		output.write( (char *)mMaskChars.c_str(), mMaskChars.size() * sizeof( char ) );
 	}
 }
@@ -323,11 +326,11 @@ HResidueVector ImplEncoder::map( const HEncoder & other ) const
 	return map_other2this;
 }
 
-/** build a map for a list of characters. 
+/** build a map for a list of characters.
  *
- * All characters than can not be mapped will be mapped to the mask 
+ * All characters than can not be mapped will be mapped to the mask
  * character.
- * 
+ *
  * @return residue code of each charater in alphabet.
  */
 HResidueVector ImplEncoder::getMap( const std::string & alphabet ) const
@@ -340,7 +343,7 @@ HResidueVector ImplEncoder::getMap( const std::string & alphabet ) const
 		(*map_alphabet)[x] = encode( alphabet[x] );
 
 	return map_alphabet;
-	
+
 }
 
 

@@ -36,7 +36,7 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //---------------------------------------------------------< factory functions >--------------------------------------
@@ -46,54 +46,56 @@ HLogOddor makeLogOddor( const Score & scale, const Score & mask_value )
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplLogOddor::ImplLogOddor ( const Score & scale_factor, const Score & mask_value) : 
+ImplLogOddor::ImplLogOddor ( const Score & scale_factor, const Score & mask_value) :
 	mScaleFactor( scale_factor ), mMaskValue( mask_value )
 	{
 		debug_func_cerr( 5 );
 	}
 
-ImplLogOddor::~ImplLogOddor () 
+ImplLogOddor::~ImplLogOddor ()
 {
-	debug_func_cerr( 5 );	
+	debug_func_cerr( 5 );
 }
 
-ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) : 
-	mScaleFactor (src.mScaleFactor ), mMaskValue( src.mMaskValue ) 
+ImplLogOddor::ImplLogOddor (const ImplLogOddor & src ) :
+	mScaleFactor (src.mScaleFactor ), mMaskValue( src.mMaskValue )
 	{
 	}
 
+IMPLEMENT_CLONE( HLogOddor, ImplLogOddor );
+
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplLogOddor::fillProfile( 
+void ImplLogOddor::fillProfile(
 		ScoreMatrix & profile ,
 		const FrequencyMatrix & frequencies,
-		const HEncoder & encoder) const 
+		const HEncoder & encoder) const
 {
 	debug_func_cerr(5);
 
 	assert( profile.getNumRows() == frequencies.getNumRows() );
 	assert( profile.getNumCols() == frequencies.getNumCols() );
-	
+
 	// simply take the frequencies and use them as scores.
 	// For frequencies of 0, mMaskValue is used.
 
 	Position length = frequencies.getNumRows();
 	Residue width  = frequencies.getNumCols();
 
-	for (Position column = 0; column < length; column++) 
+	for (Position column = 0; column < length; column++)
 	{
 		const Frequency * fcolumn = frequencies.getRow(column);
 		Score * pcolumn = profile.getRow(column);
 
 		for (Residue i = 0; i < width; ++i)
 		{
-			Frequency f;			
+			Frequency f;
 			if ((f = fcolumn[i]) > 0)
 				pcolumn[i] = f;
 			else
 				pcolumn[i] = mMaskValue;
 		}
 	}
-}	
+}
 
 } // namespace alignlib
 

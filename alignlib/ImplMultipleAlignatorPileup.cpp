@@ -29,6 +29,7 @@
 #include "ImplMultipleAlignatorPileup.h"
 #include "HelpersAlignment.h"
 #include "HelpersAlignandum.h"
+#include "HelpersToolkit.h"
 #include "MultAlignmentFormat.h"
 using namespace std;
 
@@ -51,6 +52,12 @@ namespace alignlib
 	  debug_func_cerr( 5 );
   }
 
+  ImplMultipleAlignatorPileup::ImplMultipleAlignatorPileup() :
+	mAlignator( getDefaultToolkit()->getAlignator() )
+	{
+			  debug_func_cerr( 5 );
+	}
+
   ImplMultipleAlignatorPileup::~ImplMultipleAlignatorPileup()
   {
       debug_func_cerr(5);
@@ -61,8 +68,7 @@ namespace alignlib
   {
   }
 
-  HMultipleAlignator ImplMultipleAlignatorPileup::getClone() const
-  {	return HMultipleAlignator( new ImplMultipleAlignatorPileup(*this)); }
+  IMPLEMENT_CLONE( HMultipleAlignator, ImplMultipleAlignatorPileup );
 
   //--------------------------------------------------------------------------
   void ImplMultipleAlignatorPileup::align(

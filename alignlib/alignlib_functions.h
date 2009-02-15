@@ -54,5 +54,6 @@
 #include "MultipleAlignmentFormat.h"
 #include "MultAlignmentFormat.h"
 #include "Statistics.h"
+#include "HelpersToolkit.h"
 
 #endif /*ALIGNLIB_FUNCTIONS_H_*/

@@ -33,6 +33,9 @@
 namespace alignlib
 {
 	/** actor objects and their handles */
+	class Toolkit;
+	typedef boost::shared_ptr<Toolkit>HToolkit;
+
 	class Encoder;
 	typedef boost::shared_ptr<Encoder>HEncoder;
 

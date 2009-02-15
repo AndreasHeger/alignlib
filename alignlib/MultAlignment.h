@@ -32,6 +32,7 @@
 #include <string>
 
 #include "alignlib_fwd.h"
+#include "Macros.h"
 
 namespace alignlib
 {
@@ -69,6 +70,8 @@ class MultAlignment
 
     /** destructor */
     virtual ~MultAlignment ();
+
+    DEFINE_ABSTRACT_CLONE( HMultAlignment );
 
     //---------------------------------------------------------------------------------------
     /*------- accessors --------------------------------------------------------------------*/
@@ -205,16 +208,6 @@ class MultAlignment
     /** clears the multiple alignment
     */
     virtual void clear() = 0;
-
-    /** returns a clone of this object
-     * @return a copy of this object.
-     * */
-    virtual HMultAlignment getClone() const = 0;
-
-    /** returns a new object of this type.
-     * @return a new object of this type.
-     * */
-    virtual HMultAlignment getNew() const = 0;
 
     /** write the multiple alignment to a stream
      *

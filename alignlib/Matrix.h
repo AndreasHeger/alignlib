@@ -32,45 +32,67 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
+#include <boost/shared_ptr.hpp>
 
-namespace alignlib 
+namespace alignlib
 {
 
 	/** @short A simple templated, fixed-size matrix.
-	 * 
+	 *
 	 * Data is stored as a contiguous array in row/column order.
-	 * 
+	 *
 	 * @author Andreas Heger
    	 * @version $Id$
 	 */
 
-template <class T> 
-class Matrix 
+template <class T>
+class Matrix
 {
 
+	typedef typename boost::shared_ptr< Matrix<T> >HMatrix;
+
 public:
-	Matrix (unsigned int r, unsigned int c, T default_value = 0) 
+	Matrix (unsigned int r, unsigned int c, T default_value = 0)
 	{
 		mRows = r;
 		mCols = c;
 		mSize = mRows * mCols;
 		mMatrix = new T [mSize];
-		for (unsigned int i = 0; i < mSize; i++) 
+		for (unsigned int i = 0; i < mSize; i++)
 			mMatrix[i] = default_value;
-	}                
-
-	T* operator[](unsigned int row) 
-	{ 
-		assert( row < mRows && row >= 0);
-		return &mMatrix[(row * mCols)]; 
 	}
 
-	const T* operator[](unsigned int row) const 
+	/** copy constructor.
+	 */
+	Matrix (const Matrix <T>& src) :
+		mRows(src.mRows), mCols(src.mCols), mSize(src.mSize)
+		{
+		mMatrix  = new T [mSize];
+		memcpy( mMatrix, src.mMatrix, sizeof(T) * mSize );
+		}
+
+	/** destructor
+	 */
+	~Matrix() { delete [] mMatrix; }
+
+	/** return a copy of this object */
+	HMatrix getClone() const { return HMatrix(new Matrix<T>(*this) ); }
+
+	/** return a new object of the same type */
+	HMatrix getNew() const { return HMatrix(new Matrix<T>(mRows,mCols) ); }
+
+	T* operator[](unsigned int row)
+	{
+		assert( row < mRows && row >= 0);
+		return &mMatrix[(row * mCols)];
+	}
+
+	const T* operator[](unsigned int row) const
 	{
 		assert( row < mRows );
-		return (&mMatrix[(row * mCols)]); 
+		return (&mMatrix[(row * mCols)]);
 	}
-	
+
 	T getValue( unsigned int row, unsigned int col) const
 	{
 		assert( row < mRows);
@@ -92,20 +114,12 @@ public:
 		mMatrix[(row * mCols) + col] = value;
 	}
 
-	/** copy constructor.
-	 */
-	Matrix (const Matrix <T>& src) : 
-		mRows(src.mRows), mCols(src.mCols), mSize(src.mSize) 
-		{
-		mMatrix  = new T [mSize];
-		memcpy( mMatrix, src.mMatrix, sizeof(T) * mSize );		
-		}
 
 	/** assignment operator
 	 */
-	Matrix& operator= (const Matrix <T>&  src) 
+	Matrix& operator= (const Matrix <T>&  src)
 	{
-		if (src == *this) return (*this) ; // protect against self assignment      
+		if (src == *this) return (*this) ; // protect against self assignment
 		mRows=src.mRows;
 		mCols=src.mCols;
 		mSize=mRows*mCols;
@@ -116,15 +130,12 @@ public:
 		return (*this);
 	}
 
-	/** destructor
-	 */
-	~Matrix() { delete [] mMatrix; }
 
 	/** equality operator.
-	 * 
+	 *
 	 * @return true, if the matrices are element-wise identical.
 	 */
-	bool operator==(const Matrix<T>& other) const 
+	bool operator==(const Matrix<T>& other) const
 	{
 		if (mRows != other.mRows) return false;
 		if (mCols != other.mCols) return false;
@@ -137,17 +148,17 @@ public:
 	 * @return number of rows.
 	 */
 	unsigned int getNumRows() const { return mRows; }
-	
+
 	/** return the number of columns in matrix.
 	 * @return number of columns.
 	 */
 	unsigned int getNumCols() const { return mCols; }
 
 	/** return pointer to raw data.
-	 * 
+	 *
 	 * This is a dangerous convenience function.
-	 * 
-	 * @return pointer to raw data. 
+	 *
+	 * @return pointer to raw data.
 	 */
 	T * getData()  const
 	{
@@ -155,39 +166,39 @@ public:
 	}
 
 	/** set new data matrix.
-	 * 
+	 *
 	 * This a dangerous convenience function.
 	 * The old memory is not released.
-	 * 
+	 *
 	 * @param matrix pointer to new data.
 	 * */
-	void setData( T * matrix ) 
+	void setData( T * matrix )
 	{
 		mMatrix = matrix;
 	}
-	
-	/** copy data. 
-	 * 
+
+	/** copy data.
+	 *
 	 * This functions copies as many bytes as it needs.
-	 * @param pointer to data to copy. 
+	 * @param pointer to data to copy.
 	 * */
 	void copyData( T * matrix )
 	{
 		memcpy( mMatrix, matrix, sizeof(T) * mSize );
 	}
-	
-	/** return pointer to start of a given row 
+
+	/** return pointer to start of a given row
 	 *
 	 * @param row row.
-	 * @return pointer to data in row. 
+	 * @return pointer to data in row.
 	 */
 	T * getRow( unsigned int row) const
 	{
 		return &mMatrix[ row * mCols ];
 	}
-	
+
 	/** swap two rows.
-	 * 
+	 *
 	 * @param x row.
 	 * @param y row.
 	 */
@@ -205,15 +216,15 @@ public:
 		memcpy( &mMatrix[y*mCols], buffer           , s );
 		delete [] buffer;
 	}
-	
+
 	/** permute rows in matrix.
-	 * 
+	 *
 	 * Creates a new matrix by mapping old rows to new rows
 	 * using the map in map_new2old.
-	 * 
+	 *
 	 * This is efficient, as the matrix is arranged by rows
 	 * and can thus proceed row-wise.
-	 * 
+	 *
 	 * @param	map_new2old 	map that specifies which old row to take
 	 * 							for a new row.
 	 */
@@ -226,45 +237,45 @@ public:
 		mRows = map_new2old.size();
 		mSize = mRows * mCols;
 		mMatrix = new T[mSize];
-		
+
 		for (unsigned int r = 0; r < mRows; ++r)
-			memcpy( &mMatrix[r * mCols],  
-					&old_matrix[map_new2old[r] * mCols], 
+			memcpy( &mMatrix[r * mCols],
+					&old_matrix[map_new2old[r] * mCols],
 					sizeof(T) * mCols );
 		delete [] old_matrix;
 	}
 
 	/** permute rows in matrix.
-	 * 
+	 *
 	 * Creates a new matrix by mapping old columns to new columns.
 	 * using the map in map_new2old.
-	 * 
+	 *
 	 * This is less efficient as @ref mapRows, as the matrix is arranged in rows
 	 * and copying thus proceeds element-wise.
-	 * 
+	 *
 	 * @param	map_new2old 	map that specifies which old column to take
 	 * 							for a new column.
 	 */
 	void permuteCols( std::vector< unsigned int> & map_new2old )
 	{
 		assert( *(std::max_element( map_new2old.begin(), map_new2old.end())) < mCols );
-		
+
 		unsigned int old_cols = mCols;
 		T * old_matrix = mMatrix;
-		
+
 		mCols = map_new2old.size();
 		mSize = mRows * mCols;
 		mMatrix = new T[mSize];
-		
+
 		for (unsigned int c = 0; c < mCols; ++c)
 		{
 			unsigned int m  = map_new2old[c];
-			for (unsigned int r = 0; r < mRows; ++r)				
+			for (unsigned int r = 0; r < mRows; ++r)
 				setValue( r,c, old_matrix[ r * old_cols + m] );
 		}
 		delete [] old_matrix;
 	}
-	
+
 private:
 
 	/** data location */
@@ -280,21 +291,21 @@ private:
 
 
 /** write a matrix to stream (human readable)
- * 
+ *
  * The format is a simple tab-separated format. The first
  * lines contains the number of rows and columns.
- * 
+ *
  * @param out stream to output matrix into.
  * @param src matrix to output.
  * @return the output stream.
  */
-template<class T> 
-std::ostream & operator<< (std::ostream & out, const Matrix<T> & src) 
+template<class T>
+std::ostream & operator<< (std::ostream & out, const Matrix<T> & src)
 {
 	std::cout << src.getNumRows() << " " << src.getNumCols() << std::endl;
-	for (unsigned int i = 0; i < src.getNumRows(); i++) 
+	for (unsigned int i = 0; i < src.getNumRows(); i++)
 	{
-		for (unsigned int j = 0; j < src.getNumCols(); j++) 
+		for (unsigned int j = 0; j < src.getNumCols(); j++)
 		{
 			out << src[i][j] << "\t";
 		}
@@ -304,24 +315,24 @@ std::ostream & operator<< (std::ostream & out, const Matrix<T> & src)
 }
 
 /** read a matrix to stream.
- * 
+ *
  * The format is a simple tab-separated format. The first
  * lines contains the number of rows and columns.
- * 
+ *
  * @param out stream to input matrix from
  * @param src matrix to input to.
  * @return the input stream.
  */
-template<class T> 
-std::istream & operator>>(std::istream & input, Matrix<T> & target) 
+template<class T>
+std::istream & operator>>(std::istream & input, Matrix<T> & target)
 {
 	input >> target.mNumRows >> target.mNumCols;
 	target.mSize = target.mNumRows * target.mNumCols;
 	delete [] target.mMatrix;
-	
+
 	unsigned int z = 0;
-	for (unsigned int i = 0; i < target.getNumRows(); i++) 
-		for (unsigned int j = 0; j < target.getNumCols(); j++, ++z) 
+	for (unsigned int i = 0; i < target.getNumRows(); i++)
+		for (unsigned int j = 0; j < target.getNumCols(); j++, ++z)
 			input >> target.mMatrix[z];
 	return input;
 }

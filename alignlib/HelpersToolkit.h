@@ -20,35 +20,43 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/** Include file for all the interface classes
+
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#ifndef HELPERS_TOOLKIT_H
+#define HELPERS_TOOLKIT_H 1
+
+#include "alignlib_fwd.h"
+#include "alignlib_default.h"
+#include "alignlib_types.h"
+
+namespace alignlib
+{
+
+/**
+ *
+ * @defgroup FactoryToolkit Factory functions for @ref Toolkit objects.
+ * @{
  */
 
-#ifndef ALIGNLIB_INTERFACES_H_
-#define ALIGNLIB_INTERFACES_H_
+/** return a new toolkit
+ *
+ * @param type Type of toolkit.
+ * @return a @ref Toolkit object.
+ */
+const HToolkit makeToolkit( const ToolkitType & type = ProteinAlignment );
 
-#include "Alignandum.h"
-#include "Alignator.h"
-#include "Alignatum.h"
-#include "Alignment.h"
-#include "AlignmentIterator.h"
-#include "DistanceMatrix.h"
-#include "Distor.h"
-#include "Encoder.h"
-#include "Fragmentor.h"
-#include "Iterator2D.h"
-#include "LogOddor.h"
-#include "Matrix.h"
-#include "MultipleAlignment.h"
-#include "MultAlignment.h"
-#include "MultipleAlignator.h"
-#include "Regularizor.h"
-#include "Profile.h"
-#include "Scorer.h"
-#include "Segment.h"
-#include "Sequence.h"
-#include "Treetor.h"
-#include "Tree.h"
-#include "Weightor.h"
-#include "Toolkit.h"
+/** @} */
 
-#endif /*ALIGNLIB_INTERFACES_H_*/
+/** @addtogroup Defaults
+ * @{
+ */
+
+DEFINE_DEFAULT( HToolkit, getDefaultToolkit, setDefaultToolkit );
+
+/** @} */
+}
+
+#endif	/* HELPERS_TRANSLATOR_H */

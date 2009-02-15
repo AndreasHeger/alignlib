@@ -29,13 +29,13 @@
 #include "HelpersRegularizor.h"
 #include "Matrix.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
 /** factory functions */
 HRegularizor makeRegularizor()
-{ 
-	return HRegularizor(new ImplRegularizor()); 
+{
+	return HRegularizor(new ImplRegularizor());
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
@@ -45,15 +45,17 @@ ImplRegularizor::ImplRegularizor()
 			}
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplRegularizor::~ImplRegularizor () 
+ImplRegularizor::~ImplRegularizor ()
 {
 	debug_func_cerr(5);
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
-ImplRegularizor::ImplRegularizor (const ImplRegularizor & src ) 
+ImplRegularizor::ImplRegularizor (const ImplRegularizor & src )
 {
 }
+
+IMPLEMENT_CLONE( HRegularizor, ImplRegularizor );
 
 //-------------------------------------------------------------------------------------------------------
 double ImplRegularizor::calculateDiversity( const CountMatrix & counts ) const
@@ -77,9 +79,9 @@ double ImplRegularizor::calculateDiversity( const CountMatrix & counts ) const
 
 //-------------------------------------------------------------------------------------------------------
 /** fill frequencies from counts without regularization.
- *  */      
-void ImplRegularizor::fillFrequencies( 
-		FrequencyMatrix & frequencies, 
+ *  */
+void ImplRegularizor::fillFrequencies(
+		FrequencyMatrix & frequencies,
 		const CountMatrix & counts,
 		const HEncoder & encoder) const
 		{
@@ -87,7 +89,7 @@ void ImplRegularizor::fillFrequencies(
 
 	assert( frequencies.getNumRows() == counts.getNumRows() );
 	assert( frequencies.getNumCols() == counts.getNumCols() );
-	
+
 	// simply calculate frequencies
 
 	Position column;
@@ -97,7 +99,7 @@ void ImplRegularizor::fillFrequencies(
 	Position width = frequencies.getNumCols();
 	Position length = frequencies.getNumRows();
 
-	for (column = 0; column < length; ++column) 
+	for (column = 0; column < length; ++column)
 	{
 		ntotal = 0;
 
@@ -110,7 +112,7 @@ void ImplRegularizor::fillFrequencies(
 		if (ntotal == 0)
 			ntotal = 1;
 
-		for (i = 0; i < width; i++) 
+		for (i = 0; i < width; i++)
 		{
 			Frequency f = (Frequency)((Frequency)counts_column[i] / (Frequency)ntotal);
 			frequency_column[i] = f;

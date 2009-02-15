@@ -17,12 +17,11 @@
 
 #include <iostream>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "ImplTreetorDistance.h"
 
-namespace alignlib 
+namespace alignlib
 {
-    
+
 /**
    Calculate neighbour-joining tree. The root is placed in the middle
    between the last two joined clusters.
@@ -30,22 +29,28 @@ namespace alignlib
    @author Andreas Heger
    @version $Id: ImplTreetorDistanceNJ.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short calculate neighbour-joining tree
-*/ 
+*/
 
-class ImplTreetorDistanceNJ : public ImplTreetorDistance 
+class ImplTreetorDistanceNJ : public ImplTreetorDistance
 {
  public:
 
   /* constructors and desctructors------------------------------------------------------- */
 
-  /** empty constructor */
-  ImplTreetorDistanceNJ ( const HDistor & distor );
+	 /** empty constructor */
+	 ImplTreetorDistanceNJ ();
+
+	 /** constructor */
+	 ImplTreetorDistanceNJ ( const HDistor & distor );
+
 
   /** copy constructor */
   ImplTreetorDistanceNJ (const ImplTreetorDistanceNJ & src);
-  
+
   /** destructor */
   virtual ~ImplTreetorDistanceNJ ();
+
+  DEFINE_CLONE( HTreetor );
 
   /* member access functions--------------------------------------------------------------- */
 
@@ -57,19 +62,19 @@ class ImplTreetorDistanceNJ : public ImplTreetorDistance
   virtual void calculateMinimumDistance() const;
 
   /** update the distance matrix and other helper variables */
-  virtual void updateDistanceMatrix( 
+  virtual void updateDistanceMatrix(
 		  const HTree & tree,
-		  DistanceMatrixSize cluster_1, 
+		  DistanceMatrixSize cluster_1,
 		  DistanceMatrixSize cluster_2 ) const;
 
   /** join two nodes and return the index of the added node */
-  virtual Node joinNodes( 
+  virtual Node joinNodes(
 		  HTree & tree,
-		  DistanceMatrixSize cluster_i, 
+		  DistanceMatrixSize cluster_i,
 		  DistanceMatrixSize cluster_2 ) const;
 
   /** initialize helper variables that you might need */
-  virtual void startUp(  HTree & tree, 
+  virtual void startUp(  HTree & tree,
 		  const HMultipleAlignment & mali) const;
 
   /** clean up helper variables */

@@ -37,8 +37,8 @@ namespace alignlib
 {
 
 // factory function for creating iterator over full matrix
-HIterator2D makeIterator2DFull( 
-		const HAlignandum & row, 
+HIterator2D makeIterator2DFull(
+		const HAlignandum & row,
 		const HAlignandum & col )
 {
 	return HIterator2D( new ImplIterator2DFull( row, col ) );
@@ -56,16 +56,16 @@ ImplIterator2DFull::ImplIterator2DFull() :
 	ImplIterator2D()
 	{
 	debug_func_cerr(5);
-	}    
+	}
 
 //--------------------------------------------------------------------------------------
-ImplIterator2DFull::ImplIterator2DFull( 
-		const HAlignandum & row, 
+ImplIterator2DFull::ImplIterator2DFull(
+		const HAlignandum & row,
 		const HAlignandum & col) :
 			ImplIterator2D( row, col )
 			{
 			debug_func_cerr(5);
-			}    
+			}
 
 		//--------------------------------------------------------------------------------------
 		ImplIterator2DFull::~ImplIterator2DFull ()
@@ -82,13 +82,7 @@ ImplIterator2DFull::ImplIterator2DFull(
 
 			}
 
-		//--------------------------------------------------------------------------------------  
-		/** return a copy of the same iterator
-		 */
-		HIterator2D ImplIterator2DFull::getClone() const
-		{
-			return HIterator2D( new ImplIterator2DFull( *this ) );
-		}
+		IMPLEMENT_CLONE( HIterator2D, ImplIterator2DFull );
 
 		//--------------------------------------------------------------------------------------
 		void ImplIterator2DFull::resetRanges( const HAlignandum & row, const HAlignandum & col )
@@ -97,7 +91,7 @@ ImplIterator2DFull::ImplIterator2DFull(
 		}
 
 
-		//--------------------------------------------------------------------------------------    
+		//--------------------------------------------------------------------------------------
 		/** return a new iterator of same type initializes with for row and col
 		 */
 		HIterator2D ImplIterator2DFull::getNew( const HAlignandum & row, const HAlignandum & col ) const

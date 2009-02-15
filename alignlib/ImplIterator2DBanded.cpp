@@ -49,7 +49,7 @@ namespace alignlib
 
 
  */
-HIterator2D makeIterator2DBanded( const HAlignandum & row, 
+HIterator2D makeIterator2DBanded( const HAlignandum & row,
 		const HAlignandum & col,
 		const Diagonal lower_diagonal,
 		const Diagonal upper_diagonal )
@@ -57,7 +57,7 @@ HIterator2D makeIterator2DBanded( const HAlignandum & row,
 	return HIterator2D( new ImplIterator2DBanded( row, col, lower_diagonal, upper_diagonal ) );
 }
 
-HIterator2D makeIterator2DBanded( 
+HIterator2D makeIterator2DBanded(
 		const Diagonal lower_diagonal,
 		const Diagonal upper_diagonal )
 {
@@ -65,15 +65,15 @@ HIterator2D makeIterator2DBanded(
 }
 
 //--------------------------------------------------------------------------------------
-ImplIterator2DBanded::ImplIterator2DBanded( 
+ImplIterator2DBanded::ImplIterator2DBanded(
 		Diagonal lower_diagonal,
 		Diagonal upper_diagonal ):
 			ImplIterator2D(),
 			mLowerDiagonal(lower_diagonal), mUpperDiagonal(upper_diagonal)
 			{
 			debug_func_cerr(5);
-			assert(mLowerDiagonal <= mUpperDiagonal);    
-			}    
+			assert(mLowerDiagonal <= mUpperDiagonal);
+			}
 
 		//--------------------------------------------------------------------------------------
 		ImplIterator2DBanded::ImplIterator2DBanded( const HAlignandum & row,
@@ -84,9 +84,9 @@ ImplIterator2DBanded::ImplIterator2DBanded(
 					mLowerDiagonal(lower_diagonal), mUpperDiagonal(upper_diagonal)
 					{
 			debug_func_cerr(5);
-			assert(mLowerDiagonal <= mUpperDiagonal);    
+			assert(mLowerDiagonal <= mUpperDiagonal);
 			resetRanges( row, col);
-					}    
+					}
 
 		//--------------------------------------------------------------------------------------
 		ImplIterator2DBanded::~ImplIterator2DBanded ()
@@ -107,29 +107,23 @@ ImplIterator2DBanded::ImplIterator2DBanded(
 			}
 
 		//--------------------------------------------------------------------------------------
-		void ImplIterator2DBanded::resetRanges( 
-				const HAlignandum & row, 
+		void ImplIterator2DBanded::resetRanges(
+				const HAlignandum & row,
 				const HAlignandum & col )
 		{
 			debug_func_cerr(5);
 			mRowFrom = std::max( (Position)(row->getFrom()),                  (Position)(col->getFrom() - mUpperDiagonal) );
-			mRowTo   = std::min( (Position)(row->getTo()),                    (Position)(col->getTo()   - mLowerDiagonal)  );    
+			mRowTo   = std::min( (Position)(row->getTo()),                    (Position)(col->getTo()   - mLowerDiagonal)  );
 			mColFrom = std::max( (Position)(row->getFrom() + mLowerDiagonal), (Position)(col->getFrom()) );
 			mColTo   = std::min( (Position)(row->getTo()   + mUpperDiagonal), (Position)(col->getTo()) );
 
-			debug_cerr( 5, "mRowFrom=" << mRowFrom << " mRowTo=" << mRowTo << " mColFrom=" << mColFrom << " mColTo=" << mColTo 
+			debug_cerr( 5, "mRowFrom=" << mRowFrom << " mRowTo=" << mRowTo << " mColFrom=" << mColFrom << " mColTo=" << mColTo
 					<< " row=" << row->getFrom() << "-" << row->getTo() << " col=" << col->getFrom() << "-" << col->getTo() );
 		}
 
-		//--------------------------------------------------------------------------------------  
-		/** return a copy of the same iterator
-		 */
-		HIterator2D ImplIterator2DBanded::getClone() const
-		{
-			return HIterator2D( new ImplIterator2DBanded( *this ) );
-		}
+		IMPLEMENT_CLONE( HIterator2D, ImplIterator2DBanded );
 
-		//--------------------------------------------------------------------------------------    
+		//--------------------------------------------------------------------------------------
 		/** return a new iterator of same type initializes with for row and col
 		 */
 		HIterator2D ImplIterator2DBanded::getNew( const HAlignandum & row, const HAlignandum & col ) const
@@ -170,7 +164,7 @@ ImplIterator2DBanded::ImplIterator2DBanded(
 			if (col == NO_POS )
 				return mRowTo - 1;
 			else
-				return std::min((Position)(col - mLowerDiagonal + 1), mRowTo ) - 1;	   
+				return std::min((Position)(col - mLowerDiagonal + 1), mRowTo ) - 1;
 		}
 
 		Position ImplIterator2DBanded::col_front ( Position row ) const
@@ -186,7 +180,7 @@ ImplIterator2DBanded::ImplIterator2DBanded(
 			if (row == NO_POS)
 				return mColTo - 1;
 			else
-				return std::min((Position)(row + mUpperDiagonal + 1), mColTo ) - 1;	   
+				return std::min((Position)(row + mUpperDiagonal + 1), mColTo ) - 1;
 		}
 
 } // namespace alignlib

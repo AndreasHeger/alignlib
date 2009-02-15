@@ -33,7 +33,8 @@ pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			$(HEADERS_ENCODER) \
 			$(HEADERS_SUBSTMATRIX) \
 		    $(HEADERS_PHYLOLIB) \
-		    $(HEADERS_MULTIPLE_ALIGNATOR)
+		    $(HEADERS_MULTIPLE_ALIGNATOR) \
+		    $(HEADERS_TOOLKIT)
 
 HEADERS_ALIGNLIB= alignlib.h alignlib_fwd.h alignlib_default.h \
 					alignlib_functions.h alignlib_types.h alignlib_interfaces.h
@@ -47,7 +48,6 @@ HEADERS_PHYLOLIB=Tree.h HelpersTree.h \
                         Treetor.h HelpersTreetor.h \
                         ImplTreetor.h ImplTreetorDistance.h ImplTreetorDistanceLinkage.h \
                         ImplTreetorDistanceNJ.h
-
 
 HEADERS_ALIGNANDUM =	Alignandum.h HelpersAlignandum.h \
 			Sequence.h Profile.h \
@@ -108,6 +108,8 @@ HEADERS_MALI=		MultipleAlignment.h HelpersMultipleAlignment.h \
 			MultAlignment.h HelpersMultAlignment.h \
 			ImplMultAlignment.h
 
+HEADERS_TOOLKIT= Toolkit.h HelpersToolkit.h
+
 HEADERS_ENCODER= Encoder.h HelpersEncoder.h \
 			ImplEncoder.h
 
@@ -133,6 +135,7 @@ PARTS = AlignlibException.cpp \
 			$(PARTS_SUBSTMATRIX) \
 			$(PARTS_PHYLOLIB) \
 			$(PARTS_MULTIPLE_ALIGNATOR) \
+			$(PARTS_TOOLKIT) \
 			AlignlibDefault.cpp \
 			Segment.cpp \
 			AlignlibIndex.cpp
@@ -216,6 +219,8 @@ PARTS_MULTIPLE_ALIGNATOR= HelpersMultipleAlignator.cpp \
 			ImplMultipleAlignator.cpp \
 			ImplMultipleAlignatorSimple.cpp \ 
 			ImplMultipleAlignatorPileup.cpp
+			
+PARTS_TOOLKIT=ImplToolkit.cpp
 			
 lib_LTLIBRARIES = libalignlib.la  
 

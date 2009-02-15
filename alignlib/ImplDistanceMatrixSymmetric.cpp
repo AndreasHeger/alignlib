@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: ImplDistanceMatrixSymmetric.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 
 #include <iostream>
@@ -38,10 +38,12 @@ ImplDistanceMatrixSymmetric::~ImplDistanceMatrixSymmetric ()
 {
 }
 
+IMPLEMENT_CLONE( HDistanceMatrix, ImplDistanceMatrixSymmetric );
+
 // not calling the base class constructor is dangerous!!
 ImplDistanceMatrixSymmetric::ImplDistanceMatrixSymmetric (DistanceMatrixSize width, DistanceMatrixValue default_value ) : ImplDistanceMatrix()
 {
-	debug_func_cerr( 5 );  
+	debug_func_cerr( 5 );
 
 	mWidth  = width;
 	mSize   = mWidth * (mWidth - 1) / 2;
@@ -83,7 +85,7 @@ ImplDistanceMatrixSymmetric::ImplDistanceMatrixSymmetric( const ImplDistanceMatr
 }
 
 //-------------------------------------------------------------
-void ImplDistanceMatrixSymmetric::shrink() 
+void ImplDistanceMatrixSymmetric::shrink()
 {
 	debug_func_cerr( 5 );
 	/* simply decrease the width of the matrix */
@@ -119,7 +121,7 @@ void ImplDistanceMatrixSymmetric::swap( DistanceMatrixSize row_1, DistanceMatrix
 
 	DistanceMatrixSize i;
 
-	if (row_2 < row_1) 
+	if (row_2 < row_1)
 	{
 		i = row_1; row_1 = row_2; row_2 = i;
 	}
@@ -127,7 +129,7 @@ void ImplDistanceMatrixSymmetric::swap( DistanceMatrixSize row_1, DistanceMatrix
 	for (i = 0; i < row_1; i++)
 		SWAP( getIndex(row_1,i), getIndex( row_2,i));
 
-	for (i = row_1 + 1; i < row_2; i++) 
+	for (i = row_1 + 1; i < row_2; i++)
 		SWAP( getIndex(row_1,i), getIndex( row_2,i));
 
 	for (i = row_2 + 1; i < mWidth; i++)
@@ -173,7 +175,7 @@ DistanceMatrixSize ImplDistanceMatrixSymmetric::getRow( DistanceMatrixSize index
 //-------------------------------------------------------------
 DistanceMatrixSize ImplDistanceMatrixSymmetric::getColumn( DistanceMatrixSize index ) const {
 	// computationally inefficient, maybe use cache
-	return (index - getIndex(getRow(index), 0));	
+	return (index - getIndex(getRow(index), 0));
 }
 
 //-------------------------------------------------------------

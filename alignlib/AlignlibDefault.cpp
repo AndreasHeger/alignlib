@@ -38,10 +38,11 @@
 #include "HelpersWeightor.h"
 #include "HelpersSubstitutionMatrix.h"
 #include "HelpersTreetor.h"
+#include "HelpersToolkit.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 // default objects without dependencies
@@ -52,22 +53,23 @@ IMPLEMENT_DEFAULT( HWeightor, makeWeightor(), getDefaultWeightor, setDefaultWeig
 IMPLEMENT_DEFAULT( HPalette, makePalette(), getDefaultPalette, setDefaultPalette, default_palette );
 IMPLEMENT_DEFAULT( HScorer, makeScorer(), getDefaultScorer, setDefaultScorer, default_scorer )
 IMPLEMENT_DEFAULT( HDistor, makeDistorClustal(), getDefaultDistor, setDefaultDistor, default_distor );
+IMPLEMENT_DEFAULT( HToolkit, makeToolkit(), getDefaultToolkit, setDefaultToolkit, default_toolkit );
 
 // this depends on the default alphabets already being contstructed
 // If problems, switch to makeEncoder idiom like for other objects.
-IMPLEMENT_DEFAULT( HEncoder, getEncoder( Protein20 ), 
+IMPLEMENT_DEFAULT( HEncoder, getEncoder( Protein20 ),
 		getDefaultEncoder, setDefaultEncoder, default_translator );
 
 // default objects with dependencies
-IMPLEMENT_DEFAULT( HSubstitutionMatrix, 
-		makeSubstitutionMatrixBlosum62( getDefaultEncoder() ), 
+IMPLEMENT_DEFAULT( HSubstitutionMatrix,
+		makeSubstitutionMatrixBlosum62( getDefaultEncoder() ),
 		getDefaultSubstitutionMatrix,
 		setDefaultSubstitutionMatrix,
 		default_matrix )
 
-IMPLEMENT_DEFAULT( HTreetor, 
-		makeTreetorDistanceLinkage( getDefaultDistor() ), 
-		getDefaultTreetor, 
+IMPLEMENT_DEFAULT( HTreetor,
+		makeTreetorDistanceLinkage( getDefaultDistor() ),
+		getDefaultTreetor,
 		setDefaultTreetor,
 		default_treetor );
 

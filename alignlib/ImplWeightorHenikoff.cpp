@@ -34,34 +34,37 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 /** factory functions */
-HWeightor makeWeightorHenikoff( const bool rescale ) 
-{ 
+HWeightor makeWeightorHenikoff( const bool rescale )
+{
 	return HWeightor(new ImplWeightorHenikoff( rescale));
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplWeightorHenikoff::ImplWeightorHenikoff ( const bool rescale ) 
-: ImplWeightor(), mRescale( rescale ) 
+ImplWeightorHenikoff::ImplWeightorHenikoff ( const bool rescale )
+: ImplWeightor(), mRescale( rescale )
 {
 }
 
-ImplWeightorHenikoff::~ImplWeightorHenikoff () 
+ImplWeightorHenikoff::~ImplWeightorHenikoff ()
 {
 }
 
-ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) : 
+ImplWeightorHenikoff::ImplWeightorHenikoff (const ImplWeightorHenikoff & src ) :
 	ImplWeightor(src), mRescale(src.mRescale)
 {
 }
 
+// implement cloning and creation
+IMPLEMENT_CLONE( HWeightor, ImplWeightorHenikoff );
+
 //--------------------------------------------------------------------------------------------------------------------------------
-HSequenceWeights ImplWeightorHenikoff::calculateWeights( 
+HSequenceWeights ImplWeightorHenikoff::calculateWeights(
 			const HMultipleAlignment & src,
-			const HEncoder & translator ) const 
+			const HEncoder & translator ) const
 {
 	debug_func_cerr(5);
 
@@ -82,41 +85,41 @@ HSequenceWeights ImplWeightorHenikoff::calculateWeights(
 	for (j = 0; j < length; j++)
 	{
 		Count * ccolumn = &counts[j * width];
-		for ( i = 0; i < width; i++) 
+		for ( i = 0; i < width; i++)
 			ccolumn[i] = 0;
 	}
-	Residue residue; 
+	Residue residue;
 
-	for (i = 0; i < nsequences; i++) 
+	for (i = 0; i < nsequences; i++)
 	{
 		const std::string & sequence = (*src)[i];
 		for (column = 0; column < length; column++)
-			if ((residue = translator->encode(sequence[column])) < width) 
+			if ((residue = translator->encode(sequence[column])) < width)
 				counts[column * width + residue]++;
 	}
 
 	//-----------------> calculate types per column <------------------------------------------
 	int * ntypes = new int[length];
 
-	for (column = 0; column < length; column++) 
+	for (column = 0; column < length; column++)
 	{
-		Count * ccolumn = &counts[j * width];		
+		Count * ccolumn = &counts[j * width];
 		ntypes[column] = 0;
-		for (i = 0; i < width; i++) 
+		for (i = 0; i < width; i++)
 			if (ccolumn[i] > 0)
 				ntypes[column]++;
 	}
 	//---------------> calculate sequence weights <------------------------------------------
 	HSequenceWeights weights( new SequenceWeights(nsequences) );
 	SequenceWeights & w = *weights;
-	for (i = 0; i < nsequences; i++) 
+	for (i = 0; i < nsequences; i++)
 	{
 		w[i] = 0;
-		for (column = 0; column < length; column++) 
+		for (column = 0; column < length; column++)
 		{
 			const std::string & sequence = (*src)[i];			// sum up, but skip gaps and masked characters
-			if ( (residue = translator->encode(sequence[column])) < width) 
-				w[i] += (SequenceWeight)(1.0 / 
+			if ( (residue = translator->encode(sequence[column])) < width)
+				w[i] += (SequenceWeight)(1.0 /
 						((double)counts[column * width + residue] * (double)ntypes[column]));
 		}
 	}

@@ -22,24 +22,24 @@
 /**
    calculate the distance between two sequences using the same way
    as Clustal:
- 
+
    amino acid difference p
    0 to 75%     => Clustal's model          d = -ln( 1 - p - 0.2 p*p)
    75.1 to 99.9%        => Dayhoff's model
    100%^                => MAX_DIST = 1000
- 
+
    Since a distance according to Dayhoff's has to be calculated numerically,
    I use a table of precomputed values.
- 
+
    For instructions on how to calculate pam-distance between protein sequences,
    take a look at
- 
+
    http://www.inf.ethz.ch/personal/gonnet/DarwinManual/node155.html
- 
+
    @author Andreas Heger
    @version $Id: ImplDistorClustal.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short calculate a distance matrix using Clustal procedure
-*/                                                             
+*/
 
 namespace alignlib {
 
@@ -52,7 +52,9 @@ class ImplDistorClustal : public ImplDistor {
     ImplDistorClustal  (const ImplDistorClustal &);
 
     virtual ~ImplDistorClustal ();
-    
+
+    DEFINE_CLONE( HDistor );
+
     /** return the maximum distance obtainable between two sequences */
     virtual DistanceMatrixValue getMaximumPossibleDistance() const;
 

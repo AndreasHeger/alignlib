@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: ImplDistorClustal.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 
 #include <iostream>
@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 #define MAX_KIMURA	0.75
@@ -30,28 +30,28 @@ namespace alignlib
 #define MAX_DISTANCE	10.00
 
 
-/* 
+/*
    from the clustalx - code
 
    DAYHOFF.H
- 
+
    Table of estimated PAMS (actual no. of substitutions per 100 residues)
    for a range of observed amino acid distances from 75.0% (the first entry
    in the array), in 0.1% increments, up to 93.0%.
- 
+
    These values are used to correct for multiple hits in protein alignments.
    The values below are for observed distances above 74.9%.  For values above
    93%, an arbitrary value of 1000 PAMS (1000% substitution) is used.
- 
+
    These values are derived from a Dayhoff model (1978) of amino acid
    substitution and assume average amino acid composition and that amino
    acids replace each other at the same rate as in the original Dayhoff model.
- 
+
    Up to 75% observed distance, use Clustal's emprical formula to derive
    the correction.  For 75% or greater, use this table.  Clustal's formula
    is accurate up to about 75% and fails completely above 85%.
 */
- 
+
 int dayhoff_pams[]={
   195,   /* 75.0% observed d; 195 PAMs estimated = 195% estimated d */
   196,   /* 75.1% observed d; 196 PAMs estimated */
@@ -76,38 +76,39 @@ int dayhoff_pams[]={
   719,    736,    754,    775,    796,    819,    845,    874,    907,  945,
          /* 92.9% observed; 945 PAMs */
   988    /* 93.0% observed; 988 Pa-Ms */
-}; 
+};
 
 
 //-------------------------> factory functions <-------------------------------------------------------------------------------
-HDistor makeDistorClustal() 
+HDistor makeDistorClustal()
 {
   return HDistor( new ImplDistorClustal() );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplDistorClustal::ImplDistorClustal () : ImplDistor() 
+ImplDistorClustal::ImplDistorClustal () : ImplDistor()
 {
 }
-		       
-ImplDistorClustal::~ImplDistorClustal () 
+
+ImplDistorClustal::~ImplDistorClustal ()
 {
 	debug_func_cerr( 5 );
 }
 
-ImplDistorClustal::ImplDistorClustal (const ImplDistorClustal & src ) : ImplDistor( src ) 
+ImplDistorClustal::ImplDistorClustal (const ImplDistorClustal & src ) : ImplDistor( src )
 {
 }
 
+IMPLEMENT_CLONE( HDistor, ImplDistorClustal );
 
 //--------------------------------------------------------------------------------------------------------------------------------
-DistanceMatrixValue ImplDistorClustal::getMaximumPossibleDistance() const 
+DistanceMatrixValue ImplDistorClustal::getMaximumPossibleDistance() const
 {
     return MAX_DISTANCE;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-DistanceMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const 
+DistanceMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_row_1, const std::string & s_row_2) const
 {
 
 	debug_func_cerr( 5 );
@@ -121,7 +122,7 @@ DistanceMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_
   for (i = 0; i < s_row_1.length(); i++) {
     if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char)) {
       n_nongaps ++;
-      if (s_row_1[i] == s_row_2[i]) 
+      if (s_row_1[i] == s_row_2[i])
 	identities++;
     }
   }
@@ -132,12 +133,12 @@ DistanceMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_
   else
     pdiff = 1.0;
 
-  if (pdiff < MAX_KIMURA) 
+  if (pdiff < MAX_KIMURA)
     return -log( 1.0 - pdiff - 0.2 * pdiff * pdiff);
-  
+
   if (pdiff < MAX_PAM)
     return (double)dayhoff_pams[(DistanceMatrixSize)(pdiff * 1000.0 - 750.0)] / 100.0;
-  
+
   return MAX_DISTANCE;
 }
 

@@ -48,8 +48,11 @@ namespace alignlib
       /* class member functions-------------------------------------------------------------- */
     public:
       /* constructors and desctructors------------------------------------------------------- */
-      /** constructor */
-      ImplMultipleAlignatorPileup( const HAlignator & alignator );
+    	/** constructor */
+    	ImplMultipleAlignatorPileup();
+
+    	/** constructor */
+    	ImplMultipleAlignatorPileup( const HAlignator & alignator );
 
       /** destructor */
       virtual ~ImplMultipleAlignatorPileup ();
@@ -57,8 +60,7 @@ namespace alignlib
       /** copy constructor */
       ImplMultipleAlignatorPileup( const ImplMultipleAlignatorPileup & src);
 
-      /** get clone */
-      virtual HMultipleAlignator getClone() const ;
+      DEFINE_CLONE( HMultipleAlignator );
 
       /** align sequences in src
        *
