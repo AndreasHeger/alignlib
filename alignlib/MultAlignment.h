@@ -243,6 +243,22 @@ class MultAlignment
      */
     virtual HCountVector getRowCounts() const = 0;
 
+    /** return the number of unaligned residues before a column.
+     *
+     *  Return a vector of length l+1 with the number of unaligned residues
+     *  per column.
+     *
+     * @param sequences  	a list of sequences. If this array is not null,
+     *						sequence lengths from this array will be used to expand
+     *						the multiple alignment before the first and after the last
+     *						column.
+     * @param aggregate_type determines how counts are aggregated.
+     * @return a vector of counts.
+     */
+
+    virtual HCountVector getGapCounts(
+   		 const HAlignandumVector & sequences,
+   		 AggregateType aggregate_type = AggSum) const = 0;
 
 };
 

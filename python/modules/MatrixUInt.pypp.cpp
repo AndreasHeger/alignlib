@@ -26,6 +26,26 @@ void register_MatrixUInt_class(){
                 , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
         
         }
+        { //::alignlib::Matrix< unsigned int >::getClone
+        
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
+            typedef ::boost::shared_ptr< alignlib::Matrix< unsigned int > > ( exported_class_t::*getClone_function_type )(  ) const;
+            
+            MatrixUInt_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Matrix< unsigned int >::getClone ) );
+        
+        }
+        { //::alignlib::Matrix< unsigned int >::getNew
+        
+            typedef alignlib::Matrix< unsigned int > exported_class_t;
+            typedef ::boost::shared_ptr< alignlib::Matrix< unsigned int > > ( exported_class_t::*getNew_function_type )(  ) const;
+            
+            MatrixUInt_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Matrix< unsigned int >::getNew ) );
+        
+        }
         { //::alignlib::Matrix< unsigned int >::getNumCols
         
             typedef alignlib::Matrix< unsigned int > exported_class_t;
@@ -114,6 +134,7 @@ void register_MatrixUInt_class(){
                 , ( bp::arg("x"), bp::arg("y") ) );
         
         }
+        bp::register_ptr_to_python< boost::shared_ptr< alignlib::Matrix<unsigned int> > >();
     }
 
 }

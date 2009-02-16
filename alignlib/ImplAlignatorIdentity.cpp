@@ -35,7 +35,7 @@ using namespace std;
 namespace alignlib
 {
 
-HAlignator makeAlignatorIdentity() 
+HAlignator makeAlignatorIdentity()
 {
 	return HAlignator(new ImplAlignatorIdentity());
 }
@@ -53,17 +53,12 @@ ImplAlignatorIdentity::ImplAlignatorIdentity (const ImplAlignatorIdentity & src 
 {
 }
 
-//--------------------------------------------------------------------------------------------------------
-HAlignator ImplAlignatorIdentity::getClone() const 
-{
-	return HAlignator( new ImplAlignatorIdentity( *this ) );
-}
-
+IMPLEMENT_CLONE( HAlignator, ImplAlignatorIdentity)
 
 //--------------------------------------------------------------------------------------------------------
-void ImplAlignatorIdentity::align( 
+void ImplAlignatorIdentity::align(
 		HAlignment & result,
-		const HAlignandum & row, 
+		const HAlignandum & row,
 		const HAlignandum & col )
 
 {
@@ -85,7 +80,7 @@ void ImplAlignatorIdentity::align(
 		Position r = *rit;
 
 		if (row->asResidue(r) != mask_code)
-		{      
+		{
 			Iterator2D::const_iterator cit(it2d->col_begin(r)), cend(it2d->col_end(r));
 			for (; cit != cend; ++cit)
 			{

@@ -1,31 +1,31 @@
 /*
-  alignlib - a library for aligning protein sequences
+ alignlib - a library for aligning protein sequences
 
-  $Id: ImplMultAlignment.cpp,v 1.6 2004/03/19 18:23:41 aheger Exp $
+ $Id: ImplMultAlignment.cpp,v 1.6 2004/03/19 18:23:41 aheger Exp $
 
-  Copyright (C) 2004 Andreas Heger
+ Copyright (C) 2004 Andreas Heger
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <vector>
 #include <cassert>
+#include <limits>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
@@ -54,26 +54,24 @@ namespace alignlib
 /** create an empty multiple alignment */
 HMultAlignment makeMultAlignment()
 {
-	return HMultAlignment( new ImplMultAlignment() );
+	return HMultAlignment(new ImplMultAlignment());
 }
 
-
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplMultAlignment::ImplMultAlignment () :
+ImplMultAlignment::ImplMultAlignment() :
 	mLength(0)
-	{
-	}
+{
+}
 
 //--------------------------------------------------------------------------------------------------------------
-ImplMultAlignment::~ImplMultAlignment ()
+ImplMultAlignment::~ImplMultAlignment()
 {
 	freeMemory();
 }
 
 //--------------------------------------------------------------------------------------------------------------
-ImplMultAlignment::ImplMultAlignment (const ImplMultAlignment & src )
-:
-	mLength (src.mLength)
+ImplMultAlignment::ImplMultAlignment(const ImplMultAlignment & src) :
+	mLength(src.mLength)
 {
 
 	// clear old entries
@@ -81,11 +79,16 @@ ImplMultAlignment::ImplMultAlignment (const ImplMultAlignment & src )
 
 	// add clones of the new entries
 	for (unsigned int row = 0; row < src.mRows.size(); row++)
-		add( src.mRows[row]->getClone() );
+		add(src.mRows[row]->getClone());
 
 	mIsAligned.clear();
-	std::copy(src.mIsAligned.begin(), src.mIsAligned.end(), std::back_inserter( mIsAligned ));
+	std::copy(src.mIsAligned.begin(), src.mIsAligned.end(), std::back_inserter(
+			mIsAligned));
 }
+
+//--------------------------------------------------------------------------------------------------------------
+IMPLEMENT_CLONE(HMultAlignment, ImplMultAlignment)
+;
 
 //--------------------------------------------------------------------------------------------------------------
 void ImplMultAlignment::freeMemory()
@@ -108,24 +111,24 @@ int ImplMultAlignment::getNumSequences() const
 }
 
 //-----------------------------------------------------------------------------------------------------------
-const HAlignment ImplMultAlignment::operator[]( int row ) const
+const HAlignment ImplMultAlignment::operator[](int row) const
 {
 	if (isEmpty())
 		throw AlignlibException("In ImplMultAlignment.cpp: alignment is empty");
 
-	if (row < 0 || row >= mRows.size() )
+	if (row < 0 || row >= mRows.size())
 		throw AlignlibException("In ImplMultAlignment.cpp: out-of-range access");
 
 	return mRows[row];
 }
 
 //-----------------------------------------------------------------------------------------------------------
-const HAlignment ImplMultAlignment::getRow( int row ) const
+const HAlignment ImplMultAlignment::getRow(int row) const
 {
 	debug_func_cerr(5);
 	if (isEmpty())
 		throw AlignlibException("In ImplMultAlignment.cpp: alignment is empty");
-	if (row < 0 || row >= mRows.size() )
+	if (row < 0 || row >= mRows.size())
 		throw AlignlibException("In ImplMultAlignment.cpp: out-of-range access");
 
 	return mRows[row];
@@ -140,37 +143,37 @@ void ImplMultAlignment::clear()
 }
 
 //-----------------------------------------------------------------------------------------------------------
-void ImplMultAlignment::eraseRow( int row )
+void ImplMultAlignment::eraseRow(int row)
 {
 	debug_func_cerr(5);
 	if (isEmpty())
 		throw AlignlibException("In ImplMultAlignment.cpp: alignment is empty");
-	if (row < 0 || row >= mRows.size() )
+	if (row < 0 || row >= mRows.size())
 		throw AlignlibException("In ImplMultAlignment.cpp: out-of-range access");
 
-	mRows.erase( mRows.begin() + row );
+	mRows.erase(mRows.begin() + row);
 	if (mRows.size() == 0)
 		mLength = 0;
 }
 
 //-----------------------------------------------------------------------------------------------------------
-bool ImplMultAlignment::isAligned( const Position & col )
+bool ImplMultAlignment::isAligned(const Position & col)
 {
 	debug_func_cerr(5);
 	if (col < 0 || col >= getLength())
 		throw AlignlibException("In ImplMultAlignment.cpp: out-of-range access");
-	return mIsAligned[ col ];
+	return mIsAligned[col];
 }
 
-
 //-----------------------------------------------------------------------------------------------------------
-void ImplMultAlignment::updateAligned(
-		const HAlignment & map_mali2sequence )
+void ImplMultAlignment::updateAligned(const HAlignment & map_mali2sequence)
 {
 	debug_func_cerr(5);
-	mIsAligned.resize( mLength, false);
-	AlignmentIterator it( map_mali2sequence->begin() ), end( map_mali2sequence->end());
-	for( ; it != end; ++it) mIsAligned[it->mRow] = true;
+	mIsAligned.resize(mLength, false);
+	AlignmentIterator it(map_mali2sequence->begin()), end(
+			map_mali2sequence->end());
+	for (; it != end; ++it)
+		mIsAligned[it->mRow] = true;
 	return;
 }
 
@@ -179,11 +182,12 @@ void ImplMultAlignment::buildAligned()
 {
 	debug_func_cerr(5);
 	mIsAligned.clear();
-	mIsAligned.resize( mLength, false);
-	for (int x = 0; x < mRows.size(); ++ x)
+	mIsAligned.resize(mLength, false);
+	for (int x = 0; x < mRows.size(); ++x)
 	{
-		AlignmentIterator it( mRows[x]->begin() ), end( mRows[x]->end());
-		for( ; it != end; ++it) mIsAligned[it->mRow] = true;
+		AlignmentIterator it(mRows[x]->begin()), end(mRows[x]->end());
+		for (; it != end; ++it)
+			mIsAligned[it->mRow] = true;
 	}
 	return;
 }
@@ -191,84 +195,67 @@ void ImplMultAlignment::buildAligned()
 //------------------------------------------------------------------------------------
 /** Add a full multiple alignment to the another alignment.
  */
-void ImplMultAlignment::add(
-		const HMultAlignment & other,
-		const HAlignment & map_this2other )
+void ImplMultAlignment::add(const HMultAlignment & other,
+		const HAlignment & map_this2other)
 {
 	debug_func_cerr(5);
 
 	// do not add empty mali
-	if (other->isEmpty()) return;
+	if (other->isEmpty())
+		return;
 
 	for (int x = 0; x < other->getNumSequences(); ++x)
 	{
 		HAlignment new_map_mali2sequence(other->getRow(x)->getNew());
 
-		combineAlignment(
-				new_map_mali2sequence,
-				map_this2other,
-				other->getRow(x),
-				CR);
+		combineAlignment(new_map_mali2sequence, map_this2other,
+				other->getRow(x), CR);
 
-		mRows.push_back( new_map_mali2sequence );
+		mRows.push_back(new_map_mali2sequence);
 	}
 
-	mLength = std::max( mLength, map_this2other->getRowTo() );
+	mLength = std::max(mLength, map_this2other->getRowTo());
 	buildAligned();
 }
 
 //------------------------------------------------------------------------------------
 /** Add a full multiple alignment to the another alignment.
  */
-void ImplMultAlignment::add(
-		const HMultAlignment & other,
-		const HAlignment & map_this2new,
-		const HAlignment & map_other2new )
+void ImplMultAlignment::add(const HMultAlignment & other,
+		const HAlignment & map_this2new, const HAlignment & map_other2new)
 {
 	debug_func_cerr(5);
 
 	// do not add empty mali
-	if (other->isEmpty()) return;
+	if (other->isEmpty())
+		return;
 
 	// map this alignment
 	for (int x = 0; x < getNumSequences(); ++x)
 	{
-		mRows[x]->map( map_this2new, RR );
+		mRows[x]->map(map_this2new, RR);
 	}
 
 	for (int x = 0; x < other->getNumSequences(); ++x)
 	{
 		HAlignment new_map_mali2sequence(other->getRow(x)->getClone());
-		new_map_mali2sequence->map( map_other2new, RR);
-		mRows.push_back( new_map_mali2sequence );
+		new_map_mali2sequence->map(map_other2new, RR);
+		mRows.push_back(new_map_mali2sequence);
 	}
 
-	mLength = std::max( map_this2new->getColTo(), map_other2new->getColTo() );
+	mLength = std::max(map_this2new->getColTo(), map_other2new->getColTo());
 	buildAligned();
 }
 
 //------------------------------------------------------------------------------------
 /* add single entry to *this multiple alignment given an alignment.
  */
-void ImplMultAlignment::add(
-		const HAlignment & map_mali2sequence )
+void ImplMultAlignment::add(const HAlignment & map_mali2sequence)
 {
 	debug_func_cerr(5);
-	mRows.push_back( map_mali2sequence->getClone() );
-	mLength = std::max( mLength, map_mali2sequence->getRowTo() );
-	updateAligned( map_mali2sequence );
-}
-
-//---------------------------------------------------------------------------------------
-HMultAlignment ImplMultAlignment::getClone() const
-{
-	return HMultAlignment( new ImplMultAlignment( *this ) );
-}
-
-//---------------------------------------------------------------------------------------
-HMultAlignment ImplMultAlignment::getNew() const
-{
-	return HMultAlignment( new ImplMultAlignment( ) );
+	mRows.push_back(map_mali2sequence->getClone());
+	mLength = std::max(mLength, map_mali2sequence->getRowTo());
+	updateAligned(map_mali2sequence);
 }
 
 //---------------------------------------------------------------------------------------
@@ -277,20 +264,20 @@ bool ImplMultAlignment::isEmpty() const
 	return mRows.empty();
 }
 
-
 //---------------------------------------------------------------------------------------
-void ImplMultAlignment::expand( const HAlignandumVector & sequences )
+void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 {
-
 	debug_func_cerr(5);
 
-	if (isEmpty()) return;
+	if (isEmpty())
+		return;
 
 	bool insert_termini = false;
 	if (sequences->size() != 0)
 	{
 		if (sequences->size() != getNumSequences())
-			throw AlignlibException( "ImplMultAlignment.cpp: number of sequences given does not match number of sequences in MultAlignment");
+			throw AlignlibException(
+					"ImplMultAlignment.cpp: number of sequences given does not match number of sequences in MultAlignment");
 		insert_termini = true;
 	}
 
@@ -298,36 +285,11 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 
 	// find number of aligned columns in mali
 	for (unsigned int x = 0; x < mRows.size(); ++x)
-		mali_length = std::max( mali_length, mRows[x]->getRowTo());
+		mali_length = std::max(mali_length, mRows[x]->getRowTo());
 
-	// find total/maximum insertions before a given mali column
-	// row: position in mali
-	// col: position in sequence
-	std::vector<int> gaps(mali_length + 1, 0);
+	HCountVector ggaps(getGapCounts(sequences,AggSum));
 
-	for (unsigned int x = 0; x < mRows.size(); ++x)
-	{
-		HAlignment map_mali2row = mRows[x];
-
-		Position last_col = map_mali2row->getColFrom();
-
-		if (insert_termini)
-			gaps[0] += last_col;
-
-		for (Position row = map_mali2row->getRowFrom() + 1; row < map_mali2row->getRowTo(); ++row)
-		{
-			Position col = map_mali2row->mapRowToCol(row);
-			if (col != NO_POS)
-			{
-				gaps[row] += col - last_col - 1;
-				last_col = col;
-			}
-		}
-
-		if (insert_termini)
-			gaps[mali_length] += (*sequences)[x]->getLength() - map_mali2row->getColTo();
-
-	}
+	CountVector & gaps = *ggaps;
 
 	debug_cerr( 5, "length=" << mali_length << " insert_termini=" << insert_termini);
 
@@ -344,7 +306,7 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 		for (Position x = 0; x < mali_length; ++x)
 		{
 			y += gaps[x];
-			map_mali_old2new->addPair( x, y++, 0 );
+			map_mali_old2new->addPair(x, y++, 0);
 		}
 	}
 
@@ -353,7 +315,7 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 	// remap each row to the new mali
 	mLength = 0;
 
-	std::vector<int>used_gaps(mali_length + 1, 0);
+	std::vector<int> used_gaps(mali_length + 1, 0);
 
 	for (unsigned int x = 0; x < mRows.size(); ++x)
 	{
@@ -361,10 +323,8 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 		HAlignment new_map_mali2row = old_map_mali2row->getNew();
 
 		// build new alignment by mapping the existing aligned columns
-		combineAlignment( new_map_mali2row,
-						  map_mali_old2new,
-						  old_map_mali2row,
-						  RR);
+		combineAlignment(new_map_mali2row, map_mali_old2new, old_map_mali2row,
+				RR);
 
 		debug_cerr( 5, "map_mali2row after mapping aligned columns=\n" << *new_map_mali2row );
 
@@ -378,24 +338,26 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 			while (s < col)
 			{
 				assert( new_map_mali2row->mapRowToCol(u) == NO_POS);
-				new_map_mali2row->addPair( u++, s++, 0);
+				new_map_mali2row->addPair(u++, s++, 0);
 			}
 			used_gaps[0] = u;
 		}
 
 		// insert gaps between aligned positions
 		Position last_col = old_map_mali2row->getColFrom();
-		for (Position row = old_map_mali2row->getRowFrom() + 1; row < old_map_mali2row->getRowTo(); ++row)
+		for (Position row = old_map_mali2row->getRowFrom() + 1; row
+				< old_map_mali2row->getRowTo(); ++row)
 		{
 			Position col = old_map_mali2row->mapRowToCol(row);
 
 			if (col != NO_POS)
 			{
-				unsigned int u = map_mali_old2new->mapRowToCol(row) - gaps[row] + used_gaps[row];
+				unsigned int u = map_mali_old2new->mapRowToCol(row) - gaps[row]
+						+ used_gaps[row];
 				unsigned int d = col - last_col - 1;
 				while (col - last_col - 1 > 0)
 				{
-					new_map_mali2row->addPair( u++, ++last_col, 0);
+					new_map_mali2row->addPair(u++, ++last_col, 0);
 				}
 				used_gaps[row] += d;
 				last_col = col;
@@ -405,29 +367,28 @@ void ImplMultAlignment::expand( const HAlignandumVector & sequences )
 		if (insert_termini)
 		{
 			Position end = map_mali_old2new->getColTo();
-			Position residues = (*sequences)[x]->getLength() - old_map_mali2row->getColTo();
-			Position start = end + used_gaps[ mali_length ];
+			Position residues = (*sequences)[x]->getLength()
+					- old_map_mali2row->getColTo();
+			Position start = end + used_gaps[mali_length];
 			debug_cerr( 5, "adding terminal residues:"
 					<< " end=" << end
 					<< " start=" << start
 					<< " to=" << start + residues
 					<< " diag=" << old_map_mali2row->getColTo() - start);
-			new_map_mali2row->addDiagonal(
-					start,
-					start + residues,
-					old_map_mali2row->getColTo() - start );
+			new_map_mali2row->addDiagonal(start, start + residues,
+					old_map_mali2row->getColTo() - start);
 			used_gaps[mali_length] += residues;
 		}
 
 		debug_cerr( 5, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
 
 		mRows[x] = new_map_mali2row;
-		mLength = std::max( mLength, new_map_mali2row->getRowTo() );
+		mLength = std::max(mLength, new_map_mali2row->getRowTo());
 	}
 
 	// by definition all columns will be aligned
 	mIsAligned.clear();
-	mIsAligned.resize( mLength, true);
+	mIsAligned.resize(mLength, true);
 }
 
 //---------------------------------------------------------------------------------------
@@ -436,52 +397,51 @@ void ImplMultAlignment::shrink()
 	HCountVector counts(getColumnCounts());
 	HAlignment map_old2new(makeAlignmentVector());
 	Position n = 0;
-	for (Position x = 0; x < counts->size(); ++ x)
+	for (Position x = 0; x < counts->size(); ++x)
 		if ((*counts)[x] > 1)
-			map_old2new->addPair( x, n++, 0);
-	map( map_old2new, RC );
+			map_old2new->addPair(x, n++, 0);
+	map(map_old2new, RC);
 	mLength = map_old2new->getColTo();
 	buildAligned();
 }
 
-
 //---------------------------------------------------------< Input/Output routines >--------
 
-HPositionMatrix ImplMultAlignment::getPositionMatrix( const bool & transpose ) const
+HPositionMatrix ImplMultAlignment::getPositionMatrix(const bool & transpose) const
 {
 	debug_func_cerr(5);
 	PositionMatrix * matrix;
 	if (transpose)
 	{
-		matrix = new PositionMatrix( getLength(), getNumSequences(), NO_POS);
-		for( int x = 0; x < mRows.size(); ++x)
+		matrix = new PositionMatrix(getLength(), getNumSequences(), NO_POS);
+		for (int x = 0; x < mRows.size(); ++x)
 		{
 			AlignmentIterator it(mRows[x]->begin()), end(mRows[x]->end());
-			for( ; it!= end; ++it)
-				matrix->setValue( it->mRow, x, it->mCol );
+			for (; it != end; ++it)
+				matrix->setValue(it->mRow, x, it->mCol);
 		}
 	}
 	else
 	{
-		matrix = new PositionMatrix( getNumSequences(), getLength(), NO_POS);
-		for( int x = 0; x < mRows.size(); ++x)
+		matrix = new PositionMatrix(getNumSequences(), getLength(), NO_POS);
+		for (int x = 0; x < mRows.size(); ++x)
 		{
 			AlignmentIterator it(mRows[x]->begin()), end(mRows[x]->end());
-			for( ; it!= end; ++it)
-				matrix->setValue( x, it->mRow, it->mCol );
+			for (; it != end; ++it)
+				matrix->setValue(x, it->mRow, it->mCol);
 		}
 	}
-	return HPositionMatrix( matrix );
+	return HPositionMatrix(matrix);
 }
 
 //------------------------------------------------------------------------------------
-void ImplMultAlignment::write( std::ostream & output ) const
+void ImplMultAlignment::write(std::ostream & output) const
 {
 	debug_func_cerr(5);
 
 	for (unsigned int row = 0; row < mRows.size(); ++row)
 	{
-		mRows[row]->write( output );
+		mRows[row]->write(output);
 		output << std::endl;
 	}
 	Position l = getLength();
@@ -490,53 +450,138 @@ void ImplMultAlignment::write( std::ostream & output ) const
 }
 
 //-----------------------------------------------------------------------------------------------------------
-void ImplMultAlignment::map( const HAlignment & other,
+void ImplMultAlignment::map(const HAlignment & other,
 		const CombinationMode & mode)
 {
 	debug_func_cerr(5);
 
 	switch (mode)
 	{
-		case CR:
-			for (int x = 0; x < mRows.size(); ++ x)
-				mRows[x]->map( other, RC);
-			break;
-		case RC:
-			for (int x = 0; x < mRows.size(); ++ x)
-				mRows[x]->map( other, RR);
-			break;
-		default:
-			throw AlignlibException( "ImplMultAlignment.cpp: invalid mapping, only CR and RC are eligible.");
+	case CR:
+		for (int x = 0; x < mRows.size(); ++x)
+			mRows[x]->map(other, RC);
+		break;
+	case RC:
+		for (int x = 0; x < mRows.size(); ++x)
+			mRows[x]->map(other, RR);
+		break;
+	default:
+		throw AlignlibException(
+				"ImplMultAlignment.cpp: invalid mapping, only CR and RC are eligible.");
 	}
 }
-
 
 //-----------------------------------------------------------------------------------------------------------
 HCountVector ImplMultAlignment::getColumnCounts() const
 {
 	debug_func_cerr(5);
-	CountVector * v = new CountVector( getLength(), 0);
+	CountVector * v = new CountVector(getLength(), 0);
 
-	for (int x = 0; x < mRows.size(); ++ x)
+	for (int x = 0; x < mRows.size(); ++x)
 	{
-		AlignmentIterator it( mRows[x]->begin() ), end( mRows[x]->end());
-		for( ; it != end; ++it) (*v)[it->mRow] += 1;
+		AlignmentIterator it(mRows[x]->begin()), end(mRows[x]->end());
+		for (; it != end; ++it)
+			(*v)[it->mRow] += 1;
 	}
-	return HCountVector( v );
+	return HCountVector(v);
 }
 
 //-----------------------------------------------------------------------------------------------------------
 HCountVector ImplMultAlignment::getRowCounts() const
 {
 	debug_func_cerr(5);
-	CountVector * v = new CountVector( getNumSequences(), 0);
+	CountVector * v = new CountVector(getNumSequences(), 0);
 
-	for (int x = 0; x < mRows.size(); ++ x)
+	for (int x = 0; x < mRows.size(); ++x)
 		(*v)[x] = mRows[x]->getNumAligned();
-	return HCountVector( v );
+	return HCountVector(v);
 }
 
+//-----------------------------------------------------------------------------------------------------------
+HCountVector ImplMultAlignment::getGapCounts(
+		const HAlignandumVector & sequences,
+		AggregateType aggregate_type ) const
+{
+	debug_func_cerr(5);
 
-} // namespace alignlib
+	bool insert_termini = false;
+	if (sequences->size() != 0)
+	{
+		if (sequences->size() != getNumSequences())
+			throw AlignlibException(
+					"ImplMultAlignment.cpp: number of sequences given does not match number of sequences in MultAlignment");
+		insert_termini = true;
+	}
+
+	Position mali_length = getLength();
+
+	// find total/maximum insertions before a given mali column
+	// row: position in mali
+	// col: position in sequence
+	CountVector * new_gaps = NULL;
+
+	if ( aggregate_type == AggMin )
+		new_gaps = new CountVector(mali_length + 1, std::numeric_limits<Count>::max());
+	else
+		new_gaps = new CountVector(mali_length + 1, 0);
+
+	CountVector & gaps = *new_gaps;
+
+	for (unsigned int x = 0; x < mRows.size(); ++x)
+	{
+		HAlignment map_mali2row = mRows[x];
+
+		Position last_col = map_mali2row->getColFrom();
+
+		if (insert_termini)
+		{
+			switch( aggregate_type )
+			{
+			case AggMean:
+			case AggSum: gaps[0] += last_col; break;
+			case AggCount: gaps[0] += last_col ? 1 : 0; break;
+			case AggMax: gaps[0] = std::max( (size_t)last_col, gaps[0]); break;
+			case AggMin: gaps[0] = std::min( (size_t)last_col, gaps[0]); break;
+			}
+		}
+
+		for (Position row = map_mali2row->getRowFrom() + 1;
+				row < map_mali2row->getRowTo(); ++row)
+		{
+			Position col = map_mali2row->mapRowToCol(row);
+			if (col != NO_POS)
+			{
+				size_t d = col - last_col - 1;
+				switch( aggregate_type )
+				{
+				case AggMean:
+				case AggSum: gaps[row] += d; break;
+				case AggCount: gaps[row] += d ? 1 : 0; break;
+				case AggMax: gaps[row] = std::max( d, gaps[row]); break;
+				case AggMin: gaps[row] = std::min( d, gaps[row]); break;
+				}
+				last_col = col;
+			}
+		}
+
+		if (insert_termini)
+		{
+			size_t d = (*sequences)[x]->getLength() - map_mali2row->getColTo();
+			switch( aggregate_type )
+			{
+			case AggMean:
+			case AggSum: gaps[mali_length] += d; break;
+			case AggCount: gaps[mali_length] += d ? 1 : 0; break;
+			case AggMax: gaps[mali_length] = std::max( d, gaps[mali_length]); break;
+			case AggMin: gaps[mali_length] = std::min( d, gaps[mali_length]); break;
+			}
+		}
+	}
+
+	return HCountVector(new_gaps);
+}
+}
+
+// namespace alignlib
 
 

@@ -43,6 +43,15 @@ void register_MultipleAlignator_class(){
                 , getClone_function_type( &::alignlib::MultipleAlignator::getClone ) );
         
         }
+        { //::alignlib::MultipleAlignator::getNew
+        
+            typedef ::alignlib::HMultipleAlignator ( ::alignlib::MultipleAlignator::*getNew_function_type )(  ) const;
+            
+            MultipleAlignator_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::MultipleAlignator::getNew ) );
+        
+        }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::MultipleAlignator > >();
     }
 

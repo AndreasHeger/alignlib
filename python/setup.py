@@ -3,15 +3,17 @@ from distutils.extension import Extension
 import os.path
 import sys, glob
 
-include_dirs = ["/usr/include",".","../alignlib", ".." ]
-libraries=["boost_python", "alignlib"]
-library_dirs=['/usr/lib', "../alignlib/.libs" ]
+def main():
 
-files = glob.glob( "modules/*.cpp" )
+    include_dirs = ["/usr/include",".","../alignlib", ".." ]
+    libraries=["boost_python", "alignlib"]
+    library_dirs=['/usr/lib', "../alignlib/.libs" ]
 
-setup(name="alignlib",    
-      ext_modules=[
-                   Extension("alignlib",
+    files = glob.glob( "modules/*.cpp" )
+
+    setup(name="alignlib",    
+          ext_modules=[
+                       Extension("alignlib",
                              files,
                              library_dirs=library_dirs,
                              libraries=libraries,
@@ -19,3 +21,6 @@ setup(name="alignlib",
                              depends=[]),
                              ]
      )
+
+if __name__ == "__main__":
+    sys.exit(main())

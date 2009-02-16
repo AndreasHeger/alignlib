@@ -75,9 +75,15 @@ class Toolkit
     /** destructor */
     virtual ~Toolkit ();
 
+    /** write information of object to stream
+     *
+     * */
+    virtual void write( std::ostream & output ) const = 0;
+
     DEFINE_ABSTRACT_CLONE( HToolkit );
 
     DEFINE_FACTORY_ABSTRACT( HAlignator, Alignator, makeAlignator, setAlignator, getAlignator);
+    DEFINE_FACTORY_ABSTRACT( HFragmentor, Fragmentor, makeFragmentor, setFragmentor, getFragmentor);
     DEFINE_FACTORY_ABSTRACT( HAlignment, Alignment, makeAlignment, setAlignment, getAlignment);
     DEFINE_FACTORY_ABSTRACT( HMultAlignment, MultAlignment, makeMultAlignment, setMultAlignment, getMultAlignment);
     DEFINE_FACTORY_ABSTRACT( HMultipleAlignator, MultipleAlignator, makeMultipleAlignator, setMultipleAlignator, getMultipleAlignator);

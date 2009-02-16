@@ -269,6 +269,7 @@ def exportInterfaceClasses( mb ):
                               'Treetor',
                               'Tree',
                               'DistanceMatrix',
+                              'Toolkit',
                               'Segment',
                               ])
 
@@ -349,6 +350,7 @@ def exportHandles( mb ):
                          'HTree',
                          'HPhyloMatrix',
                          'HFragmentVector',
+                         'HToolkit',
                          'HSegmentVector', ]
 
     for handle in handles_to_export:
@@ -417,6 +419,7 @@ def exportContainers( mb ):
 
 
     atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
+                                 { 'name' : 'CountVector', 'content' : 'int' },
                                  )  
     for data in atomic_vectors_to_export:
         
@@ -471,7 +474,8 @@ def exportMatrices( mb ):
 def exportEnums( mb ):
     """export enums."""
     enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 
-                                   'LinkageType', 'AlphabetType', 'StorageType' ] )
+                                   'LinkageType', 'AlphabetType', 'StorageType',
+                                   'ToolkitType', 'AggregateType' ] )
     
     mb.enumerations( lambda x: x.name in enumerations_to_export ).include()
     
@@ -642,3 +646,5 @@ if __name__ == "__main__":
                     
         elif command == "test":
             pass
+
+    

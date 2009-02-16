@@ -26,6 +26,26 @@ void register_MatrixDouble_class(){
                 , ( bp::arg("row"), bp::arg("col"), bp::arg("value") ) );
         
         }
+        { //::alignlib::Matrix< double >::getClone
+        
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef ::boost::shared_ptr< alignlib::Matrix< double > > ( exported_class_t::*getClone_function_type )(  ) const;
+            
+            MatrixDouble_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Matrix< double >::getClone ) );
+        
+        }
+        { //::alignlib::Matrix< double >::getNew
+        
+            typedef alignlib::Matrix< double > exported_class_t;
+            typedef ::boost::shared_ptr< alignlib::Matrix< double > > ( exported_class_t::*getNew_function_type )(  ) const;
+            
+            MatrixDouble_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Matrix< double >::getNew ) );
+        
+        }
         { //::alignlib::Matrix< double >::getNumCols
         
             typedef alignlib::Matrix< double > exported_class_t;

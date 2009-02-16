@@ -231,6 +231,24 @@ void test_Expand1(
 	}
 }
 
+void fillMali( HMultAlignment & mali, const HAlignment & a )
+{
+	mali->clear();
+	{
+		HAlignment ali(a->getNew());
+		ali->addDiagonal( 0,3,+2 );
+		ali->addDiagonal( 3,6,+4 );
+		mali->add( ali );
+	}
+	{
+		HAlignment ali(a->getNew());
+		ali->addDiagonal( 0,1,+1 );
+		ali->addDiagonal( 1,6,+3 );
+		mali->add( ali );
+		mali->add( ali );
+	}
+}
+
 void test_GenericMultAlignment(
 		const HMultAlignment & r )
 {
@@ -412,6 +430,14 @@ void test_GenericMultAlignment(
 	test_Expand1( r );
 
 }
+
+BOOST_AUTO_TEST_CASE( test_MultAlignment_Blocks )
+{
+	HMultAlignment r( makeMultAlignment() );
+	fillMali( r, makeAlignmentBlocks() );
+	r->getGapCounts( HAlignandumVector(new AlignandumVector() ), AggCount );
+}
+
 
 BOOST_AUTO_TEST_CASE( test_MultAlignment )
 {

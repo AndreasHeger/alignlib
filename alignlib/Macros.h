@@ -29,8 +29,8 @@
 #define IMPL_MACROS_H 1
 
 #define IMPLEMENT_CLONE(handle,cls) \
-handle cls::getClone() const { return handle( new cls( *this )); } \
-handle cls::getNew() const { return handle( new cls()); }
+handle cls::getClone() const { debug_func_cerr(5); return handle( new cls( *this )); } \
+handle cls::getNew() const { debug_func_cerr(5); return handle( new cls()); }
 
 #define DEFINE_CLONE(handle) \
 /** returns a copy of the object.

@@ -91,7 +91,7 @@ namespace alignlib
       /** copy constructor */
       Alignator( const Alignator & src);
 
-      DEFINE_CLONE( HAlignator );
+      DEFINE_ABSTRACT_CLONE( HAlignator );
 
       /** align two @ref Alignandum objects and store result in @ref Alignment
        *

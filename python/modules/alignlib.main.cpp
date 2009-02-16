@@ -84,6 +84,8 @@
 
 #include "modules/Sequence.pypp.hpp"
 
+#include "modules/Toolkit.pypp.hpp"
+
 #include "modules/Tree.pypp.hpp"
 
 #include "modules/Treetor.pypp.hpp"
@@ -252,6 +254,8 @@ BOOST_PYTHON_MODULE(alignlib){
 
     register_Sequence_class();
 
+    register_Toolkit_class();
+
     register_Tree_class();
 
     register_Treetor_class();
@@ -297,6 +301,15 @@ BOOST_PYTHON_MODULE(alignlib){
             }
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::StringVector> >();
+
+    { //::std::vector<int, std::allocator<int> >
+            typedef bp::class_< std::vector<int, std::allocator<int> > > CountVector_exposer_t;
+            CountVector_exposer_t CountVector_exposer = CountVector_exposer_t( "CountVector" );
+            bp::scope CountVector_scope( CountVector_exposer );
+            CountVector_exposer.def( bp::vector_indexing_suite< ::std::vector<int, std::allocator<int> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::CountVector> >();
 
     register_free_functions();
 }

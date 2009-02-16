@@ -24,6 +24,24 @@ void register_Fragmentor_class(){
                 , ( bp::arg("dest"), bp::arg("row"), bp::arg("col") ) );
         
         }
+        { //::alignlib::Fragmentor::getClone
+        
+            typedef ::alignlib::HFragmentor ( ::alignlib::Fragmentor::*getClone_function_type )(  ) const;
+            
+            Fragmentor_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Fragmentor::getClone ) );
+        
+        }
+        { //::alignlib::Fragmentor::getNew
+        
+            typedef ::alignlib::HFragmentor ( ::alignlib::Fragmentor::*getNew_function_type )(  ) const;
+            
+            Fragmentor_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Fragmentor::getNew ) );
+        
+        }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Fragmentor > >();
     }
 

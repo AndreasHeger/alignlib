@@ -24,6 +24,24 @@ void register_Regularizor_class(){
                 , ( bp::arg("frequencies"), bp::arg("counts"), bp::arg("translator") ) );
         
         }
+        { //::alignlib::Regularizor::getClone
+        
+            typedef ::alignlib::HRegularizor ( ::alignlib::Regularizor::*getClone_function_type )(  ) const;
+            
+            Regularizor_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Regularizor::getClone ) );
+        
+        }
+        { //::alignlib::Regularizor::getNew
+        
+            typedef ::alignlib::HRegularizor ( ::alignlib::Regularizor::*getNew_function_type )(  ) const;
+            
+            Regularizor_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Regularizor::getNew ) );
+        
+        }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Regularizor > >();
     }
 

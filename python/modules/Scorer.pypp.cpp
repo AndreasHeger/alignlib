@@ -25,6 +25,15 @@ void register_Scorer_class(){
         }
         { //::alignlib::Scorer::getNew
         
+            typedef ::alignlib::HScorer ( ::alignlib::Scorer::*getNew_function_type )(  ) const;
+            
+            Scorer_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Scorer::getNew ) );
+        
+        }
+        { //::alignlib::Scorer::getNew
+        
             typedef ::alignlib::HScorer ( ::alignlib::Scorer::*getNew_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignandum const & ) const;
             
             Scorer_exposer.def( 
@@ -35,7 +44,7 @@ void register_Scorer_class(){
         }
         { //::alignlib::Scorer::getScore
         
-            typedef ::alignlib::Score ( ::alignlib::Scorer::*getScore_function_type )( ::alignlib::Position,::alignlib::Position ) const;
+            typedef ::alignlib::Score ( ::alignlib::Scorer::*getScore_function_type )( ::alignlib::Position const &,::alignlib::Position const & ) const;
             
             Scorer_exposer.def( 
                 "getScore"

@@ -24,6 +24,24 @@ void register_Treetor_class(){
                 , ( bp::arg("dest"), bp::arg("src") ) );
         
         }
+        { //::alignlib::Treetor::getClone
+        
+            typedef ::alignlib::HTreetor ( ::alignlib::Treetor::*getClone_function_type )(  ) const;
+            
+            Treetor_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Treetor::getClone ) );
+        
+        }
+        { //::alignlib::Treetor::getNew
+        
+            typedef ::alignlib::HTreetor ( ::alignlib::Treetor::*getNew_function_type )(  ) const;
+            
+            Treetor_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Treetor::getNew ) );
+        
+        }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Treetor > >();
     }
 

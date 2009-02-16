@@ -66,6 +66,7 @@ class ImplMultAlignment : public MultAlignment
     /** destructor */
     virtual ~ImplMultAlignment ();
 
+    DEFINE_CLONE( HMultAlignment );
     //---------------------------------------------------------------------------------------
     /*------- accessors --------------------------------------------------------------------*/
 
@@ -200,16 +201,6 @@ class ImplMultAlignment : public MultAlignment
     */
     virtual void clear();
 
-    /** returns a clone of this object
-     * @return a copy of this object.
-     * */
-    virtual HMultAlignment getClone() const;
-
-    /** returns a new object of this type.
-     * @return a new object of this type.
-     * */
-    virtual HMultAlignment getNew() const ;
-
     /** write the multiple alignment to a stream
      *
      * @param output output stream.
@@ -243,6 +234,23 @@ class ImplMultAlignment : public MultAlignment
       * @return a vector of counts.
       */
      virtual HCountVector getRowCounts() const;
+
+     /** return the number of unaligned residues before a column.
+      *
+      *  Return a vector of length l+1 with the number of unaligned residues
+      *  per column.
+      *
+      * @param sequences  	a list of sequences. If this array is not null,
+      *						sequence lengths from this array will be used to expand
+      *						the multiple alignment before the first and after the last
+      *						column.
+      * @param aggregate_type determines how counts are aggregated.
+      * @return a vector of counts.
+      */
+
+     virtual HCountVector getGapCounts(
+    		 const HAlignandumVector & sequences,
+    		 AggregateType aggregate_type = AggSum) const;
 
 
  protected:

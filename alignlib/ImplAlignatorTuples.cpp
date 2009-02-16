@@ -54,29 +54,30 @@ HAlignator makeAlignatorTuples( int ktuple )
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplAlignatorTuples::ImplAlignatorTuples ( int ktuple ) : 
+ImplAlignatorTuples::ImplAlignatorTuples () :
+	ImplAlignator(), mKtuple(1)
+{
+}
+
+ImplAlignatorTuples::ImplAlignatorTuples ( int ktuple ) :
 	ImplAlignator(), mKtuple(ktuple) {
 }
 
 ImplAlignatorTuples::~ImplAlignatorTuples () {
 }
 
-ImplAlignatorTuples::ImplAlignatorTuples (const ImplAlignatorTuples & src ) : 
+ImplAlignatorTuples::ImplAlignatorTuples (const ImplAlignatorTuples & src ) :
 	ImplAlignator(src), mKtuple( src.mKtuple) {
 }
 
-//--------------------------------------------------------------------------------------------------------
-HAlignator ImplAlignatorTuples::getClone() const 
-{
-	return HAlignator( new ImplAlignatorTuples( *this ) );
-}
+IMPLEMENT_CLONE( HAlignator, ImplAlignatorTuples );
 
 //---------------------------------------------> Alignment <-----------------------------------------
 
-void ImplAlignatorTuples::align( 
-		HAlignment & result, 
-		const HAlignandum & row, 
-		const HAlignandum & col ) 
+void ImplAlignatorTuples::align(
+		HAlignment & result,
+		const HAlignandum & row,
+		const HAlignandum & col )
 {
 	debug_func_cerr(5);
 
@@ -88,7 +89,7 @@ void ImplAlignatorTuples::align(
 	int row_len = row->getLength();
 
 	// get some sort of string representation for the sequences (i.e., consensus-string for profiles)
-	std::string row_sequence = row->asString();      
+	std::string row_sequence = row->asString();
 
 	// xrow and xcol are positions in the string and are therefore starting at 0.
 
@@ -97,7 +98,7 @@ void ImplAlignatorTuples::align(
 
 #ifdef DEBUG
 	debug_cerr( 5, "Tuples " );
-	for (TUPLES::iterator it = tuples.begin(); it != tuples.end(); ++it) 
+	for (TUPLES::iterator it = tuples.begin(); it != tuples.end(); ++it)
 	{
 		std::cerr << (*it).first << "\t" ;
 		vector<int> & v = tuples[(*it).first];
@@ -113,7 +114,7 @@ void ImplAlignatorTuples::align(
 	// set of newly generated aligned residue pairs. The residue pair is encoded as
 	// (column_length) * (row) + (column). This step is needed, so all pairs are unique.
 
-	set<Position> newdots;                                                              
+	set<Position> newdots;
 
 	// go through object in col
 	for (Position xcol = 0; xcol <= (col_len - mKtuple); xcol++)
@@ -123,14 +124,14 @@ void ImplAlignatorTuples::align(
 		std::string tuple = col_sequence.substr( xcol, mKtuple);
 
 		// look up tuple
-		if ( tuples.find(tuple) != tuples.end() ) 
+		if ( tuples.find(tuple) != tuples.end() )
 		{
 			// if tuple was there, iterate through all rows and add aligned residues
 			vector<Position>& rows = tuples[tuple];
 
-			for (vector<Position>::iterator it = rows.begin(); it != rows.end(); ++it) 
+			for (vector<Position>::iterator it = rows.begin(); it != rows.end(); ++it)
 			{
-				for (Position i = 0; i < mKtuple; i++) 
+				for (Position i = 0; i < mKtuple; i++)
 				{
 					Position code = ((*it) + i) * col_len + xcol + i;
 					newdots.insert( code );
@@ -139,11 +140,11 @@ void ImplAlignatorTuples::align(
 		}
 	}
 
-	// Add dots from set to dots, nice side-effect: 
+	// Add dots from set to dots, nice side-effect:
 	// the dots are already sorted by row and then by column !!
 
 	Score total_score = 0;
-	for (set<int>::iterator it = newdots.begin(); it != newdots.end(); ++it) 
+	for (set<int>::iterator it = newdots.begin(); it != newdots.end(); ++it)
 	{
 		int xrow = (*it) / col_len;
 		int xcol = (*it) % col_len;

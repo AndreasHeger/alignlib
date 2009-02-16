@@ -388,6 +388,16 @@ void register_free_functions(){
     
     }
 
+    { //::alignlib::getDefaultToolkit
+    
+        typedef ::alignlib::HToolkit ( *getDefaultToolkit_function_type )(  );
+        
+        bp::def( 
+            "getDefaultToolkit"
+            , getDefaultToolkit_function_type( &::alignlib::getDefaultToolkit ) );
+    
+    }
+
     { //::alignlib::getDefaultTreetor
     
         typedef ::alignlib::HTreetor ( *getDefaultTreetor_function_type )(  );
@@ -1414,6 +1424,17 @@ void register_free_functions(){
     
     }
 
+    { //::alignlib::makeToolkit
+    
+        typedef ::alignlib::HToolkit const ( *makeToolkit_function_type )( ::alignlib::ToolkitType const & );
+        
+        bp::def( 
+            "makeToolkit"
+            , makeToolkit_function_type( &::alignlib::makeToolkit )
+            , ( bp::arg("type")=::alignlib::ProteinAlignment ) );
+    
+    }
+
     { //::alignlib::makeTree
     
         typedef ::alignlib::HTree ( *makeTree_function_type )( ::alignlib::Node const );
@@ -1607,6 +1628,17 @@ void register_free_functions(){
         bp::def( 
             "setDefaultSubstitutionMatrix"
             , setDefaultSubstitutionMatrix_function_type( &::alignlib::setDefaultSubstitutionMatrix )
+            , ( bp::arg("arg0") ) );
+    
+    }
+
+    { //::alignlib::setDefaultToolkit
+    
+        typedef void ( *setDefaultToolkit_function_type )( ::alignlib::HToolkit const & );
+        
+        bp::def( 
+            "setDefaultToolkit"
+            , setDefaultToolkit_function_type( &::alignlib::setDefaultToolkit )
             , ( bp::arg("arg0") ) );
     
     }

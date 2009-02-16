@@ -220,7 +220,7 @@ PARTS_MULTIPLE_ALIGNATOR= HelpersMultipleAlignator.cpp \
 			ImplMultipleAlignatorSimple.cpp \ 
 			ImplMultipleAlignatorPileup.cpp
 			
-PARTS_TOOLKIT=ImplToolkit.cpp
+PARTS_TOOLKIT=Toolkit.cpp ImplToolkit.cpp
 			
 lib_LTLIBRARIES = libalignlib.la  
 

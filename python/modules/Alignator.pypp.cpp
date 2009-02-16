@@ -33,6 +33,15 @@ void register_Alignator_class(){
                 , getClone_function_type( &::alignlib::Alignator::getClone ) );
         
         }
+        { //::alignlib::Alignator::getNew
+        
+            typedef ::alignlib::HAlignator ( ::alignlib::Alignator::*getNew_function_type )(  ) const;
+            
+            Alignator_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Alignator::getNew ) );
+        
+        }
         { //::alignlib::Alignator::setIterator2D
         
             typedef void ( ::alignlib::Alignator::*setIterator2D_function_type )( ::alignlib::HIterator2D const & ) ;

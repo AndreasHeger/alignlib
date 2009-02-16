@@ -142,6 +142,15 @@ void register_Encoder_class(){
                 , getAlphabetType_function_type( &::alignlib::Encoder::getAlphabetType ) );
         
         }
+        { //::alignlib::Encoder::getClone
+        
+            typedef ::alignlib::HEncoder ( ::alignlib::Encoder::*getClone_function_type )(  ) const;
+            
+            Encoder_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Encoder::getClone ) );
+        
+        }
         { //::alignlib::Encoder::getGapChar
         
             typedef char ( ::alignlib::Encoder::*getGapChar_function_type )(  ) const;
@@ -204,6 +213,15 @@ void register_Encoder_class(){
             Encoder_exposer.def( 
                 "getMaskCode"
                 , getMaskCode_function_type( &::alignlib::Encoder::getMaskCode ) );
+        
+        }
+        { //::alignlib::Encoder::getNew
+        
+            typedef ::alignlib::HEncoder ( ::alignlib::Encoder::*getNew_function_type )(  ) const;
+            
+            Encoder_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Encoder::getNew ) );
         
         }
         { //::alignlib::Encoder::isValidChar

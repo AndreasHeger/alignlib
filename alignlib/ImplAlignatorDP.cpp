@@ -43,7 +43,7 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 /* How to write a fast algorithm:
@@ -56,9 +56,9 @@ namespace alignlib
 
 //<--------------< Global functions and pointers for fast determination of match score. >-------------------------------------------
 // I don't know how to use member functions as function pointers. After all, this is what inheritence is for. A possibility would be
-// to automatically subclass an alignator-object.However, I do not like this idea, since this assumes that the parent has information 
+// to automatically subclass an alignator-object.However, I do not like this idea, since this assumes that the parent has information
 // about the child. On the other hand, via the inlining mechanism a function call could be saved. The problem is when you want to change
-// the algorithm by overloading align. Then the parent functions () do not know, what the child is. Therefore I use the static 
+// the algorithm by overloading align. Then the parent functions () do not know, what the child is. Therefore I use the static
 // functions. Maybe it is possible to separate the algorithm and the type-decision into different classes that interact.
 //
 // The danger of static functions is that the global pointers are unsafe, i.e. there exist just one copy for all alignator-objects, and
@@ -66,13 +66,26 @@ namespace alignlib
 //-----------------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------------------
-ImplAlignatorDP::ImplAlignatorDP( AlignmentType alignment_type, 
-		Score row_gop, Score row_gep, 
+ImplAlignatorDP::ImplAlignatorDP() :
+	ImplAlignator(),
+	mCC(NULL),
+	mDD(NULL),
+	mAlignmentType(ALIGNMENT_LOCAL),
+	mPenalizeRowLeft( false ),
+	mPenalizeRowRight( false ),
+	mPenalizeColLeft( false ),
+	mPenalizeColRight( false ),
+	mRowGop( 0 ), mRowGep( 0 ),
+	mColGop( 0 ), mColGep( 0 )
+	{}
+
+ImplAlignatorDP::ImplAlignatorDP( AlignmentType alignment_type,
+		Score row_gop, Score row_gep,
 		Score col_gop, Score col_gep,
 		bool penalize_row_left, bool penalize_row_right,
 		bool penalize_col_left, bool penalize_col_right) :
 			ImplAlignator(),
-			mCC(NULL), 
+			mCC(NULL),
 			mDD(NULL),
 			mAlignmentType(alignment_type),
 			mPenalizeRowLeft( penalize_row_left ),
@@ -103,7 +116,6 @@ ImplAlignatorDP::ImplAlignatorDP( const ImplAlignatorDP & src ) :
 
 	mCC = NULL;
 	mDD = NULL;
-
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -115,7 +127,7 @@ ImplAlignatorDP::~ImplAlignatorDP()
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
-void ImplAlignatorDP::setRowGop( Score gop ) { mRowGop = gop;} 
+void ImplAlignatorDP::setRowGop( Score gop ) { mRowGop = gop;}
 void ImplAlignatorDP::setRowGep( Score gep ) { mRowGep = gep;}
 void ImplAlignatorDP::setColGop( Score gop ) { mColGop = gop;}
 void ImplAlignatorDP::setColGep( Score gep ) {mColGep = gep; }
@@ -128,12 +140,12 @@ Score ImplAlignatorDP::getColGep() { return mColGep; }
 //----------------------------------------------------------------------------------------------------------------------------------------
 void ImplAlignatorDP::align(
 		HAlignment & result,
-		const HAlignandum & row, 
-		const HAlignandum & col ) 
+		const HAlignandum & row,
+		const HAlignandum & col )
 {
 	debug_func_cerr(5);
 
-	/* try casting down the hiearchy of Alignandum-objects and then using a switch statement 
+	/* try casting down the hiearchy of Alignandum-objects and then using a switch statement
      register the correct match function. There are different implementations for this:
      1. multiple dispatch, but then everytime I write code for aligning/creating dots, ...
      I have to add new corresponding functions in Alignandum objects. I rather like the code
@@ -154,11 +166,11 @@ void ImplAlignatorDP::align(
 
 //------------------------------------------------------------------------------------------
 void ImplAlignatorDP::startUp(HAlignment & ali,
-		const HAlignandum & row, 
-		const HAlignandum & col) 
+		const HAlignandum & row,
+		const HAlignandum & col)
 {
     debug_func_cerr(5);
-	ImplAlignator::startUp(ali, row, col );  
+	ImplAlignator::startUp(ali, row, col );
 
 	mRowLength = mIterator->row_size();
 	mColLength = mIterator->col_size();
@@ -185,26 +197,26 @@ void ImplAlignatorDP::startUp(HAlignment & ali,
 }
 //----------------------------------------------------------------------------------------------------------------------------------------
 void ImplAlignatorDP::cleanUp(HAlignment & ali,
-		const HAlignandum & row, 
+		const HAlignandum & row,
 		const HAlignandum & col )
 {
     debug_func_cerr(5);
-    
-	if (mCC != NULL) 
-	{ 
-		mCC += (mIterator->col_front() - 1); 
-		delete [] mCC; 
-		mCC = NULL; 
+
+	if (mCC != NULL)
+	{
+		mCC += (mIterator->col_front() - 1);
+		delete [] mCC;
+		mCC = NULL;
 	}
-	if (mDD != NULL) 
-	{ 
-		mDD += (mIterator->col_front() - 1); 
-		delete [] mDD; 
-		mDD = NULL; 
+	if (mDD != NULL)
+	{
+		mDD += (mIterator->col_front() - 1);
+		delete [] mDD;
+		mDD = NULL;
 	}
 
 	ImplAlignator::cleanUp(ali, row, col );
 
-}       
+}
 
 } // namespace alignlib

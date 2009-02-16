@@ -76,6 +76,110 @@ class MultAlignmentTestCase( unittest.TestCase ):
         self.assertEqual( result[1], ["0", "--0-123--45--6789-", "10" ] )
         self.assertEqual( result[2], ["0", "---01--2345--678-9", "10" ] )
 
+    def testGetGapsSum(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        counts = mali.getGapCounts( AlignandumVector(), AggSum )
+        self.assertEqual( tuple(counts), (0,4,0,2,0,0,0) )
+
+    def testGetGapsCount(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        counts = mali.getGapCounts( AlignandumVector(), AggCount )
+        self.assertEqual( tuple(counts), (0,2,0,1,0,0,0) )
+
+    def testGetGapsMin(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        counts = mali.getGapCounts( AlignandumVector(), AggMin )
+        self.assertEqual( tuple(counts[1:-1]), (0,0,0,0,0) )
+
+    def testGetGapsMax(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        counts = mali.getGapCounts( AlignandumVector(), AggMax )
+        self.assertEqual( tuple(counts), (0,2,0,2,0,0,0) )
+
+    def testGetGapsSumFull(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        v = AlignandumVector()
+        for x in seqs: v.append( makeSequence(x) )
+        counts = mali.getGapCounts( v, AggSum )
+        self.assertEqual( tuple(counts), (4,4,0,2,0,0,2) )
+
+    def testGetGapsCountFull(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        v = AlignandumVector()
+        for x in seqs: v.append( makeSequence(x) )
+        counts = mali.getGapCounts( v, AggCount )
+        self.assertEqual( tuple(counts), (3,2,0,1,0,0,2) )
+
+    def testGetGapsMinFull(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        v = AlignandumVector()
+        for x in seqs: v.append( makeSequence(x) )
+        counts = mali.getGapCounts( v, AggMin )
+        self.assertEqual( tuple(counts), (1,0,0,0,0,0,0) )
+
+    def testGetGapsMaxFull(self):
+        """test the gap count function."""
+        mali, seqs = self.constructMali()
+        v = AlignandumVector()
+        for x in seqs: v.append( makeSequence(x) )
+        counts = mali.getGapCounts( v, AggMax )
+        self.assertEqual( tuple(counts), (2,2,0,2,0,0,1) )
+
+    def testMatrix(self):
+        mali, seqs = self.constructMali()
+        
+        test_matrix = ( "234789",
+                        "145678",
+                        "145678")
+        matrix = mali.getPositionMatrix()
+                
+        self.assertEqual( matrix.getNumRows(), len(test_matrix) )
+        self.assertEqual( matrix.getNumCols(), len(test_matrix[0]) )
+        for x in range( len(test_matrix ) ):
+            for y in range( len(test_matrix[0] ) ):
+                self.assertEqual( matrix.getValue( x, y), int(test_matrix[x][y]) )
+        
+    def testRealign(self):
+        """test realignment."""
+        mali, seqs = self.constructMali()
+        v = AlignandumVector()
+        seqs = [ "IIACDIIEFG" ,
+                 "IAILCDEFGI" ,
+                 "KALKCDEFGK" ,
+                ]
+        
+        for x in seqs: v.append( makeSequence(x) )
+        counts = mali.getGapCounts( v, AggCount )
+        
+        ma = makeMultipleAlignatorSimple( makeAlignatorDPFull( ALIGNMENT_LOCAL, 0, 0 ) )
+        
+        for col in range(len(counts)):
+            if counts[col] > 1:
+                print "realignment of column", col, counts[col]
+                to_align_seqs, to_align_parts = [], []
+                for s in range(len(seqs)):
+                    ali = mali.getRow( s )
+                    y = col - 1
+                    while y >= 0 and ali.mapRowToCol( y ) < 0:
+                        y -= 1
+                    if y < 0: start = 0
+                    else: start = ali.mapRowToCol( y ) + 1
+                    if col == mali.getLength(): end = len(seqs[s])
+                    else: end = ali.mapRowToCol( col )
+                    to_align_seqs.append( seqs[s][start:end] )
+                    to_align_parts.append( (start, end ) )
+                print "to_align=", to_align_parts, to_align_seqs
+                result = makeMultAlignment()
+                ma.align( result, to_align_seqs )
+        
+
 class MultAlignmentBlocksTestCase( MultAlignmentTestCase ):
     def setUp( self ):
         MultAlignmentTestCase.setUp( self )
@@ -104,6 +208,11 @@ class MultAlignmentHashDiagonalTestCase( MultAlignmentTestCase ):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(MultAlignmentTestCase)
+    suite.addTest(MultAlignmentBlocksTestCase )
+    suite.addTest(MultAlignmentSetTestCase)
+    suite.addTest(MultAlignmentHashTestCase)
+    suite.addTest(MultAlignmentSetColTestCase)
+    suite.addTest(MultAlignmentHashDiagonalTestCase)
     return suite
 
 if __name__ == "__main__":

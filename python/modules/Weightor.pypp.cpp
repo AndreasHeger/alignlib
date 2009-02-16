@@ -24,6 +24,24 @@ void register_Weightor_class(){
                 , ( bp::arg("counts"), bp::arg("src"), bp::arg("translator") ) );
         
         }
+        { //::alignlib::Weightor::getClone
+        
+            typedef ::alignlib::HWeightor ( ::alignlib::Weightor::*getClone_function_type )(  ) const;
+            
+            Weightor_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Weightor::getClone ) );
+        
+        }
+        { //::alignlib::Weightor::getNew
+        
+            typedef ::alignlib::HWeightor ( ::alignlib::Weightor::*getNew_function_type )(  ) const;
+            
+            Weightor_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Weightor::getNew ) );
+        
+        }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Weightor > >();
     }
 

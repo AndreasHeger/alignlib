@@ -34,6 +34,15 @@ void register_Distor_class(){
                 , ( bp::arg("dest"), bp::arg("mali") ) );
         
         }
+        { //::alignlib::Distor::getClone
+        
+            typedef ::alignlib::HDistor ( ::alignlib::Distor::*getClone_function_type )(  ) const;
+            
+            Distor_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::Distor::getClone ) );
+        
+        }
         { //::alignlib::Distor::getMaximumPossibleDistance
         
             typedef ::alignlib::DistanceMatrixValue ( ::alignlib::Distor::*getMaximumPossibleDistance_function_type )(  ) const;
@@ -41,6 +50,15 @@ void register_Distor_class(){
             Distor_exposer.def( 
                 "getMaximumPossibleDistance"
                 , getMaximumPossibleDistance_function_type( &::alignlib::Distor::getMaximumPossibleDistance ) );
+        
+        }
+        { //::alignlib::Distor::getNew
+        
+            typedef ::alignlib::HDistor ( ::alignlib::Distor::*getNew_function_type )(  ) const;
+            
+            Distor_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Distor::getNew ) );
         
         }
         Distor_exposer.def( bp::self_ns::str( bp::self ) );

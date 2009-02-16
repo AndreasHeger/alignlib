@@ -50,16 +50,21 @@ namespace alignlib
 
   //----------------------------------------------------------------------------------------------------------
   /** constructors and destructors */
-ImplAlignatorDotsQuick::ImplAlignatorDotsQuick( 
+ImplAlignatorDotsQuick::ImplAlignatorDotsQuick() :
+	ImplAlignatorDots()
+	{}
+
+ImplAlignatorDotsQuick::ImplAlignatorDotsQuick(
 		  const HAlignator & dots,
-		  Score row_gop, Score row_gep, 
-		  Score col_gop, Score col_gep ) 
+		  Score row_gop, Score row_gep,
+		  Score col_gop, Score col_gep )
 : ImplAlignatorDots( dots, row_gop, row_gep, col_gop, col_gep)
 {
 }
-		  
+
+
 //----------------------------------------------------------------------------------------------------------
-ImplAlignatorDotsQuick::ImplAlignatorDotsQuick( const ImplAlignatorDotsQuick & src ) 
+ImplAlignatorDotsQuick::ImplAlignatorDotsQuick( const ImplAlignatorDotsQuick & src )
 : ImplAlignatorDots( src )
 {
 	debug_func_cerr(5);
@@ -71,11 +76,13 @@ ImplAlignatorDotsQuick::~ImplAlignatorDotsQuick()
 	debug_func_cerr(5);
 }
 
+IMPLEMENT_CLONE( HAlignator, ImplAlignatorDotsQuick );
+
 //-----------------------------------------------------------< Alignment subroutine >----------------------------------------------
-void ImplAlignatorDotsQuick::performAlignment( 
+void ImplAlignatorDotsQuick::performAlignment(
 		HAlignment & ali,
-		const HAlignandum & prow, 
-		const HAlignandum & pcol ) 
+		const HAlignandum & prow,
+		const HAlignandum & pcol )
 {
 
       /**
@@ -105,11 +112,11 @@ void ImplAlignatorDotsQuick::performAlignment(
      4. Only if this one is not found, the overall best dot is looked up
      in the upper left part of the matrix( 1 to row-2 and 1 to col-2).
      While proceeding through the same row, the search area only between
-     the last lookup and the current col - 1 has to be processed. 
+     the last lookup and the current col - 1 has to be processed.
 
      In order for lookup to be faster, the best dot per column up to then is saved in
      an array bestpercol. This makes the algorithm not strictly Smith-Waterman any more.
-     There might be a lower scoring residue, but which is nevertheless closer to the 
+     There might be a lower scoring residue, but which is nevertheless closer to the
      current dot. If two dots in the same col have the same score, the one with the higher
      row is taken. This is ensured, by comparing the score of the dot in the current row
      with the operator >= to the previous best score.
@@ -151,8 +158,8 @@ void ImplAlignatorDotsQuick::performAlignment(
 
       // #define DEBUG
       //----------------------------------> main alignment loop <----------------------------------------------------
-      for ( current_dot = mRowIndices[1]; current_dot < mNDots; current_dot++ ) 
-      {	   
+      for ( current_dot = mRowIndices[1]; current_dot < mNDots; current_dot++ )
+      {
     	  // iterate through nextrow starting at first position
 
     	  if (current_dot < 0) continue;
@@ -192,24 +199,24 @@ void ImplAlignatorDotsQuick::performAlignment(
 #endif
 
               /* init all */
-              last_search_col = 1; 
-              search_dot = -1; prev_col_dot = -1; prev_row_dot = -1; 
+              last_search_col = 1;
+              search_dot = -1; prev_col_dot = -1; prev_row_dot = -1;
         }
 
         /*------------------------------------------------------------------------------*/
         /* update prev_row_dot = maximum dot along this row */
         xdot = mRowIndices[row_res-1];
-        sc = 0; 
-        while ( (xdot > -1)  && 
+        sc = 0;
+        while ( (xdot > -1)  &&
             ((*mPairs)[xdot].mRow == row_res-1 ) &&  /* stop, if dot in previous row any more*/
             ((*mPairs)[xdot].mCol  < col_res-1 )     /* end, if direct contact to new dot*/
-        ) { 
+        ) {
 
           s = m[xdot] + getGapCost( xdot, current_dot);
 
-          if (s > sc) { 
-            prev_row_dot = xdot; 
-            s = sc; 
+          if (s > sc) {
+            prev_row_dot = xdot;
+            s = sc;
           }
           xdot++;
         }
@@ -217,10 +224,10 @@ void ImplAlignatorDotsQuick::performAlignment(
         /*------------------------------------------------------------------------------*/
         /* update prev_col_dot = max scoring dot in previous column */
         if( col_res > 1) {
-          prev_col_dot = bestpercol[col_res-1]; 
+          prev_col_dot = bestpercol[col_res-1];
           sb = m[prev_col_dot] + getGapCost(prev_col_dot, current_dot);
         } else {
-          prev_col_dot = -1; 
+          prev_col_dot = -1;
           sb = 0;
         }
 
@@ -228,43 +235,43 @@ void ImplAlignatorDotsQuick::performAlignment(
         /* compute d = match adjacent dot in previous row and column */
         /* look up index in row, col, score for dot; -1 if not found */
         /* diagonal_dot -> dot in previous column, previous row */
-        if (col_res > 1) { 
-          diagonal_dot = getPairIndex( row_res - 1, col_res - 1);  
+        if (col_res > 1) {
+          diagonal_dot = getPairIndex( row_res - 1, col_res - 1);
           sd = m[diagonal_dot];
         } else {
-          diagonal_dot = -1; 
+          diagonal_dot = -1;
           sd = 0;
         }
 
         /* update search_dot */
         if ( diagonal_dot < 0 ) { /* only update a if d unoccupied */
 
-          if ( search_dot > -1 )		/* Previous match from last dot in the same current row*/ 
+          if ( search_dot > -1 )		/* Previous match from last dot in the same current row*/
             sa = m[search_dot] + getGapCost( search_dot, current_dot );
-          else 
-            sa=0; 
+          else
+            sa=0;
 
           /* Search through area (row_res -2, col_res -2, but start in last_search_col, where
 	 	we left of the search previously, while being in the same row */
 
           for (i = last_search_col; i <= col_res-2; i++) {
-            xdot = bestpercol[i]; 
+            xdot = bestpercol[i];
             if ( xdot < 0 ) continue;
             s = m[xdot] + getGapCost( xdot, current_dot );
-            if (s > sa) { 
-              sa = s; 
-              search_dot = xdot; 
+            if (s > sa) {
+              sa = s;
+              search_dot = xdot;
             }
           }
           last_search_col = col_res - 1;
-        } else { 
-          search_dot = -1; 
+        } else {
+          search_dot = -1;
           sa = 0;
         }
 
         /*------------------------------------------------------------------------------*/
         /*  select best of d|a|b|c */
-        best = 0; best_dot = -1; 
+        best = 0; best_dot = -1;
 
         if( sd > best ) { best = sd; best_dot = diagonal_dot; }
         if( sa > best)  { best = sa; best_dot = search_dot; }
@@ -272,17 +279,17 @@ void ImplAlignatorDotsQuick::performAlignment(
         if( sc > best)  { best = sc; best_dot = prev_row_dot; }
 
         /* record mTraceback */
-        best += (*mPairs)[current_dot].mScore; 
+        best += (*mPairs)[current_dot].mScore;
 
         if (best < 0) { /* local alignment, reset to zero or start new mTrace with single match */
-          best    = 0; 
+          best    = 0;
           best_dot = -1;
-        }				
+        }
         m[current_dot]      = best;
-        mTrace[current_dot] = best_dot; 
+        mTrace[current_dot] = best_dot;
 
         if ( best > globbest) { /* save best dot */
-          globbest = best; 
+          globbest = best;
           glob_dot  = current_dot;
         }
 
@@ -310,8 +317,8 @@ void ImplAlignatorDotsQuick::performAlignment(
       //--------------> cleaning up <---------------------------------------------------------------
 
       delete [] bestpercolstack;
-      delete [] bestpercol;        
-      delete [] m;        
+      delete [] bestpercol;
+      delete [] m;
 
       //--------------------------------------------------------------------------------------------------
     }

@@ -30,6 +30,7 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
+#include "Macros.h"
 
 namespace alignlib
 {
@@ -61,6 +62,8 @@ class Alignatum
 
     /* destructor */
     virtual ~Alignatum ();
+
+    DEFINE_ABSTRACT_CLONE( HAlignatum );
 
     /*-----> accessors <----------------------------------------------------- */
 
@@ -149,14 +152,6 @@ class Alignatum
     virtual void fillAlignment(
     		HAlignment & dest,
 			const bool invert = false) const = 0;
-
-    /** return an identical copy of this object.
-     */
-    virtual HAlignatum getClone() const = 0;
-
-    /** return an empty copy of this object.
-     */
-    virtual HAlignatum getNew() const = 0;
 
     /** write object to stream. */
     virtual void  write( std::ostream & output ) const = 0;

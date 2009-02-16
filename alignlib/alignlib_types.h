@@ -149,6 +149,14 @@ typedef unsigned long DistanceMatrixSize;
  */
 typedef enum { RR, RC, CR, CC } CombinationMode;
 
+/** enum describing aggregates
+ *
+ */
+enum AggregateType
+{
+	AggMin, AggMax, AggSum, AggMean, AggCount
+};
+
 /** enum describing various toolkits
  *
  */

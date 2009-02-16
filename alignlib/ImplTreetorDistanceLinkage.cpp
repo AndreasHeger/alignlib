@@ -42,7 +42,7 @@ HTreetor makeTreetorDistanceLinkage(
 
 //---------------------------------------------------------< constructors and destructors >---------------------
 ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage () :
-    ImplTreetorDistance(getDefaultToolkit()->getDistor()), mMethod( SINGLE_LINKAGE)
+    ImplTreetorDistance(), mMethod( SINGLE_LINKAGE)
 {
 }
 

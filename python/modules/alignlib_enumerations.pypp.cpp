@@ -10,6 +10,15 @@ namespace bp = boost::python;
 
 void register_enumerations(){
 
+    bp::enum_< alignlib::AggregateType>("AggregateType")
+        .value("AggMin", alignlib::AggMin)
+        .value("AggMax", alignlib::AggMax)
+        .value("AggSum", alignlib::AggSum)
+        .value("AggMean", alignlib::AggMean)
+        .value("AggCount", alignlib::AggCount)
+        .export_values()
+        ;
+
     bp::enum_< alignlib::AlignmentType>("AlignmentType")
         .value("ALIGNMENT_LOCAL", alignlib::ALIGNMENT_LOCAL)
         .value("ALIGNMENT_WRAP", alignlib::ALIGNMENT_WRAP)
@@ -54,6 +63,13 @@ void register_enumerations(){
     bp::enum_< alignlib::StorageType>("StorageType")
         .value("Full", alignlib::Full)
         .value("Sparse", alignlib::Sparse)
+        .export_values()
+        ;
+
+    bp::enum_< alignlib::ToolkitType>("ToolkitType")
+        .value("ProteinAlignment", alignlib::ProteinAlignment)
+        .value("DNAAlignment", alignlib::DNAAlignment)
+        .value("Genomics", alignlib::Genomics)
         .export_values()
         ;
 

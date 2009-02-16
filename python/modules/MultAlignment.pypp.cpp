@@ -91,6 +91,16 @@ void register_MultAlignment_class(){
                 , getColumnCounts_function_type( &::alignlib::MultAlignment::getColumnCounts ) );
         
         }
+        { //::alignlib::MultAlignment::getGapCounts
+        
+            typedef ::alignlib::HCountVector ( ::alignlib::MultAlignment::*getGapCounts_function_type )( ::alignlib::HAlignandumVector const &,::alignlib::AggregateType ) const;
+            
+            MultAlignment_exposer.def( 
+                "getGapCounts"
+                , getGapCounts_function_type( &::alignlib::MultAlignment::getGapCounts )
+                , ( bp::arg("sequences"), bp::arg("aggregate_type")=::alignlib::AggSum ) );
+        
+        }
         { //::alignlib::MultAlignment::getLength
         
             typedef ::alignlib::Position ( ::alignlib::MultAlignment::*getLength_function_type )(  ) const;

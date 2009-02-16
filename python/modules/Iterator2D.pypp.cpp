@@ -75,6 +75,15 @@ void register_Iterator2D_class(){
         }
         { //::alignlib::Iterator2D::getNew
         
+            typedef ::alignlib::HIterator2D ( ::alignlib::Iterator2D::*getNew_function_type )(  ) const;
+            
+            Iterator2D_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Iterator2D::getNew ) );
+        
+        }
+        { //::alignlib::Iterator2D::getNew
+        
             typedef ::alignlib::HIterator2D ( ::alignlib::Iterator2D::*getNew_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignandum const & ) const;
             
             Iterator2D_exposer.def( 

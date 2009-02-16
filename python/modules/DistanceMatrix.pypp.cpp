@@ -14,6 +14,15 @@ void register_DistanceMatrix_class(){
         typedef bp::class_< alignlib::DistanceMatrix, boost::noncopyable > DistanceMatrix_exposer_t;
         DistanceMatrix_exposer_t DistanceMatrix_exposer = DistanceMatrix_exposer_t( "DistanceMatrix", bp::no_init );
         bp::scope DistanceMatrix_scope( DistanceMatrix_exposer );
+        { //::alignlib::DistanceMatrix::getClone
+        
+            typedef ::alignlib::HDistanceMatrix ( ::alignlib::DistanceMatrix::*getClone_function_type )(  ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::DistanceMatrix::getClone ) );
+        
+        }
         { //::alignlib::DistanceMatrix::getElement
         
             typedef ::alignlib::DistanceMatrixValue ( ::alignlib::DistanceMatrix::*getElement_function_type )( ::alignlib::DistanceMatrixSize,::alignlib::DistanceMatrixSize ) const;
@@ -60,6 +69,15 @@ void register_DistanceMatrix_class(){
                 "getMinimum"
                 , getMinimum_function_type( &::alignlib::DistanceMatrix::getMinimum )
                 , ( bp::arg("dest") ) );
+        
+        }
+        { //::alignlib::DistanceMatrix::getNew
+        
+            typedef ::alignlib::HDistanceMatrix ( ::alignlib::DistanceMatrix::*getNew_function_type )(  ) const;
+            
+            DistanceMatrix_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::DistanceMatrix::getNew ) );
         
         }
         { //::alignlib::DistanceMatrix::getSize

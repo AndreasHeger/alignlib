@@ -19,6 +19,7 @@
 
 #include "alignlib_fwd.h"
 #include "ImplTreetor.h"
+#include "Macros.h"
 
 namespace alignlib
 {
@@ -41,7 +42,7 @@ class ImplTreetorDistance : public ImplTreetor
  public:
   /* constructors and desctructors------------------------------------------------------- */
 
-	 /** constructor */
+	/** constructor */
 	 ImplTreetorDistance();
 
 	 /** constructor */
@@ -52,8 +53,6 @@ class ImplTreetorDistance : public ImplTreetor
 
   /** destructor */
   virtual ~ImplTreetorDistance ();
-
-  DEFINE_CLONE( HTreetor );
 
   /* member access functions--------------------------------------------------------------- */
   /** create a tree with distance in matrix. The algorithm is generic, the different clustering

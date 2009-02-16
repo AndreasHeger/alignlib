@@ -28,12 +28,13 @@
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
 #include "HelpersAlignment.h"
+#include "HelpersToolkit.h"
 
 #include "ImplAlignatorPrebuilt.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 HAlignator makeAlignatorPrebuilt( const HAlignment & ali)
@@ -42,7 +43,11 @@ HAlignator makeAlignatorPrebuilt( const HAlignment & ali)
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplAlignatorPrebuilt::ImplAlignatorPrebuilt ( const HAlignment & ali) : 
+ImplAlignatorPrebuilt::ImplAlignatorPrebuilt () :
+	ImplAlignator(), mAlignment ( getDefaultToolkit()->getAlignment() )
+	{}
+
+ImplAlignatorPrebuilt::ImplAlignatorPrebuilt ( const HAlignment & ali) :
 	ImplAlignator(), mAlignment ( ali )
 	{
 	}
@@ -52,25 +57,21 @@ ImplAlignatorPrebuilt::~ImplAlignatorPrebuilt ()
 }
 
 ImplAlignatorPrebuilt::ImplAlignatorPrebuilt (const ImplAlignatorPrebuilt & src ) :
-	ImplAlignator(src), 
+	ImplAlignator(src),
 	mAlignment(src.mAlignment)
 	{
 	}
 
-//----------------------------------------------------------------------------------------------------------
-HAlignator ImplAlignatorPrebuilt::getClone() const 
-{
-	return HAlignator( new ImplAlignatorPrebuilt( *this ) );
-}
+IMPLEMENT_CLONE( HAlignator, ImplAlignatorPrebuilt );
 
 //----------------------------------------------------------------------------------------------------------
-void ImplAlignatorPrebuilt::align( 
+void ImplAlignatorPrebuilt::align(
 		HAlignment & result,
-		const HAlignandum & row, 
-		const HAlignandum & col ) 
+		const HAlignandum & row,
+		const HAlignandum & col )
 {
 	debug_func_cerr(5);
-	
+
 	startUp(result, row, col );
 
 	debug_cerr( 10, "input dots" << *mAlignment );
@@ -81,7 +82,7 @@ void ImplAlignatorPrebuilt::align(
 			mIterator->col_front(), mIterator->col_back() + 1);
 
 	debug_cerr( 10, "copied dots" << *result );
-	
+
 	cleanUp( result, row, col );
 }
 

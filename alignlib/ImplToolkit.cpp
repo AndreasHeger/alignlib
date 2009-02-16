@@ -59,11 +59,12 @@ class ImplToolkit: public Toolkit
     // constructors and destructors
 
     /** constructor */
-    ImplToolkit() {};
+    ImplToolkit() : Toolkit() {};
 
     /** copy constructor */
-    ImplToolkit(const ImplToolkit & src) :
+    ImplToolkit(const ImplToolkit & src) : Toolkit(src),
     	Alignator(src.Alignator),
+    	Fragmentor(src.Fragmentor),
     	Alignment(src.Alignment),
     	MultAlignment(src.MultAlignment),
     	MultipleAlignator(src.MultipleAlignator),
@@ -91,6 +92,7 @@ class ImplToolkit: public Toolkit
 	virtual HToolkit getClone() const { return HToolkit( new ImplToolkit( *this) ) ; };
 
     DEFINE_FACTORY( HAlignator, Alignator, makeAlignator, setAlignator, getAlignator);
+    DEFINE_FACTORY( HFragmentor, Fragmentor, makeFragmentor, setFragmentor, getFragmentor);
     DEFINE_FACTORY( HAlignment, Alignment, makeAlignment, setAlignment, getAlignment);
     DEFINE_FACTORY( HMultAlignment, MultAlignment, makeMultAlignment, setMultAlignment, getMultAlignment);
     DEFINE_FACTORY( HMultipleAlignator, MultipleAlignator, makeMultipleAlignator, setMultipleAlignator, getMultipleAlignator);
@@ -102,10 +104,12 @@ class ImplToolkit: public Toolkit
     DEFINE_FACTORY( HTreetor, Treetor, makeTreetor, setTreetor, getTreetor);
     DEFINE_FACTORY( HScorer, Scorer, makeScorer, setScorer, getScorer);
     DEFINE_FACTORY( HIterator2D, Iterator2D, makeIterator2D, setIterator2D, getIterator2D);
-
-    virtual HSubstitutionMatrix get2() const { return SubstitutionMatrix->getNew() ; };
-
     DEFINE_FACTORY( HSubstitutionMatrix, SubstitutionMatrix, makeSubstitutionMatrix, setSubstitutionMatrix, getSubstitutionMatrix);
+
+    virtual void write( std::ostream & output ) const
+    {
+    	output << "Toolkit - output";
+    }
 };
 
 HToolkit makeToolkit( const ToolkitType & type )

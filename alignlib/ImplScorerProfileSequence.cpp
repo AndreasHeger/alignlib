@@ -24,6 +24,7 @@
 #include <iostream>
 #include <iomanip>
 #include "AlignlibException.h"
+#include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "Encoder.h"
 #include "ImplSequence.h"

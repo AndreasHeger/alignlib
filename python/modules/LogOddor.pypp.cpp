@@ -24,6 +24,24 @@ void register_LogOddor_class(){
                 , ( bp::arg("scores"), bp::arg("frequencies"), bp::arg("translator") ) );
         
         }
+        { //::alignlib::LogOddor::getClone
+        
+            typedef ::alignlib::HLogOddor ( ::alignlib::LogOddor::*getClone_function_type )(  ) const;
+            
+            LogOddor_exposer.def( 
+                "getClone"
+                , getClone_function_type( &::alignlib::LogOddor::getClone ) );
+        
+        }
+        { //::alignlib::LogOddor::getNew
+        
+            typedef ::alignlib::HLogOddor ( ::alignlib::LogOddor::*getNew_function_type )(  ) const;
+            
+            LogOddor_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::LogOddor::getNew ) );
+        
+        }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::LogOddor > >();
     }
 
