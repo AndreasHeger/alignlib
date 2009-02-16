@@ -143,8 +143,10 @@ IMPLEMENT_CLONE( HAlignatum, ImplAlignatum );
 
 
 //--------------------------------------------------------------------------------------------
-void ImplAlignatum::mapOnAlignment(const HAlignment & map_old2new,
-		const Position new_length, const bool unaligned_chars)
+void ImplAlignatum::mapOnAlignment(
+		const HAlignment & map_old2new,
+		const Position new_length,
+		const bool unaligned_chars)
 {
 	debug_func_cerr(5);
 
@@ -152,8 +154,11 @@ void ImplAlignatum::mapOnAlignment(const HAlignment & map_old2new,
 
 	// bail out on empty alignments
 	if (map_old2new->getLength() == 0)
-		throw AlignlibException(
-				"attempting to map an Alignatum object with an empty alignment ");
+	{
+		mRepresentation = "";
+		mFrom = mTo = NO_POS;
+		return;
+	}
 
 	// check if alignment is out-of-bounds
 	if (map_old2new->getRowTo() > mLength)
@@ -262,12 +267,6 @@ void ImplAlignatum::fillAlignment(HAlignment & dest, const bool invert) const
 				dest->addPair(x, y++, 0);
 
 	}
-}
-//-------------------------------------------------------------------------------------------------------
-void ImplAlignatum::write(std::ostream & output) const
-{
-	output << mFrom << getFieldSeparator() << mRepresentation
-			<< getFieldSeparator() << mTo;
 }
 
 /** get represenation */
@@ -431,10 +430,26 @@ Position ImplAlignatum::getResidueNumber(const Position pos,
 }
 
 //-------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------------
+void ImplAlignatum::write(std::ostream & output) const
+{
+	output << mFrom << getFieldSeparator() << mRepresentation
+			<< getFieldSeparator() << mTo;
+}
+
 /** read from stream */
 void ImplAlignatum::read(std::istream & input)
 {
-	input >> mFrom >> mRepresentation >> mTo;
+	debug_func_cerr(5);
+	input >> mFrom;
+	if (mFrom == NO_POS)
+	{
+		mRepresentation = "";
+		input >> mTo;
+	}
+	else
+		input >> mRepresentation >> mTo;
 	mLength = mRepresentation.length();
 }
 

@@ -332,15 +332,18 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 		// insert before start
 		if (insert_termini)
 		{
-			unsigned int u = used_gaps[0];
-			Position col = old_map_mali2row->getColFrom();
-			Position s = 0;
-			while (s < col)
+			if ((*sequences)[x]->getLength() > 0)
 			{
-				assert( new_map_mali2row->mapRowToCol(u) == NO_POS);
-				new_map_mali2row->addPair(u++, s++, 0);
+				unsigned int u = used_gaps[0];
+				Position col = old_map_mali2row->getColFrom();
+				Position s = 0;
+				while (s < col)
+				{
+					assert( new_map_mali2row->mapRowToCol(u) == NO_POS);
+					new_map_mali2row->addPair(u++, s++, 0);
+				}
+				used_gaps[0] = u;
 			}
-			used_gaps[0] = u;
 		}
 
 		// insert gaps between aligned positions
@@ -366,18 +369,26 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 
 		if (insert_termini)
 		{
-			Position end = map_mali_old2new->getColTo();
-			Position residues = (*sequences)[x]->getLength()
-					- old_map_mali2row->getColTo();
-			Position start = end + used_gaps[mali_length];
-			debug_cerr( 5, "adding terminal residues:"
-					<< " end=" << end
-					<< " start=" << start
-					<< " to=" << start + residues
-					<< " diag=" << old_map_mali2row->getColTo() - start);
-			new_map_mali2row->addDiagonal(start, start + residues,
-					old_map_mali2row->getColTo() - start);
-			used_gaps[mali_length] += residues;
+			Position l = (*sequences)[x]->getLength();
+			Position t = old_map_mali2row->getColTo();
+
+			if (t > l)
+				throw AlignlibException( "ImplMultAlignment.cpp: alignment longer than sequence" );
+
+			if (l > 0 && t >= 0)
+			{
+				Position end = map_mali_old2new->getColTo();
+				Position residues = l - t;
+				Position start = end + used_gaps[mali_length];
+				debug_cerr( 5, "adding terminal residues:"
+						<< " end=" << end
+						<< " start=" << start
+						<< " to=" << start + residues
+						<< " diag=" << old_map_mali2row->getColTo() - start);
+				new_map_mali2row->addDiagonal(start, start + residues,
+						old_map_mali2row->getColTo() - start);
+				used_gaps[mali_length] += residues;
+			}
 		}
 
 		debug_cerr( 5, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
@@ -531,6 +542,10 @@ HCountVector ImplMultAlignment::getGapCounts(
 	{
 		HAlignment map_mali2row = mRows[x];
 
+		// skip empty alignments and empty sequences
+		if (map_mali2row->getLength() == 0) continue;
+		if (insert_termini && (*sequences)[x]->getLength() == 0) continue;
+
 		Position last_col = map_mali2row->getColFrom();
 
 		if (insert_termini)
@@ -566,7 +581,12 @@ HCountVector ImplMultAlignment::getGapCounts(
 
 		if (insert_termini)
 		{
-			size_t d = (*sequences)[x]->getLength() - map_mali2row->getColTo();
+			Position l = (*sequences)[x]->getLength();
+			Position t = map_mali2row->getColTo();
+			if (t > l)
+				throw AlignlibException( "ImplMultAlignment.cpp: alignment longer than sequence" );
+
+			size_t d = l - t;
 			switch( aggregate_type )
 			{
 			case AggMean:

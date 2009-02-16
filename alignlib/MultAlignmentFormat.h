@@ -71,7 +71,7 @@ struct MultAlignmentFormat
 
 	virtual ~MultAlignmentFormat();
 
-	/** fill format from Mult alignment
+	/** fill format from Mult lignment
 	 *
 	 *	@param src Mult alignment to parse
 	 */
@@ -120,6 +120,10 @@ struct MultAlignmentFormatPlain : public MultAlignmentFormat
 			const HMultAlignment & src,
 			const HStringVector & sequences );
 
+	MultAlignmentFormatPlain(
+			const HMultAlignment & src,
+			const HAlignandumVector & sequences );
+
 	MultAlignmentFormatPlain( std::istream & src);
 
 	MultAlignmentFormatPlain( const std::string & src);
@@ -135,6 +139,13 @@ struct MultAlignmentFormatPlain : public MultAlignmentFormat
 	virtual void fill(
 			const HMultAlignment & src,
 			const HStringVector & sequences);
+
+	/** fill blocks from alignment
+		@param src Alignment to parse
+	 */
+	virtual void fill(
+			const HMultAlignment & src,
+			const HAlignandumVector & sequences);
 
 	/** save alignment to stream
 	 */

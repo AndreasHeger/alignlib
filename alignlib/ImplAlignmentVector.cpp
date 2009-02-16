@@ -100,6 +100,7 @@ ResiduePair ImplAlignmentVector::back()  const { return mPairs[mRowTo-1]; }
 void ImplAlignmentVector::addPair( const ResiduePair & new_pair )
 {
 	debug_func_cerr( 5 );
+	assert( new_pair.mRow >= 0);
 
     debug_cerr( 5, "adding pair " <<  new_pair << " to container of size "
     		<< mPairs.size() << " coords=" << mRowFrom << "-" << mRowTo << ":" << mColFrom << "-" << mColTo );

@@ -92,12 +92,17 @@ void ImplMultipleAlignatorSimple::align(HMultAlignment & result,
 	// as we go along.
 	for (int x = 1; x < sequences.size(); ++x)
 	{
-		result->expand(aligned);
-		HAlignandum profile(makeProfile(result, aligned));
 		HAlignment ali(makeAlignmentVector());
-		mAlignator->align(ali, profile, sequences[x]);
+
+		if (sequences[x]->getLength() > 0)
+		{
+			result->expand(aligned);
+			HAlignandum profile(makeProfile(result, aligned));
+			mAlignator->align(ali, profile, sequences[x]);
+		}
 		result->add(ali);
 		aligned->push_back(sequences[x]);
+
 	}
 	result->expand(aligned);
 }

@@ -75,7 +75,7 @@ void MultAlignmentFormat::fill(
 		throw AlignlibException("MultAlignmentFormat.cpp: number of sequences in src and sequences do not match");
 
 	for (int x = 0; x < src->getNumSequences(); ++x )
-		if ( (*src)[x]->getColTo() > (*sequences)[x].size())
+		if ( (*src)[x]->getColTo() > 0 && (*src)[x]->getColTo() > (*sequences)[x].size())
 			throw AlignlibException("MultAlignmentFormat.cpp: sequence length in mali longer than in provided sequence");
 
 	mData.clear();
@@ -152,6 +152,19 @@ MultAlignmentFormatPlain::MultAlignmentFormatPlain(
 	fill( src, sequences );
 }
 
+MultAlignmentFormatPlain::MultAlignmentFormatPlain(
+		const HMultAlignment & src,
+		const HAlignandumVector & sequences )
+: MultAlignmentFormat()
+{
+	// this is a call to a virtual function within
+	// constructor. These are dangerous if the base
+	// class wants to use a derived function. This
+	// is not the case. To ensure this, the empty constructor
+	// is called.
+	fill( src, sequences );
+}
+
 
 MultAlignmentFormatPlain::~MultAlignmentFormatPlain ()
 {
@@ -178,17 +191,31 @@ void MultAlignmentFormatPlain::fill(
  	}
 }
 
+void MultAlignmentFormatPlain::fill(
+		const HMultAlignment & src,
+		const HAlignandumVector & sequences
+)
+{
+	debug_func_cerr(5);
+
+	HStringVector seqs( new StringVector() );
+ 	for (int x = 0; x < sequences->size(); ++x)
+ 		seqs->push_back( (*sequences)[x]->asString() );
+ 	fill( src, seqs);
+}
+
 void MultAlignmentFormatPlain::load( std::istream & input)
 {
 	debug_func_cerr( 5 );
 	std::string s;
 	mData.clear();
-	Position from, to;
-	input >> from >> s >> to;
+	HAlignatum a(makeAlignatum());
+	a->read( input );
 	while (!input.fail())
 	{
-		mData.push_back( makeAlignatum(s, from, to) );
-		input >> from >> s >> to;
+		mData.push_back( a );
+		a = makeAlignatum();
+		a->read( input );
 	}
 }
 
