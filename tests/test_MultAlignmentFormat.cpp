@@ -45,6 +45,7 @@ HMultAlignment buildAlignment()
 {
 	HMultAlignment a(makeMultAlignment());
 	HAlignment ali(makeAlignmentVector());
+	a->add( ali );
 	for (int x = 0; x < 10; ++x)
 	{
 		ali->clear();
@@ -74,11 +75,9 @@ void testWriteRead( const std::auto_ptr<MultAlignmentFormat> & format,
 	BOOST_CHECK_EQUAL( format->mData.size(), new_format.mData.size() );
 
 	for (int x = 0; x < format->mData.size(); ++x)
-	{
 		BOOST_CHECK_EQUAL(
 				format->mData[x]->getString(),
 				new_format.mData[x]->getString());
-	}
 
 	BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( old_mali, new_mali ), true );
 }
@@ -89,8 +88,7 @@ BOOST_AUTO_TEST_CASE( test_MultAlignmentFormatPlain )
 	HStringVector sequences(new StringVector());
 	for (int x = 0; x < mali->getNumSequences(); ++x)
 	{
-		std::string s = "XXXXXXXXXXX";
-		sequences->push_back( s);
+		sequences->push_back( "XXXXXXXXXXX" );
 	}
 
 	std::auto_ptr<MultAlignmentFormat>f(new MultAlignmentFormatPlain( mali, sequences));

@@ -56,19 +56,41 @@ BOOST_AUTO_TEST_CASE( multiple_alignment_simple )
 {
 	setDefaultSubstitutionMatrix( makeSubstitutionMatrix( getDefaultEncoder()->getAlphabetSize(), 1, -1000) );
 	HAlignator a(makeAlignatorDPFull( ALIGNMENT_LOCAL, 0, 0 ));
+	HMultipleAlignator ma(makeMultipleAlignatorSimple( a ));
+	HMultAlignment result(makeMultAlignment());
 	HStringVector sequences(new StringVector());
+
+	// test empty alignment
+	{
+		ma->align( result, sequences );
+		BOOST_CHECK_EQUAL( result->getNumSequences(), 0);
+		BOOST_CHECK_EQUAL( result->getLength(), 0);
+	}
+
+	// add some sequences
 	sequences->push_back( "EEEEAAAADDDDMMMMEEEE");
 	sequences->push_back( "FFFFAAAACCCCMMMMFFFF");
 	sequences->push_back( "GGGGAAAAKKKKMMMMGGGG");
-	HMultAlignment result(makeMultAlignment());
+	{
+		ma->align( result, sequences );
+		BOOST_CHECK_EQUAL( result->getNumSequences(), sequences->size());
+		MultAlignmentFormatPlain f( result, sequences);
+		BOOST_CHECK_EQUAL( f.mData[0]->getString(), "--------EEEEAAAADDDD--------MMMMEEEE--------");
+		BOOST_CHECK_EQUAL( f.mData[1]->getString(), "----FFFF----AAAA----CCCC----MMMM----FFFF----");
+		BOOST_CHECK_EQUAL( f.mData[2]->getString(), "GGGG--------AAAA--------KKKKMMMM--------GGGG");
+	}
 
-	HMultipleAlignator ma(makeMultipleAlignatorSimple( a ));
-	ma->align( result, sequences );
-
-	MultAlignmentFormatPlain f( result, sequences);
-	BOOST_CHECK_EQUAL( f.mData[0]->getString(), "--------EEEEAAAADDDD--------MMMMEEEE--------");
-	BOOST_CHECK_EQUAL( f.mData[1]->getString(), "----FFFF----AAAA----CCCC----MMMM----FFFF----");
-	BOOST_CHECK_EQUAL( f.mData[2]->getString(), "GGGG--------AAAA--------KKKKMMMM--------GGGG");
+	// test adding empty sequence
+	sequences->push_back( "" );
+	{
+		ma->align( result, sequences );
+		BOOST_CHECK_EQUAL( result->getNumSequences(), sequences->size());
+		MultAlignmentFormatPlain f( result, sequences);
+		BOOST_CHECK_EQUAL( f.mData[0]->getString(), "--------EEEEAAAADDDD--------MMMMEEEE--------");
+		BOOST_CHECK_EQUAL( f.mData[1]->getString(), "----FFFF----AAAA----CCCC----MMMM----FFFF----");
+		BOOST_CHECK_EQUAL( f.mData[2]->getString(), "GGGG--------AAAA--------KKKKMMMM--------GGGG");
+		BOOST_CHECK_EQUAL( f.mData[3]->getString(), "");
+	}
 }
 
 BOOST_AUTO_TEST_CASE( multiple_alignment_pileup )
@@ -76,17 +98,39 @@ BOOST_AUTO_TEST_CASE( multiple_alignment_pileup )
 	setDefaultSubstitutionMatrix( makeSubstitutionMatrix( getDefaultEncoder()->getAlphabetSize(), 1, -1000) );
 	HAlignator a(makeAlignatorDPFull( ALIGNMENT_LOCAL, 0, 0 ));
 	HStringVector sequences(new StringVector());
+	HMultAlignment result(makeMultAlignment());
+	HMultipleAlignator ma(makeMultipleAlignatorPileup( a ));
+
+	// test empty alignment
+	{
+		ma->align( result, sequences );
+		BOOST_CHECK_EQUAL( result->getNumSequences(), 0);
+		BOOST_CHECK_EQUAL( result->getLength(), 0);
+	}
+
+	// add some sequences
 	sequences->push_back( "EEEEAAAADDDDMMMMEEEE");
 	sequences->push_back( "FFFFAAAACCCCMMMMFFFF");
 	sequences->push_back( "GGGGAAAAKKKKMMMMGGGG");
-	HMultAlignment result(makeMultAlignment());
 
-	HMultipleAlignator ma(makeMultipleAlignatorPileup( a ));
-	ma->align( result, sequences );
+	{
+		ma->align( result, sequences );
+		MultAlignmentFormatPlain f( result, sequences);
+		BOOST_CHECK_EQUAL( f.mData[0]->getString(), "EEEEAAAADDDDMMMMEEEE");
+		BOOST_CHECK_EQUAL( f.mData[1]->getString(), "----AAAA----MMMM----");
+		BOOST_CHECK_EQUAL( f.mData[2]->getString(), "----AAAA----MMMM----");
+	}
 
-	MultAlignmentFormatPlain f( result, sequences);
-	BOOST_CHECK_EQUAL( f.mData[0]->getString(), "EEEEAAAADDDDMMMMEEEE");
-	BOOST_CHECK_EQUAL( f.mData[1]->getString(), "----AAAA----MMMM----");
-	BOOST_CHECK_EQUAL( f.mData[2]->getString(), "----AAAA----MMMM----");
+	// test adding empty sequence
+	sequences->push_back( "" );
+	{
+		ma->align( result, sequences );
+		BOOST_CHECK_EQUAL( result->getNumSequences(), sequences->size());
+		MultAlignmentFormatPlain f( result, sequences);
+		BOOST_CHECK_EQUAL( f.mData[0]->getString(), "EEEEAAAADDDDMMMMEEEE");
+		BOOST_CHECK_EQUAL( f.mData[1]->getString(), "----AAAA----MMMM----");
+		BOOST_CHECK_EQUAL( f.mData[2]->getString(), "----AAAA----MMMM----");
+		BOOST_CHECK_EQUAL( f.mData[3]->getString(), "");
+	}
 }
 
