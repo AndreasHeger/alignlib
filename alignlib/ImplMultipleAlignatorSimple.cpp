@@ -81,16 +81,27 @@ void ImplMultipleAlignatorSimple::align(HMultAlignment & result,
 	if (sequences.size() == 0)
 		return;
 
-	// add the first sequence
-	HAlignment ali(makeAlignmentVector());
-	ali->addDiagonal(0, sequences[0]->getLength(), 0);
-	result->add(ali);
 	HAlignandumVector aligned(new AlignandumVector());
-	aligned->push_back(sequences[0]);
+
+	// add empty sequences
+	HAlignment ali(makeAlignmentVector());
+	int x = 0;
+	while (x < sequences.size() && sequences[x]->getLength() == 0)
+	{
+		result->add(ali);
+		aligned->push_back(sequences[x]);
+		++x;
+	}
+
+	// add first non-empty sequence
+	ali->addDiagonal(x, sequences[x]->getLength(), 0);
+	result->add(ali);
+	aligned->push_back(sequences[x]);
+	++x;
 
 	// align the other sequences, expanding the mali
 	// as we go along.
-	for (int x = 1; x < sequences.size(); ++x)
+	for (; x < sequences.size(); ++x)
 	{
 		HAlignment ali(makeAlignmentVector());
 

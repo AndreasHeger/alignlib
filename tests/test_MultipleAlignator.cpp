@@ -91,6 +91,20 @@ BOOST_AUTO_TEST_CASE( multiple_alignment_simple )
 		BOOST_CHECK_EQUAL( f.mData[2]->getString(), "GGGG--------AAAA--------KKKKMMMM--------GGGG");
 		BOOST_CHECK_EQUAL( f.mData[3]->getString(), "");
 	}
+
+	// test adding empty sequence
+	sequences->insert( sequences->begin(), "" );
+	{
+		ma->align( result, sequences );
+		BOOST_CHECK_EQUAL( result->getNumSequences(), sequences->size());
+		MultAlignmentFormatPlain f( result, sequences);
+		BOOST_CHECK_EQUAL( f.mData[0]->getString(), "");
+		BOOST_CHECK_EQUAL( f.mData[1]->getString(), "--------EEEEAAAADDDD--------MMMMEEEE--------");
+		BOOST_CHECK_EQUAL( f.mData[2]->getString(), "----FFFF----AAAA----CCCC----MMMM----FFFF----");
+		BOOST_CHECK_EQUAL( f.mData[3]->getString(), "GGGG--------AAAA--------KKKKMMMM--------GGGG");
+		BOOST_CHECK_EQUAL( f.mData[4]->getString(), "");
+	}
+
 }
 
 BOOST_AUTO_TEST_CASE( multiple_alignment_pileup )

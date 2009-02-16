@@ -42,6 +42,7 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 #include "MultAlignment.h"
+#include "MultAlignmentFormat.h"
 #include "HelpersMultAlignment.h"
 #include "AlignlibDebug.h"
 #include "AlignlibException.h"
@@ -230,6 +231,40 @@ void test_Expand1(
 		}
 	}
 }
+
+// test for expansion: unaligned sequences
+void test_Expand2( const HMultAlignment & r )
+{
+	HMultAlignment clone(r->getNew());
+	{
+		HAlignment ali(makeAlignmentVector());
+		ali->addDiagonal( 0,8,0);
+		clone->add( ali );
+		clone->add( makeAlignmentVector() );
+	}
+	// expansion without sequences: no change to mali
+	{
+		HMultAlignment clone2(clone->getClone());
+		clone2->expand( HAlignandumVector(new AlignandumVector()));
+		BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( clone, clone2), true);
+	}
+
+	// expansion with sequences
+	{
+		HAlignandumVector seqs(new AlignandumVector());
+		seqs->push_back( makeSequence( "AAAAAAAA" ) );
+		seqs->push_back( makeSequence( "AAAAAAAA" ) );
+		HMultAlignment clone2(clone->getClone());
+		clone2->expand( seqs );
+		BOOST_CHECK_EQUAL( checkAlignmentIdentity( (*clone)[0], (*clone2)[0]), true);
+		BOOST_CHECK_EQUAL( (*clone2)[0]->getColFrom(), (*clone2)[1]->getColFrom());
+		BOOST_CHECK_EQUAL( (*clone2)[0]->getColTo(), (*clone2)[1]->getColTo());
+		BOOST_CHECK_EQUAL( 2 * (*clone2)[0]->getRowTo(), (*clone2)[1]->getRowTo());
+		BOOST_CHECK_EQUAL( (*clone2)[0]->getRowTo(), (*clone2)[1]->getRowFrom());
+	}
+}
+
+
 
 void fillMali( HMultAlignment & mali, const HAlignment & a )
 {
@@ -428,7 +463,7 @@ void test_GenericMultAlignment(
 
 	test_Expand0( r );
 	test_Expand1( r );
-
+	test_Expand2( r );
 }
 
 BOOST_AUTO_TEST_CASE( test_MultAlignment_Blocks )

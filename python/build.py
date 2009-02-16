@@ -419,7 +419,7 @@ def exportContainers( mb ):
 
 
     atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
-                                 { 'name' : 'CountVector', 'content' : 'int' },
+                                 { 'name' : 'CountVector', 'content' : 'size_t' },
                                  )  
     for data in atomic_vectors_to_export:
         

@@ -375,10 +375,12 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 			if (t > l)
 				throw AlignlibException( "ImplMultAlignment.cpp: alignment longer than sequence" );
 
-			if (l > 0 && t >= 0)
+			if (l > 0)
 			{
 				Position end = map_mali_old2new->getColTo();
 				Position residues = l - t;
+				// insert the full sequence if no alignment
+				if (t == NO_POS) { t = 0; residues = l; }
 				Position start = end + used_gaps[mali_length];
 				debug_cerr( 5, "adding terminal residues:"
 						<< " end=" << end
@@ -386,7 +388,7 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 						<< " to=" << start + residues
 						<< " diag=" << old_map_mali2row->getColTo() - start);
 				new_map_mali2row->addDiagonal(start, start + residues,
-						old_map_mali2row->getColTo() - start);
+						t - start);
 				used_gaps[mali_length] += residues;
 			}
 		}

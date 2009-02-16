@@ -163,7 +163,7 @@ class MultAlignmentTestCase( unittest.TestCase ):
         for col in range(len(counts)):
             if counts[col] > 1:
                 print "realignment of column", col, counts[col]
-                to_align_seqs, to_align_parts = [], []
+                to_align_seqs, to_align_parts, to_align_dump = StringVector(), [], []
                 for s in range(len(seqs)):
                     ali = mali.getRow( s )
                     y = col - 1
@@ -174,11 +174,12 @@ class MultAlignmentTestCase( unittest.TestCase ):
                     if col == mali.getLength(): end = len(seqs[s])
                     else: end = ali.mapRowToCol( col )
                     to_align_seqs.append( seqs[s][start:end] )
+                    to_align_dump.append( seqs[s][start:end] )
                     to_align_parts.append( (start, end ) )
-                print "to_align=", to_align_parts, to_align_seqs
+                print "to_align=", to_align_parts, to_align_seqs, to_align_dump
                 result = makeMultAlignment()
                 ma.align( result, to_align_seqs )
-        
+                print "partial alignment", str(MultAlignmentFormatPlain( result, to_align_seqs ) )
 
 class MultAlignmentBlocksTestCase( MultAlignmentTestCase ):
     def setUp( self ):
