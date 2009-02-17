@@ -264,6 +264,45 @@ void test_Expand2( const HMultAlignment & r )
 	}
 }
 
+// test for expansion: empty alignment
+void test_Expand3( const HMultAlignment & r )
+{
+	HMultAlignment clone(r->getNew());
+	{
+		clone->add( makeAlignmentVector() );
+		clone->add( makeAlignmentVector() );
+		BOOST_CHECK_EQUAL( clone->isEmpty(), false);
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), 2);
+		BOOST_CHECK_EQUAL( clone->getLength(), 0);
+	}
+
+	// expansion without sequences: no change to mali
+	{
+		HMultAlignment clone2(clone->getClone());
+		clone2->expand( HAlignandumVector(new AlignandumVector()));
+		BOOST_CHECK_EQUAL( clone2->isEmpty(), false);
+		BOOST_CHECK_EQUAL( clone2->getNumSequences(), 2);
+		BOOST_CHECK_EQUAL( clone2->getLength(), 0);
+	}
+
+	// expansion with sequences
+	{
+		HAlignandumVector seqs(new AlignandumVector());
+		seqs->push_back( makeSequence( "AAAAAAAA" ) );
+		seqs->push_back( makeSequence( "AAAAAAAA" ) );
+		HMultAlignment clone2(clone->getClone());
+		clone2->expand( seqs );
+		BOOST_CHECK_EQUAL( clone2->isEmpty(), false);
+		BOOST_CHECK_EQUAL( clone2->getNumSequences(), 2);
+		BOOST_CHECK_EQUAL( clone2->getLength(), 16);
+		BOOST_CHECK_EQUAL( (*clone2)[0]->getRowFrom(), 0);
+		BOOST_CHECK_EQUAL( (*clone2)[0]->getRowTo(), 8);
+		BOOST_CHECK_EQUAL( (*clone2)[0]->getColFrom(), 0);
+		BOOST_CHECK_EQUAL( (*clone2)[0]->getColTo(), 8);
+
+	}
+}
+
 
 
 void fillMali( HMultAlignment & mali, const HAlignment & a )
@@ -464,6 +503,7 @@ void test_GenericMultAlignment(
 	test_Expand0( r );
 	test_Expand1( r );
 	test_Expand2( r );
+	test_Expand3( r );
 }
 
 BOOST_AUTO_TEST_CASE( test_MultAlignment_Blocks )

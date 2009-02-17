@@ -19,6 +19,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "Toolkit.h"
+#include "alignlib.h"
 
 /**
 	Basic implementation of toolkit.
@@ -47,7 +48,7 @@ namespace alignlib
      * @return the default the @ref text object
      */ \
     virtual handle get() const { return text; } ; \
-    private: \
+    protected: \
     handle text;
 
 class ImplToolkit: public Toolkit
@@ -59,7 +60,22 @@ class ImplToolkit: public Toolkit
     // constructors and destructors
 
     /** constructor */
-    ImplToolkit() : Toolkit() {};
+    ImplToolkit() : Toolkit(),
+		Alignator( makeAlignatorDPFull( ALIGNMENT_LOCAL, -10, -2) ),
+		Fragmentor( alignlib::makeFragmentorDiagonals( Alignator, -10, -2 ) ),
+		Alignment( alignlib::makeAlignmentVector() ),
+		MultAlignment( alignlib::makeMultAlignment() ),
+		MultipleAlignator( alignlib::makeMultipleAlignatorSimple( Alignator ) ),
+		Distor( alignlib::makeDistorKimura() ),
+		Weightor( alignlib::makeWeightor() ),
+		Regularizor( alignlib::makeRegularizor() ),
+		LogOddor( alignlib::makeLogOddor()),
+		Encoder( alignlib::makeEncoder( Protein20 ) ),
+		Treetor( alignlib::makeTreetorDistanceLinkage( Distor ) ),
+		Scorer( alignlib::makeScorer() ),
+		Iterator2D( alignlib::makeIterator2DFull() ),
+		SubstitutionMatrix( alignlib::makeSubstitutionMatrixBlosum62( Encoder ) )
+    {};
 
     /** copy constructor */
     ImplToolkit(const ImplToolkit & src) : Toolkit(src),
@@ -114,7 +130,13 @@ class ImplToolkit: public Toolkit
 
 HToolkit makeToolkit( const ToolkitType & type )
 {
-	return HToolkit( new ImplToolkit() );
+	switch ( type )
+	{
+	case ProteinAlignment: return HToolkit( new ImplToolkit() ); break;
+	case DNAAlignment: return HToolkit( new ImplToolkit() ); break;
+	case Genomics: return HToolkit( new ImplToolkit() ); break;
+	}
+
 }
 
 }

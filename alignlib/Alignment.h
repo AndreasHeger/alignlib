@@ -351,6 +351,15 @@ public:
 	*/
 	virtual void clear() = 0;
 
+	/** merge this alignment with another.
+	 *
+	 * @param other @ref Alignment to merge with
+	 * @param invert if true, switch row and col in the other alignment before merging
+	 * */
+	virtual void merge(
+			const HAlignment & other,
+			bool invert = false ) = 0;
+
 	/** apply a map to the alignment.
 	 *
 	 * This method maps all rows/columns with a map

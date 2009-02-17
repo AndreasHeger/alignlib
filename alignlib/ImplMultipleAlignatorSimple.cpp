@@ -84,20 +84,28 @@ void ImplMultipleAlignatorSimple::align(HMultAlignment & result,
 	HAlignandumVector aligned(new AlignandumVector());
 
 	// add empty sequences
-	HAlignment ali(makeAlignmentVector());
 	int x = 0;
 	while (x < sequences.size() && sequences[x]->getLength() == 0)
 	{
+		HAlignment ali(makeAlignmentVector());
 		result->add(ali);
 		aligned->push_back(sequences[x]);
 		++x;
 	}
 
 	// add first non-empty sequence
-	ali->addDiagonal(x, sequences[x]->getLength(), 0);
-	result->add(ali);
-	aligned->push_back(sequences[x]);
-	++x;
+	{
+		HAlignment ali(makeAlignmentVector());
+		ali->addDiagonal(
+				0,
+				sequences[x]->getLength(),
+				sequences[x]->getFrom() );
+		result->add(ali);
+		aligned->push_back(sequences[x]);
+		++x;
+	}
+
+	debug_cerr( 3, "starting: multiple alignment\n" << MultAlignmentFormatPlain( result, aligned ) );
 
 	// align the other sequences, expanding the mali
 	// as we go along.
@@ -107,13 +115,15 @@ void ImplMultipleAlignatorSimple::align(HMultAlignment & result,
 
 		if (sequences[x]->getLength() > 0)
 		{
+			debug_cerr( 3, "iteration: multiple alignment before expansion\n" << MultAlignmentFormatPlain( result, aligned ) );
 			result->expand(aligned);
+			debug_cerr( 3, "iteration: multiple alignment after expansion\n" << MultAlignmentFormatPlain( result, aligned ) );
 			HAlignandum profile(makeProfile(result, aligned));
 			mAlignator->align(ali, profile, sequences[x]);
 		}
 		result->add(ali);
 		aligned->push_back(sequences[x]);
-
+		debug_cerr( 3, "iteration: multiple alignment\n" << MultAlignmentFormatPlain( result, aligned ) );
 	}
 	result->expand(aligned);
 }

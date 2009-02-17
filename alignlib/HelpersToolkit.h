@@ -46,7 +46,7 @@ namespace alignlib
  * @param type Type of toolkit.
  * @return a @ref Toolkit object.
  */
-const HToolkit makeToolkit( const ToolkitType & type = ProteinAlignment );
+HToolkit makeToolkit( const ToolkitType & type = ProteinAlignment );
 
 /** @} */
 

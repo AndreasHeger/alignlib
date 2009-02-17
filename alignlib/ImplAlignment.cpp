@@ -216,6 +216,8 @@ void ImplAlignment::addDiagonal(
 		Position row_to,
 		Position col_offset)
 {
+	debug_func_cerr( 5 );
+	assert( row_from >= 0);
 	Position i;
 	for (i = row_from; i < row_to; i++)
 		addPair( ResiduePair( i, i + col_offset, 0));
@@ -493,6 +495,28 @@ void ImplAlignment::insertCol(
 	updateBoundaries();
 	setChangedLength();
 	return;
+}
+
+//-----------------------------------------------------------------------------------------------------------
+/** This is a generic routine. It creates a new alignment by making a copy of the old one.
+ */
+void ImplAlignment::merge(
+		const HAlignment & other,
+		bool invert )
+{
+	debug_func_cerr(5);
+
+	AlignmentIterator it(other->begin());
+	AlignmentIterator end(other->end());
+
+	if (invert)
+	{
+		for( ; it != end; ++it )
+			addPair( it->mCol, it->mRow, it->mScore );
+	}
+	else
+		for( ; it != end; ++it ) addPair( *it );
+
 }
 
 //-----------------------------------------------------------------------------------------------------------

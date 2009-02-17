@@ -42,6 +42,7 @@
 #include "AlignmentIterator.h"
 #include "AlignlibException.h"
 #include "HelpersAlignment.h"
+#include "HelpersToolkit.h"
 #include "AlignmentFormat.h"
 
 using namespace std;
@@ -269,8 +270,7 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 {
 	debug_func_cerr(5);
 
-	if (isEmpty())
-		return;
+	if (isEmpty()) return;
 
 	bool insert_termini = false;
 	if (sequences->size() != 0)
@@ -281,17 +281,35 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 		insert_termini = true;
 	}
 
-	Position mali_length = 0;
+	// save old length of mali
+	Position mali_length = mLength;
 
-	// find number of aligned columns in mali
-	for (unsigned int x = 0; x < mRows.size(); ++x)
-		mali_length = std::max(mali_length, mRows[x]->getRowTo());
+	debug_cerr( 5, "length=" << mali_length << " insert_termini=" << insert_termini);
+
+	// special case: if all rows are empty and sequences are given, simple
+	// concatenate all sequences. Without sequences, do nothing.
+	if (mali_length == 0)
+	{
+		if (insert_termini)
+		{
+			Position start = 0;
+			for (int x = 0; x < sequences->size(); ++x)
+			{
+				Position l = (*sequences)[x]->getLength();
+				if (l > 0)
+					mRows[x]->addDiagonal( start, start + l, -start );
+				start += l;
+			}
+			mLength = start;
+			mIsAligned.clear();
+			mIsAligned.resize(mLength, true);
+		}
+		return;
+	}
 
 	HCountVector ggaps(getGapCounts(sequences,AggSum));
 
 	CountVector & gaps = *ggaps;
-
-	debug_cerr( 5, "length=" << mali_length << " insert_termini=" << insert_termini);
 
 #ifdef DEBUG
 	for (unsigned int x = 0; x < gaps.size(); ++x)
@@ -336,7 +354,7 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 			{
 				unsigned int u = used_gaps[0];
 				Position col = old_map_mali2row->getColFrom();
-				Position s = 0;
+				Position s = (*sequences)[x]->getFrom();
 				while (s < col)
 				{
 					assert( new_map_mali2row->mapRowToCol(u) == NO_POS);
@@ -369,21 +387,28 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 
 		if (insert_termini)
 		{
-			Position l = (*sequences)[x]->getLength();
+			Position l = (*sequences)[x]->getTo();
 			Position t = old_map_mali2row->getColTo();
 
 			if (t > l)
+			{
+				debug_cerr(2, "Alignment out of range t=" << t << " l=" << l );
 				throw AlignlibException( "ImplMultAlignment.cpp: alignment longer than sequence" );
+			}
 
-			if (l > 0)
+			// use getLength to exclude empty sequences
+			if ( (*sequences)[x]->getLength() > 0)
 			{
 				Position end = map_mali_old2new->getColTo();
 				Position residues = l - t;
 				// insert the full sequence if no alignment
 				if (t == NO_POS) { t = 0; residues = l; }
 				Position start = end + used_gaps[mali_length];
-				debug_cerr( 5, "adding terminal residues:"
-						<< " end=" << end
+				debug_cerr( 3, "adding terminal residues for x=" << x
+						<< " t=" << t
+						<< " l=" << l
+						<< " '" << (*sequences)[x]->asString()
+						<< "' end=" << end
 						<< " start=" << start
 						<< " to=" << start + residues
 						<< " diag=" << old_map_mali2row->getColTo() - start);
@@ -393,7 +418,7 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 			}
 		}
 
-		debug_cerr( 5, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
+		debug_cerr( 3, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
 
 		mRows[x] = new_map_mali2row;
 		mLength = std::max(mLength, new_map_mali2row->getRowTo());
@@ -405,8 +430,49 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 }
 
 //---------------------------------------------------------------------------------------
+void ImplMultAlignment::merge( const HMultAlignment & other)
+{
+	debug_func_cerr( 5 );
+	if (getNumSequences() != other->getNumSequences() )
+		throw AlignlibException( "multiple alignment to be merged contains no the same number of sequences");
+
+	for (int x = 0; x < mRows.size(); ++x)
+		mRows[x]->merge( other->getRow( x ) );
+}
+
+//---------------------------------------------------------------------------------------
+void ImplMultAlignment::move( const Position & offset )
+{
+	debug_func_cerr( 5 );
+	if (offset > 0)
+	{
+		for (int x = 0; x < mRows.size(); ++x)
+			mRows[x]->moveAlignment( offset, 0);
+	}
+	else if (offset < 0)
+		for (int x = 0; x < mRows.size(); ++x)
+		{
+			if (mRows[x]->getRowFrom() < -offset )
+				throw AlignlibException( "moving alignment out of bounds" );
+			mRows[x]->moveAlignment( offset, 0);
+		}
+}
+
+//---------------------------------------------------------------------------------------
+void ImplMultAlignment::trim()
+{
+	debug_func_cerr( 5 );
+	Position offset = std::numeric_limits<Position>::max();
+
+	for (int x = 0; x < mRows.size(); ++x)
+		offset = std::min( mRows[x]->getRowFrom(), offset );
+	move( -offset );
+}
+
+//---------------------------------------------------------------------------------------
 void ImplMultAlignment::shrink()
 {
+	debug_func_cerr( 5 );
 	HCountVector counts(getColumnCounts());
 	HAlignment map_old2new(makeAlignmentVector());
 	Position n = 0;
@@ -552,13 +618,16 @@ HCountVector ImplMultAlignment::getGapCounts(
 
 		if (insert_termini)
 		{
+			Position l = (*sequences)[x]->getFrom();
+			size_t d = last_col - l;
+
 			switch( aggregate_type )
 			{
 			case AggMean:
-			case AggSum: gaps[0] += last_col; break;
-			case AggCount: gaps[0] += last_col ? 1 : 0; break;
-			case AggMax: gaps[0] = std::max( (size_t)last_col, gaps[0]); break;
-			case AggMin: gaps[0] = std::min( (size_t)last_col, gaps[0]); break;
+			case AggSum: gaps[0] += d; break;
+			case AggCount: gaps[0] += d ? 1 : 0; break;
+			case AggMax: gaps[0] = std::max( d, gaps[0]); break;
+			case AggMin: gaps[0] = std::min( d, gaps[0]); break;
 			}
 		}
 
@@ -583,19 +652,22 @@ HCountVector ImplMultAlignment::getGapCounts(
 
 		if (insert_termini)
 		{
-			Position l = (*sequences)[x]->getLength();
+			Position l = (*sequences)[x]->getTo();
 			Position t = map_mali2row->getColTo();
 			if (t > l)
 				throw AlignlibException( "ImplMultAlignment.cpp: alignment longer than sequence" );
 
-			size_t d = l - t;
-			switch( aggregate_type )
+			if (l > 0)
 			{
-			case AggMean:
-			case AggSum: gaps[mali_length] += d; break;
-			case AggCount: gaps[mali_length] += d ? 1 : 0; break;
-			case AggMax: gaps[mali_length] = std::max( d, gaps[mali_length]); break;
-			case AggMin: gaps[mali_length] = std::min( d, gaps[mali_length]); break;
+				size_t d = l - t;
+				switch( aggregate_type )
+				{
+				case AggMean:
+				case AggSum: gaps[mali_length] += d; break;
+				case AggCount: gaps[mali_length] += d ? 1 : 0; break;
+				case AggMax: gaps[mali_length] = std::max( d, gaps[mali_length]); break;
+				case AggMin: gaps[mali_length] = std::min( d, gaps[mali_length]); break;
+				}
 			}
 		}
 	}

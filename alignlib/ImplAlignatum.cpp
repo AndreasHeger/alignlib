@@ -61,8 +61,10 @@ HAlignatum makeAlignatum(const HAlignandum & src, const Position & from,
 	return HAlignatum(new ImplAlignatum(std::string(src->asString()), from, to));
 }
 
-HAlignatum makeAlignatum(const std::string & src,
-		const HAlignment & map_src2alignment, const Position & max_length)
+HAlignatum makeAlignatum(
+		const std::string & src,
+		const HAlignment & map_src2alignment,
+		const Position & max_length)
 {
 	HAlignatum h(new ImplAlignatum(src));
 	Position length;
@@ -75,25 +77,15 @@ HAlignatum makeAlignatum(const std::string & src,
 	return h;
 }
 
-HAlignatum makeAlignatum(const HAlignandum & src,
-		const HAlignment & map_this2new, const Position & max_length)
+HAlignatum makeAlignatum(
+		const HAlignandum & src,
+		const HAlignment & map_src2alignment,
+		const Position & max_length)
 {
-
-	std::string s(src->asString());
-	HAlignatum result(new ImplAlignatum(s));
-
-	Position length;
-
-	if (map_this2new)
-	{
-		if (max_length == 0)
-			length = map_this2new->getColTo();
-		else
-			length = max_length;
-		result->mapOnAlignment(map_this2new, length);
-	}
-
-	return result;
+	return makeAlignatum(
+			src->asString(),
+			map_src2alignment,
+			max_length );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------
@@ -117,6 +109,8 @@ ImplAlignatum::ImplAlignatum(const std::string & representation, Position from,
 
 	if (mTo == NO_POS)
 		mTo = mFrom + mLength - countGaps();
+
+	debug_cerr( 4, "created alignatum: from=" << mFrom << " to=" << mTo << " repr=" << mRepresentation );
 }
 
 //--------------------------------------------------------------------------------------------
@@ -169,12 +163,13 @@ void ImplAlignatum::mapOnAlignment(
 	new_representation.append(length, mGapChar);
 
 	// get alignment start positions
-	int row_from = map_old2new->getRowFrom();
-	int row_to = map_old2new->getRowTo();
+	Position row_from = map_old2new->getRowFrom();
+	Position row_to = map_old2new->getRowTo();
 
 	// get residue numbers of terminal residues and save them in from/to
-	mFrom = getResidueNumber(row_from, RIGHT);
+	// note that the order is crucial as mFrom is used in getResidueNumber
 	mTo = getResidueNumber(row_to, LEFT);
+	mFrom = getResidueNumber(row_from, RIGHT);
 
 	debug_cerr( 5, "mapping: " << row_from << "->" << mFrom << "; " << row_to << "->" << mTo );
 
@@ -384,14 +379,15 @@ bool ImplAlignatum::isConsistent(void) const
 // The current implemenation is inefficient as it always
 // starts counting from the start. For long sequences
 // implement indices to short-cut the search.
-Position ImplAlignatum::getResidueNumber(const Position pos,
+Position ImplAlignatum::getResidueNumber(
+		const Position pos,
 		const SearchType search) const
 {
 	debug_func_cerr( 5 );
 
 	Position length = mRepresentation.length();
 
-	debug_cerr( 5, "mapping position " << pos << " in " << mFrom << "-" << mTo << " of size " << length );
+	debug_cerr( 5, "mapping position " << pos << " in " << mFrom << "-" << mTo << " of size " << length << " repr=" << mRepresentation );
 
 	if (mFrom == NO_POS || pos == NO_POS || pos < 0 || pos > length)
 		return NO_POS;
@@ -408,10 +404,11 @@ Position ImplAlignatum::getResidueNumber(const Position pos,
 		++i;
 
 	Position result = mFrom;
-	for (; i < pos; i++)
+	for (; i < pos; ++i)
 		if (mRepresentation[i] != mGapChar)
 			++result;
 
+	debug_cerr( 5, "i=" << i << " result=" << result);
 	if (mRepresentation[i] != mGapChar)
 		return result;
 

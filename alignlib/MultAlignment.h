@@ -139,6 +139,30 @@ class MultAlignment
      * */
     virtual void shrink() = 0;
 
+    /** merges another multiple alignment with this multiple alignment
+      *
+      * Both multiple alignments need to have the same number of
+      * sequences.
+      *
+      * @param other the other multiple alignment.
+      * */
+     virtual void merge( const HMultAlignment & other ) = 0;
+
+    /** move the multiple alignment
+      *
+      * shifts multiple alignment columns by @param position. A negative
+      * position will shift to lower values.
+      * @param position number of positions to shift
+      * */
+     virtual void move( const Position & position ) = 0;
+
+     /** trims the multiple alignment
+       *
+       * removes all unaligned columns to the left of the multiple
+       * alignment.
+       * */
+      virtual void trim() = 0;
+
 	/** apply a map to the multiple alignment.
 	 *
 	 * This method maps multiple alignment columns to new positions.

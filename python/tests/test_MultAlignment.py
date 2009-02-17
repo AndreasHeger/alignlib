@@ -160,7 +160,13 @@ class MultAlignmentTestCase( unittest.TestCase ):
         
         ma = makeMultipleAlignatorSimple( makeAlignatorDPFull( ALIGNMENT_LOCAL, 0, 0 ) )
         
+        map_old2new = makeAlignmentVector()
+        
+        offset = 0
+        fragments = []
+        
         for col in range(len(counts)):
+            
             if counts[col] > 1:
                 print "realignment of column", col, counts[col]
                 to_align_seqs, to_align_parts, to_align_dump = StringVector(), [], []
@@ -176,11 +182,29 @@ class MultAlignmentTestCase( unittest.TestCase ):
                     to_align_seqs.append( seqs[s][start:end] )
                     to_align_dump.append( seqs[s][start:end] )
                     to_align_parts.append( (start, end ) )
+                    v[s].useSegment( start, end )
+                    
                 print "to_align=", to_align_parts, to_align_seqs, to_align_dump
                 result = makeMultAlignment()
-                ma.align( result, to_align_seqs )
-                print "partial alignment", str(MultAlignmentFormatPlain( result, to_align_seqs ) )
+                ma.align( result, v )
+                print "partial alignment\n", str(MultAlignmentFormatPlain( result, v ) )
 
+                # sort out where the fragment belongs
+                result.move( offset )
+                fragments.append( result )
+                offset += result.getLength()                
+            
+            map_old2new.addPair( col, col+offset )
+            
+        mali.map( map_old2new, RC )
+        print "gapped alignment\n", str(MultAlignmentFormatPlain( mali, v ) )
+        
+        for fragment in fragments:
+            print "fragment=", str(MultAlignmentFormatPlain( fragment, v ) )
+            mali.merge( fragment )
+        
+        print "gapped alignment\n", str(MultAlignmentFormatPlain( mali, v ) )
+        
 class MultAlignmentBlocksTestCase( MultAlignmentTestCase ):
     def setUp( self ):
         MultAlignmentTestCase.setUp( self )
