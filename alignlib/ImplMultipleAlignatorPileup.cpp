@@ -82,17 +82,31 @@ namespace alignlib
 	  result->clear();
 
 	  if (sequences.size() == 0) return;
+	  if (sequences[0]->getLength() == 0)
+	  {
+		  for (int x = 0; x < sequences.size(); ++x)
+			  result->add( makeAlignmentVector() );
+		  return;
+	  }
 
 	  // add the first sequence
 	  HAlignment ali(makeAlignmentVector());
-	  ali->addDiagonal( 0, sequences[0]->getLength(), 0);
+	  Position offset = sequences[0]->getFrom();
+	  ali->addDiagonal(
+			  0,
+			  sequences[0]->getLength(),
+			  offset );
 	  result->add( ali );
 
 	  // align the other sequences always to the first sequence
 	  for (int x = 1; x < sequences.size(); ++x)
 	  {
 		  HAlignment ali(makeAlignmentVector());
-		  mAlignator->align( ali, sequences[0], sequences[x]);
+		  if (sequences[x]->getLength() > 0)
+		  {
+			  mAlignator->align( ali, sequences[0], sequences[x]);
+			  ali->moveAlignment( -offset, 0);
+		  }
 		  result->add( ali );
 	  }
   }

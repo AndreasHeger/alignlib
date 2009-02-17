@@ -77,6 +77,25 @@ bool isIdentical(
 	return is_identical;
 }
 
+void checkMove( const HAlignment & a )
+{
+	{
+		HAlignment a_clone( a->getNew() );
+		a_clone->moveAlignment( 0, 0);
+		a_clone->moveAlignment( 1, 1);
+		a_clone->moveAlignment( -1, -1);
+		BOOST_CHECK_EQUAL( checkAlignmentIdentity( a_clone, a->getNew() ), true);
+	}
+	{
+		HAlignment a_clone( a->getClone() );
+		a_clone->moveAlignment( 0, 0);
+		a_clone->moveAlignment( 2, 2);
+		a_clone->moveAlignment( -2, -2);
+		BOOST_CHECK_EQUAL( checkAlignmentIdentity( a_clone, a ), true);
+	}
+}
+
+
 void checkInsert( const HAlignment & a )
 {
 	if (a->isEmpty()) return;
@@ -371,6 +390,9 @@ void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs
 
 	// test inserting of residues
 	checkInsert( a );
+
+	// testing moving of an alignment
+	checkMove( a );
 
 	// test removing all pairs
 	{

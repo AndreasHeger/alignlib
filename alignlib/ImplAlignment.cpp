@@ -165,9 +165,11 @@ void ImplAlignment::moveAlignment( Position row_offset, Position col_offset)
 	AlignmentIterator it_end = copy->end();
 
 	for (;it != it_end; ++it)
-		addPair( 	it->mRow + row_offset,
-				it->mCol + col_offset,
-				it->mScore );
+	{
+		addPair( it->mRow + row_offset,
+				 it->mCol + col_offset,
+				 it->mScore );
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -185,8 +187,12 @@ void ImplAlignment::setNumGaps( Position num_gaps ) const
 //--------------------------------------------------------------------------------------------------------------
 void ImplAlignment::addPair( const ResiduePair & pair )
 {
+	assert( pair.mRow >= 0);
+	assert( pair.mCol >= 0);
+
 	Position row = pair.mRow;
 	Position col = pair.mCol;
+
 
 	if (mRowFrom == NO_POS)
 	{

@@ -55,6 +55,26 @@ HMultAlignment buildAlignment()
 	return a;
 }
 
+void testFormat( const std::auto_ptr<MultAlignmentFormat> & format )
+{
+	HMultAlignment mali(makeMultAlignment());
+	HStringVector sequences(new StringVector());
+
+	format->fill( mali, sequences );
+	BOOST_CHECK_EQUAL( format->mData.size(), sequences->size() );
+	format->copy( mali, makeAlignmentVector() );
+
+	mali->add( makeAlignmentVector() );
+	sequences->push_back("");
+	format->fill( mali, sequences );
+	BOOST_CHECK_EQUAL( format->mData.size(), sequences->size() );
+
+	mali->add( makeAlignmentVector() );
+	sequences->push_back("");
+	format->fill( mali, sequences );
+	BOOST_CHECK_EQUAL( format->mData.size(), sequences->size() );
+}
+
 
 void testWriteRead( const std::auto_ptr<MultAlignmentFormat> & format,
 					const HMultAlignment & old_mali )
@@ -93,6 +113,7 @@ BOOST_AUTO_TEST_CASE( test_MultAlignmentFormatPlain )
 
 	std::auto_ptr<MultAlignmentFormat>f(new MultAlignmentFormatPlain( mali, sequences));
 	testWriteRead( f, mali );
+	testFormat( f );
 }
 
 

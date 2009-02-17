@@ -737,18 +737,25 @@ void ImplProfile::add(
 		const HAlignment & map_source2dest,
 		bool is_reverse )
 {
+	debug_func_cerr(5);
+
+	debug_cerr( 3, "adding to profile: is_reverse=" << is_reverse
+			<< " this=" << map_source2dest->getRowFrom() << "-" << map_source2dest->getRowTo()
+			<< " len=" << getFullLength()
+			<< " other=" << map_source2dest->getColFrom() << "-" << map_source2dest->getColTo()
+			<< " len=" << source->getFullLength() );
 
 	assert( source->getEncoder()->getAlphabetSize() == getEncoder()->getAlphabetSize());
 
 	if (is_reverse)
 	{
-		assert (map_source2dest->getColTo() <= source->getLength() );
-		assert (map_source2dest->getRowTo() <= getLength() );
+		assert (map_source2dest->getColTo() <= source->getFullLength() );
+		assert (map_source2dest->getRowTo() <= getFullLength() );
 	}
 	else
 	{
-		assert (map_source2dest->getRowTo() <= source->getLength() );
-		assert (map_source2dest->getColTo() <= getLength() );
+		assert (map_source2dest->getRowTo() <= source->getFullLength() );
+		assert (map_source2dest->getColTo() <= getFullLength() );
 	}
 	const HSequence sequence(toSequence( source ));
 	if (sequence)
