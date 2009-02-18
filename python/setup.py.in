@@ -5,9 +5,9 @@ import sys, glob
 
 def main():
 
-    include_dirs = ["/usr/include",".","../alignlib", ".." ]
-    libraries=["boost_python", "alignlib"]
-    library_dirs=['/usr/lib', "../alignlib/.libs" ]
+    include_dirs = [ ".","../alignlib", ".." ]
+    libraries=["@BOOST_PYTHON_LIB@", "alignlib"]
+    library_dirs=[ "../alignlib/.libs" ]
 
     files = glob.glob( "modules/*.cpp" )
 
