@@ -174,6 +174,13 @@ void ImplAlignmentBlocks::moveAlignment( Position row_offset, Position col_offse
 {
 	debug_func_cerr(5);
 
+	if (isEmpty()) return;
+
+	if (row_offset + mRowFrom < 0 )
+		throw AlignlibException( "moving alignment out of bounds in row");
+	if (col_offset + mColFrom < 0 )
+		throw AlignlibException( "moving alignment out of bounds in col");
+
 	BlockIterator it(mBlocks.begin()), it_end(mBlocks.end());
 
 	// copy pointers from copy into mPairs

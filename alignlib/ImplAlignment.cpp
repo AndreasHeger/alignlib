@@ -155,7 +155,12 @@ void ImplAlignment::moveAlignment( Position row_offset, Position col_offset)
 {
 	debug_func_cerr(5);
 
-	if (mLength == 0) return;
+	if (isEmpty()) return;
+
+	if (row_offset + mRowFrom < 0 )
+		throw AlignlibException( "moving alignment out of bounds in row");
+	if (col_offset + mColFrom < 0 )
+		throw AlignlibException( "moving alignment out of bounds in col");
 
 	HAlignment copy( this->getClone() );
 

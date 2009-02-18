@@ -86,12 +86,30 @@ void checkMove( const HAlignment & a )
 		a_clone->moveAlignment( -1, -1);
 		BOOST_CHECK_EQUAL( checkAlignmentIdentity( a_clone, a->getNew() ), true);
 	}
+
 	{
 		HAlignment a_clone( a->getClone() );
 		a_clone->moveAlignment( 0, 0);
 		a_clone->moveAlignment( 2, 2);
 		a_clone->moveAlignment( -2, -2);
 		BOOST_CHECK_EQUAL( checkAlignmentIdentity( a_clone, a ), true);
+	}
+
+	if (!a->isEmpty())
+	{
+		HAlignment a_clone( a->getClone() );
+		a_clone->moveAlignment( -a->getRowFrom(), -a->getColFrom());
+		BOOST_CHECK_EQUAL( a_clone->getRowFrom(), 0);
+		BOOST_CHECK_EQUAL( a_clone->getColFrom(), 0);
+		a_clone->moveAlignment( a->getRowFrom(), a->getColFrom());
+		BOOST_CHECK_EQUAL( checkAlignmentIdentity( a_clone, a ), true);
+	}
+
+	if (!a->isEmpty())
+	{
+		HAlignment a_clone( a->getClone() );
+		BOOST_CHECK_THROW( a_clone->moveAlignment( -a->getRowTo(), 0), AlignlibException);
+		BOOST_CHECK_THROW( a_clone->moveAlignment( 0, -a->getColTo()), AlignlibException);
 	}
 }
 

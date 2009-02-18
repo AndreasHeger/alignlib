@@ -28,6 +28,7 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
+#include "AlignlibException.h"
 #include "ImplAlignmentVector.h"
 #include "AlignmentIterator.h"
 
@@ -122,6 +123,13 @@ void ImplAlignmentVector::addPair( const ResiduePair & new_pair )
 void ImplAlignmentVector::moveAlignment( Position row_offset, Position col_offset)
 {
 	debug_func_cerr(5);
+
+	if (isEmpty()) return;
+
+	if (row_offset + mRowFrom < 0 )
+		throw AlignlibException( "moving alignment out of bounds in row");
+	if (col_offset + mColFrom < 0 )
+		throw AlignlibException( "moving alignment out of bounds in col");
 
 	// create copy of mPairs (= copy of pointers)
 	PAIRVECTOR copy(mPairs);
