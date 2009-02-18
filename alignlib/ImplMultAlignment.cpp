@@ -402,9 +402,9 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 				Position end = map_mali_old2new->getColTo();
 				Position residues = l - t;
 				// insert the full sequence if no alignment
-				if (t == NO_POS) { t = 0; residues = l; }
+				if (t == NO_POS) { t = (*sequences)[x]->getFrom(); residues = (*sequences)[x]->getLength(); }
 				Position start = end + used_gaps[mali_length];
-				debug_cerr( 3, "adding terminal residues for x=" << x
+				debug_cerr( 3, "adding " << residues << " terminal residues for x=" << x
 						<< " t=" << t
 						<< " l=" << l
 						<< " '" << (*sequences)[x]->asString()
@@ -438,6 +438,9 @@ void ImplMultAlignment::merge( const HMultAlignment & other)
 
 	for (int x = 0; x < mRows.size(); ++x)
 		mRows[x]->merge( other->getRow( x ) );
+
+	mLength = std::max( mLength, other->getLength());
+	buildAligned();
 }
 
 //---------------------------------------------------------------------------------------
@@ -456,6 +459,8 @@ void ImplMultAlignment::move( const Position & offset )
 				throw AlignlibException( "moving alignment out of bounds" );
 			mRows[x]->moveAlignment( offset, 0);
 		}
+	mLength += offset;
+	buildAligned();
 }
 
 //---------------------------------------------------------------------------------------
@@ -529,6 +534,16 @@ void ImplMultAlignment::write(std::ostream & output) const
 }
 
 //-----------------------------------------------------------------------------------------------------------
+void ImplMultAlignment::updateLength()
+{
+	debug_func_cerr(5);
+
+	mLength = 0;
+	for (int x = 0; x < mRows.size(); ++x)
+		mLength = std::max( mRows[x]->getRowTo(), mLength );
+
+}
+//-----------------------------------------------------------------------------------------------------------
 void ImplMultAlignment::map(const HAlignment & other,
 		const CombinationMode & mode)
 {
@@ -548,6 +563,9 @@ void ImplMultAlignment::map(const HAlignment & other,
 		throw AlignlibException(
 				"ImplMultAlignment.cpp: invalid mapping, only CR and RC are eligible.");
 	}
+
+	updateLength();
+	buildAligned();
 }
 
 //-----------------------------------------------------------------------------------------------------------

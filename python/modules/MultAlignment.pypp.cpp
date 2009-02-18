@@ -186,6 +186,26 @@ void register_MultAlignment_class(){
                 , ( bp::arg("other"), bp::arg("mode") ) );
         
         }
+        { //::alignlib::MultAlignment::merge
+        
+            typedef void ( ::alignlib::MultAlignment::*merge_function_type )( ::alignlib::HMultAlignment const & ) ;
+            
+            MultAlignment_exposer.def( 
+                "merge"
+                , merge_function_type( &::alignlib::MultAlignment::merge )
+                , ( bp::arg("other") ) );
+        
+        }
+        { //::alignlib::MultAlignment::move
+        
+            typedef void ( ::alignlib::MultAlignment::*move_function_type )( ::alignlib::Position const & ) ;
+            
+            MultAlignment_exposer.def( 
+                "move"
+                , move_function_type( &::alignlib::MultAlignment::move )
+                , ( bp::arg("position") ) );
+        
+        }
         { //::alignlib::MultAlignment::shrink
         
             typedef void ( ::alignlib::MultAlignment::*shrink_function_type )(  ) ;
@@ -193,6 +213,15 @@ void register_MultAlignment_class(){
             MultAlignment_exposer.def( 
                 "shrink"
                 , shrink_function_type( &::alignlib::MultAlignment::shrink ) );
+        
+        }
+        { //::alignlib::MultAlignment::trim
+        
+            typedef void ( ::alignlib::MultAlignment::*trim_function_type )(  ) ;
+            
+            MultAlignment_exposer.def( 
+                "trim"
+                , trim_function_type( &::alignlib::MultAlignment::trim ) );
         
         }
         { //::alignlib::MultAlignment::write

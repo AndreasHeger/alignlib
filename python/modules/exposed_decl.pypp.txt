@@ -697,6 +697,7 @@
 +@member_function_t@makeWeightor@::alignlib::HWeightor ( ::alignlib::Toolkit::* )(  ) const::alignlib::HWeightor ( ::alignlib::Toolkit::* )(  ) const
 +@member_function_t@getScore@::alignlib::Score ( ::alignlib::Scorer::* )( ::alignlib::Position const &,::alignlib::Position const & ) const::alignlib::Score ( ::alignlib::Scorer::* )( ::alignlib::Position const &,::alignlib::Position const & ) const
 +@member_function_t@getScore@::alignlib::Score ( ::alignlib::Alignment::* )(  ) const::alignlib::Score ( ::alignlib::Alignment::* )(  ) const
++@member_function_t@move@void ( ::alignlib::MultAlignment::* )( ::alignlib::Position const & ) void ( ::alignlib::MultAlignment::* )( ::alignlib::Position const & ) 
 ~@member_function_t@move@char * (*)( char *,char const *,::size_t )char * (*)( char *,char const *,::size_t )
 ~@member_function_t@find@::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char const *,::size_t,::size_t ) const::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( char const *,::size_t,::size_t ) const
 ~@member_function_t@find@::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::string const &,::size_t ) const::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const &,::size_t ) const
@@ -861,14 +862,8 @@
 +@member_function_t@shrink@void ( ::alignlib::DistanceMatrix::* )(  ) void ( ::alignlib::DistanceMatrix::* )(  ) 
 +@member_function_t@shrink@void ( ::alignlib::MultAlignment::* )(  ) void ( ::alignlib::MultAlignment::* )(  ) 
 +@member_function_t@insertRow@void ( ::alignlib::Alignment::* )( ::alignlib::Position const &,::alignlib::Position const & ) void ( ::alignlib::Alignment::* )( ::alignlib::Position const &,::alignlib::Position const & ) 
-~@member_function_t@allocate@double * ( ::__gnu_cxx::new_allocator<double>::* )( ::size_t,void const * ) double * ( ::__gnu_cxx::new_allocator<double>::* )( ::size_t,void const * ) 
-~@member_function_t@allocate@::std::string * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::size_t,void const * ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::size_t,void const * ) 
-~@member_function_t@allocate@::boost::shared_ptr< alignlib::Alignatum > * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::size_t,void const * ) ::boost::shared_ptr<alignlib::Alignatum> * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::size_t,void const * ) 
-~@member_function_t@allocate@unsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::size_t,void const * ) unsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::size_t,void const * ) 
-~@member_function_t@allocate@int * ( ::__gnu_cxx::new_allocator<int>::* )( ::size_t,void const * ) int * ( ::__gnu_cxx::new_allocator<int>::* )( ::size_t,void const * ) 
-~@member_function_t@allocate@long unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::size_t,void const * ) long unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::size_t,void const * ) 
-~@member_function_t@allocate@::boost::shared_ptr< alignlib::Alignment > * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::size_t,void const * ) ::boost::shared_ptr<alignlib::Alignment> * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::size_t,void const * ) 
-~@member_function_t@allocate@char * ( ::__gnu_cxx::new_allocator<char>::* )( ::size_t,void const * ) char * ( ::__gnu_cxx::new_allocator<char>::* )( ::size_t,void const * ) 
++@member_function_t@merge@void ( ::alignlib::MultAlignment::* )( ::alignlib::HMultAlignment const & ) void ( ::alignlib::MultAlignment::* )( ::alignlib::HMultAlignment const & ) 
++@member_function_t@merge@void ( ::alignlib::Alignment::* )( ::alignlib::HAlignment const &,bool ) void ( ::alignlib::Alignment::* )( ::alignlib::HAlignment const &,bool ) 
 +@member_function_t@row_back@::alignlib::Position ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const::alignlib::Position ( ::alignlib::Iterator2D::* )( ::alignlib::Position ) const
 ~@member_function_t@_M_check@::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t,char const * ) const::size_t ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t,char const * ) const
 +@member_function_t@getParent@::alignlib::Node ( ::alignlib::Tree::* )( ::alignlib::Node ) const::alignlib::Node ( ::alignlib::Tree::* )( ::alignlib::Node ) const
@@ -1084,6 +1079,7 @@
 +@member_function_t@load@void ( ::alignlib::MultAlignmentFormat::* )( ::std::istream & ) void ( ::alignlib::MultAlignmentFormat::* )( ::std::istream & ) 
 ~@member_function_t@load@void ( ::alignlib::MultipleAlignmentFormat::* )( ::std::istream & ) void ( ::alignlib::MultipleAlignmentFormat::* )( ::std::istream & ) 
 +@member_function_t@load@void ( ::alignlib::AlignmentFormatBlocks::* )( ::std::istream & ) void ( ::alignlib::AlignmentFormatBlocks::* )( ::std::istream & ) 
++@member_function_t@getGapCounts@::alignlib::HCountVector ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignandumVector const &,::alignlib::AggregateType ) const::alignlib::HCountVector ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignandumVector const &,::alignlib::AggregateType ) const
 +@member_function_t@getDistor@::alignlib::HDistor ( ::alignlib::Toolkit::* )(  ) const::alignlib::HDistor ( ::alignlib::Toolkit::* )(  ) const
 +@member_function_t@shuffle@void ( ::alignlib::Alignandum::* )( unsigned int,::alignlib::Position ) void ( ::alignlib::Alignandum::* )( unsigned int,::alignlib::Position ) 
 ~@member_function_t@_M_range_check@void ( ::std::vector<double, std::allocator<double> >::* )( ::size_t ) constvoid ( ::std::vector<double, std::allocator<double> >::* )( ::size_t ) const
@@ -1253,7 +1249,7 @@
 +@member_function_t@setRegularizor@void ( ::alignlib::Profile::* )( ::alignlib::HRegularizor const & ) void ( ::alignlib::Profile::* )( ::alignlib::HRegularizor const & ) 
 +@member_function_t@removeRoot@void ( ::alignlib::Tree::* )(  ) void ( ::alignlib::Tree::* )(  ) 
 ~@member_function_t@_M_rep@::std::string::_Rep * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) const::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep * ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )(  ) const
-+@member_function_t@getGapCounts@::alignlib::HCountVector ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignandumVector const &,::alignlib::AggregateType ) const::alignlib::HCountVector ( ::alignlib::MultAlignment::* )( ::alignlib::HAlignandumVector const &,::alignlib::AggregateType ) const
++@member_function_t@trim@void ( ::alignlib::MultAlignment::* )(  ) void ( ::alignlib::MultAlignment::* )(  ) 
 +@member_function_t@getStorageType@::alignlib::StorageType ( ::alignlib::Alignandum::* )(  ) const::alignlib::StorageType ( ::alignlib::Alignandum::* )(  ) const
 ~@member_function_t@compare@int ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::string const & ) constint ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) const
 ~@member_function_t@compare@int ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t,::size_t,::std::string const & ) constint ( ::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::* )( ::size_t,::size_t,::std::basic_string<char,std::char_traits<char>,std::allocator<char> > const & ) const
@@ -1322,6 +1318,7 @@
 +@member_function_t@getFullLength@::alignlib::Position ( ::alignlib::Alignandum::* )(  ) const::alignlib::Position ( ::alignlib::Alignandum::* )(  ) const
 +@member_function_t@fill@void ( ::alignlib::AlignmentFormatEmissions::* )( ::alignlib::HAlignment const & ) void ( ::alignlib::AlignmentFormatEmissions::* )( ::alignlib::HAlignment const & ) 
 +@member_function_t@fill@void ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & ) void ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & ) 
++@member_function_t@fill@void ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HAlignandumVector const & ) void ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HAlignandumVector const & ) 
 +@member_function_t@fill@void ( ::alignlib::AlignmentFormatDiagonals::* )( ::alignlib::HAlignment const &,bool const,::alignlib::Position const,::alignlib::Position const,::alignlib::Position const,::alignlib::Position const,::alignlib::Diagonal const,::alignlib::Diagonal const ) void ( ::alignlib::AlignmentFormatDiagonals::* )( ::alignlib::HAlignment const &,bool const,::alignlib::Position const,::alignlib::Position const,::alignlib::Position const,::alignlib::Position const,::alignlib::Diagonal const,::alignlib::Diagonal const ) 
 +@member_function_t@fill@void ( ::alignlib::AlignmentFormatDiagonals::* )( ::alignlib::HAlignment const & ) void ( ::alignlib::AlignmentFormatDiagonals::* )( ::alignlib::HAlignment const & ) 
 ~@member_function_t@fill@void ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::alignlib::HMultipleAlignment const & ) void ( ::alignlib::MultipleAlignmentFormatPlain::* )( ::alignlib::HMultipleAlignment const & ) 
@@ -1413,6 +1410,14 @@
 +@member_function_t@getLeftChild@::alignlib::Node ( ::alignlib::Tree::* )( ::alignlib::Node ) const::alignlib::Node ( ::alignlib::Tree::* )( ::alignlib::Node ) const
 ~@member_function_t@what@char const * ( ::alignlib::AlignlibException::* )(  ) constchar const * ( ::alignlib::AlignlibException::* )(  ) const
 ~@member_function_t@what@char const * ( ::std::exception::* )(  ) constchar const * ( ::std::exception::* )(  ) const
+~@member_function_t@allocate@double * ( ::__gnu_cxx::new_allocator<double>::* )( ::size_t,void const * ) double * ( ::__gnu_cxx::new_allocator<double>::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@::std::string * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::size_t,void const * ) ::std::basic_string<char,std::char_traits<char>,std::allocator<char> > * ( ::__gnu_cxx::new_allocator<std::string>::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@::boost::shared_ptr< alignlib::Alignatum > * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::size_t,void const * ) ::boost::shared_ptr<alignlib::Alignatum> * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignatum> >::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@unsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::size_t,void const * ) unsigned int * ( ::__gnu_cxx::new_allocator<unsigned int>::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@int * ( ::__gnu_cxx::new_allocator<int>::* )( ::size_t,void const * ) int * ( ::__gnu_cxx::new_allocator<int>::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@long unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::size_t,void const * ) long unsigned int * ( ::__gnu_cxx::new_allocator<unsigned long>::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@::boost::shared_ptr< alignlib::Alignment > * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::size_t,void const * ) ::boost::shared_ptr<alignlib::Alignment> * ( ::__gnu_cxx::new_allocator<boost::shared_ptr<alignlib::Alignment> >::* )( ::size_t,void const * ) 
+~@member_function_t@allocate@char * ( ::__gnu_cxx::new_allocator<char>::* )( ::size_t,void const * ) char * ( ::__gnu_cxx::new_allocator<char>::* )( ::size_t,void const * ) 
 ~@member_function_t@_S_empty_rep@::std::string::_Rep & (*)(  )::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep & (*)(  )
 ~@member_function_t@_S_empty_rep@::std::string::_Rep & (*)(  )::std::basic_string<char,std::char_traits<char>,std::allocator<char> >::_Rep & (*)(  )
 ~@member_function_t@to_char_type@char (*)( int const & )char (*)( int const & )
@@ -1507,6 +1512,7 @@
 +@member_function_t@getNoNode@::alignlib::Node ( ::alignlib::Tree::* )(  ) const::alignlib::Node ( ::alignlib::Tree::* )(  ) const
 +@constructor_t@MultAlignmentFormatPlain@ ( ::alignlib::MultAlignmentFormatPlain::* )(  )  ( ::alignlib::MultAlignmentFormatPlain::* )(  ) 
 +@constructor_t@MultAlignmentFormatPlain@ ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & )  ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & ) 
++@constructor_t@MultAlignmentFormatPlain@ ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HAlignandumVector const & )  ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::HMultAlignment const &,::alignlib::HAlignandumVector const & ) 
 +@constructor_t@MultAlignmentFormatPlain@ ( ::alignlib::MultAlignmentFormatPlain::* )( ::std::istream & )  ( ::alignlib::MultAlignmentFormatPlain::* )( ::std::istream & ) 
 +@constructor_t@MultAlignmentFormatPlain@ ( ::alignlib::MultAlignmentFormatPlain::* )( ::std::string const & )  ( ::alignlib::MultAlignmentFormatPlain::* )( ::std::string const & ) 
 +@constructor_t@MultAlignmentFormatPlain@ ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::MultAlignmentFormatPlain const & )  ( ::alignlib::MultAlignmentFormatPlain::* )( ::alignlib::MultAlignmentFormatPlain const & ) 
@@ -2003,7 +2009,7 @@
 +@free_function_t@setDefaultSubstitutionMatrix@void (*)( ::alignlib::HSubstitutionMatrix const & )void (*)( ::alignlib::HSubstitutionMatrix const & )
 +@free_function_t@makeAlignmentSetCol@::alignlib::HAlignment (*)(  )::alignlib::HAlignment (*)(  )
 +@free_function_t@makeDistorClustal@::alignlib::HDistor (*)(  )::alignlib::HDistor (*)(  )
-+@free_function_t@makeToolkit@::alignlib::HToolkit const (*)( ::alignlib::ToolkitType const & )::alignlib::HToolkit const (*)( ::alignlib::ToolkitType const & )
++@free_function_t@makeToolkit@::alignlib::HToolkit (*)( ::alignlib::ToolkitType const & )::alignlib::HToolkit (*)( ::alignlib::ToolkitType const & )
 +@free_function_t@rescoreAlignment@void (*)( ::alignlib::HAlignment &,::alignlib::Score const )void (*)( ::alignlib::HAlignment &,::alignlib::Score const )
 +@free_function_t@rescoreAlignment@void (*)( ::alignlib::HAlignment &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const &,::alignlib::HScorer const & )void (*)( ::alignlib::HAlignment &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const &,::alignlib::HScorer const & )
 +@free_function_t@setDefaultScorer@void (*)( ::alignlib::HScorer const & )void (*)( ::alignlib::HScorer const & )

@@ -1426,7 +1426,7 @@ void register_free_functions(){
 
     { //::alignlib::makeToolkit
     
-        typedef ::alignlib::HToolkit const ( *makeToolkit_function_type )( ::alignlib::ToolkitType const & );
+        typedef ::alignlib::HToolkit ( *makeToolkit_function_type )( ::alignlib::ToolkitType const & );
         
         bp::def( 
             "makeToolkit"

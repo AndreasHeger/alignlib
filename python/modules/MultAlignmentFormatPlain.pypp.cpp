@@ -24,6 +24,13 @@ struct MultAlignmentFormatPlain_wrapper : alignlib::MultAlignmentFormatPlain, bp
     
     }
 
+    MultAlignmentFormatPlain_wrapper(::alignlib::HMultAlignment const & src, ::alignlib::HAlignandumVector const & sequences )
+    : alignlib::MultAlignmentFormatPlain( src, sequences )
+      , bp::wrapper< alignlib::MultAlignmentFormatPlain >(){
+        // constructor
+    
+    }
+
     MultAlignmentFormatPlain_wrapper(::std::istream & src )
     : alignlib::MultAlignmentFormatPlain( boost::ref(src) )
       , bp::wrapper< alignlib::MultAlignmentFormatPlain >(){
@@ -54,6 +61,18 @@ struct MultAlignmentFormatPlain_wrapper : alignlib::MultAlignmentFormatPlain, bp
     
     
     void default_fill( ::alignlib::HMultAlignment const & src, ::alignlib::HStringVector const & sequences ) {
+        alignlib::MultAlignmentFormatPlain::fill( src, sequences );
+    }
+
+    virtual void fill( ::alignlib::HMultAlignment const & src, ::alignlib::HAlignandumVector const & sequences ) {
+        if( bp::override func_fill = this->get_override( "fill" ) )
+            func_fill( src, sequences );
+        else
+            this->alignlib::MultAlignmentFormatPlain::fill( src, sequences );
+    }
+    
+    
+    void default_fill( ::alignlib::HMultAlignment const & src, ::alignlib::HAlignandumVector const & sequences ) {
         alignlib::MultAlignmentFormatPlain::fill( src, sequences );
     }
 
@@ -102,6 +121,7 @@ void register_MultAlignmentFormatPlain_class(){
         MultAlignmentFormatPlain_exposer_t MultAlignmentFormatPlain_exposer = MultAlignmentFormatPlain_exposer_t( "MultAlignmentFormatPlain", bp::init< >() );
         bp::scope MultAlignmentFormatPlain_scope( MultAlignmentFormatPlain_exposer );
         MultAlignmentFormatPlain_exposer.def( bp::init< alignlib::HMultAlignment const &, alignlib::HStringVector const & >(( bp::arg("src"), bp::arg("sequences") )) );
+        MultAlignmentFormatPlain_exposer.def( bp::init< alignlib::HMultAlignment const &, alignlib::HAlignandumVector const & >(( bp::arg("src"), bp::arg("sequences") )) );
         MultAlignmentFormatPlain_exposer.def( bp::init< std::istream & >(( bp::arg("src") )) );
         bp::implicitly_convertible< std::istream &, alignlib::MultAlignmentFormatPlain >();
         MultAlignmentFormatPlain_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
@@ -111,6 +131,18 @@ void register_MultAlignmentFormatPlain_class(){
         
             typedef void ( ::alignlib::MultAlignmentFormatPlain::*fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & ) ;
             typedef void ( MultAlignmentFormatPlain_wrapper::*default_fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & ) ;
+            
+            MultAlignmentFormatPlain_exposer.def( 
+                "fill"
+                , fill_function_type(&::alignlib::MultAlignmentFormatPlain::fill)
+                , default_fill_function_type(&MultAlignmentFormatPlain_wrapper::default_fill)
+                , ( bp::arg("src"), bp::arg("sequences") ) );
+        
+        }
+        { //::alignlib::MultAlignmentFormatPlain::fill
+        
+            typedef void ( ::alignlib::MultAlignmentFormatPlain::*fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HAlignandumVector const & ) ;
+            typedef void ( MultAlignmentFormatPlain_wrapper::*default_fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HAlignandumVector const & ) ;
             
             MultAlignmentFormatPlain_exposer.def( 
                 "fill"

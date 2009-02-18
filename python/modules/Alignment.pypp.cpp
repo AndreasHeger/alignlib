@@ -248,6 +248,16 @@ void register_Alignment_class(){
                 , ( bp::arg("pos"), bp::arg("search")=::alignlib::NO_SEARCH ) );
         
         }
+        { //::alignlib::Alignment::merge
+        
+            typedef void ( ::alignlib::Alignment::*merge_function_type )( ::alignlib::HAlignment const &,bool ) ;
+            
+            Alignment_exposer.def( 
+                "merge"
+                , merge_function_type( &::alignlib::Alignment::merge )
+                , ( bp::arg("other"), bp::arg("invert")=(bool)(false) ) );
+        
+        }
         { //::alignlib::Alignment::moveAlignment
         
             typedef void ( ::alignlib::Alignment::*moveAlignment_function_type )( ::alignlib::Position,::alignlib::Position ) ;

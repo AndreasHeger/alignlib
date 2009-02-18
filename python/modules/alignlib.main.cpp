@@ -302,11 +302,11 @@ BOOST_PYTHON_MODULE(alignlib){
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::StringVector> >();
 
-    { //::std::vector<int, std::allocator<int> >
-            typedef bp::class_< std::vector<int, std::allocator<int> > > CountVector_exposer_t;
+    { //::std::vector<size_t, std::allocator<size_t> >
+            typedef bp::class_< std::vector<size_t, std::allocator<size_t> > > CountVector_exposer_t;
             CountVector_exposer_t CountVector_exposer = CountVector_exposer_t( "CountVector" );
             bp::scope CountVector_scope( CountVector_exposer );
-            CountVector_exposer.def( bp::vector_indexing_suite< ::std::vector<int, std::allocator<int> >, true >() );
+            CountVector_exposer.def( bp::vector_indexing_suite< ::std::vector<size_t, std::allocator<size_t> >, true >() );
             }
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::CountVector> >();

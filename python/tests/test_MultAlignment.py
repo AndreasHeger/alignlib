@@ -61,8 +61,8 @@ class MultAlignmentTestCase( unittest.TestCase ):
         format = MultAlignmentFormatPlain( mali, seqs )
         result = [ x.split("\t") for x in str(format).split("\n") ]
         self.assertEqual( result[0], ["2", "2----3456789", "10" ] )
-        self.assertEqual( result[1], ["1", "123--45--678", "10" ] )
-        self.assertEqual( result[2], ["1", "1--2345--678", "10" ] )
+        self.assertEqual( result[1], ["1", "123--45--678", "9" ] )
+        self.assertEqual( result[2], ["1", "1--2345--678", "9" ] )
 
     def testExpandFull(self):
         """expand mali with sequences."""
@@ -159,7 +159,6 @@ class MultAlignmentTestCase( unittest.TestCase ):
         counts = mali.getGapCounts( v, AggCount )
         
         ma = makeMultipleAlignatorSimple( makeAlignatorDPFull( ALIGNMENT_LOCAL, 0, 0 ) )
-        
         map_old2new = makeAlignmentVector()
         
         offset = 0
@@ -167,9 +166,9 @@ class MultAlignmentTestCase( unittest.TestCase ):
         
         for col in range(len(counts)):
             
+            # realign columns with more than one sequence with
+            # unaligned preceding residues
             if counts[col] > 1:
-                print "realignment of column", col, counts[col]
-                to_align_seqs, to_align_parts, to_align_dump = StringVector(), [], []
                 for s in range(len(seqs)):
                     ali = mali.getRow( s )
                     y = col - 1
@@ -179,31 +178,33 @@ class MultAlignmentTestCase( unittest.TestCase ):
                     else: start = ali.mapRowToCol( y ) + 1
                     if col == mali.getLength(): end = len(seqs[s])
                     else: end = ali.mapRowToCol( col )
-                    to_align_seqs.append( seqs[s][start:end] )
-                    to_align_dump.append( seqs[s][start:end] )
-                    to_align_parts.append( (start, end ) )
                     v[s].useSegment( start, end )
                     
-                print "to_align=", to_align_parts, to_align_seqs, to_align_dump
                 result = makeMultAlignment()
                 ma.align( result, v )
-                print "partial alignment\n", str(MultAlignmentFormatPlain( result, v ) )
-
-                # sort out where the fragment belongs
-                result.move( offset )
+                
+                # sort out where the fragment belongs and move
+                # into the right place
+                l = result.getLength()
+                result.move( col + offset )
                 fragments.append( result )
-                offset += result.getLength()                
+                offset += l 
             
             map_old2new.addPair( col, col+offset )
             
+        # insert gaps into the original
         mali.map( map_old2new, RC )
-        print "gapped alignment\n", str(MultAlignmentFormatPlain( mali, v ) )
         
+        # merge the partial alignments inside
         for fragment in fragments:
-            print "fragment=", str(MultAlignmentFormatPlain( fragment, v ) )
             mali.merge( fragment )
-        
-        print "gapped alignment\n", str(MultAlignmentFormatPlain( mali, v ) )
+
+        format = MultAlignmentFormatPlain( mali, v )
+        result = [ x.split("\t") for x in str(format).split("\n") ]
+        self.assertEqual( result[0], ['0', 'II-A---CDEFG--', '10'] ) 
+        self.assertEqual( result[1], ['0', 'I--AIL-CDEFGI-', '10'] ) 
+        self.assertEqual( result[2], ['0', '--KA-LKCDEFG-K', '10'] )
+            
         
 class MultAlignmentBlocksTestCase( MultAlignmentTestCase ):
     def setUp( self ):

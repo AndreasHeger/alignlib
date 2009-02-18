@@ -36,6 +36,8 @@
 
 #include "modules/Coordinate.pypp.hpp"
 
+#include "modules/CountVector.pypp.hpp"
+
 #include "modules/DistanceMatrix.pypp.hpp"
 
 #include "modules/Distor.pypp.hpp"
@@ -99,8 +101,6 @@
 #include "modules/vector_less__std_scope_string__greater_.pypp.hpp"
 
 #include "modules/vector_less__unsigned_char__greater_.pypp.hpp"
-
-#include "modules/vector_less__unsigned_int__greater_.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -174,7 +174,7 @@ alignlib::HEncoder wrapper_for_load_Encoder( PyObject * fp )
 BOOST_PYTHON_MODULE(alignlib){
     register_enumerations();
 
-    register_vector_less__unsigned_int__greater__class();
+    register_CountVector_class();
 
     register_vector_less__unsigned_char__greater__class();
 

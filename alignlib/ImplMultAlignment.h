@@ -299,6 +299,9 @@ class ImplMultAlignment : public MultAlignment
 	 /** re-build the aligned flag*/
 	 virtual void buildAligned();
 
+	 /** update the length of the multiple alignment */
+	 virtual void updateLength();
+
 };
 
 
