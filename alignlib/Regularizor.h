@@ -62,15 +62,15 @@ class Regularizor
 
     DEFINE_ABSTRACT_CLONE( HRegularizor );
 
-    /** regularize a @ref CountMatrix.
+    /** regularize a @ref WeightedCountMatrix.
      *
      * @param frequencies @ref FrequencyMatrix to store result.
-     * @param counts @ref CountMatrix with observed residue counts.
+     * @param counts @ref WeightedCountMatrix with observed residue counts.
      * @param encoder 	@ref Encoder object.
      * */
     virtual void fillFrequencies(
     		FrequencyMatrix & frequencies,
-    		const CountMatrix & counts,
+    		const WeightedCountMatrix & counts,
     		const HEncoder & translator ) const = 0;
 
 };

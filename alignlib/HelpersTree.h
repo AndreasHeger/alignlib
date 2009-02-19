@@ -19,23 +19,20 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
-typedef std::vector< std::string > Labels;
-
 /**
- * 
+ *
  * @defgroup FactoryTree Factory functions for Tree objects.
- * @{ 
+ * @{
  */
 
 /** create an empty tree.
- * 
+ *
  * @param num_leaves number of leaves in tree.
- * 
+ *
  * @return a new @ref Tree object.*/
 HTree makeTree( const Node num_leaves = 0);
 
@@ -45,16 +42,16 @@ HTree makeTree( const Node num_leaves = 0);
  * @{
  */
 
-/** write a tree in NewHampshire format 
- * 
+/** write a tree in NewHampshire format
+ *
  * @param output output stream.
  * @param tree @ref Tree object to output.
  * @param labels optional vector to labels.
- * 
+ *
  * */
-void writeNewHampshire( std::ostream & output, 
-		const HTree & tree, 
-		const Labels * labels = NULL );
+void writeNewHampshire( std::ostream & output,
+		const HTree & tree,
+		const HStringVector & labels );
 
 /** @} */
 }

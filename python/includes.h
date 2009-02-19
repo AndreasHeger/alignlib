@@ -9,7 +9,7 @@ namespace py_details
   {
 	  // call these typedefs to register them for alias creation
 	  // otherwise: ugly alias warnings will appear
-    sizeof(alignlib::Matrix<int>);
+	  sizeof(alignlib::Matrix<int>);
     sizeof(alignlib::Matrix<double>);
     sizeof(alignlib::Matrix<unsigned int>);
     sizeof(alignlib::SubstitutionMatrix);
@@ -21,9 +21,8 @@ namespace py_details
     sizeof(alignlib::SequenceWeights);
     sizeof(alignlib::NodeVector);
     sizeof(alignlib::VectorDouble);
-    sizeof(alignlib::Labels);
-/*    sizeof(alignlib::StringVector);
-    sizeof(alignlib::HAlignandum);
+    sizeof(alignlib::StringVector);
+/*    sizeof(alignlib::HAlignandum);
     sizeof(alignlib::HAlignment);
     sizeof(alignlib::HAlignator);
     sizeof(alignlib::HMultipleAlignment);

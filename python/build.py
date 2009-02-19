@@ -351,7 +351,8 @@ def exportHandles( mb ):
                          'HPhyloMatrix',
                          'HFragmentVector',
                          'HToolkit',
-                         'HSegmentVector', ]
+                         'HSegmentVector', 
+                         'HCountVector' ]
 
     for handle in handles_to_export:
         
@@ -398,9 +399,7 @@ def exportContainers( mb ):
 
 
     vectors_to_export = ( { 'name' : 'FragmentVector', 'handle' : 'HAlignment' }, 
-                          { 'name' : 'AlignandumVector', 'handle' : 'HAlignandum' },
-                          { 'name' : 'AlignatumVector', 'handle' : 'HAlignatum' } )
-
+                          { 'name' : 'AlignandumVector', 'handle' : 'HAlignandum' } )
 
     for data in vectors_to_export:
         
@@ -419,7 +418,8 @@ def exportContainers( mb ):
 
 
     atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
-                                 { 'name' : 'CountVector', 'content' : 'size_t' },
+                                 { 'name' : 'CountVector', 'content' : 'alignlib::Count' },
+                                 { 'name' : 'NodeVector', 'content' : 'alignlib::Node' },
                                  )  
     for data in atomic_vectors_to_export:
         
@@ -461,6 +461,8 @@ def exportMatrices( mb ):
         cls.vars(lambda x: x.name == "mMatrix" ).disable_warnings( messages.W1036 )
         ## do not wrap [], gives rise to "invalid application of 'sizeof' to incomplete type"        
         cls.member_operators( "operator[]" ).exclude()
+        cls.mem_fun( "permuteRows" ).exclude()
+        cls.mem_fun( "permuteCols" ).exclude()
         ## silence warnings about immutable types
         cls.mem_fun( "getValue" ).disable_warnings( messages.W1008 )
         cls.mem_fun( "setValue" ).disable_warnings( messages.W1008 )

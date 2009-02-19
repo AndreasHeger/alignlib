@@ -4,17 +4,17 @@
   $Id: ImplRegularizorDirichletInterpolate.cpp,v 1.2 2004/01/07 14:35:36 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -35,17 +35,17 @@ static int total_lookups = 0;
 static int total_hits_1 = 0;
 static int total_hits_2 = 0;
 static int total_hits_3 = 0;
-#define MAX_ERROR  1E-6		// the maximum error tolerated		
+#define MAX_ERROR  1E-6		// the maximum error tolerated
 #endif
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 /** factory functions */
-	HRegularizor makeRegularizorDirichletInterpolate( Count fade_cutoff ) 
-	{ 
+	HRegularizor makeRegularizorDirichletInterpolate( WeightedCount fade_cutoff )
+	{
 		return HRegularizor( new ImplRegularizorDirichletInterpolate( fade_cutoff ));
 	}
 
@@ -71,7 +71,8 @@ static double * gamma_array_2;
 static double * gamma_array_3;
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplRegularizorDirichletInterpolate::ImplRegularizorDirichletInterpolate ( Count fade_cutoff ) : ImplRegularizorDirichlet( fade_cutoff ) {
+ImplRegularizorDirichletInterpolate::ImplRegularizorDirichletInterpolate ( WeightedCount fade_cutoff ) :
+	ImplRegularizorDirichlet( fade_cutoff ) {
 
   // precompute the gamma-values:
     gamma_array_1 = new double[N_ELEMENTS_1];
@@ -130,7 +131,7 @@ ImplRegularizorDirichletInterpolate::ImplRegularizorDirichletInterpolate ( Count
 //   cout << endl;
 // #endif
 }
-  
+
 //--------------------------------------------------------------------------------------------------------------------------------
 ImplRegularizorDirichletInterpolate::~ImplRegularizorDirichletInterpolate () {
 
@@ -158,7 +159,7 @@ ImplRegularizorDirichletInterpolate::ImplRegularizorDirichletInterpolate (const 
     Note: int truncates.
 
 */
-inline double LookUp( double x ) 
+inline double LookUp( double x )
 {
   debug_func_cerr(5);
 
@@ -173,14 +174,14 @@ inline double LookUp( double x )
       int key = (int)(scaled_key);
 #ifdef DEBUG
       total_hits_3++;
-//       cout << "3: " << x << " " 
-// 	   << gamma_array_3[key] << " " <<  gamma_array_3[key+1] << " " << (double)STEP_SIZE_3 << " " << (scaled_key - (double)key) << " " 
+//       cout << "3: " << x << " "
+// 	   << gamma_array_3[key] << " " <<  gamma_array_3[key+1] << " " << (double)STEP_SIZE_3 << " " << (scaled_key - (double)key) << " "
 // 	   << (gamma_array_3[key] + (gamma_array_3[key+1] - gamma_array_3[key]) * (scaled_key - (double)key))
-// 	   << endl;      
+// 	   << endl;
 #endif
       // interpolate
       return (gamma_array_3[key] + (gamma_array_3[key+1] - gamma_array_3[key]) * (scaled_key - (double)key));
-    }  
+    }
 
     if ( x >= LAST_ELEMENT_1) {
       double scaled_key = (x - (double)LAST_ELEMENT_1) * (double)SCALE_FACTOR_2;
@@ -188,10 +189,10 @@ inline double LookUp( double x )
 
 #ifdef DEBUG
       total_hits_2++;
-//       cout << "2: " << x << " " 
+//       cout << "2: " << x << " "
 // 	   << gamma_array_2[key] << " " <<  gamma_array_2[key+1] << " "
 // 	   << (gamma_array_2[key] + (gamma_array_2[key+1] - gamma_array_2[key]) * (scaled_key - (double)key))
-// 	   << endl;      
+// 	   << endl;
 #endif
       return (gamma_array_2[key] + (gamma_array_2[key+1] - gamma_array_2[key])  * (scaled_key - (double)key));
     }
@@ -202,54 +203,54 @@ inline double LookUp( double x )
     return (gamma_array_1[ (int)(x  * SCALE_FACTOR_1) ]);
 }
 
-#ifdef DEBUG 
-  
+#ifdef DEBUG
+
   // see, where the errors are made
 
   double CheckLookUp( double x ) {
     double lg = lgamma(x);
     double r = LookUp(x);
-    
+
     double error = lg -r;
 
-    if (fabs(error) > MAX_ERROR) 
+    if (fabs(error) > MAX_ERROR)
       cout << x << " Error= " << error << endl;
-    
+
     return r;
   }
 
 #define LookUp CheckLookUp
-#endif  
+#endif
 
 
 //-------------------------------------------------------------------------------------------------------
 // calculate the logarithm of the beta-function for a vector
 // LBeta        = log prod_i(Gamma(xi)) / gamma( |x| )
 //      = sum_i lgamma(xi) - lgamma( |x| )
- 
+
 inline static double lBeta ( const double * vector, const double length ) {
   double result = 0;
   int i;
-  for (i = 0; i < ALPHABET_SIZE; i++) 
+  for (i = 0; i < ALPHABET_SIZE; i++)
     result += LookUp( vector[i] );
-  
+
   return (result - LookUp( length ));
 }
- 
+
 //-------------------------------------------------------------------------------------------------------
 // calculate the logarithm of the beta-function for sum of two vectors. In Kimmens script |x| is
 // defined as sum_xi, so |x| + |y| = | x + y | !!
 // the first vector is an int
-inline static double lBetaSum ( const Count * vector1, 
-			 const Count length1, 
-			 const double *vector2, 
-			 const Count length2) {
+inline static double lBetaSum ( const WeightedCount * vector1,
+			 const WeightedCount length1,
+			 const double *vector2,
+			 const WeightedCount length2) {
     double result = 0;
     int i;
-    
+
     for (i = 0; i < ALPHABET_SIZE; i++)
       result += LookUp( vector1[i] + vector2[i]);
-    
+
     return (result - LookUp( length1 + length2 ));
 }
 
@@ -259,20 +260,23 @@ inline static double lBetaSum ( const Count * vector1,
 
     This function uses the lgamma-function directly.
 */
-double ImplRegularizorDirichletInterpolate::calculateBetaDifferences( TYPE_BETA_DIFFERENCES beta_differences, const Count * n, Count ntotal ) const { 
+double ImplRegularizorDirichletInterpolate::calculateBetaDifferences( TYPE_BETA_DIFFERENCES beta_differences,
+		const WeightedCount * n,
+		WeightedCount ntotal ) const
+		{
 
   double max_log_difference = 0;
   int j;
-    
+
   for (j = 0; j < NCOMPONENTS; j++) {
-      
+
     double difference = lBetaSum( n, ntotal, mA[j], mWa[j] ) - lBeta( mA[j], mWa[j] );
     beta_differences[j] = difference;
-    
-    if (fabs(max_log_difference) < fabs(difference)) 
+
+    if (fabs(max_log_difference) < fabs(difference))
       max_log_difference = difference;
   }
-  
+
   return max_log_difference;
 }
 

@@ -31,29 +31,29 @@
 #include "alignlib_fwd.h"
 #include "alignlib_default.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
 /**
- * 
+ *
  * @defgroup FactoryRegularizor Factory functions for Regularizor objects.
- * @{ 
+ * @{
  */
 
 /** make simple @ref Regularizor object.
- * 
- * This regularizor computes frequencies from counts without 
+ *
+ * This regularizor computes frequencies from counts without
  * regularization.
  * @return a new @ref Regularizor object.
  * */
 HRegularizor makeRegularizor();
 
-/** make @ref Regularizor object according to Tatusov et al. 
- * 
+/** make @ref Regularizor object according to Tatusov et al.
+ *
  * This object uses the pseudocount-method according to Tatusov et al. (1994).
- * 
+ *
  * For more information, see:
- * 
+ *
  * Tatusov,R.L., Altschul,S.F. and Koonin,E.V. (1994) Proc. Natl. Acad. Sci. USA, 91, 12091-12095
  *
  * @param matrix 		@ref SubstitutionMatrix.
@@ -61,94 +61,94 @@ HRegularizor makeRegularizor();
  * @param beta 			pseudocounts mixing parameter.
  * @param lambda 		scale factor for matrix.
  */
-HRegularizor makeRegularizorTatusov( 
+HRegularizor makeRegularizorTatusov(
 		const HSubstitutionMatrix & matrix,
 		const HFrequencyVector & background,
-		const double & beta, 
-		const double & lambda ); 
+		const double & beta,
+		const double & lambda );
 
-/** make @ref Regularizor object according to Tatusov parameterized according to PSI-BLAST. 
- * 
+/** make @ref Regularizor object according to Tatusov parameterized according to PSI-BLAST.
+ *
  * For more information, see:
- * 
+ *
  * Altschul SF, Madden TL, Schäffer AA, Zhang J, Zhang Z, Miller W, Lipman DJ.
  * Gapped BLAST and PSI-BLAST: a new generation of protein database search programs.
- * Nucleic Acids Res. 1997 Sep 1;25(17):3389-402. 
+ * Nucleic Acids Res. 1997 Sep 1;25(17):3389-402.
  *
- * @return a new @ref Regularizor object.  
- */    
+ * @return a new @ref Regularizor object.
+ */
 HRegularizor makeRegularizorPsiblast();
 
 /** make @ref Regularizor object using the 9-component mixture model by Sjolander et al. (1996).
- * 
+ *
  * For more information, see:
- * 
+ *
  * Sjölander K, Karplus K, Brown M, Hughey R, Krogh A, Mian IS, Haussler D.
  * Dirichlet mixtures: a method for improved detection of weak but significant protein sequence homology.
  * Comput Appl Biosci. 1996 Aug;12(4):327-45.
  * PMID: 8902360
- * 
+ *
  * @param fade_cutoff	do not apply regularizor if there are least this number of counts.
- * 
+ *
  * @return a new @ref Regularizor object.
 */
-HRegularizor makeRegularizorDirichlet( Count fade_cutoff = 0);
+HRegularizor makeRegularizorDirichlet( WeightedCount fade_cutoff = 0);
 /** make @ref Regularizor object using the 9-component mixture model by Sjolander et al. (1996).
- * 
+ *
  * For more information, see:
- * 
+ *
  * Sjölander K, Karplus K, Brown M, Hughey R, Krogh A, Mian IS, Haussler D.
  * Dirichlet mixtures: a method for improved detection of weak but significant protein sequence homology.
  * Comput Appl Biosci. 1996 Aug;12(4):327-45.
  * PMID: 8902360
- * 
+ *
  * This object uses a hash to speed up calls to the Gamma function.
- * 
+ *
  * @param fade_cutoff	do not apply regularizor if there are least this number of counts.
- * 
+ *
  * @return a new @ref Regularizor object.
 */
-HRegularizor makeRegularizorDirichletHash( Count fade_cutoff = 0);
+HRegularizor makeRegularizorDirichletHash( WeightedCount fade_cutoff = 0);
 
 /** make @ref Regularizor object using the 9-component mixture model by Sjolander et al. (1996).
- * 
+ *
  * For more information, see:
- * 
+ *
  * Sjölander K, Karplus K, Brown M, Hughey R, Krogh A, Mian IS, Haussler D.
  * Dirichlet mixtures: a method for improved detection of weak but significant protein sequence homology.
  * Comput Appl Biosci. 1996 Aug;12(4):327-45.
  * PMID: 8902360
  *
  * This object uses interpolation to speed up calls to the Gamma function.
- *  
+ *
  * @param fade_cutoff	do not apply regularizor if there are least this number of counts.
- * 
+ *
  * @return a new @ref Regularizor object.
 */
-HRegularizor makeRegularizorDirichletInterpolate( Count fade_cutoff = 0);
+HRegularizor makeRegularizorDirichletInterpolate( WeightedCount fade_cutoff = 0);
 
 /** make @ref Regularizor object using the 9-component mixture model by Sjolander et al. (1996).
- * 
+ *
  * For more information, see:
- * 
+ *
  * Sjölander K, Karplus K, Brown M, Hughey R, Krogh A, Mian IS, Haussler D.
  * Dirichlet mixtures: a method for improved detection of weak but significant protein sequence homology.
  * Comput Appl Biosci. 1996 Aug;12(4):327-45.
  * PMID: 8902360
- * 
+ *
  * Forgot what this object does.
- * 
+ *
  * @param fade_cutoff	do not apply regularizor if there are least this number of counts.
- * 
+ *
  * @return a new @ref Regularizor object.
 */
-HRegularizor makeRegularizorDirichletPrecomputed( Count fade_cutoff = 0);
+HRegularizor makeRegularizorDirichletPrecomputed( WeightedCount fade_cutoff = 0);
 
 /** @} */
 
 /** @addtogroup Defaults
  * @{
- */ 
+ */
 DEFINE_DEFAULT( HRegularizor, getDefaultRegularizor, setDefaultRegularizor );
 /** @} */
 

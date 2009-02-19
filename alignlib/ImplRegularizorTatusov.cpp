@@ -32,17 +32,17 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //----------------------------------------------------------< factory functions >------------------------------------------------------
-HRegularizor makeRegularizorTatusov( 
+HRegularizor makeRegularizorTatusov(
 		const HSubstitutionMatrix & matrix,
 		const HFrequencyVector & background,
-		const double & beta, 
-		const double & lambda ) 
-{ 
-	return HRegularizor(new ImplRegularizorTatusov( matrix, background, beta, lambda )); 
+		const double & beta,
+		const double & lambda )
+{
+	return HRegularizor(new ImplRegularizorTatusov( matrix, background, beta, lambda ));
 }
 
 // Background frequencies according to Robinson & Robinson (1991) Proc Natl Acad Sci U S A. Oct 15;88(20):8880-4.
@@ -54,7 +54,7 @@ HRegularizor makeRegularizorTatusov(
 33229	Gly	9906	His	23161	Ile	25872	Lys	40625	Leu
 10101	Met	20212	Asn	23435	Pro	19208	Gln	23105	Arg
 32070	Ser	26311	Thr	29012	Val	5990	Trp	14488	Tyr
-									
+
 0.078047	Ala	0.019246	Cys	0.053640	Asp	0.062949	Glu	0.038556	Phe
 0.073772	Gly	0.021992	His	0.051420	Ile	0.057438	Lys	0.090191	Leu
 0.022425	Met	0.044873	Asn	0.052028	Pro	0.042644	Gln	0.051295	Arg
@@ -64,37 +64,37 @@ HRegularizor makeRegularizorTatusov(
 // Can this duplication be avoided?
 static const Score array[] = {0.078047, 0.053640, 0.062949, 0.038556, 0.038556,
 		 					  0.073772, 0.021992, 0.051420, 0.057438, 0.090191,
-		 					  0.022425, 0.044873, 0.052028, 0.042644, 0.051295,	
+		 					  0.022425, 0.044873, 0.052028, 0.042644, 0.051295,
 		 					  0.071198, 0.058413, 0.064409, 0.013298, 0.032165};
-static const HFrequencyVector BackgroundPsiblast( new FrequencyVector( array, array + sizeof(array) / sizeof(*array))); 
-		
+static const HFrequencyVector BackgroundPsiblast( new FrequencyVector( array, array + sizeof(array) / sizeof(*array)));
+
 //	BackgroundPsiblast( ( array, array + sizeof(array) / sizeof(*array)) );
 
-HRegularizor makeRegularizorPsiblast() 
-{ 
+HRegularizor makeRegularizorPsiblast()
+{
 	// parameterized according to psiblast
-	return HRegularizor(new ImplRegularizorTatusov( 
-			makeSubstitutionMatrixBlosum62(), 
-			BackgroundPsiblast, 
-			10, 0.3176 )); 
+	return HRegularizor(new ImplRegularizorTatusov(
+			makeSubstitutionMatrixBlosum62(),
+			BackgroundPsiblast,
+			10, 0.3176 ));
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplRegularizorTatusov::ImplRegularizorTatusov( 
+ImplRegularizorTatusov::ImplRegularizorTatusov(
 		const HSubstitutionMatrix & matrix,
 		const HFrequencyVector & background,
 		const double & beta,
 		const double & lambda ) :
-	mSubstitutionMatrix( matrix ), 
+	mSubstitutionMatrix( matrix ),
 	mBackgroundFrequencies( background ),
-	mBeta( beta), 
+	mBeta( beta),
 	mLambda( lambda )
 {
 	debug_func_cerr(5);
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplRegularizorTatusov::~ImplRegularizorTatusov () 
+ImplRegularizorTatusov::~ImplRegularizorTatusov ()
 {
 	debug_func_cerr(5);
 }
@@ -103,59 +103,59 @@ ImplRegularizorTatusov::~ImplRegularizorTatusov ()
 ImplRegularizorTatusov::ImplRegularizorTatusov (const ImplRegularizorTatusov & src ) :
 	mSubstitutionMatrix(src.mSubstitutionMatrix),
 	mBackgroundFrequencies( src.mBackgroundFrequencies ),
-	mBeta( src.mBeta ), 
+	mBeta( src.mBeta ),
 	mLambda( src.mLambda )
 {
 }
 
 //-------------------------------------------------------------------------------------------------------
-/** 
- *  */      
-void ImplRegularizorTatusov::fillFrequencies( 
-		FrequencyMatrix & frequencies, 
-		const CountMatrix & counts,
+/**
+ *  */
+void ImplRegularizorTatusov::fillFrequencies(
+		FrequencyMatrix & frequencies,
+		const WeightedCountMatrix & counts,
 		const HEncoder & encoder ) const
 {
 	debug_func_cerr(5);
-	
+
 	/// fill frequencies with raw frequencies
 	ImplRegularizor::fillFrequencies( frequencies, counts, encoder );
-	
+
 	Position width = counts.getNumCols();
 	Position length = counts.getNumRows();
 
 	if (width != 20)
 		throw AlignlibException( "ImplRegularizorTatusov.cpp: width of profile has to be 20" );
-	
+
 	// get nc - the alignment diversity
-	double nc = calculateDiversity( counts );	
+	double nc = calculateDiversity( counts );
 	double alpha = nc -1;
 	double alpha_beta = alpha + mBeta;
 	int i;
 
-	Count ntotal;
+	WeightedCount ntotal;
 
 	debug_cerr( 5, "nc=" << nc << " alpha=" << alpha << " beta=" << mBeta << " lambda=" << mLambda );
-	
+
 	// gi in the PSIBLAST paper
 	Score * pseudocounts = new Score[width];
-	
+
 	const HFrequencyVector & bg = mBackgroundFrequencies;
-	
-	for (Position column = 0; column < length; column++) 
+
+	for (Position column = 0; column < length; column++)
 	{
 		Frequency * f = frequencies.getRow( column );
-		
+
 		// compute the pseudocounts gi
 		for (Residue i = 0; i < width; ++i)
 		{
 			Score total = 0;
 			for (Residue j = 0; j < width; ++j)
-				total += f[i] * (*bg)[i] * exp( mLambda * mSubstitutionMatrix->getValue( i, j) );  
-					
+				total += f[i] * (*bg)[i] * exp( mLambda * mSubstitutionMatrix->getValue( i, j) );
+
 			pseudocounts[i] = total;
 		}
-		
+
 		// mix pseudocounts with observations
 		for (Residue i = 0; i < width; i++)
 			f[i] = (alpha * f[i] + mBeta * pseudocounts[i]) / alpha_beta;

@@ -92,7 +92,7 @@ void ImplWeightor::rescaleWeights(
 
 //--------------------------------------------------------------------------------------------------------------------------------
 void ImplWeightor::fillCounts(
-		CountMatrix & dest,
+		WeightedCountMatrix & dest,
 		const HMultipleAlignment & src,
 		const HEncoder & translator) const
 {

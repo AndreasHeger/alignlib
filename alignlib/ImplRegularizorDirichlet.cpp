@@ -40,7 +40,7 @@ namespace alignlib
 #define NO_FADE_CUTOFF 1000000
 
 /** factory functions */
-HRegularizor makeRegularizorDirichlet( Count fade_cutoff )
+HRegularizor makeRegularizorDirichlet( WeightedCount fade_cutoff )
 {
 	return HRegularizor( new ImplRegularizorDirichlet( fade_cutoff ) );
 }
@@ -82,7 +82,7 @@ static double * precomputed_sum_lgamma_a_j;	/* sum_i(lgamma(a_ji)), index is [j]
 IMPLEMENT_CLONE( HRegularizor, ImplRegularizorDirichlet );
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplRegularizorDirichlet::ImplRegularizorDirichlet ( const Count & fade_cutoff ) :
+ImplRegularizorDirichlet::ImplRegularizorDirichlet ( const WeightedCount & fade_cutoff ) :
 	mFadeCutoff ( fade_cutoff )
 {
 	debug_func_cerr(5);
@@ -178,10 +178,11 @@ inline static double lBeta ( const double * vector, const double length )
 // calculate the logarithm of the beta-function for sum of two vectors. In Kimmens script |x| is
 // defined as sum_xi, so |x| + |y| = | x + y | !!
 // the first vector is an int
-inline static double lBetaSum ( const Count * vector1,
-		const Count length1,
+inline static double lBetaSum ( const WeightedCount * vector1,
+		const WeightedCount length1,
 		const double *vector2,
-		const Count length2) {
+		const WeightedCount length2)
+{
 	double result = 0;
 	int i;
 
@@ -199,8 +200,8 @@ inline static double lBetaSum ( const Count * vector1,
  */
 double ImplRegularizorDirichlet::calculateBetaDifferences(
 		TYPE_BETA_DIFFERENCES beta_differences,
-		const Count * n,
-		Count ntotal ) const
+		const WeightedCount * n,
+		WeightedCount ntotal ) const
 		{
 
 	double max_log_difference = 0;
@@ -224,8 +225,8 @@ double ImplRegularizorDirichlet::calculateBetaDifferences(
 
 void ImplRegularizorDirichlet::fillColumn(  Frequency * frequencies,
 		TYPE_BETA_DIFFERENCES beta_differences,
-		const Count * n,
-		Count ntotal,
+		const WeightedCount * n,
+		WeightedCount ntotal,
 		const HEncoder & encoder) const
 		{
 
@@ -273,7 +274,7 @@ void ImplRegularizorDirichlet::fillColumn(  Frequency * frequencies,
  */
 void ImplRegularizorDirichlet::fillFrequencies(
 		FrequencyMatrix & frequencies,
-		const CountMatrix & counts,
+		const WeightedCountMatrix & counts,
 		const HEncoder & encoder ) const
 {
 	debug_func_cerr(5);
@@ -284,14 +285,14 @@ void ImplRegularizorDirichlet::fillFrequencies(
 	int i;
 
 	Position column;
-	Count ntotal;
+	WeightedCount ntotal;
 
 	// helper variables for the conversion of log to floating point
 	TYPE_BETA_DIFFERENCES beta_differences;
 
 	for (column = 0; column < length; column++)
 	{
-		const Count * n = counts.getRow( column );
+		const WeightedCount * n = counts.getRow( column );
 
 		ntotal = 0;
 

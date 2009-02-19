@@ -58,7 +58,7 @@ ImplRegularizor::ImplRegularizor (const ImplRegularizor & src )
 IMPLEMENT_CLONE( HRegularizor, ImplRegularizor );
 
 //-------------------------------------------------------------------------------------------------------
-double ImplRegularizor::calculateDiversity( const CountMatrix & counts ) const
+double ImplRegularizor::calculateDiversity( const WeightedCountMatrix & counts ) const
 {
 	// diversity is the average number of different charactesr per column
 	Position width = counts.getNumCols();
@@ -68,7 +68,7 @@ double ImplRegularizor::calculateDiversity( const CountMatrix & counts ) const
 	for (Position p = 0; p < length; ++p)
 	{
 		Residue n = 0;
-		Count * count_column = counts.getRow( p );
+		WeightedCount * count_column = counts.getRow( p );
 		for (Residue r = 0; r < width; ++r)
 			if (count_column[r] > 0)
 				++n;
@@ -82,7 +82,7 @@ double ImplRegularizor::calculateDiversity( const CountMatrix & counts ) const
  *  */
 void ImplRegularizor::fillFrequencies(
 		FrequencyMatrix & frequencies,
-		const CountMatrix & counts,
+		const WeightedCountMatrix & counts,
 		const HEncoder & encoder) const
 		{
 	debug_func_cerr(5);
@@ -93,7 +93,7 @@ void ImplRegularizor::fillFrequencies(
 	// simply calculate frequencies
 
 	Position column;
-	Count ntotal;
+	WeightedCount ntotal;
 	int i;
 
 	Position width = frequencies.getNumCols();
@@ -103,7 +103,7 @@ void ImplRegularizor::fillFrequencies(
 	{
 		ntotal = 0;
 
-		const Count * counts_column = counts.getRow(column);
+		const WeightedCount * counts_column = counts.getRow(column);
 		Frequency * frequency_column = frequencies.getRow(column);
 
 		for (i = 0; i < width; i ++)

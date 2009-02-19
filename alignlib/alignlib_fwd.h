@@ -108,8 +108,8 @@ namespace alignlib
 	typedef Matrix<Frequency> FrequencyMatrix;
     typedef boost::shared_ptr<FrequencyMatrix>HFrequencyMatrix;
 
-	typedef Matrix<Count> CountMatrix;
-    typedef boost::shared_ptr<CountMatrix>HCountMatrix;
+	typedef Matrix<WeightedCount> WeightedCountMatrix;
+    typedef boost::shared_ptr<WeightedCountMatrix>HWeightedCountMatrix;
 
 	typedef Matrix<Position> PositionMatrix;
     typedef boost::shared_ptr<PositionMatrix>HPositionMatrix;
@@ -177,7 +177,7 @@ namespace alignlib
     typedef boost::shared_ptr<Palette>HPalette;
 
     /** A vector of counts */
-    typedef std::vector<std::size_t> CountVector;
+    typedef std::vector<Count> CountVector;
     typedef boost::shared_ptr<CountVector>HCountVector;
 
 }

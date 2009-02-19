@@ -64,7 +64,7 @@ void testProfile( const HProfile & profile )
 	// 7: 2 * C + D
 	// 8: C + D
 
-	HCountMatrix matrix(profile->getCountMatrix());
+	HWeightedCountMatrix matrix(profile->getWeightedCountMatrix());
 	int sums[9]   = {0,3,3,3,2,3,3,3,2};
 	int sums_A[9] = {0,3,3,3,2,1,0,0,0};
 	int sums_C[9] = {0,0,0,0,0,1,2,2,1};

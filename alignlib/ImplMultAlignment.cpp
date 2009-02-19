@@ -637,7 +637,7 @@ HCountVector ImplMultAlignment::getGapCounts(
 		if (insert_termini)
 		{
 			Position l = (*sequences)[x]->getFrom();
-			size_t d = last_col - l;
+			Count d = last_col - l;
 
 			switch( aggregate_type )
 			{
@@ -655,7 +655,7 @@ HCountVector ImplMultAlignment::getGapCounts(
 			Position col = map_mali2row->mapRowToCol(row);
 			if (col != NO_POS)
 			{
-				size_t d = col - last_col - 1;
+				Count d = col - last_col - 1;
 				switch( aggregate_type )
 				{
 				case AggMean:
@@ -677,7 +677,7 @@ HCountVector ImplMultAlignment::getGapCounts(
 
 			if (l > 0)
 			{
-				size_t d = l - t;
+				Count d = l - t;
 				switch( aggregate_type )
 				{
 				case AggMean:

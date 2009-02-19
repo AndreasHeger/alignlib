@@ -57,7 +57,7 @@ class ImplRegularizorDirichlet : public Regularizor
     // constructors and desctructors
 
     /** default constructor */
-    ImplRegularizorDirichlet  ( const Count & fade_cutoff = -1 );
+    ImplRegularizorDirichlet  ( const WeightedCount & fade_cutoff = -1 );
 
     /** copy constructor */
     ImplRegularizorDirichlet  (const ImplRegularizorDirichlet &);
@@ -69,13 +69,13 @@ class ImplRegularizorDirichlet : public Regularizor
 
     /** copy the counts into the frequencies and regularize them by doing so. */
     virtual void fillFrequencies( FrequencyMatrix & frequencies,
-				  				  const CountMatrix & counts,
+				  				  const WeightedCountMatrix & counts,
 				  				  const HEncoder & encoder) const;
 
  private:
 
     /** the cutoff used for fading out the Dirichlet-mixture */
-    Count mFadeCutoff;
+	 WeightedCount mFadeCutoff;
 
  protected:
     /** helper array, contains the |a_j|. Static, because I need only one for all regularizers.
@@ -100,13 +100,13 @@ class ImplRegularizorDirichlet : public Regularizor
 
 	The implemention here uses the lgamma-function directly and is therefore quite slow.
     */
-    virtual double calculateBetaDifferences(  TYPE_BETA_DIFFERENCES beta_differences, const Count * n, Count ntotal ) const;
+    virtual double calculateBetaDifferences(  TYPE_BETA_DIFFERENCES beta_differences, const WeightedCount * n, WeightedCount ntotal ) const;
 
     /** fill one frequencies column with the Dirichlet-Mixture */
     virtual void fillColumn( Frequency * frequencies,
 			     		     TYPE_BETA_DIFFERENCES beta_differences,
-			     		     const Count * n,
-			     		     Count ntotal,
+			     		     const WeightedCount * n,
+			     		     WeightedCount ntotal,
 			     		     const HEncoder & encoder ) const;
 
 };

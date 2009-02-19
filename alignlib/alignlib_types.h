@@ -60,10 +60,14 @@ typedef int Position;
 /* type of sequence weights */
 typedef double SequenceWeight;
 
-/* type of counts, no speed difference between float and double
-    I have to use real values, since I the counts correspond to
-    weighted counts */
-typedef double Count;
+/** type of counts (positive integer values)
+*/
+typedef unsigned long Count;
+
+/* type of weighted counts.
+ * There is no speed difference between float and double.
+ */
+typedef double WeightedCount;
 
 /* type of one entry in a frequencies-table */
 typedef double Frequency;

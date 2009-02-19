@@ -166,7 +166,7 @@ const unsigned int * getMapResidue2CategoryAll();
 
 /** return a vector of entropies calculated for a CountsMatrix
  */
-VectorDouble * makeEntropyVector( const CountMatrix * src);
+VectorDouble * makeEntropyVector( const WeightedCountMatrix * src);
 
 }
 

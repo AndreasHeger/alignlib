@@ -82,7 +82,7 @@ class ImplProfile : public ImplAlignandum, public Profile
 
 	friend HAlignandum rescaleProfileCounts( HAlignandum dest, double scale_factor);
 
-	friend HAlignandum normalizeProfileCounts( HAlignandum dest, Count total_weight );
+	friend HAlignandum normalizeProfileCounts( HAlignandum dest, WeightedCount total_weight );
 
 	friend HAlignandum resetProfile( HAlignandum dest, Position length );
 
@@ -161,7 +161,7 @@ public:
 	/** export member data for Scorer and filler objects */
 	virtual ScoreMatrix * exportScoreMatrix() const ;
 	virtual FrequencyMatrix * exportFrequencyMatrix() const ;
-	virtual CountMatrix * exportCountMatrix() const;
+	virtual WeightedCountMatrix * exportWeightedCountMatrix() const;
 
 	/** set the @ref Weightor.
 	 */
@@ -200,7 +200,7 @@ public:
 	/** return a copy of the counts matrix for inspection.
 	 * @return a counts matrix.
 	 * */
-	virtual HCountMatrix getCountMatrix() const;
+	virtual HWeightedCountMatrix getWeightedCountMatrix() const;
 
 	/** add an @ref Alignandum object to the profile
 	 *
@@ -297,7 +297,7 @@ protected:
 	HLogOddor mLogOddor;
 
 	/** pointer to the location of the counts stored in memory */
-	mutable CountMatrix * mCountMatrix;
+	mutable WeightedCountMatrix * mWeightedCountMatrix;
 
 	/** pointer to the location of the frequencies stored in memory */
 	mutable FrequencyMatrix * mFrequencyMatrix;

@@ -65,12 +65,12 @@ class Weightor
 
     /** fill a counts matrix from a multiple alignment
      *
-     * @param counts 	@ref CountMatrix to fill.
+     * @param counts 	@ref WeightedCountMatrix to fill.
      * @param src		@ref MultipleAlignment object to compute weights from.
      * @param encoder 	@ref Encoder object.
      */
     virtual void fillCounts(
-    		CountMatrix & counts,
+    		WeightedCountMatrix & counts,
     		const HMultipleAlignment & src,
     		const HEncoder & translator ) const = 0;
 

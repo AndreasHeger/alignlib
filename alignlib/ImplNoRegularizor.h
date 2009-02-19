@@ -58,7 +58,7 @@ class ImplNoRegularizor : public Regularizor
     
     /** copy the counts into the frequencies and regularize them by doing so. */
     virtual void fillFrequencies( FrequencyMatrix * frequencies, 
-				  const CountMatrix * counts ) const;
+				  const WeightedCountMatrix * counts ) const;
 
 };
 

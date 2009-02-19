@@ -100,7 +100,7 @@ public:
 	/** return a copy of the counts matrix for inspection.
 	 * @return a counts matrix.
 	 * */
-	virtual HCountMatrix getCountMatrix() const = 0;
+	virtual HWeightedCountMatrix getWeightedCountMatrix() const = 0;
 
 	/** add an @ref Alignandum object to the profile
 	 *

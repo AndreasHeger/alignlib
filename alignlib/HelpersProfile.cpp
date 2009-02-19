@@ -389,7 +389,7 @@ CountsMatrix * makeCountsByCategory(
 			makeRegularizor(), 
 			makeLogOddor() )); 
 
-	const CountMatrix * counts = profile->getCountMatrix();
+	const WeightedCountMatrix * counts = profile->getWeightedCountMatrix();
 
 	Position length = counts->getNumRows();
 	Residue width = counts->getNumCols();
@@ -462,7 +462,7 @@ const unsigned int * getMapResidue2CategoryAll() {
 
 /** return a vector of entropies calculated for a CountsMatrix
  */
-VectorDouble * makeEntropyVector( const CountMatrix * src) 
+VectorDouble * makeEntropyVector( const WeightedCountMatrix * src) 
 {
 
 	unsigned int length      = src->getNumRows();

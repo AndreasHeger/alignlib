@@ -201,7 +201,7 @@ ImplProfile::ImplProfile(
 			mWeightor( weightor ),
 			mRegularizor( regularizor ),
 			mLogOddor( logoddor ),
-			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
+			mWeightedCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
 			mProfileWidth(0)
 {
 	debug_func_cerr(5);
@@ -218,7 +218,7 @@ ImplProfile::ImplProfile(
 			mWeightor( weightor ),
 			mRegularizor( regularizor ),
 			mLogOddor( logoddor ),
-			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
+			mWeightedCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
 			mProfileWidth(0)
 {
 	debug_func_cerr(5);
@@ -236,7 +236,7 @@ ImplProfile::ImplProfile(
 			mWeightor( weightor ),
 			mRegularizor( regularizor ),
 			mLogOddor( logoddor ),
-			mCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
+			mWeightedCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
 			mProfileWidth(0)
 {
 	debug_func_cerr(5);
@@ -248,15 +248,15 @@ ImplProfile::ImplProfile(
 ImplProfile::ImplProfile(const ImplProfile & src ) : ImplAlignandum( src ),
 	mRegularizor( src.mRegularizor ),
 	mLogOddor( src.mLogOddor),
-	mCountMatrix(NULL),
+	mWeightedCountMatrix(NULL),
 	mFrequencyMatrix(NULL),
 	mScoreMatrix(NULL),
 	mProfileWidth(src.mProfileWidth)
 {
 	debug_func_cerr(5);
 
-	if (src.mCountMatrix != NULL)
-		mCountMatrix = new CountMatrix( *src.mCountMatrix );
+	if (src.mWeightedCountMatrix != NULL)
+		mWeightedCountMatrix = new WeightedCountMatrix( *src.mWeightedCountMatrix );
 
 	if (src.mFrequencyMatrix != NULL)
 		mFrequencyMatrix = new FrequencyMatrix( *src.mFrequencyMatrix );
@@ -270,8 +270,8 @@ ImplProfile::~ImplProfile()
 {
 	debug_func_cerr(5);
 
-	if (mCountMatrix != NULL)
-		{ delete mCountMatrix; mCountMatrix = NULL; }
+	if (mWeightedCountMatrix != NULL)
+		{ delete mWeightedCountMatrix; mWeightedCountMatrix = NULL; }
 	if (mFrequencyMatrix != NULL)
 		{ delete mFrequencyMatrix; mFrequencyMatrix = NULL; }
 	if (mScoreMatrix != NULL)
@@ -285,9 +285,9 @@ HAlignandum ImplProfile::getClone() const
 }
 
 //--------------------------------------------------------------------------------------
-CountMatrix * ImplProfile::exportCountMatrix() const
+WeightedCountMatrix * ImplProfile::exportWeightedCountMatrix() const
 {
-	return mCountMatrix;
+	return mWeightedCountMatrix;
 }
 
 //--------------------------------------------------------------------------------------
@@ -303,9 +303,9 @@ ScoreMatrix * ImplProfile::exportScoreMatrix() const
 }
 
 //--------------------------------------------------------------------------------------
-HCountMatrix ImplProfile::getCountMatrix() const
+HWeightedCountMatrix ImplProfile::getWeightedCountMatrix() const
 {
-	return HCountMatrix( new CountMatrix(*mCountMatrix));
+	return HWeightedCountMatrix( new WeightedCountMatrix(*mWeightedCountMatrix));
 }
 
 //--------------------------------------------------------------------------------------
@@ -370,7 +370,7 @@ void ImplProfile::fillCounts( const HMultipleAlignment &  src )
 	debug_func_cerr(5);
 
 	resize( src->getLength() );
-	mWeightor->fillCounts( *mCountMatrix, src, mEncoder );
+	mWeightor->fillCounts( *mWeightedCountMatrix, src, mEncoder );
 
 	setPrepared( false );
 }
@@ -396,7 +396,7 @@ void ImplProfile::allocateCounts() const
 
 	debug_cerr( 5, "allocating counts for a profile of size " << getFullLength() << " x " << (int)mProfileWidth );
 
-	mCountMatrix = allocateSegment<Count>( mCountMatrix );
+	mWeightedCountMatrix = allocateSegment<WeightedCount>( mWeightedCountMatrix );
 }
 
 //---------------------------------------------------------------------------------------------------------------
@@ -444,7 +444,7 @@ Residue ImplProfile::getMaximumPerColumn( const Matrix<T> * data,
 Residue ImplProfile::getMaximumCount( const Position column ) const
 {
 	debug_func_cerr(6);
-	return getMaximumPerColumn<Count>( mCountMatrix, column );
+	return getMaximumPerColumn<WeightedCount>( mWeightedCountMatrix, column );
 }
 
 //---------------------------------------------------------------------------------------------------------------
@@ -478,7 +478,7 @@ void ImplProfile::setColumnToValue( Matrix<T> * data,
 void ImplProfile::mask( const Position & column)
 {
 	ImplAlignandum::mask( column );
-	setColumnToValue<Count>( mCountMatrix, column, 0);
+	setColumnToValue<WeightedCount>( mWeightedCountMatrix, column, 0);
 	setColumnToValue<Frequency>( mFrequencyMatrix, column, 0);
 	setColumnToValue<Score>( mScoreMatrix, column, 0 );
 }
@@ -500,7 +500,7 @@ void ImplProfile::prepare() const
 	if (mFrequencyMatrix == NULL)
 	{
 		allocateFrequencies();
-		mRegularizor->fillFrequencies( *mFrequencyMatrix, *mCountMatrix, mEncoder );
+		mRegularizor->fillFrequencies( *mFrequencyMatrix, *mWeightedCountMatrix, mEncoder );
 	}
 
 	if (!mScoreMatrix)
@@ -532,11 +532,11 @@ void ImplProfile::release() const
 //--------------------------------------------------------------------------------------
 void ImplProfile::swap( const Position & x, const Position & y )
 {
-	mCountMatrix->swapRows( x, y );
+	mWeightedCountMatrix->swapRows( x, y );
 	if (mFrequencyMatrix != NULL)
 		mFrequencyMatrix->swapRows( x, y );
-	if (mCountMatrix != NULL)
-		mCountMatrix->swapRows( x, y );
+	if (mWeightedCountMatrix != NULL)
+		mWeightedCountMatrix->swapRows( x, y );
 }
 
 //--------------------------------------------------------------------------------------
@@ -565,10 +565,10 @@ void ImplProfile::write( std::ostream & output ) const
 
 	output.setf( ios::fixed );
 
-	if (mCountMatrix)
+	if (mWeightedCountMatrix)
 	{
 		output << "----------->counts<----------------------------------------" << endl;
-		writeSegment<Count>( output, mCountMatrix );
+		writeSegment<WeightedCount>( output, mWeightedCountMatrix );
 	}
 	else
 	{
@@ -660,7 +660,7 @@ void ImplProfile::__save( std::ostream & output, MagicNumberType type ) const
 
 	if ( mStorageType == Full )
 	{
-		output.write( (char*)mCountMatrix->getData(), sizeof(Count) * size);
+		output.write( (char*)mWeightedCountMatrix->getData(), sizeof(WeightedCount) * size);
 		if (isPrepared() )
 		{
 			output.write( (char*)mFrequencyMatrix->getData(), sizeof(Frequency) * size);
@@ -669,7 +669,7 @@ void ImplProfile::__save( std::ostream & output, MagicNumberType type ) const
 	}
 	else if ( mStorageType == Sparse )
 	{
-		saveSparseMatrix<Count>( output, mCountMatrix );
+		saveSparseMatrix<WeightedCount>( output, mWeightedCountMatrix );
 
 		if (isPrepared() )
 		{
@@ -693,8 +693,8 @@ void ImplProfile::load( std::istream & input)
 	if ( mStorageType == Full )
 	{
 		allocateCounts();
-		input.read( (char*)mCountMatrix->getData(),
-					sizeof( Count) * size );
+		input.read( (char*)mWeightedCountMatrix->getData(),
+					sizeof( WeightedCount) * size );
 
 		if (input.fail() )
 			throw AlignlibException( "incomplete profile in stream.");
@@ -712,7 +712,7 @@ void ImplProfile::load( std::istream & input)
 	else if ( mStorageType == Sparse )
 	{
 		allocateCounts();
-		loadSparseMatrix<Count>( input, mCountMatrix );
+		loadSparseMatrix<WeightedCount>( input, mWeightedCountMatrix );
 
 		if (input.fail() )
 			throw AlignlibException( "incomplete profile in stream.");
@@ -770,7 +770,7 @@ void ImplProfile::add(
 				Position row = it->mCol;
 				Position col = it->mRow;
 				Residue i = sequence->asResidue(row);
-				mCountMatrix->addValue(col,i,1);
+				mWeightedCountMatrix->addValue(col,i,1);
 			}
 		}
 		else
@@ -780,7 +780,7 @@ void ImplProfile::add(
 				Position row = it->mRow;
 				Position col = it->mCol;
 				Residue i = sequence->asResidue(row);
-				mCountMatrix->addValue(col,i,1);
+				mWeightedCountMatrix->addValue(col,i,1);
 			}
 		}
 	}
@@ -792,7 +792,7 @@ void ImplProfile::add(
 			AlignmentIterator it(map_source2dest->begin());
 			AlignmentIterator it_end(map_source2dest->end());
 
-			HCountMatrix m(profile->getCountMatrix());
+			HWeightedCountMatrix m(profile->getWeightedCountMatrix());
 			if (is_reverse)
 			{
 				for (; it != it_end; ++it)
@@ -800,7 +800,7 @@ void ImplProfile::add(
 					Position row = it->mCol;
 					Position col = it->mRow;
 					for (Residue i = 0; i < mProfileWidth; i++)
-						mCountMatrix->addValue(col,i,(*m)[row][i]);
+						mWeightedCountMatrix->addValue(col,i,(*m)[row][i]);
 				}
 			}
 			else
@@ -810,7 +810,7 @@ void ImplProfile::add(
 					Position row = it->mRow;
 					Position col = it->mCol;
 					for (Residue i = 0; i < mProfileWidth; i++)
-						mCountMatrix->addValue(col,i,(*m)[row][i]);
+						mWeightedCountMatrix->addValue(col,i,(*m)[row][i]);
 				}
 			}
 		}

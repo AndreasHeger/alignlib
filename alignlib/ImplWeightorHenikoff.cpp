@@ -80,11 +80,11 @@ HSequenceWeights ImplWeightorHenikoff::calculateWeights(
 	int i, j;
 
 	//-----------------> calculate counts for each column and amino acid<----------------------
-	Count * counts = new Count[length * width];
+	WeightedCount * counts = new WeightedCount[length * width];
 
 	for (j = 0; j < length; j++)
 	{
-		Count * ccolumn = &counts[j * width];
+		WeightedCount * ccolumn = &counts[j * width];
 		for ( i = 0; i < width; i++)
 			ccolumn[i] = 0;
 	}
@@ -103,7 +103,7 @@ HSequenceWeights ImplWeightorHenikoff::calculateWeights(
 
 	for (column = 0; column < length; column++)
 	{
-		Count * ccolumn = &counts[j * width];
+		WeightedCount * ccolumn = &counts[j * width];
 		ntypes[column] = 0;
 		for (i = 0; i < width; i++)
 			if (ccolumn[i] > 0)

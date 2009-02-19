@@ -69,7 +69,7 @@ class ImplRegularizorTatusov : public ImplRegularizor
     
     /** copy the counts into the frequencies and regularize them by doing so. */
     virtual void fillFrequencies( FrequencyMatrix & frequencies, 
-				  				  const CountMatrix & counts,
+				  				  const WeightedCountMatrix & counts,
 				  				  const HEncoder & encoder ) const; 
 
  protected:

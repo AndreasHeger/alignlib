@@ -21,7 +21,7 @@
 #include <algorithm>
 #include <vector>
 #include <cassert>
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -44,7 +44,7 @@ int main ()
 
 	cout << *tree << endl;
 
-	writeNewHampshire( cout, tree );
+	writeNewHampshire( cout, tree, HStringVector( new StringVector()) );
 
 	cout << "Output from setRoot:" << tree->setRoot( 0, 4, 1) << endl;
 
@@ -71,7 +71,7 @@ int main ()
 	cout << "BFS-traversal visit:" << endl;
 	std::copy( v->begin(), v->end(), std::ostream_iterator< Node >( std::cout, " " ));
 	cout << endl;
-  
+
 	{
 		std::cout << "copying" << std::endl;
 		HTree t2 = tree->getClone();

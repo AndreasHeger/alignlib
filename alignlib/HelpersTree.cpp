@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: HelpersTree.cpp,v 1.2 2004/06/02 12:14:34 aheger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 #include <iostream>
 #include <string>
@@ -15,18 +15,19 @@
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
+#include "AlignlibException.h"
 #include "Tree.h"
 #include "HelpersTree.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
-void writeNewHampshire( 
-		std::ostream & output, 
-		const HTree & tree, 
-		const Labels * labels ) 
+void writeNewHampshire(
+		std::ostream & output,
+		const HTree & tree,
+		const HStringVector & labels )
 {
 	debug_func_cerr( 5 );
 
@@ -35,18 +36,21 @@ void writeNewHampshire(
 
 	Node root = tree->getRoot();
 
-
 	node_stack.push_back( root ); // push root on stack
 
 	bool docomma = false;
 
 	Node numleaves = tree->getNumLeaves();
+
+	if (labels->size() > 0 && labels->size() != numleaves)
+		throw AlignlibException( "writeNewHampshire: number of leaves and number of labels are different");
+
 	Node last_interior_node = 2 * numleaves - 1;
 	TreeWeight weight = 0;
 
 	debug_cerr( 5, "starting traversal from root " << root << " with " << numleaves << " leaves" );
 
-	while (!node_stack.empty()) 
+	while (!node_stack.empty())
 	{
 
 		node = node_stack.back();
@@ -58,15 +62,15 @@ void writeNewHampshire(
 			weight = tree->getWeight( node, tree->getParent( node ));
 
 
-		if (node < numleaves) 
+		if (node < numleaves)
 		{                   // process leaves: print name:branchlength
 			if (docomma)
 				output << ",";
 
-			if (labels) 
+			if (labels->size() > 0)
 			{
-				output << (*labels)[node]; 
-			} else 
+				output << (*labels)[node];
+			} else
 			{
 				output << node;
 			}
@@ -74,10 +78,10 @@ void writeNewHampshire(
 			output << ":" << weight;
 			docomma = true;
 
-		} 
-		else 
+		}
+		else
 		{
-			if (node <= last_interior_node) 
+			if (node <= last_interior_node)
 			{             // process interior nodes
 				if (docomma) output << "," << endl;
 
@@ -93,15 +97,15 @@ void writeNewHampshire(
 				// 3) record branch lengths
 				docomma = false;
 
-			} 
-			else 
+			}
+			else
 			{                                      // close interior node
 				// print a ):branchlength (if root, just print ")" )
-				if (node == root + numleaves) 
+				if (node == root + numleaves)
 				{
 					output << ")\n";
-				} 
-				else 
+				}
+				else
 				{
 					node = node - numleaves;
 					output << "):" << tree->getWeight( node, tree->getParent(node) );
