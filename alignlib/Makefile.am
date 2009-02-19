@@ -69,7 +69,7 @@ HEADERS_ALIGNMENT =	Alignment.h HelpersAlignment.h \
 			ImplAlignmentMatrix.h ImplAlignmentMatrixRow.h ImplAlignmentMatrixDiagonal.h \
 			ImplAlignmentMatrixUnsorted.h \
 			ImplAlignmentBlocks.h
-			
+
 HEADERS_ALIGNATOR =	Alignator.h HelpersAlignator.h \
 			ImplAlignator.h ImplAlignatorDP.h \
 			ImplAlignatorDPFull.h \
@@ -217,11 +217,11 @@ PARTS_SUBSTMATRIX=HelpersSubstitutionMatrix.cpp
 PARTS_MULTIPLE_ALIGNATOR= HelpersMultipleAlignator.cpp \
 			MultipleAlignator.cpp \
 			ImplMultipleAlignator.cpp \
-			ImplMultipleAlignatorSimple.cpp \ 
+			ImplMultipleAlignatorSimple.cpp \
 			ImplMultipleAlignatorPileup.cpp
-			
+
 PARTS_TOOLKIT=Toolkit.cpp ImplToolkit.cpp
-			
+
 lib_LTLIBRARIES = libalignlib.la  
 
 libalignlib_la_SOURCES = $(PARTS)
