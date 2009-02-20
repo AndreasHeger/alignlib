@@ -91,6 +91,15 @@ void register_MultAlignment_class(){
                 , getColumnCounts_function_type( &::alignlib::MultAlignment::getColumnCounts ) );
         
         }
+        { //::alignlib::MultAlignment::getFrom
+        
+            typedef ::alignlib::Position ( ::alignlib::MultAlignment::*getFrom_function_type )(  ) const;
+            
+            MultAlignment_exposer.def( 
+                "getFrom"
+                , getFrom_function_type( &::alignlib::MultAlignment::getFrom ) );
+        
+        }
         { //::alignlib::MultAlignment::getGapCounts
         
             typedef ::alignlib::HCountVector ( ::alignlib::MultAlignment::*getGapCounts_function_type )( ::alignlib::HAlignandumVector const &,::alignlib::AggregateType ) const;
@@ -155,6 +164,15 @@ void register_MultAlignment_class(){
             MultAlignment_exposer.def( 
                 "getRowCounts"
                 , getRowCounts_function_type( &::alignlib::MultAlignment::getRowCounts ) );
+        
+        }
+        { //::alignlib::MultAlignment::getTo
+        
+            typedef ::alignlib::Position ( ::alignlib::MultAlignment::*getTo_function_type )(  ) const;
+            
+            MultAlignment_exposer.def( 
+                "getTo"
+                , getTo_function_type( &::alignlib::MultAlignment::getTo ) );
         
         }
         { //::alignlib::MultAlignment::isAligned

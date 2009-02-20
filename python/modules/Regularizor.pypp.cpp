@@ -16,7 +16,7 @@ void register_Regularizor_class(){
         bp::scope Regularizor_scope( Regularizor_exposer );
         { //::alignlib::Regularizor::fillFrequencies
         
-            typedef void ( ::alignlib::Regularizor::*fillFrequencies_function_type )( ::alignlib::FrequencyMatrix &,::alignlib::CountMatrix const &,::alignlib::HEncoder const & ) const;
+            typedef void ( ::alignlib::Regularizor::*fillFrequencies_function_type )( ::alignlib::FrequencyMatrix &,::alignlib::WeightedCountMatrix const &,::alignlib::HEncoder const & ) const;
             
             Regularizor_exposer.def( 
                 "fillFrequencies"

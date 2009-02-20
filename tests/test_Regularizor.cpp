@@ -30,7 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -48,21 +48,20 @@ using boost::unit_test::test_suite;
 using namespace std;
 using namespace alignlib;
 
-std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
-std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
+std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY";
+std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 
 // most profilers only work with the twenty amino acid alphabet
 // setDefaultEncoder( getEncoder(Protein20) );
 
 void test_GenericRegularizor( const HRegularizor & r )
-{	
+{
 	HAlignandum a(makeProfile( ref_protein20x3, 3,
-			getDefaultEncoder(), 
-			getDefaultWeightor(), 
-			makeRegularizor(), 
-			getDefaultLogOddor() ));	
+			getDefaultEncoder(),
+			getDefaultWeightor(),
+			makeRegularizor(),
+			getDefaultLogOddor() ));
 	a->prepare();
-	std::cout << *a << std::endl;
 }
 
 BOOST_AUTO_TEST_CASE( test_Regularizor )

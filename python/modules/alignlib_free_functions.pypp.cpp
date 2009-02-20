@@ -779,7 +779,7 @@ void register_free_functions(){
 
     { //::alignlib::makeEntropyVector
     
-        typedef ::alignlib::VectorDouble * ( *makeEntropyVector_function_type )( ::alignlib::CountMatrix const * );
+        typedef ::alignlib::VectorDouble * ( *makeEntropyVector_function_type )( ::alignlib::WeightedCountMatrix const * );
         
         bp::def( 
             "makeEntropyVector"
@@ -1136,7 +1136,7 @@ void register_free_functions(){
 
     { //::alignlib::makeRegularizorDirichlet
     
-        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichlet_function_type )( ::alignlib::Count );
+        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichlet_function_type )( ::alignlib::WeightedCount );
         
         bp::def( 
             "makeRegularizorDirichlet"
@@ -1147,7 +1147,7 @@ void register_free_functions(){
 
     { //::alignlib::makeRegularizorDirichletHash
     
-        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichletHash_function_type )( ::alignlib::Count );
+        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichletHash_function_type )( ::alignlib::WeightedCount );
         
         bp::def( 
             "makeRegularizorDirichletHash"
@@ -1158,7 +1158,7 @@ void register_free_functions(){
 
     { //::alignlib::makeRegularizorDirichletInterpolate
     
-        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichletInterpolate_function_type )( ::alignlib::Count );
+        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichletInterpolate_function_type )( ::alignlib::WeightedCount );
         
         bp::def( 
             "makeRegularizorDirichletInterpolate"
@@ -1169,7 +1169,7 @@ void register_free_functions(){
 
     { //::alignlib::makeRegularizorDirichletPrecomputed
     
-        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichletPrecomputed_function_type )( ::alignlib::Count );
+        typedef ::alignlib::HRegularizor ( *makeRegularizorDirichletPrecomputed_function_type )( ::alignlib::WeightedCount );
         
         bp::def( 
             "makeRegularizorDirichletPrecomputed"
@@ -1744,12 +1744,12 @@ void register_free_functions(){
 
     { //::alignlib::writeNewHampshire
     
-        typedef void ( *writeNewHampshire_function_type )( ::std::ostream &,::alignlib::HTree const &,::alignlib::Labels const * );
+        typedef void ( *writeNewHampshire_function_type )( ::std::ostream &,::alignlib::HTree const &,::alignlib::HStringVector const & );
         
         bp::def( 
             "writeNewHampshire"
             , writeNewHampshire_function_type( &::alignlib::writeNewHampshire )
-            , ( bp::arg("output"), bp::arg("tree"), bp::arg("labels")=bp::object() ) );
+            , ( bp::arg("output"), bp::arg("tree"), bp::arg("labels") ) );
     
     }
 

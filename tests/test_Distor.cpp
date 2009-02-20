@@ -20,7 +20,7 @@
 #include <algorithm>
 #include <vector>
 
-#include <time.h> 
+#include <time.h>
 
 #include "MultipleAlignment.h"
 #include "HelpersMultipleAlignment.h"
@@ -42,19 +42,19 @@ int main ()
   mali->add(alignlib::makeAlignatum("-AADDAACCAAA-"));
   mali->add(alignlib::makeAlignatum("AAKKAA-CCAAAA"));
   mali->add(alignlib::makeAlignatum("-A-AAA-CCA-A-"));
-  mali->add(alignlib::makeAlignatum("AAAGAAA--AAAA"));     
+  mali->add(alignlib::makeAlignatum("AAAGAAA--AAAA"));
 
   HDistanceMatrix matrix(makeDistanceMatrixSymmetric(4, 0));
 
-  cout << *matrix << endl;
+  // cout << *matrix << endl;
 
   HDistor d1(makeDistorKimura());
   d1->calculateMatrix( matrix, mali );
-  cout << *matrix << endl;
+  // cout << *matrix << endl;
 
   HDistor d2(makeDistorClustal());
   d2->calculateMatrix( matrix, mali );
-  cout << *matrix << endl;
+  // cout << *matrix << endl;
 
   return (EXIT_SUCCESS);
 

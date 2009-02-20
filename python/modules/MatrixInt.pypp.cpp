@@ -90,28 +90,6 @@ void register_MatrixInt_class(){
         
         }
         MatrixInt_exposer.def( bp::self == bp::self );
-        { //::alignlib::Matrix< int >::permuteCols
-        
-            typedef alignlib::Matrix< int > exported_class_t;
-            typedef void ( exported_class_t::*permuteCols_function_type )( ::std::vector< unsigned int > & ) ;
-            
-            MatrixInt_exposer.def( 
-                "permuteCols"
-                , permuteCols_function_type( &::alignlib::Matrix< int >::permuteCols )
-                , ( bp::arg("map_new2old") ) );
-        
-        }
-        { //::alignlib::Matrix< int >::permuteRows
-        
-            typedef alignlib::Matrix< int > exported_class_t;
-            typedef void ( exported_class_t::*permuteRows_function_type )( ::std::vector< unsigned int > & ) ;
-            
-            MatrixInt_exposer.def( 
-                "permuteRows"
-                , permuteRows_function_type( &::alignlib::Matrix< int >::permuteRows )
-                , ( bp::arg("map_new2old") ) );
-        
-        }
         { //::alignlib::Matrix< int >::setValue
         
             typedef alignlib::Matrix< int > exported_class_t;

@@ -16,7 +16,7 @@ void register_Weightor_class(){
         bp::scope Weightor_scope( Weightor_exposer );
         { //::alignlib::Weightor::fillCounts
         
-            typedef void ( ::alignlib::Weightor::*fillCounts_function_type )( ::alignlib::CountMatrix &,::alignlib::HMultipleAlignment const &,::alignlib::HEncoder const & ) const;
+            typedef void ( ::alignlib::Weightor::*fillCounts_function_type )( ::alignlib::WeightedCountMatrix &,::alignlib::HMultipleAlignment const &,::alignlib::HEncoder const & ) const;
             
             Weightor_exposer.def( 
                 "fillCounts"

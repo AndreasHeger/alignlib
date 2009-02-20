@@ -124,6 +124,22 @@ const HAlignment ImplMultAlignment::operator[](int row) const
 }
 
 //-----------------------------------------------------------------------------------------------------------
+Position ImplMultAlignment::getFrom() const
+{
+	if (isEmpty())
+		throw AlignlibException("In ImplMultAlignment.cpp: alignment is empty");
+	return mFrom;
+}
+
+//-----------------------------------------------------------------------------------------------------------
+Position ImplMultAlignment::getTo() const
+{
+	if (isEmpty())
+		throw AlignlibException("In ImplMultAlignment.cpp: alignment is empty");
+	return mLength;
+}
+
+//-----------------------------------------------------------------------------------------------------------
 const HAlignment ImplMultAlignment::getRow(int row) const
 {
 	debug_func_cerr(5);
@@ -155,6 +171,7 @@ void ImplMultAlignment::eraseRow(int row)
 	mRows.erase(mRows.begin() + row);
 	if (mRows.size() == 0)
 		mLength = 0;
+	updateLength();
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -196,7 +213,8 @@ void ImplMultAlignment::buildAligned()
 //------------------------------------------------------------------------------------
 /** Add a full multiple alignment to the another alignment.
  */
-void ImplMultAlignment::add(const HMultAlignment & other,
+void ImplMultAlignment::add(
+		const HMultAlignment & other,
 		const HAlignment & map_this2other)
 {
 	debug_func_cerr(5);
@@ -215,6 +233,7 @@ void ImplMultAlignment::add(const HMultAlignment & other,
 		mRows.push_back(new_map_mali2sequence);
 	}
 
+	mFrom = std::min(mFrom, map_this2other->getRowFrom());
 	mLength = std::max(mLength, map_this2other->getRowTo());
 	buildAligned();
 }
@@ -244,6 +263,7 @@ void ImplMultAlignment::add(const HMultAlignment & other,
 		mRows.push_back(new_map_mali2sequence);
 	}
 
+	mFrom = std::min( map_this2new->getColFrom(), map_other2new->getColFrom());
 	mLength = std::max(map_this2new->getColTo(), map_other2new->getColTo());
 	buildAligned();
 }
@@ -255,6 +275,7 @@ void ImplMultAlignment::add(const HAlignment & map_mali2sequence)
 {
 	debug_func_cerr(5);
 	mRows.push_back(map_mali2sequence->getClone());
+	mFrom = std::min(mFrom, map_mali2sequence->getRowFrom());
 	mLength = std::max(mLength, map_mali2sequence->getRowTo());
 	updateAligned(map_mali2sequence);
 }
@@ -331,8 +352,6 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 	debug_cerr( 5, "map_mali_old2new\n" << *map_mali_old2new );
 
 	// remap each row to the new mali
-	mLength = 0;
-
 	std::vector<int> used_gaps(mali_length + 1, 0);
 
 	for (unsigned int x = 0; x < mRows.size(); ++x)
@@ -421,8 +440,9 @@ void ImplMultAlignment::expand(const HAlignandumVector & sequences)
 		debug_cerr( 3, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
 
 		mRows[x] = new_map_mali2row;
-		mLength = std::max(mLength, new_map_mali2row->getRowTo());
 	}
+
+	updateLength();
 
 	// by definition all columns will be aligned
 	mIsAligned.clear();
@@ -439,6 +459,7 @@ void ImplMultAlignment::merge( const HMultAlignment & other)
 	for (int x = 0; x < mRows.size(); ++x)
 		mRows[x]->merge( other->getRow( x ) );
 
+	mFrom = std::min( mFrom, other->getFrom() );
 	mLength = std::max( mLength, other->getLength());
 	buildAligned();
 }
@@ -460,6 +481,7 @@ void ImplMultAlignment::move( const Position & offset )
 			mRows[x]->moveAlignment( offset, 0);
 		}
 	mLength += offset;
+	mFrom += offset;
 	buildAligned();
 }
 
@@ -472,6 +494,7 @@ void ImplMultAlignment::trim()
 	for (int x = 0; x < mRows.size(); ++x)
 		offset = std::min( mRows[x]->getRowFrom(), offset );
 	move( -offset );
+	updateLength();
 }
 
 //---------------------------------------------------------------------------------------
@@ -485,7 +508,7 @@ void ImplMultAlignment::shrink()
 		if ((*counts)[x] > 1)
 			map_old2new->addPair(x, n++, 0);
 	map(map_old2new, RC);
-	mLength = map_old2new->getColTo();
+	updateLength();
 	buildAligned();
 }
 
@@ -539,9 +562,12 @@ void ImplMultAlignment::updateLength()
 	debug_func_cerr(5);
 
 	mLength = 0;
+	mFrom = std::numeric_limits< Position >::max();
 	for (int x = 0; x < mRows.size(); ++x)
+	{
 		mLength = std::max( mRows[x]->getRowTo(), mLength );
-
+		mFrom = std::min( mRows[x]->getRowFrom(), mFrom );
+	}
 }
 //-----------------------------------------------------------------------------------------------------------
 void ImplMultAlignment::map(const HAlignment & other,

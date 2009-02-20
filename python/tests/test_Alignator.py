@@ -112,8 +112,8 @@ class AlignatorDPGlobalNoEndGapsPenaltiesTestCase( AlignatorTestCase ):
         if row == col or (row,col) in self.mSames:
             self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() )            
         else:
-            print "here", row, col, str(self.mSeqs[row]), str(self.mSeqs[col])
-            print str( self.mAlignmentA2B )
+            #print "here", row, col, str(self.mSeqs[row]), str(self.mSeqs[col])
+            #print str( self.mAlignmentA2B )
             self.assertEqual( self.mAlignmentA2B.getLength(), self.mSeqs[row].getLength() - 4 )
 
 class AlignatorDPLocalTestCase( AlignatorTestCase ):

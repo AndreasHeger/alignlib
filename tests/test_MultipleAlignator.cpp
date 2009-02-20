@@ -94,28 +94,26 @@ void testMultipleAlignator(
 			BOOST_CHECK_EQUAL( f.mData[sequences->size()-1]->getString(), "");
 		}
 
-	/*
 	// test adding empty sequence
-	sequences->insert( sequences->begin(), "" );
-	{
-		ma->align( result, sequences );
-		BOOST_CHECK_EQUAL( result->getNumSequences(), sequences->size());
-		MultAlignmentFormatPlain f( result, sequences);
-		if (!first_is_empty)
+		sequences->insert( sequences->begin(), "" );
 		{
-			BOOST_CHECK_EQUAL( f.mData[0]->getString(), "");
-			for (int x = 1; x < sequences->size() - 1; ++x)
-				BOOST_CHECK_EQUAL( f.mData[x]->getString(), result1[x-1] );
-			BOOST_CHECK_EQUAL( f.mData[sequences->size()-1]->getString(), "");
+			ma->align( result, sequences );
+			BOOST_CHECK_EQUAL( result->getNumSequences(), sequences->size());
+			MultAlignmentFormatPlain f( result, sequences);
+			if (!first_is_empty)
+			{
+				BOOST_CHECK_EQUAL( f.mData[0]->getString(), "");
+				for (int x = 1; x < sequences->size() - 1; ++x)
+					BOOST_CHECK_EQUAL( f.mData[x]->getString(), result1[x-1] );
+				BOOST_CHECK_EQUAL( f.mData[sequences->size()-1]->getString(), "");
+			}
+			else
+			{
+				BOOST_CHECK_EQUAL( result->getLength(), 0);
+				for (int x = 0; x < sequences->size(); ++x)
+					BOOST_CHECK_EQUAL( f.mData[x]->getString(), "");
+			}
 		}
-		else
-		{
-			BOOST_CHECK_EQUAL( result->getLength(), 0);
-			for (int x = 0; x < sequences->size(); ++x)
-				BOOST_CHECK_EQUAL( f.mData[x]->getString(), "");
-		}
-		}
-		 */
 	}
 
 	// test using ranges
@@ -131,17 +129,14 @@ void testMultipleAlignator(
 			ma->align( result, sequences );
 			BOOST_CHECK_EQUAL( result->getNumSequences(), sequences->size());
 			MultAlignmentFormatPlain f( result, sequences);
-			std::cout << f ;
 			for (int x = 0; x < sequences->size(); ++x)
 				BOOST_CHECK_EQUAL( f.mData[x]->getString(), result2[x] );
 		}
-
 
 	}
 
 }
 
-/*
 BOOST_AUTO_TEST_CASE( multiple_alignment_simple )
 {
 	setDefaultSubstitutionMatrix( makeSubstitutionMatrix( getDefaultEncoder()->getAlphabetSize(), 1, -1000) );
@@ -158,7 +153,6 @@ BOOST_AUTO_TEST_CASE( multiple_alignment_simple )
 
  	testMultipleAlignator( ma, result1, result2, false );
 }
- */
 
 BOOST_AUTO_TEST_CASE( multiple_alignment_pileup )
 {

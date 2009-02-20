@@ -64,10 +64,13 @@ ImplLogOddorBackground::ImplLogOddorBackground (
 
 #ifdef DEBUG
 	debug_cerr( 5, "background frequencies for alphabet " << mAlphabet );
-	std::copy( mBackgroundFrequencies->begin(),
-			mBackgroundFrequencies->end(),
-			std::ostream_iterator<Score>(std::cerr, ",") );
-	std::cerr << std::endl;
+	if (AlignlibDebug::mVerbosity >= 5)
+	{
+		std::copy( mBackgroundFrequencies->begin(),
+				mBackgroundFrequencies->end(),
+				std::ostream_iterator<Score>(std::cerr, ",") );
+		std::cerr << std::endl;
+	}
 #endif
 
 	if (mAlphabet.size() != mBackgroundFrequencies->size())
@@ -119,9 +122,12 @@ void ImplLogOddorBackground::fillProfile(
 
 	Residue gap_code = encoder->getGapCode();
 #ifdef DEBUG
-	debug_cerr( 5, "background frequencies");
-	std::copy( bg.begin(), bg.end(), std::ostream_iterator<Score>(std::cerr, ",") );
-	std::cerr << std::endl;
+	if (AlignlibDebug::mVerbosity >= 5)
+	{
+		debug_cerr( 5, "background frequencies");
+		std::copy( bg.begin(), bg.end(), std::ostream_iterator<Score>(std::cerr, ",") );
+		std::cerr << std::endl;
+	}
 #endif
 
 	for (Position column = 0; column < length; column++)

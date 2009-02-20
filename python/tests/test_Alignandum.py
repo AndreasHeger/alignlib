@@ -131,7 +131,7 @@ class Profile1TestCase( AlignandumTestCase ):
 
     def testGetCounts(self):
         p = toProfile( self.mAlignandum )
-        counts = p.getCountMatrix()
+        counts = p.getWeightedCountMatrix()
         self.assertEqual( counts.getNumRows(), p.getLength() )
         self.assertEqual( counts.getNumCols(), p.getEncoder().getAlphabetSize() )
 

@@ -24,15 +24,6 @@ void register_Profile_class(){
                 , ( bp::arg("src"), bp::arg("map_src2dest"), bp::arg("reverse_mapping")=(bool const)(false) ) );
         
         }
-        { //::alignlib::Profile::getCountMatrix
-        
-            typedef ::alignlib::HCountMatrix ( ::alignlib::Profile::*getCountMatrix_function_type )(  ) const;
-            
-            Profile_exposer.def( 
-                "getCountMatrix"
-                , getCountMatrix_function_type( &::alignlib::Profile::getCountMatrix ) );
-        
-        }
         { //::alignlib::Profile::getFrequencyMatrix
         
             typedef ::alignlib::HFrequencyMatrix ( ::alignlib::Profile::*getFrequencyMatrix_function_type )(  ) const;
@@ -67,6 +58,15 @@ void register_Profile_class(){
             Profile_exposer.def( 
                 "getScoreMatrix"
                 , getScoreMatrix_function_type( &::alignlib::Profile::getScoreMatrix ) );
+        
+        }
+        { //::alignlib::Profile::getWeightedCountMatrix
+        
+            typedef ::alignlib::HWeightedCountMatrix ( ::alignlib::Profile::*getWeightedCountMatrix_function_type )(  ) const;
+            
+            Profile_exposer.def( 
+                "getWeightedCountMatrix"
+                , getWeightedCountMatrix_function_type( &::alignlib::Profile::getWeightedCountMatrix ) );
         
         }
         { //::alignlib::Profile::getWeightor

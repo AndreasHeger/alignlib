@@ -72,7 +72,6 @@ std::ostream & operator<< (std::ostream & output, const Block & src)
 ImplAlignmentBlocks::ImplAlignmentBlocks() :
 	ImplAlignment(), mLastLookupBlock(mBlocks.end())
 {
-
 }
 
 ImplAlignmentBlocks::ImplAlignmentBlocks( const ImplAlignmentBlocks& src) :
@@ -107,11 +106,13 @@ HAlignment ImplAlignmentBlocks::getClone() const
 //-----------------------------------------------------------------------------------------------------------
 AlignmentIterator ImplAlignmentBlocks::begin() const
 {
+	if (mChangedLength) calculateLength();
 	return AlignmentIterator( new ImplAlignmentBlocksIterator( mBlocks.begin(), mBlocks.end() ));
 }
 
 AlignmentIterator ImplAlignmentBlocks::end() const
 {
+	if (mChangedLength) calculateLength();
 	return AlignmentIterator( new ImplAlignmentBlocksIterator( mBlocks.end(), mBlocks.end() ));
 }
 
@@ -165,7 +166,6 @@ void ImplAlignmentBlocks::addDiagonal(
 	}
 
 	mBlocks.push_back( Block( row_from, col_from, row_to - row_from ) );
-
 	setChangedLength();
 }
 
@@ -202,6 +202,7 @@ void ImplAlignmentBlocks::moveAlignment( Position row_offset, Position col_offse
 /** retrieves a pair of residues from the alignment */
 ResiduePair ImplAlignmentBlocks::getPair( const ResiduePair & p) const
 {
+	if (mChangedLength) calculateLength();
 	if (p.mRow != NO_POS)
 	{
 		Position col = mapRowToCol( p.mRow );
@@ -324,6 +325,8 @@ BlockIterator ImplAlignmentBlocks::find( const Position & pos, const bool & prev
 //----------------------------------------------------------------------------------------------------------
 void ImplAlignmentBlocks::removePair( const ResiduePair & old_pair )
 {
+	if (mChangedLength) calculateLength();
+
 	debug_func_cerr( 5 );
 	Position pos = old_pair.mRow;
 
@@ -373,6 +376,8 @@ void ImplAlignmentBlocks::clear()
 //--------------> mapping functions <----------------------------------------------------------------------------
 Position ImplAlignmentBlocks::mapRowToCol( Position pos, SearchType search ) const
 {
+	if (mChangedLength) calculateLength();
+
 	debug_func_cerr( 5 );
   if (mRowFrom == NO_POS) return NO_POS;
   if (isEmpty()) return NO_POS;

@@ -36,8 +36,6 @@
 
 #include "modules/Coordinate.pypp.hpp"
 
-#include "modules/CountVector.pypp.hpp"
-
 #include "modules/DistanceMatrix.pypp.hpp"
 
 #include "modules/Distor.pypp.hpp"
@@ -97,8 +95,6 @@
 #include "modules/alignlib_free_functions.pypp.hpp"
 
 #include "modules/vector_less__double__greater_.pypp.hpp"
-
-#include "modules/vector_less__std_scope_string__greater_.pypp.hpp"
 
 #include "modules/vector_less__unsigned_char__greater_.pypp.hpp"
 
@@ -174,11 +170,7 @@ alignlib::HEncoder wrapper_for_load_Encoder( PyObject * fp )
 BOOST_PYTHON_MODULE(alignlib){
     register_enumerations();
 
-    register_CountVector_class();
-
     register_vector_less__unsigned_char__greater__class();
-
-    register_vector_less__std_scope_string__greater__class();
 
     register_PositionVector_class();
 
@@ -284,15 +276,6 @@ BOOST_PYTHON_MODULE(alignlib){
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::AlignandumVector> >();
 
-    { //::std::vector<HAlignatum, std::allocator<HAlignatum> >
-            typedef bp::class_< std::vector<alignlib::HAlignatum, std::allocator<alignlib::HAlignatum> > > AlignatumVector_exposer_t;
-            AlignatumVector_exposer_t AlignatumVector_exposer = AlignatumVector_exposer_t( "AlignatumVector" );
-            bp::scope AlignatumVector_scope( AlignatumVector_exposer );
-            AlignatumVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::HAlignatum, std::allocator<alignlib::HAlignatum> >, true >() );
-            }
-    
-            bp::register_ptr_to_python< boost::shared_ptr<alignlib::AlignatumVector> >();
-
     { //::std::vector<std::string, std::allocator<std::string> >
             typedef bp::class_< std::vector<std::string, std::allocator<std::string> > > StringVector_exposer_t;
             StringVector_exposer_t StringVector_exposer = StringVector_exposer_t( "StringVector" );
@@ -302,14 +285,59 @@ BOOST_PYTHON_MODULE(alignlib){
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::StringVector> >();
 
-    { //::std::vector<size_t, std::allocator<size_t> >
-            typedef bp::class_< std::vector<size_t, std::allocator<size_t> > > CountVector_exposer_t;
+    { //::std::vector<unsigned long, std::allocator<unsigned long> >
+            typedef bp::class_< std::vector<unsigned long, std::allocator<unsigned long> > > CountVector_exposer_t;
             CountVector_exposer_t CountVector_exposer = CountVector_exposer_t( "CountVector" );
             bp::scope CountVector_scope( CountVector_exposer );
-            CountVector_exposer.def( bp::vector_indexing_suite< ::std::vector<size_t, std::allocator<size_t> >, true >() );
+            CountVector_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned long, std::allocator<unsigned long> >, true >() );
             }
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::CountVector> >();
+
+    { //::std::vector<unsigned long, std::allocator<unsigned long> >
+            typedef bp::class_< std::vector<unsigned long, std::allocator<unsigned long> > > NodeVector_exposer_t;
+            NodeVector_exposer_t NodeVector_exposer = NodeVector_exposer_t( "NodeVector" );
+            bp::scope NodeVector_scope( NodeVector_exposer );
+            NodeVector_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned long, std::allocator<unsigned long> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::NodeVector> >();
+
+    { //::std::vector<int, std::allocator<int> >
+            typedef bp::class_< std::vector<int, std::allocator<int> > > vector_int_exposer_t;
+            vector_int_exposer_t vector_int_exposer = vector_int_exposer_t( "vector_int" );
+            bp::scope vector_int_scope( vector_int_exposer );
+            vector_int_exposer.def( bp::vector_indexing_suite< ::std::vector<int, std::allocator<int> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr< std::vector< int> > >();
+
+    { //::std::vector<unsigned int, std::allocator<unsigned int> >
+            typedef bp::class_< std::vector<unsigned int, std::allocator<unsigned int> > > vector_unsigned_int_exposer_t;
+            vector_unsigned_int_exposer_t vector_unsigned_int_exposer = vector_unsigned_int_exposer_t( "vector_unsigned_int" );
+            bp::scope vector_unsigned_int_scope( vector_unsigned_int_exposer );
+            vector_unsigned_int_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned int, std::allocator<unsigned int> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr< std::vector< unsigned int> > >();
+
+    { //::std::vector<long, std::allocator<long> >
+            typedef bp::class_< std::vector<long, std::allocator<long> > > vector_long_exposer_t;
+            vector_long_exposer_t vector_long_exposer = vector_long_exposer_t( "vector_long" );
+            bp::scope vector_long_scope( vector_long_exposer );
+            vector_long_exposer.def( bp::vector_indexing_suite< ::std::vector<long, std::allocator<long> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr< std::vector< long> > >();
+
+    { //::std::vector<unsigned long, std::allocator<unsigned long> >
+            typedef bp::class_< std::vector<unsigned long, std::allocator<unsigned long> > > vector_unsigned_long_exposer_t;
+            vector_unsigned_long_exposer_t vector_unsigned_long_exposer = vector_unsigned_long_exposer_t( "vector_unsigned_long" );
+            bp::scope vector_unsigned_long_scope( vector_unsigned_long_exposer );
+            vector_unsigned_long_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned long, std::allocator<unsigned long> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr< std::vector< unsigned long> > >();
 
     register_free_functions();
 }

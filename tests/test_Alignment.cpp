@@ -275,10 +275,8 @@ void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs
 		pairs[row_pairs[i] * 100+col_pairs[i]] = 0;
 
 	{
-		cout << "testing...writing alignment...";
 		ostringstream result;
 		result << *a;
-		cout << "passed" << endl;
 	}
 
 	{
@@ -310,61 +308,35 @@ void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs
 	}
 
 	{
-		cout << "testing...getNumGaps()...";
 		int result = a->getNumGaps(); result++;
-		cout << "passed" << endl;
 	}
 
 	{
-		cout << "testing...getNumLength()..." ;
 		int result = a->getLength(); result++;
-		cout << "passed" << endl;
 	}
 
 	{
-		cout << "testing...getScore()...";
 		Score result = a->getScore(); result+=1;
-		cout << "passed" << endl;
 	}
 
 	{
-		cout << "testing...setting score...";
 		a->setScore( 12.0 );
-		Score score = a->getScore();
-		if (score == 12.0)
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;
+		BOOST_CHECK_EQUAL( a->getScore(), 12 );
 	}
 
 	{
-		cout << "testing...getClone()...";
 		HAlignment a_clone(a->getClone());
-
-		if (a_clone->getScore()   == a->getScore() &&
-				a_clone->getLength()  == a->getLength() &&
-				a_clone->getNumGaps() == a->getNumGaps() &&
-				isIdentical( a, a_clone ) )
-			cout << "passed" << endl;
-		else {
-			cout << "failed" << endl;
-			cout << *a << endl;
-			cout << *a_clone << endl;
-		}
+		BOOST_CHECK_EQUAL( a_clone->getScore(), a->getScore() );
+		BOOST_CHECK_EQUAL(a_clone->getLength(), a->getLength() );
+		BOOST_CHECK_EQUAL(a_clone->getNumGaps(), a->getNumGaps() );
+		BOOST_CHECK_EQUAL(isIdentical( a, a_clone ), true );
 	}
 
 	{
-
-		cout << "testing...getNew()...";
 		HAlignment a_new(a->getNew());
-
-		if (a_new->getScore() == 0 &&
-				a_new->getLength() == 0 &&
-				a_new->getNumGaps() ==0)
-			cout << "passed" << endl;
-		else
-			cout << "failed" << endl;
-
+		BOOST_CHECK_EQUAL( a_new->getScore() , 0 );
+		BOOST_CHECK_EQUAL( a_new->getLength() , 0 );
+		BOOST_CHECK_EQUAL( a_new->getNumGaps() , 0 );
 	}
 
 	if (!a->isEmpty())
@@ -459,8 +431,6 @@ void testAlignment( HAlignment & a, int * row_pairs, int * col_pairs, int npairs
 void testAlignmentSpecific1( HAlignment & a, int * row_pairs, int * col_pairs, int npairs )
 {
 	{
-		cout << "testing...removeRowRegion()..." ;
-
 		if (!a->isEmpty())
 		{
 			HAlignment a_clone(a->getClone());
@@ -486,21 +456,15 @@ void testAlignmentSpecific1( HAlignment & a, int * row_pairs, int * col_pairs, i
 			a_clone->removeRowRegion(2, 1);
 			BOOST_CHECK_EQUAL( a_clone->getLength() ,  a->getLength() );
 		}
-
-		cout << "passed" << endl;
 	}
 
 	{
-		cout << "testing...removeColRegion()..." ;
-
 		int i = 0;
 
 		HAlignment  a_clone(a->getClone());
 
 		for (i = 0; i < a->getColTo() + 5; i+=3)
 			a_clone->removeColRegion(i, i+3);
-
-		cout << "passed" << endl;
 	}
 
 }
@@ -508,8 +472,6 @@ void testAlignmentSpecific1( HAlignment & a, int * row_pairs, int * col_pairs, i
 void testAlignmentSpecific2( HAlignment & a, int * row_pairs, int * col_pairs, int npairs )
 {
 	{
-		cout << "testing...removeRowRegion()..." ;
-
 		if (!a->isEmpty())
 		{
 			HAlignment a_clone(a->getClone());
@@ -525,21 +487,13 @@ void testAlignmentSpecific2( HAlignment & a, int * row_pairs, int * col_pairs, i
 			a_clone->removeRowRegion(20, 30);
 			BOOST_CHECK_EQUAL( a_clone->getLength(), a->getLength() );
 		}
-
-		cout << "passed" << endl;
 	}
 
 	{
-		cout << "testing...removeColRegion()..." ;
-
 		int i = 0;
-
 		HAlignment  a_clone(a->getClone());
-
 		for (i = 0; i < a->getColTo() + 5; i+=3)
 			a_clone->removeColRegion(i, i+3);
-
-		cout << "passed" << endl;
 	}
 
 }

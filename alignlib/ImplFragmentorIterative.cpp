@@ -125,8 +125,11 @@ ImplFragmentorIterative::ImplFragmentorIterative(
 				alignator->align( result, row, col );
 
 #ifdef DEBUG
-				cout << "starting alignment" << *mDots << endl;
-				cout << "result" << *result << endl;
+				if (AlignlibDebug::mVerbosity >= 5)
+				{
+					std::cerr << "starting alignment: " << *mDots << std::endl;
+					std::cerr << "result: " << *result << endl;
+				}
 #endif
 
 				if (result->getScore() >= mMinScore)

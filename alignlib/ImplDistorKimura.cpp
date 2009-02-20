@@ -31,7 +31,7 @@ namespace alignlib
 //-------------------------> factory functions <-------------------------------------------------------------------------------
 HDistor makeDistorKimura()
 {
-  return HDistor( new ImplDistorKimura() );
+	return HDistor( new ImplDistorKimura() );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
@@ -55,44 +55,46 @@ IMPLEMENT_CLONE( HDistor, ImplDistorKimura );
 //--------------------------------------------------------------------------------------------------------------------------------
 DistanceMatrixValue ImplDistorKimura::getMaximumPossibleDistance() const
 {
-    return MAX_DISTANCE;
+	return MAX_DISTANCE;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 DistanceMatrixValue ImplDistorKimura::calculateDistance(
 		const std::string & s_row_1,
 		const std::string & s_row_2) const
+{
+
+	debug_func_cerr(5);
+	unsigned int i;
+	unsigned int identities = 0;		// number of identities
+	unsigned int n_nongaps = 0;		// normalize over non-gap-positions
+
+	unsigned char gap_char = alignlib::getDefaultEncoder()->getGapChar();
+
+	for (i = 0; i < s_row_1.length(); i++) {
+		if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char))
 		{
-
-  unsigned int i;
-  unsigned int identities = 0;		// number of identities
-  unsigned int n_nongaps = 0;		// normalize over non-gap-positions
-
-  unsigned char gap_char = alignlib::getDefaultEncoder()->getGapChar();
-
-  for (i = 0; i < s_row_1.length(); i++) {
-    if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char))
-    {
-      n_nongaps ++;
-      if (s_row_1[i] == s_row_2[i])
-	identities++;
-    }
-  }
+			n_nongaps ++;
+			if (s_row_1[i] == s_row_2[i])
+				identities++;
+		}
+	}
 
 #ifdef DEBUG
-  cout << "Comparison between " << s_row_1 << " and " << s_row_2 << ": non_gaps=" << n_nongaps << " identitities=" << identities << endl;
+	if (AlignlibDebug::mVerbosity >= 5)
+		std::cerr << "Comparison between " << s_row_1 << " and " << s_row_2 << ": non_gaps=" << n_nongaps << " identitities=" << identities << endl;
 #endif
 
-  double pdiff;
-  if (n_nongaps > 0)
-    pdiff = 1.0 - (double)identities / (double)n_nongaps;
-  else
-    pdiff = 1.0;
+	double pdiff;
+	if (n_nongaps > 0)
+		pdiff = 1.0 - (double)identities / (double)n_nongaps;
+	else
+		pdiff = 1.0;
 
-  if (pdiff > MAX_DIFFERENCE)
-    return MAX_DISTANCE;
-  else
-    return -log( 1.0 - pdiff - 0.2 * pdiff * pdiff);
+	if (pdiff > MAX_DIFFERENCE)
+		return MAX_DISTANCE;
+	else
+		return -log( 1.0 - pdiff - 0.2 * pdiff * pdiff);
 }
 
 

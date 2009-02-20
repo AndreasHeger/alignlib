@@ -72,10 +72,20 @@ class ImplMultAlignment : public MultAlignment
 
     /** returns the length (number of columns) of the multiple alignment.
      *
-     * All objects in a multiple alignment have the same length.
-     *
      * @return the length (aligned positions) of the multiple alignment. */
     virtual Position getLength() const;
+
+    /** returns the first aligned column of the multiple alignment.
+     *
+     * @return the first aligned column of the multiple alignment. */
+    virtual Position getFrom() const;
+
+    /** returns the last aligned column +1 of the multiple alignment.
+     *
+     * Note: this is synonymous to getLength()
+     *
+     * @return the last aligned column + 1 of the multiple alignment. */
+    virtual Position getTo() const;
 
     /** returns the number of sequences in this multiple alignment.
      *
@@ -289,6 +299,10 @@ class ImplMultAlignment : public MultAlignment
 
     /** the length of the multiple alignment */
     mutable int mLength;
+
+    /** the first aligned column of the multiple alignment */
+    mutable int mFrom;
+
 
  private:
 

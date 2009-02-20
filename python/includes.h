@@ -12,6 +12,10 @@ namespace py_details
 	  sizeof(alignlib::Matrix<int>);
     sizeof(alignlib::Matrix<double>);
     sizeof(alignlib::Matrix<unsigned int>);
+    sizeof(std::vector<int>);
+    sizeof(std::vector<unsigned int>);
+    sizeof(std::vector<long>);
+    sizeof(std::vector<unsigned long>);
     sizeof(alignlib::SubstitutionMatrix);
     sizeof(alignlib::MutationMatrix);
     sizeof(alignlib::FragmentVector);

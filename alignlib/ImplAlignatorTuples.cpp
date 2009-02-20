@@ -98,12 +98,15 @@ void ImplAlignatorTuples::align(
 
 #ifdef DEBUG
 	debug_cerr( 5, "Tuples " );
-	for (TUPLES::iterator it = tuples.begin(); it != tuples.end(); ++it)
+	if (AlignlibDebug::mVerbosity >= 5)
 	{
-		std::cerr << (*it).first << "\t" ;
-		vector<int> & v = tuples[(*it).first];
-		copy(v.begin(), v.end(), std::ostream_iterator<int>(std::cerr, " "));
-		std::cerr << endl;
+		for (TUPLES::iterator it = tuples.begin(); it != tuples.end(); ++it)
+		{
+			std::cerr << (*it).first << "\t" ;
+			vector<int> & v = tuples[(*it).first];
+			copy(v.begin(), v.end(), std::ostream_iterator<int>(std::cerr, " "));
+			std::cerr << endl;
+		}
 	}
 #endif
 

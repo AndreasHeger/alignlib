@@ -23,6 +23,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <sstream>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "AlignlibDebug.h"
@@ -135,7 +136,6 @@ ImplAlignatum::~ImplAlignatum()
 //--------------------------------------------------------------------------------------------
 IMPLEMENT_CLONE( HAlignatum, ImplAlignatum );
 
-
 //--------------------------------------------------------------------------------------------
 void ImplAlignatum::mapOnAlignment(
 		const HAlignment & map_old2new,
@@ -156,7 +156,11 @@ void ImplAlignatum::mapOnAlignment(
 
 	// check if alignment is out-of-bounds
 	if (map_old2new->getRowTo() > mLength)
-		throw AlignlibException("alignment out of bounds.");
+		throw AlignlibException( std::string("alignment out of bounds: alignment=") +
+				toString(map_old2new->getRowFrom()) +
+				"-" +
+				toString(map_old2new->getRowTo()) +
+				" sequence length="  + toString(mLength));
 
 	Position length = std::max(new_length, map_old2new->getColTo());
 

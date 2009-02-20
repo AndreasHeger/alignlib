@@ -82,6 +82,18 @@ class MultAlignment
      * @return the length (aligned positions) of the multiple alignment. */
     virtual Position getLength() const = 0;
 
+    /** returns the first aligned column of the multiple alignment.
+     *
+     * @return the first aligned column of the multiple alignment. */
+    virtual Position getFrom() const = 0;
+
+    /** returns the last aligned column +1 of the multiple alignment.
+     *
+     * Note: this is synonymous to getLength()
+     *
+     * @return the last aligned column + 1 of the multiple alignment. */
+    virtual Position getTo() const = 0;
+
     /** returns the number of sequences in this multiple alignment.
      *
      * @return number of sequences in alignment.

@@ -329,7 +329,7 @@ void ImplAlignment::switchRowCol()
 		addPair( ResiduePair( it->mCol, it->mRow, it->mScore ) );
 
 	setScore( copy->getScore() );
-
+	calculateLength();
 	return;
 }
 

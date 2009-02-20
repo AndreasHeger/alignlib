@@ -30,7 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include <time.h> 
+#include <time.h>
 #include <vector>
 
 #include "Matrix.h"
@@ -45,27 +45,21 @@ using namespace alignlib;
 BOOST_AUTO_TEST_CASE( test_map1 )
 {
 	Matrix<int>matrix( 3, 3, 1);
-	std::cout << matrix << std::endl;
 	std::vector<unsigned int> map_new2old( 2 );
 	map_new2old[0] = 0;
 	map_new2old[1] = 2;
 	matrix.permuteRows( map_new2old );
-	std::cout << matrix << std::endl;
 	matrix.permuteCols( map_new2old );
-	std::cout << matrix << std::endl;	
 }
 
 BOOST_AUTO_TEST_CASE( test_map2 )
 {
 	Matrix<int>matrix( 2, 2, 1);
-	std::cout << matrix << std::endl;
 	std::vector<unsigned int> map_new2old( 2 );
 	map_new2old[0] = 0;
 	map_new2old[1] = 1;
 	matrix.permuteRows( map_new2old );
-	std::cout << matrix << std::endl;
 	matrix.permuteCols( map_new2old );
-	std::cout << matrix << std::endl;	
 }
 
 

@@ -20,7 +20,7 @@
 #include <algorithm>
 #include <vector>
 
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -36,13 +36,13 @@ int main ()
 
 	HDistanceMatrix m = makeDistanceMatrixSymmetric(10, 0);
 
-	cout << *m << endl;
+	// cout << *m << endl;
 
 	// reading and writing
 	(*m)(3,5) = 5;
-	cout << (*m)(3,5) << endl;
+	// cout << (*m)(3,5) << endl;
 
-	cout << *m << endl;
+	// cout << *m << endl;
 
 	for (int i = 0; i < 10; i++) {
 		(*m)(3,i) = i;
@@ -51,15 +51,15 @@ int main ()
 
 	(*m)(0,0) = 0;
 	(*m)(3,5) = 1000;
-	cout << *m << endl;
+	// cout << *m << endl;
 
 	m->swap( 3, 5);
 
-	cout << "After swapping 3 and 5\n" << *m << endl;
+	// cout << "After swapping 3 and 5\n" << *m << endl;
 
 	m->shrink();
 
-	cout << "After shrinking\n" << *m << endl;
+	// cout << "After shrinking\n" << *m << endl;
 
 	return (EXIT_SUCCESS);
 }

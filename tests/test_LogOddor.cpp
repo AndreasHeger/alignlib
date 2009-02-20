@@ -30,7 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -52,23 +52,22 @@ using namespace alignlib;
 std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY";
 std::string ref_protein20A = "AAAAAAAAAAAAAAAAAAAA";
 
-std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20 + ref_protein20A; 
+std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20 + ref_protein20A;
 
 void test_GenericLogOddor( HLogOddor & logoddor )
 {
 	HAlignandum a(makeProfile( ref_protein20x3, 4,
-			getDefaultEncoder(), 
-			getDefaultWeightor(), 
-			getDefaultRegularizor(), 
+			getDefaultEncoder(),
+			getDefaultWeightor(),
+			getDefaultRegularizor(),
 			logoddor ));
-	
-	a->prepare();	
-	std::cout << *a << std::endl;
+
+	a->prepare();
 }
 
 BOOST_AUTO_TEST_CASE( test_LogOddor )
 {
-	HLogOddor l = makeLogOddor();	
+	HLogOddor l = makeLogOddor();
 	test_GenericLogOddor( l );
 }
 
@@ -83,7 +82,7 @@ BOOST_AUTO_TEST_CASE( test_LogOddorGribskov )
 	setDefaultEncoder( getEncoder( Protein23 ) );
 	HSubstitutionMatrix m( makeSubstitutionMatrixBlosum62() );
 	HLogOddor l = makeLogOddorGribskov( m );
-	test_GenericLogOddor( l ); 
+	test_GenericLogOddor( l );
 }
 
 BOOST_AUTO_TEST_CASE( test_LogOddorDirichlet20 )

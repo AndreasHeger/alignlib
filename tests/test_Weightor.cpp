@@ -51,24 +51,23 @@ using boost::unit_test::test_suite;
 using namespace std;
 using namespace alignlib;
 
-std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
-std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
+std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY";
+std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 
 void test_GenericWeightor( HWeightor & weightor )
 {
 	HAlignandum a(makeProfile( ref_protein20x3, 3,
-			getDefaultEncoder(), 
-			weightor, 
-			getDefaultRegularizor(), 
+			getDefaultEncoder(),
+			weightor,
+			getDefaultRegularizor(),
 			getDefaultLogOddor()));
-	
-	a->prepare();	
-	std::cout << *a << std::endl;
+
+	a->prepare();
 }
 
 BOOST_AUTO_TEST_CASE( test_Weightor )
 {
-	HWeightor l(makeWeightor());	
+	HWeightor l(makeWeightor());
 	test_GenericWeightor( l );
 }
 

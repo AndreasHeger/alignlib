@@ -38,17 +38,15 @@
 using namespace std;
 using namespace alignlib;
 
-void testEncoder( const HEncoder & translator, 
+void testEncoder( const HEncoder & translator,
 		const std::string & alphabet,
 		const std::string & gap_chars,
 		const std::string & mask_chars,
 		int alphabet_size )
 {
-	std::cout << *translator << std::endl;
-	
 	// check alphabet size (number of chars + 1 for mask value)
 	assert( alphabet_size == translator->getAlphabetSize() );
-	
+
 	for (int x = 0; x < alphabet.size(); ++x)
 	{
 		assert( x == translator->encode( alphabet[x] ) );
@@ -68,13 +66,13 @@ void testEncoder( const HEncoder & translator,
 	{
 		ofstream file("test_Encoder.tmp", ios::binary);
 		translator->save( file );
-		translator->save( file );		
+		translator->save( file );
 		file.close();
 	}
-	
+
 	{
 		ifstream file("test_Encoder.tmp", ios::binary) ;
-		
+
 		HEncoder b;
 		int n = 0;
 		while ( file.peek() != EOF )
@@ -82,47 +80,49 @@ void testEncoder( const HEncoder & translator,
 			b = loadEncoder( file ) ;
 			if (b->getAlphabetType() != User )
 				assert( translator == b );
-			++n; 
+			++n;
 		}
 		assert( n == 2 );
-	}	
-	
+	}
+
 	{
 		HEncoder n( getEncoder( Protein20 ));
 		HResidueVector map_new2old( n->map( translator ) );
 		for (Residue x = 0; x < map_new2old->size(); ++x)
-			std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
+			{}
+			// std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
 	}
 
 	{
 		HEncoder n( getEncoder( Protein20 ));
 		HResidueVector map_new2old( translator->map( n ) );
 		for (Residue x = 0; x < map_new2old->size(); ++x)
-			std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
+		{}
+		// std::cout << (int)x << "\t" << (int)(*map_new2old)[x] << std::endl;
 	}
-	
+
 }
 
 
-int main () 
+int main ()
 {
-	std::cout << "----- testing Protein23 ---------" << std::endl;
+	//std::cout << "----- testing Protein23 ---------" << std::endl;
 	{
 		testEncoder( getEncoder( Protein23 ), "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X", 23 );
 	}
 
-	std::cout << "----- testing Protein20 ---------" << std::endl;
+	//std::cout << "----- testing Protein20 ---------" << std::endl;
 	{
 		testEncoder( getEncoder( Protein20 ), "ACDEFGHIKLMNPQRSTVWY", "-.", "X", 21 );
 	}
 
-	std::cout << "----- testing DNA4 ---------" << std::endl;
+	//std::cout << "----- testing DNA4 ---------" << std::endl;
 	{
 		testEncoder( getEncoder( DNA4 ), "ACGT", "-.", "N", 5 );
 	}
-	
-	
-	
-	
+
+
+
+
 }
 

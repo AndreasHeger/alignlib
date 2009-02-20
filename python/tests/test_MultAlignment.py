@@ -28,7 +28,7 @@ class MultAlignmentTestCase( unittest.TestCase ):
         
     def setUp( self ):
         self.mAlignandum = makeSequence( self.mReferenceSequence )
-        self.mContainer = makeAlignmentVector()
+        self.mContainer = makeAlignmentBlocks()
         
     def constructMali(self):
         mali = makeMultAlignment()
