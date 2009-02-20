@@ -62,10 +62,10 @@ bool testPairwiseAlignment(int test_id,
 		Score score )
 {
 
-	std::cout << "======== test " << test_id << " =========" << std::endl;
+	// std::cout << "======== test " << test_id << " =========" << std::endl;
 
-	std::cout << *benchmark_row << std::endl;
-	std::cout << *benchmark_col << std::endl;
+	// std::cout << *benchmark_row << std::endl;
+	// std::cout << *benchmark_col << std::endl;
 
 	HAlignment result(makeAlignmentVector());
 
@@ -74,9 +74,9 @@ bool testPairwiseAlignment(int test_id,
 	std::string r_row(row);
 	std::string r_col(col);
 
-	std::cout << AlignmentFormatExplicit( result, benchmark_row, benchmark_col ) << std::endl ;
+	// std::cout << AlignmentFormatExplicit( result, benchmark_row, benchmark_col ) << std::endl ;
 
-	std::cout << "result=" << *result << std::endl;
+	// std::cout << "result=" << *result << std::endl;
 
 	AlignmentFormatEmissions format( result );
 
@@ -96,7 +96,7 @@ bool testPairwiseAlignment(int test_id,
 			format.mRowAlignment == r_row &&
 			format.mColAlignment == r_col )
 	{
-		std::cout << "test " << test_id << " success" << std::endl;
+		// std::cout << "test " << test_id << " success" << std::endl;
 		return true;
 	}
 	else
@@ -123,9 +123,9 @@ bool testWrappedAlignment(int test_id,
 		Score score )
 {
 
-	std::cout << "======== test " << test_id << " =========" << std::endl;
-	std::cout << *benchmark_row << std::endl;
-	std::cout << *benchmark_col << std::endl;
+	// std::cout << "======== test " << test_id << " =========" << std::endl;
+	// std::cout << *benchmark_row << std::endl;
+	// std::cout << *benchmark_col << std::endl;
 
 	HAlignment result(makeAlignmentMatrixDiagonal());
 
@@ -139,7 +139,7 @@ bool testWrappedAlignment(int test_id,
 	if ( result->getScore() == score &&
 			format.mAlignment == r_ali )
 	{
-		std::cout << "test " << test_id << " success" << std::endl;
+		// std::cout << "test " << test_id << " success" << std::endl;
 		return true;
 	}
 	else
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE( global_alignment2)
 	Score gep = -2;
 
 	{
-		std::cout << "--- testing AlignatorDPFull (global mode) " << std::endl;
+		// std::cout << "--- testing AlignatorDPFull (global mode) " << std::endl;
 		HAlignator a = makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true, true, true );
 		testPairwiseAlignment( 1, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
 		testPairwiseAlignment( 2, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 6 );
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE( global_alignment2)
 
 
 	{
-		std::cout << "--- testing setting of range ---" << std::endl;
+		// std::cout << "--- testing setting of range ---" << std::endl;
 		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
 		seq1->useSegment(5,8);
 		testPairwiseAlignment( 23, a, seq1, seq2, 5, 8, "+3", 0, 3, "+3", 14 );
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE( global_alignment2)
 	}
 
 	{
-		std::cout << "--- testing sequence/profile alignment ---" << std::endl;
+		// std::cout << "--- testing sequence/profile alignment ---" << std::endl;
 		HAlignator a(makeAlignatorDPFull( ALIGNMENT_GLOBAL, gop, gep, true, true ));
 		testPairwiseAlignment( 24, a, seq7, seq8, 0, 18, "+18", 0, 18, "+18", 18 );
 	}
@@ -226,7 +226,7 @@ BOOST_AUTO_TEST_CASE( alignment_wrap)
 	Score gop = -12;
 	Score gep = -2;
 
-	std::cout << "--- testing AlignatorDPWrap (local mode)" << std::endl;
+	// std::cout << "--- testing AlignatorDPWrap (local mode)" << std::endl;
 	HAlignator a = makeAlignatorDPFull( ALIGNMENT_WRAP, gop, gep );
 	testWrappedAlignment(21, a, seq1, seq2, "-7:-0+2;-5:-0+2;-3:-0+2", 60 );
 	testWrappedAlignment(22, a, seq2, seq1, "3:-0+2", 20 );
@@ -238,7 +238,7 @@ BOOST_AUTO_TEST_CASE( iterative_alignment )
 			getDefaultEncoder()->getAlphabetSize(), 10, -10));
 	setDefaultSubstitutionMatrix( new_matrix );
 
-	std::cout << "--- testing iterative alignment ---" << std::endl;
+	// std::cout << "--- testing iterative alignment ---" << std::endl;
 	HAlignator a(makeAlignatorDPFull( ALIGNMENT_LOCAL, -10.0, -2.0 ));
 
 	HAlignment result = makeAlignmentVector();
@@ -249,8 +249,8 @@ BOOST_AUTO_TEST_CASE( iterative_alignment )
 
 		alignator->align( result, row, col );
 
-		std::cout << *result << std::endl;
-		std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
+		// std::cout << *result << std::endl;
+		// std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
 	}
 	{
 		HAlignandum row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2,
@@ -266,8 +266,8 @@ BOOST_AUTO_TEST_CASE( iterative_alignment )
 
 		alignator->align( result, row, col );
 
-		std::cout << *result << std::endl;
-		std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
+		// std::cout << *result << std::endl;
+		// std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
 	}
 }
 
@@ -294,7 +294,7 @@ BOOST_AUTO_TEST_CASE( groupies_alignment)
 
 	{
 		// here, gap costs are -10, -2
-		std::cout << "--- testing AlignatorGroupies " << std::endl;
+		// std::cout << "--- testing AlignatorGroupies " << std::endl;
 		HAlignator a = makeAlignatorGroupies();
 		testPairwiseAlignment( 31, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
 		testPairwiseAlignment( 32, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
@@ -325,7 +325,7 @@ BOOST_AUTO_TEST_CASE( local_alignment)
 	Score gep = -2;
 
 	{
-		std::cout << "--- testing AlignatorDPFull (local mode)" << std::endl;
+		// std::cout << "--- testing AlignatorDPFull (local mode)" << std::endl;
 		HAlignator a = makeAlignatorDPFull( ALIGNMENT_LOCAL, gop, gep );
 		testPairwiseAlignment(11, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
 		testPairwiseAlignment(12, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );

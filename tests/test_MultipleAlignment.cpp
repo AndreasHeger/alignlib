@@ -57,7 +57,7 @@ using boost::unit_test::test_suite;
 
 class my_exception{};
 
-void addAndVerify( 
+void addAndVerify(
 		const HMultipleAlignment & r,
 		const HAlignment & map_a2b,
 		const std::string & in1,
@@ -69,32 +69,32 @@ void addAndVerify(
 		bool use_end_mali = false,
 		bool use_end_alignatum = false)
 {
-	HMultipleAlignment clone1(r->getNew());		
+	HMultipleAlignment clone1(r->getNew());
 	clone1->add(makeAlignatum(in1));
 	clone1->add(makeAlignatum(in1));
-	
-	HMultipleAlignment clone2(r->getNew());		
+
+	HMultipleAlignment clone2(r->getNew());
 	clone2->add(makeAlignatum(in2));
 	clone2->add(makeAlignatum(in2));
-	
-	clone1->add( clone2, map_a2b, 
+
+	clone1->add( clone2, map_a2b,
 				true,
 				insert_gaps_mali,
 				insert_gaps_alignatum,
 				use_end_mali,
 				use_end_alignatum );
-	
+
 	BOOST_CHECK_EQUAL( (*clone1)[0], out1);
 	BOOST_CHECK_EQUAL( (*clone1)[3], out2);
-	
-	std::cout << *clone1 << std::endl;
+
+	// std::cout << *clone1 << std::endl;
 }
 
-void test_GenericMultipleAlignment( 
-		const HMultipleAlignment & r, 
+void test_GenericMultipleAlignment(
+		const HMultipleAlignment & r,
 		bool is_compressed = false )
-{	
-	
+{
+
 	int nseqs = 3;
 	std::string ref("ABCDEFGHIJ");
 
@@ -106,7 +106,7 @@ void test_GenericMultipleAlignment(
 	}
 
 	// checking out-of-range access of an empty alignment
-	{ 
+	{
 		HMultipleAlignment clone(r->getNew());
 		BOOST_CHECK_THROW( (*clone)[0],  AlignlibException);
 		BOOST_CHECK_THROW( (*clone)[1],  AlignlibException);
@@ -124,9 +124,9 @@ void test_GenericMultipleAlignment(
 		}
 		BOOST_CHECK_EQUAL( clone->getLength(), ref.size());
 		BOOST_CHECK_EQUAL( clone->getNumSequences(), nseqs);
-		BOOST_CHECK_THROW( (*clone)[nseqs+1], AlignlibException);		
-		BOOST_CHECK_THROW( (*clone)[-1], AlignlibException);		
-		
+		BOOST_CHECK_THROW( (*clone)[nseqs+1], AlignlibException);
+		BOOST_CHECK_THROW( (*clone)[-1], AlignlibException);
+
 	}
 
 	// check cloning
@@ -142,7 +142,7 @@ void test_GenericMultipleAlignment(
 			BOOST_CHECK_EQUAL( clone->getLength(), xclone->getLength());
 			BOOST_CHECK_EQUAL( clone->getNumSequences(), xclone->getNumSequences());
 			for (int x = 0; x < nseqs; ++x)
-				BOOST_CHECK_EQUAL( (*clone)[x], (*xclone)[x] );			
+				BOOST_CHECK_EQUAL( (*clone)[x], (*xclone)[x] );
 		}
 		BOOST_CHECK_EQUAL( clone->getLength(), ref.size());
 		BOOST_CHECK_EQUAL( clone->getNumSequences(), nseqs);
@@ -187,7 +187,7 @@ void test_GenericMultipleAlignment(
 
 BOOST_AUTO_TEST_CASE( test_MultipleAlignment )
 {
-	HMultipleAlignment r( makeMultipleAlignment());	
+	HMultipleAlignment r( makeMultipleAlignment());
 	test_GenericMultipleAlignment( r );
 }
 
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE( test_MultipleAlignmentDotsCompressed )
 
 
 /*
-int main () 
+int main ()
 {
 
 	HMultipleAlignment reference(makeMultipleAlignment());
@@ -227,10 +227,10 @@ int main ()
 
 		cout << *ali << endl;
 
-	}	
+	}
 
 	{
-		// create a multiple alignment 
+		// create a multiple alignment
 		HMultipleAlignment m1(makeMultipleAlignment());
 
 		m1->add(makeAlignatum("-AAAAA-CCAAA-"));
@@ -291,28 +291,28 @@ int main ()
 		debug_cerr(5, "mali is in col\n" << *m2 );
 	}
 
-	//-------------------------add new objects using an aligment 
-	{	
+	//-------------------------add new objects using an aligment
+	{
 		HMultipleAlignment m1(reference->getClone());
 
 		m1->add(makeAlignatum("0123456789"), ali, true );
 		cout << *m1 << endl;
-	}	
+	}
 
 	{
 		HMultipleAlignment m1(reference->getClone());
 
 		m1->add(makeAlignatum("0123456789"), ali, false );
 		cout << *m1 << endl;
-	}	
-		
+	}
+
 	// check mali dots
 	std::cout << "## checking MultipleAlignmentDots" << std::endl;
 	{
 
-		// create a multiple alignment 
+		// create a multiple alignment
 		HMultipleAlignment m1(makeMultipleAlignmentDots( false ));
-		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));    
+		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));
 
 		HAlignment a1(makeAlignmentVector());
 		addDiagonal2Alignment( a1, 1, 4, 0 );
@@ -325,7 +325,7 @@ int main ()
 		addDiagonal2Alignment( a3, 1, 6, -1 );
 		addDiagonal2Alignment( a3, 6, 7, 0 );
 		addDiagonal2Alignment( a3, 7, 8, +1 );
-		
+
 		m1->add(makeAlignatum("ABCDGHJL"), a1);
 		m1->add(makeAlignatum(".ABCDEFGH"), a2);
 		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
@@ -335,19 +335,19 @@ int main ()
 		m2->add(makeAlignatum("BCDEFIJKLM"), a3);
 
 		cout << *m1 << endl;
-		cout << *m2 << endl;    
+		cout << *m2 << endl;
 
 		HAlignment aa1(makeAlignmentVector());
-		addDiagonal2Alignment( aa1, 1, 9, 0 );    
+		addDiagonal2Alignment( aa1, 1, 9, 0 );
 		m1->add( m2, aa1 );
-		cout << *m1 << endl;        
+		cout << *m1 << endl;
 	}
 
 	{
 
-		// create a multiple alignment 
+		// create a multiple alignment
 		HMultipleAlignment m1(makeMultipleAlignment());
-		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));    
+		HMultipleAlignment m2(makeMultipleAlignmentDots( false ));
 
 		HAlignment a1(makeAlignmentVector());
 		addDiagonal2Alignment( a1, 0, 8, 0 );
@@ -356,14 +356,14 @@ int main ()
 		m1->add(makeAlignatum("ABCDGHIJL"), a1);
 
 		m2->add(makeAlignatum("ABCDHIJL"), a1);
-		m2->add(makeAlignatum("ABCDHIJL"), a1);    
+		m2->add(makeAlignatum("ABCDHIJL"), a1);
 
 		cout << *m1 << endl;
-		cout << *m2 << endl;    
+		cout << *m2 << endl;
 
 		HAlignment aa1(makeAlignmentVector());
 		addDiagonal2Alignment( aa1, 0, 5 );
-		addDiagonal2Alignment( aa1, 5, 8, -1 );        
+		addDiagonal2Alignment( aa1, 5, 8, -1 );
 
 		m1->add( m2, aa1 );
 
@@ -375,7 +375,7 @@ int main ()
 	{
 		std::cout << "## checking MultipleAlignmentDots options" << std::endl;
 
-		// create a multiple alignment 
+		// create a multiple alignment
 		HMultipleAlignment m1(makeMultipleAlignmentDots( true ));
 
 		HAlignment a1(makeAlignmentVector());
@@ -395,20 +395,20 @@ int main ()
 		m1->add(makeAlignatum("BCDEFIJKLM"), a3);
 
 		std::cout << *m1 << endl;
-		
+
 		// 0123456789
 		// -BCD---JL--
 		// ABCDE-----
 		// -BCDEFIJLM
 		// 0000020010
-		
+
 		// 0123456789
 		// -BCD-gh--J-L--
 		// ABCDE--------
 		// -BCDE--FIJkLM
-		
-		
-		
+
+
+
 	}
 
 	// check mali dots
@@ -416,7 +416,7 @@ int main ()
 	{
 		std::cout << "## checking MultipleAlignmentDots options" << std::endl;
 
-		// create a multiple alignment 
+		// create a multiple alignment
 		HMultipleAlignment m1(makeMultipleAlignmentDots( true, 0 ));
 
 		HAlignment a1(makeAlignmentVector());
@@ -438,7 +438,7 @@ int main ()
 		cout << *m1 << endl;
 
 	}
-	
+
 }
 
 */

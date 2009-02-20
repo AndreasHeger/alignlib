@@ -30,7 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 
@@ -59,32 +59,32 @@ void testWriteRead( const std::auto_ptr<MultipleAlignmentFormat> & format,
 	// stringstream ss;
 	// ss << *format;
 
-	std::cout << *format;
-	
+	// std::cout << *format;
+
 	// HAlignment n(ref->getNew());
 	// format->copy( n );
-	// BOOST_CHECK( checkAlignmentIdentity( ref, n ) );	
+	// BOOST_CHECK( checkAlignmentIdentity( ref, n ) );
 }
 
 BOOST_AUTO_TEST_CASE( test_MultipleAlignmentFormatPlain )
 {
-	HMultipleAlignment ali(buildAlignment());	
-	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatPlain( ali));	
+	HMultipleAlignment ali(buildAlignment());
+	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatPlain( ali));
 	testWriteRead( f, ali );
 }
 
 BOOST_AUTO_TEST_CASE( test_MultipleAlignmentFormatHTML )
 {
-	HMultipleAlignment ali(buildAlignment());	
-	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatHTML(ali, getDefaultPalette()));	
+	HMultipleAlignment ali(buildAlignment());
+	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatHTML(ali, getDefaultPalette()));
 	testWriteRead( f, ali );
 }
 
 
 BOOST_AUTO_TEST_CASE( test_MultipleAlignmentFormatMView )
 {
-	HMultipleAlignment ali(buildAlignment());	
-	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatHTML(ali, makePaletteMView()));	
+	HMultipleAlignment ali(buildAlignment());
+	std::auto_ptr<MultipleAlignmentFormat>f(new MultipleAlignmentFormatHTML(ali, makePaletteMView()));
 	testWriteRead( f, ali );
 }
 

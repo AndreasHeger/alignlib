@@ -354,13 +354,17 @@ def exportHandles( mb ):
                          'HSegmentVector', 
                          'HCountVector' ]
 
+    #for c in mb.classes():
+    #    print c.name
+    #    print c.aliases
+
     for handle in handles_to_export:
         
         #for c in mb.classes( lambda x: handle[1:]in x.name ):
         #    print "class=", c.name 
         #for c in mb.decls( lambda x: handle[1:] in x.name):
         #    print "decl=", c.name
-        
+         
         # used to be: pointer = "boost::shared_ptr<alignlib::%s>" % handle[1:]
         pointer = "shared_ptr<alignlib::%s>" % handle[1:]
         try:
@@ -418,8 +422,9 @@ def exportContainers( mb ):
 
 
     atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
-                                 { 'name' : 'CountVector', 'content' : 'unsigned long' },
-                                 { 'name' : 'NodeVector', 'content' : 'unsigned long' },
+                                 #{ 'name' : 'CountVector', 'content' : 'unsigned long' },
+                                 { 'name' : 'CountVector', 'content' : 'alignlib::Count' },
+#                                 { 'name' : 'NodeVector', 'content' : 'unsigned long' }, 
                                  ) 
      
     for data in atomic_vectors_to_export:
@@ -436,21 +441,6 @@ def exportContainers( mb ):
 
         mb.add_registration_code( code, tail=True )
 
-    vectors_to_export = ( "int", "unsigned int", "long", "unsigned long" )
-
-    for data in vectors_to_export:
-        code = """
-        { //::std::vector<%(content)s, std::allocator<%(content)s> >
-        typedef bp::class_< std::vector<%(content)s, std::allocator<%(content)s> > > %(name)s_exposer_t;
-        %(name)s_exposer_t %(name)s_exposer = %(name)s_exposer_t( "%(name)s" );
-        bp::scope %(name)s_scope( %(name)s_exposer );
-        %(name)s_exposer.def( bp::vector_indexing_suite< ::std::vector<%(content)s, std::allocator<%(content)s> >, true >() );
-        }
-
-        bp::register_ptr_to_python< boost::shared_ptr< std::vector< %(content)s> > >();
-        """ % { "content" : data, "name" : "vector_%s" % re.sub( " ", "_", data) }
-
-        mb.add_registration_code( code, tail=True )
 
 def exportMatrices( mb ):
     """include matrix classes.

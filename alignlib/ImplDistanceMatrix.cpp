@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: ImplDistanceMatrix.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 
 #include <iostream>
@@ -43,7 +43,7 @@ ImplDistanceMatrix::ImplDistanceMatrix( DistanceMatrixSize width, DistanceMatrix
 	allocateMemory();
 
 	DistanceMatrixSize i;
-	for (i = 0; i < mSize; i++) 
+	for (i = 0; i < mSize; i++)
 		mMatrix[i] = default_value;
 }
 
@@ -66,7 +66,7 @@ ImplDistanceMatrix::~ImplDistanceMatrix ()
 }
 
 
-ImplDistanceMatrix::ImplDistanceMatrix (const ImplDistanceMatrix & src ) : 
+ImplDistanceMatrix::ImplDistanceMatrix (const ImplDistanceMatrix & src ) :
 	mWidth( src.mWidth ), mSize( src.mSize )
 	{
 
@@ -95,9 +95,9 @@ DistanceMatrixValue ImplDistanceMatrix::getMinimum( Coordinate & x) const
 	DistanceMatrixSize i;
 	DistanceMatrixSize best_index = 0;
 
-	for (i = 0; i < mSize; i++) 
+	for (i = 0; i < mSize; i++)
 	{
-		if (mMatrix[i] < min) 
+		if (mMatrix[i] < min)
 		{
 			min = mMatrix[i];
 			best_index = i;
@@ -131,7 +131,7 @@ void ImplDistanceMatrix::setWidth(DistanceMatrixSize width)
 
 //--------------------------------------------------------------------------------------------
 DistanceMatrixValue ImplDistanceMatrix::getMaximum( Coordinate & x) const
-{ 
+{
 	debug_func_cerr( 5 );
 
 	DistanceMatrixValue max = -999999;
@@ -152,7 +152,7 @@ DistanceMatrixValue ImplDistanceMatrix::getMaximum( Coordinate & x) const
 	return max;
 }
 
-DistanceMatrixValue ImplDistanceMatrix::getMaximum() const 
+DistanceMatrixValue ImplDistanceMatrix::getMaximum() const
 {
 	Coordinate x;
 
@@ -170,7 +170,7 @@ void ImplDistanceMatrix::allocateMemory()
 	freeMemory();
 	mWidth = saved_width;
 
-	debug_cerr( 5, "Allocating " << mSize << " bytes for amatrix of width " << mWidth );
+	debug_cerr( 5, "Allocating " << mSize << " bytes for a matrix of width " << mWidth );
 
 	calculateSize();
 	mMatrix = new DistanceMatrixValue[ mSize ];
@@ -185,7 +185,7 @@ void ImplDistanceMatrix::freeMemory()
 {
 	debug_func_cerr( 5 );
 
-	if (mMatrix != NULL) 
+	if (mMatrix != NULL)
 		delete [] mMatrix;
 
 	mMatrix = NULL;
@@ -195,65 +195,65 @@ void ImplDistanceMatrix::freeMemory()
 }
 
 //-------------------------------------------------------------
-DistanceMatrixSize ImplDistanceMatrix::getWidth() const 
+DistanceMatrixSize ImplDistanceMatrix::getWidth() const
 {
 	return mWidth;
 }
 
 //-------------------------------------------------------------
-DistanceMatrixSize ImplDistanceMatrix::getSize() const 
+DistanceMatrixSize ImplDistanceMatrix::getSize() const
 {
 	return mSize;
 }
 
 //-------------------------------------------------------------
-DistanceMatrixValue ImplDistanceMatrix::operator()( DistanceMatrixSize row, DistanceMatrixSize col) const 
+DistanceMatrixValue ImplDistanceMatrix::operator()( DistanceMatrixSize row, DistanceMatrixSize col) const
 {
 
 	debug_func_cerr( 5 );
 
-	debug_cerr( 5, "Looking up " << row << " " << col << ": index is " << getIndex( row, col ) ); 
+	debug_cerr( 5, "Looking up " << row << " " << col << ": index is " << getIndex( row, col ) );
 
 	return mMatrix[getIndex( row, col)];
-}    
+}
 
 //-------------------------------------------------------------
-DistanceMatrixValue ImplDistanceMatrix::getElement( DistanceMatrixSize row, DistanceMatrixSize col) const 
+DistanceMatrixValue ImplDistanceMatrix::getElement( DistanceMatrixSize row, DistanceMatrixSize col) const
 {
 	return mMatrix[getIndex( row, col)];
-}    
+}
 
 //-------------------------------------------------------------
-DistanceMatrixValue & ImplDistanceMatrix::operator()( DistanceMatrixSize row, DistanceMatrixSize col) 
+DistanceMatrixValue & ImplDistanceMatrix::operator()( DistanceMatrixSize row, DistanceMatrixSize col)
 {
 	return mMatrix[getIndex(row,col)];
-}    
+}
 //-------------------------------------------------------------
-void ImplDistanceMatrix::setElement( DistanceMatrixSize row, DistanceMatrixSize col, DistanceMatrixValue value) 
+void ImplDistanceMatrix::setElement( DistanceMatrixSize row, DistanceMatrixSize col, DistanceMatrixValue value)
 {
 	mMatrix[getIndex(row,col)] = value;
-}    
+}
 
 //-------------------------------------------------------------
-DistanceMatrixSize ImplDistanceMatrix::getIndex( DistanceMatrixSize row, DistanceMatrixSize col) const 
+DistanceMatrixSize ImplDistanceMatrix::getIndex( DistanceMatrixSize row, DistanceMatrixSize col) const
 {
 	return (row * mWidth + col);
 }
 
 //-------------------------------------------------------------
-DistanceMatrixSize ImplDistanceMatrix::getRow( DistanceMatrixSize index ) const 
+DistanceMatrixSize ImplDistanceMatrix::getRow( DistanceMatrixSize index ) const
 {
-	return ( (DistanceMatrixSize)(index / mWidth)  ); 
+	return ( (DistanceMatrixSize)(index / mWidth)  );
 }
 
 //-------------------------------------------------------------
-DistanceMatrixSize ImplDistanceMatrix::getColumn( DistanceMatrixSize index ) const 
+DistanceMatrixSize ImplDistanceMatrix::getColumn( DistanceMatrixSize index ) const
 {
 	return ( index % mWidth );
 }
 
 //-------------------------------------------------------------
-void ImplDistanceMatrix::calculateSize() 
+void ImplDistanceMatrix::calculateSize()
 {
 
 	debug_func_cerr(5);
@@ -262,7 +262,7 @@ void ImplDistanceMatrix::calculateSize()
 }
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
-void ImplDistanceMatrix::write( std::ostream & output ) const 
+void ImplDistanceMatrix::write( std::ostream & output ) const
 {
 	// write so that output can be used in phylip
 
@@ -272,14 +272,14 @@ void ImplDistanceMatrix::write( std::ostream & output ) const
 
 	for (i = 0; i < mWidth; i++) {
 		cout << i << "\t";
-		for (j = 0; j < mWidth; j++) 
+		for (j = 0; j < mWidth; j++)
 			cout << setw(10) << setprecision(4) << operator()( i, j) << " ";
 		cout << endl;
 	}
 }
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
-void ImplDistanceMatrix::read( std::istream & input ) const 
+void ImplDistanceMatrix::read( std::istream & input ) const
 {
 }
 

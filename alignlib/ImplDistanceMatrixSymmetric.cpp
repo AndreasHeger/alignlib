@@ -48,9 +48,7 @@ ImplDistanceMatrixSymmetric::ImplDistanceMatrixSymmetric (DistanceMatrixSize wid
 	mWidth  = width;
 	mSize   = mWidth * (mWidth - 1) / 2;
 
-#ifdef DEBUG
-	cout << "Allocating " << mSize << " bytes for amatrix of width " << mWidth << endl;
-#endif
+	debug_cerr(5, "Allocating " << mSize << " bytes for a matrix of width " << mWidth );
 
 	mMatrix = new DistanceMatrixValue[ mSize ];
 

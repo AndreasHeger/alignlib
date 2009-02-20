@@ -89,9 +89,9 @@ class AlignatorDPGlobalWithEndGapsPenaltiesTestCase( AlignatorTestCase ):
 
     def checkAlignment( self, row, col ):
 
-        #print "where", row, col, str(self.mSeqs[row]), str(self.mSeqs[col])
-        #print str( self.mAlignmentA2B )
-        #print str( self.mAlignmentB2A )
+        # print "where", row, col, str(self.mSeqs[row]), str(self.mSeqs[col])
+        # print str( self.mAlignmentA2B )
+        # print str( self.mAlignmentB2A )
         
         AlignatorTestCase.checkAlignment( self, row, col )
         
@@ -156,8 +156,7 @@ class AlignatorDPWrapTestCase( AlignatorTestCase ):
         self.mAlignator = makeAlignatorDPFull( ALIGNMENT_WRAP, -10.0, -1.0 )
 
     def checkAlignment( self, row, col ):
-
-        # do not calll base class, as method is not symmetric
+        # do not call base class, as method is not symmetric
         # AlignatorTestCase.checkAlignment( self, row, col )
 
         if row == col or (row,col) in self.mSames:

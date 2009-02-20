@@ -30,7 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -46,34 +46,36 @@ using namespace alignlib;
 
 void checkingStart( const std::string & s)
 {
-	std::cout << "starting check:" << s << "...";
+	// std::cout << "starting check:" << s << "...";
 }
 
 void checkingEnd( bool passed = true)
 {
 	if (passed)
-		std::cout << "passed" << std::endl;
+	{}
+		// std::cout << "passed" << std::endl;
 	else
-		std::cout << "failed" << std::endl;
+	{}
+		//std::cout << "failed" << std::endl;
 }
 
 void runTests( HAlignandum & a, const std::string & sample )
 {
-	
+
 	const HEncoder translator = a->getEncoder();
-	
+
 	checkingStart( "translation and range" );
 	{
 	assert( a->getFrom() == 0);
-	assert( a->getTo() == sample.size() ); 
+	assert( a->getTo() == sample.size() );
 	assert( sample.size() == a->getLength() );
 	for ( int x = 0; x < sample.size(); ++x)
 		assert( a->asChar(x) == sample[x]);
-	
+
 	assert( a->asString() == sample );
 	}
 	checkingEnd();
-	
+
 	// check that useSegment does not interfere with output
 	checkingStart( "segments" );
 	{
@@ -88,23 +90,23 @@ void runTests( HAlignandum & a, const std::string & sample )
 			assert( clone->asChar(x) == sample[x]);
 		}
 		assert( clone->asString() == sample );
-	}	
+	}
 	checkingEnd();
-	
+
 	checkingStart( "saving" );
 	// check saving/loading from stream.
 	{
 		ofstream file("test_Alignandum.tmp", ios::binary);
 		a->save( file );
-		a->save( file );		
+		a->save( file );
 		file.close();
 	}
 	checkingEnd();
-	
+
 	checkingStart( "loading" );
 	{
 		ifstream file("test_Alignandum.tmp", ios::binary) ;
-		
+
 		HAlignandum b;
 		int n = 0;
 		while ( file.peek() != EOF )
@@ -114,17 +116,17 @@ void runTests( HAlignandum & a, const std::string & sample )
 			assert( a->getLength() == b->getLength() );
 			assert( a->getTo() == a->getTo() );
 			assert( a->asString() == b->asString() );
-			++n; 
+			++n;
 		}
 		assert( n == 2 );
 	}
 	checkingEnd();
-	
+
 	// check masking
 	checkingStart( "masking" );
 	{
 		HAlignandum clone(a->getClone());
-		
+
 		clone->mask( 0, a->getLength() );
 		for (Position p = 0; p < clone->getLength(); ++p)
 		{
@@ -185,54 +187,54 @@ void runTests( HAlignandum & a, const std::string & sample )
 		}
 		checkingEnd();
 	}
-	
+
 }
 
 void testAlignandum( HAlignandum & a, const std::string & sample )
 {
-	std::cout << "--- testing fresh --- " << std::endl;
+	// std::cout << "--- testing fresh --- " << std::endl;
 	runTests( a, sample);
-	std::cout << "--- testing prepared --- " << std::endl;
+	// std::cout << "--- testing prepared --- " << std::endl;
 	a->prepare();
 	runTests( a, sample);
-	std::cout << "--- testing released --- " << std::endl;	
+	// std::cout << "--- testing released --- " << std::endl;
 	a->release();
-	runTests( a, sample);	
+	runTests( a, sample);
 }
 
 
-int main () 
+int main ()
 {
 
-	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY"; 
-	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20; 
+	std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY";
+	std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 	{
-		std::cout << "--- testing Sequence ----" << std::endl;
+		// std::cout << "--- testing Sequence ----" << std::endl;
 		HAlignandum a(makeSequence( "ACA") );
 		testAlignandum( a, "ACA" );
 	}
 
 
 	{
-		std::cout << "--- testing masked Sequence ----" << std::endl;
+		//std::cout << "--- testing masked Sequence ----" << std::endl;
 		HAlignandum a(makeSequence( "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX") );
 		testAlignandum( a, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" );
 	}
 
 	{
-		std::cout << "--- testing Sequence - protein 20 ----" << std::endl;		
+		// std::cout << "--- testing Sequence - protein 20 ----" << std::endl;
 		HAlignandum a(makeSequence( ref_protein20 ) );
-		testAlignandum( a, ref_protein20 );    
+		testAlignandum( a, ref_protein20 );
 	}
 
 	{
-		std::cout << "--- testing Profile----" << std::endl;		
+		// std::cout << "--- testing Profile----" << std::endl;
 		// HAlignandum a(makeProfile( ref_protein20x3, 3) );
-		// testAlignandum( a, ref_protein20  );    
+		// testAlignandum( a, ref_protein20  );
 		HAlignandum a(makeProfile( std::string("AAA"), 1) );
-		testAlignandum( a, std::string("AAA")  );    
+		testAlignandum( a, std::string("AAA")  );
 	}
-	
+
 	return EXIT_SUCCESS;
 
 }
