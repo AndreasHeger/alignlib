@@ -254,16 +254,8 @@ BOOST_AUTO_TEST_CASE( iterative_alignment )
 		// std::cout << AlignmentFormatExplicit( result, row, col ) << std::endl;
 	}
 	{
-		HAlignandum row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2,
-				getDefaultEncoder(),
-				makeWeightor(),
-				makeRegularizor(),
-				makeLogOddor());
-		HAlignandum col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2,
-				getDefaultEncoder(),
-				makeWeightor(),
-				makeRegularizor(),
-				makeLogOddor());
+		HAlignandum row = makeProfile( "AAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAAAAACCCCCCCCAAACCCCCCCAAACCCCCCCAAACCCCCCCAAA", 2 );
+		HAlignandum col = makeProfile( "AAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAAAAKKKKKKKKAAAKKKKKKKAAAKKKKKKKAAAKKKKKKKAAA", 2 );
 
 		alignator->align( result, row, col );
 

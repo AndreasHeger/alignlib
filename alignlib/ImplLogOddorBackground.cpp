@@ -82,7 +82,7 @@ ImplLogOddorBackground::ImplLogOddorBackground (
 		const Score & mask_value ) :
 			ImplLogOddor( scale_factor, mask_value )
 {
-	mAlphabet = getDefaultEncoder()->getAlphabet();
+	mAlphabet = getToolkit()->getEncoder()->getAlphabet();
 	mBackgroundFrequencies = HFrequencyVector( new FrequencyVector( mAlphabet.size(), 1.0 / mAlphabet.size()));
 }
 

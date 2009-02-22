@@ -58,103 +58,38 @@ namespace alignlib
 //------------------------------------------------------------------------------------------
 /** create empty profile
  * */
-HAlignandum makeProfile(
-		const HEncoder & translator,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor )
-{
-	return HAlignandum( new ImplProfile( translator, weightor, regularizor, logoddor ) );
-}
-
 HAlignandum makeProfile()
 {
-	return makeProfile(
-			getDefaultEncoder(),
-			getDefaultWeightor(),
-			getDefaultRegularizor(),
-			getDefaultLogOddor() );
+	return makeProfile();
 }
 
 //------------------------------------------------------------------------------------------
 /** create empty profile with given length */
-HAlignandum makeProfile( const Position & length,
-						const HEncoder & translator,
-						const HWeightor & weightor,
-						const HRegularizor & regularizor,
-						const HLogOddor & logoddor )
+HAlignandum makeProfile(
+		const Position & length )
 {
-
-	return HAlignandum( new ImplProfile( length,
-			translator, weightor, regularizor, logoddor ) );
+	return HAlignandum( new ImplProfile( length ) );
 }
-
-HAlignandum makeProfile( const Position & length )
-{
-	return makeProfile( length,
-			getDefaultEncoder(),
-			getDefaultWeightor(),
-			getDefaultRegularizor(),
-			getDefaultLogOddor() );
-}
-
 
 //------------------------------------------------------------------------------------------
 /** create profile from a string of sequences */
-HAlignandum makeProfile( const std::string & src,
-		int nsequences,
-		const HEncoder & translator,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor )
-{
-	HMultipleAlignment m( makeMultipleAlignment() );
-	fillMultipleAlignment(
-			m,
-			src,
-			nsequences );
-
-	return HAlignandum (new ImplProfile(
-			m,
-			translator,
-			weightor,
-			regularizor,
-			logoddor ));
-}
-
 HAlignandum makeProfile( const std::string & src, int nsequences)
 {
-	return makeProfile( src, nsequences,
-			getDefaultEncoder(),
-			getDefaultWeightor(),
-			getDefaultRegularizor(),
-			getDefaultLogOddor() );
-}
+    HMultipleAlignment m( makeMultipleAlignment() );
+    fillMultipleAlignment(
+                    m,
+                    src,
+                    nsequences );
 
+    return HAlignandum (new ImplProfile(m ) );
+}
 
 //------------------------------------------------------------------------------------------
 /** create a default profile from a multiple alignment */
 HAlignandum makeProfile(
-		const HMultipleAlignment & mali,
-		const HEncoder & translator,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor )
+		const HMultipleAlignment & mali )
 {
-	return HAlignandum( new ImplProfile( mali,
-			translator,
-			weightor,
-			regularizor,
-			logoddor ));
-}
-
-HAlignandum makeProfile( const HMultipleAlignment & mali )
-{
-	return makeProfile( mali,
-			getDefaultEncoder(),
-			getDefaultWeightor(),
-			getDefaultRegularizor(),
-			getDefaultLogOddor());
+	return HAlignandum( new ImplProfile( mali ) );
 }
 
 //---------------------------------------------------------------
@@ -193,27 +128,8 @@ HAlignandum makeProfile(
 
 //---------------------------------------> constructors and destructors <--------------------------------------
 // The constructor is potentially empty, so that this object can be read from file.
-ImplProfile::ImplProfile(
-		const HEncoder & translator,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor ) :
-			ImplAlignandum( translator ),
-			mWeightor( weightor ),
-			mRegularizor( regularizor ),
-			mLogOddor( logoddor ),
-			mWeightedCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
-			mProfileWidth(0)
-{
-	debug_func_cerr(5);
-	allocateCounts();
-}
-
 ImplProfile::ImplProfile() :
 		ImplAlignandum(),
-		mWeightor( getDefaultToolkit()->getWeightor() ),
-		mRegularizor( getDefaultToolkit()->getRegularizor() ),
-		mLogOddor( getDefaultToolkit()->getLogOddor() ),
 		mWeightedCountMatrix(NULL),
 		mFrequencyMatrix(NULL),
 		mScoreMatrix(NULL),
@@ -223,17 +139,11 @@ ImplProfile::ImplProfile() :
 }
 
 
-ImplProfile::ImplProfile(
-		const Position & length,
-		const HEncoder & translator,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor ) :
-			ImplAlignandum( translator ),
-			mWeightor( weightor ),
-			mRegularizor( regularizor ),
-			mLogOddor( logoddor ),
-			mWeightedCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
+ImplProfile::ImplProfile( const Position & length ) :
+			ImplAlignandum(),
+			mWeightedCountMatrix(NULL),
+			mFrequencyMatrix(NULL),
+			mScoreMatrix(NULL),
 			mProfileWidth(0)
 {
 	debug_func_cerr(5);
@@ -241,18 +151,12 @@ ImplProfile::ImplProfile(
 }
 
 
-ImplProfile::ImplProfile(
-		const HMultipleAlignment & src,
-		const HEncoder & translator,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor ) :
-			ImplAlignandum( translator ),
-			mWeightor( weightor ),
-			mRegularizor( regularizor ),
-			mLogOddor( logoddor ),
-			mWeightedCountMatrix(NULL), mFrequencyMatrix(NULL), mScoreMatrix(NULL),
-			mProfileWidth(0)
+ImplProfile::ImplProfile( const HMultipleAlignment & src ) :
+		ImplAlignandum(),
+		mWeightedCountMatrix(NULL),
+		mFrequencyMatrix(NULL),
+		mScoreMatrix(NULL),
+		mProfileWidth(0)
 {
 	debug_func_cerr(5);
 	resize( src->getLength() );
@@ -261,8 +165,6 @@ ImplProfile::ImplProfile(
 
 //---------------------------------------------------------------------------------------------------------------
 ImplProfile::ImplProfile(const ImplProfile & src ) : ImplAlignandum( src ),
-	mRegularizor( src.mRegularizor ),
-	mLogOddor( src.mLogOddor),
 	mWeightedCountMatrix(NULL),
 	mFrequencyMatrix(NULL),
 	mScoreMatrix(NULL),
@@ -333,42 +235,6 @@ HScoreMatrix ImplProfile::getScoreMatrix() const
 
 
 //--------------------------------------------------------------------------------------
-void ImplProfile::setWeightor( const HWeightor & weightor )
-{
-	mWeightor = weightor;
-}
-
-//--------------------------------------------------------------------------------------
-void ImplProfile::setLogOddor( const HLogOddor & logoddor )
-{
-	mLogOddor = logoddor;
-}
-
-//--------------------------------------------------------------------------------------
-void ImplProfile::setRegularizor( const HRegularizor & regularizor )
-{
-	mRegularizor = regularizor;
-}
-
-//--------------------------------------------------------------------------------------
-HWeightor ImplProfile::getWeightor() const
-{
-	return mWeightor;
-}
-
-//--------------------------------------------------------------------------------------
-HLogOddor ImplProfile::getLogOddor() const
-{
-	return mLogOddor;
-}
-
-//--------------------------------------------------------------------------------------
-HRegularizor ImplProfile::getRegularizor() const
-{
-	return mRegularizor;
-}
-
-//--------------------------------------------------------------------------------------
 void ImplProfile::resize( Position length )
 {
 	ImplAlignandum::resize( length );
@@ -381,7 +247,7 @@ void ImplProfile::fillCounts( const HMultipleAlignment &  src )
 	debug_func_cerr(5);
 
 	resize( src->getLength() );
-	mWeightor->fillCounts( *mWeightedCountMatrix, src, mEncoder );
+	getToolkit()->getWeightor()->fillCounts( *mWeightedCountMatrix, src, getToolkit()->getEncoder());
 
 	setPrepared( false );
 }
@@ -403,7 +269,7 @@ void ImplProfile::allocateCounts() const
 {
 	debug_func_cerr(5);
 
-	mProfileWidth = mEncoder->getAlphabetSize();
+	mProfileWidth = getToolkit()->getEncoder()->getAlphabetSize();
 
 	debug_cerr( 5, "allocating counts for a profile of size " << getFullLength() << " x " << (int)mProfileWidth );
 
@@ -446,7 +312,7 @@ Residue ImplProfile::getMaximumPerColumn( const Matrix<T> * data,
 
 	// if no counts, return gap code
 	if (max == 0)
-		return mEncoder->getGapCode();
+		return getToolkit()->getEncoder()->getGapCode();
 
 	return max_i;
 }
@@ -498,7 +364,7 @@ void ImplProfile::mask( const Position & column)
 Residue ImplProfile::asResidue( const Position column ) const
 {
 	if (isMasked(column))
-		return mEncoder->getMaskCode();
+		return getToolkit()->getEncoder()->getMaskCode();
 	return getMaximumCount( column );
 }
 
@@ -511,13 +377,13 @@ void ImplProfile::prepare() const
 	if (mFrequencyMatrix == NULL)
 	{
 		allocateFrequencies();
-		mRegularizor->fillFrequencies( *mFrequencyMatrix, *mWeightedCountMatrix, mEncoder );
+		getToolkit()->getRegularizor()->fillFrequencies( *mFrequencyMatrix, *mWeightedCountMatrix, getToolkit()->getEncoder() );
 	}
 
 	if (!mScoreMatrix)
 	{
 		allocateScores();
-		mLogOddor->fillProfile( *mScoreMatrix, *mFrequencyMatrix, mEncoder );
+		getToolkit()->getLogOddor()->fillProfile( *mScoreMatrix, *mFrequencyMatrix, getToolkit()->getEncoder());
 	}
 	setPrepared( true );
 }
@@ -556,9 +422,11 @@ void ImplProfile::writeSegment( std::ostream & output, const Matrix<T> * data ) 
 {
 	if (data == NULL) return;
 
+	const Encoder & encoder(*(getToolkit()->getEncoder()));
+
 	output << setw(5) << "#" << "  " << " ";
 	for (Residue j = 0; j < mProfileWidth; j++)
-		output << setw(6) << mEncoder->decode( j );
+		output << setw(6) << encoder.decode( j );
 	output << std::endl;
 	for (int i = 0; i < getLength(); i++)
 	{
@@ -756,7 +624,7 @@ void ImplProfile::add(
 			<< " other=" << map_source2dest->getColFrom() << "-" << map_source2dest->getColTo()
 			<< " len=" << source->getFullLength() );
 
-	assert( source->getEncoder()->getAlphabetSize() == getEncoder()->getAlphabetSize());
+	assert( source->getToolkit()->getEncoder()->getAlphabetSize() == getToolkit()->getEncoder()->getAlphabetSize());
 
 	if (is_reverse)
 	{

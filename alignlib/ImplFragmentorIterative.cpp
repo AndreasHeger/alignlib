@@ -69,7 +69,7 @@ HFragmentor makeFragmentorIterative(
 
 ImplFragmentorIterative::ImplFragmentorIterative() :
 			ImplFragmentor(),
-			mDots(getDefaultToolkit()->getAlignment()),
+			mDots(getToolkit()->getAlignment()),
 			mMinScore( 0),
 			mGop(0),
 			mGep(0) {

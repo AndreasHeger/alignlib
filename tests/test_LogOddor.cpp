@@ -56,12 +56,8 @@ std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20 + re
 
 void test_GenericLogOddor( HLogOddor & logoddor )
 {
-	HAlignandum a(makeProfile( ref_protein20x3, 4,
-			getDefaultEncoder(),
-			getDefaultWeightor(),
-			getDefaultRegularizor(),
-			logoddor ));
-
+	getDefaultToolkit()->setLogOddor( logoddor );
+	HAlignandum a(makeProfile( ref_protein20x3, 4 ));
 	a->prepare();
 }
 

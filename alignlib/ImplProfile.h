@@ -99,25 +99,9 @@ public:
 	/** constructor */
 	ImplProfile();
 
-	ImplProfile(
-			const HEncoder & translator,
-			const HWeightor & weightor,
-			const HRegularizor & regularizor,
-			const HLogOddor & logoddor );
+	ImplProfile( const HMultipleAlignment & src );
 
-	ImplProfile(
-			const HMultipleAlignment & src,
-			const HEncoder & translator,
-			const HWeightor & weightor,
-			const HRegularizor & regularizor,
-			const HLogOddor & logoddor );
-
-	ImplProfile(
-			const Position & length,
-			const HEncoder & translator,
-			const HWeightor & weightor,
-			const HRegularizor & regularizor,
-			const HLogOddor & logoddor );
+	ImplProfile( const Position & length );
 
 	/** copy constructor */
 	ImplProfile( const ImplProfile &);
@@ -163,30 +147,6 @@ public:
 	virtual ScoreMatrix * exportScoreMatrix() const ;
 	virtual FrequencyMatrix * exportFrequencyMatrix() const ;
 	virtual WeightedCountMatrix * exportWeightedCountMatrix() const;
-
-	/** set the @ref Weightor.
-	 */
-	virtual void setWeightor( const HWeightor & weightor );
-
-	/** set the @ref LogOddor.
-	 */
-	virtual void setLogOddor( const HLogOddor & logoddor );
-
-	/** set the @ref Regularizor.
-	 */
-	virtual void setRegularizor( const HRegularizor & regularizor );
-
-	/** get the @ref LogOddor.
-	 */
-	virtual HWeightor getWeightor() const;
-
-	/** get the @ref LogOddor.
-	 */
-	virtual HLogOddor getLogOddor() const;
-
-	/** get the @ref Regularizor.
-	 */
-	virtual HRegularizor getRegularizor() const;
 
 	/** return a copy of the score matrix for inspection.
 	 * @return a score matrix.
@@ -286,16 +246,6 @@ protected:
 	 * allocateCounts() is called.
 	 * */
 	mutable Residue mProfileWidth;
-
-	/** weightor to use to convert residues to counts
-	 */
-	HWeightor mWeightor;
-
-	/** pointer to weighter to use for weighting sequences */
-	HRegularizor mRegularizor;
-
-	/** pointer to objects used for calculating log odds scores */
-	HLogOddor mLogOddor;
 
 	/** pointer to the location of the counts stored in memory */
 	mutable WeightedCountMatrix * mWeightedCountMatrix;

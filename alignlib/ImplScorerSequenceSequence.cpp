@@ -65,10 +65,10 @@ namespace alignlib
 
     mSubstitutionMatrix = matrix;
 
-    if ( mSubstitutionMatrix->getNumRows() < row->getEncoder()->getAlphabetSize() )
+    if ( mSubstitutionMatrix->getNumRows() < row->getToolkit()->getEncoder()->getAlphabetSize() )
     	throw AlignlibException( "ImplScorerSequenceSequence.cpp: alphabet size in substitution matrix too small for row");
 
-    if ( mSubstitutionMatrix->getNumCols() < col->getEncoder()->getAlphabetSize() )
+    if ( mSubstitutionMatrix->getNumCols() < col->getToolkit()->getEncoder()->getAlphabetSize() )
     	throw AlignlibException( "ImplScorerSequenceSequence.cpp: alphabet size in substitution matrix too small for col");
 
   }
@@ -77,7 +77,7 @@ namespace alignlib
 	ImplScorerSequenceSequence::ImplScorerSequenceSequence() :
 		ImplScorer()
 		{
-			mSubstitutionMatrix = getDefaultSubstitutionMatrix();
+			mSubstitutionMatrix = getToolkit()->getSubstitutionMatrix();
 		}
 
 

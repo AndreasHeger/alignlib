@@ -27,6 +27,7 @@
 #include "AlignlibDebug.h"
 #include "Alignandum.h"
 #include "Encoder.h"
+#include "Toolkit.h"
 #include "ImplProfile.h"
 #include "ImplScorerProfileProfile.h"
 
@@ -71,11 +72,11 @@ namespace alignlib
     mColProfile     = s2->exportScoreMatrix();
     mColFrequencies = s2->exportFrequencyMatrix();
 
-    if ( s1->getEncoder()->getAlphabetSize() !=
-    	s2->getEncoder()->getAlphabetSize() )
+    if ( s1->getToolkit()->getEncoder()->getAlphabetSize() !=
+    	s2->getToolkit()->getEncoder()->getAlphabetSize() )
     	throw AlignlibException( "ImplScorerProfileProfile.cpp: alphabet size different in row and col");
 
-    mProfileWidth = s1->getEncoder()->getAlphabetSize();
+    mProfileWidth = s1->getToolkit()->getEncoder()->getAlphabetSize();
   }
 
   //--------------------------------------------------------------------------------------

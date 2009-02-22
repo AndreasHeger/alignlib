@@ -57,7 +57,7 @@ inline Diagonal calculateDiagonal( const ResiduePair & p) { return (p.mCol - p.m
 
 ImplFragmentorDiagonals::ImplFragmentorDiagonals() :
   ImplFragmentor(), mRowGop(0), mRowGep(0), mColGop(0), mColGep(0),
-  mDottor(getDefaultToolkit()->getAlignator())
+  mDottor(getToolkit()->getAlignator())
   {}
 
 ImplFragmentorDiagonals::ImplFragmentorDiagonals(

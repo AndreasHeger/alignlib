@@ -53,7 +53,7 @@ namespace alignlib
   }
 
   ImplMultipleAlignatorPileup::ImplMultipleAlignatorPileup() :
-	mAlignator( getDefaultToolkit()->getAlignator() )
+	mAlignator( getToolkit()->getAlignator() )
 	{
 			  debug_func_cerr( 5 );
 	}

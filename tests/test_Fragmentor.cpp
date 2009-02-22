@@ -59,9 +59,8 @@ int main ()
 
   HAlignment dots(makeAlignmentMatrixRow());
 
-  HAlignandum s2(makeSequence("AAAA", getDefaultEncoder() ) );
-  HAlignandum s1(makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-		  getDefaultEncoder() ) );
+  HAlignandum s2(makeSequence("AAAA") );
+  HAlignandum s1(makeSequence("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ));
 
   //  std::ifstream fin("test.dots");
   // readAlignmentPairs( dots, fin );

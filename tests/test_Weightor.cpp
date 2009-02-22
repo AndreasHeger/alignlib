@@ -56,12 +56,8 @@ std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 
 void test_GenericWeightor( HWeightor & weightor )
 {
-	HAlignandum a(makeProfile( ref_protein20x3, 3,
-			getDefaultEncoder(),
-			weightor,
-			getDefaultRegularizor(),
-			getDefaultLogOddor()));
-
+	getDefaultToolkit()->setWeightor( weightor );
+	HAlignandum a(makeProfile( ref_protein20x3, 3 ));
 	a->prepare();
 }
 

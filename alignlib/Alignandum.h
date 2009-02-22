@@ -71,9 +71,6 @@ public:
 
 	DEFINE_ABSTRACT_CLONE( HAlignandum );
 
-	/** get the @ref Encoder object associated with this object */
-	virtual const HEncoder & getEncoder() const = 0;
-
 	/** get the length of the active segment.
 	 *
 	 * */

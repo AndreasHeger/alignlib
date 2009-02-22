@@ -64,7 +64,7 @@ ImplLogOddorGribskov::ImplLogOddorGribskov (
 		const Score & mask_value ) :
 			ImplLogOddor( scale_factor, mask_value )
 {
-		mSubstitutionMatrix = getDefaultSubstitutionMatrix();
+		mSubstitutionMatrix = getToolkit()->getSubstitutionMatrix();
 }
 
 ImplLogOddorGribskov::~ImplLogOddorGribskov ()

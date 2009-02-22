@@ -60,32 +60,12 @@ HAlignandum makeSequence( const char * sequence );
 
 /** create a sequence.
  *
- * @param sequence NULL terminated C-string.
- * @param encoder @ref Encoder object to use.
- *
- * @return a new @ref Alignandum object.
- */
-
-HAlignandum makeSequence( const char * sequence,
-		const HEncoder & encoder );
-
-/** create a sequence.
- *
  * The default @ref Encoder object is used.
  *
  * @param sequence string.
  * @return a new @ref Alignandum object.
  */
 HAlignandum makeSequence( const std::string & sequence );
-
-/** create a sequence.
- *
- * @param sequence string.
- * @param encoder @ref Encoder object to use.
- * @return a new @ref Alignandum object.
- */
-HAlignandum makeSequence( const std::string & sequence,
-		const HEncoder & encoder );
 
 /** create a sequence from a fasta file
  *
@@ -96,8 +76,7 @@ HAlignandum makeSequence( const std::string & sequence,
  */
 HAlignandum makeSequenceFromFasta(
 		std::istream & input,
-		std::string & description,
-		const HEncoder & encoder ) ;
+		std::string & description );
 
 /** mutate a sequence according to a substitution matrix
  *
@@ -107,21 +86,6 @@ HAlignandum makeMutatedSequence(
 		HAlignandum src,
 		const HMutationMatrix & matrix,
 		const long seed = 0);
-
-
-/** create a new profile.
- *
- * @param encoder @ref Encoder object to use.
- * @param weightor @ref Weightor object to use.
- * @param regularizor @ref Regularizor object to use.
- * @param logoddor @ref LogOddor object to use.
- * @return a new @ref Alignandum object. The profile is empty.
- */
-HAlignandum makeProfile(
-		const HEncoder & encoder,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor);
 
 /** create a new profile.
  *
@@ -133,43 +97,11 @@ HAlignandum makeProfile();
 
 /** create a new profile of a given length.
  *
- * @param encoder @ref encoder object to use.
- * @param weightor @ref Weightor object to use.
- * @param regularizor @ref Regularizor object to use.
- * @param logoddor @ref LogOddor object to use.
- * @return a new @ref Alignandum object. The profile is empty, but has a set length.
- */
-HAlignandum makeProfile( const Position & length,
-		const HEncoder & encoder,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor);
-
-/** create a new profile of a given length.
- *
  * The object is initialized with default objects.
  * @param length	length of the profile.
  * @return a new @ref Alignandum object. The profile is empty, but has a set length.
  */
 HAlignandum makeProfile( const Position & length );
-
-/** create a new profile from a string of concatenated sequences.
- *
- * @param sequences sequences for filling the profile.
- * @param nsequences number of concatenated sequences.
- * @param encoder @ref encoder object to use.
- * @param weightor @ref Weightor object to use.
- * @param regularizor @ref Regularizor object to use.
- * @param logoddor @ref LogOddor object to use.
- * @return a new @ref Alignandum object filled with sequences.
- */
-HAlignandum makeProfile(
-		const std::string & sequences,
-		int nsequences,
-		const HEncoder & encoder,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor);
 
 /** create a new profile from a string of concatenated sequences.
  *
@@ -183,23 +115,6 @@ HAlignandum makeProfile(
 HAlignandum makeProfile(
 		const std::string & sequences,
 		int nsequences );
-
-/** create a new profile from a @ref MultipleAlignment.
- *
- * @param mali multiple alignment.
- * @param nsequences number of concatenated sequences.
- * @param encoder @ref encoder object to use.
- * @param weightor @ref Weightor object to use.
- * @param regularizor @ref Regularizor object to use.
- * @param logoddor @ref LogOddor object to use.
- * @return a new @ref Alignandum object filled from a multiple alignment.
- */
-HAlignandum makeProfile(
-		const HMultipleAlignment & mali,
-		const HEncoder & encoder,
-		const HWeightor & weightor,
-		const HRegularizor & regularizor,
-		const HLogOddor & logoddor );
 
 /** create a new profile from a @ref MultipleAlignment.
  *

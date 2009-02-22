@@ -64,29 +64,6 @@ public:
 	/** destructor */
 	virtual ~Profile();
 
-	/** set the @ref Weightor.
-	 */
-	virtual void setWeightor( const HWeightor & weightor ) = 0;
-
-	/** set the @ref LogOddor.
-	 */
-	virtual void setLogOddor( const HLogOddor & logoddor ) = 0;
-
-	/** set the @ref Regularizor.
-	 */
-	virtual void setRegularizor( const HRegularizor & regularizor ) = 0;
-
-	/** get the @ref LogOddor.
-	 */
-	virtual HWeightor getWeightor() const = 0;
-
-	/** get the @ref LogOddor.
-	 */
-	virtual HLogOddor getLogOddor() const = 0;
-
-	/** get the @ref Regularizor.
-	 */
-	virtual HRegularizor getRegularizor() const = 0;
 
 	/** return a copy of the score matrix for inspection.
 	 * @return a score matrix.

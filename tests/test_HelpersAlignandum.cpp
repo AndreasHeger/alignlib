@@ -31,7 +31,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -56,14 +56,14 @@ BOOST_AUTO_TEST_CASE( test_makeSequenceFromFasta )
 
 	in.push_back( "A C T\n A C T");
 	out.push_back( "ACTACT");
-	
+
 	{
 		ofstream outfile("test_HelpersAlignandum.tmp");
 		for (int x = 0; x < in.size(); ++x)
 			outfile << ">" << x << "\n" << in[x] << std::endl;
 		outfile.close();
 	}
-	
+
 	{
 		ifstream file("test_HelpersAlignandum.tmp") ;
 		std::string description;
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE( test_makeSequenceFromFasta )
 		int x = 0;
 		while ( file.peek() != EOF )
 		{
-			b = makeSequenceFromFasta( file, description, getDefaultEncoder() );
+			b = makeSequenceFromFasta( file, description );
 			BOOST_CHECK_EQUAL( atoi(description.c_str()), x);
 			BOOST_CHECK_EQUAL( out[x], b->asString() );
 			++x;

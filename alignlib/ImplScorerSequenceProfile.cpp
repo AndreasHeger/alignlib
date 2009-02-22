@@ -69,10 +69,10 @@ namespace alignlib
     debug_cerr( 5, "cast successfull");
     mColProfile     = s2->exportScoreMatrix();
     debug_cerr( 5, "cast successfull");
-    mProfileWidth = s2->getEncoder()->getAlphabetSize();
+    mProfileWidth = s2->getToolkit()->getEncoder()->getAlphabetSize();
 
     debug_cerr( 5, "cast successfull");
-    if ( s1->getEncoder()->getAlphabetSize() != mProfileWidth )
+    if ( s1->getToolkit()->getEncoder()->getAlphabetSize() != mProfileWidth )
     	throw AlignlibException( "ImplScorerSequenceProfile.cpp: alphabet size different in row and col");
 
   }

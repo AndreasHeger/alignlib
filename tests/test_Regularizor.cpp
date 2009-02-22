@@ -54,13 +54,10 @@ std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 // most profilers only work with the twenty amino acid alphabet
 // setDefaultEncoder( getEncoder(Protein20) );
 
-void test_GenericRegularizor( const HRegularizor & r )
+void test_GenericRegularizor( const HRegularizor & r)
 {
-	HAlignandum a(makeProfile( ref_protein20x3, 3,
-			getDefaultEncoder(),
-			getDefaultWeightor(),
-			makeRegularizor(),
-			getDefaultLogOddor() ));
+	getDefaultToolkit()->setRegularizor( r );
+	HAlignandum a(makeProfile( ref_protein20x3, 3 ));
 	a->prepare();
 }
 

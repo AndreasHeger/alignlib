@@ -44,7 +44,7 @@ HMultipleAlignator makeMultipleAlignatorSimple(const HAlignator & alignator)
 
 //----------------------------------------------------------------------------------------
 ImplMultipleAlignatorSimple::ImplMultipleAlignatorSimple() :
-	mAlignator(getDefaultToolkit()->getAlignator())
+	mAlignator(getToolkit()->getAlignator())
 {
 }
 

@@ -51,7 +51,7 @@ namespace alignlib
 
   //---------------------------------------------------------< constructors and destructors >--------------------------------------
   ImplAlignatorIterative::ImplAlignatorIterative () :
-	  ImplAlignator(), mMinScore( 0 ), mAlignator(getDefaultToolkit()->getAlignator())
+	  ImplAlignator(), mMinScore( 0 ), mAlignator(getToolkit()->getAlignator())
   {
   }
 

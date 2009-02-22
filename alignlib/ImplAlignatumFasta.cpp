@@ -159,7 +159,7 @@ void ImplAlignatumFasta::read( std::istream & input )
     input.getline( buffer, MAX_CHUNK);
       
     for (unsigned int i = 0; i < strlen(buffer); i++) 
-      if (getDefaultEncoder()->isValidChar( buffer[i] )) 
+      if (getToolkit()->getEncoder()->isValidChar( buffer[i] )) 
 	representation += buffer[i];
   }
   

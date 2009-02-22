@@ -63,8 +63,8 @@ HAlignator makeAlignatorGroupies()
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplAlignatorGroupies::ImplAlignatorGroupies() :
 	ImplAlignator(), mTubeSize(1), mTupleSize(1), mAlignatorDots(
-			getDefaultToolkit()->getAlignator()), mAlignatorGaps(
-			getDefaultToolkit()->getAlignator()), mGop(0), mGep(0)
+			getToolkit()->getAlignator()), mAlignatorGaps(
+			getToolkit()->getAlignator()), mGop(0), mGep(0)
 {
 }
 

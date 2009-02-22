@@ -62,7 +62,7 @@ void checkingEnd( bool passed = true)
 void runTests( HAlignandum & a, const std::string & sample )
 {
 
-	const HEncoder translator = a->getEncoder();
+	const HEncoder translator = a->getToolkit()->getEncoder();
 
 	checkingStart( "translation and range" );
 	{

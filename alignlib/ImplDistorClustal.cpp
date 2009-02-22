@@ -15,6 +15,7 @@
 #include <math.h>
 
 #include "Encoder.h"
+#include "Toolkit.h"
 #include "HelpersEncoder.h"
 #include "MultipleAlignment.h"
 #include "AlignlibDebug.h"
@@ -113,7 +114,7 @@ DistanceMatrixValue ImplDistorClustal::calculateDistance( const std::string & s_
 
 	debug_func_cerr( 5 );
 
-  unsigned char gap_char  = alignlib::getDefaultEncoder()->getGapChar();
+  unsigned char gap_char  = getToolkit()->getEncoder()->getGapChar();
 
   unsigned int i;
   DistanceMatrixSize identities = 0;

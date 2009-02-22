@@ -81,7 +81,7 @@ HAlignator makeAlignatorFragments(Score gop, Score gep,
 //--------------------------------------------------------------------------------------------------------
 /** constructors and destructors */
 ImplAlignatorFragments::ImplAlignatorFragments() :
-	ImplAlignator(), mFragmentor(getDefaultToolkit()->getFragmentor()),
+	ImplAlignator(), mFragmentor(getToolkit()->getFragmentor()),
 			mRowGop(0), mRowGep(0), mColGop(0), mColGep(0)
 {
 }

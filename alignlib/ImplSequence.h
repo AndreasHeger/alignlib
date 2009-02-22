@@ -59,12 +59,8 @@ class ImplSequence : public ImplAlignandum, public Sequence
 	 /** constructor */
 	 ImplSequence();
 
-	/** constructor */
-	ImplSequence( const HEncoder & translator);
-
     /** create sequence from a string, given a translator object */
-    ImplSequence( const std::string & src,
-    			  const HEncoder & translator  );
+    ImplSequence( const std::string & src );
 
     /** the copy constructor */
     ImplSequence( const ImplSequence & );

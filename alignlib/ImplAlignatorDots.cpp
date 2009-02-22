@@ -80,7 +80,7 @@ mColGop( col_gop ), mColGep( col_gep )
 }
 
 ImplAlignatorDots::ImplAlignatorDots()
-: ImplAlignator(), mDottor (getDefaultToolkit()->getAlignator()),
+: ImplAlignator(), mDottor (getToolkit()->getAlignator()),
 mRowGop( 0 ), mRowGep( 0 ),
 mColGop( 0 ), mColGep( 0 )
 {

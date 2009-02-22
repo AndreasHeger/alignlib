@@ -44,7 +44,7 @@ HAlignator makeAlignatorPrebuilt( const HAlignment & ali)
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplAlignatorPrebuilt::ImplAlignatorPrebuilt () :
-	ImplAlignator(), mAlignment ( getDefaultToolkit()->getAlignment() )
+	ImplAlignator(), mAlignment ( getToolkit()->getAlignment() )
 	{}
 
 ImplAlignatorPrebuilt::ImplAlignatorPrebuilt ( const HAlignment & ali) :

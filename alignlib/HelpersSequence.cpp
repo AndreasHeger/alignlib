@@ -28,20 +28,22 @@
 
 #include "Matrix.h"
 
-#include "HelpersAlignandum.h" 
+#include "HelpersAlignandum.h"
 #include "AlignlibException.h"
 
 #include "Encoder.h"
-#include "HelpersEncoder.h" 
+#include "HelpersEncoder.h"
 
 #include "Alignandum.h"
 #include "ImplSequence.h"
+#include "Toolkit.h"
+#include "HelpersToolkit.h"
 
 #include <math.h>
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //---------------------------------< implementation of useful functions >--------------
@@ -49,7 +51,7 @@ namespace alignlib
 //----------------------------------------------------------------------------------
 /** create a sequence from a stream */
 /*
-HAlignandum extractSequence( std::istream & input, const HEncoder & translator ) 
+HAlignandum extractSequence( std::istream & input, const HEncoder & translator )
 {
 	// TODO to be implemented
 	return NULL;
@@ -57,19 +59,20 @@ HAlignandum extractSequence( std::istream & input, const HEncoder & translator )
 */
 
 //----------------------------------------------------------------------------------
-/** create a sequence from a stream, put description into field description. 
+/** create a sequence from a stream, put description into field description.
  * Return False, if unsuccessfull, true if successful. */
-HAlignandum makeSequenceFromFasta( 
-		std::istream & input, 
-		std::string & description,
-		const HEncoder & translator ) 
-		{
+HAlignandum makeSequenceFromFasta(
+		std::istream & input,
+		std::string & description )
+{
 
 #define MAX_CHUNK 10000
 
+	const HEncoder & translator = getDefaultToolkit()->getEncoder();
+
 	char * buffer = new char[MAX_CHUNK];
 
-	while ( (input.peek() != '>') && 
+	while ( (input.peek() != '>') &&
 			!input.eof() ) {
 		input.getline( buffer, MAX_CHUNK);
 	}
@@ -82,25 +85,25 @@ HAlignandum makeSequenceFromFasta(
 
 	description = buffer;
 	// erase end of line
-	description.erase(description.size(),1); 
+	description.erase(description.size(),1);
 
 	std::string sequence("");
 
 	// build the sequence character-wise
-	while ( (input.peek() != '>') && 
-			!input.eof() ) 
+	while ( (input.peek() != '>') &&
+			!input.eof() )
 	{
 		input.getline( buffer, MAX_CHUNK);
 
-		for (unsigned int i = 0; i < strlen(buffer); i++) 
-			if (translator->isValidChar( buffer[i] )) 
+		for (unsigned int i = 0; i < strlen(buffer); i++)
+			if (translator->isValidChar( buffer[i] ))
 				sequence += buffer[i];
 	}
 
 	delete [] buffer;
 
 	if (sequence.size() > 0)
-		return makeSequence( sequence.c_str(), translator ); 
+		return makeSequence( sequence.c_str() );
 	else
 		return HAlignandum();
 }
@@ -113,12 +116,12 @@ HAlignandum makeSequenceFromFasta(
 
 const double max_rand = pow(2.0,31) -1;
 
-Residue sampleFromDistribution( const double * histogram, const int width ) 
+Residue sampleFromDistribution( const double * histogram, const int width )
 {
 	double x = random() / max_rand;
 	double s = 0;
 	Residue i = 0;
-	for (i = 0; i < width; i++) 
+	for (i = 0; i < width; i++)
 	{
 		s+= histogram[i];
 		if (x < s) return i;
@@ -126,35 +129,35 @@ Residue sampleFromDistribution( const double * histogram, const int width )
 	return width - 1;
 }
 
-HAlignandum makeMutatedSequence( 
-		HAlignandum src, 
+HAlignandum makeMutatedSequence(
+		HAlignandum src,
 		const HMutationMatrix & matrix,
-		const long seed ) 
+		const long seed )
 {
 	assert( matrix->getNumRows() == matrix->getNumCols() );
 
 	int width = matrix->getNumRows();
-	
+
 	// intialize random generator
-	if (seed > 0) 
+	if (seed > 0)
 		srandom(seed);
-	
+
 	char * buffer = new char[src->getLength() + 1];
 	buffer[src->getLength()] = '\0';
 
-	const HEncoder & translator = src->getEncoder();
+	const HEncoder & translator = src->getToolkit()->getEncoder();
 
-	for (Position i = 0; i < src->getLength(); ++i) 
+	for (Position i = 0; i < src->getLength(); ++i)
 	{
 		Residue residue = src->asResidue(i);
-		Residue new_residue = sampleFromDistribution( 
+		Residue new_residue = sampleFromDistribution(
 				matrix->getRow(residue),
 				width );
 		buffer[i] = translator->decode(new_residue);
 	}
 
-	HAlignandum sequence = makeSequence(buffer, translator );
-	
+	HAlignandum sequence = makeSequence( buffer );
+	sequence->setToolkit( src->getToolkit() );
 	delete [] buffer;
 
 	return sequence;

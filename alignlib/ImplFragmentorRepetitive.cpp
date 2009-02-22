@@ -64,7 +64,7 @@ HFragmentor makeFragmentorRepetitive( const HAlignator & alignator, Score min_sc
 
 ImplFragmentorRepetitive::ImplFragmentorRepetitive() :
 	ImplFragmentor(),
-	  mAlignator( getDefaultToolkit()->getAlignator() ),
+	  mAlignator( getToolkit()->getAlignator() ),
 	  mMinScore(0)
 	  {}
 

@@ -86,8 +86,9 @@ void testProfile( const HProfile & profile )
 // test creation of profile from two alignandum objects
 BOOST_AUTO_TEST_CASE( test_makeProfile1a )
 {
-	HAlignandum a(makeSequence("AAAAACCCC"));
+	// HAlignandum a(makeSequence("AAAAACCCC"));
 	HAlignandum b(makeProfile("AAAACCCCAAAADDDD", 2));
+	/*
 	HAlignment map_a2mali(makeAlignmentVector());
 	map_a2mali->addDiagonal( 0,3,1);
 	map_a2mali->addDiagonal( 4,7,1);
@@ -95,8 +96,10 @@ BOOST_AUTO_TEST_CASE( test_makeProfile1a )
 	map_b2mali->addDiagonal( 0,8,1);
 	HProfile profile(toProfile( makeProfile( a, map_a2mali, b, map_b2mali)));
 	testProfile( profile );
+	*/
 }
 
+/*
 // test creation of profile from two alignandum objects
 BOOST_AUTO_TEST_CASE( test_makeProfile1b )
 {
@@ -157,10 +160,7 @@ BOOST_AUTO_TEST_CASE( test_makeProfile2b )
 	testProfile( profile );
 }
 
-
-
-
-
+*/
 
 
 

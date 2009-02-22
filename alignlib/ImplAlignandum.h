@@ -73,9 +73,6 @@ class ImplAlignandum : public virtual Alignandum
     /** get length of window */
     virtual Position getLength() const;
 
-    /** get translator associated with this object */
-    virtual const HEncoder & getEncoder() const;
-
     /** use a segment for exporting and set segment to from and to
 	@param from	where segment starts
 	@param to	where segment ends
@@ -145,9 +142,6 @@ class ImplAlignandum : public virtual Alignandum
     /** save state of object into stream
      */
     virtual void __save( std::ostream & output, MagicNumberType type = MNNoType ) const;
-
-    /** translator */
-    HEncoder mEncoder ;
 
     /** bitvector keeping track of masked positions */
     std::vector< bool > mMasked;

@@ -43,12 +43,6 @@ namespace alignlib
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a NULL-terminated string */
-HAlignandum makeSequence( const char * sequence,
-							const HEncoder & translator )
-{
-	return makeSequence( std::string(sequence), translator );
-}
-
 HAlignandum makeSequence( const char * sequence )
 {
 	return makeSequence( std::string(sequence) );
@@ -56,16 +50,9 @@ HAlignandum makeSequence( const char * sequence )
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a string */
-HAlignandum makeSequence(
-		const std::string & sequence,
-		const HEncoder & translator )
-{
-		return HAlignandum( new ImplSequence( sequence, translator ) );
-}
-
 HAlignandum makeSequence( const std::string & sequence )
 {
-	return HAlignandum( new ImplSequence( sequence, getDefaultEncoder() ) );
+	return HAlignandum( new ImplSequence( sequence ) );
 }
 
 
@@ -76,26 +63,19 @@ ImplSequence::ImplSequence() :
 {
 }
 
-ImplSequence::ImplSequence(
-	const HEncoder & translator ) :
-	ImplAlignandum( translator ),
-	mSequence()
-{
-}
-
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence(
-		const std::string & src,
-		const HEncoder & translator  ) :
-	ImplAlignandum( translator ),
+ImplSequence::ImplSequence( const std::string & src ) :
+	ImplAlignandum(),
 	mSequence()
 	{
 	Position length = src.size();
 
 	resize( length );
 
+	const HEncoder & encoder(getToolkit()->getEncoder());
+
 	for (int i = 0; i < length; ++i)
-		mSequence[i] = translator->encode( src[i] );
+		mSequence[i] = encoder->encode( src[i] );
 
 	setPrepared(true );
 	}
@@ -119,7 +99,7 @@ void ImplSequence::resize( Position length )
 {
 	ImplAlignandum::resize(length);
 
-	mSequence = ResidueVector( length, mEncoder->getGapCode() );
+	mSequence = ResidueVector( length, getToolkit()->getEncoder()->getGapCode() );
 }
 
 IMPLEMENT_CLONE( HAlignandum, ImplSequence );
@@ -143,7 +123,7 @@ void ImplSequence::release() const
 //--------------------------------------------------------------------------------------
 void ImplSequence::mask( const Position & x)
 {
-	mSequence[ x ] = mEncoder->getMaskCode();
+	mSequence[ x ] = getToolkit()->getEncoder()->getMaskCode();
 	ImplAlignandum::mask( x );
 }
 
@@ -166,7 +146,7 @@ void ImplSequence::swap( const Position & x, const Position & y )
 //--------------------------------------------------------------------------------------
 void ImplSequence::write( std::ostream & output ) const
 {
-	output << mEncoder->decode( mSequence );
+	output << getToolkit()->getEncoder()->decode( mSequence );
 }
 
 //--------------------------------------------------------------------------------------

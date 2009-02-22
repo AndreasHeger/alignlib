@@ -19,6 +19,7 @@
 #include "MultipleAlignment.h"
 #include "ImplDistorKimura.h"
 #include "AlignlibDebug.h"
+#include "Toolkit.h"
 
 using namespace std;
 
@@ -69,7 +70,7 @@ DistanceMatrixValue ImplDistorKimura::calculateDistance(
 	unsigned int identities = 0;		// number of identities
 	unsigned int n_nongaps = 0;		// normalize over non-gap-positions
 
-	unsigned char gap_char = alignlib::getDefaultEncoder()->getGapChar();
+	unsigned char gap_char = getToolkit()->getEncoder()->getGapChar();
 
 	for (i = 0; i < s_row_1.length(); i++) {
 		if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char))

@@ -93,14 +93,14 @@ HAlignatum makeAlignatum(
 ImplAlignatum::ImplAlignatum() :
 	mRepresentation(""), mFrom(NO_POS),
 	mTo(NO_POS),
-	mLength(0), mGapChar(getDefaultEncoder()->getGapChar()), mSeparator('\t')
+	mLength(0), mGapChar(getToolkit()->getEncoder()->getGapChar()), mSeparator('\t')
 {
 }
 
 ImplAlignatum::ImplAlignatum(const std::string & representation, Position from,
 		Position to) :
 	mRepresentation(representation), mFrom(from), mTo(to), mGapChar(
-			getDefaultEncoder()->getGapChar()), mSeparator('\t')
+			getToolkit()->getEncoder()->getGapChar()), mSeparator('\t')
 {
 
 	mLength = mRepresentation.length();
@@ -121,7 +121,7 @@ ImplAlignatum::ImplAlignatum(const std::string & representation, Position from,
  */
 ImplAlignatum::ImplAlignatum(const ImplAlignatum & src) :
 	mRepresentation(src.mRepresentation), mFrom(src.mFrom), mTo(src.mTo),
-			mLength(src.mLength), mGapChar(getDefaultEncoder()->getGapChar()),
+			mLength(src.mLength), mGapChar(getToolkit()->getEncoder()->getGapChar()),
 			mSeparator(src.mSeparator)
 {
 	debug_func_cerr(5);
@@ -249,7 +249,7 @@ Position ImplAlignatum::getTo() const
 void ImplAlignatum::fillAlignment(HAlignment & dest, const bool invert) const
 {
 	debug_func_cerr(5);
-	HEncoder encoder(getDefaultEncoder());
+	HEncoder encoder(getToolkit()->getEncoder());
 	dest->clear();
 	if (!invert)
 	{

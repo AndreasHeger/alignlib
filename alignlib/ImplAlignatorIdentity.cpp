@@ -69,7 +69,7 @@ void ImplAlignatorIdentity::align(
 
 	Score total_score = 0;
 
-	Residue mask_code = getDefaultEncoder()->getMaskCode();
+	Residue mask_code = getToolkit()->getEncoder()->getMaskCode();
 
 	HIterator2D it2d(mIterator->getNew( row, col ));
 

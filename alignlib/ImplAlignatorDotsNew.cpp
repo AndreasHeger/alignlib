@@ -60,7 +60,7 @@ namespace alignlib {
   Alignator * makeAlignatorDots(Score gop, Score gep, Alignator * alignator, const SubstitutionMatrix * subst_matrix) 
   {
     if (!subst_matrix) 
-      return new ImplAlignatorDots( getDefaultSubstitutionMatrix(), 
+      return new ImplAlignatorDots( getToolkit()->getSubstitutionMatrix(), 
           gop, gep, gop, gep, alignator );
     else
       return new ImplAlignatorDots( subst_matrix, 
