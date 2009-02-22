@@ -17,6 +17,7 @@
 
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -30,7 +31,7 @@ namespace alignlib
    @version $Id: Treetor.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short Algorithm class that generates trees.
 */
-class Treetor
+class Treetor : public AlignlibBase
 {
 
   /* class member functions-------------------------------------------------------------- */

@@ -43,6 +43,7 @@
 #include "HelpersRegularizor.h"
 #include "HelpersMultipleAlignment.h"
 #include "HelpersWeightor.h"
+#include "HelpersToolkit.h"
 #include "MultAlignment.h"
 
 /** default objects */
@@ -208,6 +209,20 @@ ImplProfile::ImplProfile(
 	allocateCounts();
 }
 
+ImplProfile::ImplProfile() :
+		ImplAlignandum(),
+		mWeightor( getDefaultToolkit()->getWeightor() ),
+		mRegularizor( getDefaultToolkit()->getRegularizor() ),
+		mLogOddor( getDefaultToolkit()->getLogOddor() ),
+		mWeightedCountMatrix(NULL),
+		mFrequencyMatrix(NULL),
+		mScoreMatrix(NULL),
+		mProfileWidth(0)
+{
+	debug_func_cerr(5);
+}
+
+
 ImplProfile::ImplProfile(
 		const Position & length,
 		const HEncoder & translator,
@@ -278,11 +293,7 @@ ImplProfile::~ImplProfile()
 		{ delete mScoreMatrix; mScoreMatrix = NULL; }
 }
 
-//--------------------------------------------------------------------------------------
-HAlignandum ImplProfile::getClone() const
-{
-	return HAlignandum( new ImplProfile( *this ) );
-}
+IMPLEMENT_CLONE( HAlignandum, ImplProfile );
 
 //--------------------------------------------------------------------------------------
 WeightedCountMatrix * ImplProfile::exportWeightedCountMatrix() const

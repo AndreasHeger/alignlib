@@ -155,7 +155,6 @@ bool testWrappedAlignment(int test_id,
 	}
 }
 
-
 BOOST_AUTO_TEST_CASE( global_alignment2)
 {
 	HSubstitutionMatrix matrix = makeSubstitutionMatrix(
@@ -186,7 +185,8 @@ BOOST_AUTO_TEST_CASE( global_alignment2)
 		testPairwiseAlignment( 5, a, seq1, seq4, 0,  15, "+15",     0,  15,  "+15", 139 );
 
 		HIterator2D i = makeIterator2DBanded( 0, 0);
-		a->setIterator2D( i );
+		a->cloneToolkit();
+		a->getToolkit()->setIterator2D( i );
 
 		testPairwiseAlignment( 6, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
 		testPairwiseAlignment( 7, a, seq1, seq2, 0,  5, "+5",     0,  5,      "+5", -5 );
@@ -211,6 +211,7 @@ BOOST_AUTO_TEST_CASE( global_alignment2)
 	}
 
 }
+
 
 BOOST_AUTO_TEST_CASE( alignment_wrap)
 {
@@ -331,9 +332,9 @@ BOOST_AUTO_TEST_CASE( local_alignment)
 		testPairwiseAlignment(12, a, seq1, seq2, 5, 10, "+5",     0,  5,      "+5", 50 );
 		testPairwiseAlignment(13, a, seq2, seq1, 0,  5, "+5",     5, 10,      "+5", 50 );
 		testPairwiseAlignment(14, a, seq2, seq3, 0,  5, "+5",     0,  5,      "+5", 39 );
-
 		HIterator2D i = makeIterator2DBanded( 0, 0);
-		a->setIterator2D( i );
+		a->cloneToolkit();
+		a->getToolkit()->setIterator2D( i );
 
 		testPairwiseAlignment( 15, a, seq1, seq1, 0, 15, "+15",    0, 15,     "+15", 150 );
 		testPairwiseAlignment( 16, a, seq1, seq2, NO_POS, NO_POS, "",     NO_POS,  NO_POS,      "", 0 );
@@ -457,4 +458,3 @@ BOOST_AUTO_TEST_CASE( alignment_backtranslation_with_gaps )
         	testPairwiseAlignment( 84, a, seq2, seq1, 0,  30, "+15-2+15", 0,  29,  "+12-3+17", 29 );
         }
 }
-

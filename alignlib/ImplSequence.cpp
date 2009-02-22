@@ -29,22 +29,22 @@
 #include "AlignlibDebug.h"
 
 #include "HelpersAlignandum.h"
-#include "ImplSequence.h" 
+#include "ImplSequence.h"
 #include "AlignlibException.h"
 #include "Encoder.h"
 #include "HelpersEncoder.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //---------------------------------< implementation of factory functions >--------------
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a NULL-terminated string */
-HAlignandum makeSequence( const char * sequence, 
-							const HEncoder & translator ) 
+HAlignandum makeSequence( const char * sequence,
+							const HEncoder & translator )
 {
 	return makeSequence( std::string(sequence), translator );
 }
@@ -56,9 +56,9 @@ HAlignandum makeSequence( const char * sequence )
 
 //----------------------------------------------------------------------------------
 /** create a sequence from a string */
-HAlignandum makeSequence( 
+HAlignandum makeSequence(
 		const std::string & sequence,
-		const HEncoder & translator ) 
+		const HEncoder & translator )
 {
 		return HAlignandum( new ImplSequence( sequence, translator ) );
 }
@@ -70,32 +70,38 @@ HAlignandum makeSequence( const std::string & sequence )
 
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( 
-		const HEncoder & translator ) :
+ImplSequence::ImplSequence() :
+	ImplAlignandum(),
+	mSequence()
+{
+}
+
+ImplSequence::ImplSequence(
+	const HEncoder & translator ) :
 	ImplAlignandum( translator ),
-	mSequence() 
+	mSequence()
 {
 }
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( 
-		const std::string & src, 
-		const HEncoder & translator  ) : 
-	ImplAlignandum( translator ), 
-	mSequence() 
+ImplSequence::ImplSequence(
+		const std::string & src,
+		const HEncoder & translator  ) :
+	ImplAlignandum( translator ),
+	mSequence()
 	{
 	Position length = src.size();
 
 	resize( length );
-	
+
 	for (int i = 0; i < length; ++i)
 		mSequence[i] = translator->encode( src[i] );
-	
+
 	setPrepared(true );
 	}
 
 //--------------------------------------------------------------------------------------
-ImplSequence::ImplSequence( const ImplSequence & src ) : 
+ImplSequence::ImplSequence( const ImplSequence & src ) :
 	ImplAlignandum( src ), mSequence(src.mSequence)
 {
 	debug_func_cerr(5);
@@ -103,7 +109,7 @@ ImplSequence::ImplSequence( const ImplSequence & src ) :
 
 
 //--------------------------------------------------------------------------------------
-ImplSequence::~ImplSequence() 
+ImplSequence::~ImplSequence()
 {
 	debug_func_cerr(5);
 }
@@ -112,42 +118,37 @@ ImplSequence::~ImplSequence()
 void ImplSequence::resize( Position length )
 {
 	ImplAlignandum::resize(length);
-	
+
 	mSequence = ResidueVector( length, mEncoder->getGapCode() );
 }
 
+IMPLEMENT_CLONE( HAlignandum, ImplSequence );
+
 //--------------------------------------------------------------------------------------
-HAlignandum ImplSequence::getClone() const 
+Residue ImplSequence::asResidue(Position n) const
 {
-	return HAlignandum( new ImplSequence( *this ) );
-}
-
-
-//--------------------------------------------------------------------------------------
-Residue ImplSequence::asResidue(Position n) const 
-{ 
-	return mSequence[n]; 
+	return mSequence[n];
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::prepare() const 
+void ImplSequence::prepare() const
 {
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::release() const 
+void ImplSequence::release() const
 {
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::mask( const Position & x) 
+void ImplSequence::mask( const Position & x)
 {
 	mSequence[ x ] = mEncoder->getMaskCode();
 	ImplAlignandum::mask( x );
 }
 
 //--------------------------------------------------------------------------------------
-const ResidueVector * ImplSequence::getSequence() const 
+const ResidueVector * ImplSequence::getSequence() const
 {
 	return &mSequence;
 }
@@ -163,16 +164,16 @@ void ImplSequence::swap( const Position & x, const Position & y )
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::write( std::ostream & output ) const 
+void ImplSequence::write( std::ostream & output ) const
 {
 	output << mEncoder->decode( mSequence );
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const 
+void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const
 {
 	debug_func_cerr( 5 );
-	
+
 	if (type == MNNoType )
 	{
 		type = MNImplSequence;
@@ -180,26 +181,26 @@ void ImplSequence::__save( std::ostream & output, MagicNumberType type ) const
 	}
 
 	ImplAlignandum::__save( output, type );
-	
+
 	for ( Position x = 0; x < getFullLength(); ++ x)
 		output.write( (char*)&mSequence[x], sizeof(Residue) );
 }
 
 //--------------------------------------------------------------------------------------
-void ImplSequence::load( std::istream & input)  
+void ImplSequence::load( std::istream & input)
 {
 	debug_func_cerr( 5 );
-	
+
 	ImplAlignandum::load( input );
-	
+
 	mSequence.resize( getFullLength() );
-	
+
 	for ( Position x = 0; x < getFullLength(); ++ x)
 		input.read( (char*)&mSequence[x], sizeof(Residue) );
-	
-	if (input.fail()) 
+
+	if (input.fail())
 		throw AlignlibException( "incomplete sequence in stream.");
-	
+
 }
 
 

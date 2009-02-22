@@ -45,32 +45,20 @@ using namespace std;
 namespace alignlib
 {
 
+IMPLEMENT_STATIC_DEFAULT( HToolkit, makeToolkit(), getDefaultToolkit, setDefaultToolkit, default_toolkit );
+
 // default objects without dependencies
-IMPLEMENT_DEFAULT( HIterator2D, makeIterator2DFull(), getDefaultIterator2D, setDefaultIterator2D, default_iterator2d );
-IMPLEMENT_DEFAULT( HLogOddor, makeLogOddor(), getDefaultLogOddor, setDefaultLogOddor, default_logoddor );
-IMPLEMENT_DEFAULT( HRegularizor, makeRegularizor(), getDefaultRegularizor, setDefaultRegularizor, default_regularizor );
-IMPLEMENT_DEFAULT( HWeightor, makeWeightor(), getDefaultWeightor, setDefaultWeightor, default_weightor );
-IMPLEMENT_DEFAULT( HPalette, makePalette(), getDefaultPalette, setDefaultPalette, default_palette );
-IMPLEMENT_DEFAULT( HScorer, makeScorer(), getDefaultScorer, setDefaultScorer, default_scorer )
-IMPLEMENT_DEFAULT( HDistor, makeDistorClustal(), getDefaultDistor, setDefaultDistor, default_distor );
-IMPLEMENT_DEFAULT( HToolkit, makeToolkit(), getDefaultToolkit, setDefaultToolkit, default_toolkit );
+IMPLEMENT_DEFAULT( HIterator2D, getDefaultIterator2D, setDefaultIterator2D, getIterator2D, setIterator2D );
+IMPLEMENT_DEFAULT( HLogOddor, getDefaultLogOddor, setDefaultLogOddor,  getLogOddor, setLogOddor );
+IMPLEMENT_DEFAULT( HRegularizor, getDefaultRegularizor, setDefaultRegularizor, getRegularizor, setRegularizor );
+IMPLEMENT_DEFAULT( HWeightor, getDefaultWeightor, setDefaultWeightor, getWeightor, setWeightor );
+IMPLEMENT_DEFAULT( HScorer, getDefaultScorer, setDefaultScorer,  getScorer, setScorer )
+IMPLEMENT_DEFAULT( HDistor, getDefaultDistor, setDefaultDistor, getDistor, setDistor );
+IMPLEMENT_DEFAULT( HEncoder, getDefaultEncoder, setDefaultEncoder, getEncoder, setEncoder );
+IMPLEMENT_DEFAULT( HSubstitutionMatrix, getDefaultSubstitutionMatrix, setDefaultSubstitutionMatrix, getSubstitutionMatrix, setSubstitutionMatrix );
+IMPLEMENT_DEFAULT( HTreetor, getDefaultTreetor, setDefaultTreetor, getTreetor, setTreetor );
 
-// this depends on the default alphabets already being contstructed
-// If problems, switch to makeEncoder idiom like for other objects.
-IMPLEMENT_DEFAULT( HEncoder, getEncoder( Protein20 ),
-		getDefaultEncoder, setDefaultEncoder, default_translator );
 
-// default objects with dependencies
-IMPLEMENT_DEFAULT( HSubstitutionMatrix,
-		makeSubstitutionMatrixBlosum62( getDefaultEncoder() ),
-		getDefaultSubstitutionMatrix,
-		setDefaultSubstitutionMatrix,
-		default_matrix )
-
-IMPLEMENT_DEFAULT( HTreetor,
-		makeTreetorDistanceLinkage( getDefaultDistor() ),
-		getDefaultTreetor,
-		setDefaultTreetor,
-		default_treetor );
+IMPLEMENT_STATIC_DEFAULT( HPalette, makePalette(), getDefaultPalette, setDefaultPalette, default_palette );
 
 } // namespace alignlib

@@ -30,6 +30,7 @@
 
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -57,7 +58,7 @@ namespace alignlib
        @see Alignandum
        @see Alignment
   */
-  class MultipleAlignator
+  class MultipleAlignator : public AlignlibBase
     {
       /* class member functions-------------------------------------------------------------- */
 

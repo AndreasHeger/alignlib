@@ -21,7 +21,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "col_back"
                 , col_back_function_type( &::alignlib::Iterator2D::col_back )
-                , ( bp::arg("row")=(int)(-0x000000001) ) );
+                , ( bp::arg("row")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_begin
@@ -31,7 +31,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "col_begin"
                 , col_begin_function_type( &::alignlib::Iterator2D::col_begin )
-                , ( bp::arg("row")=(int)(-0x000000001) ) );
+                , ( bp::arg("row")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_end
@@ -41,7 +41,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "col_end"
                 , col_end_function_type( &::alignlib::Iterator2D::col_end )
-                , ( bp::arg("row")=(int)(-0x000000001) ) );
+                , ( bp::arg("row")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_front
@@ -51,7 +51,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "col_front"
                 , col_front_function_type( &::alignlib::Iterator2D::col_front )
-                , ( bp::arg("row")=(int)(-0x000000001) ) );
+                , ( bp::arg("row")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::col_size
@@ -61,7 +61,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "col_size"
                 , col_size_function_type( &::alignlib::Iterator2D::col_size )
-                , ( bp::arg("row")=(int)(-0x000000001) ) );
+                , ( bp::arg("row")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::getClone
@@ -109,7 +109,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "row_back"
                 , row_back_function_type( &::alignlib::Iterator2D::row_back )
-                , ( bp::arg("col")=(int)(-0x000000001) ) );
+                , ( bp::arg("col")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_begin
@@ -119,7 +119,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "row_begin"
                 , row_begin_function_type( &::alignlib::Iterator2D::row_begin )
-                , ( bp::arg("col")=(int)(-0x000000001) ) );
+                , ( bp::arg("col")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_end
@@ -129,7 +129,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "row_end"
                 , row_end_function_type( &::alignlib::Iterator2D::row_end )
-                , ( bp::arg("col")=(int)(-0x000000001) ) );
+                , ( bp::arg("col")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_front
@@ -139,7 +139,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "row_front"
                 , row_front_function_type( &::alignlib::Iterator2D::row_front )
-                , ( bp::arg("col")=(int)(-0x000000001) ) );
+                , ( bp::arg("col")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Iterator2D::row_size
@@ -149,7 +149,7 @@ void register_Iterator2D_class(){
             Iterator2D_exposer.def( 
                 "row_size"
                 , row_size_function_type( &::alignlib::Iterator2D::row_size )
-                , ( bp::arg("col")=(int)(-0x000000001) ) );
+                , ( bp::arg("col")=(int)(-0x00000000000000001) ) );
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Iterator2D > >();

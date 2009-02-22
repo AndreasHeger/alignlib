@@ -50,39 +50,24 @@ namespace alignlib
 {
 
   //----------------------------------------------------------------------------------------
-  ImplAlignator::ImplAlignator()
+  ImplAlignator::ImplAlignator() : Alignator()
     {
 	  debug_func_cerr( 5 );
-      mIteratorTemplate = getDefaultIterator2D();
-      mScorerTemplate = getDefaultScorer();
     }
 
   ImplAlignator::~ImplAlignator()
 
     {
       debug_func_cerr(5);
-
     }
 
   ImplAlignator::ImplAlignator( const ImplAlignator & src ) : Alignator(src),
-  mIterator(src.mIterator),
-  mScorerTemplate(src.mScorerTemplate),
-  mIteratorTemplate(src.mIteratorTemplate)
+  mIterator(src.mIterator)
   {
   }
 
   //-------------------------------------------------------------------------------------------------------------------------------
-  void ImplAlignator::setIterator2D( const HIterator2D & iterator ) 
-    {
-      mIteratorTemplate = iterator;
-    }
-
-  void ImplAlignator::setScorer( const HScorer & scorer ) 
-    {
-      mScorerTemplate = scorer;
-    }
-
-  void ImplAlignator::startUp( HAlignment & ali, 
+  void ImplAlignator::startUp( HAlignment & ali,
 		  const HAlignandum & row, const HAlignandum & col )
 
     {
@@ -91,24 +76,24 @@ namespace alignlib
       row->prepare();
       col->prepare();
 
-      debug_cerr( 5, "starting alignment for row=" << row->getFrom() << "-" << row->getTo() 
+      debug_cerr( 5, "starting alignment for row=" << row->getFrom() << "-" << row->getTo()
           << " col=" << col->getFrom() << "-" << col->getTo() );
-      
+
       mRowLength = row->getLength();
 
-      mIterator = mIteratorTemplate->getNew( row, col );
-      
-      debug_cerr( 5, "setting iterator to ranges: row=" 
-          << *mIterator->row_begin() << "-" <<  *mIterator->row_end() << ":" << mIterator->row_size() << " col=" 
+      mIterator = getToolkit()->getIterator2D()->getNew( row, col );
+
+      debug_cerr( 5, "setting iterator to ranges: row="
+          << *mIterator->row_begin() << "-" <<  *mIterator->row_end() << ":" << mIterator->row_size() << " col="
           << *mIterator->col_begin() << "-" <<  *mIterator->col_end() << ":" << mIterator->col_size() );
-      
-      mScorer = mScorerTemplate->getNew( row, col );
+
+      mScorer = getToolkit()->getScorer()->getNew( row, col );
 
       ali->clear();
     }
 
   void ImplAlignator::cleanUp( HAlignment & ali,
-		  const HAlignandum & row, const HAlignandum & col ) 
+		  const HAlignandum & row, const HAlignandum & col )
     {
       debug_func_cerr(5);
 

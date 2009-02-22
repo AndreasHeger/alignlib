@@ -32,20 +32,18 @@ namespace alignlib
 
 /** make a Treetor using linkage clustering methods.
  *
- * @param distor @ref Distor object to compute distance.
  * @param method @ref LinkageType
  * @return a new @ref Treetor object.
 * */
 HTreetor makeTreetorDistanceLinkage(
-		const HDistor & distor,
-		LinkageType method = UPGMA );
+		const LinkageType & method = UPGMA );
 
 /** make a Treetor using the neighbour-joining algorithm.
  *
  * @param distor @ref Distor object to compute distance.
  * @return a new @ref Treetor object.
  * */
-HTreetor makeTreetorDistanceNJ( const HDistor & distor );
+HTreetor makeTreetorDistanceNJ();
 
 /** @} */
 

@@ -29,15 +29,8 @@ namespace alignlib
 
 //----------< constructors and destructors >--------------------------------------
 ImplTreetorDistance::ImplTreetorDistance () :
-	ImplTreetor(), mDistor(getDefaultToolkit()->getDistor())
+	ImplTreetor()
 	{}
-
-ImplTreetorDistance::ImplTreetorDistance (
-		const HDistor & distor ) :
-  ImplTreetor(),
-  mDistor( distor )
-  {
-  }
 
 ImplTreetorDistance::~ImplTreetorDistance ()
 {
@@ -60,7 +53,8 @@ void ImplTreetorDistance::startUp(
 	mWorkMatrix = makeDistanceMatrixSymmetric( mali->getNumSequences());
 
 	// call Distor for multiple alignment to fill matrix with distances
-	mDistor->calculateMatrix( mWorkMatrix, mali );
+	HDistor distor = getToolkit()->getDistor();
+	distor->calculateMatrix( mWorkMatrix, mali );
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

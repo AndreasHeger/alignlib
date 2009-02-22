@@ -20,6 +20,7 @@
 #include <vector>
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -38,7 +39,7 @@ namespace alignlib
     @version $Id: Tree.h,v 1.3 2004/06/02 12:14:35 aheger Exp $
 */
 
-class Tree
+class Tree : public AlignlibBase
 {
 
   /* friends---------------------------------------------------------------------------- */

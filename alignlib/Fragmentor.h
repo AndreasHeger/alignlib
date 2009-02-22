@@ -30,6 +30,7 @@
 
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -45,7 +46,7 @@ namespace alignlib
    @version $Id: Fragmentor.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
 
-class Fragmentor
+class Fragmentor : public AlignlibBase
 {
   /* class member functions-------------------------------------------------------------- */
  public:

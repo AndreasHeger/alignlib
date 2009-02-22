@@ -38,12 +38,7 @@ class ImplTreetorDistanceLinkage : public ImplTreetorDistance
   /* constructors and desctructors------------------------------------------------------- */
 
 	 /** empty constructor */
-	ImplTreetorDistanceLinkage ();
-
-	/** constructor */
-	  ImplTreetorDistanceLinkage (
-		  const HDistor & distor,
-		  LinkageType method );
+	ImplTreetorDistanceLinkage ( const LinkageType & method = UPGMA);
 
   /** empty constructor */
   ImplTreetorDistanceLinkage (

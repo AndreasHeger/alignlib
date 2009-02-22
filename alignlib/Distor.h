@@ -20,7 +20,9 @@
 #include <string>
 
 #include "alignlib_fwd.h"
+#include "AlignlibBase.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -35,7 +37,7 @@ namespace alignlib
    	@author Andreas Heger
    	@version $Id: Distor.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
  */
-class Distor
+class Distor : public AlignlibBase
 {
 	// class member functions
 	friend std::ostream & operator<<( std::ostream &, const Distor &);

@@ -34,25 +34,17 @@ namespace alignlib
 
 //------------------------------------------------------< factory functions >-----------------------------------
 HTreetor makeTreetorDistanceLinkage(
-		const HDistor & distor,
-		LinkageType method )
+		const LinkageType & method )
 {
-	return HTreetor( new ImplTreetorDistanceLinkage( getDefaultDistor(), method ) );
+	return HTreetor( new ImplTreetorDistanceLinkage( method ) );
 }
 
 //---------------------------------------------------------< constructors and destructors >---------------------
-ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage () :
-    ImplTreetorDistance(), mMethod( SINGLE_LINKAGE)
+ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage ( const LinkageType & method ) :
+    ImplTreetorDistance(), mMethod(method)
 {
 }
 
-
-ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage (
-		const HDistor & distor,
-		LinkageType method ) :
-    ImplTreetorDistance(distor), mMethod(method)
-{
-}
 
 ImplTreetorDistanceLinkage::~ImplTreetorDistanceLinkage ()
 {

@@ -25,25 +25,55 @@
  * Defines all the classes, types, interfaces and functions.
  */
 
+#ifndef ALIGNLIBBASE_H_
+#define ALIGNLIBBASE_H_
+
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#ifndef _ALIGNLIB_H
-#define _ALIGNLIB_H 1
-
-#include "alignlib_types.h"
 #include "alignlib_fwd.h"
-#include "alignlib/alignlib_interfaces.h"
-#include "alignlib/alignlib_functions.h"
-
-/** @brief alignlib : a C++ library with python bindings for biological sequence analysis.
- */
 
 namespace alignlib
 {
+
+/** common interface definition for all classes in
+ * alignlib
+ */
+class AlignlibBase
+{
+public:
+	/** constructor */
+	AlignlibBase();
+
+	/** destructor */
+	virtual ~AlignlibBase();
+
+	/** set the toolkit used by this object
+	 *
+	 * @param toolkit toolkit to use
+	 */
+	virtual void setToolkit( const HToolkit & toolkit);
+
+	/** clone the toolkit used by this object such that it
+	 * is private.
+	 *
+	 */
+	virtual void cloneToolkit();
+
+	/** set the toolkit used by this object
+	 *
+	 * @param toolkit toolkit to use
+	 */
+	virtual HToolkit getToolkit() const;
+
+private:
+
+	/** handle to toolkit */
+	HToolkit mToolkit;
+
+};
+
 }
 
-
-#endif /* _ALIGNLIB_H */
-
+#endif /* ALIGNLIBBASE_H_ */

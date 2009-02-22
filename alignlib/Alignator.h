@@ -30,6 +30,7 @@
 
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -75,7 +76,7 @@ namespace alignlib
        @see Alignandum
        @see Alignment
   */
-  class Alignator
+  class Alignator : public AlignlibBase
     {
       /* class member functions-------------------------------------------------------------- */
 
@@ -104,18 +105,6 @@ namespace alignlib
     		  const HAlignandum & col) = 0;
 
       /* accessors */
-
-      /** set @ref Iterator2D object.
-       *
-       * @param	iterator @ref Iterator2D object to use.
-      */
-      virtual void setIterator2D( const HIterator2D & iterator) = 0;
-
-      /** set @ref Scorer object.
-       *
-       * @param scorer @ref Scorer object to use.
-      */
-      virtual void setScorer( const HScorer & scorer ) = 0;
 
     };
 }

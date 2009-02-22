@@ -31,6 +31,7 @@
 #include <string>
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -43,7 +44,7 @@ namespace alignlib
     @author Andreas Heger
     @version $Id: Alignatum.h,v 1.5 2004/03/19 18:23:39 aheger Exp $
 */
-class Alignatum
+class Alignatum : public AlignlibBase
 {
     // class member functions
     friend std::ostream & operator<<( std::ostream &, const Alignatum &);

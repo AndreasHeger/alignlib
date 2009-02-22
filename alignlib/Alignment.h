@@ -31,6 +31,7 @@
 #include <string>
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -120,7 +121,7 @@ bool operator!=( const ResiduePair & x, const ResiduePair & y);
 
  */
 
-class Alignment
+class Alignment : public AlignlibBase
 {
 	friend std::ostream & operator<<(std::ostream &output, const Alignment &);
 

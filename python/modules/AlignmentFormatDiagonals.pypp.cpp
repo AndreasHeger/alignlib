@@ -69,7 +69,7 @@ struct AlignmentFormatDiagonals_wrapper : alignlib::AlignmentFormatDiagonals, bp
         alignlib::AlignmentFormatDiagonals::copy( dest );
     }
 
-    virtual void fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-0x000000001, ::alignlib::Position const row_to=-0x000000001, ::alignlib::Position const col_from=-0x000000001, ::alignlib::Position const col_to=-0x000000001, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-0x005f5e0ff ) {
+    virtual void fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-0x00000000000000001, ::alignlib::Position const row_to=-0x00000000000000001, ::alignlib::Position const col_from=-0x00000000000000001, ::alignlib::Position const col_to=-0x00000000000000001, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-0x00000000005f5e0ff ) {
         if( bp::override func_fill = this->get_override( "fill" ) )
             func_fill( src, reverse, row_from, row_to, col_from, col_to, diagonal_from, diagonal_to );
         else
@@ -77,7 +77,7 @@ struct AlignmentFormatDiagonals_wrapper : alignlib::AlignmentFormatDiagonals, bp
     }
     
     
-    void default_fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-0x000000001, ::alignlib::Position const row_to=-0x000000001, ::alignlib::Position const col_from=-0x000000001, ::alignlib::Position const col_to=-0x000000001, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-0x005f5e0ff ) {
+    void default_fill( ::alignlib::HAlignment const & src, bool const reverse, ::alignlib::Position const row_from=-0x00000000000000001, ::alignlib::Position const row_to=-0x00000000000000001, ::alignlib::Position const col_from=-0x00000000000000001, ::alignlib::Position const col_to=-0x00000000000000001, ::alignlib::Diagonal const diagonal_from=99999999, ::alignlib::Diagonal const diagonal_to=-0x00000000005f5e0ff ) {
         alignlib::AlignmentFormatDiagonals::fill( src, reverse, row_from, row_to, col_from, col_to, diagonal_from, diagonal_to );
     }
 
@@ -165,7 +165,7 @@ void register_AlignmentFormatDiagonals_class(){
                 "fill"
                 , fill_function_type(&::alignlib::AlignmentFormatDiagonals::fill)
                 , default_fill_function_type(&AlignmentFormatDiagonals_wrapper::default_fill)
-                , ( bp::arg("src"), bp::arg("reverse"), bp::arg("row_from")=(int const)(-0x000000001), bp::arg("row_to")=(int const)(-0x000000001), bp::arg("col_from")=(int const)(-0x000000001), bp::arg("col_to")=(int const)(-0x000000001), bp::arg("diagonal_from")=(long int const)(99999999), bp::arg("diagonal_to")=(long int const)(-0x005f5e0ff) ) );
+                , ( bp::arg("src"), bp::arg("reverse"), bp::arg("row_from")=(int const)(-0x00000000000000001), bp::arg("row_to")=(int const)(-0x00000000000000001), bp::arg("col_from")=(int const)(-0x00000000000000001), bp::arg("col_to")=(int const)(-0x00000000000000001), bp::arg("diagonal_from")=(long int const)(99999999), bp::arg("diagonal_to")=(long int const)(-0x00000000005f5e0ff) ) );
         
         }
         { //::alignlib::AlignmentFormatDiagonals::fill

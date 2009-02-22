@@ -29,6 +29,7 @@
 
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -56,7 +57,7 @@ namespace alignlib
    @author Andreas Heger
    @version $Id: Encoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class Encoder
+class Encoder : public AlignlibBase
 {
 	friend std::ostream & operator<<(std::ostream &output, const Encoder &);
 

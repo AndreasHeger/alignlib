@@ -28,6 +28,7 @@
 #define TOOLKIT_H 1
 
 #include "alignlib_fwd.h"
+#include "Macros.h"
 
 namespace alignlib
 {

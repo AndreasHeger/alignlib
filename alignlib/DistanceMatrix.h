@@ -18,6 +18,7 @@
 #include <iostream>
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -32,7 +33,7 @@ namespace alignlib
    @version $Id: Matrix.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
 */
 
-class DistanceMatrix
+class DistanceMatrix : public AlignlibBase
 {
   /* friends---------------------------------------------------------------------------- */
   friend std::ostream & operator<<( std::ostream &, const DistanceMatrix &);

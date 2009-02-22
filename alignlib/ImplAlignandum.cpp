@@ -31,24 +31,35 @@
 #include "ImplAlignandum.h"
 #include "Encoder.h"
 #include "HelpersEncoder.h"
+#include "HelpersToolkit.h"
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //--------------------------------------------------------------------------------------
-ImplAlignandum::ImplAlignandum( const HEncoder & translator ) : 
-	mFrom(NO_POS), mTo(NO_POS), mLength(0), 
-	mIsPrepared(false), 
-	mEncoder(translator), 
-	mStorageType(Full) 
+ImplAlignandum::ImplAlignandum() :
+	mFrom(NO_POS),
+	mTo(NO_POS),
+	mLength(0),
+	mIsPrepared(false),
+	mEncoder(getDefaultToolkit()->getEncoder()),
+	mStorageType(Full)
+	{
+	}
+
+ImplAlignandum::ImplAlignandum( const HEncoder & translator ) :
+	mFrom(NO_POS), mTo(NO_POS), mLength(0),
+	mIsPrepared(false),
+	mEncoder(translator),
+	mStorageType(Full)
 {
 	assert( mEncoder != NULL);
-}    
+}
 
 //--------------------------------------------------------------------------------------
-ImplAlignandum::~ImplAlignandum () 
+ImplAlignandum::~ImplAlignandum ()
 {
 	debug_func_cerr(5);
 }
@@ -68,10 +79,10 @@ ImplAlignandum::ImplAlignandum(const ImplAlignandum & src) :
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::mask( const Position & from, const Position & to) 
+void ImplAlignandum::mask( const Position & from, const Position & to)
 {
 	Position j;
-	for (j = from; j < to; j++) 
+	for (j = from; j < to; j++)
 		mask( j );
 }
 
@@ -86,15 +97,15 @@ bool ImplAlignandum::isMasked( const Position & pos ) const
 {
 	return mMasked[pos];
 }
-	
+
 //--------------------------------------------------------------------------------------
-Position ImplAlignandum::getLength() const 
+Position ImplAlignandum::getLength() const
 {
 	return (mTo - mFrom);
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::useSegment(Position from, Position to) 
+void ImplAlignandum::useSegment(Position from, Position to)
 {
 	assert( from <= to );
 
@@ -110,19 +121,19 @@ void ImplAlignandum::useSegment(Position from, Position to)
 }
 
 //--------------------------------------------------------------------------------------
-const HEncoder & ImplAlignandum::getEncoder() const 
+const HEncoder & ImplAlignandum::getEncoder() const
 {
 	return mEncoder;
 }
 
 //--------------------------------------------------------------------------------------
-Position ImplAlignandum::getFrom() const 
+Position ImplAlignandum::getFrom() const
 {
 	return mFrom;
 }
 
 //--------------------------------------------------------------------------------------
-Position ImplAlignandum::getTo() const 
+Position ImplAlignandum::getTo() const
 {
 	return mTo;
 }
@@ -130,29 +141,29 @@ Position ImplAlignandum::getTo() const
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::resize( Position length)
 {
-	release();	
+	release();
 	mFrom = 0;
 	mTo = mLength = length;
 	mMasked.resize( length, false );
 }
 
 //--------------------------------------------------------------------------------------
-Position ImplAlignandum::getFullLength() const 
+Position ImplAlignandum::getFullLength() const
 {
 	return mLength;
 }
 
 //--------------------------------------------------------------------------------------
-bool ImplAlignandum::isPrepared() const 
+bool ImplAlignandum::isPrepared() const
 {
 	return mIsPrepared;
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::setPrepared( bool flag ) const 
+void ImplAlignandum::setPrepared( bool flag ) const
 {
 	mIsPrepared = flag;
-} 
+}
 
 //--------------------------------------------------------------------------------------
 void ImplAlignandum::setStorageType( const StorageType & storage_type )
@@ -167,7 +178,7 @@ StorageType ImplAlignandum::getStorageType() const
 }
 
 //--------------------------------------------------------------------------------------
-char ImplAlignandum::asChar( Position pos ) const 
+char ImplAlignandum::asChar( Position pos ) const
 {
 	return mEncoder->decode( asResidue( pos ));
 }
@@ -175,36 +186,36 @@ char ImplAlignandum::asChar( Position pos ) const
 //--------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------
 /** get a random position in a sequence ranging from 0 to max */
-inline Position getRandomPosition ( Position max ) 
+inline Position getRandomPosition ( Position max )
 {
 	return (Position)((double)max*rand()/(RAND_MAX+1.0));
 }
 
 void ImplAlignandum::shuffle( unsigned int num_iterations,
-		Position window_size) 
+		Position window_size)
 {
 	if (window_size == 0)
 		window_size = getLength();
 
 	Position first_from = getFrom();
 
-	for (unsigned x = 0; x < num_iterations; ++x) 
-	{ 
+	for (unsigned x = 0; x < num_iterations; ++x)
+	{
 
 		Position i,j;
 		Position to = getTo();
 
-		while (to > first_from ) 
+		while (to > first_from )
 		{
 			Position from = to - window_size;
 
-			if (from < 0) 
+			if (from < 0)
 			{
 				from = 0;
 				window_size = to;
 			}
 
-			for (i = to - 1; i >= from; --i) 
+			for (i = to - 1; i >= from; --i)
 			{
 				j = to - getRandomPosition(window_size) - 1;
 				swap( i, j );
@@ -216,13 +227,13 @@ void ImplAlignandum::shuffle( unsigned int num_iterations,
 
 //--------------------------------------------------------------------------------------
 // use faster implementations in subclasses, if you prefer
-std::string ImplAlignandum::asString() const 
+std::string ImplAlignandum::asString() const
 {
 	assert( mEncoder != NULL );
-	
+
 	std::string ret_val("");
 
-	for (Position i = 0; i < mLength; i++) 
+	for (Position i = 0; i < mLength; i++)
 		ret_val += mEncoder->decode( asResidue(i) );
 
 	return ret_val;
@@ -234,10 +245,10 @@ void ImplAlignandum::save( std::ostream & output ) const
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const 
+void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const
 {
 	debug_func_cerr( 5 );
-	
+
 	if (type == MNNoType )
 	{
 		type = MNImplAlignandum;
@@ -250,28 +261,28 @@ void ImplAlignandum::__save( std::ostream & output, MagicNumberType type ) const
 	output.write( (char*)&mLength, sizeof(Position) );
 	output.write( (char*)&mStorageType, sizeof( StorageType ) );
 	mEncoder->save( output );
-	
+
 }
 
 //--------------------------------------------------------------------------------------
-void ImplAlignandum::load( std::istream & input)  
+void ImplAlignandum::load( std::istream & input)
 {
 	debug_func_cerr( 5 );
-	
+
 	input.read( (char*)&mIsPrepared, sizeof(bool) );
 	input.read( (char*)&mFrom, sizeof(Position) );
 	input.read( (char*)&mTo, sizeof(Position) );
 	input.read( (char*)&mLength, sizeof(Position) );
 	input.read( (char*)&mStorageType, sizeof( StorageType ) );
-	
-	if (input.fail()) 
+
+	if (input.fail())
 		throw AlignlibException( "incomplete Alignandum object in stream.");
-	
+
 	mEncoder = loadEncoder( input );
-	
+
 	mMasked.clear();
 	mMasked.resize( mLength, false);
-		
+
 }
 
 

@@ -95,7 +95,7 @@ int main ()
 
   //------------------------> Test 1<-----------------------------------------
   // cout << "Test 1: create a tree from a multiple alignment:" << endl;
-  treetor = makeTreetorDistanceLinkage( getDefaultDistor() );
+  treetor = makeTreetorDistanceLinkage();
   testTreetor( treetor );
 
   //------------------------> Test 2<-----------------------------------------
@@ -104,7 +104,8 @@ int main ()
   fillDistanceMatrix( matrix, source_linkage );
 
   distor = makeDistorDummy( matrix );
-  treetor = makeTreetorDistanceLinkage( distor, UPGMA );
+  setDefaultDistor( distor );
+  treetor = makeTreetorDistanceLinkage( UPGMA );
   testTreetor( treetor );
 
   //------------------------> Test 2<-----------------------------------------
@@ -113,7 +114,8 @@ int main ()
   fillDistanceMatrix( matrix, source_nj );
 
   distor = makeDistorDummy( matrix );
-  treetor = makeTreetorDistanceNJ( distor );
+  setDefaultDistor( distor );
+  treetor = makeTreetorDistanceNJ();
   testTreetor( treetor );
 
   exit(EXIT_SUCCESS);

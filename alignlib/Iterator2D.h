@@ -30,6 +30,7 @@
 
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 #include <vector>
 
 namespace alignlib
@@ -96,7 +97,7 @@ private:
    @author Andreas Heger
    @version $Id: Fragmentor.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class Iterator2D
+class Iterator2D : public AlignlibBase
 {
 
 public:

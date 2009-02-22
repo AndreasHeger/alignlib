@@ -31,14 +31,16 @@
 #include <iosfwd>
 #include <string>
 #include "alignlib_fwd.h"
+#include "Macros.h"
+#include "AlignlibBase.h"
 
-namespace alignlib 
+namespace alignlib
 {
 
-/** 
+/**
     @short Protocol class of alignable objects, typically sequences or profiles.
 
-    Objects can restrict access to a sequence range. Ranges are given in open/closed 
+    Objects can restrict access to a sequence range. Ranges are given in open/closed
     notation starting from 0. Thus, the segment 0..5 includes residues 0,1,2,3,4.
     Positions are given in 0-based coordinates.
 
@@ -48,7 +50,7 @@ namespace alignlib
     @version $Id: Alignandum.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
  */
 
-class Alignandum 
+class Alignandum : public AlignlibBase
 {
 	/* friends ---------------------------------------------------------------------------- */
 	friend  std::ostream & operator<<( std::ostream &, const Alignandum &);
@@ -67,26 +69,25 @@ public:
 
 	/* accessors ------------------------------------------------------------------------- */
 
-	/** return an identical copy of this object */
-	virtual HAlignandum getClone() const = 0;
+	DEFINE_ABSTRACT_CLONE( HAlignandum );
 
 	/** get the @ref Encoder object associated with this object */
 	virtual const HEncoder & getEncoder() const = 0;
-	
-	/** get the length of the active segment. 
-	 * 
+
+	/** get the length of the active segment.
+	 *
 	 * */
 	virtual Position getLength() const = 0;
 
 	/** get the length of the full sequence.
-	 * 
+	 *
 	 */
 	virtual Position getFullLength() const = 0;
 
-	/** restrict the sequence to a segment. 
-	 * 
+	/** restrict the sequence to a segment.
+	 *
 	 * If no coordinates are given, the full sequence is used.
-	 *  
+	 *
      *   @param from     where segment starts
      *   @param to       where segment ends
 	 */
@@ -96,83 +97,83 @@ public:
 	 */
 	virtual Position getFrom() const = 0;
 
-	/** return the index plus one of the last residue in active segment 
+	/** return the index plus one of the last residue in active segment
 	 */
 	virtual Position getTo() const = 0;
 
 	/** return true if object is prepared for alignment
-	 *  
-	 * This function permits lazy evaluation of of some 
+	 *
+	 * This function permits lazy evaluation of of some
 	 * alignable types like profiles.
 	 */
-	virtual bool isPrepared() const = 0;	
+	virtual bool isPrepared() const = 0;
 
 	/** get residue at position.
-	 * 
+	 *
 	 * @param pos	position
-	 * 
+	 *
 	 * Residues are numerical types and are mapped from alpha-
-	 * numeric types through @ref Encoder objects. 
+	 * numeric types through @ref Encoder objects.
 	 */
 	virtual Residue asResidue( Position pos ) const = 0;
 
 	/** get character at position.
 	 *
 	 * @param pos	position
-	 * 
+	 *
 	 * This applies the @ref Encoder associated with
 	 * this object to translate from the numeric residue
 	 * represntation.
 	 */
 	virtual char asChar( Position pos ) const = 0;
 
-	/** returns a string of the object. 
-	 * 
-	 * The string has exactly the same length as the object.  
+	/** returns a string of the object.
+	 *
+	 * The string has exactly the same length as the object.
 	 */
 	virtual std::string asString() const = 0;
 
 	/** mask positions in segment from from to to.
-	 * 
+	 *
 	 * @param from  first residue in segment.
-	 * @param to 	last residue in segment + 1. If to is omitted, only 
+	 * @param to 	last residue in segment + 1. If to is omitted, only
 	 * 				position from is masked.
 	 */
 	virtual void mask( const Position & from, const Position & to = NO_POS) = 0;
 
 	/** returns true if position pos is masked.
-	 * 
+	 *
 	 * @param pos 	position
 	 */
 	virtual bool isMasked( const Position & pos ) const = 0;
-	
+
 	/** shuffle object.
-	 * 
+	 *
 	 * @param num_iterations number of iterations to shuffle
 	 * @param window_size	shuffle within windows of size window_size.
 	 * 						If @param window_size is 0, the whole sequence is used
 	 * 					    fo shuffling.
 	 */
-	virtual void shuffle( 
+	virtual void shuffle(
 			unsigned int num_iterations = 1,
 			Position window_size = 0 ) = 0;
 
     /** swap two positions.
-     * 
+     *
      * @param x 	position to swap
      * @param y		position to swap
     */
     virtual void swap( const Position & x, const Position & y ) = 0;
-	
+
 	/* Mutators ------------------------------------------------------------------------------ */
 
 	/** prepare object for alignment.
 	*/
-	virtual void prepare() const = 0;						
+	virtual void prepare() const = 0;
 
-	/** release memory need for alignment. 
+	/** release memory need for alignment.
 	*/
-	virtual void release() const = 0;					       
+	virtual void release() const = 0;
 
 	/** write human readable output to stream.
 	 */

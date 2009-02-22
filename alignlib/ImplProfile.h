@@ -97,6 +97,8 @@ public:
 	/* constructors and desctructors------------------------------------------------------- */
 
 	/** constructor */
+	ImplProfile();
+
 	ImplProfile(
 			const HEncoder & translator,
 			const HWeightor & weightor,
@@ -123,8 +125,7 @@ public:
 	/** destructor */
 	virtual ~ImplProfile();
 
-	/** return an identical copy of this object */
-	virtual HAlignandum getClone() const;
+    DEFINE_CLONE( HAlignandum );
 
 	/** get internal representation of residue in position pos */
 	virtual Residue asResidue( Position pos ) const;

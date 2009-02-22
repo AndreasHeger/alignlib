@@ -184,7 +184,7 @@ void register_Alignandum_class(){
             Alignandum_exposer.def( 
                 "mask"
                 , mask_function_type( &::alignlib::Alignandum::mask )
-                , ( bp::arg("from"), bp::arg("to")=-0x000000001 ) );
+                , ( bp::arg("from"), bp::arg("to")=-0x00000000000000001 ) );
         
         }
         { //::alignlib::Alignandum::prepare
@@ -242,7 +242,7 @@ void register_Alignandum_class(){
             Alignandum_exposer.def( 
                 "useSegment"
                 , useSegment_function_type( &::alignlib::Alignandum::useSegment )
-                , ( bp::arg("from")=(int)(-0x000000001), bp::arg("to")=(int)(-0x000000001) ) );
+                , ( bp::arg("from")=(int)(-0x00000000000000001), bp::arg("to")=(int)(-0x00000000000000001) ) );
         
         }
         { //::alignlib::Alignandum::write

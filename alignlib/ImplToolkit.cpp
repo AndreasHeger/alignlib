@@ -20,6 +20,7 @@
 #include "alignlib_interfaces.h"
 #include "Toolkit.h"
 #include "alignlib.h"
+#include "AlignlibDebug.h"
 
 /**
 	Basic implementation of toolkit.
@@ -71,41 +72,56 @@ class ImplToolkit: public Toolkit
 		Regularizor( alignlib::makeRegularizor() ),
 		LogOddor( alignlib::makeLogOddor()),
 		Encoder( alignlib::makeEncoder( Protein20 ) ),
-		Treetor( alignlib::makeTreetorDistanceLinkage( Distor ) ),
+		Treetor( alignlib::makeTreetorDistanceLinkage() ),
 		Scorer( alignlib::makeScorer() ),
 		Iterator2D( alignlib::makeIterator2DFull() ),
 		SubstitutionMatrix( alignlib::makeSubstitutionMatrixBlosum62( Encoder ) )
-    {};
+    {
+    	debug_func_cerr(5);
+    };
 
     /** copy constructor */
     ImplToolkit(const ImplToolkit & src) : Toolkit(src),
-    	Alignator(src.Alignator),
-    	Fragmentor(src.Fragmentor),
-    	Alignment(src.Alignment),
-    	MultAlignment(src.MultAlignment),
-    	MultipleAlignator(src.MultipleAlignator),
-    	Distor( src.Distor),
-    	Weightor( src.Weightor),
-    	Regularizor( src.Regularizor),
-    	LogOddor( src.LogOddor),
-    	Encoder( src.Encoder),
-    	Treetor( src.Treetor),
-    	Scorer( src.Scorer),
-    	Iterator2D( src.Iterator2D),
-    	SubstitutionMatrix( src.SubstitutionMatrix)
-    	{};
+    	Alignator(src.Alignator->getClone()),
+    	Fragmentor(src.Fragmentor->getClone()),
+    	Alignment(src.Alignment->getClone()),
+    	MultAlignment(src.MultAlignment->getClone()),
+    	MultipleAlignator(src.MultipleAlignator->getClone()),
+    	Distor( src.Distor->getClone()),
+    	Weightor( src.Weightor->getClone()),
+    	Regularizor( src.Regularizor->getClone()),
+    	LogOddor( src.LogOddor->getClone()),
+    	Encoder( src.Encoder->getClone()),
+    	Treetor( src.Treetor->getClone()),
+    	Scorer( src.Scorer->getClone()),
+    	Iterator2D( src.Iterator2D->getClone()),
+    	SubstitutionMatrix( src.SubstitutionMatrix->getClone())
+    	{
+    	debug_func_cerr(5);
+    	};
 
     /** destructor */
-    virtual ~ImplToolkit () {};
+    virtual ~ImplToolkit ()
+    {
+    	debug_func_cerr(5);
+    };
 
 	//------------------------------------------------------------------------------------------------------------
 	/** returns a new Toolkit
 	 */
-	virtual HToolkit getNew() const { return HToolkit(new ImplToolkit) ; };
+	virtual HToolkit getNew() const
+	{
+		debug_func_cerr(5);
+		return HToolkit(new ImplToolkit) ;
+	};
 
 	/** returns an identical Toolkit
 	 */
-	virtual HToolkit getClone() const { return HToolkit( new ImplToolkit( *this) ) ; };
+	virtual HToolkit getClone() const
+	{
+    	debug_func_cerr(5);
+    	return HToolkit( new ImplToolkit( *this) ) ;
+	};
 
     DEFINE_FACTORY( HAlignator, Alignator, makeAlignator, setAlignator, getAlignator);
     DEFINE_FACTORY( HFragmentor, Fragmentor, makeFragmentor, setFragmentor, getFragmentor);
@@ -130,13 +146,13 @@ class ImplToolkit: public Toolkit
 
 HToolkit makeToolkit( const ToolkitType & type )
 {
+	debug_func_cerr(5);
 	switch ( type )
 	{
 	case ProteinAlignment: return HToolkit( new ImplToolkit() ); break;
 	case DNAAlignment: return HToolkit( new ImplToolkit() ); break;
 	case Genomics: return HToolkit( new ImplToolkit() ); break;
 	}
-
 }
 
 }

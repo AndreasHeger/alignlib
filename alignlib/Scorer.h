@@ -30,6 +30,7 @@
 
 #include "alignlib_fwd.h"
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -49,7 +50,7 @@ namespace alignlib
 	*/
 
 	//----------------------------------------------------------------
-  class Scorer
+  class Scorer : public AlignlibBase
   {
     public:
 

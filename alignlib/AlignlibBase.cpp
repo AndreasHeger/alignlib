@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: Alignator.cpp,v 1.2 2004/01/07 14:35:32 aheger Exp $
+  $Id: AlignlibBase.cpp,v 1.2 2004/01/07 14:35:31 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -18,38 +18,47 @@
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
+
 
 
 #include <iostream>
-#include <iomanip>
-#include "Alignator.h"
+#include "AlignlibBase.h"
+#include "AlignlibDebug.h"
+#include "HelpersToolkit.h"
+#include "Toolkit.h"
 
 using namespace std;
 
 namespace alignlib
 {
 
-//--------------------------------------------------------------------------------------
-Alignator::Alignator() {
+AlignlibBase::AlignlibBase() : mToolkit( getDefaultToolkit() )
+{
+	debug_func_cerr(5);
 }
 
-//--------------------------------------------------------------------------------------
-Alignator::~Alignator () {
+AlignlibBase::~AlignlibBase()
+{
+	debug_func_cerr(5);
+};
+
+void AlignlibBase::setToolkit( const HToolkit & toolkit)
+{
+	debug_func_cerr(5);
+	mToolkit = toolkit;
 }
 
-//--------------------------------------------------------------------------------------
-Alignator::Alignator(const Alignator & src) {
+HToolkit AlignlibBase::getToolkit() const
+{
+	debug_func_cerr(5);
+	return mToolkit;
 }
 
-std::ostream & operator<<( std::ostream & output, const Alignator & src) {
-  return output;
+void AlignlibBase::cloneToolkit()
+{
+	debug_func_cerr(5);
+	mToolkit = mToolkit->getClone();
 }
-
-std::istream & operator>>( std::istream & input, Alignator & target) {
-  return input;
-}
-
-
 
 } // namespace alignlib

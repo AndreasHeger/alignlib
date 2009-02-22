@@ -27,19 +27,14 @@ using namespace std;
 namespace alignlib {
 
 //------------------------------------------------------< factory functions >------------------------------------------------
-HTreetor makeTreetorDistanceNJ( const HDistor & distor )
+HTreetor makeTreetorDistanceNJ()
 {
-	return HTreetor( new ImplTreetorDistanceNJ( distor ) );
+	return HTreetor( new ImplTreetorDistanceNJ() );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplTreetorDistanceNJ::ImplTreetorDistanceNJ () :
 	ImplTreetorDistance(), mR (NULL)
-	{
-	}
-
-ImplTreetorDistanceNJ::ImplTreetorDistanceNJ ( const HDistor & distor) :
-	ImplTreetorDistance( distor), mR (NULL)
 	{
 	}
 

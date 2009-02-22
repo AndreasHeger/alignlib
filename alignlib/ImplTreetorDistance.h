@@ -45,9 +45,6 @@ class ImplTreetorDistance : public ImplTreetor
 	/** constructor */
 	 ImplTreetorDistance();
 
-	 /** constructor */
-	 ImplTreetorDistance( const HDistor & distor );
-
   /** copy constructor */
   ImplTreetorDistance (const ImplTreetorDistance & src);
 
@@ -97,9 +94,6 @@ class ImplTreetorDistance : public ImplTreetor
  public:
 
  protected:
-
-  /** Distor object used for calculating distance matrix */
-  const HDistor mDistor;
 
   /** coordinates of minimum element in distance matrix
    */

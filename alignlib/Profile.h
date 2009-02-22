@@ -31,6 +31,7 @@
 #include "Alignandum.h"
 #include <iosfwd>
 #include "Macros.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
