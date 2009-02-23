@@ -30,7 +30,7 @@
 #include <iostream>
 #include <fstream>
 #include <cassert>
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 
@@ -41,23 +41,28 @@ using boost::unit_test::test_suite;
 using namespace std;
 using namespace alignlib;
 
-BOOST_AUTO_TEST_CASE( test_LogOddor )
-{
-	HLogOddor l = getDefaultLogOddor();	
+#define DEFAULT_TEST( test, handle, get ) \
+BOOST_AUTO_TEST_CASE( test ) \
+{ \
+	const handle & l1 = getDefaultToolkit()->get(); \
+	const handle & l2 = l1->getToolkit()->get(); \
+	BOOST_CHECK_EQUAL( l1, l2); \
 }
 
-BOOST_AUTO_TEST_CASE( test_Encoder )
-{
-	HEncoder l = getDefaultEncoder();
-}
-
-BOOST_AUTO_TEST_CASE( test_SubstitutionMatrix )
-{
-	HSubstitutionMatrix l = getDefaultSubstitutionMatrix();
-}
-
-
-
+DEFAULT_TEST( test_Weightor, HWeightor, getWeightor );
+DEFAULT_TEST( test_Encoder, HEncoder, getEncoder );
+DEFAULT_TEST( test_Alignator, HAlignator, getAlignator );
+DEFAULT_TEST( test_Alignment, HAlignment, getAlignment );
+DEFAULT_TEST( test_MultAlignment, HMultAlignment, getMultAlignment );
+DEFAULT_TEST( test_MultipleAlignator, HMultipleAlignator, getMultipleAlignator );
+DEFAULT_TEST( test_LogOddor, HLogOddor, getLogOddor );
+DEFAULT_TEST( test_Regularizor, HRegularizor, getRegularizor );
+DEFAULT_TEST( test_Distor, HDistor, getDistor );
+DEFAULT_TEST( test_Treetor, HTreetor, getTreetor );
+DEFAULT_TEST( test_Fragmentor, HFragmentor, getFragmentor );
+DEFAULT_TEST( test_Scorer, HScorer, getScorer);
+DEFAULT_TEST( test_Iterator2D, HIterator2D, getIterator2D );
+DEFAULT_TEST( test_SubstitutionMatrix, HSubstitutionMatrix, getSubstitutionMatrix );
 
 
 

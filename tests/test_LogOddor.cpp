@@ -81,6 +81,7 @@ BOOST_AUTO_TEST_CASE( test_LogOddorGribskov )
 	test_GenericLogOddor( l );
 }
 
+
 BOOST_AUTO_TEST_CASE( test_LogOddorDirichlet20 )
 {
 	setDefaultEncoder( getEncoder( Protein20 ) );

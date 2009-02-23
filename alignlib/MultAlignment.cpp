@@ -31,7 +31,7 @@ namespace alignlib
 {
 
 //--------------------------------------------------------------------------------------
-MultAlignment::MultAlignment()
+MultAlignment::MultAlignment() : AlignlibBase()
 {
 }
 
@@ -41,7 +41,7 @@ MultAlignment::~MultAlignment ()
 }
 
 //--------------------------------------------------------------------------------------
-MultAlignment::MultAlignment(const MultAlignment & src)
+MultAlignment::MultAlignment(const MultAlignment & src) : AlignlibBase( src )
 {
 }
 

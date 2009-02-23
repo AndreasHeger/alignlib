@@ -49,7 +49,7 @@ namespace alignlib
     @version $Id: Weightor.h,v 1.3 2004/03/19 18:23:42 aheger Exp $
 
 */
-class Weightor
+class Weightor : public AlignlibBase
 {
  public:
 

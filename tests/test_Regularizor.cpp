@@ -69,6 +69,7 @@ BOOST_AUTO_TEST_CASE( test_Regularizor )
 
 BOOST_AUTO_TEST_CASE( test_RegularizorPsiblast )
 {
+	setDefaultEncoder( getEncoder( Protein20 ) );
 	HRegularizor r( makeRegularizorPsiblast());
 	test_GenericRegularizor( r );
 }

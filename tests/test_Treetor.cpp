@@ -100,7 +100,7 @@ int main ()
 
   //------------------------> Test 2<-----------------------------------------
   // cout << "Test 2: creating a tree from a distance matrix:" << endl;
-  matrix = makeDistanceMatrixSymmetric(5);
+  /* matrix = makeDistanceMatrixSymmetric(5);
   fillDistanceMatrix( matrix, source_linkage );
 
   distor = makeDistorDummy( matrix );
@@ -117,7 +117,7 @@ int main ()
   setDefaultDistor( distor );
   treetor = makeTreetorDistanceNJ();
   testTreetor( treetor );
-
+	*/
   exit(EXIT_SUCCESS);
 
 }

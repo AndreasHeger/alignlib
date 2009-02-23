@@ -34,7 +34,7 @@ namespace alignlib
 {
 
   //----------------------------------------------------------------------------------------
-  MultipleAlignator::MultipleAlignator()
+  MultipleAlignator::MultipleAlignator() : AlignlibBase()
     {
 	  debug_func_cerr( 5 );
     }
@@ -46,7 +46,7 @@ namespace alignlib
 
     }
 
-  MultipleAlignator::MultipleAlignator( const MultipleAlignator & src )
+  MultipleAlignator::MultipleAlignator( const MultipleAlignator & src ) : AlignlibBase(src)
   {
   }
 

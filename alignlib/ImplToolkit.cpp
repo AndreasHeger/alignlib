@@ -136,6 +136,8 @@ class ImplToolkit: public Toolkit
     DEFINE_FACTORY( HTreetor, Treetor, makeTreetor, setTreetor, getTreetor);
     DEFINE_FACTORY( HScorer, Scorer, makeScorer, setScorer, getScorer);
     DEFINE_FACTORY( HIterator2D, Iterator2D, makeIterator2D, setIterator2D, getIterator2D);
+
+    // need to check matrix
     DEFINE_FACTORY( HSubstitutionMatrix, SubstitutionMatrix, makeSubstitutionMatrix, setSubstitutionMatrix, getSubstitutionMatrix);
 
     virtual void write( std::ostream & output ) const
@@ -143,6 +145,32 @@ class ImplToolkit: public Toolkit
     	output << "Toolkit - output";
     }
 };
+
+/** initialize and create the default toolkit
+ * The default objects point back to the default toolkit,
+ * which is impossible to achieve in the constructor.
+ */
+#define BOOTSTRAP(fn) tk->fn()->setToolkit( tk );
+HToolkit bootstrapToolkit()
+{
+	debug_func_cerr(5);
+	HToolkit tk( new ImplToolkit() );
+	BOOTSTRAP(getAlignator);
+	BOOTSTRAP(getFragmentor);
+	BOOTSTRAP(getAlignment);
+	BOOTSTRAP(getMultAlignment);
+	BOOTSTRAP(getMultipleAlignator);
+	BOOTSTRAP(getDistor);
+	BOOTSTRAP(getWeightor);
+	BOOTSTRAP(getRegularizor);
+	BOOTSTRAP(getLogOddor);
+	BOOTSTRAP(getEncoder);
+	BOOTSTRAP(getTreetor);
+	BOOTSTRAP(getScorer);
+	BOOTSTRAP(getIterator2D);
+	BOOTSTRAP(getSubstitutionMatrix);
+	return tk;
+}
 
 HToolkit makeToolkit( const ToolkitType & type )
 {
@@ -154,6 +182,20 @@ HToolkit makeToolkit( const ToolkitType & type )
 	case Genomics: return HToolkit( new ImplToolkit() ); break;
 	}
 }
+
+IMPLEMENT_STATIC_DEFAULT( HToolkit, bootstrapToolkit(), getDefaultToolkit, setDefaultToolkit, default_toolkit );
+
+// default objects without dependencies
+IMPLEMENT_DEFAULT( HIterator2D, getDefaultIterator2D, setDefaultIterator2D, getIterator2D, setIterator2D );
+IMPLEMENT_DEFAULT( HLogOddor, getDefaultLogOddor, setDefaultLogOddor,  getLogOddor, setLogOddor );
+IMPLEMENT_DEFAULT( HRegularizor, getDefaultRegularizor, setDefaultRegularizor, getRegularizor, setRegularizor );
+IMPLEMENT_DEFAULT( HWeightor, getDefaultWeightor, setDefaultWeightor, getWeightor, setWeightor );
+IMPLEMENT_DEFAULT( HScorer, getDefaultScorer, setDefaultScorer,  getScorer, setScorer )
+IMPLEMENT_DEFAULT( HDistor, getDefaultDistor, setDefaultDistor, getDistor, setDistor );
+IMPLEMENT_DEFAULT( HEncoder, getDefaultEncoder, setDefaultEncoder, getEncoder, setEncoder );
+IMPLEMENT_DEFAULT( HSubstitutionMatrix, getDefaultSubstitutionMatrix, setDefaultSubstitutionMatrix, getSubstitutionMatrix, setSubstitutionMatrix );
+IMPLEMENT_DEFAULT( HTreetor, getDefaultTreetor, setDefaultTreetor, getTreetor, setTreetor );
+IMPLEMENT_STATIC_DEFAULT( HPalette, makePalette(), getDefaultPalette, setDefaultPalette, default_palette );
 
 }
 

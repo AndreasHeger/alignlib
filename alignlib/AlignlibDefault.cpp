@@ -45,20 +45,5 @@ using namespace std;
 namespace alignlib
 {
 
-IMPLEMENT_STATIC_DEFAULT( HToolkit, makeToolkit(), getDefaultToolkit, setDefaultToolkit, default_toolkit );
-
-// default objects without dependencies
-IMPLEMENT_DEFAULT( HIterator2D, getDefaultIterator2D, setDefaultIterator2D, getIterator2D, setIterator2D );
-IMPLEMENT_DEFAULT( HLogOddor, getDefaultLogOddor, setDefaultLogOddor,  getLogOddor, setLogOddor );
-IMPLEMENT_DEFAULT( HRegularizor, getDefaultRegularizor, setDefaultRegularizor, getRegularizor, setRegularizor );
-IMPLEMENT_DEFAULT( HWeightor, getDefaultWeightor, setDefaultWeightor, getWeightor, setWeightor );
-IMPLEMENT_DEFAULT( HScorer, getDefaultScorer, setDefaultScorer,  getScorer, setScorer )
-IMPLEMENT_DEFAULT( HDistor, getDefaultDistor, setDefaultDistor, getDistor, setDistor );
-IMPLEMENT_DEFAULT( HEncoder, getDefaultEncoder, setDefaultEncoder, getEncoder, setEncoder );
-IMPLEMENT_DEFAULT( HSubstitutionMatrix, getDefaultSubstitutionMatrix, setDefaultSubstitutionMatrix, getSubstitutionMatrix, setSubstitutionMatrix );
-IMPLEMENT_DEFAULT( HTreetor, getDefaultTreetor, setDefaultTreetor, getTreetor, setTreetor );
-
-
-IMPLEMENT_STATIC_DEFAULT( HPalette, makePalette(), getDefaultPalette, setDefaultPalette, default_palette );
 
 } // namespace alignlib

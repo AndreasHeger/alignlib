@@ -16,15 +16,15 @@ using namespace std;
 namespace alignlib {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-DistanceMatrix::DistanceMatrix ()
+DistanceMatrix::DistanceMatrix (): AlignlibBase()
 {
 }
-		       
+
 DistanceMatrix::~DistanceMatrix ()
 {
 }
 
-DistanceMatrix::DistanceMatrix (const DistanceMatrix & src )
+DistanceMatrix::DistanceMatrix (const DistanceMatrix & src ) : AlignlibBase(src)
 {
 }
 
@@ -33,12 +33,12 @@ std::ostream & operator<<( std::ostream & output, const DistanceMatrix & src)
   src.write( output );
   return output;
 }
-  
+
 std::istream & operator>>( std::istream & input, DistanceMatrix & target)
 {
   target.read( input );
   return input;
-} 
+}
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
 } /* namespace alignlib */
