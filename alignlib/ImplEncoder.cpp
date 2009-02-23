@@ -38,6 +38,7 @@ namespace alignlib
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplEncoder::ImplEncoder () :
+	Encoder(),
 	mAlphabetType( User ), mAlphabet( ""), mGapChars( "" ), mMaskChars(""),
 	mTableSize(0), mEncodingTable(0), mDecodingTable(0), mAlphabetSize( 0 )
 	{
@@ -57,6 +58,7 @@ ImplEncoder::~ImplEncoder ()
 
 //--------------------------------------------------------------------------------------------------------------------------------
 ImplEncoder::ImplEncoder (const ImplEncoder & src ) :
+	Encoder(src),
 	mAlphabet( src.mAlphabet ),
 	mTableSize( src.mTableSize ),
 	mEncodingTable( NULL ),

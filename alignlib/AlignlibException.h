@@ -66,6 +66,9 @@ std::string toString(T t)
   return oss.str();
 }
 
+#define THROW( msg ) \
+	throw AlignlibException( std::string(__FILE__) + ":" + toString(__LINE__) + ":" + std::string(__FUNCTION__) + "(): " + msg);
+
 }
 
 #endif /* _ALIGNEXCEPTION_H */

@@ -36,6 +36,7 @@ namespace alignlib
 HTreetor makeTreetorDistanceLinkage(
 		const LinkageType & method )
 {
+	debug_func_cerr( 5 );
 	return HTreetor( new ImplTreetorDistanceLinkage( method ) );
 }
 
@@ -43,11 +44,13 @@ HTreetor makeTreetorDistanceLinkage(
 ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage ( const LinkageType & method ) :
     ImplTreetorDistance(), mMethod(method)
 {
+	debug_func_cerr( 5 );
 }
 
 
 ImplTreetorDistanceLinkage::~ImplTreetorDistanceLinkage ()
 {
+	debug_func_cerr( 5 );
 }
 
 ImplTreetorDistanceLinkage::ImplTreetorDistanceLinkage (const ImplTreetorDistanceLinkage & src ) :

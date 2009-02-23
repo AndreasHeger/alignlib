@@ -23,44 +23,44 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //-----------------------------< factory functions >----------------------------------------------------
-HTree makeTree( Node num_leaves) 
-{ 
-	return HTree(new ImplTree( num_leaves)); 
+HTree makeTree( Node num_leaves)
+{
+	return HTree(new ImplTree( num_leaves));
 }
 
-std::ostream & operator<<( std::ostream & output, const NODE_INFO & src) 
+std::ostream & operator<<( std::ostream & output, const NODE_INFO & src)
 {
-	output << src.mParent << " " << src.mLeftChild << " " << src.mRightChild << " " 
+	output << src.mParent << " " << src.mLeftChild << " " << src.mRightChild << " "
 	<< src.mNumChildren << " " << src.mWeight << " " << src.mHeight;
 
 	return output;
 }
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplTree::ImplTree () : mNumLeaves(0), mCurrentNode(0), mTree(NULL) 
+ImplTree::ImplTree () : Tree(), mNumLeaves(0), mCurrentNode(0), mTree(NULL)
 {
 }
 
-ImplTree::ImplTree( size_t num_leaves) : mNumLeaves(0), mCurrentNode(0), mTree(NULL) 
+ImplTree::ImplTree( size_t num_leaves) : Tree(), mNumLeaves(0), mCurrentNode(0), mTree(NULL)
 {
 
-	if (num_leaves > 0) 
+	if (num_leaves > 0)
 		setNumLeaves( num_leaves );
 }
 
-ImplTree::~ImplTree () 
+ImplTree::~ImplTree ()
 {
 	debug_func_cerr(5);
 	delete [] mTree;
 }
 
-ImplTree::ImplTree (const ImplTree & src ) : 
-	mNumLeaves ( src.mNumLeaves ), 
-	mCurrentNode( src.mCurrentNode ) 
+ImplTree::ImplTree (const ImplTree & src ) : Tree(src),
+	mNumLeaves ( src.mNumLeaves ),
+	mCurrentNode( src.mCurrentNode )
 	{
 	debug_func_cerr(5);
 
@@ -84,13 +84,13 @@ HTree ImplTree::getClone() const
 }
 
 //-------------------------------------------------------< accessors >----------------------------------------
-Node ImplTree::getNumLeaves() const 
+Node ImplTree::getNumLeaves() const
 {
 	return mNumLeaves;
-}    
+}
 
 //-------------------------------------------------------< accessors >----------------------------------------
-void ImplTree::setNumLeaves(unsigned int num_leaves) 
+void ImplTree::setNumLeaves(unsigned int num_leaves)
 {
 
 	debug_func_cerr(5);
@@ -101,60 +101,60 @@ void ImplTree::setNumLeaves(unsigned int num_leaves)
 	mTree = new NODE_INFO[num_leaves * 2 - 1];
 	mCurrentNode = mNumLeaves;
 	recordLeaves();
-}    
+}
 
-Node ImplTree::getNoNode()  const 
+Node ImplTree::getNoNode()  const
 {
 	return NO_NODE;
 }
 
-Node ImplTree::getRoot()  const 
+Node ImplTree::getRoot()  const
 {
 	return mCurrentNode - 1;
 }
 
-Node ImplTree::getLeftChild( Node node) const 
+Node ImplTree::getLeftChild( Node node) const
 {
 	return mTree[node].mLeftChild;
 }
 
-Node ImplTree::getRightChild( Node node) const 
+Node ImplTree::getRightChild( Node node) const
 {
 	return mTree[node].mRightChild;
 }
 
-Node ImplTree::getParent( Node node) const 
+Node ImplTree::getParent( Node node) const
 {
 	return mTree[node].mParent;
 }
 
-Node ImplTree::getNumLeaves( Node node) const 
+Node ImplTree::getNumLeaves( Node node) const
 {
 	return mTree[node].mNumChildren;
 }
 
-TreeHeight ImplTree::getHeight( Node node) const 
+TreeHeight ImplTree::getHeight( Node node) const
 {
 	return mTree[node].mHeight;
 }
 
-void ImplTree::setHeight( Node node, TreeHeight height) 
+void ImplTree::setHeight( Node node, TreeHeight height)
 {
 	mTree[node].mHeight = height;
 }
 
-TreeWeight ImplTree::getWeight( Node child, Node parent) const 
+TreeWeight ImplTree::getWeight( Node child, Node parent) const
 {
 	return mTree[child].mWeight;
 }
 
-void ImplTree::setWeight( Node child, Node parent, TreeWeight weight) 
+void ImplTree::setWeight( Node child, Node parent, TreeWeight weight)
 {
 	mTree[child].mWeight = weight;
 }
 
 //-------------------------------------------------------< others >-------------------------------------------
-Node ImplTree::findLastParent( const Node node) const 
+Node ImplTree::findLastParent( const Node node) const
 {
 
 	Node n = node;
@@ -163,10 +163,10 @@ Node ImplTree::findLastParent( const Node node) const
 	return n;
 }
 
-Node ImplTree::joinNodes( 
-		const Node node_1, 
+Node ImplTree::joinNodes(
+		const Node node_1,
 		const Node node_2,
-		const TreeWeight edge_weight_1, 
+		const TreeWeight edge_weight_1,
 		const TreeWeight edge_weight_2 )
 {
 
@@ -180,32 +180,32 @@ Node ImplTree::joinNodes(
 
 	mTree[mCurrentNode].mLeftChild = node_1;
 	mTree[mCurrentNode].mRightChild = node_2;
-	mTree[mCurrentNode].mNumChildren = mTree[node_1].mNumChildren + 
+	mTree[mCurrentNode].mNumChildren = mTree[node_1].mNumChildren +
 	mTree[node_2].mNumChildren;
 
 	return mCurrentNode++;
 }
 
 //------------------------------------------------------------------------------------------------------------
-void ImplTree::removeRoot() 
+void ImplTree::removeRoot()
 {
 	debug_func_cerr( 5 );
 }
 
 //------------------------------------------------------------------------------------------------------------
-Node ImplTree::setRoot( Node node_from, Node node_to, TreeWeight weight ) 
+Node ImplTree::setRoot( Node node_from, Node node_to, TreeWeight weight )
 {
 	debug_func_cerr( 5 );
 	return getRoot();
 }
 
 //----------------------------------------------------------------------------------------
-void ImplTree::recordLeaves() 
+void ImplTree::recordLeaves()
 {
 	debug_func_cerr( 5 );
 
 	// leaves are the first nodes in the graph starting at index 0
-	for (Node node = 0; node < getNumLeaves(); node ++) 
+	for (Node node = 0; node < getNumLeaves(); node ++)
 	{
 
 		mTree[node].mHeight = 0;
@@ -220,7 +220,7 @@ void ImplTree::recordLeaves()
 
 //---------------------------------> methods for creation of node-lists <--------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------
-HNodeVector ImplTree::getNodesLeaves() const 
+HNodeVector ImplTree::getNodesLeaves() const
 {
 	debug_func_cerr( 5 );
 
@@ -235,7 +235,7 @@ HNodeVector ImplTree::getNodesLeaves() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------
-HNodeVector ImplTree::getNodesDepthFirstVisit() const 
+HNodeVector ImplTree::getNodesDepthFirstVisit() const
 {
 	debug_func_cerr( 5 );
 
@@ -245,7 +245,7 @@ HNodeVector ImplTree::getNodesDepthFirstVisit() const
 
 	s.push( getRoot() );
 
-	while (!s.empty()) 
+	while (!s.empty())
 	{
 
 		Node node = s.top();
@@ -264,9 +264,9 @@ HNodeVector ImplTree::getNodesDepthFirstVisit() const
 }
 
 //--------------------------------------------------------------------------------------------------------------------
-void ImplTree::traversePostOrder( 
-		Node node, 
-		HNodeVector & nodes)  const 
+void ImplTree::traversePostOrder(
+		Node node,
+		HNodeVector & nodes)  const
 {
 	debug_func_cerr( 5 );
 
@@ -280,7 +280,7 @@ void ImplTree::traversePostOrder(
 }
 
 
-HNodeVector ImplTree::getNodesDepthFirstFinish() const 
+HNodeVector ImplTree::getNodesDepthFirstFinish() const
 {
 	debug_func_cerr( 5 );
 
@@ -292,18 +292,18 @@ HNodeVector ImplTree::getNodesDepthFirstFinish() const
 };
 
 //--------------------------------------------------------------------------------------------------------------------
-HNodeVector ImplTree::getNodesBreadthFirstVisit() const 
+HNodeVector ImplTree::getNodesBreadthFirstVisit() const
 {
 	debug_func_cerr( 5 );
 	HNodeVector nodes( new std::vector<Node>() );
 
 	std::queue<Node> q;
-	
+
 	q.push( getRoot() );
 
-	while (!q.empty()) 
+	while (!q.empty())
 	{
-		
+
 		Node node = q.front();
 		q.pop();
 
@@ -320,15 +320,15 @@ HNodeVector ImplTree::getNodesBreadthFirstVisit() const
 }
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
-void ImplTree::write( std::ostream& output ) const 
+void ImplTree::write( std::ostream& output ) const
 {
 	debug_func_cerr( 5 );
 
-	for (Node n =0; n < mCurrentNode; n++) 
+	for (Node n =0; n < mCurrentNode; n++)
 	{
 		std::cout << n << " " << mTree[n] << endl;
 	}
-}         
+}
 
 
 

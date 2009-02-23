@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: Distor.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 
 #include <iostream>
@@ -18,13 +18,15 @@ using namespace std;
 namespace alignlib {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-Distor::Distor () {
+Distor::Distor () : AlignlibBase()
+{
 }
-		       
+
 Distor::~Distor () {
 }
 
-Distor::Distor (const Distor & src ) {
+Distor::Distor (const Distor & src ) : AlignlibBase(src)
+{
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------

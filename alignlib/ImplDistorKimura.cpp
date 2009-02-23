@@ -72,7 +72,8 @@ DistanceMatrixValue ImplDistorKimura::calculateDistance(
 
 	unsigned char gap_char = getToolkit()->getEncoder()->getGapChar();
 
-	for (i = 0; i < s_row_1.length(); i++) {
+	for (i = 0; i < s_row_1.length(); i++)
+	{
 		if ((s_row_1[i] != gap_char) && (s_row_2[i] != gap_char))
 		{
 			n_nongaps ++;
@@ -81,10 +82,7 @@ DistanceMatrixValue ImplDistorKimura::calculateDistance(
 		}
 	}
 
-#ifdef DEBUG
-	if (AlignlibDebug::mVerbosity >= 5)
-		std::cerr << "Comparison between " << s_row_1 << " and " << s_row_2 << ": non_gaps=" << n_nongaps << " identitities=" << identities << endl;
-#endif
+	debug_cerr( 3, "Comparison between " << s_row_1 << " and " << s_row_2 << ": non_gaps=" << n_nongaps << " identitities=" << identities );
 
 	double pdiff;
 	if (n_nongaps > 0)

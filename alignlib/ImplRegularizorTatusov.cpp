@@ -125,7 +125,7 @@ void ImplRegularizorTatusov::fillFrequencies(
 	Position length = counts.getNumRows();
 
 	if (width != 20)
-		throw AlignlibException( "ImplRegularizorTatusov.cpp: width of profile has to be 20" );
+		THROW ("width of profile has to be 20, but is " + toString( width));
 
 	// get nc - the alignment diversity
 	double nc = calculateDiversity( counts );

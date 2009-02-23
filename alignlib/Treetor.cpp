@@ -18,16 +18,18 @@ namespace alignlib {
 
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-Treetor::Treetor () {
+Treetor::Treetor () : AlignlibBase()
+{
 }
-		       
+
 Treetor::~Treetor () {
 }
 
-Treetor::Treetor (const Treetor & src ) {
+Treetor::Treetor (const Treetor & src )  : AlignlibBase(src)
+{
 }
 
-    
+
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
 
 std::ostream & operator<< (std::ostream & output, const Treetor & src) {

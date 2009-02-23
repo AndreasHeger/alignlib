@@ -12,24 +12,24 @@
 
 using namespace std;
 
-namespace alignlib 
+namespace alignlib
 {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-Tree::Tree () 
-{
-}
-		       
-Tree::~Tree () 
+Tree::Tree () : AlignlibBase()
 {
 }
 
-Tree::Tree (const Tree & src ) 
+Tree::~Tree ()
+{
+}
+
+Tree::Tree (const Tree & src ) : AlignlibBase(src)
 {
 }
 
 //---------------------------------------------------------< Input/Output routines >---------------------------------------------
-std::ostream & operator<<( std::ostream & output, const Tree & src) 
+std::ostream & operator<<( std::ostream & output, const Tree & src)
 {
   src.write( output );
   return output;

@@ -6,7 +6,7 @@
 // Author: Andreas Heger <heger@ebi.ac.uk>
 //
 // $Id: ImplDistor.cpp,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
-//--------------------------------------------------------------------------------    
+//--------------------------------------------------------------------------------
 
 
 #include <iostream>
@@ -25,35 +25,37 @@ using namespace std;
 namespace alignlib {
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
-ImplDistor::ImplDistor () : mLength(0) {
+ImplDistor::ImplDistor () : Distor(), mLength(0)
+{
 }
-		       
+
 ImplDistor::~ImplDistor () {
 }
 
-ImplDistor::ImplDistor (const ImplDistor & src ) : 
+ImplDistor::ImplDistor (const ImplDistor & src ) :
+	Distor(src),
     mLength(src.mLength) {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-void ImplDistor::calculateMatrix( 
-		HDistanceMatrix & matrix, 
-		const HMultipleAlignment & multali) const 
+void ImplDistor::calculateMatrix(
+		HDistanceMatrix & matrix,
+		const HMultipleAlignment & multali) const
 		{
 
     DistanceMatrixSize i, j;
-    
+
     DistanceMatrixSize width = multali->getNumSequences();
 
     if (matrix->getWidth() != width)
 	throw AlignlibException( "Multiple alignment and matrix have different size in ImplDistor::operator()");
 
-    for (i = 0; i < width - 1; i++) 
-      for (j = i + 1; j < width; j++) 
+    for (i = 0; i < width - 1; i++)
+      for (j = i + 1; j < width; j++)
 	(*matrix)(i, j) = calculateDistance( (*multali)[i], (*multali)[j] );
 
-} 
-    
+}
+
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
