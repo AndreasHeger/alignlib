@@ -39,10 +39,11 @@ namespace alignlib
 HRegularizor makeRegularizorTatusov(
 		const HSubstitutionMatrix & matrix,
 		const HFrequencyVector & background,
+		const std::string & alphabet,
 		const double & beta,
 		const double & lambda )
 {
-	return HRegularizor(new ImplRegularizorTatusov( matrix, background, beta, lambda ));
+	return HRegularizor(new ImplRegularizorTatusov( matrix, background, alphabet, beta, lambda ));
 }
 
 // Background frequencies according to Robinson & Robinson (1991) Proc Natl Acad Sci U S A. Oct 15;88(20):8880-4.
@@ -76,6 +77,7 @@ HRegularizor makeRegularizorPsiblast()
 	return HRegularizor(new ImplRegularizorTatusov(
 			makeSubstitutionMatrixBlosum62(),
 			BackgroundPsiblast,
+			"ACDEFGHIKLMNPQRSTVWY",
 			10, 0.3176 ));
 }
 
@@ -83,14 +85,21 @@ HRegularizor makeRegularizorPsiblast()
 ImplRegularizorTatusov::ImplRegularizorTatusov(
 		const HSubstitutionMatrix & matrix,
 		const HFrequencyVector & background,
+		const std::string & alphabet,
 		const double & beta,
 		const double & lambda ) :
 	mSubstitutionMatrix( matrix ),
 	mBackgroundFrequencies( background ),
+	mAlphabet( alphabet ),
 	mBeta( beta),
 	mLambda( lambda )
 {
 	debug_func_cerr(5);
+
+	if (mAlphabet.size() != mBackgroundFrequencies->size())
+		THROW( "size of alphabet(" + toString( mAlphabet.size() ) +
+				") and frequency vector (" + toString( mBackgroundFrequencies->size() ) + ") of unequal size")
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
@@ -123,9 +132,11 @@ void ImplRegularizorTatusov::fillFrequencies(
 
 	Position width = counts.getNumCols();
 	Position length = counts.getNumRows();
+	Position nchars = mBackgroundFrequencies->size();
 
-	if (width != 20)
-		THROW ("width of profile has to be 20, but is " + toString( width));
+	if (width < mBackgroundFrequencies->size())
+		THROW ("background size (" + toString(mBackgroundFrequencies->size()) + ") larger than characters in profile (" +
+				toString( width) + ")");
 
 	// get nc - the alignment diversity
 	double nc = calculateDiversity( counts );
@@ -135,7 +146,7 @@ void ImplRegularizorTatusov::fillFrequencies(
 
 	WeightedCount ntotal;
 
-	debug_cerr( 5, "nc=" << nc << " alpha=" << alpha << " beta=" << mBeta << " lambda=" << mLambda );
+	debug_cerr( 4, "nc=" << nc << " alpha=" << alpha << " beta=" << mBeta << " lambda=" << mLambda );
 
 	// gi in the PSIBLAST paper
 	Score * pseudocounts = new Score[width];
@@ -147,18 +158,24 @@ void ImplRegularizorTatusov::fillFrequencies(
 		Frequency * f = frequencies.getRow( column );
 
 		// compute the pseudocounts gi
-		for (Residue i = 0; i < width; ++i)
+		for (Residue i = 0; i < nchars; ++i)
 		{
 			Score total = 0;
-			for (Residue j = 0; j < width; ++j)
-				total += f[i] * (*bg)[i] * exp( mLambda * mSubstitutionMatrix->getValue( i, j) );
-
+			Position ii = encoder->encode( i );
+			for (Residue j = 0; j < nchars; ++j)
+			{
+				Position jj = encoder->encode( i );
+				total += f[ii] * (*bg)[i] * exp( mLambda * mSubstitutionMatrix->getValue( ii, jj) );
+			}
 			pseudocounts[i] = total;
 		}
 
 		// mix pseudocounts with observations
-		for (Residue i = 0; i < width; i++)
-			f[i] = (alpha * f[i] + mBeta * pseudocounts[i]) / alpha_beta;
+		for (Residue i = 0; i < nchars; i++)
+		{
+			Position ii = encoder->encode( i );
+			f[ii] = (alpha * f[ii] + mBeta * pseudocounts[i]) / alpha_beta;
+		}
 	}
 	delete [] pseudocounts;
 }

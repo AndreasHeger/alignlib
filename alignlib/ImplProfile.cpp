@@ -271,7 +271,7 @@ void ImplProfile::allocateCounts() const
 
 	mProfileWidth = getToolkit()->getEncoder()->getAlphabetSize();
 
-	debug_cerr( 5, "allocating counts for a profile of size " << getFullLength() << " x " << (int)mProfileWidth );
+	debug_cerr( 3, "allocating counts for a profile of size " << getFullLength() << " x " << (int)mProfileWidth );
 
 	mWeightedCountMatrix = allocateSegment<WeightedCount>( mWeightedCountMatrix );
 }
@@ -424,7 +424,7 @@ void ImplProfile::writeSegment( std::ostream & output, const Matrix<T> * data ) 
 
 	const Encoder & encoder(*(getToolkit()->getEncoder()));
 
-	output << setw(5) << "#" << "  " << " ";
+	output << setw(4) << "#" << "  " << " ";
 	for (Residue j = 0; j < mProfileWidth; j++)
 		output << setw(6) << encoder.decode( j );
 	output << std::endl;

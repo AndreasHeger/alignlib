@@ -54,6 +54,7 @@ std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
 // most profilers only work with the twenty amino acid alphabet
 // setDefaultEncoder( getEncoder(Protein20) );
 
+
 void test_GenericRegularizor( const HRegularizor & r)
 {
 	getDefaultToolkit()->setRegularizor( r );
@@ -61,11 +62,14 @@ void test_GenericRegularizor( const HRegularizor & r)
 	a->prepare();
 }
 
+
+/*
 BOOST_AUTO_TEST_CASE( test_Regularizor )
 {
 	HRegularizor r( makeRegularizor());
 	test_GenericRegularizor( r );
 }
+*/
 
 BOOST_AUTO_TEST_CASE( test_RegularizorPsiblast )
 {

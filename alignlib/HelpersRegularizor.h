@@ -58,12 +58,14 @@ HRegularizor makeRegularizor();
  *
  * @param matrix 		@ref SubstitutionMatrix.
  * @param background 	vector with background residue frequencies.
+ * @param alphabet		alphabet corresponding to the background counts
  * @param beta 			pseudocounts mixing parameter.
  * @param lambda 		scale factor for matrix.
  */
 HRegularizor makeRegularizorTatusov(
 		const HSubstitutionMatrix & matrix,
 		const HFrequencyVector & background,
+		const std::string & alphabet,
 		const double & beta,
 		const double & lambda );
 

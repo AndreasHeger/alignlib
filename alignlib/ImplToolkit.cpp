@@ -52,6 +52,10 @@ namespace alignlib
     protected: \
     handle text;
 
+
+#define OUTPUT(prefix, text) \
+	output << prefix << " " << text << std::endl;
+
 class ImplToolkit: public Toolkit
 {
 	friend std::ostream & operator<<(std::ostream &output, const Toolkit &);
@@ -142,7 +146,20 @@ class ImplToolkit: public Toolkit
 
     virtual void write( std::ostream & output ) const
     {
-    	output << "Toolkit - output";
+    	output << "toolkit contents" << std::endl;
+        OUTPUT( "Alignator", Alignator );
+        OUTPUT( "Fragmentor", Fragmentor );
+        OUTPUT( "Alignment", Alignment );
+        OUTPUT( "MultAlignment", MultAlignment );
+        OUTPUT( "MultipleAlignator", MultipleAlignator );
+        OUTPUT( "Distor", Distor );
+        OUTPUT( "Weightor", Weightor );
+        OUTPUT( "Regularizor", Regularizor );
+        OUTPUT( "LogOddor", LogOddor );
+        OUTPUT( "Encoder", Encoder );
+        OUTPUT( "Treetor", Treetor );
+        OUTPUT( "Scorer",  Scorer);
+        OUTPUT( "Iterator2D", Iterator2D );
     }
 };
 

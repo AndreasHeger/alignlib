@@ -27,10 +27,15 @@
 #include <config.h>
 #endif
 
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cassert>
+
+#define BOOST_TEST_MODULE
+#include <boost/test/included/unit_test.hpp>
+using boost::unit_test::test_suite;
 
 #include "Encoder.h"
 #include "HelpersEncoder.h"
@@ -45,22 +50,22 @@ void testEncoder( const HEncoder & translator,
 		int alphabet_size )
 {
 	// check alphabet size (number of chars + 1 for mask value)
-	assert( alphabet_size == translator->getAlphabetSize() );
+	BOOST_CHECK_EQUAL( alphabet_size, translator->getAlphabetSize() );
 
 	for (int x = 0; x < alphabet.size(); ++x)
 	{
-		assert( x == translator->encode( alphabet[x] ) );
+		BOOST_CHECK_EQUAL( x, translator->encode( alphabet[x] ) );
 		// check if upper/lower-case is ignored
-		assert( translator->encode( toupper(alphabet[x]) ) == translator->encode( tolower( alphabet[x] ) ) );
+		BOOST_CHECK_EQUAL( translator->encode( toupper(alphabet[x]) ), translator->encode( tolower( alphabet[x] ) ) );
 	}
 
 	// check mask codes
 	for (int x = 0; x < mask_chars.size(); ++ x)
-		assert( translator->encode(mask_chars[x]) == translator->getMaskCode() );
+		BOOST_CHECK_EQUAL( translator->encode(mask_chars[x]), translator->getMaskCode() );
 
 	// check gap codes
 	for (int x = 0; x < gap_chars.size(); ++ x)
-		assert( translator->encode(gap_chars[x]) == translator->getGapCode() );
+		BOOST_CHECK_EQUAL( translator->encode(gap_chars[x]), translator->getGapCode() );
 
 	// check saving/loading from stream.
 	{
@@ -79,10 +84,11 @@ void testEncoder( const HEncoder & translator,
 		{
 			b = loadEncoder( file ) ;
 			if (b->getAlphabetType() != User )
-				assert( translator == b );
+				BOOST_CHECK_EQUAL( translator, b );
 			++n;
 		}
-		assert( n == 2 );
+		BOOST_CHECK_EQUAL( n, 2 );
+		std::remove( "test_Encoder.tmp" );
 	}
 
 	{
@@ -103,26 +109,18 @@ void testEncoder( const HEncoder & translator,
 
 }
 
-
-int main ()
+BOOST_AUTO_TEST_CASE( testProtein23 )
 {
-	//std::cout << "----- testing Protein23 ---------" << std::endl;
-	{
-		testEncoder( getEncoder( Protein23 ), "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X", 23 );
-	}
+	testEncoder( getEncoder( Protein23 ), "ABCDEFGHIKLMNPQRSTVWXYZ", "-.", "X", 23 );
+}
 
-	//std::cout << "----- testing Protein20 ---------" << std::endl;
-	{
-		testEncoder( getEncoder( Protein20 ), "ACDEFGHIKLMNPQRSTVWY", "-.", "X", 21 );
-	}
+BOOST_AUTO_TEST_CASE( testProtein20 )
+{
+	testEncoder( getEncoder( Protein20 ), "ACDEFGHIKLMNPQRSTVWY", "-.", "X", 21 );
+}
 
-	//std::cout << "----- testing DNA4 ---------" << std::endl;
-	{
-		testEncoder( getEncoder( DNA4 ), "ACGT", "-.", "N", 5 );
-	}
-
-
-
-
+BOOST_AUTO_TEST_CASE( testDNA4 )
+{
+	testEncoder( getEncoder( DNA4 ), "ACGT", "-.", "N", 5 );
 }
 
