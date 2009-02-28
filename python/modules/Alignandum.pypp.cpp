@@ -62,7 +62,7 @@ template<class T>
 void register_Alignandum_class(){
 
     { //::alignlib::Alignandum
-        typedef bp::class_< alignlib::Alignandum, boost::noncopyable > Alignandum_exposer_t;
+        typedef bp::class_< alignlib::Alignandum, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Alignandum_exposer_t;
         Alignandum_exposer_t Alignandum_exposer = Alignandum_exposer_t( "Alignandum", bp::no_init );
         bp::scope Alignandum_scope( Alignandum_exposer );
         { //::alignlib::Alignandum::asChar
@@ -103,16 +103,6 @@ void register_Alignandum_class(){
                 , getClone_function_type( &::alignlib::Alignandum::getClone ) );
         
         }
-        { //::alignlib::Alignandum::getEncoder
-        
-            typedef ::alignlib::HEncoder const & ( ::alignlib::Alignandum::*getEncoder_function_type )(  ) const;
-            
-            Alignandum_exposer.def( 
-                "getEncoder"
-                , getEncoder_function_type( &::alignlib::Alignandum::getEncoder )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
         { //::alignlib::Alignandum::getFrom
         
             typedef ::alignlib::Position ( ::alignlib::Alignandum::*getFrom_function_type )(  ) const;
@@ -138,6 +128,15 @@ void register_Alignandum_class(){
             Alignandum_exposer.def( 
                 "getLength"
                 , getLength_function_type( &::alignlib::Alignandum::getLength ) );
+        
+        }
+        { //::alignlib::Alignandum::getNew
+        
+            typedef ::alignlib::HAlignandum ( ::alignlib::Alignandum::*getNew_function_type )(  ) const;
+            
+            Alignandum_exposer.def( 
+                "getNew"
+                , getNew_function_type( &::alignlib::Alignandum::getNew ) );
         
         }
         { //::alignlib::Alignandum::getStorageType
@@ -257,6 +256,9 @@ void register_Alignandum_class(){
         }
         Alignandum_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Alignandum > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Alignandum >, boost::shared_ptr< alignlib::AlignlibBase > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Profile >, boost::shared_ptr< alignlib::Alignandum > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Sequence >, boost::shared_ptr< alignlib::Alignandum > >();
         Alignandum_exposer.def( "save", wrapper_for_save<alignlib::Alignandum> );
     }
 

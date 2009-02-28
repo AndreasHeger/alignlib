@@ -244,7 +244,9 @@ def exportInterfaceClasses( mb ):
     
     These classes can not instantiated directly from python.
     """
-    classes_to_export = set( ['Alignandum',
+    classes_to_export = set( ['AlignlibBase',
+                              'Toolkit',
+    						  'Alignandum',
                               'Sequence',
                               'Profile',
                               'MultipleAlignment',
@@ -269,7 +271,6 @@ def exportInterfaceClasses( mb ):
                               'Treetor',
                               'Tree',
                               'DistanceMatrix',
-                              'Toolkit',
                               'Segment',
                               ])
 
@@ -284,6 +285,10 @@ def exportInterfaceClasses( mb ):
     mb.member_operators( lambda x: x.name in ("operator++", "operator--", 
                                               "operator*", "operator->", 
                                               "operator()", "operator[]") ).exclude()
+
+    mb.member_functions( lambda x: x.name == "getToolkit").exclude() 
+    mb.member_functions( lambda x: x.name == "setToolkit").exclude() 
+    mb.member_functions( lambda x: x.name == "cloneToolkit").exclude() 
 
     ## do not export the internal iterator interfaces. This makes Alignment
     ## virtual and the wrapper will cause compilation to fail.
@@ -329,6 +334,11 @@ def exportHandles( mb ):
     
     These are shared_ptr<> typedefs.     
     """
+
+    # adding HToolkit causes problems, need
+    # to investigate. It creates an explicit HToolkit
+    # wrapper instead just treating the smart pointer
+    # as an ordinary pointer
     handles_to_export = ['HAlignandum',
                          'HProfile',
                          'HSequence',
@@ -350,7 +360,6 @@ def exportHandles( mb ):
                          'HTree',
                          'HPhyloMatrix',
                          'HFragmentVector',
-                         'HToolkit',
                          'HSegmentVector', 
                          'HCountVector' ]
 
@@ -359,7 +368,7 @@ def exportHandles( mb ):
     #    print c.aliases
 
     for handle in handles_to_export:
-        
+
         #for c in mb.classes( lambda x: handle[1:]in x.name ):
         #    print "class=", c.name 
         #for c in mb.decls( lambda x: handle[1:] in x.name):

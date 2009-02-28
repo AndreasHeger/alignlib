@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_DistanceMatrix_class(){
 
     { //::alignlib::DistanceMatrix
-        typedef bp::class_< alignlib::DistanceMatrix, boost::noncopyable > DistanceMatrix_exposer_t;
+        typedef bp::class_< alignlib::DistanceMatrix, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > DistanceMatrix_exposer_t;
         DistanceMatrix_exposer_t DistanceMatrix_exposer = DistanceMatrix_exposer_t( "DistanceMatrix", bp::no_init );
         bp::scope DistanceMatrix_scope( DistanceMatrix_exposer );
         { //::alignlib::DistanceMatrix::getClone
@@ -159,6 +159,7 @@ void register_DistanceMatrix_class(){
         }
         DistanceMatrix_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::DistanceMatrix > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::DistanceMatrix >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

@@ -16,7 +16,7 @@ void register_Sequence_class(){
         bp::scope Sequence_scope( Sequence_exposer );
         Sequence_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Sequence > >();
-        bp::implicitly_convertible< boost::shared_ptr< alignlib::Sequence >, boost::shared_ptr< alignlib::Alignandum > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Sequence >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

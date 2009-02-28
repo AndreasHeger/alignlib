@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_LogOddor_class(){
 
     { //::alignlib::LogOddor
-        typedef bp::class_< alignlib::LogOddor, boost::noncopyable > LogOddor_exposer_t;
+        typedef bp::class_< alignlib::LogOddor, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > LogOddor_exposer_t;
         LogOddor_exposer_t LogOddor_exposer = LogOddor_exposer_t( "LogOddor", bp::no_init );
         bp::scope LogOddor_scope( LogOddor_exposer );
         { //::alignlib::LogOddor::fillProfile
@@ -43,6 +43,7 @@ void register_LogOddor_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::LogOddor > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::LogOddor >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

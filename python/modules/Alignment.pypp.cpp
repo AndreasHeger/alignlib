@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Alignment_class(){
 
     { //::alignlib::Alignment
-        typedef bp::class_< alignlib::Alignment, boost::noncopyable > Alignment_exposer_t;
+        typedef bp::class_< alignlib::Alignment, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Alignment_exposer_t;
         Alignment_exposer_t Alignment_exposer = Alignment_exposer_t( "Alignment", bp::no_init );
         bp::scope Alignment_scope( Alignment_exposer );
         { //::alignlib::Alignment::addDiagonal
@@ -329,6 +329,7 @@ void register_Alignment_class(){
         }
         Alignment_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Alignment > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Alignment >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

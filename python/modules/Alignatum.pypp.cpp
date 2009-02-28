@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Alignatum_class(){
 
     { //::alignlib::Alignatum
-        typedef bp::class_< alignlib::Alignatum, boost::noncopyable > Alignatum_exposer_t;
+        typedef bp::class_< alignlib::Alignatum, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Alignatum_exposer_t;
         Alignatum_exposer_t Alignatum_exposer = Alignatum_exposer_t( "Alignatum", bp::no_init );
         bp::scope Alignatum_scope( Alignatum_exposer );
         { //::alignlib::Alignatum::addGaps
@@ -178,6 +178,7 @@ void register_Alignatum_class(){
         }
         Alignatum_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Alignatum > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Alignatum >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

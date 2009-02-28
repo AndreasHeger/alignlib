@@ -171,7 +171,7 @@ void register_free_functions(){
         bp::def( 
             "copyAlignment"
             , copyAlignment_function_type( &::alignlib::copyAlignment )
-            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x000000001), bp::arg("row_to")=(int)(-0x000000001), bp::arg("col_from")=(int)(-0x000000001), bp::arg("col_to")=(int)(-0x000000001), bp::arg("diagonal_from")=(long int)(-0x005f5e0ff), bp::arg("diagonal_to")=(long int)(99999999) ) );
+            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x00000000000000001), bp::arg("row_to")=(int)(-0x00000000000000001), bp::arg("col_from")=(int)(-0x00000000000000001), bp::arg("col_to")=(int)(-0x00000000000000001), bp::arg("diagonal_from")=(long int)(-0x00000000005f5e0ff), bp::arg("diagonal_to")=(long int)(99999999) ) );
     
     }
 
@@ -182,7 +182,7 @@ void register_free_functions(){
         bp::def( 
             "copyAlignmentWithoutRegion"
             , copyAlignmentWithoutRegion_function_type( &::alignlib::copyAlignmentWithoutRegion )
-            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x000000001), bp::arg("row_to")=(int)(-0x000000001), bp::arg("col_from")=(int)(-0x000000001), bp::arg("col_to")=(int)(-0x000000001), bp::arg("diagonal_from")=(long int)(1), bp::arg("diagonal_to")=(long int)(0) ) );
+            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x00000000000000001), bp::arg("row_to")=(int)(-0x00000000000000001), bp::arg("col_from")=(int)(-0x00000000000000001), bp::arg("col_to")=(int)(-0x00000000000000001), bp::arg("diagonal_from")=(long int)(1), bp::arg("diagonal_to")=(long int)(0) ) );
     
     }
 
@@ -204,7 +204,7 @@ void register_free_functions(){
         bp::def( 
             "expandAlignment"
             , expandAlignment_function_type( &::alignlib::expandAlignment )
-            , ( bp::arg("map_row2combined"), bp::arg("map_col2combined"), bp::arg("src"), bp::arg("insert_gaps_row")=(bool const)(true), bp::arg("insert_gaps_col")=(bool const)(true), bp::arg("use_end_row")=(bool const)(false), bp::arg("use_end_col")=(bool const)(false), bp::arg("row_length")=(int const)(-0x000000001), bp::arg("col_length")=(int const)(-0x000000001) ) );
+            , ( bp::arg("map_row2combined"), bp::arg("map_col2combined"), bp::arg("src"), bp::arg("insert_gaps_row")=(bool const)(true), bp::arg("insert_gaps_col")=(bool const)(true), bp::arg("use_end_row")=(bool const)(false), bp::arg("use_end_col")=(bool const)(false), bp::arg("row_length")=(int const)(-0x00000000000000001), bp::arg("col_length")=(int const)(-0x00000000000000001) ) );
     
     }
 
@@ -237,7 +237,7 @@ void register_free_functions(){
         bp::def( 
             "fillAlignmentRepeatUnit"
             , fillAlignmentRepeatUnit_function_type( &::alignlib::fillAlignmentRepeatUnit )
-            , ( bp::arg("dest"), bp::arg("source"), bp::arg("first_row_residue")=(int const)(-0x000000001), bp::arg("skip_negative_ends")=(bool const)(false) ) );
+            , ( bp::arg("dest"), bp::arg("source"), bp::arg("first_row_residue")=(int const)(-0x00000000000000001), bp::arg("skip_negative_ends")=(bool const)(false) ) );
     
     }
 
@@ -586,7 +586,7 @@ void register_free_functions(){
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("from")=-0x000000001, bp::arg("to")=-0x000000001 ) );
+            , ( bp::arg("src"), bp::arg("from")=-0x00000000000000001, bp::arg("to")=-0x00000000000000001 ) );
     
     }
 
@@ -619,7 +619,7 @@ void register_free_functions(){
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("from")=-0x000000001, bp::arg("to")=-0x000000001 ) );
+            , ( bp::arg("src"), bp::arg("from")=-0x00000000000000001, bp::arg("to")=-0x00000000000000001 ) );
     
     }
 
@@ -872,7 +872,7 @@ void register_free_functions(){
         bp::def( 
             "makeLogOddor"
             , makeLogOddor_function_type( &::alignlib::makeLogOddor )
-            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
+            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x0000000000000000a ) );
     
     }
 
@@ -883,7 +883,7 @@ void register_free_functions(){
         bp::def( 
             "makeLogOddorBackground"
             , makeLogOddorBackground_function_type( &::alignlib::makeLogOddorBackground )
-            , ( bp::arg("frequencies"), bp::arg("alphabet"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
+            , ( bp::arg("frequencies"), bp::arg("alphabet"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x0000000000000000a ) );
     
     }
 
@@ -894,7 +894,7 @@ void register_free_functions(){
         bp::def( 
             "makeLogOddorDirichlet"
             , makeLogOddorDirichlet_function_type( &::alignlib::makeLogOddorDirichlet )
-            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
+            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x0000000000000000a ) );
     
     }
 
@@ -905,7 +905,7 @@ void register_free_functions(){
         bp::def( 
             "makeLogOddorGribskov"
             , makeLogOddorGribskov_function_type( &::alignlib::makeLogOddorGribskov )
-            , ( bp::arg("matrix"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
+            , ( bp::arg("matrix"), bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x0000000000000000a ) );
     
     }
 
@@ -916,7 +916,7 @@ void register_free_functions(){
         bp::def( 
             "makeLogOddorUniform"
             , makeLogOddorUniform_function_type( &::alignlib::makeLogOddorUniform )
-            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x00000000a ) );
+            , ( bp::arg("scale_factor")=1.0e+0, bp::arg("mask_value")=-0x0000000000000000a ) );
     
     }
 
@@ -969,7 +969,7 @@ void register_free_functions(){
         bp::def( 
             "makeMultipleAlignmentDots"
             , makeMultipleAlignmentDots_function_type( &::alignlib::makeMultipleAlignmentDots )
-            , ( bp::arg("compress_unaligend_columns")=(bool)(true), bp::arg("max_insertion_length")=(int)(-0x000000001) ) );
+            , ( bp::arg("compress_unaligend_columns")=(bool)(true), bp::arg("max_insertion_length")=(int)(-0x00000000000000001) ) );
     
     }
 
@@ -1050,34 +1050,12 @@ void register_free_functions(){
 
     { //::alignlib::makeProfile
     
-        typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::alignlib::HMultipleAlignment const &,::alignlib::HEncoder const &,::alignlib::HWeightor const &,::alignlib::HRegularizor const &,::alignlib::HLogOddor const & );
-        
-        bp::def( 
-            "makeProfile"
-            , makeProfile_function_type( &::alignlib::makeProfile )
-            , ( bp::arg("mali"), bp::arg("encoder"), bp::arg("weightor"), bp::arg("regularizor"), bp::arg("logoddor") ) );
-    
-    }
-
-    { //::alignlib::makeProfile
-    
         typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::std::string const &,int );
         
         bp::def( 
             "makeProfile"
             , makeProfile_function_type( &::alignlib::makeProfile )
             , ( bp::arg("sequences"), bp::arg("nsequences") ) );
-    
-    }
-
-    { //::alignlib::makeProfile
-    
-        typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::std::string const &,int,::alignlib::HEncoder const &,::alignlib::HWeightor const &,::alignlib::HRegularizor const &,::alignlib::HLogOddor const & );
-        
-        bp::def( 
-            "makeProfile"
-            , makeProfile_function_type( &::alignlib::makeProfile )
-            , ( bp::arg("sequences"), bp::arg("nsequences"), bp::arg("encoder"), bp::arg("weightor"), bp::arg("regularizor"), bp::arg("logoddor") ) );
     
     }
 
@@ -1094,33 +1072,11 @@ void register_free_functions(){
 
     { //::alignlib::makeProfile
     
-        typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::alignlib::Position const &,::alignlib::HEncoder const &,::alignlib::HWeightor const &,::alignlib::HRegularizor const &,::alignlib::HLogOddor const & );
-        
-        bp::def( 
-            "makeProfile"
-            , makeProfile_function_type( &::alignlib::makeProfile )
-            , ( bp::arg("length"), bp::arg("encoder"), bp::arg("weightor"), bp::arg("regularizor"), bp::arg("logoddor") ) );
-    
-    }
-
-    { //::alignlib::makeProfile
-    
         typedef ::alignlib::HAlignandum ( *makeProfile_function_type )(  );
         
         bp::def( 
             "makeProfile"
             , makeProfile_function_type( &::alignlib::makeProfile ) );
-    
-    }
-
-    { //::alignlib::makeProfile
-    
-        typedef ::alignlib::HAlignandum ( *makeProfile_function_type )( ::alignlib::HEncoder const &,::alignlib::HWeightor const &,::alignlib::HRegularizor const &,::alignlib::HLogOddor const & );
-        
-        bp::def( 
-            "makeProfile"
-            , makeProfile_function_type( &::alignlib::makeProfile )
-            , ( bp::arg("encoder"), bp::arg("weightor"), bp::arg("regularizor"), bp::arg("logoddor") ) );
     
     }
 
@@ -1190,12 +1146,12 @@ void register_free_functions(){
 
     { //::alignlib::makeRegularizorTatusov
     
-        typedef ::alignlib::HRegularizor ( *makeRegularizorTatusov_function_type )( ::alignlib::HSubstitutionMatrix const &,::alignlib::HFrequencyVector const &,double const &,double const & );
+        typedef ::alignlib::HRegularizor ( *makeRegularizorTatusov_function_type )( ::alignlib::HSubstitutionMatrix const &,::alignlib::HFrequencyVector const &,::std::string const &,double const &,double const & );
         
         bp::def( 
             "makeRegularizorTatusov"
             , makeRegularizorTatusov_function_type( &::alignlib::makeRegularizorTatusov )
-            , ( bp::arg("matrix"), bp::arg("background"), bp::arg("beta"), bp::arg("lambda") ) );
+            , ( bp::arg("matrix"), bp::arg("background"), bp::arg("alphabet"), bp::arg("beta"), bp::arg("lambda") ) );
     
     }
 
@@ -1233,34 +1189,12 @@ void register_free_functions(){
 
     { //::alignlib::makeSequence
     
-        typedef ::alignlib::HAlignandum ( *makeSequence_function_type )( ::std::string const &,::alignlib::HEncoder const & );
-        
-        bp::def( 
-            "makeSequence"
-            , makeSequence_function_type( &::alignlib::makeSequence )
-            , ( bp::arg("sequence"), bp::arg("encoder") ) );
-    
-    }
-
-    { //::alignlib::makeSequence
-    
         typedef ::alignlib::HAlignandum ( *makeSequence_function_type )( ::std::string const & );
         
         bp::def( 
             "makeSequence"
             , makeSequence_function_type( &::alignlib::makeSequence )
             , ( bp::arg("sequence") ) );
-    
-    }
-
-    { //::alignlib::makeSequence
-    
-        typedef ::alignlib::HAlignandum ( *makeSequence_function_type )( char const *,::alignlib::HEncoder const & );
-        
-        bp::def( 
-            "makeSequence"
-            , makeSequence_function_type( &::alignlib::makeSequence )
-            , ( bp::arg("sequence"), bp::arg("encoder") ) );
     
     }
 
@@ -1277,12 +1211,12 @@ void register_free_functions(){
 
     { //::alignlib::makeSequenceFromFasta
     
-        typedef ::alignlib::HAlignandum ( *makeSequenceFromFasta_function_type )( ::std::istream &,::std::string &,::alignlib::HEncoder const & );
+        typedef ::alignlib::HAlignandum ( *makeSequenceFromFasta_function_type )( ::std::istream &,::std::string & );
         
         bp::def( 
             "makeSequenceFromFasta"
             , makeSequenceFromFasta_function_type( &::alignlib::makeSequenceFromFasta )
-            , ( bp::arg("input"), bp::arg("description"), bp::arg("encoder") ) );
+            , ( bp::arg("input"), bp::arg("description") ) );
     
     }
 
@@ -1304,7 +1238,7 @@ void register_free_functions(){
         bp::def( 
             "makeSubstitutionMatrix"
             , makeSubstitutionMatrix_function_type( &::alignlib::makeSubstitutionMatrix )
-            , ( bp::arg("alphabet_size"), bp::arg("match")=1, bp::arg("mismatch")=-0x000000001 ) );
+            , ( bp::arg("alphabet_size"), bp::arg("match")=1, bp::arg("mismatch")=-0x00000000000000001 ) );
     
     }
 
@@ -1448,23 +1382,22 @@ void register_free_functions(){
 
     { //::alignlib::makeTreetorDistanceLinkage
     
-        typedef ::alignlib::HTreetor ( *makeTreetorDistanceLinkage_function_type )( ::alignlib::HDistor const &,::alignlib::LinkageType );
+        typedef ::alignlib::HTreetor ( *makeTreetorDistanceLinkage_function_type )( ::alignlib::LinkageType const & );
         
         bp::def( 
             "makeTreetorDistanceLinkage"
             , makeTreetorDistanceLinkage_function_type( &::alignlib::makeTreetorDistanceLinkage )
-            , ( bp::arg("distor"), bp::arg("method")=::alignlib::UPGMA ) );
+            , ( bp::arg("method")=::alignlib::UPGMA ) );
     
     }
 
     { //::alignlib::makeTreetorDistanceNJ
     
-        typedef ::alignlib::HTreetor ( *makeTreetorDistanceNJ_function_type )( ::alignlib::HDistor const & );
+        typedef ::alignlib::HTreetor ( *makeTreetorDistanceNJ_function_type )(  );
         
         bp::def( 
             "makeTreetorDistanceNJ"
-            , makeTreetorDistanceNJ_function_type( &::alignlib::makeTreetorDistanceNJ )
-            , ( bp::arg("distor") ) );
+            , makeTreetorDistanceNJ_function_type( &::alignlib::makeTreetorDistanceNJ ) );
     
     }
 
@@ -1507,7 +1440,7 @@ void register_free_functions(){
         bp::def( 
             "removeFragments"
             , removeFragments_function_type( &::alignlib::removeFragments )
-            , ( bp::arg("dest"), bp::arg("fragment_length"), bp::arg("min_gap_length"), bp::arg("row_length")=(int const)(-0x000000001) ) );
+            , ( bp::arg("dest"), bp::arg("fragment_length"), bp::arg("min_gap_length"), bp::arg("row_length")=(int const)(-0x00000000000000001) ) );
     
     }
 

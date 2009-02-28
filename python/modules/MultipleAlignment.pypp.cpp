@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_MultipleAlignment_class(){
 
     { //::alignlib::MultipleAlignment
-        typedef bp::class_< alignlib::MultipleAlignment, boost::noncopyable > MultipleAlignment_exposer_t;
+        typedef bp::class_< alignlib::MultipleAlignment, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > MultipleAlignment_exposer_t;
         MultipleAlignment_exposer_t MultipleAlignment_exposer = MultipleAlignment_exposer_t( "MultipleAlignment", bp::no_init );
         bp::scope MultipleAlignment_scope( MultipleAlignment_exposer );
         { //::alignlib::MultipleAlignment::add
@@ -160,6 +160,7 @@ void register_MultipleAlignment_class(){
         }
         MultipleAlignment_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::MultipleAlignment > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::MultipleAlignment >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

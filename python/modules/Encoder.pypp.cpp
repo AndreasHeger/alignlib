@@ -62,7 +62,7 @@ template<class T>
 void register_Encoder_class(){
 
     { //::alignlib::Encoder
-        typedef bp::class_< alignlib::Encoder, boost::noncopyable > Encoder_exposer_t;
+        typedef bp::class_< alignlib::Encoder, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Encoder_exposer_t;
         Encoder_exposer_t Encoder_exposer = Encoder_exposer_t( "Encoder", bp::no_init );
         bp::scope Encoder_scope( Encoder_exposer );
         { //::alignlib::Encoder::countChars
@@ -256,6 +256,7 @@ void register_Encoder_class(){
         }
         Encoder_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Encoder > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Encoder >, boost::shared_ptr< alignlib::AlignlibBase > >();
         Encoder_exposer.def( "save", wrapper_for_save<alignlib::Encoder> );
     }
 

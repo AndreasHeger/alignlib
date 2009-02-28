@@ -18,6 +18,8 @@
 
 #include "modules/AlignatumVector.pypp.hpp"
 
+#include "modules/AlignlibBase.pypp.hpp"
+
 #include "modules/Alignment.pypp.hpp"
 
 #include "modules/AlignmentFormat.pypp.hpp"
@@ -177,6 +179,8 @@ BOOST_PYTHON_MODULE(alignlib){
     register_vector_less__double__greater__class();
 
     register_AlignatumVector_class();
+
+    register_AlignlibBase_class();
 
     register_Alignandum_class();
 

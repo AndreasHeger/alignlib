@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Distor_class(){
 
     { //::alignlib::Distor
-        typedef bp::class_< alignlib::Distor, boost::noncopyable > Distor_exposer_t;
+        typedef bp::class_< alignlib::Distor, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Distor_exposer_t;
         Distor_exposer_t Distor_exposer = Distor_exposer_t( "Distor", bp::no_init );
         bp::scope Distor_scope( Distor_exposer );
         { //::alignlib::Distor::calculateDistance
@@ -63,6 +63,7 @@ void register_Distor_class(){
         }
         Distor_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Distor > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Distor >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

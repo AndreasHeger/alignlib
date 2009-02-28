@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Weightor_class(){
 
     { //::alignlib::Weightor
-        typedef bp::class_< alignlib::Weightor, boost::noncopyable > Weightor_exposer_t;
+        typedef bp::class_< alignlib::Weightor, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Weightor_exposer_t;
         Weightor_exposer_t Weightor_exposer = Weightor_exposer_t( "Weightor", bp::no_init );
         bp::scope Weightor_scope( Weightor_exposer );
         { //::alignlib::Weightor::fillCounts
@@ -43,6 +43,7 @@ void register_Weightor_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Weightor > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Weightor >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

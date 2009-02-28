@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Scorer_class(){
 
     { //::alignlib::Scorer
-        typedef bp::class_< alignlib::Scorer, boost::noncopyable > Scorer_exposer_t;
+        typedef bp::class_< alignlib::Scorer, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Scorer_exposer_t;
         Scorer_exposer_t Scorer_exposer = Scorer_exposer_t( "Scorer", bp::no_init );
         bp::scope Scorer_scope( Scorer_exposer );
         { //::alignlib::Scorer::getClone
@@ -53,6 +53,7 @@ void register_Scorer_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Scorer > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Scorer >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

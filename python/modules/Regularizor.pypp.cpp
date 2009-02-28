@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Regularizor_class(){
 
     { //::alignlib::Regularizor
-        typedef bp::class_< alignlib::Regularizor, boost::noncopyable > Regularizor_exposer_t;
+        typedef bp::class_< alignlib::Regularizor, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Regularizor_exposer_t;
         Regularizor_exposer_t Regularizor_exposer = Regularizor_exposer_t( "Regularizor", bp::no_init );
         bp::scope Regularizor_scope( Regularizor_exposer );
         { //::alignlib::Regularizor::fillFrequencies
@@ -43,6 +43,7 @@ void register_Regularizor_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Regularizor > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Regularizor >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

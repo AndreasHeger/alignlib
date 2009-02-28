@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Fragmentor_class(){
 
     { //::alignlib::Fragmentor
-        typedef bp::class_< alignlib::Fragmentor, boost::noncopyable > Fragmentor_exposer_t;
+        typedef bp::class_< alignlib::Fragmentor, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Fragmentor_exposer_t;
         Fragmentor_exposer_t Fragmentor_exposer = Fragmentor_exposer_t( "Fragmentor", bp::no_init );
         bp::scope Fragmentor_scope( Fragmentor_exposer );
         { //::alignlib::Fragmentor::fragment
@@ -43,6 +43,7 @@ void register_Fragmentor_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Fragmentor > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Fragmentor >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Iterator2D_class(){
 
     { //::alignlib::Iterator2D
-        typedef bp::class_< alignlib::Iterator2D, boost::noncopyable > Iterator2D_exposer_t;
+        typedef bp::class_< alignlib::Iterator2D, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Iterator2D_exposer_t;
         Iterator2D_exposer_t Iterator2D_exposer = Iterator2D_exposer_t( "Iterator2D", bp::no_init );
         bp::scope Iterator2D_scope( Iterator2D_exposer );
         { //::alignlib::Iterator2D::col_back
@@ -153,6 +153,7 @@ void register_Iterator2D_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Iterator2D > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Iterator2D >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

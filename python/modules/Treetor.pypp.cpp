@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Treetor_class(){
 
     { //::alignlib::Treetor
-        typedef bp::class_< alignlib::Treetor, boost::noncopyable > Treetor_exposer_t;
+        typedef bp::class_< alignlib::Treetor, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Treetor_exposer_t;
         Treetor_exposer_t Treetor_exposer = Treetor_exposer_t( "Treetor", bp::no_init );
         bp::scope Treetor_scope( Treetor_exposer );
         { //::alignlib::Treetor::calculateTree
@@ -43,6 +43,7 @@ void register_Treetor_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Treetor > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Treetor >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

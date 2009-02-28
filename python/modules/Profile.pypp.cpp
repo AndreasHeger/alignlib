@@ -33,24 +33,6 @@ void register_Profile_class(){
                 , getFrequencyMatrix_function_type( &::alignlib::Profile::getFrequencyMatrix ) );
         
         }
-        { //::alignlib::Profile::getLogOddor
-        
-            typedef ::alignlib::HLogOddor ( ::alignlib::Profile::*getLogOddor_function_type )(  ) const;
-            
-            Profile_exposer.def( 
-                "getLogOddor"
-                , getLogOddor_function_type( &::alignlib::Profile::getLogOddor ) );
-        
-        }
-        { //::alignlib::Profile::getRegularizor
-        
-            typedef ::alignlib::HRegularizor ( ::alignlib::Profile::*getRegularizor_function_type )(  ) const;
-            
-            Profile_exposer.def( 
-                "getRegularizor"
-                , getRegularizor_function_type( &::alignlib::Profile::getRegularizor ) );
-        
-        }
         { //::alignlib::Profile::getScoreMatrix
         
             typedef ::alignlib::HScoreMatrix ( ::alignlib::Profile::*getScoreMatrix_function_type )(  ) const;
@@ -69,15 +51,6 @@ void register_Profile_class(){
                 , getWeightedCountMatrix_function_type( &::alignlib::Profile::getWeightedCountMatrix ) );
         
         }
-        { //::alignlib::Profile::getWeightor
-        
-            typedef ::alignlib::HWeightor ( ::alignlib::Profile::*getWeightor_function_type )(  ) const;
-            
-            Profile_exposer.def( 
-                "getWeightor"
-                , getWeightor_function_type( &::alignlib::Profile::getWeightor ) );
-        
-        }
         { //::alignlib::Profile::resize
         
             typedef void ( ::alignlib::Profile::*resize_function_type )( ::alignlib::Position ) ;
@@ -88,39 +61,9 @@ void register_Profile_class(){
                 , ( bp::arg("length") ) );
         
         }
-        { //::alignlib::Profile::setLogOddor
-        
-            typedef void ( ::alignlib::Profile::*setLogOddor_function_type )( ::alignlib::HLogOddor const & ) ;
-            
-            Profile_exposer.def( 
-                "setLogOddor"
-                , setLogOddor_function_type( &::alignlib::Profile::setLogOddor )
-                , ( bp::arg("logoddor") ) );
-        
-        }
-        { //::alignlib::Profile::setRegularizor
-        
-            typedef void ( ::alignlib::Profile::*setRegularizor_function_type )( ::alignlib::HRegularizor const & ) ;
-            
-            Profile_exposer.def( 
-                "setRegularizor"
-                , setRegularizor_function_type( &::alignlib::Profile::setRegularizor )
-                , ( bp::arg("regularizor") ) );
-        
-        }
-        { //::alignlib::Profile::setWeightor
-        
-            typedef void ( ::alignlib::Profile::*setWeightor_function_type )( ::alignlib::HWeightor const & ) ;
-            
-            Profile_exposer.def( 
-                "setWeightor"
-                , setWeightor_function_type( &::alignlib::Profile::setWeightor )
-                , ( bp::arg("weightor") ) );
-        
-        }
         Profile_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Profile > >();
-        bp::implicitly_convertible< boost::shared_ptr< alignlib::Profile >, boost::shared_ptr< alignlib::Alignandum > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Profile >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }

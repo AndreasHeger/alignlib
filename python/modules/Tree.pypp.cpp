@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_Tree_class(){
 
     { //::alignlib::Tree
-        typedef bp::class_< alignlib::Tree, boost::noncopyable > Tree_exposer_t;
+        typedef bp::class_< alignlib::Tree, bp::bases< alignlib::AlignlibBase >, boost::noncopyable > Tree_exposer_t;
         Tree_exposer_t Tree_exposer = Tree_exposer_t( "Tree", bp::no_init );
         bp::scope Tree_scope( Tree_exposer );
         { //::alignlib::Tree::findLastParent
@@ -236,6 +236,7 @@ void register_Tree_class(){
         }
         Tree_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Tree > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Tree >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 
 }
