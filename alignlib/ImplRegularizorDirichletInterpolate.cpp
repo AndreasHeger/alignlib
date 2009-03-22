@@ -66,19 +66,15 @@ namespace alignlib
 #define SCALE_FACTOR_3 10
 #define STEP_SIZE_3 0.1
 
-static double * gamma_array_1;
-static double * gamma_array_2;
-static double * gamma_array_3;
+static double gamma_array_1[N_ELEMENTS_1];
+static double gamma_array_2[N_ELEMENTS_2];
+static double gamma_array_3[N_ELEMENTS_3];
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplRegularizorDirichletInterpolate::ImplRegularizorDirichletInterpolate ( WeightedCount fade_cutoff ) :
 	ImplRegularizorDirichlet( fade_cutoff ) {
 
   // precompute the gamma-values:
-    gamma_array_1 = new double[N_ELEMENTS_1];
-    gamma_array_2 = new double[N_ELEMENTS_2];
-    gamma_array_3 = new double[N_ELEMENTS_3];
-
   int i;
 
   // array 1
