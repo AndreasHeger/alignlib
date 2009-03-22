@@ -76,8 +76,8 @@ static double a[NCOMPONENTS][ALPHABET_SIZE] =
 				0.001473, 0.004158, 0.009055, 0.00363,  0.006583, 0.003172, 0.00369, 0.002967,  0.002772, 0.002686 }
 };
 
-static double * precomputed_lgamma_wa_j;	/* lgamma( wa_j), index is [j] */
-static double * precomputed_sum_lgamma_a_j;	/* sum_i(lgamma(a_ji)), index is [j] */
+static double precomputed_lgamma_wa_j[NCOMPONENTS];	/* lgamma( wa_j), index is [j] */
+static double precomputed_sum_lgamma_a_j[NCOMPONENTS];	/* sum_i(lgamma(a_ji)), index is [j] */
 
 IMPLEMENT_CLONE( HRegularizor, ImplRegularizorDirichlet );
 
@@ -124,13 +124,10 @@ ImplRegularizorDirichlet::ImplRegularizorDirichlet ( const WeightedCount & fade_
 	}
 
 	// lgamma(wa_j)
-	precomputed_lgamma_wa_j = new double[NCOMPONENTS];
 	for (j = 0; j < NCOMPONENTS; j++)
 		precomputed_lgamma_wa_j[j] = lgamma( mWa[j] );
 
 	// sum_lgamma_a_j
-	precomputed_sum_lgamma_a_j = new double[NCOMPONENTS];
-
 	for (j = 0; j < NCOMPONENTS; j++) {
 		precomputed_sum_lgamma_a_j[j] = 0;
 		for (i = 0; i < ALPHABET_SIZE; i++ )
