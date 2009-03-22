@@ -244,9 +244,31 @@ def exportInterfaceClasses( mb ):
     
     These classes can not instantiated directly from python.
     """
-    classes_to_export = set( ['AlignlibBase',
-                              'Toolkit',
-    						  'Alignandum',
+
+    # do not add AlignlibBase. Adding it causes
+    # problems with get/set/cloneToolkit. The warning is
+    #
+    # WARNING: alignlib::Fragmentor [class]
+    # > warning W1023: Py++ will generate class wrapper - there are few functions that should be redefined in class wrapper. The functions are: getToolkit.
+    # Later, compilation will fail with:
+    # /usr/include/boost/python/object/value_holder.hpp: At global scope:                                                                                                                                            
+    # /usr/include/boost/python/object/value_holder.hpp: In instantiation of boost::python::objects::value_holder<Fragmentor_wrapper>:
+    # /usr/include/boost/type_traits/alignment_of.hpp:52:   instantiated from 'const size_t boost::detail::alignment_of_impl<boost::python::objects::value_holder<Fragmentor_wrapper> >::value'
+    # /usr/include/boost/type_traits/alignment_of.hpp:61:   instantiated from 'boost::alignment_of<boost::python::objects::value_holder<Fragmentor_wrapper> >'                      
+    # /usr/include/boost/python/object/instance.hpp:30:   instantiated from 'boost::python::objects::instance<boost::python::objects::value_holder<Fragmentor_wrapper> >'                                            
+    # /usr/include/boost/python/object/instance.hpp:44:   instantiated from 'const size_t boost::python::objects::additional_instance_size<boost::python::objects::value_holder<Fragmentor_wrapper> >::value'        
+    # /usr/include/boost/python/class.hpp:499:   instantiated from 'void boost::python::class_<T, X1, X2, X3>::initialize(const DefVisitor&) [with DefVisitor = boost::python::init<mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_>, W = Fragmentor_wrapper, X1 = boost::python::bases<alignlib::AlignlibBase, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_>, X2 = boost::noncopyable_::noncopyable, X3 = boost::python::detail::not_specified]'                                                                                                                                                                                        
+    # /usr/include/boost/python/class.hpp:629:   instantiated from 'boost::python::class_<T, X1, X2, X3>::class_(const char*, const char*) [with W = Fragmentor_wrapper, X1 = boost::python::bases<alignlib::AlignlibBase, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_, mpl_::void_>, X2 = boost::noncopyable_::noncopyable, X3 = boost::python::detail::not_specified]' 
+    # modules/Fragmentor.pypp.cpp:43:   instantiated from here                                                                                                                                                       
+    # /usr/include/boost/python/object/value_holder.hpp:66: error: cannot declare field 'boost::python::objects::value_holder<Fragmentor_wrapper>::m_held' to be of abstract type 'Fragmentor_wrapper'               
+    # modules/Fragmentor.pypp.cpp:11: note:   because the following virtual functions are pure within 'Fragmentor_wrapper':                                                                                          
+    # ../alignlib/Fragmentor.h:63: note:      virtual alignlib::HFragmentor alignlib::Fragmentor::getClone() const                                                                                                   
+    # ../alignlib/Fragmentor.h:63: note:      virtual alignlib::HFragmentor alignlib::Fragmentor::getNew() const                                                                                                     
+    # ../alignlib/Fragmentor.h:72: note:      virtual alignlib::HFragmentVector alignlib::Fragmentor::fragment(alignlib::HAlignment&, const alignlib::HAlignandum&, const alignlib::HAlignandum&)                    
+    # error: command 'gcc' failed with exit status 1
+    classes_to_export = set( [ 'AlignlibBase',
+                               'Toolkit',
+                              'Alignandum',
                               'Sequence',
                               'Profile',
                               'MultipleAlignment',
@@ -286,16 +308,16 @@ def exportInterfaceClasses( mb ):
                                               "operator*", "operator->", 
                                               "operator()", "operator[]") ).exclude()
 
-    mb.member_functions( lambda x: x.name == "getToolkit").exclude() 
-    mb.member_functions( lambda x: x.name == "setToolkit").exclude() 
-    mb.member_functions( lambda x: x.name == "cloneToolkit").exclude() 
+    # mb.member_functions( lambda x: x.name == "getToolkit").exclude() 
+    # mb.member_functions( lambda x: x.name == "setToolkit").exclude() 
+    # mb.member_functions( lambda x: x.name == "cloneToolkit").exclude() 
 
     ## do not export the internal iterator interfaces. This makes Alignment
     ## virtual and the wrapper will cause compilation to fail.
     mb.classes( lambda x: x.name in ("Iterator", "ConstIterator")).exclude()
 
     ## see http://article.gmane.org/gmane.comp.python.c++/10177
-    ## this is used to remove the wrapper classes for purely virtual classes.
+    ## The following code is used to remove the wrapper classes for purely virtual classes.
     for c in classes_to_export:
         cls = mb.class_( c )
         ## remove virtual member functions. This will result in a class to be
@@ -308,7 +330,6 @@ def exportInterfaceClasses( mb ):
                              decl_type=declarations.calldef.member_calldef_t,
                              allow_empty=True)
         members.set_virtuality( declarations.VIRTUALITY_TYPES.NOT_VIRTUAL )
-
         ## do not wrap constructors, because compilation will fail for
         ## abstract classes.
         try:

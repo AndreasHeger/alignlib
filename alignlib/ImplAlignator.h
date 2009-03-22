@@ -30,6 +30,7 @@
 
 #include "alignlib_fwd.h"
 #include "Alignator.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -43,7 +44,7 @@ namespace alignlib
      @version $Id: ImplAlignator.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
   */
 
-  class ImplAlignator : public Alignator
+  class ImplAlignator : public Alignator, public ImplAlignlibBase
     {
       /* class member functions-------------------------------------------------------------- */
     public:

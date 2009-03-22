@@ -31,6 +31,7 @@
 #include "alignlib_fwd.h"
 #include "LogOddor.h"
 #include "Macros.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -46,7 +47,7 @@ namespace alignlib
 
   */
 
-class ImplLogOddor : public LogOddor
+class ImplLogOddor : public LogOddor, public ImplAlignlibBase
 {
  public:
     // constructors and desctructors

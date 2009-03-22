@@ -20,19 +20,20 @@
 
 #include "alignlib_fwd.h"
 #include "Tree.h"
+#include "ImplAlignlibBase.h"
 
 // define new tags for our graphs attributes
 // this has to go into the main namespace:
-// enum vertex_predecessor_t	{ vertex_predecessor  = 300 };  
+// enum vertex_predecessor_t	{ vertex_predecessor  = 300 };
 
-namespace alignlib 
+namespace alignlib
 {
-/** 
+/**
     Base class for trees.
 
     Trees are of course graphs. As such, they can be implemented using graph
     libraries (e.g., LEDA), or they can be implemented from scratch. If time
-    permits, I will offer both choices. 
+    permits, I will offer both choices.
 
     A tree is a weighted graph. Since it has a top node (root), each node has
     a height, which is a function of the weights of its children.
@@ -46,9 +47,9 @@ namespace alignlib
 
 #define NO_NODE 999999
 
-struct NODE_INFO 
+struct NODE_INFO
 {
-  NODE_INFO() : 
+  NODE_INFO() :
     mLeftChild(NO_NODE), mRightChild(NO_NODE), mParent(NO_NODE),
     mNumChildren(0), mWeight(0), mHeight(0) {};
   Node mLeftChild;
@@ -59,15 +60,15 @@ struct NODE_INFO
   TreeHeight mHeight;
 };
 
-class ImplTree : public Tree 
+class ImplTree : public Tree, public ImplAlignlibBase
 {
-  
+
   /* friends---------------------------------------------------------------------------- */
   friend std::ostream & operator<<( std::ostream &, const ImplTree &);
 
   /* class member functions-------------------------------------------------------------- */
  public:
-  
+
   /* constructors and desctructors------------------------------------------------------- */
   /** empty constructor */
   ImplTree ();
@@ -77,24 +78,24 @@ class ImplTree : public Tree
 
   /** copy constructor */
   ImplTree (const ImplTree & src);
-  
+
   /** destructor */
   virtual ~ImplTree ();
 
   //------------------------------------------------------------------------------------------------------------
   /** return a new object of the same type */
   virtual HTree getNew() const;
-  
+
   /** return an identical copy */
   virtual HTree getClone() const;
-  
+
   /* member access functions--------------------------------------------------------------- */
 
   /** returns the number of leaves */
   virtual Node getNumLeaves() const;
 
-  /** sets the number of leaves. This erases the Tree and allocates memory 
-      for a new one with num_leaves leaves */  
+  /** sets the number of leaves. This erases the Tree and allocates memory
+      for a new one with num_leaves leaves */
   virtual void setNumLeaves( unsigned int num_leaves );
 
   /** set the height of a vertex */
@@ -111,7 +112,7 @@ class ImplTree : public Tree
 
   /** returns the empty node */
   virtual Node getNoNode() const;
-  
+
   /** returns the root */
   virtual Node getRoot() const;
 
@@ -130,15 +131,15 @@ class ImplTree : public Tree
   /** returns a vector of leaves nodes */
   virtual HNodeVector getNodesLeaves() const;
 
-  /** returns a vector of nodes sorted according to breadth-first-traversal, 
+  /** returns a vector of nodes sorted according to breadth-first-traversal,
    * first encounter */
   virtual HNodeVector getNodesBreadthFirstVisit() const;
 
-  /** returns a vector of nodes sorted according to depth-first-traversal, 
+  /** returns a vector of nodes sorted according to depth-first-traversal,
    * first encounter */
   virtual HNodeVector getNodesDepthFirstVisit() const;
 
-  /** returns a vector of nodes sorted according to depth-first-traversal, 
+  /** returns a vector of nodes sorted according to depth-first-traversal,
    * last encounter */
   virtual HNodeVector getNodesDepthFirstFinish() const;
 
@@ -147,7 +148,7 @@ class ImplTree : public Tree
   virtual void removeRoot();
 
   /** sets the root */
-  virtual Node setRoot( const Node node_1, 
+  virtual Node setRoot( const Node node_1,
 			     const Node node_2,
 			     TreeWeight weight ) ;
 
@@ -155,7 +156,7 @@ class ImplTree : public Tree
   virtual Node findLastParent( const Node node ) const;
 
   /** Add a node to a tree for bottom-up construction, i.e. a construction which starts by
-      joining leaves. This function returns a reference to the internal node that was just 
+      joining leaves. This function returns a reference to the internal node that was just
       created from two already existing nodes.
 
       @param node_1	node which is joined
@@ -163,17 +164,17 @@ class ImplTree : public Tree
       @param weight_1	weight of edge 1 to new internal node
       @param weight_2	weight of edge 2 to new internal node
   */
-  virtual Node joinNodes( 
-		  const Node node_1, 
+  virtual Node joinNodes(
+		  const Node node_1,
 		  const Node node_2,
-		  const TreeWeight weight_1, 
+		  const TreeWeight weight_1,
 		  const TreeWeight weight_2 );
 
 
   virtual void write( std::ostream & output ) const;
-  
+
  private:
-  
+
   /** number of leaves in the tree */
   int mNumLeaves;
 
@@ -185,7 +186,7 @@ class ImplTree : public Tree
 
   /** mark Leaves, i.e. set number of children for each leaf as one */
   virtual void recordLeaves() ;
-  
+
   /** helper function for recursive postorder traversal */
   void traversePostOrder( Node node, HNodeVector & nodes) const;
 

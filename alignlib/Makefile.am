@@ -20,7 +20,7 @@ pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			AlignlibDebug.h \
 			AlignlibMethods.h \
 			AlignlibIndex.h \
-			AlignlibBase.h \
+			AlignlibBase.h ImplAlignlibBase.h \
 			Matrix.h \
 			Segment.h \
 			$(HEADERS_ALIGNATOR) \
@@ -125,7 +125,7 @@ HEADERS_MULTIPLE_ALIGNATOR= HelpersMultipleAlignator.h \
 PARTS = AlignlibException.cpp \
 			AlignlibDebug.cpp \
 			AlignlibDefault.cpp \
-			AlignlibBase.cpp \
+			AlignlibBase.cpp ImplAlignlibBase.cpp \
 			$(PARTS_TOOLKIT) \
 			$(PARTS_ALIGNATOR) \
 			$(PARTS_ITERATOR) \

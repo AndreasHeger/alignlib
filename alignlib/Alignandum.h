@@ -50,7 +50,7 @@ namespace alignlib
     @version $Id: Alignandum.h,v 1.2 2004/01/07 14:35:31 aheger Exp $
  */
 
-class Alignandum : public AlignlibBase
+class Alignandum : public virtual AlignlibBase
 {
 	/* friends ---------------------------------------------------------------------------- */
 	friend  std::ostream & operator<<( std::ostream &, const Alignandum &);

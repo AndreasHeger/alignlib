@@ -46,7 +46,7 @@ namespace alignlib
 
   */
 
-class LogOddor : public AlignlibBase
+class LogOddor : public virtual AlignlibBase
 {
 
  public:

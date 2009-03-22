@@ -25,14 +25,15 @@
  * Defines all the classes, types, interfaces and functions.
  */
 
-#ifndef ALIGNLIBBASE_H_
-#define ALIGNLIBBASE_H_
+#ifndef IMPLALIGNLIBBASE_H_
+#define IMPLALIGNLIBBASE_H_
 
 #if HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include "alignlib_fwd.h"
+#include "AlignlibBase.h"
 
 namespace alignlib
 {
@@ -40,35 +41,40 @@ namespace alignlib
 /** common interface definition for all classes in
  * alignlib
  */
-class AlignlibBase
+class ImplAlignlibBase : public virtual AlignlibBase
 {
 public:
 	/** constructor */
-	AlignlibBase();
+	ImplAlignlibBase();
 
 	/** destructor */
-	virtual ~AlignlibBase();
+	virtual ~ImplAlignlibBase();
 
 	/** set the toolkit used by this object
 	 *
 	 * @param toolkit toolkit to use
 	 */
-	virtual void setToolkit( const HToolkit & toolkit) = 0;
+	virtual void setToolkit( const HToolkit & toolkit);
 
 	/** clone the toolkit used by this object such that it
 	 * is private.
 	 *
 	 */
-	virtual void cloneToolkit() = 0;
+	virtual void cloneToolkit();
 
 	/** set the toolkit used by this object
 	 *
 	 * @param toolkit toolkit to use
 	 */
-	virtual HToolkit getToolkit() const = 0;
+	virtual HToolkit getToolkit() const;
+
+private:
+
+	/** handle to toolkit */
+	HToolkit mToolkit;
 
 };
 
 }
 
-#endif /* ALIGNLIBBASE_H_ */
+#endif /* ImplAlignlibBase_H_ */

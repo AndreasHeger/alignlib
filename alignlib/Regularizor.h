@@ -47,7 +47,7 @@ namespace alignlib
 
   */
 
-class Regularizor : public AlignlibBase
+class Regularizor : public virtual AlignlibBase
 {
  public:
     // constructors and desctructors

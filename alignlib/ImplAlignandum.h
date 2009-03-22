@@ -32,6 +32,7 @@
 #include <vector>
 #include "alignlib_fwd.h"
 #include "Alignandum.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -49,7 +50,7 @@ namespace alignlib
     @short protocol class of alignable objects
 */
 
-class ImplAlignandum : public virtual Alignandum
+class ImplAlignandum : public virtual Alignandum, public ImplAlignlibBase
 {
     /* friends ---------------------------------------------------------------------------- */
     friend  std::ostream & operator<<( std::ostream &, const ImplAlignandum &);

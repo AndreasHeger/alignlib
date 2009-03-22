@@ -97,7 +97,7 @@ private:
    @author Andreas Heger
    @version $Id: Fragmentor.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
-class Iterator2D : public AlignlibBase
+class Iterator2D : public virtual AlignlibBase
 {
 
 public:

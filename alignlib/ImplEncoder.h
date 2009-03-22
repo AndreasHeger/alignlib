@@ -31,6 +31,7 @@
 #include "alignlib_fwd.h"
 #include "Encoder.h"
 #include "Macros.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -47,7 +48,7 @@ namespace alignlib
     @author Andreas Heger
     @version $Id: ImplEncoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplEncoder : public Encoder
+class ImplEncoder : public Encoder, public ImplAlignlibBase
 {
 
 	// class member functions

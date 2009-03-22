@@ -16,9 +16,9 @@
 #define IMPL_TREETOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 
 #include "Treetor.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {

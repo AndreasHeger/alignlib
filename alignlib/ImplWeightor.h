@@ -32,6 +32,7 @@
 
 #include "Weightor.h"
 #include "Macros.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -44,7 +45,7 @@ namespace alignlib
     @author Andreas Heger
     @version $Id: ImplWeightor.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplWeightor : public Weightor
+class ImplWeightor : public Weightor, public ImplAlignlibBase
 {
  public:
     // constructors and desctructors

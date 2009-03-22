@@ -11,7 +11,7 @@ namespace bp = boost::python;
 void register_MatrixDouble_class(){
 
     { //::alignlib::Matrix< double >
-        typedef bp::class_< alignlib::Matrix< double >, bp::bases< alignlib::AlignlibBase > > MatrixDouble_exposer_t;
+        typedef bp::class_< alignlib::Matrix< double > > MatrixDouble_exposer_t;
         MatrixDouble_exposer_t MatrixDouble_exposer = MatrixDouble_exposer_t( "MatrixDouble", bp::init< unsigned int, unsigned int, bp::optional< double > >(( bp::arg("r"), bp::arg("c"), bp::arg("default_value")=0 )) );
         bp::scope MatrixDouble_scope( MatrixDouble_exposer );
         MatrixDouble_exposer.def( bp::init< alignlib::Matrix< double > const & >(( bp::arg("src") )) );
@@ -113,6 +113,7 @@ void register_MatrixDouble_class(){
         
         }
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Matrix<double> > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Matrix< double > >, boost::shared_ptr< alignlib::ImplAlignlibBase > >();
         bp::implicitly_convertible< boost::shared_ptr< alignlib::Matrix< double > >, boost::shared_ptr< alignlib::AlignlibBase > >();
     }
 

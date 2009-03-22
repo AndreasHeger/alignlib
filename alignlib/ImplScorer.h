@@ -30,13 +30,13 @@
 
 #include "alignlib_fwd.h"
 #include "Scorer.h"
+#include "ImplAlignlibBase.h"
+
 namespace alignlib
 {
 
-  class Alignandum;
-
   //----------------------------------------------------------------
-  class ImplScorer : public Scorer
+  class ImplScorer : public Scorer, public ImplAlignlibBase
     {
     public:
 

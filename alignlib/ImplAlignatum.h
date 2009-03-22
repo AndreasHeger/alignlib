@@ -31,6 +31,7 @@
 #include <string>
 #include "alignlib_fwd.h"
 #include "Alignatum.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -40,7 +41,7 @@ namespace alignlib
     @author Andreas Heger
     @version $Id: ImplAlignatum.h,v 1.5 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplAlignatum : public Alignatum
+class ImplAlignatum : public Alignatum, public ImplAlignlibBase
 {
  public:
     // constructors and desctructors

@@ -57,7 +57,7 @@ namespace alignlib
    @author Andreas Heger
    @version $Id: Encoder.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class Encoder : public AlignlibBase
+class Encoder : public virtual AlignlibBase
 {
 	friend std::ostream & operator<<(std::ostream &output, const Encoder &);
 

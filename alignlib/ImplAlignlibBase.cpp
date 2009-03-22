@@ -1,7 +1,7 @@
 /*
   alignlib - a library for aligning protein sequences
 
-  $Id: AlignlibBase.cpp,v 1.2 2004/01/07 14:35:31 aheger Exp $
+  $Id: ImplAlignlibBase.cpp,v 1.2 2004/01/07 14:35:31 aheger Exp $
 
   Copyright (C) 2004 Andreas Heger
 
@@ -23,7 +23,7 @@
 
 
 #include <iostream>
-#include "AlignlibBase.h"
+#include "ImplAlignlibBase.h"
 #include "AlignlibDebug.h"
 #include "HelpersToolkit.h"
 #include "Toolkit.h"
@@ -33,15 +33,32 @@ using namespace std;
 namespace alignlib
 {
 
-AlignlibBase::AlignlibBase()
+ImplAlignlibBase::ImplAlignlibBase() : mToolkit( getDefaultToolkit() )
 {
 	debug_func_cerr(5);
 }
 
-AlignlibBase::~AlignlibBase()
+ImplAlignlibBase::~ImplAlignlibBase()
 {
 	debug_func_cerr(5);
 };
 
+void ImplAlignlibBase::setToolkit( const HToolkit & toolkit)
+{
+	debug_func_cerr(5);
+	mToolkit = toolkit;
+}
+
+HToolkit ImplAlignlibBase::getToolkit() const
+{
+	debug_func_cerr(5);
+	return mToolkit;
+}
+
+void ImplAlignlibBase::cloneToolkit()
+{
+	debug_func_cerr(5);
+	mToolkit = mToolkit->getClone();
+}
 
 } // namespace alignlib

@@ -29,7 +29,7 @@
 #define IMPL_REGULARIZOR_DIRICHLET_H 1
 
 #include "alignlib_fwd.h"
-#include "Regularizor.h"
+#include "ImplRegularizor.h"
 
 namespace alignlib
 {
@@ -51,7 +51,7 @@ namespace alignlib
 
   */
 
-class ImplRegularizorDirichlet : public Regularizor
+class ImplRegularizorDirichlet : public ImplRegularizor
 {
  public:
     // constructors and desctructors

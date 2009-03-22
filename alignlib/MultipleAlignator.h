@@ -58,7 +58,7 @@ namespace alignlib
        @see Alignandum
        @see Alignment
   */
-  class MultipleAlignator : public AlignlibBase
+  class MultipleAlignator : public virtual AlignlibBase
     {
       /* class member functions-------------------------------------------------------------- */
 

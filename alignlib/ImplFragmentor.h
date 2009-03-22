@@ -31,6 +31,7 @@
 #include "alignlib_fwd.h"
 #include "Fragmentor.h"
 #include "Alignment.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -45,7 +46,7 @@ namespace alignlib
    @author Andreas Heger
    @version $Id: ImplFragmentor.h,v 1.3 2004/03/19 18:23:41 aheger Exp $
 */
-class ImplFragmentor : public Fragmentor
+class ImplFragmentor : public Fragmentor, public ImplAlignlibBase
 {
   /* class member functions-------------------------------------------------------------- */
  public:

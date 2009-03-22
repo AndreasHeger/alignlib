@@ -34,7 +34,7 @@
 #include <algorithm>
 #include <boost/shared_ptr.hpp>
 #include "Macros.h"
-#include "AlignlibBase.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -48,7 +48,7 @@ namespace alignlib
 	 */
 
 template <class T>
-class Matrix : public AlignlibBase
+class Matrix : public ImplAlignlibBase
 {
 
 	typedef typename boost::shared_ptr< Matrix<T> >HMatrix;
@@ -67,7 +67,7 @@ public:
 
 	/** copy constructor.
 	 */
-	Matrix (const Matrix <T>& src) : AlignlibBase(src),
+	Matrix (const Matrix <T>& src) : ImplAlignlibBase(src),
 		mRows(src.mRows), mCols(src.mCols), mSize(src.mSize)
 		{
 		mMatrix  = new T [mSize];

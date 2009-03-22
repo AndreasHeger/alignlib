@@ -17,8 +17,8 @@
 #define IMPL_DISTOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "Distor.h"
+#include "ImplAlignlibBase.h"
 
 /**
    base class for methods calculating distance matrices from
@@ -33,7 +33,7 @@
 namespace alignlib
 {
 
-class ImplDistor : public Distor
+class ImplDistor : public Distor, public ImplAlignlibBase
 {
 
  public:

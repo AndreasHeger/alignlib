@@ -33,7 +33,7 @@ namespace alignlib
    @version $Id: Matrix.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
 */
 
-class DistanceMatrix : public AlignlibBase
+class DistanceMatrix : public virtual AlignlibBase
 {
   /* friends---------------------------------------------------------------------------- */
   friend std::ostream & operator<<( std::ostream &, const DistanceMatrix &);

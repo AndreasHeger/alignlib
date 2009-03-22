@@ -121,7 +121,7 @@ bool operator!=( const ResiduePair & x, const ResiduePair & y);
 
  */
 
-class Alignment : public AlignlibBase
+class Alignment : public virtual AlignlibBase
 {
 	friend std::ostream & operator<<(std::ostream &output, const Alignment &);
 

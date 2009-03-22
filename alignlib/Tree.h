@@ -39,7 +39,7 @@ namespace alignlib
     @version $Id: Tree.h,v 1.3 2004/06/02 12:14:35 aheger Exp $
 */
 
-class Tree : public AlignlibBase
+class Tree : public virtual AlignlibBase
 {
 
   /* friends---------------------------------------------------------------------------- */

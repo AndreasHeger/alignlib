@@ -11,9 +11,37 @@ namespace bp = boost::python;
 void register_AlignlibBase_class(){
 
     { //::alignlib::AlignlibBase
-        typedef bp::class_< alignlib::AlignlibBase > AlignlibBase_exposer_t;
-        AlignlibBase_exposer_t AlignlibBase_exposer = AlignlibBase_exposer_t( "AlignlibBase" );
+        typedef bp::class_< alignlib::AlignlibBase, boost::noncopyable > AlignlibBase_exposer_t;
+        AlignlibBase_exposer_t AlignlibBase_exposer = AlignlibBase_exposer_t( "AlignlibBase", bp::no_init );
         bp::scope AlignlibBase_scope( AlignlibBase_exposer );
+        { //::alignlib::AlignlibBase::cloneToolkit
+        
+            typedef void ( ::alignlib::AlignlibBase::*cloneToolkit_function_type )(  ) ;
+            
+            AlignlibBase_exposer.def( 
+                "cloneToolkit"
+                , cloneToolkit_function_type( &::alignlib::AlignlibBase::cloneToolkit ) );
+        
+        }
+        { //::alignlib::AlignlibBase::getToolkit
+        
+            typedef ::alignlib::HToolkit ( ::alignlib::AlignlibBase::*getToolkit_function_type )(  ) const;
+            
+            AlignlibBase_exposer.def( 
+                "getToolkit"
+                , getToolkit_function_type( &::alignlib::AlignlibBase::getToolkit ) );
+        
+        }
+        { //::alignlib::AlignlibBase::setToolkit
+        
+            typedef void ( ::alignlib::AlignlibBase::*setToolkit_function_type )( ::alignlib::HToolkit const & ) ;
+            
+            AlignlibBase_exposer.def( 
+                "setToolkit"
+                , setToolkit_function_type( &::alignlib::AlignlibBase::setToolkit )
+                , ( bp::arg("toolkit") ) );
+        
+        }
     }
 
 }

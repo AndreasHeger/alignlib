@@ -20,6 +20,7 @@
 #include "alignlib_fwd.h"
 #include "ImplTreetor.h"
 #include "Macros.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -35,7 +36,7 @@ namespace alignlib
    @short contains a matrix
 */
 
-class ImplTreetorDistance : public ImplTreetor
+class ImplTreetorDistance : public ImplTreetor, public ImplAlignlibBase
 {
 
   /* class member functions-------------------------------------------------------------- */

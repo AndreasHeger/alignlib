@@ -54,7 +54,7 @@ namespace alignlib
     @author Andreas Heger
     @version $Id: MultAlignment.h,v 1.6 2004/09/16 16:02:38 aheger Exp $
 */
-class MultAlignment : public AlignlibBase
+class MultAlignment : public virtual AlignlibBase
 {
 
     friend std::ostream & operator<<( std::ostream &, const MultAlignment &);

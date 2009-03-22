@@ -50,7 +50,7 @@ namespace alignlib
 	*/
 
 	//----------------------------------------------------------------
-  class Scorer : public AlignlibBase
+  class Scorer : public virtual AlignlibBase
   {
     public:
 

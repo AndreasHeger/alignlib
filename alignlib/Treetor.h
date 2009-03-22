@@ -31,7 +31,7 @@ namespace alignlib
    @version $Id: Treetor.h,v 1.1.1.1 2002/07/08 21:20:17 heger Exp $
    @short Algorithm class that generates trees.
 */
-class Treetor : public AlignlibBase
+class Treetor : public virtual AlignlibBase
 {
 
   /* class member functions-------------------------------------------------------------- */

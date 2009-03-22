@@ -46,7 +46,7 @@ namespace alignlib
    @version $Id: Fragmentor.h,v 1.3 2004/03/19 18:23:40 aheger Exp $
 */
 
-class Fragmentor : public AlignlibBase
+class Fragmentor : public virtual AlignlibBase
 {
   /* class member functions-------------------------------------------------------------- */
  public:

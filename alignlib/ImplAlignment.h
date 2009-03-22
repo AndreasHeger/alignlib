@@ -30,6 +30,7 @@
 #include <iosfwd>
 #include "alignlib_fwd.h"
 #include "Alignment.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -45,7 +46,7 @@ namespace alignlib
       @short basic implementation class for aligned objects
   */
 
-class ImplAlignment : public Alignment
+class ImplAlignment : public Alignment, public ImplAlignlibBase
 {
 
  public:

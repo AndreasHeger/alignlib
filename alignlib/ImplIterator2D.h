@@ -31,11 +31,12 @@
 #include "alignlib_fwd.h"
 
 #include "Iterator2D.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
 
-  class ImplIterator2D : public Iterator2D
+  class ImplIterator2D : public Iterator2D, public ImplAlignlibBase
     {
     public:
 

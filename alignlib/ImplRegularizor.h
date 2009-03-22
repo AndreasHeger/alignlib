@@ -29,8 +29,8 @@
 #define IMPL_REGULARIZOR_H 1
 
 #include "alignlib_fwd.h"
-#include "alignlib_fwd.h"
 #include "Regularizor.h"
+#include "ImplAlignlibBase.h"
 
 namespace alignlib
 {
@@ -43,7 +43,7 @@ namespace alignlib
 
   */
 
-class ImplRegularizor : public Regularizor
+class ImplRegularizor : public Regularizor, public ImplAlignlibBase
 {
  public:
     // constructors and desctructors

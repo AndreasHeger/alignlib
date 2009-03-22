@@ -76,7 +76,7 @@ namespace alignlib
        @see Alignandum
        @see Alignment
   */
-  class Alignator : public AlignlibBase
+  class Alignator : public virtual AlignlibBase
     {
       /* class member functions-------------------------------------------------------------- */
 
