@@ -145,9 +145,6 @@ ImplRegularizorDirichlet::ImplRegularizorDirichlet ( const WeightedCount & fade_
 ImplRegularizorDirichlet::~ImplRegularizorDirichlet ()
 {
 	debug_func_cerr(5);
-
-	delete [] precomputed_sum_lgamma_a_j;
-	delete [] precomputed_lgamma_wa_j;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------

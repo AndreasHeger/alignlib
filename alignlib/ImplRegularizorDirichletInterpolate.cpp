@@ -138,9 +138,6 @@ ImplRegularizorDirichletInterpolate::~ImplRegularizorDirichletInterpolate () {
     cout << "of which where hits in array 3:" << total_hits_3 << " ("  <<((double)total_hits_3 / (double)total_lookups * 100.0) << "%)" << endl;
 #endif
 
-    delete [] gamma_array_1;
-    delete [] gamma_array_2;
-    delete [] gamma_array_3;
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
