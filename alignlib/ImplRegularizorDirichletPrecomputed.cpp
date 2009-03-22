@@ -45,9 +45,10 @@ typedef double TYPE_WA_COLUMN[NCOMPONENTS];
 #define MAX_N		1000		// i.e precomputed for 1000 observations per column
 #define MAX_N_TOTAL	5000		// i.e precomputed for 5000 observations in total
 
-static Score_A_JI * precomputed_a_jin; /* lgamma(a_ji + 0..n), index is [n][j][i] */
-
-static TYPE_WA_COLUMN * precomputed_wa_jn; /* lgamma(wa_j + 0..n), index is [n][j] */
+// do not use statically allocated memory on heap
+// as it causes problems with multi-threading
+static Score_A_JI precomputed_a_jin[MAX_N]; /* lgamma(a_ji + 0..n), index is [n][j][i] */
+static TYPE_WA_COLUMN precomputed_wa_jn[MAX_N_TOTAL * ALPHABET_SIZE]; /* lgamma(wa_j + 0..n), index is [n][j] */
 
     /** Assuming that counts are non-fractional, the following values can be precomputed:
 	n = maximum number of observations for precomputation
@@ -62,31 +63,27 @@ static TYPE_WA_COLUMN * precomputed_wa_jn; /* lgamma(wa_j + 0..n), index is [n][
 
 //---------------------------------------------------------< constructors and destructors >--------------------------------------
 ImplRegularizorDirichletPrecomputed::ImplRegularizorDirichletPrecomputed ( WeightedCount fade_cutoff ) :
-	ImplRegularizorDirichlet( fade_cutoff ) {
+	ImplRegularizorDirichlet( fade_cutoff )
+{
 
     int i, j, n;
 
     // a_jin
-    precomputed_a_jin = new Score_A_JI[MAX_N];
-
     for (n = 0; n < MAX_N; n++)
       for (j = 0; j < NCOMPONENTS; j++)
 	for (i = 0; i < ALPHABET_SIZE; i++ )
 	  precomputed_a_jin[n][j][i] = lgamma( (double)n + mA[j][i] );
 
     // wa_jn
-    precomputed_wa_jn = new TYPE_WA_COLUMN[MAX_N_TOTAL * ALPHABET_SIZE];
     for (n = 0; n < MAX_N; n++)
       for (j = 0; j < NCOMPONENTS; j++)
 	    precomputed_wa_jn[n][j] = lgamma( mWa[j] + (double)n );
 
-
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-ImplRegularizorDirichletPrecomputed::~ImplRegularizorDirichletPrecomputed () {
-  delete [] precomputed_wa_jn;
-  delete [] precomputed_a_jin;
+ImplRegularizorDirichletPrecomputed::~ImplRegularizorDirichletPrecomputed ()
+{
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
