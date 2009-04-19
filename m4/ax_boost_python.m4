@@ -90,7 +90,7 @@ if test "$ac_cv_boost_python" = "yes"; then
   BOOSTLIBDIR=`echo $BOOST_LDFLAGS | sed -e 's/@<:@^\/@:>@*//'`
   for libextension in `ls $BOOSTLIBDIR/libboost_python*.so* 2>/dev/null  | sed 's,.*/,,' | sed -e 's;^lib\(boost_python.*\)\.so.*$;\1;'` ; do
       ax_lib=${libextension}
-      AC_CHECK_LIB($ax_lib, exit,[BOOST_PYTHON_LIB="$ax_lib"; break],[link_python="no"])
+      AC_CHECK_LIB($ax_lib, exit,[BOOST_PYTHON_LIB="$ax_lib"; break],[link_python="no"],[$PYTHON_LDFLAGS $PYTHON_EXTRA_LIBS])
   done
   AC_SUBST(BOOST_PYTHON_LIB)
 fi

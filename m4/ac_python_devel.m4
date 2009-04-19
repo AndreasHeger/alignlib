@@ -138,7 +138,7 @@ $ac_distutils_result])
         if test -z "$PYTHON_EXTRA_LIBS"; then
            PYTHON_EXTRA_LIBS=`$PYTHON -c "import distutils.sysconfig; \
                 conf = distutils.sysconfig.get_config_var; \
-                print conf('LOCALMODLIBS'), conf('LIBS')"`
+                print conf('LOCALMODLIBS'), conf('LIBS'), conf('LIBM')"`
         fi
         AC_MSG_RESULT([$PYTHON_EXTRA_LIBS])
         AC_SUBST(PYTHON_EXTRA_LIBS)
@@ -161,7 +161,7 @@ $ac_distutils_result])
         AC_MSG_CHECKING([consistency of all components of python development environment])
         AC_LANG_PUSH([C])
         # save current global flags
-        LIBS="$ac_save_LIBS $PYTHON_LDFLAGS"
+        LIBS="$ac_save_LIBS $PYTHON_LDFLAGS $PYTHON_EXTRA_LIBS"
         CPPFLAGS="$ac_save_CPPFLAGS $PYTHON_CPPFLAGS"
         AC_TRY_LINK([
                 #include <Python.h>
@@ -189,7 +189,6 @@ $ac_distutils_result])
         # turn back to default flags
         CPPFLAGS="$ac_save_CPPFLAGS"
         LIBS="$ac_save_LIBS"
-
         #
         # all done!
         #
