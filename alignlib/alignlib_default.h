@@ -3,8 +3,6 @@
 #ifndef ALIGNLIB_DEFAULT_H_
 #define ALIGNLIB_DEFAULT_H_
 
-#include "AlignlibDebug.h"
-
 /** macro do define get/set default by querying default toolkit object
  * @param handle: the handle class
  * @param set: the name of the set function
@@ -31,7 +29,7 @@
  */
 #define IMPLEMENT_STATIC_DEFAULT(handle,init,get,set,df) \
 		static handle df( init ); \
-        handle get () { debug_func_cerr(5); return df; } \
-        void set ( const handle & v ) { debug_func_cerr(5); df = v; }
+        handle get () { return df; } \
+        void set ( const handle & v ) { df = v; }
 
 #endif /*ALIGNLIB_DEFAULT_H_*/
