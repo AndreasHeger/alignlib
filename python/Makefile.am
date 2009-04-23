@@ -15,6 +15,6 @@ EXTRA_DIST=setup.py build.py includes.h alignlib.cpp modules
 
 python:
 	python setup.py build
-	
+
 install-exec-hook:
-	python setup.py install
+	python setup.py install --prefix=${prefix}
