@@ -1915,6 +1915,7 @@
 +@free_function_t@makeRegularizorDirichletHash@::alignlib::HRegularizor (*)( ::alignlib::WeightedCount )::alignlib::HRegularizor (*)( ::alignlib::WeightedCount )
 +@free_function_t@makeLogOddorDirichlet@::alignlib::HLogOddor (*)( ::alignlib::Score const &,::alignlib::Score const & )::alignlib::HLogOddor (*)( ::alignlib::Score const &,::alignlib::Score const & )
 +@free_function_t@getDefaultIterator2D@::alignlib::HIterator2D (*)(  )::alignlib::HIterator2D (*)(  )
++@free_function_t@getAlignmentIdentity@::alignlib::Position (*)( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const & )::alignlib::Position (*)( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const & )
 +@free_function_t@getDefaultTreetor@::alignlib::HTreetor (*)(  )::alignlib::HTreetor (*)(  )
 +@free_function_t@calculatePercentIdentity@double (*)( ::alignlib::HAlignment const &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const & )double (*)( ::alignlib::HAlignment const &,::alignlib::HAlignandum const &,::alignlib::HAlignandum const & )
 +@free_function_t@addMappedAlignments2Alignment@void (*)( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::HAlignment const & )void (*)( ::alignlib::HAlignment &,::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::HAlignment const & )

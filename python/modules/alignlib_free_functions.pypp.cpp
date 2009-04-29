@@ -296,6 +296,17 @@ void register_free_functions(){
     
     }
 
+    { //::alignlib::getAlignmentIdentity
+    
+        typedef ::alignlib::Position ( *getAlignmentIdentity_function_type )( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const & );
+        
+        bp::def( 
+            "getAlignmentIdentity"
+            , getAlignmentIdentity_function_type( &::alignlib::getAlignmentIdentity )
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("mode") ) );
+    
+    }
+
     { //::alignlib::getAlignmentOverlap
     
         typedef ::alignlib::Position ( *getAlignmentOverlap_function_type )( ::alignlib::HAlignment const &,::alignlib::HAlignment const &,::alignlib::CombinationMode const );
