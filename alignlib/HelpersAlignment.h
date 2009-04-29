@@ -181,6 +181,22 @@ bool checkAlignmentIdentity(
 		const HAlignment & b,
 		const bool invert = false );
 
+/** return the number of pairs in
+ *
+ * This function iterates over both alignments and checks if the
+ * the same coordinates are returned. Thus, alignments that are
+ * sorted differently are not identical.
+ *
+ * @param a @ref Alignment object.
+ * @param b @ref Alignment object.
+ * @param mode Combination mode, see @ref combineAlignment.
+ * @return return the number of identical pairs in the two alignments
+ */
+Position getAlignmentIdentity(
+			const HAlignment & a,
+			const HAlignment & b,
+			const CombinationMode & mode );
+
 /** check if two @Alignment objects overlap
  *
  * This function checks if two alignments overlap

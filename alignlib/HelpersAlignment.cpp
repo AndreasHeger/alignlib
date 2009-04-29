@@ -73,6 +73,117 @@ bool checkAlignmentIdentity(
 	return is_identical;
 }
 
+bool hasRangeOverlap(
+	const HAlignment & src1,
+	const HAlignment & src2,
+	const CombinationMode & mode,
+	const int & min_overlap = 0)
+{
+	// check if ranges overlap
+	switch (mode)
+	{
+	case RR:
+		if (src1->getRowFrom() > src2->getRowTo() - min_overlap ||
+				src2->getRowFrom() > src1->getRowTo() - min_overlap )
+			return false;
+		break;
+	case CR:
+		if (src1->getColFrom() > src2->getRowTo() - min_overlap||
+				src2->getRowFrom() > src1->getColTo() - min_overlap )
+			return false;
+		break;
+	case RC:
+		if (src1->getRowFrom() > src2->getColTo() - min_overlap ||
+			src2->getColFrom() > src1->getRowTo() - min_overlap )
+			return false;
+		break;
+	case CC:
+		if (src1->getColFrom() > src2->getColTo() - min_overlap ||
+				src2->getColFrom() > src1->getColTo() - min_overlap )
+			return false;
+		break;
+	}
+	return true;
+}
+
+Position getAlignmentIdentity(
+			const HAlignment & a,
+			const HAlignment & b,
+			const CombinationMode & mode)
+{
+
+	AlignmentIterator it1(a->begin());
+	AlignmentIterator it1_end(a->end());
+
+	AlignmentIterator it2(b->begin());
+	AlignmentIterator it2_end(b->end());
+
+	if (!hasRangeOverlap(a,b,mode, 0))
+		return 0;
+
+	Position nidentical = 0;
+
+	while ( it1 != it1_end && it2 != it2_end )
+	{
+
+		const ResiduePair & x_pair = *it1;
+		const ResiduePair & y_pair = *it2;
+
+		Position map1 = NO_POS;
+		Position value1 = NO_POS;
+
+		Position map2 = NO_POS;
+		Position value2 = NO_POS;
+
+		switch (mode)
+		{
+
+		case RR:
+			map1 = x_pair.mRow; value1 = x_pair.mCol;
+			map2 = y_pair.mRow; value2 = y_pair.mCol;
+			break;
+
+		case CR:
+			map1 = x_pair.mCol; value1 = x_pair.mRow;
+			map2 = y_pair.mRow; value2 = y_pair.mCol;
+			break;
+
+		case RC:
+			map1 = x_pair.mRow; value1 = x_pair.mCol;
+			map2 = y_pair.mCol; value2 = y_pair.mRow;
+			break;
+
+		case CC:
+			map1 = x_pair.mCol; value1 = x_pair.mRow;
+			map2 = y_pair.mCol; value2 = y_pair.mRow;
+			break;
+		}
+
+		// cout << "map1:" << map1 << " value1:" << value1 << " map2:" << map2 << " value2:" << value2 << endl;
+
+		if (map1 == map2)
+		{
+			if (value1 == value2)
+			{
+				nidentical += 1;
+			}
+			++it1;
+			++it2;
+		}
+		else
+		{
+			if (map1 < map2)
+				++it1;
+			else
+				++it2;
+		}
+
+	}
+
+	return nidentical;
+}
+
+
 //---------------------------------------------------------------------------------------------------------
 void readAlignmentPairs(
 		HAlignment & dest,
@@ -424,29 +535,8 @@ Position getAlignmentOverlap(
 	debug_func_cerr(5);
 
 	// check if ranges overlap
-	switch (mode)
-	{
-	case RR:
-		if (src1->getRowFrom() >= src2->getRowTo() ||
-				src2->getRowFrom() >= src1->getRowTo() )
-			return 0;
-		break;
-	case CR:
-		if (src1->getColFrom() >= src2->getRowTo() ||
-				src2->getRowFrom() >= src1->getColTo() )
-			return 0;
-		break;
-	case RC:
-		if (src1->getRowFrom() >= src2->getColTo() ||
-				src2->getColFrom() >= src1->getRowTo() )
-			return 0;
-		break;
-	case CC:
-		if (src1->getColFrom() >= src2->getColTo() ||
-				src2->getColFrom() >= src1->getColTo() )
-			return 0;
-		break;
-	}
+	if (!hasRangeOverlap( src1, src2, mode, 0))
+		return 0;
 
 	// check if enough residues overlap
 	AlignmentIterator it1(src1->begin());
@@ -510,29 +600,8 @@ bool hasAlignmentOverlap(
 	debug_func_cerr(5);
 
 	// check if ranges overlap
-	switch (mode)
-	{
-	case RR:
-		if (src1->getRowFrom() > src2->getRowTo() - min_overlap ||
-				src2->getRowFrom() > src1->getRowTo() - min_overlap )
-			return false;
-		break;
-	case CR:
-		if (src1->getColFrom() > src2->getRowTo() - min_overlap||
-				src2->getRowFrom() > src1->getColTo() - min_overlap )
-			return false;
-		break;
-	case RC:
-		if (src1->getRowFrom() > src2->getColTo() - min_overlap ||
-				src2->getColFrom() > src1->getRowTo() - min_overlap )
-			return false;
-		break;
-	case CC:
-		if (src1->getColFrom() > src2->getColTo() - min_overlap ||
-				src2->getColFrom() > src1->getColTo() - min_overlap )
-			return false;
-		break;
-	}
+	if (!hasRangeOverlap( src1, src2, mode, min_overlap))
+		return false;
 
 	// check if enough residues overlap
 	AlignmentIterator it1(src1->begin());

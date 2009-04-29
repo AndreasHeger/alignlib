@@ -31,7 +31,7 @@
 #include <fstream>
 #include <sstream>
 
-#include <time.h> 
+#include <time.h>
 
 #include "alignlib.h"
 #include "alignlib_fwd.h"
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps1 )
 	addDiagonal2Alignment( ali, 6,10, 0);
 	fillAlignmentGaps( ali, 3 );
 	BOOST_CHECK_EQUAL( ali->getNumGaps(), 0);
-	BOOST_CHECK_EQUAL( ali->getLength(), 10);	
+	BOOST_CHECK_EQUAL( ali->getLength(), 10);
 }
 
 // test filling an empty alignment
@@ -59,18 +59,18 @@ BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps2 )
 	HAlignment ali( makeAlignmentVector() );
 	fillAlignmentGaps( ali, 3 );
 	BOOST_CHECK_EQUAL( ali->getNumGaps(), 0);
-	BOOST_CHECK_EQUAL( ali->getLength(), 0);	
+	BOOST_CHECK_EQUAL( ali->getLength(), 0);
 }
 
 BOOST_AUTO_TEST_CASE( test_hasAlignmentOverlap )
 {
 	HAlignment ali1( makeAlignmentVector() );
 	ali1->addDiagonal( 0, 10, 20);
-	
+
 	for (int x = 0; x < 10; ++x)
 	{
 		HAlignment ali2( makeAlignmentVector() );
-		ali2->addDiagonal( x, x+10, 20);		
+		ali2->addDiagonal( x, x+10, 20);
 		BOOST_CHECK_EQUAL( hasAlignmentOverlap( ali1, ali2, RR, 1), true);
 		BOOST_CHECK_EQUAL( hasAlignmentOverlap( ali1, ali2, CR, 1), false);
 		BOOST_CHECK_EQUAL( hasAlignmentOverlap( ali1, ali2, RC, 1), false);
@@ -82,11 +82,11 @@ BOOST_AUTO_TEST_CASE( test_getAlignmentOverlap )
 {
 	HAlignment ali1( makeAlignmentVector() );
 	ali1->addDiagonal( 0, 10, 20);
-	
+
 	for (int x = 0; x < 10; ++x)
 	{
 		HAlignment ali2( makeAlignmentVector() );
-		ali2->addDiagonal( x, x+10, 20);		
+		ali2->addDiagonal( x, x+10, 20);
 		BOOST_CHECK_EQUAL( getAlignmentOverlap( ali1, ali2, RR ), 10 - x);
 		BOOST_CHECK_EQUAL( getAlignmentOverlap( ali1, ali2, CR ), 0);
 		BOOST_CHECK_EQUAL( getAlignmentOverlap( ali1, ali2, RC ), 0);
@@ -94,19 +94,46 @@ BOOST_AUTO_TEST_CASE( test_getAlignmentOverlap )
 	}
 }
 
+BOOST_AUTO_TEST_CASE( test_getAlignmentIdentity )
+{
+	HAlignment ali1( makeAlignmentVector() );
+	ali1->addDiagonal( 0, 10, 20);
+
+	for (int x = 0; x < 10; ++x)
+	{
+		HAlignment ali2( makeAlignmentVector() );
+		ali2->addDiagonal( x, x+10, 20);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, RR ), 10 - x);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, CR ), 0);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, RC ), 0);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, CC ), 10 - x);
+	}
+
+	for (int x = 0; x < 10; ++x)
+	{
+		HAlignment ali2( makeAlignmentVector() );
+		ali2->addDiagonal( x, x+10, 19);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, RR ), 0);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, CR ), 0);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, RC ), 0);
+		BOOST_CHECK_EQUAL( getAlignmentIdentity( ali1, ali2, CC ), 0);
+	}
+
+}
+
 BOOST_AUTO_TEST_CASE( test_copyAlignmet1 )
 {
 	HAlignment ali1( makeAlignmentVector() );
 	ali1->addDiagonal( 0, 10, 0);
 	HAlignment dest( makeAlignmentVector() );
-	
+
 	for (int x = 0; x < 10; ++x)
 	{
 		HAlignment ali2( makeAlignmentVector() );
-		ali2->addDiagonal( x, x+10, 0);		
+		ali2->addDiagonal( x, x+10, 0);
 
 		copyAlignment( dest, ali1, ali2, RR );
-		
+
 		BOOST_CHECK_EQUAL(  dest->getNumAligned(), 10 - x );
 	}
 }
@@ -117,7 +144,7 @@ BOOST_AUTO_TEST_CASE( test_getAlignmentShortestDistance )
 	HAlignment ali1( makeAlignmentVector() );
 	ali1->addDiagonal( 20, 30, 0);
 	ali1->addDiagonal( 40, 50, 0);
-	
+
 	{
 		// adjacent before
 		HAlignment ali2( makeAlignmentVector() );
@@ -173,7 +200,7 @@ BOOST_AUTO_TEST_CASE( test_getAlignmentShortestDistance )
 		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, RC), 0);
 		BOOST_CHECK_EQUAL( getAlignmentShortestDistance( ali2, ali1, CC), 0);
 	}
-	
+
 }
 
 
@@ -191,10 +218,10 @@ BOOST_AUTO_TEST_CASE( test_fillAlignmentGaps2)
 */
 
 /*
-bool TestCompressionMonotone( HAlignment & a, 
-		const char *xrow, 
+bool TestCompressionMonotone( HAlignment & a,
+		const char *xrow,
 		const char *xcol,
-		const char *crow = NULL, 
+		const char *crow = NULL,
 		const char *ccol = NULL) {
 
 	if (crow == NULL) crow = xrow;
@@ -203,7 +230,7 @@ bool TestCompressionMonotone( HAlignment & a,
 	std::string row (xrow);
 	std::string col (xcol);
 
-	
+
 	fillAlignmentCompressed( a, 3, row, 3, col);
 
 	std::stringstream output;
@@ -212,13 +239,13 @@ bool TestCompressionMonotone( HAlignment & a,
 	output.seekp( 0);
 	std::string new_row;
 	std::string new_col;
-	
+
 	output >> new_row >> new_col;
-	
+
 	row = crow;
 	col = ccol;
 
-	if (row == new_row && col == new_col) 
+	if (row == new_row && col == new_col)
 		return true;
 	else {
 		cout << "xrow=" << xrow << " xcol=" << xcol << endl;
@@ -229,9 +256,9 @@ bool TestCompressionMonotone( HAlignment & a,
 	}
 }
 
-bool TestCompressionDiagonal( HAlignment & a, 
-		const char *xrow, 
-		const char *crow = NULL) 
+bool TestCompressionDiagonal( HAlignment & a,
+		const char *xrow,
+		const char *crow = NULL)
 {
 
 	if (crow == NULL) crow = xrow;
@@ -246,7 +273,7 @@ bool TestCompressionDiagonal( HAlignment & a,
 
 	row = crow;
 
-	if (row == new_row) 
+	if (row == new_row)
 		return true;
 	else {
 		cout << "xrow=" << xrow << " crow=" << crow << endl;
@@ -258,19 +285,19 @@ bool TestCompressionDiagonal( HAlignment & a,
 */
 
 // tests for both
-void Test( HAlignment & a) 
+void Test( HAlignment & a)
 {
-	{ 
+	{
 		cout << "testing...copyAlignment()...";
 
 		HAlignment a_new = makeAlignmentVector();
 		copyAlignment( a_new, a);
 	}
 
-	{ 
+	{
 		cout << "testing...combineAlignment()...";
 		HAlignment a_new = makeAlignmentVector();
-		combineAlignment( a_new, a, a, alignlib::RR); 
+		combineAlignment( a_new, a, a, alignlib::RR);
 		combineAlignment( a_new, a, a, alignlib::CR);
 		combineAlignment( a_new, a, a, alignlib::RC);
 		combineAlignment( a_new, a, a, alignlib::CC);
@@ -297,14 +324,14 @@ void Test( HAlignment & a)
 		cout << "passed" << endl;
 	}
 
-	{ 
+	{
 		cout << "testing...addAlignment2Alignment()...";
 		HAlignment b = makeAlignmentVector();
 		addAlignment2Alignment( b, a );
 		cout << "passed" << endl;
 	}
 
-	{ 
+	{
 		cout << "testing...addMappedAlignment2Alignment()...";
 		HAlignment b = makeAlignmentVector();
 		addMappedAlignment2Alignment( b, a, a, alignlib::RR );
@@ -314,30 +341,30 @@ void Test( HAlignment & a)
 }
 
 // tests for diagonal alignments
-void TestDiagonal(HAlignment & a) 
+void TestDiagonal(HAlignment & a)
 {
 
 	/*
-	{ 
+	{
 		cout << "testing...fill/writeAlignmentCompressedDiagonal()...";
 
-		if (TestCompressionDiagonal( a, "-1:-5+2" ) &&				
-				TestCompressionDiagonal( a, "-3:-5+2-2+2;5:-2+3" ) &&				
+		if (TestCompressionDiagonal( a, "-1:-5+2" ) &&
+				TestCompressionDiagonal( a, "-3:-5+2-2+2;5:-2+3" ) &&
 				TestCompressionDiagonal( a, "3:-5+2" ) &&
 				TestCompressionDiagonal( a, "-3:-5+2;0:-5+4" )
-		) 
+		)
 			cout << "passed" << endl;
 		else
-			cout << "failed" << endl;      
+			cout << "failed" << endl;
 	}
 	*/
 	Test( a );
 }
 // tests for monotone alignments
-void TestMonotone( HAlignment & a) 
+void TestMonotone( HAlignment & a)
 {
 	/*
-	{ 
+	{
 		cout << "testing...fill/writeAlignmentCompressed()...";
 
 		if (TestCompressionMonotone( a, "+5-5+5", "+15") &&				// treat gaps in one sequence correctly
@@ -348,16 +375,16 @@ void TestMonotone( HAlignment & a)
 				TestCompressionMonotone( a, "-5+5-5+10", "-5+5-5+5-5", "+10", "+10") )	// skip end and middle gaps gaps
 			cout << "passed" << endl;
 		else
-			cout << "failed" << endl;      
+			cout << "failed" << endl;
 	}
 	 */
 	{
 		cout << "testing expandAlignment()...";
 		a->clear();
 		a->addPair( ResiduePair( 3, 4, 0));
-		a->addPair( ResiduePair( 4, 5, 0));         
-		a->addPair( ResiduePair( 5, 7, 0));                  
-		a->addPair( ResiduePair( 9, 9, 0));                           
+		a->addPair( ResiduePair( 4, 5, 0));
+		a->addPair( ResiduePair( 5, 7, 0));
+		a->addPair( ResiduePair( 9, 9, 0));
 
 		HAlignment b = a->getNew();
 		HAlignment c = a->getNew();
@@ -385,7 +412,7 @@ int main () {
 
 	cout << "---------------------Testing AlignmentSetCol------------------------------" << endl;
 	a = makeAlignmentSetCol();
-	TestMonotone( a );	
+	TestMonotone( a );
 
 	cout << "---------------------Testing AlignmentMatrixRow-------------------------------" << endl;
 	a = makeAlignmentMatrixRow();
