@@ -9,7 +9,6 @@ def main():
     				".","../alignlib", ".." ]
  
     libraries=["@BOOST_PYTHON_LIB@", "alignlib"]
-    libraries=["boost_python-mt", "alignlib"]
     library_dirs=[ "../alignlib/.libs" ]
 
     files = glob.glob( "modules/*.cpp" )
