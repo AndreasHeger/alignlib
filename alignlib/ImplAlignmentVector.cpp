@@ -208,29 +208,29 @@ Position ImplAlignmentVector::mapRowToCol( Position pos, SearchType search ) con
 
   if (pos < mRowFrom || pos >= mRowTo) return NO_POS;
 
-	if (mPairs[pos].mRow != NO_POS)
-		return mPairs[pos].mCol;
-
-	if (search == NO_SEARCH)
-	{
-		return NO_POS;
-	}
-	else if (search == LEFT)
-	{
-		while (pos >= mRowFrom && mPairs[pos].mRow != NO_POS )
-			--pos;
-		if (pos < mRowFrom)
-			return NO_POS;
-	}
-	else if (search == RIGHT)
-	{
-		while (pos < mRowTo && mPairs[pos].mRow != NO_POS )
-			++pos;
-		if (pos >= mRowTo)
-			return NO_POS;
-	}
-
-	return mPairs[pos].mCol;
+  if (mPairs[pos].mRow != NO_POS)
+    return mPairs[pos].mCol;
+  
+  if (search == NO_SEARCH)
+    {
+      return NO_POS;
+    }
+  else if (search == LEFT)
+    {
+      while (pos >= mRowFrom && mPairs[pos].mRow == NO_POS )
+	--pos;
+      if (pos < mRowFrom)
+	return NO_POS;
+    }
+  else if (search == RIGHT)
+    {
+      while (pos < mRowTo && mPairs[pos].mRow == NO_POS )
+	++pos;
+      if (pos >= mRowTo)
+	return NO_POS;
+    }
+  
+  return mPairs[pos].mCol;
 }
 
 
