@@ -74,7 +74,7 @@ namespace alignlib
       /** copy constructor */
       MultipleAlignator( const MultipleAlignator & src);
 
-      DEFINE_ABSTRACT_CLONE( HMultipleAlignator );
+      DEFINE_ABSTRACT_CLONE( HMultipleAlignator )
 
       /** align @ref Alignandum objects and store result in @ref Alignment
        *

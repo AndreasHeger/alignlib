@@ -60,7 +60,7 @@ class Fragmentor : public virtual AlignlibBase
     /** copy constructor */
     Fragmentor( const Fragmentor & src);
 
-    DEFINE_ABSTRACT_CLONE( HFragmentor );
+    DEFINE_ABSTRACT_CLONE( HFragmentor )
 
     /** method for aligning two arbitrary objects
      * @param dest 	@ref Alignment object in which to store data.

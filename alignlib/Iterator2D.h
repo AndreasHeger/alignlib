@@ -113,7 +113,7 @@ public:
 	/** copy constructor */
 	Iterator2D( const Iterator2D & src);
 
-    DEFINE_ABSTRACT_CLONE( HIterator2D );
+	DEFINE_ABSTRACT_CLONE( HIterator2D )
 
 	/** return a new iterator of same type initialized with row and col
 	 *

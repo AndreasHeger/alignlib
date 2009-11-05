@@ -50,7 +50,7 @@ public:
 
 	virtual ~Distor ();
 
-    DEFINE_ABSTRACT_CLONE( HDistor );
+	DEFINE_ABSTRACT_CLONE( HDistor )
 
 	/** fill @ref DistanceMatrix from a @ref MultipleAlignment.
 	 *

@@ -57,7 +57,7 @@ class Tree : public virtual AlignlibBase
   /** destructor */
   virtual ~Tree ();
 
-  DEFINE_ABSTRACT_CLONE( HTree );
+  DEFINE_ABSTRACT_CLONE( HTree )
 
   /* member access functions--------------------------------------------------------------- */
 

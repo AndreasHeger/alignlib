@@ -72,7 +72,7 @@ class MultAlignment : public virtual AlignlibBase
     /** destructor */
     virtual ~MultAlignment ();
 
-    DEFINE_ABSTRACT_CLONE( HMultAlignment );
+    DEFINE_ABSTRACT_CLONE( HMultAlignment )
 
     //---------------------------------------------------------------------------------------
     /*------- accessors --------------------------------------------------------------------*/

@@ -74,7 +74,7 @@ class Encoder : public virtual AlignlibBase
     /** destructor */
     virtual ~Encoder ();
 
-    DEFINE_ABSTRACT_CLONE( HEncoder );
+    DEFINE_ABSTRACT_CLONE( HEncoder )
 
     /** decode a string of residues from internal to real-world representation.
      *

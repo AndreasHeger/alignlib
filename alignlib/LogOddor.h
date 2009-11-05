@@ -61,7 +61,7 @@ class LogOddor : public virtual AlignlibBase
     /** destructor */
     virtual ~LogOddor ();
 
-    DEFINE_ABSTRACT_CLONE( HLogOddor );
+    DEFINE_ABSTRACT_CLONE( HLogOddor )
 
     /** insert scores into a profile @ref ScoreMatrix
      *

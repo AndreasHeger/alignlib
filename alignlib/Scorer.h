@@ -63,7 +63,7 @@ namespace alignlib
       /** copy constructor */
       Scorer( const Scorer & src);
 
-      DEFINE_ABSTRACT_CLONE( HScorer );
+      DEFINE_ABSTRACT_CLONE( HScorer )
 
       /** return a new scorer of same type but initialized
        *  for the two @ref Alignandum objects row and col.

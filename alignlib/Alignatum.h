@@ -64,7 +64,7 @@ class Alignatum : public virtual AlignlibBase
     /* destructor */
     virtual ~Alignatum ();
 
-    DEFINE_ABSTRACT_CLONE( HAlignatum );
+    DEFINE_ABSTRACT_CLONE( HAlignatum )
 
     /*-----> accessors <----------------------------------------------------- */
 

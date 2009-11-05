@@ -198,7 +198,7 @@ class MultipleAlignment : public virtual AlignlibBase
     */
     virtual void clear() = 0;
 
-    DEFINE_ABSTRACT_CLONE( HMultipleAlignment );
+    DEFINE_ABSTRACT_CLONE( HMultipleAlignment )
 
     /** write the multiple alignment to a stream
      *

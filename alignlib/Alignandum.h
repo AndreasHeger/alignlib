@@ -69,7 +69,7 @@ public:
 
 	/* accessors ------------------------------------------------------------------------- */
 
-	DEFINE_ABSTRACT_CLONE( HAlignandum );
+	DEFINE_ABSTRACT_CLONE( HAlignandum )
 
 	/** get the length of the active segment.
 	 *

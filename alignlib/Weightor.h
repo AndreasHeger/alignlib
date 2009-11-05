@@ -62,7 +62,7 @@ class Weightor : public virtual AlignlibBase
     /** destructor */
     virtual ~Weightor();
 
-    DEFINE_ABSTRACT_CLONE( HWeightor );
+    DEFINE_ABSTRACT_CLONE( HWeightor )
 
     /** fill a counts matrix from a multiple alignment
      *

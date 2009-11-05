@@ -52,7 +52,7 @@ class DistanceMatrix : public virtual AlignlibBase
   /** destructor */
   virtual ~DistanceMatrix ();
 
-  DEFINE_ABSTRACT_CLONE( HDistanceMatrix );
+  DEFINE_ABSTRACT_CLONE( HDistanceMatrix )
 
   /* member access functions--------------------------------------------------------------- */
 

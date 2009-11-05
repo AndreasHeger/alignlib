@@ -61,7 +61,7 @@ class Regularizor : public virtual AlignlibBase
     /** destructor */
     virtual ~Regularizor ();
 
-    DEFINE_ABSTRACT_CLONE( HRegularizor );
+    DEFINE_ABSTRACT_CLONE( HRegularizor )
 
     /** regularize a @ref WeightedCountMatrix.
      *

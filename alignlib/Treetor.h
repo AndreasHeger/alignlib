@@ -47,7 +47,7 @@ class Treetor : public virtual AlignlibBase
   /** destructor */
   virtual ~Treetor ();
 
-  DEFINE_ABSTRACT_CLONE( HTreetor );
+  DEFINE_ABSTRACT_CLONE( HTreetor )
 
   /** create a tree from a multiple alignment */
   virtual void calculateTree( HTree & dest,

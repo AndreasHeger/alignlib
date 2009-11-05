@@ -137,7 +137,7 @@ public:
 	/** destructor */
 	virtual ~Alignment();
 
-    DEFINE_ABSTRACT_CLONE( HAlignment );
+	DEFINE_ABSTRACT_CLONE( HAlignment )
 
 	//------------------------------------------------------------------------------------------------------------
 	/**
