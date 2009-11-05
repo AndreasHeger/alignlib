@@ -13,7 +13,8 @@ INCLUDES = -I$(top_srcdir)/src
 
 AM_CXXFLAGS = $(BOOST_CPPFLAGS)
 
-include_HEADERS = alignlib.h alignlib_fwd.h alignlib_types.h Macros.h
+include_HEADERS = alignlib.h alignlib_fwd.h alignlib_types.h Macros.h \
+			alignlib_interfaces.h alignlib_functions.h alignlib_default.h
 
 pkginclude_HEADERS = $(HEADERS_ALIGNLIB) \
 			AlignlibException.h \
