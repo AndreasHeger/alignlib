@@ -81,22 +81,22 @@ class Toolkit
      * */
     virtual void write( std::ostream & output ) const = 0;
 
-    DEFINE_ABSTRACT_CLONE( HToolkit );
+    DEFINE_ABSTRACT_CLONE( HToolkit )
 
-    DEFINE_FACTORY_ABSTRACT( HAlignator, Alignator, makeAlignator, setAlignator, getAlignator);
-    DEFINE_FACTORY_ABSTRACT( HFragmentor, Fragmentor, makeFragmentor, setFragmentor, getFragmentor);
-    DEFINE_FACTORY_ABSTRACT( HAlignment, Alignment, makeAlignment, setAlignment, getAlignment);
-    DEFINE_FACTORY_ABSTRACT( HMultAlignment, MultAlignment, makeMultAlignment, setMultAlignment, getMultAlignment);
-    DEFINE_FACTORY_ABSTRACT( HMultipleAlignator, MultipleAlignator, makeMultipleAlignator, setMultipleAlignator, getMultipleAlignator);
-    DEFINE_FACTORY_ABSTRACT( HDistor, Distor, makeDistor, setDistor, getDistor);
-    DEFINE_FACTORY_ABSTRACT( HWeightor, Weightor, makeWeightor, setWeightor, getWeightor);
-    DEFINE_FACTORY_ABSTRACT( HRegularizor, Regularizor, makeRegularizor, setRegularizor, getRegularizor);
-    DEFINE_FACTORY_ABSTRACT( HLogOddor, LogOddor, makeLogOddor, setLogOddor, getLogOddor);
-    DEFINE_FACTORY_ABSTRACT( HEncoder, Encoder, makeEncoder, setEncoder, getEncoder);
-    DEFINE_FACTORY_ABSTRACT( HTreetor, Treetor, makeTreetor, setTreetor, getTreetor);
-    DEFINE_FACTORY_ABSTRACT( HScorer, Scorer, makeScorer, setScorer, getScorer);
-    DEFINE_FACTORY_ABSTRACT( HIterator2D, Iterator2D, makeIterator2D, setIterator2D, getIterator2D);
-    DEFINE_FACTORY_ABSTRACT( HSubstitutionMatrix, SubstitutionMatrix, makeSubstitutionMatrix, setSubstitutionMatrix, getSubstitutionMatrix);
+    DEFINE_FACTORY_ABSTRACT( HAlignator, Alignator, makeAlignator, setAlignator, getAlignator)
+    DEFINE_FACTORY_ABSTRACT( HFragmentor, Fragmentor, makeFragmentor, setFragmentor, getFragmentor)
+    DEFINE_FACTORY_ABSTRACT( HAlignment, Alignment, makeAlignment, setAlignment, getAlignment)
+    DEFINE_FACTORY_ABSTRACT( HMultAlignment, MultAlignment, makeMultAlignment, setMultAlignment, getMultAlignment)
+    DEFINE_FACTORY_ABSTRACT( HMultipleAlignator, MultipleAlignator, makeMultipleAlignator, setMultipleAlignator, getMultipleAlignator)
+    DEFINE_FACTORY_ABSTRACT( HDistor, Distor, makeDistor, setDistor, getDistor)
+    DEFINE_FACTORY_ABSTRACT( HWeightor, Weightor, makeWeightor, setWeightor, getWeightor)
+    DEFINE_FACTORY_ABSTRACT( HRegularizor, Regularizor, makeRegularizor, setRegularizor, getRegularizor)
+    DEFINE_FACTORY_ABSTRACT( HLogOddor, LogOddor, makeLogOddor, setLogOddor, getLogOddor)
+      DEFINE_FACTORY_ABSTRACT( HEncoder, Encoder, makeEncoder, setEncoder, getEncoder)
+      DEFINE_FACTORY_ABSTRACT( HTreetor, Treetor, makeTreetor, setTreetor, getTreetor)
+    DEFINE_FACTORY_ABSTRACT( HScorer, Scorer, makeScorer, setScorer, getScorer)
+    DEFINE_FACTORY_ABSTRACT( HIterator2D, Iterator2D, makeIterator2D, setIterator2D, getIterator2D)
+    DEFINE_FACTORY_ABSTRACT( HSubstitutionMatrix, SubstitutionMatrix, makeSubstitutionMatrix, setSubstitutionMatrix, getSubstitutionMatrix)
 
 };
 
