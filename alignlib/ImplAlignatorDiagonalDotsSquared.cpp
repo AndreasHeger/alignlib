@@ -27,6 +27,7 @@
 
 #include <map>
 #include <vector>
+#include <limits>
 
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
@@ -41,14 +42,10 @@
 #include "Alignment.h"
 #include "HelpersAlignment.h"
 
-
-#ifdef WITH_DMALLOC
-#include <dmalloc.h>
-#endif
-
 using namespace std;
 
-namespace alignlib {
+namespace alignlib
+{
 
 #define NODOT -1
 
@@ -162,7 +159,7 @@ void ImplAlignatorDiagonalDotsSquared::performAlignment( const HAlignandum prow,
   vector<Dot> dot_stack(mRowLength, NODOT);
 
   unsigned int num_row_dots = 0;
-  Position last_diagonal = MAX_DIAGONAL;
+  Position last_diagonal = std::numeric_limits<Diagonal>::max();
 
   //----------------------------------> main alignment loop <----------------------------------------------------
   for ( Dot current_dot = 0; current_dot < mNDots; current_dot++ ) {	   

@@ -30,6 +30,7 @@
 
 #include <iosfwd>
 #include <string>
+#include <limits>
 #include "alignlib_fwd.h"
 
 namespace alignlib
@@ -299,8 +300,8 @@ void copyAlignment(
 		Position row_to = NO_POS,
 		Position col_from = NO_POS,
 		Position col_to = NO_POS,
-		Diagonal diagonal_from = -MAX_DIAGONAL,
-		Diagonal diagonal_to = MAX_DIAGONAL
+		Diagonal diagonal_from = std::numeric_limits<Diagonal>::min(),
+		Diagonal diagonal_to   = std::numeric_limits<Diagonal>::max()
 );
 
 /** @brief copy one alignment into another.

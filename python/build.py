@@ -33,7 +33,7 @@ def findBoost( options ):
             options.boost_dir = os.environ['BOOST_ROOT']
             return 
 
-        for x in ( "/usr", "/usr/local/boost", "/opt/boost" ):
+        for x in ( "/usr", "/usr/local/boost", "/opt/boost", "/usr/incude/boost" ):
             if os.path.exists( x ):
                options.boost_dir = x 
                return

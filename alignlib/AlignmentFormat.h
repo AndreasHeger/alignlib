@@ -17,6 +17,7 @@
 
 #include <iosfwd>
 #include <string>
+#include <limits>
 
 #include "alignlib_fwd.h"
 
@@ -463,6 +464,7 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 	     If diagonal_from is larger than diagonal_to, then the whole range is used.
 	     
 	 */
+	
 	virtual void fill( 
 			const HAlignment & src,
 			const bool reverse,
@@ -470,9 +472,8 @@ struct AlignmentFormatDiagonals : public AlignmentFormat
 			const Position row_to = NO_POS,
 			const Position col_from = NO_POS,
 			const Position col_to = NO_POS,
-			const Diagonal diagonal_from = MAX_DIAGONAL,
-			const Diagonal diagonal_to = -MAX_DIAGONAL
-	);
+			const Diagonal diagonal_from = std::numeric_limits<Diagonal>::min(), 
+			const Diagonal diagonal_to = std::numeric_limits<Diagonal>::max());
 
 	virtual void fill( 
 			const HAlignment & src );

@@ -28,9 +28,6 @@
 namespace alignlib
 {
 
-#define MAX_DIAGONAL 99999999
-
-
 /* type for the internal representation of residues */
 typedef unsigned char Residue;
 

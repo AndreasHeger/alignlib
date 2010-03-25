@@ -851,8 +851,8 @@ void AlignmentFormatDiagonals::fill(
 
 	if (diagonal_from > diagonal_to) 
 	{
-		diagonal_from = -MAX_DIAGONAL;
-		diagonal_to   =  MAX_DIAGONAL;
+	  diagonal_from = std::numeric_limits<Position>::min();
+	  diagonal_to   = std::numeric_limits<Position>::max();
 	}
 
 	// declare variables you need for iteration of the pairs

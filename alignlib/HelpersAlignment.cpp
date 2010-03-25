@@ -233,31 +233,43 @@ void copyAlignment(
 
 	if (diagonal_from > diagonal_to)
 	{
-		diagonal_from = std::numeric_limits<Position>::min();
-		diagonal_to   = std::numeric_limits<Position>::max();
+	  diagonal_from = std::numeric_limits<Diagonal>::min();
+	  diagonal_to   = std::numeric_limits<Diagonal>::max();
 	}
 
+	debug_cerr( 5, "copyAlignment applying filter:"
+		    << " row=" << row_from << "-" << row_to
+		    << " col=" << col_from << "-" << col_to
+		    << " diag=" << diagonal_from << "-" << diagonal_to );
+	
 	dest->clear();
 
 	AlignmentIterator it(src->begin());
 	AlignmentIterator it_end(src->end());
 
 	for (; it != it_end; ++it)
-	{
-		const ResiduePair & p = *it;
+	  {
+	    const ResiduePair & p = *it;
 
-		// apply filter
-		Diagonal	this_diagonal = p.getDiagonal();
-		Position this_row      = p.mRow;
-		Position this_col      = p.mCol;
-
-		if (this_col < col_from || this_col >= col_to)
-			continue;
-		if (this_row < row_from || this_row >= row_to)
-			continue;
-		if (this_diagonal < diagonal_from || this_diagonal > diagonal_to)
-			continue;
-
+	    // apply filter
+	    Position this_row = p.mRow;
+	    Position this_col = p.mCol;
+	    Diagonal this_diagonal = p.getDiagonal();
+	    debug_cerr( 5, "row=" << this_row << " col=" << this_col
+			<< "rowtest=" << (this_row < row_from || this_row >= row_to)
+			<< "coltest="<< (this_col < col_from || this_col >= col_to)
+			<< "dtest=" << (this_diagonal < diagonal_from || this_diagonal > diagonal_to));
+		      
+		
+	    if (this_row < row_from || this_row >= row_to)
+	      continue;
+	    
+	    if (this_col < col_from || this_col >= col_to)
+	      continue;
+	    
+	    if (this_diagonal < diagonal_from || this_diagonal > diagonal_to)
+	      continue;
+	    
 		dest->addPair( ResiduePair(p) );
 
 	}

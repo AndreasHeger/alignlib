@@ -22,6 +22,7 @@
 
 
 #include <iostream>
+#include <limits>
 #include "alignlib_fwd.h"
 #include "alignlib_interfaces.h"
 #include "alignlib_fwd.h"
@@ -141,7 +142,7 @@ void ImplFragmentorDiagonals::performFragmentation(
     // rescore dots (later: use plugin Scoror?), set score to 1
     rescoreAlignment( matrix, 1.0);
 
-    Diagonal last_diagonal = MAX_DIAGONAL;
+    Diagonal last_diagonal = std::numeric_limits<Diagonal>::max();
 
     AlignmentIterator it(matrix->begin()), it_end(matrix->end());
 
