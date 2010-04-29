@@ -48,7 +48,7 @@ HRegularizor makeRegularizorDirichlet( WeightedCount fade_cutoff )
 //--------------------------------------------------------------------------------------------------------------------------
 /** very important: the residues here are sorted alphabetically!!!!!!! */
 
-static const char ALPHABET[ALPHABET_SIZE] = "ACDEFGHIKLMNPQRSTVY";
+static const char ALPHABET[ALPHABET_SIZE+1] = "ACDEFGHIKLMNPQRSTVWY";
 
 /* the mixture coefficients q_i */
 static double q[NCOMPONENTS] = { 0.182962,0.057607,0.089823,0.079297,0.083183,0.091122,0.115962,0.06604,0.234006 } ;
