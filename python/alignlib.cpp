@@ -298,6 +298,15 @@ BOOST_PYTHON_MODULE(alignlib){
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::CountVector> >();
 
+    { //::std::vector<alignlib::Frequency, std::allocator<alignlib::Frequency> >
+            typedef bp::class_< std::vector<alignlib::Frequency, std::allocator<alignlib::Frequency> > > FrequencyVector_exposer_t;
+            FrequencyVector_exposer_t FrequencyVector_exposer = FrequencyVector_exposer_t( "FrequencyVector" );
+            bp::scope FrequencyVector_scope( FrequencyVector_exposer );
+            FrequencyVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::Frequency, std::allocator<alignlib::Frequency> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::FrequencyVector> >();
+
     register_free_functions();
 
     bp::def( "loadAlignandum", wrapper_for_load_Alignandum );
@@ -339,4 +348,13 @@ BOOST_PYTHON_MODULE(alignlib){
             }
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::CountVector> >();
+
+    { //::std::vector<alignlib::Frequency, std::allocator<alignlib::Frequency> >
+            typedef bp::class_< std::vector<alignlib::Frequency, std::allocator<alignlib::Frequency> > > FrequencyVector_exposer_t;
+            FrequencyVector_exposer_t FrequencyVector_exposer = FrequencyVector_exposer_t( "FrequencyVector" );
+            bp::scope FrequencyVector_scope( FrequencyVector_exposer );
+            FrequencyVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::Frequency, std::allocator<alignlib::Frequency> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::FrequencyVector> >();
 }

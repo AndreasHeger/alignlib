@@ -454,6 +454,7 @@ def exportContainers( mb ):
     atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
                                  #{ 'name' : 'CountVector', 'content' : 'unsigned long' },
                                  { 'name' : 'CountVector', 'content' : 'alignlib::Count' },
+                                 { 'name' : 'FrequencyVector', 'content' : 'alignlib::Frequency' },
 #                                 { 'name' : 'NodeVector', 'content' : 'unsigned long' }, 
                                  ) 
      
@@ -642,7 +643,7 @@ if __name__ == "__main__":
     for command in commands:
         if command not in ("build", "test", "install", "generate-interface", "compile-interface" ):
             print USAGE
-            raise "unknown command %s" % command
+            raise ValueError("unknown command %s" % command)
         
     for command in commands:
 

@@ -2049,6 +2049,8 @@
 +@free_function_t@rescoreFragmentsNumberGaps@void (*)( ::alignlib::HFragmentVector &,::alignlib::Score,::alignlib::Score )void (*)( ::alignlib::HFragmentVector &,::alignlib::Score,::alignlib::Score )
 +@free_function_t@makeFragmentorIterative@::alignlib::HFragmentor (*)( ::alignlib::HAlignment const &,::alignlib::Score,::alignlib::Score,::alignlib::Score )::alignlib::HFragmentor (*)( ::alignlib::HAlignment const &,::alignlib::Score,::alignlib::Score,::alignlib::Score )
 +@free_function_t@makeDistorDummy@::alignlib::HDistor (*)( ::alignlib::HDistanceMatrix const & )::alignlib::HDistor (*)( ::alignlib::HDistanceMatrix const & )
++@free_function_t@makeSubstitutionMatrixDNA4@::alignlib::HSubstitutionMatrix (*)( ::alignlib::HEncoder const & )::alignlib::HSubstitutionMatrix (*)( ::alignlib::HEncoder const & )
++@free_function_t@makeSubstitutionMatrixDNA4@::alignlib::HSubstitutionMatrix (*)(  )::alignlib::HSubstitutionMatrix (*)(  )
 +@free_function_t@makeAlignatorDots@::alignlib::HAlignator (*)( ::alignlib::HAlignator const &,::alignlib::Score,::alignlib::Score )::alignlib::HAlignator (*)( ::alignlib::HAlignator const &,::alignlib::Score,::alignlib::Score )
 +@free_function_t@makeRegularizorDirichlet@::alignlib::HRegularizor (*)( ::alignlib::WeightedCount )::alignlib::HRegularizor (*)( ::alignlib::WeightedCount )
 +@free_function_t@calculateZScore@::alignlib::Score (*)( ::alignlib::Score,::alignlib::NormalDistributionParameters const * )::alignlib::Score (*)( ::alignlib::Score,::alignlib::NormalDistributionParameters const * )
