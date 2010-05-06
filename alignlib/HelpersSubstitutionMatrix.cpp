@@ -178,6 +178,15 @@ static Score pam250[23*23] = {
 /* Z */  0, 2,-5, 3, 3, -5,-1, 2,-2, 0, -3,-2, 1, 0, 3,  0, 0,-1,-2,-6, -4, 3, 
 };
 
+  // BLASTN identity matrix
+static Score dna4[5*5] = {
+  5, -4, -4, -4, -4
+  -4, 5, -4, -4, -4
+  -4, -4, 5, -4, -4 
+  -4, -4, -4, 5, -4
+  -4, -4, -4, -4, -4
+};
+  
 /** create a substitution matrix
  */
 HSubstitutionMatrix makeSubstitutionMatrix( 
@@ -220,7 +229,7 @@ MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixBlosum50, 23, blosum50 );
 MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixPam250, 23, pam250 );
 MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixPam120, 23, pam120 );
 MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixPam30, 23, pam30 );
-
+MAKE_SUBSTITUTION_MATRIX( makeSubstitutionMatrixDNA4, 5, dna4 );
 
 /** fill a substitution matrix */
 HSubstitutionMatrix makeSubstitutionMatrix( 

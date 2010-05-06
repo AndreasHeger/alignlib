@@ -132,7 +132,21 @@ HSubstitutionMatrix makeSubstitutionMatrixPam30();
  * 
  * @return a new @ref SubstitutionMatrix
  * */
-HSubstitutionMatrix makeSubstitutionMatrixPam30( const HEncoder & encoder);    
+HSubstitutionMatrix makeSubstitutionMatrixPam30( const HEncoder & encoder);
+
+/** The blastn identity scoring matrix.
+ *
+ * @return a new @ref SubstitutionMatrix.
+ * */
+HSubstitutionMatrix makeSubstitutionMatrixDNA4();
+
+ /** The blastn identity scoring matrix.
+ * 
+ * @param encoder @ref Encoder object to ensure alphabet compatibility.
+ * 
+ * @return a new @ref SubstitutionMatrix
+ * */
+HSubstitutionMatrix makeSubstitutionMatrixDNA4( const HEncoder & encoder);    
 
 /** A backtranslation substitution matrix
  * 
