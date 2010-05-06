@@ -303,7 +303,24 @@ void test_Expand3( const HMultAlignment & r )
 	}
 }
 
+// test if alignment works with wrap-around alignments
+void test_WrapAround( const HMultAlignment & r )
+{
+	return;
+	HMultAlignment clone(r->getNew());
+	{
+		HAlignment ali = makeAlignmentVector();
+		ali->addDiagonal( 0, 10, 10 );
+		ali->addDiagonal( 10, 20, -10 );
+		std::cout << *ali << std::endl;
+		clone->add( ali );
+		BOOST_CHECK_EQUAL( clone->isEmpty(), false);
+		BOOST_CHECK_EQUAL( clone->getNumSequences(), 1);
+		BOOST_CHECK_EQUAL( clone->getLength(), 10);
+		std::cout << *clone << std::endl;
+	}
 
+}
 
 void fillMali( HMultAlignment & mali, const HAlignment & a )
 {
@@ -504,6 +521,10 @@ void test_GenericMultAlignment(
 	test_Expand1( r );
 	test_Expand2( r );
 	test_Expand3( r );
+
+	// test wrap-around alignments
+	test_WrapAround( r );
+
 }
 
 BOOST_AUTO_TEST_CASE( test_MultAlignment_Blocks )

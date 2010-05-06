@@ -233,11 +233,20 @@ bool SortPredicateDiagonal(const ResiduePair & lhs, const ResiduePair & rhs)
   return lhs.getDiagonal() < rhs.getDiagonal();
 }
 
+// sort first by row, then by column
 bool SortPredicateRow(const ResiduePair & lhs, const ResiduePair & rhs)
 {
-	  return lhs.mRow < rhs.mRow;
+	if (lhs.mRow == rhs.mRow )
+	{
+			return lhs.mCol < rhs.mCol;
+	}
+	else
+	{
+			return lhs.mRow < rhs.mRow;
+	}
 }
 
+// sort first by col, then by row
 bool SortPredicateCol(const ResiduePair & lhs, const ResiduePair & rhs)
 {
 	  return lhs.mCol < rhs.mCol;

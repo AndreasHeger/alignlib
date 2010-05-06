@@ -113,7 +113,7 @@ Position ImplAlignmentMatrixRow::mapRowToCol( Position pos, SearchType search ) 
 
 void ImplAlignmentMatrixRow::sortDots() const 
 {
-    
+  debug_func_cerr( 5 );
   /* sort indices on row */
   sortDotsByRow( 0, mPairs.size() );
   

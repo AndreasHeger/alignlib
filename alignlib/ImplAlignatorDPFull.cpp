@@ -732,23 +732,31 @@ void ImplAlignatorDPFull::performAlignmentWrapped( HAlignment & ali,
 
 			//--------------------------> recurrence relation <-------------------------------------------------
 			TraceBackLevel level = TBL_MATCH;
-			if ( c == d )                   // vertical gap
+			// the local alignment part
+			if (c <= 0)
 			{
-				level = TBL_INSERTION;
-				mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_INSERTION;
+				c = 0;
 			}
-			else if ( c == e )              // horizontal gap
+			else
 			{
-				level = TBL_DELETION;
-				mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_DELETION;
-			}
-			else                           // match
-			{
-				mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_MATCH;
+				if ( c == d )                   // vertical gap
+				{
+					level = TBL_INSERTION;
+					mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_INSERTION;
+				}
+				else if ( c == e )              // horizontal gap
+				{
+					level = TBL_DELETION;
+					mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_DELETION;
+				}
+				else                           // match
+				{
+					mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_MATCH;
+				}
 			}
 			debug_cerr( 5, " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
 								<< " mCC=" << mCC[col] << " mDD=" << mDD[col]
-								<< " level=" << level
+					            << " level=" << level
 					            << " index=" << getTraceIndex(level,row,col) << " mScore=" << mScore << " : "
 					            << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );
 

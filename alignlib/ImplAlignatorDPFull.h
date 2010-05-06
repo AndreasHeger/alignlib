@@ -140,9 +140,14 @@ class ImplAlignatorDPFull : public ImplAlignatorDP
 	    							const HAlignandum & row,
 	    							const HAlignandum & col );
 
-	    /** perform wrapped alignment */
+	    /** perform wrapped alignment
+	     *
+	     * wrap around col several times.
+	     *
+	     * The alignment is local for row and for col.
+	     * */
 	    virtual void performAlignmentWrapped(HAlignment & dest,
-	    							const HAlignandum & row,
+									const HAlignandum & row,
 	    							const HAlignandum & col );
 
 

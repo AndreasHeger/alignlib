@@ -224,6 +224,9 @@ void copyAlignment(
   // check if we should only iterate by row - this
   // is faster than checking the full alignment.
   bool by_row = row_from != NO_POS && row_to != NO_POS;
+  // warning: by_row causes AlignmentMatrix objects to be copied
+  // incorrectly!!!
+  by_row = false;
   
   // check parameters for filters and set them to sensible values
   if (col_from < src->getColFrom() || col_from == NO_POS)

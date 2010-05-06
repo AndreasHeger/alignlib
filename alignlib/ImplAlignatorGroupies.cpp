@@ -140,6 +140,7 @@ void ImplAlignatorGroupies::align(HAlignment & result, const HAlignandum & row,
 
 	HAlignator p(makeAlignatorPrebuilt(new_dots));
 
+	debug_cerr( 5, "starting dot alignment with gop=" << mGop << " gep=" << mGep );
 	HAlignator alignator(makeAlignatorDots(p, mGop, mGep));
 
 	alignator->align(result, row, col);
