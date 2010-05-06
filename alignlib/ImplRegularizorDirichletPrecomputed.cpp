@@ -96,10 +96,11 @@ ImplRegularizorDirichletPrecomputed::ImplRegularizorDirichletPrecomputed (const 
 
     This function uses the lgamma-function directly.
 */
-double ImplRegularizorDirichletPrecomputed::calculateBetaDifferences( TYPE_BETA_DIFFERENCES beta_differences,
-		const WeightedCount * n,
-		WeightedCount ntotal ) const
-		{
+double ImplRegularizorDirichletPrecomputed::calculateBetaDifferences(
+								     TYPE_BETA_DIFFERENCES beta_differences,
+								     const WeightedCount * n,
+								     WeightedCount ntotal ) const
+{
 
   double max_log_difference = 0;
   int i,j, c;
@@ -110,7 +111,8 @@ double ImplRegularizorDirichletPrecomputed::calculateBetaDifferences( TYPE_BETA_
   for (i = 0; i < ALPHABET_SIZE; i++)
       counts[i] = (int)n[i];
 
-  for (j = 0; j < NCOMPONENTS; j++) {
+  for (j = 0; j < NCOMPONENTS; j++)
+    {
 
       double difference = 0;
 

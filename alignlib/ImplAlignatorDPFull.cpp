@@ -575,10 +575,10 @@ void ImplAlignatorDPFull::performAlignmentGlobal(
 				mTraceMatrix[getTraceIndex(TBL_MATCH,row,col)] = TB_MATCH;
 			}
 			debug_cerr( 5, " row=" << row << " col=" << col << " c=" << c << " e=" << e << " d=" << d << " s=" << s
-								<< " mCC=" << mCC[col] << " mDD=" << mDD[col]
-								<< " level=" << level
-					            << " index=" << getTraceIndex(level,row,col) << " mScore=" << mScore << " : "
-					            << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );
+				    << " mCC=" << mCC[col] << " mDD=" << mDD[col]
+				    << " level=" << level << " score=" << mScorer->getScore(row,col)
+				    << " index=" << getTraceIndex(level,row,col) << " mScore=" << mScore << " : "
+				    << (char*) (( c == d ) ? "insertion" : (( c == e ) ? "deletion" : "match") ) );
 
 			s = mCC[col];
 			mCC[col] = c;                                              // save new score for next i

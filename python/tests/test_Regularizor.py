@@ -21,6 +21,44 @@
 import unittest, sys
 from alignlib import *
 
+class RegularizorCase( unittest.TestCase ):
+
+    def setUp( self ):
+        
+        self.mFactory = makeRegularizor
+
+        self.mMali = makeMultipleAlignment()
+        
+        self.mMali.add( makeAlignatum("ACDEFGHIKLMNPQRSTVWY") )
+        self.mMali.add( makeAlignatum("ACDEFGHIKLMNPQRSTVWY") )
+        self.mMali.add( makeAlignatum("ACDEFGHIKLMNPQRSTVWY") )
+        
+    def testRegularizor( self ):
+                            
+        # getDefaultToolkit().setEncoder( getEncoder( Protein20) )
+        getDefaultToolkit().setRegularizor( self.mFactory() )
+        a = makeProfile(self.mMali)
+        a.prepare()
+        print a
+
+class RegularizorDirichletCase( RegularizorCase ):
+
+    def setUp( self ):
+        RegularizorCase.setUp( self )
+        self.mFactory = makeRegularizorDirichletPrecomputed
+
+"""
+class WeightorHenikoffCase( WeightorCase ):
+
+    def setUp( self ):
+        self.mWeightorFactory = makeWeightorHenikoff
+
+class WeightorHenikoffKimmenCase( WeightorCase ):
+
+    def setUp( self ):
+        self.mWeightorFactory = makeWeightorHenikoffKimmen
+"""     
+
 class TatusovCase( unittest.TestCase ):
 
     def testPsiblast( self ):
@@ -58,6 +96,7 @@ class TatusovCase( unittest.TestCase ):
 
 def suite():
     suite = unittest.TestSuite()
+    suite.addTest(RegularizorDirichletCase)
     suite.addTest(TatusovCase)
     return suite
 

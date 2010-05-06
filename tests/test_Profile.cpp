@@ -56,7 +56,7 @@ void testProfile( const HProfile & profile )
 	// result should be
 	// 0: no counts
 	// 1: 3 * A
-    // 2: 3 * A
+        // 2: 3 * A
 	// 3: 3 * A
 	// 4: 2 * A
 	// 5: A + C + D
@@ -84,10 +84,13 @@ void testProfile( const HProfile & profile )
 }
 
 // test creation of profile from two alignandum objects
-BOOST_AUTO_TEST_CASE( test_makeProfile1a )
+BOOST_AUTO_TEST_CASE( test_makeProfile2 )
 {
 	// HAlignandum a(makeSequence("AAAAACCCC"));
-	HAlignandum b(makeProfile("AAAACCCCAAAADDDD", 2));
+	HAlignandum b(makeProfile("AAAACCCCWWWWWAAAADDDDWWWWW", 2));
+	b->prepare();
+	
+	std::cout << *b << std::endl;
 	/*
 	HAlignment map_a2mali(makeAlignmentVector());
 	map_a2mali->addDiagonal( 0,3,1);

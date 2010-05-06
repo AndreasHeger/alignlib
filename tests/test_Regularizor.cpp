@@ -50,6 +50,7 @@ using namespace alignlib;
 
 std::string ref_protein20 = "ACDEFGHIKLMNPQRSTVWY";
 std::string ref_protein20x3 = ref_protein20 + ref_protein20 + ref_protein20;
+std::string ref_protein20x3gaps = ref_protein20 + "-" + ref_protein20 + "Y" + ref_protein20 + "Y";
 
 // most profilers only work with the twenty amino acid alphabet
 // setDefaultEncoder( getEncoder(Protein20) );
@@ -60,6 +61,15 @@ void test_GenericRegularizor( const HRegularizor & r)
 	getDefaultToolkit()->setRegularizor( r );
 	HAlignandum a(makeProfile( ref_protein20x3, 3 ));
 	a->prepare();
+	std::cout << *a << std::endl;
+}
+
+void test_GenericRegularizorWithGaps( const HRegularizor & r)
+{
+	getDefaultToolkit()->setRegularizor( r );
+	HAlignandum a(makeProfile( ref_protein20x3gaps, 3 ));
+	a->prepare();
+	std::cout << *a << std::endl;
 }
 
 
@@ -73,9 +83,16 @@ BOOST_AUTO_TEST_CASE( test_Regularizor )
 
 BOOST_AUTO_TEST_CASE( test_RegularizorPsiblast )
 {
-	setDefaultEncoder( getEncoder( Protein20 ) );
-	HRegularizor r( makeRegularizorPsiblast());
-	test_GenericRegularizor( r );
+  setDefaultEncoder( getEncoder( Protein20 ) );
+  HRegularizor r( makeRegularizorPsiblast());
+  test_GenericRegularizorWithGaps( r );
+}
+
+BOOST_AUTO_TEST_CASE( test_RegularizorDirichlet )
+{
+  setDefaultEncoder( getEncoder( Protein20 ) );
+  HRegularizor r( makeRegularizorDirichletPrecomputed());
+  test_GenericRegularizorWithGaps( r );
 }
 
 
