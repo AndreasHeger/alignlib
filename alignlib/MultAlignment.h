@@ -74,6 +74,22 @@ class MultAlignment : public virtual AlignlibBase
 
     DEFINE_ABSTRACT_CLONE( HMultAlignment )
 
+    /** return a modified copy of this alignment
+    *
+    * @param modification of the multiple alignment.
+    *
+    *     Full: unaligned residues are added to the multiple alignment.
+    *           They are not stacked on each other, but for each unaligned
+    *           residue a new multiple aligment position is created.
+    * 	  Compressed: space is created within the multiple alignment
+    *           in order to accommodate unaligned residues
+    *
+    * @return a new @ref MultAlignment instance.
+    */
+
+	virtual HMultAlignment getCopy(
+				const ExpansionType & expansion_type ) const = 0;
+
     //---------------------------------------------------------------------------------------
     /*------- accessors --------------------------------------------------------------------*/
     /** returns the length (number of columns) of the multiple alignment.

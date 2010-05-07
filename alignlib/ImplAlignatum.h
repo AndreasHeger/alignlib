@@ -57,7 +57,8 @@ class ImplAlignatum : public Alignatum, public ImplAlignlibBase
     /** destructor */
     virtual ~ImplAlignatum ();
 
-    ImplAlignatum (const std::string & representation,
+    ImplAlignatum (
+    		const std::string & representation,
     		Position from = NO_POS,
     		Position to = NO_POS);
 
@@ -113,13 +114,14 @@ class ImplAlignatum : public Alignatum, public ImplAlignlibBase
     		const SearchType search = NO_SEARCH) const;
 
     /** remap the current alignatum object using ali.
-	If unaligned chars is true, lower case unaligned characters will be
-	put before the next aligned character (as much as fit)
+    *
+	* @param unaligned 	add unaligned characters in lower case (as many as fit before
+	* 					the next aligned character)
     */
     virtual void mapOnAlignment(
     		const HAlignment & map_old2new,
     		const Position new_length = 0,
-    		const bool unaligned_chars = false );
+    		const bool unaligned = false );
 
     /** return an @ref Alignment object mapping aligned positions to the string representation
      *

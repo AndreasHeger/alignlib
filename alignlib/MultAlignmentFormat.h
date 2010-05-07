@@ -55,12 +55,13 @@ struct MultAlignmentFormat
 	friend std::ostream & operator<<( std::ostream &, const MultAlignmentFormat &);
 	friend std::istream & operator>>( std::istream &, MultAlignmentFormat &);
 
-	// constructors and desctructors
+	// constructors and destructors
 	MultAlignmentFormat ();
 
 	MultAlignmentFormat(
 			const HMultAlignment & src,
-			const HStringVector & sequences );
+			const HStringVector & sequence,
+			const ExpansionType & expansion_type = UnalignedIgnore );
 
 	MultAlignmentFormat( std::istream & src);
 
@@ -77,7 +78,8 @@ struct MultAlignmentFormat
 	 */
 	virtual void fill(
 			const HMultAlignment & src,
-			const HStringVector & sequences);
+			const HStringVector & sequences,
+			const ExpansionType & expansion_type = UnalignedIgnore );
 
 	/** fill alignment from format
 	 *
@@ -102,9 +104,22 @@ struct MultAlignmentFormat
 };
 
 /**
-	Plain Mult alignment format.
+	Plain Multiple alignment format.
 
-	The mali is output in rows.
+	The mali is output a tab-separated table
+	with three columns:
+
+	    start
+	    sequence
+	    end
+
+	Unaligned positions are not stacked on top
+	of each other.
+
+
+	Unaligned positions are stacked on top
+	of each other.
+
 
    	@author Andreas Heger
    	@version $Id$
@@ -113,16 +128,18 @@ struct MultAlignmentFormat
 */
 struct MultAlignmentFormatPlain : public MultAlignmentFormat
 {
-	// constructors and desctructors
+	// constructors and destructors
 	MultAlignmentFormatPlain ();
 
 	MultAlignmentFormatPlain(
 			const HMultAlignment & src,
-			const HStringVector & sequences );
+			const HStringVector & sequences,
+			const ExpansionType & expansion_type = UnalignedIgnore );
 
 	MultAlignmentFormatPlain(
 			const HMultAlignment & src,
-			const HAlignandumVector & sequences );
+			const HAlignandumVector & sequences,
+			const ExpansionType & expansion_type = UnalignedIgnore );
 
 	MultAlignmentFormatPlain( std::istream & src);
 
@@ -138,14 +155,16 @@ struct MultAlignmentFormatPlain : public MultAlignmentFormat
 	 */
 	virtual void fill(
 			const HMultAlignment & src,
-			const HStringVector & sequences);
+			const HStringVector & sequences,
+			const ExpansionType & expansion_type = UnalignedIgnore );
 
 	/** fill blocks from alignment
 		@param src Alignment to parse
 	 */
 	virtual void fill(
 			const HMultAlignment & src,
-			const HAlignandumVector & sequences);
+			const HAlignandumVector & sequences,
+			const ExpansionType & expansion_type = UnalignedIgnore );
 
 	/** save alignment to stream
 	 */

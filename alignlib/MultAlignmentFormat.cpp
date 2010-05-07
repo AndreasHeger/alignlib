@@ -57,9 +57,10 @@ MultAlignmentFormat::MultAlignmentFormat( const std::string & src)
 
 MultAlignmentFormat::MultAlignmentFormat(
 		const HMultAlignment & src,
-		const HStringVector & sequences )
+		const HStringVector & sequences,
+		const ExpansionType & expansion_type )
 {
-	fill( src, sequences );
+	fill( src, sequences, expansion_type );
 }
 
 MultAlignmentFormat::~MultAlignmentFormat()
@@ -68,7 +69,8 @@ MultAlignmentFormat::~MultAlignmentFormat()
 
 void MultAlignmentFormat::fill(
 		const HMultAlignment & src,
-		const HStringVector & sequences)
+		const HStringVector & sequences,
+		const ExpansionType & expansion_type )
 {
 	debug_func_cerr( 5 );
 	if (sequences->size() != src->getNumSequences())
@@ -141,7 +143,8 @@ MultAlignmentFormatPlain::MultAlignmentFormatPlain( const std::string & src)
 
 MultAlignmentFormatPlain::MultAlignmentFormatPlain(
 		const HMultAlignment & src,
-		const HStringVector & sequences )
+		const HStringVector & sequences,
+		const ExpansionType & expansion_type )
 : MultAlignmentFormat()
 {
 	// this is a call to a virtual function within
@@ -149,12 +152,13 @@ MultAlignmentFormatPlain::MultAlignmentFormatPlain(
 	// class wants to use a derived function. This
 	// is not the case. To ensure this, the empty constructor
 	// is called.
-	fill( src, sequences );
+	fill( src, sequences, expansion_type );
 }
 
 MultAlignmentFormatPlain::MultAlignmentFormatPlain(
 		const HMultAlignment & src,
-		const HAlignandumVector & sequences )
+		const HAlignandumVector & sequences,
+		const ExpansionType & expansion_type )
 : MultAlignmentFormat()
 {
 	// this is a call to a virtual function within
@@ -162,7 +166,7 @@ MultAlignmentFormatPlain::MultAlignmentFormatPlain(
 	// class wants to use a derived function. This
 	// is not the case. To ensure this, the empty constructor
 	// is called.
-	fill( src, sequences );
+	fill( src, sequences, expansion_type );
 }
 
 
@@ -177,31 +181,42 @@ MultAlignmentFormatPlain::MultAlignmentFormatPlain (const MultAlignmentFormatPla
 
 void MultAlignmentFormatPlain::fill(
 		const HMultAlignment & src,
-		const HStringVector & sequences
+		const HStringVector & sequences,
+		const ExpansionType & expansion_type
 )
 {
 	debug_func_cerr(5);
 
-	MultAlignmentFormat::fill( src, sequences );
+	MultAlignmentFormat::fill( src, sequences, expansion_type );
+
+	// expand gaps
+	HMultAlignment work(src->getCopy( expansion_type ));
+
  	for (int x = 0; x < sequences->size(); ++x)
  	{
- 		HAlignment map_src2mali( (*src)[x]->getClone());
+ 		HAlignment map_src2mali( (*work)[x]->getClone() );
  		map_src2mali->switchRowCol();
-		mData.push_back( makeAlignatum( (*sequences)[x], map_src2mali, src->getLength() ));
+ 		mData.push_back(
+ 				makeAlignatum( (*sequences)[x],
+ 						map_src2mali,
+ 						work->getLength(),
+ 						expansion_type == UnalignedStacked ));
+
  	}
+ 	debug_cerr( 5, "added " << sequences->size() << " to data " << mData.size());
 }
 
 void MultAlignmentFormatPlain::fill(
 		const HMultAlignment & src,
-		const HAlignandumVector & sequences
-)
+		const HAlignandumVector & sequences,
+		const ExpansionType & expansion_type)
 {
 	debug_func_cerr(5);
 
 	HStringVector seqs( new StringVector() );
  	for (int x = 0; x < sequences->size(); ++x)
  		seqs->push_back( (*sequences)[x]->asString() );
- 	fill( src, seqs);
+ 	fill( src, seqs, expansion_type );
 }
 
 void MultAlignmentFormatPlain::load( std::istream & input)

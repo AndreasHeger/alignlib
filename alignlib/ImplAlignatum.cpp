@@ -50,22 +50,27 @@ HAlignatum makeAlignatum()
 	return HAlignatum(new ImplAlignatum());
 }
 
-HAlignatum makeAlignatum(const std::string & src, const Position & from,
-		const Position & to)
+HAlignatum makeAlignatum(
+		const std::string & src,
+		const Position & from,
+		const Position & to )
 {
-	return HAlignatum(new ImplAlignatum(src, from, to));
+	return HAlignatum(new ImplAlignatum(src, from, to ));
 }
 
-HAlignatum makeAlignatum(const HAlignandum & src, const Position & from,
-		const Position & to)
+HAlignatum makeAlignatum(
+		const HAlignandum & src,
+		const Position & from,
+		const Position & to )
 {
-	return HAlignatum(new ImplAlignatum(std::string(src->asString()), from, to));
+	return HAlignatum(new ImplAlignatum(std::string(src->asString()), from, to ));
 }
 
 HAlignatum makeAlignatum(
 		const std::string & src,
 		const HAlignment & map_src2alignment,
-		const Position & max_length)
+		const Position & max_length,
+		const bool & unaligned )
 {
 	HAlignatum h(new ImplAlignatum(src));
 	Position length;
@@ -74,19 +79,21 @@ HAlignatum makeAlignatum(
 	else
 		length = max_length;
 
-	h->mapOnAlignment(map_src2alignment, length);
+	h->mapOnAlignment(map_src2alignment, length, unaligned );
 	return h;
 }
 
 HAlignatum makeAlignatum(
 		const HAlignandum & src,
 		const HAlignment & map_src2alignment,
-		const Position & max_length)
+		const Position & max_length,
+		const bool & unaligned )
 {
 	return makeAlignatum(
 			src->asString(),
 			map_src2alignment,
-			max_length );
+			max_length,
+			unaligned );
 }
 
 //---------------------------------------------------------< constructors and destructors >--------
@@ -97,8 +104,10 @@ ImplAlignatum::ImplAlignatum() :
 {
 }
 
-ImplAlignatum::ImplAlignatum(const std::string & representation, Position from,
-		Position to) :
+ImplAlignatum::ImplAlignatum(
+		const std::string & representation,
+		Position from,
+		Position to ) :
 	mRepresentation(representation), mFrom(from), mTo(to), mGapChar(
 			getToolkit()->getEncoder()->getGapChar()), mSeparator('\t')
 {
@@ -140,7 +149,7 @@ IMPLEMENT_CLONE( HAlignatum, ImplAlignatum );
 void ImplAlignatum::mapOnAlignment(
 		const HAlignment & map_old2new,
 		const Position new_length,
-		const bool unaligned_chars)
+		const bool unaligned)
 {
 	debug_func_cerr(5);
 
@@ -189,7 +198,7 @@ void ImplAlignatum::mapOnAlignment(
 	}
 
 	// add unaligned characters
-	if (unaligned_chars)
+	if (unaligned)
 	{
 
 		debug_cerr( 5, "adding unaligned chars" );

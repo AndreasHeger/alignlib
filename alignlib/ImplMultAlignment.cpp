@@ -91,6 +91,108 @@ ImplMultAlignment::ImplMultAlignment(const ImplMultAlignment & src) :
 IMPLEMENT_CLONE(HMultAlignment, ImplMultAlignment)
 ;
 
+//---------------------------------------------------------------------------------------
+HMultAlignment ImplMultAlignment::getCopy(
+		const ExpansionType & expansion_type ) const
+{
+	debug_func_cerr(5);
+
+	HMultAlignment result( makeMultAlignment() );
+
+	if (isEmpty()) return result;
+	if (expansion_type == UnalignedIgnore )
+		return getClone();
+
+	// save old length of mali
+	Position mali_length = mLength;
+
+	debug_cerr( 5, "length=" << mali_length );
+
+	AggregateType t = AggSum;
+
+	if (expansion_type == UnalignedSeparate)
+	{
+		t = AggSum;
+	}
+	else if (expansion_type == UnalignedStacked)
+	{
+		t = AggMax;
+	}
+
+	// get number of gaps between columns in the multiple alignment
+	HCountVector ggaps(getGapCounts( HAlignandumVector(),t));
+
+	CountVector & gaps = *ggaps;
+
+#ifdef DEBUG
+	for (unsigned int x = 0; x < gaps.size(); ++x)
+		debug_cerr( 5, "col=" << x << " gaps=" << gaps[x]);
+#endif
+
+	// build map of aligned columns to output columns in mali
+	// record gaps before each position
+	HAlignment map_mali_old2new = makeAlignmentVector();
+	{
+		Position y = 0;
+		for (Position x = 0; x < mali_length; ++x)
+		{
+			y += gaps[x];
+			map_mali_old2new->addPair(x, y++, 0);
+		}
+	}
+
+	debug_cerr( 5, "map_mali_old2new\n" << *map_mali_old2new );
+
+	// remap each row to the new mali
+	std::vector<int>used_gaps(mali_length + 1, 0);
+
+	for (unsigned int x = 0; x < mRows.size(); ++x)
+	{
+		HAlignment old_map_mali2row = mRows[x];
+		HAlignment new_map_mali2row = old_map_mali2row->getNew();
+
+		// build new alignment by mapping the existing aligned columns
+		combineAlignment(new_map_mali2row, map_mali_old2new, old_map_mali2row,
+				RR);
+
+		debug_cerr( 5, "map_mali2row after mapping aligned columns=\n" << *new_map_mali2row );
+
+		if (expansion_type == UnalignedSeparate)
+		{
+			// insert gaps between aligned positions
+			Position last_col = old_map_mali2row->getColFrom();
+			for (Position row = old_map_mali2row->getRowFrom() + 1;
+					row < old_map_mali2row->getRowTo();
+					++row)
+			{
+				Position col = old_map_mali2row->mapRowToCol(row);
+
+				if (col != NO_POS)
+				{
+					unsigned int u = map_mali_old2new->mapRowToCol(row) - gaps[row]
+					                                                           + used_gaps[row];
+					unsigned int d = col - last_col - 1;
+					while (col - last_col - 1 > 0)
+					{
+						new_map_mali2row->addPair(u++, ++last_col, 0);
+					}
+
+					used_gaps[row] += d;
+					last_col = col;
+				}
+			}
+		}
+		debug_cerr( 3, "map_mali2row after mapping unaligned columns=\n" << *new_map_mali2row );
+
+		result->add( new_map_mali2row );
+	}
+
+	assert(getNumSequences() == result->getNumSequences());
+
+	return result;
+}
+
+
 //--------------------------------------------------------------------------------------------------------------
 void ImplMultAlignment::freeMemory()
 {
@@ -669,7 +771,7 @@ HCountVector ImplMultAlignment::getGapCounts(
 	debug_func_cerr(5);
 
 	bool insert_termini = false;
-	if (sequences->size() != 0)
+	if (sequences != NULL && sequences->size() != 0)
 	{
 		if (sequences->size() != getNumSequences())
 			throw AlignlibException(

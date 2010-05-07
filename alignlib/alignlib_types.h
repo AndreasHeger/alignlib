@@ -121,6 +121,14 @@ enum StorageType
 	Sparse
 };
 
+// Multiple alignment expansion types
+enum ExpansionType
+{
+	UnalignedIgnore,
+	UnalignedSeparate,
+	UnalignedStacked
+};
+
 /* type of a height of a node in the tree */
 typedef double TreeHeight;
 

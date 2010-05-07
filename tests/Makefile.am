@@ -48,7 +48,7 @@ programs=test_Fragmentor \
 check_PROGRAMS = ${programs}
 
 ## test programs get automatically built but not installed
-noinst_PROGRAMS = ${programs}
+## noinst_PROGRAMS = ${programs}
 
 TESTS = $(check_PROGRAMS)
 

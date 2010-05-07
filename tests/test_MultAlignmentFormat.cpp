@@ -41,17 +41,30 @@ using boost::unit_test::test_suite;
 using namespace std;
 using namespace alignlib;
 
+// build an example multiple alignment
 HMultAlignment buildAlignment()
 {
 	HMultAlignment a(makeMultAlignment());
 	HAlignment ali(makeAlignmentVector());
+	// first row is empty
 	a->add( ali );
+	// add 10 staggered sequences
 	for (int x = 0; x < 10; ++x)
 	{
 		ali->clear();
 		ali->addDiagonal( x, x+10, -x);
 		a->add( ali );
 	}
+
+	// 4 sequences with increasing gap in the middle
+	for (int x = 1; x < 5; ++x)
+	{
+		ali->clear();
+		ali->addDiagonal( 5-x, 5, -(5-x));
+		ali->addDiagonal( 5, 10, 0);
+		a->add( ali );
+	}
+
 	return a;
 }
 
@@ -60,15 +73,18 @@ void testFormat( const std::auto_ptr<MultAlignmentFormat> & format )
 	HMultAlignment mali(makeMultAlignment());
 	HStringVector sequences(new StringVector());
 
+	// check result with empty alignment
 	format->fill( mali, sequences );
 	BOOST_CHECK_EQUAL( format->mData.size(), sequences->size() );
 	format->copy( mali, makeAlignmentVector() );
 
+	// check adding empty sequences
 	mali->add( makeAlignmentVector() );
 	sequences->push_back("");
 	format->fill( mali, sequences );
 	BOOST_CHECK_EQUAL( format->mData.size(), sequences->size() );
 
+	// check adding empty sequences
 	mali->add( makeAlignmentVector() );
 	sequences->push_back("");
 	format->fill( mali, sequences );
@@ -99,6 +115,8 @@ void testWriteRead( const std::auto_ptr<MultAlignmentFormat> & format,
 				format->mData[x]->getString(),
 				new_format.mData[x]->getString());
 
+	// std::cout << *old_mali << std::endl;
+	// std::cout << *new_mali << std::endl;
 	BOOST_CHECK_EQUAL( checkMultAlignmentIdentity( old_mali, new_mali ), true );
 }
 
@@ -108,13 +126,42 @@ BOOST_AUTO_TEST_CASE( test_MultAlignmentFormatPlain )
 	HStringVector sequences(new StringVector());
 	for (int x = 0; x < mali->getNumSequences(); ++x)
 	{
-		sequences->push_back( "XXXXXXXXXXX" );
+		sequences->push_back( "ABCDEFGHIJ" );
 	}
 
 	std::auto_ptr<MultAlignmentFormat>f(new MultAlignmentFormatPlain( mali, sequences));
-	testWriteRead( f, mali );
+	std::cout << *f << std::endl;
+	//testWriteRead( f, mali );
 	testFormat( f );
 }
 
+BOOST_AUTO_TEST_CASE( test_MultAlignmentFormatExpanded )
+{
+	HMultAlignment mali(buildAlignment());
+	HStringVector sequences(new StringVector());
+	for (int x = 0; x < mali->getNumSequences(); ++x)
+	{
+		sequences->push_back( "ABCDEFGHIJ" );
+	}
 
+	std::auto_ptr<MultAlignmentFormat>f(new MultAlignmentFormatPlain( mali, sequences, UnalignedSeparate ));
+	std::cout << *f << std::endl;
+	//testWriteRead( f, mali );
+	testFormat( f );
+}
+
+BOOST_AUTO_TEST_CASE( test_MultAlignmentFormatStacked )
+{
+	HMultAlignment mali(buildAlignment());
+	HStringVector sequences(new StringVector());
+	for (int x = 0; x < mali->getNumSequences(); ++x)
+	{
+		sequences->push_back( "ABCDEFGHIJ" );
+	}
+
+	std::auto_ptr<MultAlignmentFormat>f(new MultAlignmentFormatPlain( mali, sequences, UnalignedStacked));
+	std::cout << *f << std::endl;
+	//testWriteRead( f, mali );
+	testFormat( f );
+}
 

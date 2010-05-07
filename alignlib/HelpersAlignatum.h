@@ -57,24 +57,31 @@ HAlignatum makeAlignatum(
  * @param src  string to initialize with
  * @param map_src2alignment  mapping of string to alignment.
  * @param max_length maximum length of object. Adds additional gap characters to the end.
+ * @param unaligned 	add unaligned characters in lower case (as many as fit before
+ * 					the next aligned character)
+ *
  * @return a new @ref Alignatum object.
  */
 HAlignatum makeAlignatum(
 		const std::string & src,
 		const HAlignment & map_src2aligned,
-		const Position & max_length = 0);
+		const Position & max_length = 0,
+		const bool & unaligned = false );
 
 /** make an @ref Alignatum object from an @ref Alignandum object.
  *
  * @param src  @ref Alignandum object.
  * @param map_this2new @ref Alignment object mapping src to the new object.
  * @param max_length maximum length of object. Adds additional gap characters to the end.
+ * @param unaligned 	add unaligned characters in lower case (as many as fit before
+ * 					the next aligned character)
  * @return a new @ref Alignatum object.
  */
 HAlignatum makeAlignatum(
 		const HAlignandum & src,
 		const HAlignment & map_this2new,
-		const Position & max_length = 0);
+		const Position & max_length = 0,
+		const bool & unaligned = false );
 
 /** return a new @ref Alignatum object from an @ref Alignandum object.
  *

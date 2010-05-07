@@ -8,7 +8,8 @@
 # WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-noinst_PROGRAMS = bench_Alignment bench_Alignator
+programs = bench_Alignment bench_Alignator
+noinst_PROGRAMS =$(programs) 
 
 LDADD = $(top_srcdir)/alignlib/.libs/libalignlib.a -lm 
 
