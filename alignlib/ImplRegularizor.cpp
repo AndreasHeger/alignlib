@@ -60,7 +60,7 @@ IMPLEMENT_CLONE( HRegularizor, ImplRegularizor );
 //-------------------------------------------------------------------------------------------------------
 double ImplRegularizor::calculateDiversity( const WeightedCountMatrix & counts ) const
 {
-	// diversity is the average number of different charactesr per column
+	// diversity is the average number of different characters per column
 	Position width = counts.getNumCols();
 	Position length = counts.getNumRows();
 

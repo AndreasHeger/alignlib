@@ -83,16 +83,32 @@ class TatusovCase( unittest.TestCase ):
 
         matrix = makeSubstitutionMatrixDNA4()
 
-        bg = (0.25, 0.25, 0.25, 0.25, 0.0001)
+        bg = (0.4, 0.3, 0.2, 0.2)
+
+        weight_matrix = MatrixDouble( 10, 5, 0.0 )
+
+        for x in range(0, 10):
+            weight_matrix.setValue(x, x % 5, 1.0 )
+
+        printMatrix( sys.stdout, weight_matrix )
+
+        frequency_matrix = MatrixDouble( 10, 5, 0.0 )
 
         b = FrequencyVector()
         b.extend( bg )
         regularizor = makeRegularizorTatusov(
             matrix,
             b,
-            "ACGTN",                                                                                                                                                                                              
-            10, 
-            0.3176 )
+            "ACGT",                                                                                                                                                                                              
+            10.0, 
+            0.0 )
+
+        regularizor.fillFrequencies( frequency_matrix,
+                                     weight_matrix,
+                                     getEncoder( DNA4) )
+        
+        printMatrix( sys.stdout, frequency_matrix )
+
 
 def suite():
     suite = unittest.TestSuite()
