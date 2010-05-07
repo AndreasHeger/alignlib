@@ -513,7 +513,7 @@ def exportEnums( mb ):
     """export enums."""
     enumerations_to_export = set( ['AlignmentType', 'CombinationMode', 'SearchType', 
                                    'LinkageType', 'AlphabetType', 'StorageType',
-                                   'ToolkitType', 'AggregateType' ] )
+                                   'ToolkitType', 'AggregateType', 'ExpansionType' ] )
     
     mb.enumerations( lambda x: x.name in enumerations_to_export ).include()
     
