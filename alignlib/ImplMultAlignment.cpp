@@ -214,6 +214,47 @@ void ImplMultAlignment::buildAligned()
 /** Add a full multiple alignment to the another alignment.
  */
 void ImplMultAlignment::add(
+		const HMultipleAlignment & src,
+		const HAlignment & map_src2this )
+{
+	debug_func_cerr(5);
+
+	// do not add empty mali
+	if (src->isEmpty())
+		return;
+
+	debug_cerr( 5, "adding " << src->getNumSequences() << " sequences to " << mRows.size() << " rows");
+
+	for (int x = 0; x < src->getNumSequences(); ++x)
+	{
+		HAlignatum other_row = src->getRow(x);
+		HAlignment map_mali2sequence(makeAlignmentVector());
+
+		const std::string s( other_row->getString() );
+		Position seqpos = 0;
+		char gapchar = getDefaultEncoder()->getGapChar();
+		for (int x = 0; x < s.size(); ++x)
+		{
+			if (s[x] == gapchar) continue;
+			Position malipos = map_src2this->mapRowToCol( x );
+			if (malipos >= 0)
+				map_mali2sequence->addPair( malipos, seqpos, 0 );
+			seqpos += 1;
+		}
+		mRows.push_back(map_mali2sequence);
+	}
+
+	debug_cerr( 5, "after adding: " << mRows.size() << " rows");
+
+	mFrom = std::min(mFrom, map_src2this->getColFrom());
+	mLength = std::max(mLength, map_src2this->getColTo());
+	buildAligned();
+}
+
+//------------------------------------------------------------------------------------
+/** Add a full multiple alignment to the another alignment.
+ */
+void ImplMultAlignment::add(
 		const HMultAlignment & other,
 		const HAlignment & map_this2other)
 {

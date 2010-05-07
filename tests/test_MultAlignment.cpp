@@ -46,6 +46,8 @@
 #include "HelpersMultAlignment.h"
 #include "AlignlibDebug.h"
 #include "AlignlibException.h"
+#include "MultipleAlignment.h"
+#include "HelpersMultipleAlignment.h"
 
 using namespace std;
 using namespace alignlib;
@@ -541,7 +543,103 @@ BOOST_AUTO_TEST_CASE( test_MultAlignment )
 	test_GenericMultAlignment( r );
 }
 
+BOOST_AUTO_TEST_CASE( test_Conversion )
+{
+	HMultipleAlignment reference(makeMultipleAlignment());
 
+	{
+		reference->add(makeAlignatum("0123456789"));
+		reference->add(makeAlignatum("0123456789"));
+		reference->add(makeAlignatum("0123456789"));
+	}
 
+	HMultAlignment r( makeMultAlignment() );
+	HAlignment a(makeAlignmentVector());
+	a->addDiagonal( 0, reference->getLength(), 0);
+	r->add( reference, a );
+	BOOST_CHECK_EQUAL( r->getLength(), reference->getLength() );
+	BOOST_CHECK_EQUAL( r->getNumSequences(), reference->getNumSequences() );
 
+	for (Position x = 0; x < 10; ++x)
+	{
+		BOOST_CHECK_EQUAL( r->isAligned( x ), true );
+	}
+
+}
+
+BOOST_AUTO_TEST_CASE( test_ConversionWithMapping )
+{
+	HMultipleAlignment reference(makeMultipleAlignment());
+
+	{
+		reference->add(makeAlignatum("0123456789"));
+		reference->add(makeAlignatum("0123456789"));
+		reference->add(makeAlignatum("0123456789"));
+	}
+
+	HMultAlignment r( makeMultAlignment() );
+	HAlignment a(makeAlignmentVector());
+	a->addDiagonal( 0, 5, 0);
+	a->addDiagonal( 5, 10, 1);
+	r->add( reference, a );
+	BOOST_CHECK_EQUAL( r->getLength()-1, reference->getLength() );
+	BOOST_CHECK_EQUAL( r->getNumSequences(), reference->getNumSequences() );
+
+	for (Position x = 0; x < 5; ++x)
+		BOOST_CHECK_EQUAL( r->isAligned( x ), true );
+	BOOST_CHECK_EQUAL( r->isAligned( 5 ), false );
+	for (Position x = 6; x < 11; ++x)
+		BOOST_CHECK_EQUAL( r->isAligned( x ), true );
+}
+
+BOOST_AUTO_TEST_CASE( test_ConversionGap )
+{
+	HMultipleAlignment reference(makeMultipleAlignment());
+
+	{
+		reference->add(makeAlignatum("01234-6789"));
+		reference->add(makeAlignatum("01234-6789"));
+		reference->add(makeAlignatum("01234-6789"));
+	}
+
+	HMultAlignment r( makeMultAlignment() );
+	HAlignment a(makeAlignmentVector());
+	a->addDiagonal( 0, reference->getLength(), 0);
+	r->add( reference, a );
+	BOOST_CHECK_EQUAL( r->getLength(), reference->getLength() );
+	BOOST_CHECK_EQUAL( r->getNumSequences(), reference->getNumSequences() );
+
+	for (Position x = 0; x < 5; ++x)
+		BOOST_CHECK_EQUAL( r->isAligned( x ), true );
+	BOOST_CHECK_EQUAL( r->isAligned( 5 ), false );
+	for (Position x = 6; x < 10; ++x)
+		BOOST_CHECK_EQUAL( r->isAligned( x ), true );
+
+}
+
+BOOST_AUTO_TEST_CASE( test_ConversionGaps )
+{
+	HMultipleAlignment reference(makeMultipleAlignment());
+
+	{
+		reference->add(makeAlignatum("-1234-6789-"));
+		reference->add(makeAlignatum("-1234-6789-"));
+		reference->add(makeAlignatum("-1234-6789-"));
+	}
+
+	HMultAlignment r( makeMultAlignment() );
+	HAlignment a(makeAlignmentVector());
+	a->addDiagonal( 0, reference->getLength(), 0);
+	r->add( reference, a );
+	BOOST_CHECK_EQUAL( r->getLength(), reference->getLength() );
+	BOOST_CHECK_EQUAL( r->getNumSequences(), reference->getNumSequences() );
+
+	BOOST_CHECK_EQUAL( r->isAligned( 0 ), false );
+	for (Position x = 1; x < 5; ++x)
+		BOOST_CHECK_EQUAL( r->isAligned( x ), true );
+	BOOST_CHECK_EQUAL( r->isAligned( 5 ), false );
+	for (Position x = 6; x < 10; ++x)
+		BOOST_CHECK_EQUAL( r->isAligned( x ), true );
+	BOOST_CHECK_EQUAL( r->isAligned( 10 ), false );
+}
 

@@ -195,6 +195,21 @@ class ImplMultAlignment : public MultAlignment, public ImplAlignlibBase
     virtual void add(
     		const HAlignment & map_mali2sequence );
 
+    /** add a @ref MultipleAlignment object to the multiple alignment.
+     *
+     * The alignment object maps the sequence to multiple alignment columns.
+     * Note that some alignment information can be potentially lost. If two
+     * sequence positions are aligned in @param src, but that column is not
+     * in map_mali2sequence, then the alignment of these two residues is lost.
+     *
+	@param other	 @ref MultipleAlignment object to add.
+	@param map_src2this @ref Alignment that maps src to this.
+    */
+    virtual void add(
+    		const HMultipleAlignment & src,
+    		const HAlignment & map_src2this );
+
+
     /** add a @ref MultAlignment object to the multiple alignment.
      *
      * The alignment object maps the sequence to multiple alignment columns.

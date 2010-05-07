@@ -211,6 +211,20 @@ class MultAlignment : public virtual AlignlibBase
      * The alignment object maps the sequence to multiple alignment columns.
      * Note that some alignment information can be potentially lost. If two
      * sequence positions are aligned in @param src, but that column is not
+     * in map_src2this, then the alignment of these two residues is lost.
+     *
+	@param src	 @ref MultipleAlignment object to add.
+	@param alignment @ref Alignment that maps src to this mali.
+    */
+    virtual void add(
+    		const HMultipleAlignment & src,
+    		const HAlignment & map_src2this ) = 0;
+
+    /** add a @ref MultAlignment object to the multiple alignment.
+     *
+     * The alignment object maps the sequence to multiple alignment columns.
+     * Note that some alignment information can be potentially lost. If two
+     * sequence positions are aligned in @param src, but that column is not
      * in map_mali2sequnce, then the alignment of these two residues is lost.
      *
 	@param src	 @ref Alignment object to add.

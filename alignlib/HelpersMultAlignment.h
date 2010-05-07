@@ -73,5 +73,6 @@ bool checkMultAlignmentIdentity(
 		const HMultAlignment & b );
 
 /** @} */
+
 }
 #endif	/* HELPERS_MULTIPLE_ALIGNMENT_H */
