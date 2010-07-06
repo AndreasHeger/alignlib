@@ -92,9 +92,9 @@
 
 #include "modules/Weightor.pypp.hpp"
 
-#include "modules/alignlib_enumerations.pypp.hpp"
+#include "modules/_alignlib_enumerations.pypp.hpp"
 
-#include "modules/alignlib_free_functions.pypp.hpp"
+#include "modules/_alignlib_free_functions.pypp.hpp"
 
 #include "modules/vector_less__double__greater_.pypp.hpp"
 
@@ -169,7 +169,7 @@ alignlib::HEncoder wrapper_for_load_Encoder( PyObject * fp )
              return alignlib::HEncoder (alignlib::loadEncoder( is ));
       }
 
-BOOST_PYTHON_MODULE(alignlib){
+BOOST_PYTHON_MODULE(_alignlib){
     register_enumerations();
 
     register_vector_less__unsigned_char__greater__class();
@@ -289,6 +289,15 @@ BOOST_PYTHON_MODULE(alignlib){
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::StringVector> >();
 
+    { //::std::vector<unsigned long, std::allocator<unsigned long> >
+            typedef bp::class_< std::vector<unsigned long, std::allocator<unsigned long> > > CountVector_exposer_t;
+            CountVector_exposer_t CountVector_exposer = CountVector_exposer_t( "CountVector" );
+            bp::scope CountVector_scope( CountVector_exposer );
+            CountVector_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned long, std::allocator<unsigned long> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::CountVector> >();
+
     { //::std::vector<alignlib::Count, std::allocator<alignlib::Count> >
             typedef bp::class_< std::vector<alignlib::Count, std::allocator<alignlib::Count> > > CountVector_exposer_t;
             CountVector_exposer_t CountVector_exposer = CountVector_exposer_t( "CountVector" );
@@ -306,6 +315,24 @@ BOOST_PYTHON_MODULE(alignlib){
             }
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::FrequencyVector> >();
+
+    { //::std::vector<alignlib::Entropy, std::allocator<alignlib::Entropy> >
+            typedef bp::class_< std::vector<alignlib::Entropy, std::allocator<alignlib::Entropy> > > EntropyVector_exposer_t;
+            EntropyVector_exposer_t EntropyVector_exposer = EntropyVector_exposer_t( "EntropyVector" );
+            bp::scope EntropyVector_scope( EntropyVector_exposer );
+            EntropyVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::Entropy, std::allocator<alignlib::Entropy> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::EntropyVector> >();
+
+    { //::std::vector<unsigned long, std::allocator<unsigned long> >
+            typedef bp::class_< std::vector<unsigned long, std::allocator<unsigned long> > > NodeVector_exposer_t;
+            NodeVector_exposer_t NodeVector_exposer = NodeVector_exposer_t( "NodeVector" );
+            bp::scope NodeVector_scope( NodeVector_exposer );
+            NodeVector_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned long, std::allocator<unsigned long> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::NodeVector> >();
 
     register_free_functions();
 
@@ -340,6 +367,15 @@ BOOST_PYTHON_MODULE(alignlib){
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::StringVector> >();
 
+    { //::std::vector<unsigned long, std::allocator<unsigned long> >
+            typedef bp::class_< std::vector<unsigned long, std::allocator<unsigned long> > > CountVector_exposer_t;
+            CountVector_exposer_t CountVector_exposer = CountVector_exposer_t( "CountVector" );
+            bp::scope CountVector_scope( CountVector_exposer );
+            CountVector_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned long, std::allocator<unsigned long> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::CountVector> >();
+
     { //::std::vector<alignlib::Count, std::allocator<alignlib::Count> >
             typedef bp::class_< std::vector<alignlib::Count, std::allocator<alignlib::Count> > > CountVector_exposer_t;
             CountVector_exposer_t CountVector_exposer = CountVector_exposer_t( "CountVector" );
@@ -357,4 +393,22 @@ BOOST_PYTHON_MODULE(alignlib){
             }
     
             bp::register_ptr_to_python< boost::shared_ptr<alignlib::FrequencyVector> >();
+
+    { //::std::vector<alignlib::Entropy, std::allocator<alignlib::Entropy> >
+            typedef bp::class_< std::vector<alignlib::Entropy, std::allocator<alignlib::Entropy> > > EntropyVector_exposer_t;
+            EntropyVector_exposer_t EntropyVector_exposer = EntropyVector_exposer_t( "EntropyVector" );
+            bp::scope EntropyVector_scope( EntropyVector_exposer );
+            EntropyVector_exposer.def( bp::vector_indexing_suite< ::std::vector<alignlib::Entropy, std::allocator<alignlib::Entropy> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::EntropyVector> >();
+
+    { //::std::vector<unsigned long, std::allocator<unsigned long> >
+            typedef bp::class_< std::vector<unsigned long, std::allocator<unsigned long> > > NodeVector_exposer_t;
+            NodeVector_exposer_t NodeVector_exposer = NodeVector_exposer_t( "NodeVector" );
+            bp::scope NodeVector_scope( NodeVector_exposer );
+            NodeVector_exposer.def( bp::vector_indexing_suite< ::std::vector<unsigned long, std::allocator<unsigned long> >, true >() );
+            }
+    
+            bp::register_ptr_to_python< boost::shared_ptr<alignlib::NodeVector> >();
 }

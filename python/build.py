@@ -186,7 +186,7 @@ def exportFunctions( mb ):
     mb.namespace("alignlib").free_functions().include()
 
     # change these functions to use handles.
-    for prefix in ( "makeEVDParameters", "makeNormalDistributionParameters", "makeEntropyVector" ): 
+    for prefix in ( "makeEVDParameters", "makeNormalDistributionParameters"):
         try:
             mb.free_functions( lambda mem_fun: mem_fun.name.startswith( prefix )).call_policies = \
             return_value_policy( manage_new_object )
@@ -268,32 +268,32 @@ def exportInterfaceClasses( mb ):
     # error: command 'gcc' failed with exit status 1
     classes_to_export = set( [ 'AlignlibBase',
                                'Toolkit',
-                              'Alignandum',
-                              'Sequence',
-                              'Profile',
-                              'MultipleAlignment',
-                              'MultAlignment',
-                              'Alignator',
-                              'MultipleAlignator',
-                              'Iterator',
-                              'Encoder',
-                              'Fragmentor',
-                              'Alignment',
-                              'AlignmentIterator',
-                              'Scorer',
-                              'Weightor',
-                              'LogOddor',
-                              'Regularizor',
-                              'Iterator2D',
-                              'ResiduePair',
-                              'Alignatum',
-                              'EVDParameters',
-                              'NormalDistributionParameters',
-                              'Distor',
-                              'Treetor',
-                              'Tree',
-                              'DistanceMatrix',
-                              'Segment',
+                               'Alignandum',
+                               'Sequence',
+                               'Profile',
+                               'MultipleAlignment',
+                               'MultAlignment',
+                               'Alignator',
+                               'MultipleAlignator',
+                               'Iterator',
+                               'Encoder',
+                               'Fragmentor',
+                               'Alignment',
+                               'AlignmentIterator',
+                               'Scorer',
+                               'Weightor',
+                               'LogOddor',
+                               'Regularizor',
+                               'Iterator2D',
+                               'ResiduePair',
+                               'Alignatum',
+                               'EVDParameters',
+                               'NormalDistributionParameters',
+                               'Distor',
+                               'Treetor',
+                               'Tree',
+                               'DistanceMatrix',
+                               'Segment',
                               ])
 
     ## TODO export substitution matrix
@@ -382,7 +382,8 @@ def exportHandles( mb ):
                          'HPhyloMatrix',
                          'HFragmentVector',
                          'HSegmentVector', 
-                         'HCountVector' ]
+                         'HCountVector',
+                         'HEntropyVector', ]
 
     #for c in mb.classes():
     #    print c.name
@@ -431,10 +432,9 @@ def exportContainers( mb ):
 #        cls.rename( new )
 #        cls.alias = new
 
-
-
     handle_vectors_to_export = ( { 'name' : 'FragmentVector', 'handle' : 'HAlignment' }, 
-                                 { 'name' : 'AlignandumVector', 'handle' : 'HAlignandum' } )
+                                 { 'name' : 'AlignandumVector', 'handle' : 'HAlignandum' } 
+                                 )
 
     for data in handle_vectors_to_export:
         code = """
@@ -451,11 +451,14 @@ def exportContainers( mb ):
         mb.add_registration_code( code, tail=True )
 
 
+    # including the following causes: RuntimeWarning: to-Python converter for std::vector<double, std::allocator<double> > already registered; second conversion method ignored.
+
     atomic_vectors_to_export = ( { 'name' : 'StringVector', 'content' : 'std::string' },
-                                 #{ 'name' : 'CountVector', 'content' : 'unsigned long' },
+                                 { 'name' : 'CountVector', 'content' : 'unsigned long' },
                                  { 'name' : 'CountVector', 'content' : 'alignlib::Count' },
-                                 { 'name' : 'FrequencyVector', 'content' : 'alignlib::Frequency' },
-#                                 { 'name' : 'NodeVector', 'content' : 'unsigned long' }, 
+                                 { 'name' : 'FrequencyVector', 'content' : 'alignlib::Frequency' }, 
+                                 { 'name' : 'EntropyVector', 'content' : 'alignlib::Entropy' }, 
+                                 { 'name' : 'NodeVector', 'content' : 'unsigned long' }, 
                                  ) 
      
     for data in atomic_vectors_to_export:
@@ -573,7 +576,7 @@ def buildModule( include_paths, dest, options) :
         mb.print_declarations()
 
     # creating code creator. After this step you should not modify/customize declarations.
-    mb.build_code_creator( module_name='alignlib' )
+    mb.build_code_creator( module_name='_alignlib' )
     mb.code_creator.add_include( "iostream" )
     mb.code_creator.add_include( "cstdio" )
     mb.split_module( "modules" )
@@ -617,7 +620,7 @@ if __name__ == "__main__":
     parser.add_option( "--gccxml-options", dest="gccxml_options", type="string",
                         help="flags to be passed to gccxml." )
     
-    parser.set_defaults( extension_name = "alignlib",
+    parser.set_defaults( extension_name = "_alignlib",
                          force = False, 
                          src_dir = "../alignlib",
                          boost_dir = None,

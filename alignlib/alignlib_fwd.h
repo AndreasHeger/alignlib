@@ -180,6 +180,10 @@ namespace alignlib
     typedef std::vector<Count> CountVector;
     typedef boost::shared_ptr<CountVector>HCountVector;
 
+    /** A vector of entropies */
+    typedef std::vector<Entropy> EntropyVector;
+    typedef boost::shared_ptr<EntropyVector>HEntropyVector;
+
 }
 
 

@@ -112,8 +112,8 @@ void copyMultipleAlignment(
     		const HMultipleAlignment & mali, 
     		const Frequency min_frequency);
 
-/** a vector for storing double values. */
-typedef std::vector<double> VectorDouble;
+    /** a vector for storing double values. */
+    //typedef std::vector<double> VectorDouble;
 
 /** fill multiple alignment ali from contents of a file */
 /*
@@ -166,7 +166,7 @@ const unsigned int * getMapResidue2CategoryAll();
 
 /** return a vector of entropies calculated for a CountsMatrix
  */
-VectorDouble * makeEntropyVector( const WeightedCountMatrix * src);
+HEntropyVector makeEntropyVector( const WeightedCountMatrix * src);
 
 }
 

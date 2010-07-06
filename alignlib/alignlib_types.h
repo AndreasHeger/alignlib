@@ -69,6 +69,9 @@ typedef double WeightedCount;
 /* type of one entry in a frequencies-table */
 typedef double Frequency;
 
+/* type of entropy */
+typedef double Entropy;
+
 /** alignment types */
 enum AlignmentType
 {
