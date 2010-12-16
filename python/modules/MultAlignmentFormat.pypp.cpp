@@ -17,8 +17,8 @@ struct MultAlignmentFormat_wrapper : alignlib::MultAlignmentFormat, bp::wrapper<
     
     }
 
-    MultAlignmentFormat_wrapper(::alignlib::HMultAlignment const & src, ::alignlib::HStringVector const & sequences )
-    : alignlib::MultAlignmentFormat( src, sequences )
+    MultAlignmentFormat_wrapper(::alignlib::HMultAlignment const & src, ::alignlib::HStringVector const & sequence, ::alignlib::ExpansionType const & expansion_type=::alignlib::UnalignedIgnore )
+    : alignlib::MultAlignmentFormat( src, sequence, expansion_type )
       , bp::wrapper< alignlib::MultAlignmentFormat >(){
         // constructor
     
@@ -57,16 +57,16 @@ struct MultAlignmentFormat_wrapper : alignlib::MultAlignmentFormat, bp::wrapper<
         alignlib::MultAlignmentFormat::copy( dest, templ );
     }
 
-    virtual void fill( ::alignlib::HMultAlignment const & src, ::alignlib::HStringVector const & sequences ) {
+    virtual void fill( ::alignlib::HMultAlignment const & src, ::alignlib::HStringVector const & sequences, ::alignlib::ExpansionType const & expansion_type=::alignlib::UnalignedIgnore ) {
         if( bp::override func_fill = this->get_override( "fill" ) )
-            func_fill( src, sequences );
+            func_fill( src, sequences, expansion_type );
         else
-            this->alignlib::MultAlignmentFormat::fill( src, sequences );
+            this->alignlib::MultAlignmentFormat::fill( src, sequences, expansion_type );
     }
     
     
-    void default_fill( ::alignlib::HMultAlignment const & src, ::alignlib::HStringVector const & sequences ) {
-        alignlib::MultAlignmentFormat::fill( src, sequences );
+    void default_fill( ::alignlib::HMultAlignment const & src, ::alignlib::HStringVector const & sequences, ::alignlib::ExpansionType const & expansion_type=::alignlib::UnalignedIgnore ) {
+        alignlib::MultAlignmentFormat::fill( src, sequences, expansion_type );
     }
 
     virtual void load( ::std::istream & arg0 ) {
@@ -101,7 +101,7 @@ void register_MultAlignmentFormat_class(){
         typedef bp::class_< MultAlignmentFormat_wrapper > MultAlignmentFormat_exposer_t;
         MultAlignmentFormat_exposer_t MultAlignmentFormat_exposer = MultAlignmentFormat_exposer_t( "MultAlignmentFormat", bp::init< >() );
         bp::scope MultAlignmentFormat_scope( MultAlignmentFormat_exposer );
-        MultAlignmentFormat_exposer.def( bp::init< alignlib::HMultAlignment const &, alignlib::HStringVector const & >(( bp::arg("src"), bp::arg("sequences") )) );
+        MultAlignmentFormat_exposer.def( bp::init< alignlib::HMultAlignment const &, alignlib::HStringVector const &, bp::optional< alignlib::ExpansionType const & > >(( bp::arg("src"), bp::arg("sequence"), bp::arg("expansion_type")=::alignlib::UnalignedIgnore )) );
         MultAlignmentFormat_exposer.def( bp::init< std::istream & >(( bp::arg("src") )) );
         bp::implicitly_convertible< std::istream &, alignlib::MultAlignmentFormat >();
         MultAlignmentFormat_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
@@ -121,14 +121,14 @@ void register_MultAlignmentFormat_class(){
         }
         { //::alignlib::MultAlignmentFormat::fill
         
-            typedef void ( ::alignlib::MultAlignmentFormat::*fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & ) ;
-            typedef void ( MultAlignmentFormat_wrapper::*default_fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const & ) ;
+            typedef void ( ::alignlib::MultAlignmentFormat::*fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const &,::alignlib::ExpansionType const & ) ;
+            typedef void ( MultAlignmentFormat_wrapper::*default_fill_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HStringVector const &,::alignlib::ExpansionType const & ) ;
             
             MultAlignmentFormat_exposer.def( 
                 "fill"
                 , fill_function_type(&::alignlib::MultAlignmentFormat::fill)
                 , default_fill_function_type(&MultAlignmentFormat_wrapper::default_fill)
-                , ( bp::arg("src"), bp::arg("sequences") ) );
+                , ( bp::arg("src"), bp::arg("sequences"), bp::arg("expansion_type")=::alignlib::UnalignedIgnore ) );
         
         }
         { //::alignlib::MultAlignmentFormat::load

@@ -4,7 +4,7 @@
 #include "includes.h"
 #include "iostream"
 #include "cstdio"
-#include "alignlib_free_functions.pypp.hpp"
+#include "calignlib_free_functions.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -171,7 +171,7 @@ void register_free_functions(){
         bp::def( 
             "copyAlignment"
             , copyAlignment_function_type( &::alignlib::copyAlignment )
-            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x00000000000000001), bp::arg("row_to")=(int)(-0x00000000000000001), bp::arg("col_from")=(int)(-0x00000000000000001), bp::arg("col_to")=(int)(-0x00000000000000001), bp::arg("diagonal_from")=(long int)(-0x00000000005f5e0ff), bp::arg("diagonal_to")=(long int)(99999999) ) );
+            , ( bp::arg("dest"), bp::arg("src"), bp::arg("row_from")=(int)(-0x00000000000000001), bp::arg("row_to")=(int)(-0x00000000000000001), bp::arg("col_from")=(int)(-0x00000000000000001), bp::arg("col_to")=(int)(-0x00000000000000001), bp::arg("diagonal_from")=(long int)(std::numeric_limits<long int>::min()), bp::arg("diagonal_to")=(long int)(std::numeric_limits<long int>::max()) ) );
     
     }
 
@@ -603,23 +603,23 @@ void register_free_functions(){
 
     { //::alignlib::makeAlignatum
     
-        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const &,::alignlib::Position const & );
+        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::alignlib::HAlignandum const &,::alignlib::HAlignment const &,::alignlib::Position const &,bool const & );
         
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("map_this2new"), bp::arg("max_length")=0 ) );
+            , ( bp::arg("src"), bp::arg("map_this2new"), bp::arg("max_length")=0, bp::arg("unaligned")=false ) );
     
     }
 
     { //::alignlib::makeAlignatum
     
-        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::std::string const &,::alignlib::HAlignment const &,::alignlib::Position const & );
+        typedef ::alignlib::HAlignatum ( *makeAlignatum_function_type )( ::std::string const &,::alignlib::HAlignment const &,::alignlib::Position const &,bool const & );
         
         bp::def( 
             "makeAlignatum"
             , makeAlignatum_function_type( &::alignlib::makeAlignatum )
-            , ( bp::arg("src"), bp::arg("map_src2aligned"), bp::arg("max_length")=0 ) );
+            , ( bp::arg("src"), bp::arg("map_src2aligned"), bp::arg("max_length")=0, bp::arg("unaligned")=false ) );
     
     }
 
@@ -790,13 +790,12 @@ void register_free_functions(){
 
     { //::alignlib::makeEntropyVector
     
-        typedef ::alignlib::VectorDouble * ( *makeEntropyVector_function_type )( ::alignlib::WeightedCountMatrix const * );
+        typedef ::alignlib::HEntropyVector ( *makeEntropyVector_function_type )( ::alignlib::WeightedCountMatrix const * );
         
         bp::def( 
             "makeEntropyVector"
             , makeEntropyVector_function_type( &::alignlib::makeEntropyVector )
-            , ( bp::arg("src") )
-            , bp::return_value_policy< bp::manage_new_object >() );
+            , ( bp::arg("src") ) );
     
     }
 
@@ -1303,6 +1302,27 @@ void register_free_functions(){
         bp::def( 
             "makeSubstitutionMatrixBlosum62"
             , makeSubstitutionMatrixBlosum62_function_type( &::alignlib::makeSubstitutionMatrixBlosum62 ) );
+    
+    }
+
+    { //::alignlib::makeSubstitutionMatrixDNA4
+    
+        typedef ::alignlib::HSubstitutionMatrix ( *makeSubstitutionMatrixDNA4_function_type )( ::alignlib::HEncoder const & );
+        
+        bp::def( 
+            "makeSubstitutionMatrixDNA4"
+            , makeSubstitutionMatrixDNA4_function_type( &::alignlib::makeSubstitutionMatrixDNA4 )
+            , ( bp::arg("encoder") ) );
+    
+    }
+
+    { //::alignlib::makeSubstitutionMatrixDNA4
+    
+        typedef ::alignlib::HSubstitutionMatrix ( *makeSubstitutionMatrixDNA4_function_type )(  );
+        
+        bp::def( 
+            "makeSubstitutionMatrixDNA4"
+            , makeSubstitutionMatrixDNA4_function_type( &::alignlib::makeSubstitutionMatrixDNA4 ) );
     
     }
 

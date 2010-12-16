@@ -257,8 +257,8 @@ void register_Alignandum_class(){
         Alignandum_exposer.def( bp::self_ns::str( bp::self ) );
         bp::register_ptr_to_python< boost::shared_ptr< alignlib::Alignandum > >();
         bp::implicitly_convertible< boost::shared_ptr< alignlib::Alignandum >, boost::shared_ptr< alignlib::AlignlibBase > >();
-        bp::implicitly_convertible< boost::shared_ptr< alignlib::Profile >, boost::shared_ptr< alignlib::Alignandum > >();
         bp::implicitly_convertible< boost::shared_ptr< alignlib::Sequence >, boost::shared_ptr< alignlib::Alignandum > >();
+        bp::implicitly_convertible< boost::shared_ptr< alignlib::Profile >, boost::shared_ptr< alignlib::Alignandum > >();
         Alignandum_exposer.def( "save", wrapper_for_save<alignlib::Alignandum> );
     }
 

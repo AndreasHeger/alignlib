@@ -11,11 +11,7 @@ namespace bp = boost::python;
 
 void register_vector_less__double__greater__class(){
 
-    { //::std::vector< double >
-        typedef bp::class_< std::vector< double > > vector_less__double__greater__exposer_t;
-        vector_less__double__greater__exposer_t vector_less__double__greater__exposer = vector_less__double__greater__exposer_t( "vector_less__double__greater_" );
-        bp::scope vector_less__double__greater__scope( vector_less__double__greater__exposer );
-        vector_less__double__greater__exposer.def( bp::vector_indexing_suite< ::std::vector< double >, true >() );
-    }
+    bp::class_< std::vector< double > >("vector_less__double__greater_")    
+        .def( bp::vector_indexing_suite< ::std::vector< double >, true >() );
 
 }

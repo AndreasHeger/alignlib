@@ -26,6 +26,16 @@ void register_MultAlignment_class(){
         }
         { //::alignlib::MultAlignment::add
         
+            typedef void ( ::alignlib::MultAlignment::*add_function_type )( ::alignlib::HMultipleAlignment const &,::alignlib::HAlignment const & ) ;
+            
+            MultAlignment_exposer.def( 
+                "add"
+                , add_function_type( &::alignlib::MultAlignment::add )
+                , ( bp::arg("src"), bp::arg("map_src2this") ) );
+        
+        }
+        { //::alignlib::MultAlignment::add
+        
             typedef void ( ::alignlib::MultAlignment::*add_function_type )( ::alignlib::HMultAlignment const &,::alignlib::HAlignment const & ) ;
             
             MultAlignment_exposer.def( 
@@ -89,6 +99,16 @@ void register_MultAlignment_class(){
             MultAlignment_exposer.def( 
                 "getColumnCounts"
                 , getColumnCounts_function_type( &::alignlib::MultAlignment::getColumnCounts ) );
+        
+        }
+        { //::alignlib::MultAlignment::getCopy
+        
+            typedef ::alignlib::HMultAlignment ( ::alignlib::MultAlignment::*getCopy_function_type )( ::alignlib::ExpansionType const & ) const;
+            
+            MultAlignment_exposer.def( 
+                "getCopy"
+                , getCopy_function_type( &::alignlib::MultAlignment::getCopy )
+                , ( bp::arg("expansion_type") ) );
         
         }
         { //::alignlib::MultAlignment::getFrom

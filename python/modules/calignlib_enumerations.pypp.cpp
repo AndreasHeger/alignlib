@@ -4,7 +4,7 @@
 #include "includes.h"
 #include "iostream"
 #include "cstdio"
-#include "alignlib_enumerations.pypp.hpp"
+#include "calignlib_enumerations.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -39,6 +39,13 @@ void register_enumerations(){
         .value("RC", alignlib::RC)
         .value("CR", alignlib::CR)
         .value("CC", alignlib::CC)
+        .export_values()
+        ;
+
+    bp::enum_< alignlib::ExpansionType>("ExpansionType")
+        .value("UnalignedIgnore", alignlib::UnalignedIgnore)
+        .value("UnalignedSeparate", alignlib::UnalignedSeparate)
+        .value("UnalignedStacked", alignlib::UnalignedStacked)
         .export_values()
         ;
 

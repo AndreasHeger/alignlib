@@ -576,7 +576,7 @@ def buildModule( include_paths, dest, options) :
         mb.print_declarations()
 
     # creating code creator. After this step you should not modify/customize declarations.
-    mb.build_code_creator( module_name='_alignlib' )
+    mb.build_code_creator( module_name='calignlib' )
     mb.code_creator.add_include( "iostream" )
     mb.code_creator.add_include( "cstdio" )
     mb.split_module( "modules" )
@@ -620,7 +620,7 @@ if __name__ == "__main__":
     parser.add_option( "--gccxml-options", dest="gccxml_options", type="string",
                         help="flags to be passed to gccxml." )
     
-    parser.set_defaults( extension_name = "_alignlib",
+    parser.set_defaults( extension_name = "calignlib",
                          force = False, 
                          src_dir = "../alignlib",
                          boost_dir = None,
@@ -651,9 +651,9 @@ if __name__ == "__main__":
     for command in commands:
 
         if command in ("build", "generate-interface" ):
-    
+
             nerrors = checkRequisites( options )
-            
+
             if nerrors:
                 print "found %i errors - aborting build." % (nerrors)
             
