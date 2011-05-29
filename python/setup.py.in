@@ -7,8 +7,8 @@ def main():
 
     include_dirs = [ re.sub( "-I" , "", "@BOOST_CPPFLAGS@"), 
     				".","../alignlib", ".." ]
- 
-    libraries=["@BOOST_PYTHON_LIB@", "alignlib"]
+
+    libraries=filter( lambda x: x != "", ["@BOOST_PYTHON_LIB@", "alignlib"] )
     library_dirs=[ "../alignlib/.libs" ]
 
     files = glob.glob( "modules/*.cpp" )
