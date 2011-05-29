@@ -46,11 +46,12 @@ namespace alignlib
 	template< typename T, class Recorder>
 	class Index 
 	{
-		typedef fpos_t FileIndex;
-		typedef std::map<T, FileIndex> MapToken2Index;
-		typedef typename std::map<T, FileIndex>::iterator MapToken2IndexIterator;
 		
 	public:
+
+	        typedef fpos_t FileIndex;
+		typedef std::map<T, FileIndex> MapToken2Index;
+		typedef typename std::map<T, FileIndex>::iterator MapToken2IndexIterator;
 
 		/** open an index
 		 * */
@@ -110,6 +111,13 @@ namespace alignlib
 		/** assign index to data
 		 */
 		void setData( FILE * data);
+
+		/** return iterator over tokens */
+		MapToken2IndexIterator begin() const;
+
+		/** return iterator over tokens */
+		MapToken2IndexIterator end() const;
+		
 		
 	private:
 		/** handle to DATA file */
@@ -274,11 +282,21 @@ namespace alignlib
 	}
 
 	template< class T, class Recorder> void Index<T, Recorder>::load(
-			std::FILE * index)
+			std::FILE * infile)
 	{
 		debug_func_cerr(5);
 		if (mData == NULL)
-			throw AlignlibException( "Index::save() called on undefined index - no file given");		
+		  throw AlignlibException( "Index::load() called on undefined index - no file given");
+
+		while(!feof(infile)) 
+		  {
+		    T nid;
+		    FileIndex pos;
+		    fread(&nid,sizeof(T), 1, infile);
+		    if (feof(infile)) break;
+		    fread(&pos, sizeof(FileIndex), 1, infile);
+		    mIndex[nid] = pos;
+		  }
 	}
 
 	template< class T, class Recorder> void Index<T, Recorder>::setData(
@@ -318,7 +336,17 @@ namespace alignlib
 		}
 	}
 
+	template< class T, class Recorder>
+	  typename Index<T, Recorder>::MapToken2IndexIterator Index<T, Recorder>::begin() const
+	  {
+	    return mIndex.begin();
+	  }
 
+	template< class T, class Recorder>
+	  typename Index<T, Recorder>::MapToken2IndexIterator Index<T, Recorder>::end() const
+	  {
+	    return mIndex.end();
+	  }
 	
 }
 
