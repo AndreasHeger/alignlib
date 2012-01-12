@@ -54,7 +54,21 @@ class AlignmentFormatBlocksTestCase( AlignmentFormatTestCase ):
     def setUp(self):
         AlignmentFormatTestCase.setUp( self )
         self.mFormat = AlignmentFormatBlocks
+        
+    def testConstructors( self ):
+        '''test if the two constructors give the same result.'''
 
+        a = str(self.mFormat( self.mAlignment ))
+        row_from, row_to, col_from, col_to, row_starts, col_starts, block_sizes = \
+            a.split('\t')
+        
+        f = self.mFormat( int(row_from), int(col_from), block_sizes, row_starts, col_starts )
+        self.assertEqual( a, str(f) )
+
+        # check if last ',' is missing
+        f = self.mFormat( int(row_from), int(col_from), block_sizes[:-1], row_starts[:-1], col_starts[:-1] )
+        self.assertEqual( a, str(f) )
+        
 class AlignmentFormatBlatTestCase( AlignmentFormatTestCase ):
 
     def setUp(self):

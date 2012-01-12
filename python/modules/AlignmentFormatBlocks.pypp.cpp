@@ -31,6 +31,13 @@ struct AlignmentFormatBlocks_wrapper : alignlib::AlignmentFormatBlocks, bp::wrap
     
     }
 
+    AlignmentFormatBlocks_wrapper(::alignlib::Position const row_start, ::alignlib::Position const col_start, ::std::string const & block_sizes, ::std::string const & row_starts, ::std::string const & col_starts )
+    : alignlib::AlignmentFormatBlocks( row_start, col_start, block_sizes, row_starts, col_starts )
+      , bp::wrapper< alignlib::AlignmentFormatBlocks >(){
+        // constructor
+    
+    }
+
     AlignmentFormatBlocks_wrapper(::std::string const & src )
     : alignlib::AlignmentFormatBlocks( src )
       , bp::wrapper< alignlib::AlignmentFormatBlocks >(){
@@ -105,6 +112,7 @@ void register_AlignmentFormatBlocks_class(){
         bp::implicitly_convertible< alignlib::HAlignment const &, alignlib::AlignmentFormatBlocks >();
         AlignmentFormatBlocks_exposer.def( bp::init< std::istream & >(( bp::arg("src") )) );
         bp::implicitly_convertible< std::istream &, alignlib::AlignmentFormatBlocks >();
+        AlignmentFormatBlocks_exposer.def( bp::init< int, int, std::string const &, std::string const &, std::string const & >(( bp::arg("row_start"), bp::arg("col_start"), bp::arg("block_sizes"), bp::arg("row_starts"), bp::arg("col_starts") )) );
         AlignmentFormatBlocks_exposer.def( bp::init< std::string const & >(( bp::arg("src") )) );
         bp::implicitly_convertible< std::string const &, alignlib::AlignmentFormatBlocks >();
         AlignmentFormatBlocks_exposer.def( bp::init< alignlib::AlignmentFormatBlocks const & >(( bp::arg("arg0") )) );

@@ -129,6 +129,16 @@ struct AlignmentFormat
 	Coordinates in row and col are stored relative to 
 	the alignment coordinates and thus always start
 	at 0.
+
+	The printable alignment contains of 7 fields:
+
+	row_start  integer
+	row_end    integer
+	col_start  integer
+	col_end    integer
+	row_starts (',' separated list of integers)
+	col_starts (',' separated list of integers)
+	block_sizes (',' separated list of integers)
 	
    	@author Andreas Heger
    	@version $Id$
@@ -143,6 +153,12 @@ struct AlignmentFormatBlocks : public AlignmentFormat
 	AlignmentFormatBlocks( const HAlignment & src);
 	
 	AlignmentFormatBlocks( std::istream & src);
+
+	AlignmentFormatBlocks( const Position row_start,
+			       const Position col_start,
+			       const std::string & block_sizes,
+			       const std::string & row_starts,
+			       const std::string & col_starts );
 
 	AlignmentFormatBlocks( const std::string & src);
 	

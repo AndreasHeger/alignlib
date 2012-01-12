@@ -108,15 +108,13 @@ std::istream & operator>> (std::istream & input, AlignmentFormat & dest)
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
-inline void parseList( std::istream & input, PositionVector & dest )
+inline void parseList( const std::string & str, PositionVector & dest )
 {
-	std::string delimiters(",");
-	std::string str;
-	input >> str;
-
+        std::string delimiters(",");
+  
 	string::size_type last_pos = str.find_first_not_of( delimiters, 0);
 	string::size_type pos     = str.find_first_of(delimiters, last_pos);
-
+  
 	while (string::npos != pos || string::npos != last_pos)
 	{
 		dest.push_back(atoi(str.substr(last_pos, pos - last_pos).c_str()));
@@ -125,6 +123,13 @@ inline void parseList( std::istream & input, PositionVector & dest )
 	}	
 }
 
+//--------------------------------------------------------------------------------------------------------------------------------
+inline void parseList( std::istream & input, PositionVector & dest )
+{
+	std::string str;
+	input >> str;
+	return parseList( str, dest );
+}
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
@@ -133,6 +138,26 @@ AlignmentFormatBlocks::AlignmentFormatBlocks()
 {
 }
 
+AlignmentFormatBlocks::AlignmentFormatBlocks( const Position row_start,
+					      const Position col_start,
+					      const std::string & block_sizes,
+					      const std::string & row_starts,
+					      const std::string & col_starts )
+  : AlignmentFormat()
+{
+  mRowFrom = row_start;
+  mColFrom = col_start;
+
+  parseList( block_sizes, mBlockSizes );
+  parseList( row_starts, mRowStarts );
+  parseList( col_starts, mColStarts );
+  
+  mRowTo = row_start + mRowStarts[mRowStarts.size() - 1] + mBlockSizes[mBlockSizes.size()-1];
+  mColTo = row_start + mColStarts[mColStarts.size() - 1] + mBlockSizes[mBlockSizes.size()-1];
+    
+}
+  
+	
 AlignmentFormatBlocks::AlignmentFormatBlocks( std::istream & input ) 
 : AlignmentFormat(), mRowStarts(), mColStarts(), mBlockSizes()
 {

@@ -1144,6 +1144,7 @@
 +@constructor_t@AlignmentFormatBlocks@ ( ::alignlib::AlignmentFormatBlocks::* )(  )  ( ::alignlib::AlignmentFormatBlocks::* )(  ) 
 +@constructor_t@AlignmentFormatBlocks@ ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::HAlignment const & )  ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::HAlignment const & ) 
 +@constructor_t@AlignmentFormatBlocks@ ( ::alignlib::AlignmentFormatBlocks::* )( ::std::istream & )  ( ::alignlib::AlignmentFormatBlocks::* )( ::std::istream & ) 
++@constructor_t@AlignmentFormatBlocks@ ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::Position const,::alignlib::Position const,::std::string const &,::std::string const &,::std::string const & )  ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::Position const,::alignlib::Position const,::std::string const &,::std::string const &,::std::string const & ) 
 +@constructor_t@AlignmentFormatBlocks@ ( ::alignlib::AlignmentFormatBlocks::* )( ::std::string const & )  ( ::alignlib::AlignmentFormatBlocks::* )( ::std::string const & ) 
 +@constructor_t@AlignmentFormatBlocks@ ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::AlignmentFormatBlocks const & )  ( ::alignlib::AlignmentFormatBlocks::* )( ::alignlib::AlignmentFormatBlocks const & ) 
 ~@constructor_t@AlignmentIterator@ ( ::alignlib::AlignmentIterator::* )(  )  ( ::alignlib::AlignmentIterator::* )(  ) 
