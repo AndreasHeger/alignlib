@@ -79,7 +79,7 @@ alignlib = [ Extension(
 
 setup(## package information
     name='alignlib-lite',
-    version='0.2.3',
+    version='0.3',
     description='alignlib-lite - simple wrapper around alignlib C++ library for sequence alignment',
     author='Andreas Heger',
     author_email='andreas.heger@gmail.com',
