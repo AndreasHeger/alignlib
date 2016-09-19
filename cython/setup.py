@@ -17,8 +17,14 @@ except ImportError:
 
 from setuptools import setup, find_packages, Extension
 
-from Cython.Distutils import build_ext
-from Cython.Build import cythonize
+try:
+    from Cython.Distutils import build_ext
+    from Cython.Build import cythonize
+    has_cython = True
+except ImportError:
+    # use setuptools build_ext
+    from setuptools.command.build_ext import build_ext
+    has_cython = False
 
 classifiers="""
 Development Status :: 3 - Alpha
@@ -73,7 +79,7 @@ alignlib = [ Extension(
 
 setup(## package information
     name='alignlib-lite',
-    version='0.2.1',
+    version='0.2.3',
     description='alignlib-lite - simple wrapper around alignlib C++ library for sequence alignment',
     author='Andreas Heger',
     author_email='andreas.heger@gmail.com',
